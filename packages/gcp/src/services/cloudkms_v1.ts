@@ -103,33 +103,23 @@ export interface RequiredActionQuorumReply {
   /** Required. All required challenges must be signed for the proposal to be approved. These can be sent across multiple requests. */
   requiredChallengeReplies?: ChallengeReplyList | undefined;
 }
-/** Request message for HsmManagement.ApproveSingleTenantHsmInstanceProposal. */
-export interface ApproveSingleTenantHsmInstanceProposalRequest {
+export interface ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
+  /** Required. The name of the SingleTenantHsmInstanceProposal to approve. */
+  name: string;
   /** Required. The reply to QuorumParameters for approving the proposal. */
   quorumReply?: QuorumReply | undefined;
   /** Required. The reply to RequiredActionQuorumParameters for approving the proposal. */
   requiredActionQuorumReply?: RequiredActionQuorumReply | undefined;
 }
-export interface ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
-  /** Required. The name of the SingleTenantHsmInstanceProposal to approve. */
-  name: string;
-  /** Request body */
-  body?: ApproveSingleTenantHsmInstanceProposalRequest | undefined;
-}
 /** Response message for HsmManagement.ApproveSingleTenantHsmInstanceProposal. */
 export interface ApproveSingleTenantHsmInstanceProposalResponse {}
-/** Request message for KeyManagementService.AsymmetricDecrypt. */
-export interface AsymmetricDecryptRequest {
+export interface AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for decryption. */
+  name: string;
   /** Required. The data encrypted with the named CryptoKeyVersion's public key using OAEP. */
   ciphertext?: string | undefined;
   /** Optional. An optional CRC32C checksum of the AsymmetricDecryptRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received AsymmetricDecryptRequest.ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(AsymmetricDecryptRequest.ciphertext) is equal to AsymmetricDecryptRequest.ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   ciphertextCrc32c?: string | undefined;
-}
-export interface AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for decryption. */
-  name: string;
-  /** Request body */
-  body?: AsymmetricDecryptRequest | undefined;
 }
 export type AsymmetricDecryptResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -160,8 +150,9 @@ export interface Digest {
   /** A message digest produced with the SHA-256 algorithm. */
   sha256?: string | undefined;
 }
-/** Request message for KeyManagementService.AsymmetricSign. */
-export interface AsymmetricSignRequest {
+export interface AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for signing. */
+  name: string;
   /** Optional. An optional CRC32C checksum of the AsymmetricSignRequest.digest. If specified, KeyManagementService will verify the integrity of the received AsymmetricSignRequest.digest using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(AsymmetricSignRequest.digest) is equal to AsymmetricSignRequest.digest_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   digestCrc32c?: string | undefined;
   /** Optional. The data to sign. It can't be supplied if AsymmetricSignRequest.digest is supplied. */
@@ -170,12 +161,6 @@ export interface AsymmetricSignRequest {
   digest?: Digest | undefined;
   /** Optional. An optional CRC32C checksum of the AsymmetricSignRequest.data. If specified, KeyManagementService will verify the integrity of the received AsymmetricSignRequest.data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(AsymmetricSignRequest.data) is equal to AsymmetricSignRequest.data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   dataCrc32c?: string | undefined;
-}
-export interface AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for signing. */
-  name: string;
-  /** Request body */
-  body?: AsymmetricSignRequest | undefined;
 }
 export type AsymmetricSignResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -238,8 +223,11 @@ export interface ServiceResolver {
   serverCertificates?: CertificateList | undefined;
 }
 export type ServiceResolverList = Array<ServiceResolver>;
-/** An EkmConnection represents an individual EKM connection. It can be used for creating CryptoKeys and CryptoKeyVersions with a ProtectionLevel of EXTERNAL_VPC, as well as performing cryptographic operations using keys created within the EkmConnection. */
-export interface EkmConnection {
+export interface CreateProjectsLocationsEkmConnectionsRequest {
+  /** Required. The resource name of the location associated with the EkmConnection, in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. */
+  ekmConnectionId?: string | undefined;
   /** Optional. Describes who can perform control plane operations on the EKM. If unset, this defaults to MANUAL. */
   keyManagementMode?: EkmConnectionKeyManagementModeEnum | (string & {}) | undefined;
   /** Optional. A list of ServiceResolvers where the EKM can be reached. There should be one ServiceResolver per EKM replica. Currently, only a single ServiceResolver is supported. */
@@ -253,30 +241,32 @@ export interface EkmConnection {
   /** Optional. Etag of the currently stored EkmConnection. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsEkmConnectionsRequest {
-  /** Required. The resource name of the location associated with the EkmConnection, in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. */
-  ekmConnectionId?: string | undefined;
-  /** Request body */
-  body?: EkmConnection | undefined;
-}
-/** Resource-oriented representation of a request to Cloud KMS Autokey and the resulting provisioning of a CryptoKey. */
-export interface KeyHandle {
-  /** Identifier. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
+/** An EkmConnection represents an individual EKM connection. It can be used for creating CryptoKeys and CryptoKeyVersions with a ProtectionLevel of EXTERNAL_VPC, as well as performing cryptographic operations using keys created within the EkmConnection. */
+export interface EkmConnection {
+  /** Optional. Describes who can perform control plane operations on the EKM. If unset, this defaults to MANUAL. */
+  keyManagementMode?: EkmConnectionKeyManagementModeEnum | undefined;
+  /** Optional. A list of ServiceResolvers where the EKM can be reached. There should be one ServiceResolver per EKM replica. Currently, only a single ServiceResolver is supported. */
+  serviceResolvers?: ServiceResolverList | undefined;
+  /** Output only. The time at which the EkmConnection was created. */
+  createTime?: string | undefined;
+  /** Output only. The resource name for the EkmConnection in the format `projects/*\/locations/*\/ekmConnections/*`. */
   name?: string | undefined;
-  /** Required. Indicates the resource type that the resulting CryptoKey is meant to protect, e.g. `{SERVICE}.googleapis.com/{TYPE}`. See documentation for supported resource types. */
-  resourceTypeSelector?: string | undefined;
-  /** Output only. Name of a CryptoKey that has been provisioned for Customer Managed Encryption Key (CMEK) use in the KeyHandle project and location for the requested resource type. The CryptoKey project will reflect the value configured in the AutokeyConfig on the resource project's ancestor folder at the time of the KeyHandle creation. If more than one ancestor folder has a configured AutokeyConfig, the nearest of these configurations is used. */
-  kmsKey?: string | undefined;
+  /** Optional. Identifies the EKM Crypto Space that this EkmConnection maps to. Note: This field is required if KeyManagementMode is CLOUD_KMS. */
+  cryptoSpacePath?: string | undefined;
+  /** Optional. Etag of the currently stored EkmConnection. */
+  etag?: string | undefined;
 }
 export interface CreateProjectsLocationsKeyHandlesRequest {
   /** Required. Name of the resource project and location to create the KeyHandle in, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}`. */
   parent: string;
   /** Optional. Id of the KeyHandle. Must be unique to the resource project and location. If not provided by the caller, a new UUID is used. */
   keyHandleId?: string | undefined;
-  /** Request body */
-  body?: KeyHandle | undefined;
+  /** Identifier. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
+  name?: string | undefined;
+  /** Required. Indicates the resource type that the resulting CryptoKey is meant to protect, e.g. `{SERVICE}.googleapis.com/{TYPE}`. See documentation for supported resource types. */
+  resourceTypeSelector?: string | undefined;
+  /** Output only. Name of a CryptoKey that has been provisioned for Customer Managed Encryption Key (CMEK) use in the KeyHandle project and location for the requested resource type. The CryptoKey project will reflect the value configured in the AutokeyConfig on the resource project's ancestor folder at the time of the KeyHandle creation. If more than one ancestor folder has a configured AutokeyConfig, the nearest of these configurations is used. */
+  kmsKey?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -302,20 +292,22 @@ export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
+export interface CreateProjectsLocationsKeyRingsRequest {
+  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
+  keyRingId?: string | undefined;
+  /** Required. The resource name of the location associated with the KeyRings, in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Output only. The resource name for the KeyRing in the format `projects/*\/locations/*\/keyRings/*`. */
+  name?: string | undefined;
+  /** Output only. The time at which this KeyRing was created. */
+  createTime?: string | undefined;
+}
 /** A KeyRing is a toplevel logical grouping of CryptoKeys. */
 export interface KeyRing {
   /** Output only. The resource name for the KeyRing in the format `projects/*\/locations/*\/keyRings/*`. */
   name?: string | undefined;
   /** Output only. The time at which this KeyRing was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsKeyRingsRequest {
-  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
-  keyRingId?: string | undefined;
-  /** Required. The resource name of the location associated with the KeyRings, in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: KeyRing | undefined;
 }
 export type CryptoKeyPurposeEnum =
   | "CRYPTO_KEY_PURPOSE_UNSPECIFIED"
@@ -554,8 +546,15 @@ export interface CryptoKeyVersion {
   /** Output only. The time this CryptoKeyVersion's key material was generated. */
   generateTime?: string | undefined;
 }
-/** A CryptoKey represents a logical key that can be used for cryptographic operations. A CryptoKey is made up of zero or more versions, which represent the actual key material used in cryptographic operations. */
-export interface CryptoKey {
+export interface CreateProjectsLocationsKeyRingsCryptoKeysRequest {
+  /** Optional. Whether trusted wrapping will be enabled on the first CryptoKeyVersions created for this CryptoKey. This field is only supported for keys with CryptoKeyVersionTemplate.protection_level HSM_SINGLE_TENANT. This field is supported for all CryptoKeyPurposes except ENCRYPT_DECRYPT. */
+  trustedWrappingEnabled?: boolean | undefined;
+  /** Required. It must be unique within a KeyRing and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
+  cryptoKeyId?: string | undefined;
+  /** If set to true, the request will create a CryptoKey without any CryptoKeyVersions. You must manually call CreateCryptoKeyVersion or ImportCryptoKeyVersion before you can use this CryptoKey. */
+  skipInitialVersionCreation?: boolean | undefined;
+  /** Required. The name of the KeyRing associated with the CryptoKeys. */
+  parent: string;
   /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
   destroyScheduledDuration?: string | undefined;
   /** Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
@@ -581,23 +580,72 @@ export interface CryptoKey {
   /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
   nextRotationTime?: string | undefined;
 }
-export interface CreateProjectsLocationsKeyRingsCryptoKeysRequest {
-  /** Optional. Whether trusted wrapping will be enabled on the first CryptoKeyVersions created for this CryptoKey. This field is only supported for keys with CryptoKeyVersionTemplate.protection_level HSM_SINGLE_TENANT. This field is supported for all CryptoKeyPurposes except ENCRYPT_DECRYPT. */
-  trustedWrappingEnabled?: boolean | undefined;
-  /** Required. It must be unique within a KeyRing and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
-  cryptoKeyId?: string | undefined;
-  /** If set to true, the request will create a CryptoKey without any CryptoKeyVersions. You must manually call CreateCryptoKeyVersion or ImportCryptoKeyVersion before you can use this CryptoKey. */
-  skipInitialVersionCreation?: boolean | undefined;
-  /** Required. The name of the KeyRing associated with the CryptoKeys. */
-  parent: string;
-  /** Request body */
-  body?: CryptoKey | undefined;
+/** A CryptoKey represents a logical key that can be used for cryptographic operations. A CryptoKey is made up of zero or more versions, which represent the actual key material used in cryptographic operations. */
+export interface CryptoKey {
+  /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
+  destroyScheduledDuration?: string | undefined;
+  /** Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  name?: string | undefined;
+  /** Immutable. The resource name of the backend environment where the key material for all CryptoKeyVersions associated with this CryptoKey reside and where all related cryptographic operations are performed. Only applicable if CryptoKeyVersions have a ProtectionLevel of EXTERNAL_VPC, with the resource name in the format `projects/*\/locations/*\/ekmConnections/*`. Only applicable if CryptoKeyVersions have a ProtectionLevel of HSM_SINGLE_TENANT, with the resource name in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. */
+  cryptoKeyBackend?: string | undefined;
+  /** Immutable. The immutable purpose of this CryptoKey. */
+  purpose?: CryptoKeyPurposeEnum | undefined;
+  /** Immutable. Whether this key may contain imported versions only. */
+  importOnly?: boolean | undefined;
+  /** Labels with user-defined metadata. For more information, see [Labeling Keys](https://cloud.google.com/kms/docs/labeling-keys). */
+  labels?: StringMap | undefined;
+  /** A template describing settings for new CryptoKeyVersion instances. The properties of new CryptoKeyVersion instances created by either CreateCryptoKeyVersion or auto-rotation are controlled by this template. */
+  versionTemplate?: CryptoKeyVersionTemplate | undefined;
+  /** next_rotation_time will be advanced by this period when the service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. If rotation_period is set, next_rotation_time must also be set. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
+  rotationPeriod?: string | undefined;
+  /** Optional. The policy used for Key Access Justifications Policy Enforcement. If this field is present and this key is enrolled in Key Access Justifications Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and sign operations, and the operation will fail if rejected by the policy. The policy is defined by specifying zero or more allowed justification codes. https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes By default, this field is absent, and all justification codes are allowed. If the `key_access_justifications_policy.allowed_access_reasons` is empty (zero allowed justification code), all encrypt, decrypt, and sign operations will fail. */
+  keyAccessJustificationsPolicy?: KeyAccessJustificationsPolicy | undefined;
+  /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
+  primary?: CryptoKeyVersion | undefined;
+  /** Output only. The time at which this CryptoKey was created. */
+  createTime?: string | undefined;
+  /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
+  nextRotationTime?: string | undefined;
 }
 export interface CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The name of the CryptoKey associated with the CryptoKeyVersions. */
   parent: string;
-  /** Request body */
-  body?: CryptoKeyVersion | undefined;
+  /** Output only. The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion. */
+  protectionLevel?: CryptoKeyVersionProtectionLevelEnum | (string & {}) | undefined;
+  /** Output only. The CryptoKeyVersionAlgorithm that this CryptoKeyVersion supports. */
+  algorithm?: CryptoKeyVersionAlgorithmEnum | (string & {}) | undefined;
+  /** Output only. The time this CryptoKeyVersion's key material is scheduled for destruction. Only present if state is DESTROY_SCHEDULED. */
+  destroyTime?: string | undefined;
+  /** Output only. Whether or not this key version is eligible for reimport, by being specified as a target in ImportCryptoKeyVersionRequest.crypto_key_version. */
+  reimportEligible?: boolean | undefined;
+  /** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
+  externalProtectionLevelOptions?: ExternalProtectionLevelOptions | undefined;
+  /** Output only. The root cause of the most recent generation failure. Only present if state is GENERATION_FAILED. */
+  generationFailureReason?: string | undefined;
+  /** Optional. Immutable. Field indicating that the key may be wrapped by a trusted key. This field can be set for all key purposes except ENCRYPT_DECRYPT, and is only valid for keys with protection level HSM_SINGLE_TENANT. This field can only be set at creation or import time via CreateCryptoKeyVersion, or ImportCryptoKeyVersion. */
+  trustedWrappingEnabled?: boolean | undefined;
+  /** Output only. The time this CryptoKeyVersion's key material was destroyed. Only present if state is DESTROYED. */
+  destroyEventTime?: string | undefined;
+  /** Output only. The time at which this CryptoKeyVersion was created. */
+  createTime?: string | undefined;
+  /** Output only. The time at which this CryptoKeyVersion's key material was most recently imported. */
+  importTime?: string | undefined;
+  /** The current state of the CryptoKeyVersion. */
+  state?: CryptoKeyVersionStateEnum | (string & {}) | undefined;
+  /** Output only. Field indicating that the key wrapping key is trusted. This field is only valid for key purpose AES_256_WRAPPING, and protection level HSM_SINGLE_TENANT. */
+  hsmTrusted?: boolean | undefined;
+  /** Output only. The name of the ImportJob used in the most recent import of this CryptoKeyVersion. Only present if the underlying key material was imported. */
+  importJob?: string | undefined;
+  /** Output only. The root cause of the most recent import failure. Only present if state is IMPORT_FAILED. */
+  importFailureReason?: string | undefined;
+  /** Output only. The root cause of the most recent external destruction failure. Only present if state is EXTERNAL_DESTRUCTION_FAILED. */
+  externalDestructionFailureReason?: string | undefined;
+  /** Output only. The resource name for this CryptoKeyVersion in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*\/cryptoKeyVersions/*`. */
+  name?: string | undefined;
+  /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
+  attestation?: KeyOperationAttestation | undefined;
+  /** Output only. The time this CryptoKeyVersion's key material was generated. */
+  generateTime?: string | undefined;
 }
 export type ImportJobProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -635,8 +683,11 @@ export interface WrappingPublicKey {
   /** Output only. Contains the public key, formatted according to the PublicKey.PublicKeyFormat specified in the KeyManagementService.GetImportJob request. */
   data?: string | undefined;
 }
-/** An ImportJob can be used to create CryptoKeys and CryptoKeyVersions using pre-existing key material, generated outside of Cloud KMS. When an ImportJob is created, Cloud KMS will generate a "wrapping key", which is a public/private key pair. You use the wrapping key to encrypt (also known as wrap) the pre-existing key material to protect it during the import process. The nature of the wrapping key depends on the choice of import_method. When the wrapping key generation is complete, the state will be set to ACTIVE and the public_key can be fetched. The fetched public key can then be used to wrap your pre-existing key material. Once the key material is wrapped, it can be imported into a new CryptoKeyVersion in an existing CryptoKey by calling ImportCryptoKeyVersion. Multiple CryptoKeyVersions can be imported with a single ImportJob. Cloud KMS uses the private key portion of the wrapping key to unwrap the key material. Only Cloud KMS has access to the private key. An ImportJob expires 3 days after it is created. Once expired, Cloud KMS will no longer be able to import or unwrap any key material that was wrapped with the ImportJob's public key. For more information, see [Importing a key](https://cloud.google.com/kms/docs/importing-a-key). */
-export interface ImportJob {
+export interface CreateProjectsLocationsKeyRingsImportJobsRequest {
+  /** Required. It must be unique within a KeyRing and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
+  importJobId?: string | undefined;
+  /** Required. The name of the KeyRing associated with the ImportJobs. */
+  parent: string;
   /** Output only. The time at which this ImportJob was created. */
   createTime?: string | undefined;
   /** Immutable. The resource name of the backend environment where the key material for the wrapping key resides and where all related cryptographic operations are performed. Currently, this field is only populated for keys stored in HSM_SINGLE_TENANT. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. Supported resources: * `"projects/*\/locations/*\/singleTenantHsmInstances/*"` */
@@ -662,13 +713,32 @@ export interface ImportJob {
   /** Output only. Statement that was generated and signed by the key creator (for example, an HSM) at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only present if the chosen ImportMethod is one with a protection level of HSM. */
   attestation?: KeyOperationAttestation | undefined;
 }
-export interface CreateProjectsLocationsKeyRingsImportJobsRequest {
-  /** Required. It must be unique within a KeyRing and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
-  importJobId?: string | undefined;
-  /** Required. The name of the KeyRing associated with the ImportJobs. */
-  parent: string;
-  /** Request body */
-  body?: ImportJob | undefined;
+/** An ImportJob can be used to create CryptoKeys and CryptoKeyVersions using pre-existing key material, generated outside of Cloud KMS. When an ImportJob is created, Cloud KMS will generate a "wrapping key", which is a public/private key pair. You use the wrapping key to encrypt (also known as wrap) the pre-existing key material to protect it during the import process. The nature of the wrapping key depends on the choice of import_method. When the wrapping key generation is complete, the state will be set to ACTIVE and the public_key can be fetched. The fetched public key can then be used to wrap your pre-existing key material. Once the key material is wrapped, it can be imported into a new CryptoKeyVersion in an existing CryptoKey by calling ImportCryptoKeyVersion. Multiple CryptoKeyVersions can be imported with a single ImportJob. Cloud KMS uses the private key portion of the wrapping key to unwrap the key material. Only Cloud KMS has access to the private key. An ImportJob expires 3 days after it is created. Once expired, Cloud KMS will no longer be able to import or unwrap any key material that was wrapped with the ImportJob's public key. For more information, see [Importing a key](https://cloud.google.com/kms/docs/importing-a-key). */
+export interface ImportJob {
+  /** Output only. The time at which this ImportJob was created. */
+  createTime?: string | undefined;
+  /** Immutable. The resource name of the backend environment where the key material for the wrapping key resides and where all related cryptographic operations are performed. Currently, this field is only populated for keys stored in HSM_SINGLE_TENANT. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. Supported resources: * `"projects/*\/locations/*\/singleTenantHsmInstances/*"` */
+  cryptoKeyBackend?: string | undefined;
+  /** Required. Immutable. The protection level of the ImportJob. This must match the protection_level of the version_template on the CryptoKey you attempt to import into. */
+  protectionLevel?: ImportJobProtectionLevelEnum | undefined;
+  /** Required. Immutable. The wrapping method to be used for incoming key material. */
+  importMethod?: ImportJobImportMethodEnum | undefined;
+  /** Output only. The time at which this ImportJob is scheduled for expiration and can no longer be used to import key material. */
+  expireTime?: string | undefined;
+  /** Output only. The time this ImportJob's key material was generated. */
+  generateTime?: string | undefined;
+  /** Output only. The resource name for this ImportJob in the format `projects/*\/locations/*\/keyRings/*\/importJobs/*`. */
+  name?: string | undefined;
+  /** Output only. The current state of the ImportJob, indicating if it can be used. */
+  state?: ImportJobStateEnum | undefined;
+  /** Output only. The time this ImportJob expired. Only present if state is EXPIRED. */
+  expireEventTime?: string | undefined;
+  /** Output only. Specifies the WrappingPublicKey format provided by the customer in the KeyManagementService.GetImportJob request. */
+  publicKeyFormat?: ImportJobPublicKeyFormatEnum | undefined;
+  /** Output only. The public key with which to wrap key material prior to import. Only returned if state is ACTIVE. */
+  publicKey?: WrappingPublicKey | undefined;
+  /** Output only. Statement that was generated and signed by the key creator (for example, an HSM) at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only present if the chosen ImportMethod is one with a protection level of HSM. */
+  attestation?: KeyOperationAttestation | undefined;
 }
 /** Configuration for M of N quorum auth. */
 export interface QuorumAuth {
@@ -689,8 +759,11 @@ export type SingleTenantHsmInstanceStateEnum =
   | "DELETING"
   | "DELETED"
   | "FAILED";
-/** A SingleTenantHsmInstance represents a single-tenant HSM instance. It can be used for creating CryptoKeys with a ProtectionLevel of HSM_SINGLE_TENANT, as well as performing cryptographic operations using keys created within the SingleTenantHsmInstance. */
-export interface SingleTenantHsmInstance {
+export interface CreateProjectsLocationsSingleTenantHsmInstancesRequest {
+  /** Required. The resource name of the location associated with the SingleTenantHsmInstance, in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. */
+  singleTenantHsmInstanceId?: string | undefined;
   /** Optional. Immutable. Indicates whether key portability is enabled for the SingleTenantHsmInstance. This can only be set at creation time. Key portability features are disabled by default. */
   keyPortabilityEnabled?: boolean | undefined;
   /** Output only. The time at which the SingleTenantHsmInstance was created. */
@@ -707,14 +780,6 @@ export interface SingleTenantHsmInstance {
   state?: SingleTenantHsmInstanceStateEnum | (string & {}) | undefined;
   /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsSingleTenantHsmInstancesRequest {
-  /** Required. The resource name of the location associated with the SingleTenantHsmInstance, in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. */
-  singleTenantHsmInstanceId?: string | undefined;
-  /** Request body */
-  body?: SingleTenantHsmInstance | undefined;
 }
 /** Promotes a key with the AES_WRAPPING purpose to a trusted wrapping key. The key must be in the ACTIVE state to perform this operation. */
 export interface UpgradeKeyTrust {
@@ -785,8 +850,11 @@ export interface RegisterTwoFactorAuthKeys {
 }
 /** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
 export type RefreshSingleTenantHsmInstance = EnableSingleTenantHsmInstance;
-/** A SingleTenantHsmInstanceProposal represents a proposal to perform an operation on a SingleTenantHsmInstance. */
-export interface SingleTenantHsmInstanceProposal {
+export interface CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
+  /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. */
+  singleTenantHsmInstanceProposalId?: string | undefined;
+  /** Required. The name of the SingleTenantHsmInstance associated with the SingleTenantHsmInstanceProposals. */
+  parent: string;
   /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*\/proposals/*`. */
   name?: string | undefined;
   /** Promotes a key with the AES_WRAPPING purpose to a trusted wrapping key. The key must be in the ACTIVE state to perform this operation. */
@@ -824,26 +892,13 @@ export interface SingleTenantHsmInstanceProposal {
   /** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
   refreshSingleTenantHsmInstance?: EnableSingleTenantHsmInstance | undefined;
 }
-export interface CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
-  /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. */
-  singleTenantHsmInstanceProposalId?: string | undefined;
-  /** Required. The name of the SingleTenantHsmInstance associated with the SingleTenantHsmInstanceProposals. */
-  parent: string;
-  /** Request body */
-  body?: SingleTenantHsmInstanceProposal | undefined;
-}
-/** Request message for KeyManagementService.Decapsulate. */
-export interface DecapsulateRequest {
+export interface DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for decapsulation. */
+  name: string;
   /** Optional. A CRC32C checksum of the DecapsulateRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received DecapsulateRequest.ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecapsulateRequest.ciphertext) is equal to DecapsulateRequest.ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   ciphertextCrc32c?: string | undefined;
   /** Required. The ciphertext produced from encapsulation with the named CryptoKeyVersion public key(s). */
   ciphertext?: string | undefined;
-}
-export interface DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for decapsulation. */
-  name: string;
-  /** Request body */
-  body?: DecapsulateRequest | undefined;
 }
 export type DecapsulateResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -865,8 +920,9 @@ export interface DecapsulateResponse {
   /** Integrity verification field. A flag indicating whether DecapsulateRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that DecapsulateRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set DecapsulateRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedCiphertextCrc32c?: boolean | undefined;
 }
-/** Request message for KeyManagementService.Decrypt. */
-export interface DecryptRequest {
+export interface DecryptProjectsLocationsKeyRingsCryptoKeysRequest {
+  /** Required. The resource name of the CryptoKey to use for decryption. The server will choose the appropriate version. */
+  name: string;
   /** Optional. An optional CRC32C checksum of the DecryptRequest.ciphertext. If specified, KeyManagementService will verify the integrity of the received DecryptRequest.ciphertext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(DecryptRequest.ciphertext) is equal to DecryptRequest.ciphertext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   ciphertextCrc32c?: string | undefined;
   /** Required. The encrypted data originally returned in EncryptResponse.ciphertext. */
@@ -875,12 +931,6 @@ export interface DecryptRequest {
   additionalAuthenticatedDataCrc32c?: string | undefined;
   /** Optional. Optional data that must match the data originally supplied in EncryptRequest.additional_authenticated_data. */
   additionalAuthenticatedData?: string | undefined;
-}
-export interface DecryptProjectsLocationsKeyRingsCryptoKeysRequest {
-  /** Required. The resource name of the CryptoKey to use for decryption. The server will choose the appropriate version. */
-  name: string;
-  /** Request body */
-  body?: DecryptRequest | undefined;
 }
 export type DecryptResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -926,8 +976,9 @@ export interface DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequ
   /** Request body */
   body?: EnableSingleTenantHsmInstance | undefined;
 }
-/** Request message for KeyManagementService.Encrypt. */
-export interface EncryptRequest {
+export interface EncryptProjectsLocationsKeyRingsCryptoKeysRequest {
+  /** Required. The resource name of the CryptoKey or CryptoKeyVersion to use for encryption. If a CryptoKey is specified, the server will use its primary version. */
+  name: string;
   /** Optional. An optional CRC32C checksum of the EncryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received EncryptRequest.additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(EncryptRequest.additional_authenticated_data) is equal to EncryptRequest.additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   additionalAuthenticatedDataCrc32c?: string | undefined;
   /** Required. The data to encrypt. Must be no larger than 64KiB. The maximum size depends on the key version's protection_level. For SOFTWARE, EXTERNAL, and EXTERNAL_VPC keys, the plaintext must be no larger than 64KiB. For HSM keys, the combined length of the plaintext and additional_authenticated_data fields must be no larger than 8KiB. */
@@ -936,12 +987,6 @@ export interface EncryptRequest {
   additionalAuthenticatedData?: string | undefined;
   /** Optional. An optional CRC32C checksum of the EncryptRequest.plaintext. If specified, KeyManagementService will verify the integrity of the received EncryptRequest.plaintext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(EncryptRequest.plaintext) is equal to EncryptRequest.plaintext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   plaintextCrc32c?: string | undefined;
-}
-export interface EncryptProjectsLocationsKeyRingsCryptoKeysRequest {
-  /** Required. The resource name of the CryptoKey or CryptoKeyVersion to use for encryption. If a CryptoKey is specified, the server will use its primary version. */
-  name: string;
-  /** Request body */
-  body?: EncryptRequest | undefined;
 }
 export type EncryptResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -993,18 +1038,13 @@ export type GenerateRandomBytesRequestProtectionLevelEnum =
   | "EXTERNAL"
   | "EXTERNAL_VPC"
   | "HSM_SINGLE_TENANT";
-/** Request message for KeyManagementService.GenerateRandomBytes. */
-export interface GenerateRandomBytesRequest {
+export interface GenerateRandomBytesProjectsLocationsRequest {
+  /** The project-specific location in which to generate random bytes. For example, "projects/my-project/locations/us-central1". */
+  location: string;
   /** The length in bytes of the amount of randomness to retrieve. Minimum 8 bytes, maximum 1024 bytes. */
   lengthBytes?: number | undefined;
   /** The ProtectionLevel to use when generating the random data. Currently, only HSM protection level is supported. */
   protectionLevel?: GenerateRandomBytesRequestProtectionLevelEnum | (string & {}) | undefined;
-}
-export interface GenerateRandomBytesProjectsLocationsRequest {
-  /** The project-specific location in which to generate random bytes. For example, "projects/my-project/locations/us-central1". */
-  location: string;
-  /** Request body */
-  body?: GenerateRandomBytesRequest | undefined;
 }
 /** Response message for KeyManagementService.GenerateRandomBytes. */
 export interface GenerateRandomBytesResponse {
@@ -1033,13 +1073,13 @@ export interface AutokeyConfig {
   /** Optional. A checksum computed by the server based on the value of other fields. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The request will be rejected with an ABORTED error on a mismatched etag. */
   etag?: string | undefined;
   /** Output only. The state for the AutokeyConfig. */
-  state?: AutokeyConfigStateEnum | (string & {}) | undefined;
+  state?: AutokeyConfigStateEnum | undefined;
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
   name?: string | undefined;
   /** Optional. Name of the key project, e.g. `projects/{PROJECT_ID}` or `projects/{PROJECT_NUMBER}`, where Cloud KMS Autokey will provision a new CryptoKey when a KeyHandle is created. On UpdateAutokeyConfig, the caller will require `cloudkms.cryptoKeys.setIamPolicy` permission on this key project. Once configured, for Cloud KMS Autokey to function properly, this key project must have the Cloud KMS API activated and the Cloud KMS Service Agent for this key project must be granted the `cloudkms.admin` role (or pertinent permissions). A request with an empty key project field will clear the configuration. */
   keyProject?: string | undefined;
   /** Optional. KeyProjectResolutionMode for the AutokeyConfig. Valid values are `DEDICATED_KEY_PROJECT`, `RESOURCE_PROJECT`, or `DISABLED`. */
-  keyProjectResolutionMode?: AutokeyConfigKeyProjectResolutionModeEnum | (string & {}) | undefined;
+  keyProjectResolutionMode?: AutokeyConfigKeyProjectResolutionModeEnum | undefined;
 }
 export interface GetAutokeyConfigProjectsRequest {
   /** Required. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
@@ -1243,6 +1283,15 @@ export interface GetProjectsLocationsKeyHandlesRequest {
   /** Required. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
   name: string;
 }
+/** Resource-oriented representation of a request to Cloud KMS Autokey and the resulting provisioning of a CryptoKey. */
+export interface KeyHandle {
+  /** Identifier. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
+  name?: string | undefined;
+  /** Required. Indicates the resource type that the resulting CryptoKey is meant to protect, e.g. `{SERVICE}.googleapis.com/{TYPE}`. See documentation for supported resource types. */
+  resourceTypeSelector?: string | undefined;
+  /** Output only. Name of a CryptoKey that has been provisioned for Customer Managed Encryption Key (CMEK) use in the KeyHandle project and location for the requested resource type. The CryptoKey project will reflect the value configured in the AutokeyConfig on the resource project's ancestor folder at the time of the KeyHandle creation. If more than one ancestor folder has a configured AutokeyConfig, the nearest of these configurations is used. */
+  kmsKey?: string | undefined;
+}
 export interface GetProjectsLocationsKeyRingsRequest {
   /** Required. The name of the KeyRing to get. */
   name: string;
@@ -1293,9 +1342,67 @@ export interface GetProjectsLocationsSingleTenantHsmInstancesRequest {
   /** Required. The name of the SingleTenantHsmInstance to get. */
   name: string;
 }
+/** A SingleTenantHsmInstance represents a single-tenant HSM instance. It can be used for creating CryptoKeys with a ProtectionLevel of HSM_SINGLE_TENANT, as well as performing cryptographic operations using keys created within the SingleTenantHsmInstance. */
+export interface SingleTenantHsmInstance {
+  /** Optional. Immutable. Indicates whether key portability is enabled for the SingleTenantHsmInstance. This can only be set at creation time. Key portability features are disabled by default. */
+  keyPortabilityEnabled?: boolean | undefined;
+  /** Output only. The time at which the SingleTenantHsmInstance was created. */
+  createTime?: string | undefined;
+  /** Output only. The system-defined duration that an instance can remain unrefreshed until it is automatically disabled. This will have a value of 730 days. */
+  unrefreshedDurationUntilDisable?: string | undefined;
+  /** Output only. The time at which the instance will be automatically disabled if not refreshed. This field is updated upon creation and after each successful refresh operation and enable. A RefreshSingleTenantHsmInstance operation must be made via a SingleTenantHsmInstanceProposal before this time otherwise the SingleTenantHsmInstance will become disabled. */
+  disableTime?: string | undefined;
+  /** Required. The quorum auth configuration for the SingleTenantHsmInstance. */
+  quorumAuth?: QuorumAuth | undefined;
+  /** Output only. The time at which the SingleTenantHsmInstance was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. The state of the SingleTenantHsmInstance. */
+  state?: SingleTenantHsmInstanceStateEnum | undefined;
+  /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstanceProposal to get. */
   name: string;
+}
+/** A SingleTenantHsmInstanceProposal represents a proposal to perform an operation on a SingleTenantHsmInstance. */
+export interface SingleTenantHsmInstanceProposal {
+  /** Identifier. The resource name for this SingleTenantHsmInstance in the format `projects/*\/locations/*\/singleTenantHsmInstances/*\/proposals/*`. */
+  name?: string | undefined;
+  /** Promotes a key with the AES_WRAPPING purpose to a trusted wrapping key. The key must be in the ACTIVE state to perform this operation. */
+  upgradeKeyTrust?: UpgradeKeyTrust | undefined;
+  /** Output only. The quorum approval parameters for the SingleTenantHsmInstanceProposal. */
+  quorumParameters?: QuorumParameters | undefined;
+  /** Output only. The time at which the SingleTenantHsmInstanceProposal was deleted. */
+  deleteTime?: string | undefined;
+  /** Enable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the DISABLED state to perform this operation. */
+  enableSingleTenantHsmInstance?: EnableSingleTenantHsmInstance | undefined;
+  /** Disable the SingleTenantHsmInstance. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  disableSingleTenantHsmInstance?: EnableSingleTenantHsmInstance | undefined;
+  /** Delete the SingleTenantHsmInstance. Deleting a SingleTenantHsmInstance will make all CryptoKeys attached to the SingleTenantHsmInstance unusable. The SingleTenantHsmInstance must be in the DISABLED or PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
+  deleteSingleTenantHsmInstance?: EnableSingleTenantHsmInstance | undefined;
+  /** The time at which the SingleTenantHsmInstanceProposal will expire if not approved and executed. */
+  expireTime?: string | undefined;
+  /** Output only. Parameters for an approval of a SingleTenantHsmInstanceProposal that has both required challenges and a quorum. */
+  requiredActionQuorumParameters?: RequiredActionQuorumParameters | undefined;
+  /** Output only. The time at which the soft-deleted SingleTenantHsmInstanceProposal will be permanently purged. This field is only populated when the state is DELETED and will be set a time after expiration of the proposal, i.e. >= expire_time or (create_time + ttl). */
+  purgeTime?: string | undefined;
+  /** Output only. The root cause of the most recent failure. Only present if state is FAILED. */
+  failureReason?: string | undefined;
+  /** Add a quorum member to the SingleTenantHsmInstance. This will increase the total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  addQuorumMember?: AddQuorumMember | undefined;
+  /** Remove a quorum member from the SingleTenantHsmInstance. This will reduce total_approver_count by 1. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  removeQuorumMember?: RemoveQuorumMember | undefined;
+  /** Output only. The state of the SingleTenantHsmInstanceProposal. */
+  state?: SingleTenantHsmInstanceProposalStateEnum | undefined;
+  /** Input only. The TTL for the SingleTenantHsmInstanceProposal. Proposals will expire after this duration. */
+  ttl?: string | undefined;
+  /** Output only. The time at which the SingleTenantHsmInstanceProposal was created. */
+  createTime?: string | undefined;
+  /** Register 2FA keys for the SingleTenantHsmInstance. This operation requires all N Challenges to be signed by 2FA keys. The SingleTenantHsmInstance must be in the PENDING_TWO_FACTOR_AUTH_REGISTRATION state to perform this operation. */
+  registerTwoFactorAuthKeys?: RegisterTwoFactorAuthKeys | undefined;
+  /** Refreshes the SingleTenantHsmInstance. This operation must be performed periodically to keep the SingleTenantHsmInstance active. This operation must be performed before unrefreshed_duration_until_disable has passed. The SingleTenantHsmInstance must be in the ACTIVE state to perform this operation. */
+  refreshSingleTenantHsmInstance?: EnableSingleTenantHsmInstance | undefined;
 }
 export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsPublicKeyFormatEnum =
   | "PUBLIC_KEY_FORMAT_UNSPECIFIED"
@@ -1451,8 +1558,9 @@ export type ImportCryptoKeyVersionRequestAlgorithmEnum =
   | "KEM_ECDH_P256"
   | "KEM_ECDH_P384"
   | "AES_256_KWP";
-/** Request message for KeyManagementService.ImportCryptoKeyVersion. */
-export interface ImportCryptoKeyVersionRequest {
+export interface ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The name of the CryptoKey to be imported into. The create permission is only required on this key when creating a new CryptoKeyVersion. */
+  parent: string;
   /** Required. The name of the ImportJob that was used to wrap this key material. */
   importJob?: string | undefined;
   /** Optional. This field has the same meaning as wrapped_key. Prefer to use that field in new work. Either that field or this field (but not both) must be specified. */
@@ -1465,12 +1573,6 @@ export interface ImportCryptoKeyVersionRequest {
   cryptoKeyVersion?: string | undefined;
   /** Required. The algorithm of the key being imported. This does not need to match the version_template of the CryptoKey this version imports into. */
   algorithm?: ImportCryptoKeyVersionRequestAlgorithmEnum | (string & {}) | undefined;
-}
-export interface ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The name of the CryptoKey to be imported into. The create permission is only required on this key when creating a new CryptoKeyVersion. */
-  parent: string;
-  /** Request body */
-  body?: ImportCryptoKeyVersionRequest | undefined;
 }
 export type ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum =
   | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
@@ -1523,8 +1625,9 @@ export type ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum =
   | "KEM_ECDH_P256"
   | "KEM_ECDH_P384"
   | "AES_256_KWP";
-/** Request message for KeyManagementService.ImportTrustedKeyWrappedCryptoKeyVersion. */
-export interface ImportTrustedKeyWrappedCryptoKeyVersionRequest {
+export interface ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The name of the CryptoKey to be imported into. */
+  parent: string;
   /** Required. Required - The algorithm of the key being imported. This does not need to match the version_template of the CryptoKey this version imports into. */
   algorithm?:
     | ImportTrustedKeyWrappedCryptoKeyVersionRequestAlgorithmEnum
@@ -1536,12 +1639,6 @@ export interface ImportTrustedKeyWrappedCryptoKeyVersionRequest {
   wrappedKey?: string | undefined;
   /** Optional. The optional name of an existing CryptoKeyVersion to target for an import operation. If this field is not present, a new CryptoKeyVersion containing the supplied key material is created. If this field is present, the supplied key material is imported into the existing CryptoKeyVersion. To import into an existing CryptoKeyVersion, the CryptoKeyVersion must be a child of ImportTrustedKeyWrappedCryptoKeyVersionRequest.parent, have been previously created via ImportTrustedKeyWrappedCryptoKeyVersion, and be in DESTROYED or IMPORT_FAILED state. The key material and algorithm must match the previous CryptoKeyVersion exactly if the CryptoKeyVersion has ever contained key material */
   cryptoKeyVersion?: string | undefined;
-}
-export interface ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The name of the CryptoKey to be imported into. */
-  parent: string;
-  /** Request body */
-  body?: ImportTrustedKeyWrappedCryptoKeyVersionRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -1770,18 +1867,13 @@ export interface ListSingleTenantHsmInstanceProposalsResponse {
   /** The total number of SingleTenantHsmInstanceProposals that matched the query. This field is not populated if ListSingleTenantHsmInstanceProposalsRequest.filter is applied. */
   totalSize?: number | undefined;
 }
-/** Request message for KeyManagementService.MacSign. */
-export interface MacSignRequest {
+export interface MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for signing. */
+  name: string;
   /** Optional. An optional CRC32C checksum of the MacSignRequest.data. If specified, KeyManagementService will verify the integrity of the received MacSignRequest.data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(MacSignRequest.data) is equal to MacSignRequest.data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   dataCrc32c?: string | undefined;
   /** Required. The data to sign. The MAC tag is computed over this data field based on the specific algorithm. */
   data?: string | undefined;
-}
-export interface MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for signing. */
-  name: string;
-  /** Request body */
-  body?: MacSignRequest | undefined;
 }
 export type MacSignResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -1803,8 +1895,9 @@ export interface MacSignResponse {
   /** Integrity verification field. A flag indicating whether MacSignRequest.data_crc32c was received by KeyManagementService and used for the integrity verification of the data. A false value of this field indicates either that MacSignRequest.data_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set MacSignRequest.data_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedDataCrc32c?: boolean | undefined;
 }
-/** Request message for KeyManagementService.MacVerify. */
-export interface MacVerifyRequest {
+export interface MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for verification. */
+  name: string;
   /** Optional. An optional CRC32C checksum of the MacVerifyRequest.mac. If specified, KeyManagementService will verify the integrity of the received MacVerifyRequest.mac using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(MacVerifyRequest.mac) is equal to MacVerifyRequest.mac_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   macCrc32c?: string | undefined;
   /** Required. The signature to verify. */
@@ -1813,12 +1906,6 @@ export interface MacVerifyRequest {
   dataCrc32c?: string | undefined;
   /** Required. The data used previously as a MacSignRequest.data to generate the MAC tag. */
   data?: string | undefined;
-}
-export interface MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for verification. */
-  name: string;
-  /** Request body */
-  body?: MacVerifyRequest | undefined;
 }
 export type MacVerifyResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -1847,27 +1934,88 @@ export interface PatchProjectsLocationsEkmConnectionsRequest {
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EkmConnection | undefined;
+  /** Optional. Describes who can perform control plane operations on the EKM. If unset, this defaults to MANUAL. */
+  keyManagementMode?: EkmConnectionKeyManagementModeEnum | (string & {}) | undefined;
+  /** Optional. A list of ServiceResolvers where the EKM can be reached. There should be one ServiceResolver per EKM replica. Currently, only a single ServiceResolver is supported. */
+  serviceResolvers?: ServiceResolverList | undefined;
+  /** Output only. The time at which the EkmConnection was created. */
+  createTime?: string | undefined;
+  /** Optional. Identifies the EKM Crypto Space that this EkmConnection maps to. Note: This field is required if KeyManagementMode is CLOUD_KMS. */
+  cryptoSpacePath?: string | undefined;
+  /** Optional. Etag of the currently stored EkmConnection. */
+  etag?: string | undefined;
 }
 export interface PatchProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
   name: string;
-  /** Request body */
-  body?: CryptoKey | undefined;
+  /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
+  destroyScheduledDuration?: string | undefined;
+  /** Immutable. The resource name of the backend environment where the key material for all CryptoKeyVersions associated with this CryptoKey reside and where all related cryptographic operations are performed. Only applicable if CryptoKeyVersions have a ProtectionLevel of EXTERNAL_VPC, with the resource name in the format `projects/*\/locations/*\/ekmConnections/*`. Only applicable if CryptoKeyVersions have a ProtectionLevel of HSM_SINGLE_TENANT, with the resource name in the format `projects/*\/locations/*\/singleTenantHsmInstances/*`. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. */
+  cryptoKeyBackend?: string | undefined;
+  /** Immutable. The immutable purpose of this CryptoKey. */
+  purpose?: CryptoKeyPurposeEnum | (string & {}) | undefined;
+  /** Immutable. Whether this key may contain imported versions only. */
+  importOnly?: boolean | undefined;
+  /** Labels with user-defined metadata. For more information, see [Labeling Keys](https://cloud.google.com/kms/docs/labeling-keys). */
+  labels?: StringMap | undefined;
+  /** A template describing settings for new CryptoKeyVersion instances. The properties of new CryptoKeyVersion instances created by either CreateCryptoKeyVersion or auto-rotation are controlled by this template. */
+  versionTemplate?: CryptoKeyVersionTemplate | undefined;
+  /** next_rotation_time will be advanced by this period when the service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. If rotation_period is set, next_rotation_time must also be set. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
+  rotationPeriod?: string | undefined;
+  /** Optional. The policy used for Key Access Justifications Policy Enforcement. If this field is present and this key is enrolled in Key Access Justifications Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and sign operations, and the operation will fail if rejected by the policy. The policy is defined by specifying zero or more allowed justification codes. https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes By default, this field is absent, and all justification codes are allowed. If the `key_access_justifications_policy.allowed_access_reasons` is empty (zero allowed justification code), all encrypt, decrypt, and sign operations will fail. */
+  keyAccessJustificationsPolicy?: KeyAccessJustificationsPolicy | undefined;
+  /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
+  primary?: CryptoKeyVersion | undefined;
+  /** Output only. The time at which this CryptoKey was created. */
+  createTime?: string | undefined;
+  /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
+  nextRotationTime?: string | undefined;
 }
 export interface PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Output only. The resource name for this CryptoKeyVersion in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*\/cryptoKeyVersions/*`. */
   name: string;
-  /** Request body */
-  body?: CryptoKeyVersion | undefined;
+  /** Output only. The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion. */
+  protectionLevel?: CryptoKeyVersionProtectionLevelEnum | (string & {}) | undefined;
+  /** Output only. The CryptoKeyVersionAlgorithm that this CryptoKeyVersion supports. */
+  algorithm?: CryptoKeyVersionAlgorithmEnum | (string & {}) | undefined;
+  /** Output only. The time this CryptoKeyVersion's key material is scheduled for destruction. Only present if state is DESTROY_SCHEDULED. */
+  destroyTime?: string | undefined;
+  /** Output only. Whether or not this key version is eligible for reimport, by being specified as a target in ImportCryptoKeyVersionRequest.crypto_key_version. */
+  reimportEligible?: boolean | undefined;
+  /** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
+  externalProtectionLevelOptions?: ExternalProtectionLevelOptions | undefined;
+  /** Output only. The root cause of the most recent generation failure. Only present if state is GENERATION_FAILED. */
+  generationFailureReason?: string | undefined;
+  /** Optional. Immutable. Field indicating that the key may be wrapped by a trusted key. This field can be set for all key purposes except ENCRYPT_DECRYPT, and is only valid for keys with protection level HSM_SINGLE_TENANT. This field can only be set at creation or import time via CreateCryptoKeyVersion, or ImportCryptoKeyVersion. */
+  trustedWrappingEnabled?: boolean | undefined;
+  /** Output only. The time this CryptoKeyVersion's key material was destroyed. Only present if state is DESTROYED. */
+  destroyEventTime?: string | undefined;
+  /** Output only. The time at which this CryptoKeyVersion was created. */
+  createTime?: string | undefined;
+  /** Output only. The time at which this CryptoKeyVersion's key material was most recently imported. */
+  importTime?: string | undefined;
+  /** The current state of the CryptoKeyVersion. */
+  state?: CryptoKeyVersionStateEnum | (string & {}) | undefined;
+  /** Output only. Field indicating that the key wrapping key is trusted. This field is only valid for key purpose AES_256_WRAPPING, and protection level HSM_SINGLE_TENANT. */
+  hsmTrusted?: boolean | undefined;
+  /** Output only. The name of the ImportJob used in the most recent import of this CryptoKeyVersion. Only present if the underlying key material was imported. */
+  importJob?: string | undefined;
+  /** Output only. The root cause of the most recent import failure. Only present if state is IMPORT_FAILED. */
+  importFailureReason?: string | undefined;
+  /** Output only. The root cause of the most recent external destruction failure. Only present if state is EXTERNAL_DESTRUCTION_FAILED. */
+  externalDestructionFailureReason?: string | undefined;
+  /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
+  attestation?: KeyOperationAttestation | undefined;
+  /** Output only. The time this CryptoKeyVersion's key material was generated. */
+  generateTime?: string | undefined;
 }
-/** Request message for KeyManagementService.RawDecrypt. */
-export interface RawDecryptRequest {
+export interface RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for decryption. */
+  name: string;
   /** Optional. An optional CRC32C checksum of the RawDecryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(additional_authenticated_data) is equal to additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   additionalAuthenticatedDataCrc32c?: string | undefined;
   /** Optional. An optional CRC32C checksum of the RawDecryptRequest.initialization_vector. If specified, KeyManagementService will verify the integrity of the received initialization_vector using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(initialization_vector) is equal to initialization_vector_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
@@ -1882,12 +2030,6 @@ export interface RawDecryptRequest {
   ciphertextCrc32c?: string | undefined;
   /** The length of the authentication tag that is appended to the end of the ciphertext. If unspecified (0), the default value for the key's algorithm will be used (for AES-GCM, the default value is 16). */
   tagLength?: number | undefined;
-}
-export interface RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for decryption. */
-  name: string;
-  /** Request body */
-  body?: RawDecryptRequest | undefined;
 }
 export type RawDecryptResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -1911,8 +2053,9 @@ export interface RawDecryptResponse {
   /** Integrity verification field. A flag indicating whether RawDecryptRequest.ciphertext_crc32c was received by KeyManagementService and used for the integrity verification of the ciphertext. A false value of this field indicates either that RawDecryptRequest.ciphertext_crc32c was left unset or that it was not delivered to KeyManagementService. If you've set RawDecryptRequest.ciphertext_crc32c but this field is still false, discard the response and perform a limited number of retries. */
   verifiedCiphertextCrc32c?: boolean | undefined;
 }
-/** Request message for KeyManagementService.RawEncrypt. */
-export interface RawEncryptRequest {
+export interface RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
+  /** Required. The resource name of the CryptoKeyVersion to use for encryption. */
+  name: string;
   /** Optional. A customer-supplied initialization vector that will be used for encryption. If it is not provided for AES-CBC and AES-CTR, one will be generated. It will be returned in RawEncryptResponse.initialization_vector. */
   initializationVector?: string | undefined;
   /** Optional. An optional CRC32C checksum of the RawEncryptRequest.plaintext. If specified, KeyManagementService will verify the integrity of the received plaintext using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(plaintext) is equal to plaintext_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
@@ -1925,12 +2068,6 @@ export interface RawEncryptRequest {
   plaintext?: string | undefined;
   /** Optional. An optional CRC32C checksum of the RawEncryptRequest.additional_authenticated_data. If specified, KeyManagementService will verify the integrity of the received additional_authenticated_data using this checksum. KeyManagementService will report an error if the checksum verification fails. If you receive a checksum error, your client should verify that CRC32C(additional_authenticated_data) is equal to additional_authenticated_data_crc32c, and if so, perform a limited number of retries. A persistent mismatch may indicate an issue in your computation of the CRC32C checksum. Note: This field is defined as int64 for reasons of compatibility across different languages. However, it is a non-negative integer, which will never exceed 2^32-1, and can be safely downconverted to uint32 in languages that support this type. */
   additionalAuthenticatedDataCrc32c?: string | undefined;
-}
-export interface RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
-  /** Required. The resource name of the CryptoKeyVersion to use for encryption. */
-  name: string;
-  /** Request body */
-  body?: RawEncryptRequest | undefined;
 }
 export type RawEncryptResponseProtectionLevelEnum =
   | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -1970,53 +2107,51 @@ export interface RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequ
   /** Request body */
   body?: EnableSingleTenantHsmInstance | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsEkmConfigRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEkmConfigRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsEkmConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsKeyRingsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEkmConfigRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -2026,85 +2161,98 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsEkmConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsKeyRingsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface UpdateAutokeyConfigFoldersRequest {
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
   name: string;
   /** Required. Masks which fields of the AutokeyConfig to update, e.g. `keyProject`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AutokeyConfig | undefined;
+  /** Optional. A checksum computed by the server based on the value of other fields. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The request will be rejected with an ABORTED error on a mismatched etag. */
+  etag?: string | undefined;
+  /** Output only. The state for the AutokeyConfig. */
+  state?: AutokeyConfigStateEnum | (string & {}) | undefined;
+  /** Optional. Name of the key project, e.g. `projects/{PROJECT_ID}` or `projects/{PROJECT_NUMBER}`, where Cloud KMS Autokey will provision a new CryptoKey when a KeyHandle is created. On UpdateAutokeyConfig, the caller will require `cloudkms.cryptoKeys.setIamPolicy` permission on this key project. Once configured, for Cloud KMS Autokey to function properly, this key project must have the Cloud KMS API activated and the Cloud KMS Service Agent for this key project must be granted the `cloudkms.admin` role (or pertinent permissions). A request with an empty key project field will clear the configuration. */
+  keyProject?: string | undefined;
+  /** Optional. KeyProjectResolutionMode for the AutokeyConfig. Valid values are `DEDICATED_KEY_PROJECT`, `RESOURCE_PROJECT`, or `DISABLED`. */
+  keyProjectResolutionMode?: AutokeyConfigKeyProjectResolutionModeEnum | (string & {}) | undefined;
 }
 export interface UpdateAutokeyConfigProjectsRequest {
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
   name: string;
   /** Required. Masks which fields of the AutokeyConfig to update, e.g. `keyProject`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AutokeyConfig | undefined;
+  /** Optional. A checksum computed by the server based on the value of other fields. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The request will be rejected with an ABORTED error on a mismatched etag. */
+  etag?: string | undefined;
+  /** Output only. The state for the AutokeyConfig. */
+  state?: AutokeyConfigStateEnum | (string & {}) | undefined;
+  /** Optional. Name of the key project, e.g. `projects/{PROJECT_ID}` or `projects/{PROJECT_NUMBER}`, where Cloud KMS Autokey will provision a new CryptoKey when a KeyHandle is created. On UpdateAutokeyConfig, the caller will require `cloudkms.cryptoKeys.setIamPolicy` permission on this key project. Once configured, for Cloud KMS Autokey to function properly, this key project must have the Cloud KMS API activated and the Cloud KMS Service Agent for this key project must be granted the `cloudkms.admin` role (or pertinent permissions). A request with an empty key project field will clear the configuration. */
+  keyProject?: string | undefined;
+  /** Optional. KeyProjectResolutionMode for the AutokeyConfig. Valid values are `DEDICATED_KEY_PROJECT`, `RESOURCE_PROJECT`, or `DISABLED`. */
+  keyProjectResolutionMode?: AutokeyConfigKeyProjectResolutionModeEnum | (string & {}) | undefined;
 }
 export interface UpdateEkmConfigProjectsLocationsRequest {
   /** Output only. The resource name for the EkmConfig in the format `projects/*\/locations/*\/ekmConfig`. */
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EkmConfig | undefined;
+  /** Optional. Resource name of the default EkmConnection. Setting this field to the empty string removes the default. */
+  defaultEkmConnection?: string | undefined;
 }
 export interface UpdateKajPolicyConfigFoldersRequest {
   /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
   name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: KeyAccessJustificationsPolicyConfig | undefined;
+  /** Output only. Indicates whether this parent resource is available to default policy feature. Please consult [the prerequisite of default policy feature](https://cloud.google.com/assured-workloads/key-access-justifications/docs/set-default-policy#before) for more details. */
+  defaultPolicyAvailable?: boolean | undefined;
+  /** Optional. Specifies the default key access justifications (KAJ) policy used when a CryptoKey is created in this folder. This is only used when a Key Access Justifications policy is not provided in the CreateCryptoKeyRequest. This overrides any default policies in its ancestry. If this field is unset, or is set but contains an empty allowed_access_reasons list, no default Key Access Justifications (KAJ) policy configuration is active. In this scenario, all newly created keys will default to an "allow-all" policy. */
+  defaultKeyAccessJustificationPolicy?: KeyAccessJustificationsPolicy | undefined;
 }
 export interface UpdateKajPolicyConfigOrganizationsRequest {
   /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
   name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: KeyAccessJustificationsPolicyConfig | undefined;
+  /** Output only. Indicates whether this parent resource is available to default policy feature. Please consult [the prerequisite of default policy feature](https://cloud.google.com/assured-workloads/key-access-justifications/docs/set-default-policy#before) for more details. */
+  defaultPolicyAvailable?: boolean | undefined;
+  /** Optional. Specifies the default key access justifications (KAJ) policy used when a CryptoKey is created in this folder. This is only used when a Key Access Justifications policy is not provided in the CreateCryptoKeyRequest. This overrides any default policies in its ancestry. If this field is unset, or is set but contains an empty allowed_access_reasons list, no default Key Access Justifications (KAJ) policy configuration is active. In this scenario, all newly created keys will default to an "allow-all" policy. */
+  defaultKeyAccessJustificationPolicy?: KeyAccessJustificationsPolicy | undefined;
 }
 export interface UpdateKajPolicyConfigProjectsRequest {
   /** Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
   name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: KeyAccessJustificationsPolicyConfig | undefined;
-}
-/** Request message for KeyManagementService.UpdateCryptoKeyPrimaryVersion. */
-export interface UpdateCryptoKeyPrimaryVersionRequest {
-  /** Required. The id of the child CryptoKeyVersion to use as primary. */
-  cryptoKeyVersionId?: string | undefined;
+  /** Output only. Indicates whether this parent resource is available to default policy feature. Please consult [the prerequisite of default policy feature](https://cloud.google.com/assured-workloads/key-access-justifications/docs/set-default-policy#before) for more details. */
+  defaultPolicyAvailable?: boolean | undefined;
+  /** Optional. Specifies the default key access justifications (KAJ) policy used when a CryptoKey is created in this folder. This is only used when a Key Access Justifications policy is not provided in the CreateCryptoKeyRequest. This overrides any default policies in its ancestry. If this field is unset, or is set but contains an empty allowed_access_reasons list, no default Key Access Justifications (KAJ) policy configuration is active. In this scenario, all newly created keys will default to an "allow-all" policy. */
+  defaultKeyAccessJustificationPolicy?: KeyAccessJustificationsPolicy | undefined;
 }
 export interface UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The resource name of the CryptoKey to update. */
   name: string;
-  /** Request body */
-  body?: UpdateCryptoKeyPrimaryVersionRequest | undefined;
+  /** Required. The id of the child CryptoKeyVersion to use as primary. */
+  cryptoKeyVersionId?: string | undefined;
 }
 export interface VerifyConnectivityProjectsLocationsEkmConnectionsRequest {
   /** Required. The name of the EkmConnection to verify. */
@@ -2126,11 +2274,11 @@ export const approveProjectsLocationsSingleTenantHsmInstancesProposals: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    357,
-    __c44,
-    5,
+    348,
+    __c43,
+    4,
   ) as any as S.Schema<ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<ApproveSingleTenantHsmInstanceProposalResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<ApproveSingleTenantHsmInstanceProposalResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2152,11 +2300,11 @@ export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    465,
+    464,
     __c58,
-    1,
+    0,
   ) as any as S.Schema<AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(466, __c58, 2) as any as S.Schema<AsymmetricDecryptResponse>,
+  output: __S(465, __c58, 1) as any as S.Schema<AsymmetricDecryptResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2178,11 +2326,11 @@ export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    554,
-    __c69,
-    2,
+    569,
+    __c71,
+    1,
   ) as any as S.Schema<AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(555, __c69, 3) as any as S.Schema<AsymmetricSignResponse>,
+  output: __S(570, __c71, 2) as any as S.Schema<AsymmetricSignResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2203,8 +2351,8 @@ export const createProjectsLocationsEkmConnections: API.OperationMethod<
   CreateProjectsLocationsEkmConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<CreateProjectsLocationsEkmConnectionsRequest>,
-  output: __S(660, __c82, 4) as any as S.Schema<EkmConnection>,
+  input: __S(656, __c82, 0) as any as S.Schema<CreateProjectsLocationsEkmConnectionsRequest>,
+  output: __S(676, __c84, 4) as any as S.Schema<EkmConnection>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2225,8 +2373,8 @@ export const createProjectsLocationsKeyHandles: API.OperationMethod<
   CreateProjectsLocationsKeyHandlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<CreateProjectsLocationsKeyHandlesRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  input: __S(768, __c96, 0) as any as S.Schema<CreateProjectsLocationsKeyHandlesRequest>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2344,7 +2492,7 @@ export const createProjectsLocationsSingleTenantHsmInstances: API.OperationMetho
     __c9,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSingleTenantHsmInstancesRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2370,7 +2518,7 @@ export const createProjectsLocationsSingleTenantHsmInstancesProposals: API.Opera
     __c11,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2392,11 +2540,11 @@ export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    105,
+    104,
     __c13,
-    1,
+    0,
   ) as any as S.Schema<DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<DecapsulateResponse>,
+  output: __S(105, __c13, 1) as any as S.Schema<DecapsulateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2417,8 +2565,8 @@ export const decryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   DecryptProjectsLocationsKeyRingsCryptoKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c14, 1) as any as S.Schema<DecryptProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<DecryptResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DecryptProjectsLocationsKeyRingsCryptoKeysRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<DecryptResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2440,7 +2588,7 @@ export const deleteProjectsLocationsKeyRings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteProjectsLocationsKeyRingsRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2462,7 +2610,7 @@ export const deleteProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeleteProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2488,7 +2636,7 @@ export const deleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
     __c17,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2514,7 +2662,7 @@ export const deleteProjectsLocationsSingleTenantHsmInstancesProposals: API.Opera
     __c18,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<Empty>,
+  output: __S(352, __c44, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2561,8 +2709,8 @@ export const encryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   EncryptProjectsLocationsKeyRingsCryptoKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(161, __c20, 1) as any as S.Schema<EncryptProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(162, __c20, 2) as any as S.Schema<EncryptResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<EncryptProjectsLocationsKeyRingsCryptoKeysRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<EncryptResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2588,7 +2736,7 @@ export const executeProjectsLocationsSingleTenantHsmInstancesProposals: API.Oper
     __c21,
     0,
   ) as any as S.Schema<ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2633,8 +2781,8 @@ export const generateRandomBytesProjectsLocations: API.OperationMethod<
   GenerateRandomBytesProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(185, __c23, 1) as any as S.Schema<GenerateRandomBytesProjectsLocationsRequest>,
-  output: __S(192, __c24, 0) as any as S.Schema<GenerateRandomBytesResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<GenerateRandomBytesProjectsLocationsRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<GenerateRandomBytesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2650,8 +2798,8 @@ export const getAutokeyConfigFolders: API.OperationMethod<
   GetAutokeyConfigFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetAutokeyConfigFoldersRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<AutokeyConfig>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetAutokeyConfigFoldersRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<AutokeyConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2667,8 +2815,8 @@ export const getAutokeyConfigProjects: API.OperationMethod<
   GetAutokeyConfigProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetAutokeyConfigProjectsRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<AutokeyConfig>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetAutokeyConfigProjectsRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<AutokeyConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2684,8 +2832,8 @@ export const getEffectiveAutokeyConfigFolders: API.OperationMethod<
   GetEffectiveAutokeyConfigFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetEffectiveAutokeyConfigFoldersRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<ShowEffectiveAutokeyConfigResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetEffectiveAutokeyConfigFoldersRequest>,
+  output: __S(225, __c28, 1) as any as S.Schema<ShowEffectiveAutokeyConfigResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2701,8 +2849,8 @@ export const getEffectiveAutokeyConfigProjects: API.OperationMethod<
   GetEffectiveAutokeyConfigProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetEffectiveAutokeyConfigProjectsRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<ShowEffectiveAutokeyConfigResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetEffectiveAutokeyConfigProjectsRequest>,
+  output: __S(225, __c28, 1) as any as S.Schema<ShowEffectiveAutokeyConfigResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2722,13 +2870,13 @@ export const getEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    248,
-    __c31,
+    240,
+    __c30,
     0,
   ) as any as S.Schema<GetEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest>,
   output: __S(
-    250,
-    __c31,
+    242,
+    __c30,
     2,
   ) as any as S.Schema<ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2750,13 +2898,13 @@ export const getEffectiveKeyAccessJustificationsPolicyConfigProjects: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c32,
+    248,
+    __c31,
     0,
   ) as any as S.Schema<GetEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest>,
   output: __S(
-    257,
-    __c32,
+    249,
+    __c31,
     1,
   ) as any as S.Schema<ShowEffectiveKeyAccessJustificationsPolicyConfigResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2774,8 +2922,8 @@ export const getEkmConfigProjectsLocations: API.OperationMethod<
   GetEkmConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetEkmConfigProjectsLocationsRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<EkmConfig>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetEkmConfigProjectsLocationsRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<EkmConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2791,8 +2939,8 @@ export const getIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<
   GetIamPolicyProjectsLocationsEkmConfigError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetIamPolicyProjectsLocationsEkmConfigRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetIamPolicyProjectsLocationsEkmConfigRequest>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2808,8 +2956,8 @@ export const getIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<
   GetIamPolicyProjectsLocationsEkmConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetIamPolicyProjectsLocationsEkmConnectionsRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetIamPolicyProjectsLocationsEkmConnectionsRequest>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2825,8 +2973,8 @@ export const getIamPolicyProjectsLocationsKeyRings: API.OperationMethod<
   GetIamPolicyProjectsLocationsKeyRingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetIamPolicyProjectsLocationsKeyRingsRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetIamPolicyProjectsLocationsKeyRingsRequest>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2846,11 +2994,11 @@ export const getIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c40,
+    312,
+    __c39,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2870,11 +3018,11 @@ export const getIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    328,
-    __c41,
+    320,
+    __c40,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2890,8 +3038,8 @@ export const getKajPolicyConfigFolders: API.OperationMethod<
   GetKajPolicyConfigFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<GetKajPolicyConfigFoldersRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
+  input: __S(328, __c41, 0) as any as S.Schema<GetKajPolicyConfigFoldersRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2907,8 +3055,8 @@ export const getKajPolicyConfigOrganizations: API.OperationMethod<
   GetKajPolicyConfigOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<GetKajPolicyConfigOrganizationsRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
+  input: __S(336, __c42, 0) as any as S.Schema<GetKajPolicyConfigOrganizationsRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2924,8 +3072,8 @@ export const getKajPolicyConfigProjects: API.OperationMethod<
   GetKajPolicyConfigProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetKajPolicyConfigProjectsRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetKajPolicyConfigProjectsRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2941,8 +3089,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(384, __c48, 0) as any as S.Schema<Location>,
+  input: __S(368, __c46, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2958,8 +3106,8 @@ export const getProjectsLocationsEkmConnections: API.OperationMethod<
   GetProjectsLocationsEkmConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<GetProjectsLocationsEkmConnectionsRequest>,
-  output: __S(660, __c82, 4) as any as S.Schema<EkmConnection>,
+  input: __S(384, __c48, 0) as any as S.Schema<GetProjectsLocationsEkmConnectionsRequest>,
+  output: __S(676, __c84, 4) as any as S.Schema<EkmConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2975,8 +3123,8 @@ export const getProjectsLocationsKeyHandles: API.OperationMethod<
   GetProjectsLocationsKeyHandlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<GetProjectsLocationsKeyHandlesRequest>,
-  output: __S(784, __c98, 0) as any as S.Schema<KeyHandle>,
+  input: __S(392, __c49, 0) as any as S.Schema<GetProjectsLocationsKeyHandlesRequest>,
+  output: __S(400, __c50, 0) as any as S.Schema<KeyHandle>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3068,7 +3216,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(778, __c97, 2) as any as S.Schema<Operation>,
+  output: __S(786, __c98, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3102,7 +3250,7 @@ export const getProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<GetProjectsLocationsSingleTenantHsmInstancesRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<SingleTenantHsmInstance>,
+  output: __S(480, __c60, 0) as any as S.Schema<SingleTenantHsmInstance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3122,11 +3270,11 @@ export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c60,
+    488,
+    __c61,
     0,
   ) as any as S.Schema<GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest>,
-  output: __S(103, __c12, 7) as any as S.Schema<SingleTenantHsmInstanceProposal>,
+  output: __S(496, __c62, 0) as any as S.Schema<SingleTenantHsmInstanceProposal>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3146,11 +3294,11 @@ export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    488,
-    __c61,
+    504,
+    __c63,
     0,
   ) as any as S.Schema<GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(490, __c61, 2) as any as S.Schema<PublicKey>,
+  output: __S(506, __c63, 2) as any as S.Schema<PublicKey>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3172,9 +3320,9 @@ export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    497,
-    __c62,
-    1,
+    512,
+    __c64,
+    0,
   ) as any as S.Schema<ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CryptoKeyVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -3198,9 +3346,9 @@ export const importTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCry
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    505,
-    __c63,
-    1,
+    520,
+    __c65,
+    0,
   ) as any as S.Schema<ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CryptoKeyVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -3219,8 +3367,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(514, __c64, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(530, __c66, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3238,8 +3386,8 @@ export const listProjectsLocationsEkmConnections: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEkmConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<ListProjectsLocationsEkmConnectionsRequest>,
-  output: __S(522, __c65, 2) as any as S.Schema<ListEkmConnectionsResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<ListProjectsLocationsEkmConnectionsRequest>,
+  output: __S(538, __c67, 2) as any as S.Schema<ListEkmConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3257,8 +3405,8 @@ export const listProjectsLocationsKeyHandles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListKeyHandlesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<ListProjectsLocationsKeyHandlesRequest>,
-  output: __S(530, __c66, 2) as any as S.Schema<ListKeyHandlesResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<ListProjectsLocationsKeyHandlesRequest>,
+  output: __S(546, __c68, 2) as any as S.Schema<ListKeyHandlesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3276,8 +3424,8 @@ export const listProjectsLocationsKeyRings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListKeyRingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<ListProjectsLocationsKeyRingsRequest>,
-  output: __S(538, __c67, 2) as any as S.Schema<ListKeyRingsResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<ListProjectsLocationsKeyRingsRequest>,
+  output: __S(554, __c69, 2) as any as S.Schema<ListKeyRingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3295,8 +3443,8 @@ export const listProjectsLocationsKeyRingsCryptoKeys: API.PaginatedOperationMeth
   GcpOpContext,
   ListCryptoKeysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<ListProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(546, __c68, 2) as any as S.Schema<ListCryptoKeysResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<ListProjectsLocationsKeyRingsCryptoKeysRequest>,
+  output: __S(562, __c70, 2) as any as S.Schema<ListCryptoKeysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3318,11 +3466,11 @@ export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Pagin
   ListCryptoKeyVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    560,
-    __c70,
+    576,
+    __c72,
     0,
   ) as any as S.Schema<ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(562, __c70, 2) as any as S.Schema<ListCryptoKeyVersionsResponse>,
+  output: __S(578, __c72, 2) as any as S.Schema<ListCryptoKeyVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3340,8 +3488,8 @@ export const listProjectsLocationsKeyRingsImportJobs: API.PaginatedOperationMeth
   GcpOpContext,
   ListImportJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<ListProjectsLocationsKeyRingsImportJobsRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<ListImportJobsResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<ListProjectsLocationsKeyRingsImportJobsRequest>,
+  output: __S(586, __c73, 2) as any as S.Schema<ListImportJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3359,8 +3507,8 @@ export const listProjectsLocationsRetiredResources: API.PaginatedOperationMethod
   GcpOpContext,
   ListRetiredResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<ListProjectsLocationsRetiredResourcesRequest>,
-  output: __S(578, __c72, 2) as any as S.Schema<ListRetiredResourcesResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<ListProjectsLocationsRetiredResourcesRequest>,
+  output: __S(594, __c74, 2) as any as S.Schema<ListRetiredResourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3379,11 +3527,11 @@ export const listProjectsLocationsSingleTenantHsmInstances: API.PaginatedOperati
   ListSingleTenantHsmInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    584,
-    __c73,
+    600,
+    __c75,
     0,
   ) as any as S.Schema<ListProjectsLocationsSingleTenantHsmInstancesRequest>,
-  output: __S(586, __c73, 2) as any as S.Schema<ListSingleTenantHsmInstancesResponse>,
+  output: __S(602, __c75, 2) as any as S.Schema<ListSingleTenantHsmInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3405,11 +3553,11 @@ export const listProjectsLocationsSingleTenantHsmInstancesProposals: API.Paginat
   ListSingleTenantHsmInstanceProposalsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    592,
-    __c74,
+    608,
+    __c76,
     0,
   ) as any as S.Schema<ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest>,
-  output: __S(594, __c74, 2) as any as S.Schema<ListSingleTenantHsmInstanceProposalsResponse>,
+  output: __S(610, __c76, 2) as any as S.Schema<ListSingleTenantHsmInstanceProposalsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3432,11 +3580,11 @@ export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    600,
-    __c75,
+    616,
+    __c77,
     0,
   ) as any as S.Schema<MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(601, __c75, 1) as any as S.Schema<MacSignResponse>,
+  output: __S(617, __c77, 1) as any as S.Schema<MacSignResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3458,11 +3606,11 @@ export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    609,
-    __c76,
-    1,
+    624,
+    __c78,
+    0,
   ) as any as S.Schema<MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(610, __c76, 2) as any as S.Schema<MacVerifyResponse>,
+  output: __S(625, __c78, 1) as any as S.Schema<MacVerifyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3483,8 +3631,8 @@ export const patchProjectsLocationsEkmConnections: API.OperationMethod<
   PatchProjectsLocationsEkmConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<PatchProjectsLocationsEkmConnectionsRequest>,
-  output: __S(660, __c82, 4) as any as S.Schema<EkmConnection>,
+  input: __S(632, __c79, 0) as any as S.Schema<PatchProjectsLocationsEkmConnectionsRequest>,
+  output: __S(676, __c84, 4) as any as S.Schema<EkmConnection>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3505,7 +3653,7 @@ export const patchProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   PatchProjectsLocationsKeyRingsCryptoKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<PatchProjectsLocationsKeyRingsCryptoKeysRequest>,
+  input: __S(640, __c80, 0) as any as S.Schema<PatchProjectsLocationsKeyRingsCryptoKeysRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<CryptoKey>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3528,8 +3676,8 @@ export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    632,
-    __c79,
+    648,
+    __c81,
     0,
   ) as any as S.Schema<PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CryptoKeyVersion>,
@@ -3554,11 +3702,11 @@ export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    665,
-    __c83,
-    1,
+    680,
+    __c85,
+    0,
   ) as any as S.Schema<RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(666, __c83, 2) as any as S.Schema<RawDecryptResponse>,
+  output: __S(681, __c85, 1) as any as S.Schema<RawDecryptResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3580,11 +3728,11 @@ export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    673,
-    __c84,
-    1,
+    688,
+    __c86,
+    0,
   ) as any as S.Schema<RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
-  output: __S(674, __c84, 2) as any as S.Schema<RawEncryptResponse>,
+  output: __S(689, __c86, 1) as any as S.Schema<RawEncryptResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3606,8 +3754,8 @@ export const restoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    680,
-    __c85,
+    696,
+    __c87,
     0,
   ) as any as S.Schema<RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CryptoKeyVersion>,
@@ -3631,8 +3779,8 @@ export const setIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<
   SetIamPolicyProjectsLocationsEkmConfigError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<SetIamPolicyProjectsLocationsEkmConfigRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  input: __S(704, __c88, 0) as any as S.Schema<SetIamPolicyProjectsLocationsEkmConfigRequest>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3653,8 +3801,8 @@ export const setIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<
   SetIamPolicyProjectsLocationsEkmConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<SetIamPolicyProjectsLocationsEkmConnectionsRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  input: __S(712, __c89, 0) as any as S.Schema<SetIamPolicyProjectsLocationsEkmConnectionsRequest>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3675,8 +3823,8 @@ export const setIamPolicyProjectsLocationsKeyRings: API.OperationMethod<
   SetIamPolicyProjectsLocationsKeyRingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<SetIamPolicyProjectsLocationsKeyRingsRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  input: __S(720, __c90, 0) as any as S.Schema<SetIamPolicyProjectsLocationsKeyRingsRequest>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3698,11 +3846,11 @@ export const setIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    720,
-    __c90,
+    728,
+    __c91,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3724,11 +3872,11 @@ export const setIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    728,
-    __c91,
+    736,
+    __c92,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<Policy>,
+  output: __S(295, __c36, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3749,8 +3897,8 @@ export const testIamPermissionsProjectsLocationsEkmConfig: API.OperationMethod<
   TestIamPermissionsProjectsLocationsEkmConfigError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsEkmConfigRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsEkmConfigRequest>,
+  output: __S(752, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3772,11 +3920,11 @@ export const testIamPermissionsProjectsLocationsEkmConnections: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    752,
-    __c94,
+    760,
+    __c95,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsEkmConnectionsRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(752, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3798,7 +3946,7 @@ export const testIamPermissionsProjectsLocationsKeyRings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsKeyRingsRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(752, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3824,7 +3972,7 @@ export const testIamPermissionsProjectsLocationsKeyRingsCryptoKeys: API.Operatio
     __c100,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(752, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3850,7 +3998,7 @@ export const testIamPermissionsProjectsLocationsKeyRingsImportJobs: API.Operatio
     __c101,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest>,
-  output: __S(744, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(752, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3872,7 +4020,7 @@ export const updateAutokeyConfigFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c102, 0) as any as S.Schema<UpdateAutokeyConfigFoldersRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<AutokeyConfig>,
+  output: __S(200, __c25, 0) as any as S.Schema<AutokeyConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3894,7 +4042,7 @@ export const updateAutokeyConfigProjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<UpdateAutokeyConfigProjectsRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<AutokeyConfig>,
+  output: __S(200, __c25, 0) as any as S.Schema<AutokeyConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3916,7 +4064,7 @@ export const updateEkmConfigProjectsLocations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c104, 0) as any as S.Schema<UpdateEkmConfigProjectsLocationsRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<EkmConfig>,
+  output: __S(272, __c34, 0) as any as S.Schema<EkmConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3938,7 +4086,7 @@ export const updateKajPolicyConfigFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(840, __c105, 0) as any as S.Schema<UpdateKajPolicyConfigFoldersRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
+  output: __S(256, __c32, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3960,7 +4108,7 @@ export const updateKajPolicyConfigOrganizations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c106, 0) as any as S.Schema<UpdateKajPolicyConfigOrganizationsRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
+  output: __S(256, __c32, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3982,7 +4130,7 @@ export const updateKajPolicyConfigProjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<UpdateKajPolicyConfigProjectsRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
+  output: __S(256, __c32, 0) as any as S.Schema<KeyAccessJustificationsPolicyConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4004,9 +4152,9 @@ export const updatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    865,
+    864,
     __c108,
-    1,
+    0,
   ) as any as S.Schema<UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<CryptoKey>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -4032,7 +4180,7 @@ export const verifyConnectivityProjectsLocationsEkmConnections: API.OperationMet
     __c111,
     0,
   ) as any as S.Schema<VerifyConnectivityProjectsLocationsEkmConnectionsRequest>,
-  output: __S(360, __c45, 0) as any as S.Schema<VerifyConnectivityResponse>,
+  output: __S(352, __c44, 0) as any as S.Schema<VerifyConnectivityResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4050,7 +4198,18 @@ function __c0(j: number): any {
           cryptoKeyId: S.optional(S.String.pipe(T.Query())),
           skipInitialVersionCreation: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(41, __c5, 1).pipe(T.HttpBody())),
+          destroyScheduledDuration: S.optional(S.String),
+          name: S.optional(S.String),
+          cryptoKeyBackend: S.optional(S.String),
+          purpose: S.optional(S.String),
+          importOnly: S.optional(S.Boolean),
+          labels: S.optional(__S(32, __c4, 0)),
+          versionTemplate: S.optional(__S(40, __c5, 0)),
+          rotationPeriod: S.optional(S.String),
+          keyAccessJustificationsPolicy: S.optional(__S(25, __c3, 1)),
+          primary: S.optional(__S(17, __c2, 1)),
+          createTime: S.optional(S.String),
+          nextRotationTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4066,9 +4225,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          caviumCerts: S.optional(__S(648, __c81, 0)),
-          googleCardCerts: S.optional(__S(648, __c81, 0)),
-          googlePartitionCerts: S.optional(__S(648, __c81, 0)),
+          caviumCerts: S.optional(__S(664, __c83, 0)),
+          googleCardCerts: S.optional(__S(664, __c83, 0)),
+          googlePartitionCerts: S.optional(__S(664, __c83, 0)),
         }),
       ).annotate({ identifier: "CertificateChains" });
     case 1:
@@ -4168,7 +4327,24 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(17, __c2, 1).pipe(T.HttpBody())),
+          protectionLevel: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          destroyTime: S.optional(S.String),
+          reimportEligible: S.optional(S.Boolean),
+          externalProtectionLevelOptions: S.optional(__S(16, __c2, 0)),
+          generationFailureReason: S.optional(S.String),
+          trustedWrappingEnabled: S.optional(S.Boolean),
+          destroyEventTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          importTime: S.optional(S.String),
+          state: S.optional(S.String),
+          hsmTrusted: S.optional(S.Boolean),
+          importJob: S.optional(S.String),
+          importFailureReason: S.optional(S.String),
+          externalDestructionFailureReason: S.optional(S.String),
+          name: S.optional(S.String),
+          attestation: S.optional(__S(9, __c1, 1)),
+          generateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4188,7 +4364,18 @@ function __c7(j: number): any {
         S.Struct({
           importJobId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          cryptoKeyBackend: S.optional(S.String),
+          protectionLevel: S.optional(S.String),
+          importMethod: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          generateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          expireEventTime: S.optional(S.String),
+          publicKeyFormat: S.optional(S.String),
+          publicKey: S.optional(__S(64, __c8, 0)),
+          attestation: S.optional(__S(9, __c1, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4234,7 +4421,14 @@ function __c9(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           singleTenantHsmInstanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(81, __c10, 1).pipe(T.HttpBody())),
+          keyPortabilityEnabled: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          unrefreshedDurationUntilDisable: S.optional(S.String),
+          disableTime: S.optional(S.String),
+          quorumAuth: S.optional(__S(80, __c10, 0)),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4250,24 +4444,11 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          twoFactorPublicKeyPems: S.optional(__S(648, __c81, 0)),
+          twoFactorPublicKeyPems: S.optional(__S(664, __c83, 0)),
           totalApproverCount: S.optional(S.Number),
           requiredApproverCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QuorumAuth" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          keyPortabilityEnabled: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          unrefreshedDurationUntilDisable: S.optional(S.String),
-          disableTime: S.optional(S.String),
-          quorumAuth: S.optional(__S(80, __c10, 0)),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SingleTenantHsmInstance" });
   }
 }
 function __c11(j: number): any {
@@ -4277,7 +4458,24 @@ function __c11(j: number): any {
         S.Struct({
           singleTenantHsmInstanceProposalId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(103, __c12, 7).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          upgradeKeyTrust: S.optional(__S(96, __c12, 0)),
+          quorumParameters: S.optional(__S(99, __c12, 3)),
+          deleteTime: S.optional(S.String),
+          enableSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+          disableSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+          deleteSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+          expireTime: S.optional(S.String),
+          requiredActionQuorumParameters: S.optional(__S(100, __c12, 4)),
+          purgeTime: S.optional(S.String),
+          failureReason: S.optional(S.String),
+          addQuorumMember: S.optional(__S(101, __c12, 5)),
+          removeQuorumMember: S.optional(__S(101, __c12, 5)),
+          state: S.optional(S.String),
+          ttl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          registerTwoFactorAuthKeys: S.optional(__S(102, __c12, 6)),
+          refreshSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4311,7 +4509,7 @@ function __c12(j: number): any {
         S.Struct({
           requiredApproverCount: S.optional(S.Number),
           challenges: S.optional(__S(98, __c12, 2)),
-          approvedTwoFactorPublicKeyPems: S.optional(__S(648, __c81, 0)),
+          approvedTwoFactorPublicKeyPems: S.optional(__S(664, __c83, 0)),
         }),
       ).annotate({ identifier: "QuorumParameters" });
     case 4:
@@ -4319,7 +4517,7 @@ function __c12(j: number): any {
         S.Struct({
           requiredApproverCount: S.optional(S.Number),
           quorumChallenges: S.optional(__S(98, __c12, 2)),
-          approvedTwoFactorPublicKeyPems: S.optional(__S(648, __c81, 0)),
+          approvedTwoFactorPublicKeyPems: S.optional(__S(664, __c83, 0)),
           requiredChallenges: S.optional(__S(98, __c12, 2)),
         }),
       ).annotate({ identifier: "RequiredActionQuorumParameters" });
@@ -4332,33 +4530,10 @@ function __c12(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          twoFactorPublicKeyPems: S.optional(__S(648, __c81, 0)),
+          twoFactorPublicKeyPems: S.optional(__S(664, __c83, 0)),
           requiredApproverCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RegisterTwoFactorAuthKeys" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          upgradeKeyTrust: S.optional(__S(96, __c12, 0)),
-          quorumParameters: S.optional(__S(99, __c12, 3)),
-          deleteTime: S.optional(S.String),
-          enableSingleTenantHsmInstance: S.optional(__S(360, __c45, 0)),
-          disableSingleTenantHsmInstance: S.optional(__S(360, __c45, 0)),
-          deleteSingleTenantHsmInstance: S.optional(__S(360, __c45, 0)),
-          expireTime: S.optional(S.String),
-          requiredActionQuorumParameters: S.optional(__S(100, __c12, 4)),
-          purgeTime: S.optional(S.String),
-          failureReason: S.optional(S.String),
-          addQuorumMember: S.optional(__S(101, __c12, 5)),
-          removeQuorumMember: S.optional(__S(101, __c12, 5)),
-          state: S.optional(S.String),
-          ttl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          registerTwoFactorAuthKeys: S.optional(__S(102, __c12, 6)),
-          refreshSingleTenantHsmInstance: S.optional(__S(360, __c45, 0)),
-        }),
-      ).annotate({ identifier: "SingleTenantHsmInstanceProposal" });
   }
 }
 function __c13(j: number): any {
@@ -4366,15 +4541,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           ciphertextCrc32c: S.optional(S.String),
           ciphertext: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DecapsulateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4385,7 +4554,7 @@ function __c13(j: number): any {
       ).annotate({
         identifier: "DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
       });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           sharedSecret: S.optional(S.String),
@@ -4402,17 +4571,11 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           ciphertextCrc32c: S.optional(S.String),
           ciphertext: S.optional(S.String),
           additionalAuthenticatedDataCrc32c: S.optional(S.String),
           additionalAuthenticatedData: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DecryptRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4421,7 +4584,7 @@ function __c14(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DecryptProjectsLocationsKeyRingsCryptoKeysRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           usedPrimary: S.optional(S.Boolean),
@@ -4504,7 +4667,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c44, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4522,17 +4685,11 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           additionalAuthenticatedDataCrc32c: S.optional(S.String),
           plaintext: S.optional(S.String),
           additionalAuthenticatedData: S.optional(S.String),
           plaintextCrc32c: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EncryptRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c20, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4541,7 +4698,7 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EncryptProjectsLocationsKeyRingsCryptoKeysRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ciphertext: S.optional(S.String),
@@ -4560,7 +4717,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c44, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4605,15 +4762,9 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          location: S.String.pipe(T.Label()),
           lengthBytes: S.optional(S.Number),
           protectionLevel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenerateRandomBytesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c23, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4622,11 +4773,7 @@ function __c23(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateRandomBytesProjectsLocationsRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           dataCrc32c: S.optional(S.String),
@@ -4635,7 +4782,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GenerateRandomBytesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4647,7 +4794,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAutokeyConfigFoldersRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4661,7 +4808,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "AutokeyConfig" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4673,7 +4820,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetAutokeyConfigProjectsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4689,7 +4836,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetEffectiveAutokeyConfigFoldersRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4700,14 +4847,14 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(232, __c29, 0)),
+          source: S.optional(__S(224, __c28, 0)),
           keyProjectResolutionMode: S.optional(S.String),
           keyProject: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShowEffectiveAutokeyConfigResponse" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4723,7 +4870,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetEffectiveAutokeyConfigProjectsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4749,14 +4896,14 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          softwareConfig: S.optional(__S(249, __c31, 1)),
-          hardwareConfig: S.optional(__S(249, __c31, 1)),
-          externalConfig: S.optional(__S(249, __c31, 1)),
+          softwareConfig: S.optional(__S(241, __c30, 1)),
+          hardwareConfig: S.optional(__S(241, __c30, 1)),
+          externalConfig: S.optional(__S(241, __c30, 1)),
         }),
       ).annotate({ identifier: "ShowEffectiveKeyAccessJustificationsEnrollmentConfigResponse" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4773,12 +4920,12 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          effectiveKajPolicy: S.optional(__S(264, __c33, 0)),
+          effectiveKajPolicy: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "ShowEffectiveKeyAccessJustificationsPolicyConfigResponse" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4790,7 +4937,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "KeyAccessJustificationsPolicyConfig" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4802,7 +4949,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetEkmConfigProjectsLocationsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4813,7 +4960,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "EkmConfig" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4830,26 +4977,26 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsEkmConfigRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(648, __c81, 0)),
+          exemptedMembers: S.optional(__S(664, __c83, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(288, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(297, __c37, 1)),
+          auditLogConfigs: S.optional(__S(289, __c36, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(298, __c37, 2));
+      return S.Array(__S(290, __c36, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4863,24 +5010,24 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          condition: S.optional(__S(300, __c37, 4)),
-          members: S.optional(__S(648, __c81, 0)),
+          condition: S.optional(__S(292, __c36, 4)),
+          members: S.optional(__S(664, __c83, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(301, __c37, 5));
+      return S.Array(__S(293, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(299, __c37, 3)),
+          auditConfigs: S.optional(__S(291, __c36, 3)),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(302, __c37, 6)),
+          bindings: S.optional(__S(294, __c36, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4897,7 +5044,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsEkmConnectionsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4914,7 +5061,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsKeyRingsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4931,7 +5078,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4948,7 +5095,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4960,7 +5107,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetKajPolicyConfigFoldersRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4972,7 +5119,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetKajPolicyConfigOrganizationsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4982,32 +5129,26 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "ChallengeReply" });
     case 1:
-      return S.Array(__S(352, __c44, 0));
+      return S.Array(__S(344, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          challengeReplies: S.optional(__S(353, __c44, 1)),
+          challengeReplies: S.optional(__S(345, __c43, 1)),
         }),
       ).annotate({ identifier: "QuorumReply" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          quorumChallengeReplies: S.optional(__S(353, __c44, 1)),
-          requiredChallengeReplies: S.optional(__S(353, __c44, 1)),
+          quorumChallengeReplies: S.optional(__S(345, __c43, 1)),
+          requiredChallengeReplies: S.optional(__S(345, __c43, 1)),
         }),
       ).annotate({ identifier: "RequiredActionQuorumReply" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          quorumReply: S.optional(__S(354, __c44, 2)),
-          requiredActionQuorumReply: S.optional(__S(355, __c44, 3)),
-        }),
-      ).annotate({ identifier: "ApproveSingleTenantHsmInstanceProposalRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(356, __c44, 4).pipe(T.HttpBody())),
+          quorumReply: S.optional(__S(346, __c43, 2)),
+          requiredActionQuorumReply: S.optional(__S(347, __c43, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5020,7 +5161,7 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -5028,7 +5169,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5040,7 +5181,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetKajPolicyConfigProjectsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5052,12 +5193,12 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(768, __c96, 0)),
+          metadata: S.optional(__S(776, __c97, 0)),
           locationId: S.optional(S.String),
           labels: S.optional(__S(32, __c4, 0)),
           displayName: S.optional(S.String),
@@ -5066,7 +5207,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5078,7 +5219,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsEkmConnectionsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5088,6 +5229,18 @@ function __c50(j: number): any {
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudkms.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsKeyHandlesRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          resourceTypeSelector: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KeyHandle" });
   }
 }
 function __c51(j: number): any {
@@ -5181,15 +5334,9 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           ciphertext: S.optional(S.String),
           ciphertextCrc32c: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AsymmetricDecryptRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c58, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5200,7 +5347,7 @@ function __c58(j: number): any {
       ).annotate({
         identifier: "AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
       });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           protectionLevel: S.optional(S.String),
@@ -5228,6 +5375,23 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          keyPortabilityEnabled: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          unrefreshedDurationUntilDisable: S.optional(S.String),
+          disableTime: S.optional(S.String),
+          quorumAuth: S.optional(__S(80, __c10, 0)),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SingleTenantHsmInstance" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudkms.googleapis.com/" }),
@@ -5235,7 +5399,34 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          upgradeKeyTrust: S.optional(__S(96, __c12, 0)),
+          quorumParameters: S.optional(__S(99, __c12, 3)),
+          deleteTime: S.optional(S.String),
+          enableSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+          disableSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+          deleteSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+          expireTime: S.optional(S.String),
+          requiredActionQuorumParameters: S.optional(__S(100, __c12, 4)),
+          purgeTime: S.optional(S.String),
+          failureReason: S.optional(S.String),
+          addQuorumMember: S.optional(__S(101, __c12, 5)),
+          removeQuorumMember: S.optional(__S(101, __c12, 5)),
+          state: S.optional(S.String),
+          ttl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          registerTwoFactorAuthKeys: S.optional(__S(102, __c12, 6)),
+          refreshSingleTenantHsmInstance: S.optional(__S(352, __c44, 0)),
+        }),
+      ).annotate({ identifier: "SingleTenantHsmInstanceProposal" });
+  }
+}
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5263,7 +5454,7 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pem: S.optional(S.String),
-          publicKey: S.optional(__S(489, __c61, 1)),
+          publicKey: S.optional(__S(505, __c63, 1)),
           protectionLevel: S.optional(S.String),
           publicKeyFormat: S.optional(S.String),
           name: S.optional(S.String),
@@ -5273,24 +5464,18 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PublicKey" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           importJob: S.optional(S.String),
           rsaAesWrappedKey: S.optional(S.String),
           wrappedKey: S.optional(S.String),
           trustedWrappingEnabled: S.optional(S.Boolean),
           cryptoKeyVersion: S.optional(S.String),
           algorithm: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportCryptoKeyVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5303,22 +5488,16 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           algorithm: S.optional(S.String),
           importingKey: S.optional(S.String),
           wrappedKey: S.optional(S.String),
           cryptoKeyVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportTrustedKeyWrappedCryptoKeyVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(504, __c63, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5332,7 +5511,7 @@ function __c63(j: number): any {
       });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5341,7 +5520,7 @@ function __c64(j: number): any {
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(648, __c81, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(664, __c83, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5351,17 +5530,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(384, __c48, 0));
+      return S.Array(__S(376, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(513, __c64, 1)),
+          locations: S.optional(__S(529, __c66, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,18 +5559,18 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEkmConnectionsRequest" });
     case 1:
-      return S.Array(__S(660, __c82, 4));
+      return S.Array(__S(676, __c84, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ekmConnections: S.optional(__S(521, __c65, 1)),
+          ekmConnections: S.optional(__S(537, __c67, 1)),
           nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListEkmConnectionsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5409,17 +5588,17 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsKeyHandlesRequest" });
     case 1:
-      return S.Array(__S(784, __c98, 0));
+      return S.Array(__S(400, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          keyHandles: S.optional(__S(529, __c66, 1)),
+          keyHandles: S.optional(__S(545, __c68, 1)),
         }),
       ).annotate({ identifier: "ListKeyHandlesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5442,14 +5621,14 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keyRings: S.optional(__S(537, __c67, 1)),
+          keyRings: S.optional(__S(553, __c69, 1)),
           nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListKeyRingsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5473,14 +5652,14 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cryptoKeys: S.optional(__S(545, __c68, 1)),
+          cryptoKeys: S.optional(__S(561, __c70, 1)),
           nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListCryptoKeysResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5494,17 +5673,11 @@ function __c69(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           digestCrc32c: S.optional(S.String),
           data: S.optional(S.String),
-          digest: S.optional(__S(552, __c69, 0)),
+          digest: S.optional(__S(568, __c71, 0)),
           dataCrc32c: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AsymmetricSignRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(553, __c69, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5515,7 +5688,7 @@ function __c69(j: number): any {
       ).annotate({
         identifier: "AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
       });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           signatureCrc32c: S.optional(S.String),
@@ -5528,7 +5701,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "AsymmetricSignResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5554,12 +5727,12 @@ function __c70(j: number): any {
         S.Struct({
           nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
-          cryptoKeyVersions: S.optional(__S(561, __c70, 1)),
+          cryptoKeyVersions: S.optional(__S(577, __c72, 1)),
         }),
       ).annotate({ identifier: "ListCryptoKeyVersionsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5583,13 +5756,13 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          importJobs: S.optional(__S(569, __c71, 1)),
+          importJobs: S.optional(__S(585, __c73, 1)),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListImportJobsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5611,13 +5784,13 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.String),
-          retiredResources: S.optional(__S(577, __c72, 1)),
+          retiredResources: S.optional(__S(593, __c74, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRetiredResourcesResponse" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5637,18 +5810,18 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSingleTenantHsmInstancesRequest" });
     case 1:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(480, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.Number),
           nextPageToken: S.optional(S.String),
-          singleTenantHsmInstances: S.optional(__S(585, __c73, 1)),
+          singleTenantHsmInstances: S.optional(__S(601, __c75, 1)),
         }),
       ).annotate({ identifier: "ListSingleTenantHsmInstancesResponse" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5668,24 +5841,25 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest" });
     case 1:
-      return S.Array(__S(103, __c12, 7));
+      return S.Array(__S(496, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          singleTenantHsmInstanceProposals: S.optional(__S(593, __c74, 1)),
+          singleTenantHsmInstanceProposals: S.optional(__S(609, __c76, 1)),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListSingleTenantHsmInstanceProposalsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
+          dataCrc32c: S.optional(S.String),
+          data: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5708,22 +5882,16 @@ function __c75(j: number): any {
       ).annotate({ identifier: "MacSignResponse" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           macCrc32c: S.optional(S.String),
           mac: S.optional(S.String),
           dataCrc32c: S.optional(S.String),
           data: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MacVerifyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c76, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5734,7 +5902,7 @@ function __c76(j: number): any {
       ).annotate({
         identifier: "MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
       });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           success: S.optional(S.Boolean),
@@ -5747,14 +5915,18 @@ function __c76(j: number): any {
       ).annotate({ identifier: "MacVerifyResponse" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(660, __c82, 4).pipe(T.HttpBody())),
+          keyManagementMode: S.optional(S.String),
+          serviceResolvers: S.optional(__S(675, __c84, 3)),
+          createTime: S.optional(S.String),
+          cryptoSpacePath: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5765,14 +5937,24 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsEkmConnectionsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(41, __c5, 1).pipe(T.HttpBody())),
+          destroyScheduledDuration: S.optional(S.String),
+          cryptoKeyBackend: S.optional(S.String),
+          purpose: S.optional(S.String),
+          importOnly: S.optional(S.Boolean),
+          labels: S.optional(__S(32, __c4, 0)),
+          versionTemplate: S.optional(__S(40, __c5, 0)),
+          rotationPeriod: S.optional(S.String),
+          keyAccessJustificationsPolicy: S.optional(__S(25, __c3, 1)),
+          primary: S.optional(__S(17, __c2, 1)),
+          createTime: S.optional(S.String),
+          nextRotationTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5783,14 +5965,30 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsKeyRingsCryptoKeysRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(17, __c2, 1).pipe(T.HttpBody())),
+          protectionLevel: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          destroyTime: S.optional(S.String),
+          reimportEligible: S.optional(S.Boolean),
+          externalProtectionLevelOptions: S.optional(__S(16, __c2, 0)),
+          generationFailureReason: S.optional(S.String),
+          trustedWrappingEnabled: S.optional(S.Boolean),
+          destroyEventTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          importTime: S.optional(S.String),
+          state: S.optional(S.String),
+          hsmTrusted: S.optional(S.Boolean),
+          importJob: S.optional(S.String),
+          importFailureReason: S.optional(S.String),
+          externalDestructionFailureReason: S.optional(S.String),
+          attestation: S.optional(__S(9, __c1, 1)),
+          generateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5803,14 +6001,19 @@ function __c79(j: number): any {
       });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           ekmConnectionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(660, __c82, 4).pipe(T.HttpBody())),
+          keyManagementMode: S.optional(S.String),
+          serviceResolvers: S.optional(__S(675, __c84, 3)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          cryptoSpacePath: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5821,13 +6024,13 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEkmConnectionsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5835,7 +6038,7 @@ function __c82(j: number): any {
           issuer: S.optional(S.String),
           parsed: S.optional(S.Boolean),
           sha256Fingerprint: S.optional(S.String),
-          subjectAlternativeDnsNames: S.optional(__S(648, __c81, 0)),
+          subjectAlternativeDnsNames: S.optional(__S(664, __c83, 0)),
           subject: S.optional(S.String),
           notBeforeTime: S.optional(S.String),
           serialNumber: S.optional(S.String),
@@ -5844,23 +6047,23 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "Certificate" });
     case 1:
-      return S.Array(__S(656, __c82, 0));
+      return S.Array(__S(672, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           hostname: S.optional(S.String),
           endpointFilter: S.optional(S.String),
           serviceDirectoryService: S.optional(S.String),
-          serverCertificates: S.optional(__S(657, __c82, 1)),
+          serverCertificates: S.optional(__S(673, __c84, 1)),
         }),
       ).annotate({ identifier: "ServiceResolver" });
     case 3:
-      return S.Array(__S(658, __c82, 2));
+      return S.Array(__S(674, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           keyManagementMode: S.optional(S.String),
-          serviceResolvers: S.optional(__S(659, __c82, 3)),
+          serviceResolvers: S.optional(__S(675, __c84, 3)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
           cryptoSpacePath: S.optional(S.String),
@@ -5869,11 +6072,12 @@ function __c82(j: number): any {
       ).annotate({ identifier: "EkmConnection" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           additionalAuthenticatedDataCrc32c: S.optional(S.String),
           initializationVectorCrc32c: S.optional(S.String),
           additionalAuthenticatedData: S.optional(S.String),
@@ -5881,13 +6085,6 @@ function __c83(j: number): any {
           ciphertext: S.optional(S.String),
           ciphertextCrc32c: S.optional(S.String),
           tagLength: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RawDecryptRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(664, __c83, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5898,7 +6095,7 @@ function __c83(j: number): any {
       ).annotate({
         identifier: "RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
       });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           plaintext: S.optional(S.String),
@@ -5911,24 +6108,18 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RawDecryptResponse" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           initializationVector: S.optional(S.String),
           plaintextCrc32c: S.optional(S.String),
           additionalAuthenticatedData: S.optional(S.String),
           initializationVectorCrc32c: S.optional(S.String),
           plaintext: S.optional(S.String),
           additionalAuthenticatedDataCrc32c: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RawEncryptRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c84, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5939,7 +6130,7 @@ function __c84(j: number): any {
       ).annotate({
         identifier: "RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest",
       });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           protectionLevel: S.optional(S.String),
@@ -5956,13 +6147,13 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RawEncryptResponse" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(360, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(352, __c44, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5975,13 +6166,14 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(295, __c36, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5992,24 +6184,14 @@ function __c86(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsEkmConfigRequest" });
   }
 }
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(303, __c37, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(295, __c36, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6020,13 +6202,14 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsEkmConnectionsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(295, __c36, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6037,13 +6220,14 @@ function __c89(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsKeyRingsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(295, __c36, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6054,13 +6238,14 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(696, __c87, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(295, __c36, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6071,13 +6256,13 @@ function __c91(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(744, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(664, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6088,23 +6273,23 @@ function __c92(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsEkmConfigRequest" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(648, __c81, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
 function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          permissions: S.optional(__S(664, __c83, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(744, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(664, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6115,14 +6300,16 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsEkmConnectionsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           keyHandleId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(784, __c98, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          resourceTypeSelector: S.optional(S.String),
+          kmsKey: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6133,46 +6320,34 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsKeyHandlesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c96, 0));
+      return S.Array(__S(776, __c97, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(776, __c97, 0)),
+          details: S.optional(__S(784, __c98, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(777, __c97, 1)),
-          metadata: S.optional(__S(768, __c96, 0)),
+          error: S.optional(__S(785, __c98, 1)),
+          metadata: S.optional(__S(776, __c97, 0)),
           name: S.optional(S.String),
-          response: S.optional(__S(768, __c96, 0)),
+          response: S.optional(__S(776, __c97, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          resourceTypeSelector: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KeyHandle" });
   }
 }
 function __c99(j: number): any {
@@ -6181,7 +6356,7 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(744, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(664, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6198,7 +6373,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(744, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(664, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6215,7 +6390,7 @@ function __c101(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(744, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(664, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6233,7 +6408,10 @@ function __c102(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          state: S.optional(S.String),
+          keyProject: S.optional(S.String),
+          keyProjectResolutionMode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6251,7 +6429,10 @@ function __c103(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          state: S.optional(S.String),
+          keyProject: S.optional(S.String),
+          keyProjectResolutionMode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6269,7 +6450,7 @@ function __c104(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(280, __c35, 0).pipe(T.HttpBody())),
+          defaultEkmConnection: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6287,7 +6468,8 @@ function __c105(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(264, __c33, 0).pipe(T.HttpBody())),
+          defaultPolicyAvailable: S.optional(S.Boolean),
+          defaultKeyAccessJustificationPolicy: S.optional(__S(25, __c3, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6305,7 +6487,8 @@ function __c106(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(264, __c33, 0).pipe(T.HttpBody())),
+          defaultPolicyAvailable: S.optional(S.Boolean),
+          defaultKeyAccessJustificationPolicy: S.optional(__S(25, __c3, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6323,7 +6506,8 @@ function __c107(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(264, __c33, 0).pipe(T.HttpBody())),
+          defaultPolicyAvailable: S.optional(S.Boolean),
+          defaultKeyAccessJustificationPolicy: S.optional(__S(25, __c3, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6339,14 +6523,8 @@ function __c108(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cryptoKeyVersionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateCryptoKeyPrimaryVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c108, 0).pipe(T.HttpBody())),
+          cryptoKeyVersionId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6364,7 +6542,8 @@ function __c109(j: number): any {
         S.Struct({
           keyRingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(880, __c110, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

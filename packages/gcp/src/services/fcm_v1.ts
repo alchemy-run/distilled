@@ -83,6 +83,16 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface CreateProjectsRegistrationsTopicSubscriptionsRequest {
+  /** Required. The parent resource where this subscription will be created. Format: projects/{project}/registrations/{registration} The {registration} part can be an FID or an FCM Token. */
+  parent: string;
+  /** Required. The ID to use for the subscription, which is the topic name. This will become the last segment of the TopicSubscription's resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
+  topicName?: string | undefined;
+  /** Identifier. The resource name of the subscription. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} The {registration} part contains the registration ID (e.g., FID). */
+  name?: string | undefined;
+  /** Output only. Time when the subscription was created. */
+  createTime?: string | undefined;
+}
 /** Represents a subscription of a single app instance to a single FCM topic. */
 export interface TopicSubscription {
   /** Identifier. The resource name of the subscription. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} The {registration} part contains the registration ID (e.g., FID). */
@@ -91,14 +101,6 @@ export interface TopicSubscription {
   createTime?: string | undefined;
   /** Output only. The ID of the TopicSubscription, which is the topic name. This corresponds to the {topicSubscription} segment in the resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
   topicName?: string | undefined;
-}
-export interface CreateProjectsRegistrationsTopicSubscriptionsRequest {
-  /** Required. The parent resource where this subscription will be created. Format: projects/{project}/registrations/{registration} The {registration} part can be an FID or an FCM Token. */
-  parent: string;
-  /** Required. The ID to use for the subscription, which is the topic name. This will become the last segment of the TopicSubscription's resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
-  topicName?: string | undefined;
-  /** Request body */
-  body?: TopicSubscription | undefined;
 }
 export interface DeleteProjectsRegistrationsTopicSubscriptionsRequest {
   /** Required. The name of the topic subscription to delete. Format: projects/{project}/registrations/{registration}/topicSubscriptions/{topicSubscription} */
@@ -133,8 +135,10 @@ export interface PatchProjectsRegistrationsTopicSubscriptionsRequest {
   name: string;
   /** Optional. If set to true, and the topic subscription is not found, a new topic subscription will be created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: TopicSubscription | undefined;
+  /** Output only. Time when the subscription was created. */
+  createTime?: string | undefined;
+  /** Output only. The ID of the TopicSubscription, which is the topic name. This corresponds to the {topicSubscription} segment in the resource name. Topic names match the pattern of "[a-zA-Z0-9-_.~%]{1,900}". */
+  topicName?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type AndroidConfigPriorityEnum = "NORMAL" | "HIGH";
@@ -446,18 +450,13 @@ export interface Message {
   /** [Firebase Installation ID (FID)](/docs/cloud-messaging/android/get-started#access-firebase-installation-id) to send a message to. */
   fid?: string | undefined;
 }
-/** Request to send a message to specified target. */
-export interface SendMessageRequest {
+export interface SendProjectsMessagesRequest {
+  /** Required. It contains the Firebase project id (i.e. the unique identifier for your Firebase project), in the format of `projects/{project_id}`. The numeric project number with no padding is also supported in the format of `projects/{project_number}`. */
+  parent: string;
   /** Required. Message to send. */
   message?: Message | undefined;
   /** Flag for testing the request without actually delivering the message. */
   validateOnly?: boolean | undefined;
-}
-export interface SendProjectsMessagesRequest {
-  /** Required. It contains the Firebase project id (i.e. the unique identifier for your Firebase project), in the format of `projects/{project_id}`. The numeric project number with no padding is also supported in the format of `projects/{project_number}`. */
-  parent: string;
-  /** Request body */
-  body?: SendMessageRequest | undefined;
 }
 export type CreateProjectsRegistrationsTopicSubscriptionsError =
   | NotFound
@@ -569,7 +568,7 @@ export const sendProjectsMessages: API.OperationMethod<
   SendProjectsMessagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(243, __c7, 19) as any as S.Schema<SendProjectsMessagesRequest>,
+  input: __S(242, __c7, 18) as any as S.Schema<SendProjectsMessagesRequest>,
   output: __S(241, __c7, 17) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -586,7 +585,8 @@ function __c0(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           topicName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -674,7 +674,8 @@ function __c6(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          topicName: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://fcm.googleapis.com/" }),
         ),
@@ -881,15 +882,9 @@ function __c7(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           message: S.optional(__S(241, __c7, 17)),
           validateOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SendMessageRequest" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(242, __c7, 18).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

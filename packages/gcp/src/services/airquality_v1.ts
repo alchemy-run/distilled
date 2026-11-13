@@ -113,8 +113,7 @@ export type LookupCurrentConditionsRequestUaqiColorPaletteEnum =
   | "RED_GREEN"
   | "INDIGO_PERSIAN_DARK"
   | "INDIGO_PERSIAN_LIGHT";
-/** The request definition of the air quality current conditions. */
-export interface LookupCurrentConditionsRequest {
+export interface LookupCurrentConditionsRequest_ {
   /** Required. The longitude and latitude from which the API looks for air quality current conditions data. */
   location?: LatLng | undefined;
   /** Optional. Additional features that can be optionally enabled. Specifying extra computations will result in the relevant elements and fields to be returned in the response. */
@@ -127,10 +126,6 @@ export interface LookupCurrentConditionsRequest {
   uaqiColorPalette?: LookupCurrentConditionsRequestUaqiColorPaletteEnum | (string & {}) | undefined;
   /** Optional. If set to true, the Universal AQI will be included in the 'indexes' field of the response. Default value is true. */
   universalAqi?: boolean | undefined;
-}
-export interface LookupCurrentConditionsRequest_ {
-  /** Request body */
-  body?: LookupCurrentConditionsRequest | undefined;
 }
 export type ConcentrationUnitsEnum =
   | "UNIT_UNSPECIFIED"
@@ -244,8 +239,7 @@ export type LookupForecastRequestExtraComputationsItemEnum =
 export type LookupForecastRequestExtraComputationsItemEnumList = Array<
   LookupForecastRequestExtraComputationsItemEnum | (string & {})
 >;
-/** The request object of the air quality forecast API. */
-export interface LookupForecastRequest {
+export interface LookupForecastRequest_ {
   /** Optional. Determines the color palette used for data provided by the 'Universal Air Quality Index' (UAQI). This color palette is relevant just for UAQI, other AQIs have a predetermined color palette that can't be controlled. */
   uaqiColorPalette?: LookupForecastRequestUaqiColorPaletteEnum | (string & {}) | undefined;
   /** Optional. A page token received from a previous forecast call. It is used to retrieve the subsequent page. */
@@ -266,10 +260,6 @@ export interface LookupForecastRequest {
   pageSize?: number | undefined;
   /** Optional. Expresses a 'country/region to AQI' relationship. Pairs a country/region with a desired AQI so that air quality data that is required for that country/region will be displayed according to the chosen AQI. This parameter can be used to specify a non-default AQI for a given country, for example, to get the US EPA index for Canada rather than the default index for Canada. */
   customLocalAqis?: CustomLocalAqiList | undefined;
-}
-export interface LookupForecastRequest_ {
-  /** Request body */
-  body?: LookupForecastRequest | undefined;
 }
 /** Contains the air quality information for each hour in the requested range. For example, if the request is for 48 hours of forecast there will be 48 elements of hourly forecasts. */
 export interface HourlyForecast {
@@ -338,8 +328,7 @@ export type LookupHistoryRequestUaqiColorPaletteEnum =
   | "RED_GREEN"
   | "INDIGO_PERSIAN_DARK"
   | "INDIGO_PERSIAN_LIGHT";
-/** The request object of the air quality history API. */
-export interface LookupHistoryRequest {
+export interface LookupHistoryRequest_ {
   /** Optional. If set to true, the Universal AQI will be included in the 'indexes' field of the response. Default value is true. */
   universalAqi?: boolean | undefined;
   /** Optional. Additional features that can be optionally enabled. Specifying extra computations will result in the relevant elements and fields to be returned in the response. */
@@ -362,10 +351,6 @@ export interface LookupHistoryRequest {
   pageSize?: number | undefined;
   /** A timestamp for which to return historical data. The timestamp is rounded to the previous exact hour. Note: this will return hourly data for the requested timestamp only (i.e. a single hourly info element). For example, a request sent where the dateTime parameter is set to 2023-01-03T11:05:49Z will be rounded down to 2023-01-03T11:00:00Z. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
   dateTime?: string | undefined;
-}
-export interface LookupHistoryRequest_ {
-  /** Request body */
-  body?: LookupHistoryRequest | undefined;
 }
 /** Contains the air quality information for each hour in the requested range. For example, if the request is for 48 hours of history there will be 48 elements of hourly info. */
 export interface HourInfo {
@@ -400,8 +385,8 @@ export const lookupCurrentConditions: API.OperationMethod<
   LookupCurrentConditionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<LookupCurrentConditionsRequest_>,
-  output: __S(2, __c0, 2) as any as S.Schema<LookupCurrentConditionsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<LookupCurrentConditionsRequest_>,
+  output: __S(1, __c0, 1) as any as S.Schema<LookupCurrentConditionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -417,8 +402,8 @@ export const lookupForecast: API.OperationMethod<
   LookupForecastError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<LookupForecastRequest_>,
-  output: __S(36, __c2, 4) as any as S.Schema<LookupForecastResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<LookupForecastRequest_>,
+  output: __S(35, __c2, 3) as any as S.Schema<LookupForecastResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -451,8 +436,8 @@ export const lookupHistory: API.OperationMethod<
   LookupHistoryError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<LookupHistoryRequest_>,
-  output: __S(84, __c5, 4) as any as S.Schema<LookupHistoryResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<LookupHistoryRequest_>,
+  output: __S(83, __c5, 3) as any as S.Schema<LookupHistoryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -472,12 +457,6 @@ function __c0(j: number): any {
           languageCode: S.optional(S.String),
           uaqiColorPalette: S.optional(S.String),
           universalAqi: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LookupCurrentConditionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -486,7 +465,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LookupCurrentConditionsRequest_" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           pollutants: S.optional(__S(23, __c1, 7)),
@@ -596,12 +575,6 @@ function __c2(j: number): any {
           dateTime: S.optional(S.String),
           pageSize: S.optional(S.Number),
           customLocalAqis: S.optional(__S(19, __c1, 3)),
-        }),
-      ).annotate({ identifier: "LookupForecastRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -610,7 +583,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LookupForecastRequest_" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           pollutants: S.optional(__S(23, __c1, 7)),
@@ -619,14 +592,14 @@ function __c2(j: number): any {
           healthRecommendations: S.optional(__S(24, __c1, 8)),
         }),
       ).annotate({ identifier: "HourlyForecast" });
+    case 2:
+      return S.Array(__S(33, __c2, 1));
     case 3:
-      return S.Array(__S(34, __c2, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           regionCode: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          hourlyForecasts: S.optional(__S(35, __c2, 3)),
+          hourlyForecasts: S.optional(__S(34, __c2, 2)),
         }),
       ).annotate({ identifier: "LookupForecastResponse" });
   }
@@ -689,12 +662,6 @@ function __c5(j: number): any {
           languageCode: S.optional(S.String),
           pageSize: S.optional(S.Number),
           dateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LookupHistoryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -703,7 +670,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LookupHistoryRequest_" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           pollutants: S.optional(__S(23, __c1, 7)),
@@ -712,13 +679,13 @@ function __c5(j: number): any {
           healthRecommendations: S.optional(__S(24, __c1, 8)),
         }),
       ).annotate({ identifier: "HourInfo" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
     case 3:
-      return S.Array(__S(82, __c5, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           regionCode: S.optional(S.String),
-          hoursInfo: S.optional(__S(83, __c5, 3)),
+          hoursInfo: S.optional(__S(82, __c5, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "LookupHistoryResponse" });

@@ -148,11 +148,11 @@ export interface AchievementConfiguration {
   /** The draft data of the achievement. */
   draft?: AchievementConfigurationDetail | undefined;
   /** The type of the achievement. */
-  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {}) | undefined;
+  achievementType?: AchievementConfigurationAchievementTypeEnum | undefined;
   /** The ID of the achievement. */
   id?: string | undefined;
   /** The initial state of the achievement. */
-  initialState?: AchievementConfigurationInitialStateEnum | (string & {}) | undefined;
+  initialState?: AchievementConfigurationInitialStateEnum | undefined;
   /** Steps to unlock. Only applicable to incremental achievements. */
   stepsToUnlock?: number | undefined;
 }
@@ -218,7 +218,7 @@ export interface LeaderboardConfiguration {
   published?: LeaderboardConfigurationDetail | undefined;
   /** The token for this resource. */
   token?: string | undefined;
-  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {}) | undefined;
+  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | undefined;
   /** The ID of the leaderboard. */
   id?: string | undefined;
   /** Minimum score that can be posted to this leaderboard. */
@@ -229,14 +229,41 @@ export interface LeaderboardConfiguration {
 export interface InsertAchievementConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
-  /** Request body */
-  body?: AchievementConfiguration | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`. */
+  kind?: string | undefined;
+  /** The read-only published data of the achievement. */
+  published?: AchievementConfigurationDetail | undefined;
+  /** The token for this resource. */
+  token?: string | undefined;
+  /** The draft data of the achievement. */
+  draft?: AchievementConfigurationDetail | undefined;
+  /** The type of the achievement. */
+  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {}) | undefined;
+  /** The ID of the achievement. */
+  id?: string | undefined;
+  /** The initial state of the achievement. */
+  initialState?: AchievementConfigurationInitialStateEnum | (string & {}) | undefined;
+  /** Steps to unlock. Only applicable to incremental achievements. */
+  stepsToUnlock?: number | undefined;
 }
 export interface InsertLeaderboardConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
-  /** Request body */
-  body?: LeaderboardConfiguration | undefined;
+  /** Maximum score that can be posted to this leaderboard. */
+  scoreMax?: string | undefined;
+  /** The draft data of the leaderboard. */
+  draft?: LeaderboardConfigurationDetail | undefined;
+  /** The read-only published data of the leaderboard. */
+  published?: LeaderboardConfigurationDetail | undefined;
+  /** The token for this resource. */
+  token?: string | undefined;
+  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {}) | undefined;
+  /** The ID of the leaderboard. */
+  id?: string | undefined;
+  /** Minimum score that can be posted to this leaderboard. */
+  scoreMin?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
+  kind?: string | undefined;
 }
 export interface ListAchievementConfigurationsRequest {
   /** The token returned by the previous request. */
@@ -277,14 +304,41 @@ export interface LeaderboardConfigurationListResponse {
 export interface UpdateAchievementConfigurationsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
-  /** Request body */
-  body?: AchievementConfiguration | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`. */
+  kind?: string | undefined;
+  /** The read-only published data of the achievement. */
+  published?: AchievementConfigurationDetail | undefined;
+  /** The token for this resource. */
+  token?: string | undefined;
+  /** The draft data of the achievement. */
+  draft?: AchievementConfigurationDetail | undefined;
+  /** The type of the achievement. */
+  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {}) | undefined;
+  /** The ID of the achievement. */
+  id?: string | undefined;
+  /** The initial state of the achievement. */
+  initialState?: AchievementConfigurationInitialStateEnum | (string & {}) | undefined;
+  /** Steps to unlock. Only applicable to incremental achievements. */
+  stepsToUnlock?: number | undefined;
 }
 export interface UpdateLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
-  /** Request body */
-  body?: LeaderboardConfiguration | undefined;
+  /** Maximum score that can be posted to this leaderboard. */
+  scoreMax?: string | undefined;
+  /** The draft data of the leaderboard. */
+  draft?: LeaderboardConfigurationDetail | undefined;
+  /** The read-only published data of the leaderboard. */
+  published?: LeaderboardConfigurationDetail | undefined;
+  /** The token for this resource. */
+  token?: string | undefined;
+  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {}) | undefined;
+  /** The ID of the leaderboard. */
+  id?: string | undefined;
+  /** Minimum score that can be posted to this leaderboard. */
+  scoreMin?: string | undefined;
+  /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
+  kind?: string | undefined;
 }
 export type DeleteAchievementConfigurationsError =
   | NotFound
@@ -553,7 +607,14 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           achievementId: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c9, 1).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          published: S.optional(__S(36, __c9, 0)),
+          token: S.optional(S.String),
+          draft: S.optional(__S(36, __c9, 0)),
+          achievementType: S.optional(S.String),
+          id: S.optional(S.String),
+          initialState: S.optional(S.String),
+          stepsToUnlock: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -570,7 +631,14 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           leaderboardId: S.String.pipe(T.Label()),
-          body: S.optional(__S(47, __c11, 3).pipe(T.HttpBody())),
+          scoreMax: S.optional(S.String),
+          draft: S.optional(__S(46, __c11, 2)),
+          published: S.optional(__S(46, __c11, 2)),
+          token: S.optional(S.String),
+          scoreOrder: S.optional(S.String),
+          id: S.optional(S.String),
+          scoreMin: S.optional(S.String),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -755,7 +823,14 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c9, 1).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          published: S.optional(__S(36, __c9, 0)),
+          token: S.optional(S.String),
+          draft: S.optional(__S(36, __c9, 0)),
+          achievementType: S.optional(S.String),
+          id: S.optional(S.String),
+          initialState: S.optional(S.String),
+          stepsToUnlock: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -772,7 +847,14 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(47, __c11, 3).pipe(T.HttpBody())),
+          scoreMax: S.optional(S.String),
+          draft: S.optional(__S(46, __c11, 2)),
+          published: S.optional(__S(46, __c11, 2)),
+          token: S.optional(S.String),
+          scoreOrder: S.optional(S.String),
+          id: S.optional(S.String),
+          scoreMin: S.optional(S.String),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

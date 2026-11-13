@@ -90,15 +90,16 @@ export interface CancelOrganizationsOperationsRequest {
   body?: CancelOperationRequest | undefined;
 }
 export interface Empty {}
-export interface Source {
+export interface CreateOrganizationsSourcesRequest {
+  parent: string;
   displayName?: string | undefined;
   name?: string | undefined;
   description?: string | undefined;
 }
-export interface CreateOrganizationsSourcesRequest {
-  parent: string;
-  /** Request body */
-  body?: Source | undefined;
+export interface Source {
+  displayName?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type StringMap = { [key: string]: string | undefined };
@@ -110,6 +111,19 @@ export type GoogleCloudSecuritycenterV1beta1FindingStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
   | "INACTIVE";
+export interface CreateOrganizationsSourcesFindingsRequest {
+  findingId?: string | undefined;
+  parent: string;
+  category?: string | undefined;
+  eventTime?: string | undefined;
+  externalUri?: string | undefined;
+  resourceName?: string | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
+  name?: string | undefined;
+  state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {}) | undefined;
+  createTime?: string | undefined;
+}
 export interface GoogleCloudSecuritycenterV1beta1Finding {
   category?: string | undefined;
   eventTime?: string | undefined;
@@ -119,14 +133,8 @@ export interface GoogleCloudSecuritycenterV1beta1Finding {
   sourceProperties?: DocumentMap | undefined;
   securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
   name?: string | undefined;
-  state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {}) | undefined;
+  state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | undefined;
   createTime?: string | undefined;
-}
-export interface CreateOrganizationsSourcesFindingsRequest {
-  findingId?: string | undefined;
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1Finding | undefined;
 }
 export interface DeleteOrganizationsOperationsRequest {
   name: string;
@@ -134,13 +142,9 @@ export interface DeleteOrganizationsOperationsRequest {
 export interface GetPolicyOptions {
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyRequest {
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyOrganizationsSourcesRequest {
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  options?: GetPolicyOptions | undefined;
 }
 export type StringList = Array<string>;
 export type AuditLogConfigLogTypeEnum =
@@ -211,18 +215,14 @@ export interface Operation {
 export interface GetOrganizationsSourcesRequest {
   name: string;
 }
-export interface GroupAssetsRequest {
+export interface GroupOrganizationsAssetsRequest {
+  parent: string;
   groupBy?: string | undefined;
   readTime?: string | undefined;
   compareDuration?: string | undefined;
   pageToken?: string | undefined;
   filter?: string | undefined;
   pageSize?: number | undefined;
-}
-export interface GroupOrganizationsAssetsRequest {
-  parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupResult {
   count?: string | undefined;
@@ -234,17 +234,13 @@ export interface GroupAssetsResponse {
   readTime?: string | undefined;
   nextPageToken?: string | undefined;
 }
-export interface GroupFindingsRequest {
+export interface GroupOrganizationsSourcesFindingsRequest {
+  parent: string;
   pageToken?: string | undefined;
   groupBy?: string | undefined;
   pageSize?: number | undefined;
   readTime?: string | undefined;
   filter?: string | undefined;
-}
-export interface GroupOrganizationsSourcesFindingsRequest {
-  parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupFindingsResponse {
   nextPageToken?: string | undefined;
@@ -336,14 +332,21 @@ export interface ListFindingsResponse {
 export interface PatchOrganizationsSourcesRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Source | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1Finding | undefined;
+  category?: string | undefined;
+  eventTime?: string | undefined;
+  externalUri?: string | undefined;
+  resourceName?: string | undefined;
+  parent?: string | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  securityMarks?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
+  state?: GoogleCloudSecuritycenterV1beta1FindingStateEnum | (string & {}) | undefined;
+  createTime?: string | undefined;
 }
 export type RunAssetDiscoveryRequest = CancelOperationRequest;
 export interface RunDiscoveryOrganizationsAssetsRequest {
@@ -351,32 +354,20 @@ export interface RunDiscoveryOrganizationsAssetsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyOrganizationsSourcesRequest {
+  resource: string;
   updateMask?: string | undefined;
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyOrganizationsSourcesRequest {
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export type SetFindingStateRequestStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
-export interface SetFindingStateRequest {
+export interface SetStateOrganizationsSourcesFindingsRequest {
+  name: string;
   state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
   startTime?: string | undefined;
 }
-export interface SetStateOrganizationsSourcesFindingsRequest {
-  name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
-}
-export interface TestIamPermissionsRequest {
-  permissions?: StringList | undefined;
-}
 export interface TestIamPermissionsOrganizationsSourcesRequest {
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsResponse {
   permissions?: StringList | undefined;
@@ -384,22 +375,20 @@ export interface TestIamPermissionsResponse {
 export interface UpdateOrganizationSettingsOrganizationsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OrganizationSettings | undefined;
+  enableAssetDiscovery?: boolean | undefined;
+  assetDiscoveryConfig?: AssetDiscoveryConfig | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsAssetsRequest {
   name: string;
   updateMask?: string | undefined;
   startTime?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
+  marks?: StringMap | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
   name: string;
   updateMask?: string | undefined;
   startTime?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1beta1SecurityMarks | undefined;
+  marks?: StringMap | undefined;
 }
 export type CancelOrganizationsOperationsError =
   | NotFound
@@ -497,7 +486,7 @@ export const getIamPolicyOrganizationsSources: API.OperationMethod<
   GetIamPolicyOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(226, __c28, 2) as any as S.Schema<GetIamPolicyOrganizationsSourcesRequest>,
+  input: __S(225, __c28, 1) as any as S.Schema<GetIamPolicyOrganizationsSourcesRequest>,
   output: __S(239, __c29, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -566,8 +555,8 @@ export const groupOrganizationsAssets: API.OperationMethod<
   GroupOrganizationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<GroupOrganizationsAssetsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<GroupAssetsResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GroupOrganizationsAssetsRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<GroupAssetsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -587,8 +576,8 @@ export const groupOrganizationsSourcesFindings: API.OperationMethod<
   GroupOrganizationsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<GroupOrganizationsSourcesFindingsRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<GroupFindingsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GroupOrganizationsSourcesFindingsRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<GroupFindingsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -743,7 +732,7 @@ export const setIamPolicyOrganizationsSources: API.OperationMethod<
   SetIamPolicyOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(105, __c13, 1) as any as S.Schema<SetIamPolicyOrganizationsSourcesRequest>,
+  input: __S(104, __c13, 0) as any as S.Schema<SetIamPolicyOrganizationsSourcesRequest>,
   output: __S(239, __c29, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -764,7 +753,7 @@ export const setStateOrganizationsSourcesFindings: API.OperationMethod<
   SetStateOrganizationsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c14, 1) as any as S.Schema<SetStateOrganizationsSourcesFindingsRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<SetStateOrganizationsSourcesFindingsRequest>,
   output: __S(208, __c26, 0) as any as S.Schema<GoogleCloudSecuritycenterV1beta1Finding>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -785,8 +774,8 @@ export const testIamPermissionsOrganizationsSources: API.OperationMethod<
   TestIamPermissionsOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(121, __c15, 1) as any as S.Schema<TestIamPermissionsOrganizationsSourcesRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<TestIamPermissionsOrganizationsSourcesRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -923,19 +912,13 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           groupBy: S.optional(S.String),
           readTime: S.optional(S.String),
           compareDuration: S.optional(S.String),
           pageToken: S.optional(S.String),
           filter: S.optional(S.String),
           pageSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GroupAssetsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -944,7 +927,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GroupOrganizationsAssetsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           groupByResults: S.optional(__S(33, __c4, 1)),
@@ -972,18 +955,12 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String),
           groupBy: S.optional(S.String),
           pageSize: S.optional(S.Number),
           readTime: S.optional(S.String),
           filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroupFindingsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -992,7 +969,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GroupOrganizationsSourcesFindingsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
@@ -1161,7 +1138,8 @@ function __c10(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1179,7 +1157,15 @@ function __c11(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
+          category: S.optional(S.String),
+          eventTime: S.optional(S.String),
+          externalUri: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          parent: S.optional(S.String),
+          sourceProperties: S.optional(__S(192, __c24, 0)),
+          securityMarks: S.optional(__S(201, __c25, 1)),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1212,15 +1198,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(239, __c29, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(104, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1236,15 +1216,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           state: S.optional(S.String),
           startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetFindingStateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1260,14 +1234,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(240, __c30, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(240, __c30, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1276,6 +1244,12 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsOrganizationsSourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(240, __c30, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c16(j: number): any {
@@ -1285,7 +1259,8 @@ function __c16(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(257, __c32, 1).pipe(T.HttpBody())),
+          enableAssetDiscovery: S.optional(S.Boolean),
+          assetDiscoveryConfig: S.optional(__S(256, __c32, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1304,7 +1279,7 @@ function __c17(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(201, __c25, 1).pipe(T.HttpBody())),
+          marks: S.optional(__S(200, __c25, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1323,7 +1298,7 @@ function __c18(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(201, __c25, 1).pipe(T.HttpBody())),
+          marks: S.optional(__S(200, __c25, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1363,7 +1338,9 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1393,7 +1370,15 @@ function __c23(j: number): any {
         S.Struct({
           findingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c26, 0).pipe(T.HttpBody())),
+          category: S.optional(S.String),
+          eventTime: S.optional(S.String),
+          externalUri: S.optional(S.String),
+          resourceName: S.optional(S.String),
+          sourceProperties: S.optional(__S(192, __c24, 0)),
+          securityMarks: S.optional(__S(201, __c25, 1)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1469,14 +1454,8 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(224, __c28, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c28, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(224, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",

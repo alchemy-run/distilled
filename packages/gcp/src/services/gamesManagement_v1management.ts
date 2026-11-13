@@ -245,38 +245,25 @@ export interface ResetForAllPlayersScoresRequest {
   leaderboardId: string;
 }
 export interface ResetForAllPlayersScoresResponse {}
-export interface AchievementResetMultipleForAllRequest {
+export interface ResetMultipleForAllPlayersAchievementsRequest {
   /** The IDs of achievements to reset. */
   achievement_ids?: StringList | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#achievementResetMultipleForAllRequest`. */
   kind?: string | undefined;
 }
-export interface ResetMultipleForAllPlayersAchievementsRequest {
-  /** Request body */
-  body?: AchievementResetMultipleForAllRequest | undefined;
-}
 export interface ResetMultipleForAllPlayersAchievementsResponse {}
-/** Multiple events reset all request. */
-export interface EventsResetMultipleForAllRequest {
+export interface ResetMultipleForAllPlayersEventsRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#eventsResetMultipleForAllRequest`. */
   kind?: string | undefined;
   /** The IDs of events to reset. */
   event_ids?: StringList | undefined;
 }
-export interface ResetMultipleForAllPlayersEventsRequest {
-  /** Request body */
-  body?: EventsResetMultipleForAllRequest | undefined;
-}
 export interface ResetMultipleForAllPlayersEventsResponse {}
-export interface ScoresResetMultipleForAllRequest {
+export interface ResetMultipleForAllPlayersScoresRequest {
   /** The IDs of leaderboards to reset. */
   leaderboard_ids?: StringList | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesManagement#scoresResetMultipleForAllRequest`. */
   kind?: string | undefined;
-}
-export interface ResetMultipleForAllPlayersScoresRequest {
-  /** Request body */
-  body?: ScoresResetMultipleForAllRequest | undefined;
 }
 export interface ResetMultipleForAllPlayersScoresResponse {}
 export interface ResetScoresRequest {
@@ -556,7 +543,7 @@ export const resetMultipleForAllPlayersAchievements: API.OperationMethod<
   ResetMultipleForAllPlayersAchievementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c9, 1) as any as S.Schema<ResetMultipleForAllPlayersAchievementsRequest>,
+  input: __S(144, __c9, 0) as any as S.Schema<ResetMultipleForAllPlayersAchievementsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<ResetMultipleForAllPlayersAchievementsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -578,7 +565,7 @@ export const resetMultipleForAllPlayersEvents: API.OperationMethod<
   ResetMultipleForAllPlayersEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(161, __c10, 1) as any as S.Schema<ResetMultipleForAllPlayersEventsRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<ResetMultipleForAllPlayersEventsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<ResetMultipleForAllPlayersEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -600,7 +587,7 @@ export const resetMultipleForAllPlayersScores: API.OperationMethod<
   ResetMultipleForAllPlayersScoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<ResetMultipleForAllPlayersScoresRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<ResetMultipleForAllPlayersScoresRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<ResetMultipleForAllPlayersScoresResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -784,12 +771,6 @@ function __c9(j: number): any {
         S.Struct({
           achievement_ids: S.optional(__S(48, __c3, 0)),
           kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AchievementResetMultipleForAllRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -807,12 +788,6 @@ function __c10(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           event_ids: S.optional(__S(48, __c3, 0)),
-        }),
-      ).annotate({ identifier: "EventsResetMultipleForAllRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -830,12 +805,6 @@ function __c11(j: number): any {
         S.Struct({
           leaderboard_ids: S.optional(__S(48, __c3, 0)),
           kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ScoresResetMultipleForAllRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

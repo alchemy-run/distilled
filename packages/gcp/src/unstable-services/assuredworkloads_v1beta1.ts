@@ -91,8 +91,9 @@ export type GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequestAcknowl
   | "ACKNOWLEDGE_TYPE_UNSPECIFIED"
   | "SINGLE_VIOLATION"
   | "EXISTING_CHILD_RESOURCE_VIOLATIONS";
-/** Request message for acknowledging a violation. */
-export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest {
+export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest {
+  /** Required. The resource name of the violation to acknowledge. Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
+  name: string;
   /** Optional. Deprecated: This field is deprecated and will be removed in a future version of the API. The service identifies the violation to acknowledge by `name`, and ignores this field. Don't set this field. The name of the organization policy that was modified with a non-compliant change and resulted in this violation. Formats: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` */
   nonCompliantOrgPolicy?: string | undefined;
   /** Optional. The violation view (`VIOLATION_VIEW_ASSURED_WORKLOADS` or `VIOLATION_VIEW_DATA_BOUNDARY`) that the violation belongs to. If not specified, `VIOLATION_VIEW_ASSURED_WORKLOADS` is used. */
@@ -107,12 +108,6 @@ export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest {
     | GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequestAcknowledgeTypeEnum
     | (string & {})
     | undefined;
-}
-export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest {
-  /** Required. The resource name of the violation to acknowledge. Format: `organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation}` */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest | undefined;
 }
 /** Response message for acknowledging a violation. This message is empty. */
 export interface GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationResponse {}
@@ -251,19 +246,14 @@ export interface GoogleCloudAssuredworkloadsV1beta1AnalyzeWorkloadMoveResponse {
 export type GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequestActionEnum =
   | "WORKLOAD_UPDATE_ACTION_UNSPECIFIED"
   | "APPLY";
-/** Request to apply update to a workload. */
-export interface GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest {
+export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest {
+  /** Required. The resource name of the update. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id}/updates/{update_id} */
+  name: string;
   /** The action to be performed on the update. */
   action?:
     | GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequestActionEnum
     | (string & {})
     | undefined;
-}
-export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest {
-  /** Required. The resource name of the update. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id}/updates/{update_id} */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -493,8 +483,11 @@ export type GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum =
   | "KSA_REGIONS_AND_SUPPORT_WITH_SOVEREIGNTY_CONTROLS"
   | "REGIONAL_CONTROLS"
   | "US_REGIONAL_ACCESS";
-/** A Workload object for managing highly regulated workloads of cloud customers. */
-export interface GoogleCloudAssuredworkloadsV1beta1Workload {
+export interface CreateOrganizationsLocationsWorkloadsRequest {
+  /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
+  parent: string;
+  /** Optional. A identifier associated with the workload and underlying projects which allows for the break down of billing costs for a workload. The value provided for the identifier will add a label to the workload and contained projects with the identifier as the value. */
+  externalId?: string | undefined;
   /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
   provisionedResourcesParent?: string | undefined;
   /** Input only. Immutable. Settings specific to resources needed for FedRAMP High. */
@@ -565,14 +558,6 @@ export interface GoogleCloudAssuredworkloadsV1beta1Workload {
   kmsSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings | undefined;
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name?: string | undefined;
-}
-export interface CreateOrganizationsLocationsWorkloadsRequest {
-  /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
-  parent: string;
-  /** Optional. A identifier associated with the workload and underlying projects which allows for the break down of billing costs for a workload. The value provided for the identifier will add a label to the workload and contained projects with the identifier as the value. */
-  externalId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1Workload | undefined;
 }
 export interface DeleteOrganizationsLocationsWorkloadsRequest {
   /** Optional. The etag of the workload. If this is provided, it must match the server's etag. */
@@ -697,6 +682,73 @@ export interface GetOrganizationsLocationsOperationsRequest {
 export interface GetOrganizationsLocationsWorkloadsRequest {
   /** Required. The resource name of the Workload to fetch. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
   name: string;
+}
+/** A Workload object for managing highly regulated workloads of cloud customers. */
+export interface GoogleCloudAssuredworkloadsV1beta1Workload {
+  /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
+  provisionedResourcesParent?: string | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for FedRAMP High. */
+  fedrampHighSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
+  /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
+  partnerServicesBillingAccount?: string | undefined;
+  /** Output only. Indicates whether resource monitoring is enabled for workload or not. It is true when Resource feed is subscribed to AWM topic and AWM Service Agent Role is binded to AW Service Account for resource Assured workload. */
+  resourceMonitoringEnabled?: boolean | undefined;
+  /** Optional. Partner regime associated with this workload. */
+  partner?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerEnum | undefined;
+  /** Output only. Represents the Ekm Provisioning State of the given workload. */
+  ekmProvisioningResponse?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse
+    | undefined;
+  /** Optional. Permissions granted to the AW Partner SA account for the customer workload */
+  partnerPermissions?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions | undefined;
+  /** Input only. Resource properties that are used to customize workload resources. These properties (such as custom project id) will be used to create workload resources if possible. This field is optional. */
+  resourceSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsList | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for IL4. */
+  il4Settings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for CJIS. */
+  cjisSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
+  /** Optional. The billing account used for the resources which are direct children of workload. This billing account is initially associated with the resources created as part of Workload creation. After the initial creation of these resources, the customer can change the assigned billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF`. */
+  billingAccount?: string | undefined;
+  /** Output only. The number of updates available for the workload. */
+  availableUpdates?: number | undefined;
+  /** Optional. Labels applied to the workload. */
+  labels?: StringMap | undefined;
+  /** Output only. Represents the SAA enrollment response of the given workload. SAA enrollment response is queried during GetWorkload call. In failure cases, user friendly error message is shown in SAA details page. */
+  saaEnrollmentResponse?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse
+    | undefined;
+  /** Output only. Represents the KAJ enrollment state of the given workload. */
+  kajEnrollmentState?: GoogleCloudAssuredworkloadsV1beta1WorkloadKajEnrollmentStateEnum | undefined;
+  /** Output only. Count of active Violations in the Workload. */
+  complianceStatus?: GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus | undefined;
+  /** Output only. Indicates whether the compliance updates feature is enabled for a workload. The compliance updates feature can be enabled via the EnableComplianceUpdates endpoint. */
+  complianceUpdatesEnabled?: boolean | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for FedRAMP Moderate. */
+  fedrampModerateSettings?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings
+    | undefined;
+  /** Optional. Options to be set for the given created workload. */
+  workloadOptions?: GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions | undefined;
+  /** Output only. Urls for services which are compliant for this Assured Workload, but which are currently disallowed by the ResourceUsageRestriction org policy. Invoke RestrictAllowedResources endpoint to allow your project developers to use these services in their environment. */
+  compliantButDisallowedServices?: StringList | undefined;
+  /** Optional. ETag of the workload, it is calculated on the basis of the Workload contents. It will be used in Update & Delete operations. */
+  etag?: string | undefined;
+  /** Required. The user-assigned display name of the Workload. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, and spaces. Example: My Workload */
+  displayName?: string | undefined;
+  /** Output only. The resources associated with this workload. These resources will be created when creating the workload. If any of the projects already exist, the workload creation will fail. Always read only. */
+  resources?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoList | undefined;
+  /** Optional. Indicates whether the e-mail notification for a violation is enabled for a workload. This value will be by default True, and if not present will be considered as true. This should only be updated via updateWorkload call. Any Changes to this field during the createWorkload call will not be honored. This will always be true while creating the workload. */
+  violationNotificationsEnabled?: boolean | undefined;
+  /** Required. Immutable. Compliance Regime associated with this workload. */
+  complianceRegime?: GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum | undefined;
+  /** Optional. Indicates the sovereignty status of the given workload. Currently meant to be used by Europe/Canada customers. */
+  enableSovereignControls?: boolean | undefined;
+  /** Output only. Immutable. The Workload creation timestamp. */
+  createTime?: string | undefined;
+  /** Input only. Settings used to create a CMEK crypto key. When set, a project with a KMS CMEK key is provisioned. This field is deprecated as of Feb 28, 2022. In order to create a Keyring, callers should specify, ENCRYPTION_KEYS_PROJECT or KEYRING in ResourceSettings.resource_type field. */
+  kmsSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings | undefined;
+  /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
+  name?: string | undefined;
 }
 export type GetOrganizationsLocationsWorkloadsViolationsViewEnum =
   | "VIOLATION_VIEW_UNSPECIFIED"
@@ -1389,27 +1441,88 @@ export interface PatchOrganizationsLocationsWorkloadsRequest {
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1Workload | undefined;
+  /** Input only. The parent resource for the resources managed by this Assured Workload. May be either empty or a folder resource which is a child of the Workload parent. If not specified all resources are created under the parent organization. Format: folders/{folder_id} */
+  provisionedResourcesParent?: string | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for FedRAMP High. */
+  fedrampHighSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
+  /** Optional. Billing account necessary for purchasing services from Sovereign Partners. This field is required for creating SIA/PSN/CNTXT/Telefonica partner workloads. The caller should have 'billing.resourceAssociations.create' IAM permission on this billing-account. The format of this string is billingAccounts/AAAAAA-BBBBBB-CCCCCC */
+  partnerServicesBillingAccount?: string | undefined;
+  /** Output only. Indicates whether resource monitoring is enabled for workload or not. It is true when Resource feed is subscribed to AWM topic and AWM Service Agent Role is binded to AW Service Account for resource Assured workload. */
+  resourceMonitoringEnabled?: boolean | undefined;
+  /** Optional. Partner regime associated with this workload. */
+  partner?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerEnum | (string & {}) | undefined;
+  /** Output only. Represents the Ekm Provisioning State of the given workload. */
+  ekmProvisioningResponse?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadEkmProvisioningResponse
+    | undefined;
+  /** Optional. Permissions granted to the AW Partner SA account for the customer workload */
+  partnerPermissions?: GoogleCloudAssuredworkloadsV1beta1WorkloadPartnerPermissions | undefined;
+  /** Input only. Resource properties that are used to customize workload resources. These properties (such as custom project id) will be used to create workload resources if possible. This field is optional. */
+  resourceSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceSettingsList | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for IL4. */
+  il4Settings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for CJIS. */
+  cjisSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings | undefined;
+  /** Optional. The billing account used for the resources which are direct children of workload. This billing account is initially associated with the resources created as part of Workload creation. After the initial creation of these resources, the customer can change the assigned billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF`. */
+  billingAccount?: string | undefined;
+  /** Output only. The number of updates available for the workload. */
+  availableUpdates?: number | undefined;
+  /** Optional. Labels applied to the workload. */
+  labels?: StringMap | undefined;
+  /** Output only. Represents the SAA enrollment response of the given workload. SAA enrollment response is queried during GetWorkload call. In failure cases, user friendly error message is shown in SAA details page. */
+  saaEnrollmentResponse?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadSaaEnrollmentResponse
+    | undefined;
+  /** Output only. Represents the KAJ enrollment state of the given workload. */
+  kajEnrollmentState?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadKajEnrollmentStateEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Count of active Violations in the Workload. */
+  complianceStatus?: GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceStatus | undefined;
+  /** Output only. Indicates whether the compliance updates feature is enabled for a workload. The compliance updates feature can be enabled via the EnableComplianceUpdates endpoint. */
+  complianceUpdatesEnabled?: boolean | undefined;
+  /** Input only. Immutable. Settings specific to resources needed for FedRAMP Moderate. */
+  fedrampModerateSettings?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadFedrampHighSettings
+    | undefined;
+  /** Optional. Options to be set for the given created workload. */
+  workloadOptions?: GoogleCloudAssuredworkloadsV1beta1WorkloadWorkloadOptions | undefined;
+  /** Output only. Urls for services which are compliant for this Assured Workload, but which are currently disallowed by the ResourceUsageRestriction org policy. Invoke RestrictAllowedResources endpoint to allow your project developers to use these services in their environment. */
+  compliantButDisallowedServices?: StringList | undefined;
+  /** Optional. ETag of the workload, it is calculated on the basis of the Workload contents. It will be used in Update & Delete operations. */
+  etag?: string | undefined;
+  /** Required. The user-assigned display name of the Workload. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, and spaces. Example: My Workload */
+  displayName?: string | undefined;
+  /** Output only. The resources associated with this workload. These resources will be created when creating the workload. If any of the projects already exist, the workload creation will fail. Always read only. */
+  resources?: GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfoList | undefined;
+  /** Optional. Indicates whether the e-mail notification for a violation is enabled for a workload. This value will be by default True, and if not present will be considered as true. This should only be updated via updateWorkload call. Any Changes to this field during the createWorkload call will not be honored. This will always be true while creating the workload. */
+  violationNotificationsEnabled?: boolean | undefined;
+  /** Required. Immutable. Compliance Regime associated with this workload. */
+  complianceRegime?:
+    | GoogleCloudAssuredworkloadsV1beta1WorkloadComplianceRegimeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Indicates the sovereignty status of the given workload. Currently meant to be used by Europe/Canada customers. */
+  enableSovereignControls?: boolean | undefined;
+  /** Output only. Immutable. The Workload creation timestamp. */
+  createTime?: string | undefined;
+  /** Input only. Settings used to create a CMEK crypto key. When set, a project with a KMS CMEK key is provisioned. This field is deprecated as of Feb 28, 2022. In order to create a Keyring, callers should specify, ENCRYPTION_KEYS_PROJECT or KEYRING in ResourceSettings.resource_type field. */
+  kmsSettings?: GoogleCloudAssuredworkloadsV1beta1WorkloadKMSSettings | undefined;
 }
 export type GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequestRestrictionTypeEnum =
   | "RESTRICTION_TYPE_UNSPECIFIED"
   | "ALLOW_ALL_GCP_RESOURCES"
   | "ALLOW_COMPLIANT_RESOURCES"
   | "APPEND_COMPLIANT_RESOURCES";
-/** Request for restricting list of available resources in Workload environment. */
-export interface GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequest {
+export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest {
+  /** Required. The resource name of the Workload. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
+  name: string;
   /** Required. The type of restriction for using gcp products in the Workload environment. */
   restrictionType?:
     | GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequestRestrictionTypeEnum
     | (string & {})
     | undefined;
-}
-export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest {
-  /** Required. The resource name of the Workload. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequest | undefined;
 }
 /** Response for restricting the list of allowed resources. */
 export interface GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesResponse {}
@@ -1427,13 +1540,13 @@ export const acknowledgeOrganizationsLocationsWorkloadsViolations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    529,
-    __c33,
-    1,
-  ) as any as S.Schema<AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest>,
-  output: __S(
     544,
     __c34,
+    0,
+  ) as any as S.Schema<AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest>,
+  output: __S(
+    560,
+    __c35,
     0,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1455,13 +1568,13 @@ export const aggregateFoldersLocationsDbFrameworkComplianceReports: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    560,
-    __c35,
+    576,
+    __c36,
     0,
   ) as any as S.Schema<AggregateFoldersLocationsDbFrameworkComplianceReportsRequest>,
   output: __S(
-    578,
-    __c36,
+    594,
+    __c37,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1AggregateDbFrameworkComplianceReportResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1483,13 +1596,13 @@ export const aggregateOrganizationsLocationsDbFrameworkComplianceReports: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    624,
-    __c39,
+    640,
+    __c40,
     0,
   ) as any as S.Schema<AggregateOrganizationsLocationsDbFrameworkComplianceReportsRequest>,
   output: __S(
-    578,
-    __c36,
+    594,
+    __c37,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1AggregateDbFrameworkComplianceReportResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1511,13 +1624,13 @@ export const aggregateProjectsLocationsDbFrameworkComplianceReports: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c40,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<AggregateProjectsLocationsDbFrameworkComplianceReportsRequest>,
   output: __S(
-    578,
-    __c36,
+    594,
+    __c37,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1AggregateDbFrameworkComplianceReportResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1540,13 +1653,13 @@ export const analyzeWorkloadMoveOrganizationsLocationsWorkloads: API.PaginatedOp
   GoogleCloudAssuredworkloadsV1beta1AnalyzeWorkloadMoveResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    656,
-    __c41,
+    672,
+    __c42,
     0,
   ) as any as S.Schema<AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest>,
   output: __S(
-    664,
-    __c41,
+    680,
+    __c42,
     8,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1AnalyzeWorkloadMoveResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1570,8 +1683,8 @@ export const applyOrganizationsLocationsWorkloadsUpdates: API.OperationMethod<
   ApplyOrganizationsLocationsWorkloadsUpdatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(689, __c43, 1) as any as S.Schema<ApplyOrganizationsLocationsWorkloadsUpdatesRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(704, __c44, 0) as any as S.Schema<ApplyOrganizationsLocationsWorkloadsUpdatesRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1593,7 +1706,7 @@ export const createOrganizationsLocationsWorkloads: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateOrganizationsLocationsWorkloadsRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(720, __c45, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1615,7 +1728,7 @@ export const deleteOrganizationsLocationsWorkloads: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteOrganizationsLocationsWorkloadsRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(560, __c35, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1642,8 +1755,8 @@ export const enableComplianceUpdatesOrganizationsLocationsWorkloads: API.Operati
     0,
   ) as any as S.Schema<EnableComplianceUpdatesOrganizationsLocationsWorkloadsRequest>,
   output: __S(
-    544,
-    __c34,
+    560,
+    __c35,
     0,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1EnableComplianceUpdatesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1672,8 +1785,8 @@ export const enableResourceMonitoringOrganizationsLocationsWorkloads: API.Operat
     0,
   ) as any as S.Schema<EnableResourceMonitoringOrganizationsLocationsWorkloadsRequest>,
   output: __S(
-    544,
-    __c34,
+    560,
+    __c35,
     0,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1EnableResourceMonitoringResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1776,7 +1889,7 @@ export const getOrganizationsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(720, __c45, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1793,7 +1906,7 @@ export const getOrganizationsLocationsWorkloads: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetOrganizationsLocationsWorkloadsRequest>,
-  output: __S(44, __c2, 12) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1Workload>,
+  output: __S(208, __c13, 0) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1Workload>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1809,8 +1922,8 @@ export const getOrganizationsLocationsWorkloadsViolations: API.OperationMethod<
   GetOrganizationsLocationsWorkloadsViolationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetOrganizationsLocationsWorkloadsViolationsRequest>,
-  output: __S(230, __c14, 6) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1Violation>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetOrganizationsLocationsWorkloadsViolationsRequest>,
+  output: __S(246, __c15, 6) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1Violation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1827,10 +1940,10 @@ export const listFoldersLocationsDbFindingSummaries: API.PaginatedOperationMetho
   GcpOpContext,
   GoogleCloudAssuredworkloadsV1beta1ListDbFindingSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListFoldersLocationsDbFindingSummariesRequest>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListFoldersLocationsDbFindingSummariesRequest>,
   output: __S(
-    258,
-    __c16,
+    274,
+    __c17,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbFindingSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1854,13 +1967,13 @@ export const listFoldersLocationsDbFrameworkComplianceReportsDbControlCompliance
   GoogleCloudAssuredworkloadsV1beta1ListDbControlComplianceSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    272,
-    __c17,
+    288,
+    __c18,
     0,
   ) as any as S.Schema<ListFoldersLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest>,
   output: __S(
-    300,
-    __c18,
+    316,
+    __c19,
     12,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbControlComplianceSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1884,13 +1997,13 @@ export const listFoldersLocationsDbFrameworkComplianceSummaries: API.PaginatedOp
   GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    304,
-    __c19,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<ListFoldersLocationsDbFrameworkComplianceSummariesRequest>,
   output: __S(
-    323,
-    __c20,
+    339,
+    __c21,
     3,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1910,10 +2023,10 @@ export const listOrganizationsLocationsDbFindingSummaries: API.PaginatedOperatio
   GcpOpContext,
   GoogleCloudAssuredworkloadsV1beta1ListDbFindingSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListOrganizationsLocationsDbFindingSummariesRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListOrganizationsLocationsDbFindingSummariesRequest>,
   output: __S(
-    258,
-    __c16,
+    274,
+    __c17,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbFindingSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1937,13 +2050,13 @@ export const listOrganizationsLocationsDbFrameworkComplianceReportsDbControlComp
   GoogleCloudAssuredworkloadsV1beta1ListDbControlComplianceSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    352,
-    __c22,
+    368,
+    __c23,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest>,
   output: __S(
-    300,
-    __c18,
+    316,
+    __c19,
     12,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbControlComplianceSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1967,13 +2080,13 @@ export const listOrganizationsLocationsDbFrameworkComplianceSummaries: API.Pagin
   GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    368,
-    __c23,
+    384,
+    __c24,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsDbFrameworkComplianceSummariesRequest>,
   output: __S(
-    323,
-    __c20,
+    339,
+    __c21,
     3,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1993,8 +2106,8 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2012,10 +2125,10 @@ export const listOrganizationsLocationsWorkloads: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudAssuredworkloadsV1beta1ListWorkloadsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListOrganizationsLocationsWorkloadsRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListOrganizationsLocationsWorkloadsRequest>,
   output: __S(
-    402,
-    __c25,
+    418,
+    __c26,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListWorkloadsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2035,10 +2148,10 @@ export const listOrganizationsLocationsWorkloadsUpdates: API.PaginatedOperationM
   GcpOpContext,
   GoogleCloudAssuredworkloadsV1beta1ListWorkloadUpdatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListOrganizationsLocationsWorkloadsUpdatesRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<ListOrganizationsLocationsWorkloadsUpdatesRequest>,
   output: __S(
-    424,
-    __c26,
+    440,
+    __c27,
     8,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListWorkloadUpdatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2059,13 +2172,13 @@ export const listOrganizationsLocationsWorkloadsViolations: API.PaginatedOperati
   GoogleCloudAssuredworkloadsV1beta1ListViolationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    432,
-    __c27,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsWorkloadsViolationsRequest>,
   output: __S(
-    434,
-    __c27,
+    450,
+    __c28,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListViolationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2085,10 +2198,10 @@ export const listProjectsLocationsDbFindingSummaries: API.PaginatedOperationMeth
   GcpOpContext,
   GoogleCloudAssuredworkloadsV1beta1ListDbFindingSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListProjectsLocationsDbFindingSummariesRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<ListProjectsLocationsDbFindingSummariesRequest>,
   output: __S(
-    258,
-    __c16,
+    274,
+    __c17,
     2,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbFindingSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2112,13 +2225,13 @@ export const listProjectsLocationsDbFrameworkComplianceReportsDbControlComplianc
   GoogleCloudAssuredworkloadsV1beta1ListDbControlComplianceSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    464,
-    __c29,
+    480,
+    __c30,
     0,
   ) as any as S.Schema<ListProjectsLocationsDbFrameworkComplianceReportsDbControlComplianceSummariesRequest>,
   output: __S(
-    300,
-    __c18,
+    316,
+    __c19,
     12,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbControlComplianceSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2142,13 +2255,13 @@ export const listProjectsLocationsDbFrameworkComplianceSummaries: API.PaginatedO
   GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    480,
-    __c30,
+    496,
+    __c31,
     0,
   ) as any as S.Schema<ListProjectsLocationsDbFrameworkComplianceSummariesRequest>,
   output: __S(
-    323,
-    __c20,
+    339,
+    __c21,
     3,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -2172,8 +2285,8 @@ export const patchOrganizationsLocationsWorkloads: API.OperationMethod<
   PatchOrganizationsLocationsWorkloadsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<PatchOrganizationsLocationsWorkloadsRequest>,
-  output: __S(44, __c2, 12) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1Workload>,
+  input: __S(512, __c32, 0) as any as S.Schema<PatchOrganizationsLocationsWorkloadsRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1Workload>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2195,13 +2308,13 @@ export const restrictAllowedResourcesOrganizationsLocationsWorkloads: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    513,
-    __c32,
-    1,
+    528,
+    __c33,
+    0,
   ) as any as S.Schema<RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest>,
   output: __S(
-    544,
-    __c34,
+    560,
+    __c35,
     0,
   ) as any as S.Schema<GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -2219,7 +2332,35 @@ function __c0(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           externalId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
+          provisionedResourcesParent: S.optional(S.String),
+          fedrampHighSettings: S.optional(__S(33, __c2, 1)),
+          partnerServicesBillingAccount: S.optional(S.String),
+          resourceMonitoringEnabled: S.optional(S.Boolean),
+          partner: S.optional(S.String),
+          ekmProvisioningResponse: S.optional(__S(34, __c2, 2)),
+          partnerPermissions: S.optional(__S(35, __c2, 3)),
+          resourceSettings: S.optional(__S(37, __c2, 5)),
+          il4Settings: S.optional(__S(33, __c2, 1)),
+          cjisSettings: S.optional(__S(33, __c2, 1)),
+          billingAccount: S.optional(S.String),
+          availableUpdates: S.optional(S.Number),
+          labels: S.optional(__S(38, __c2, 6)),
+          saaEnrollmentResponse: S.optional(__S(39, __c2, 7)),
+          kajEnrollmentState: S.optional(S.String),
+          complianceStatus: S.optional(__S(40, __c2, 8)),
+          complianceUpdatesEnabled: S.optional(S.Boolean),
+          fedrampModerateSettings: S.optional(__S(33, __c2, 1)),
+          workloadOptions: S.optional(__S(41, __c2, 9)),
+          compliantButDisallowedServices: S.optional(__S(624, __c39, 0)),
+          etag: S.optional(S.String),
+          displayName: S.optional(S.String),
+          resources: S.optional(__S(43, __c2, 11)),
+          violationNotificationsEnabled: S.optional(S.Boolean),
+          complianceRegime: S.optional(S.String),
+          enableSovereignControls: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          kmsSettings: S.optional(__S(32, __c2, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2313,40 +2454,6 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadResourceInfo" });
     case 11:
       return S.Array(__S(42, __c2, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          provisionedResourcesParent: S.optional(S.String),
-          fedrampHighSettings: S.optional(__S(33, __c2, 1)),
-          partnerServicesBillingAccount: S.optional(S.String),
-          resourceMonitoringEnabled: S.optional(S.Boolean),
-          partner: S.optional(S.String),
-          ekmProvisioningResponse: S.optional(__S(34, __c2, 2)),
-          partnerPermissions: S.optional(__S(35, __c2, 3)),
-          resourceSettings: S.optional(__S(37, __c2, 5)),
-          il4Settings: S.optional(__S(33, __c2, 1)),
-          cjisSettings: S.optional(__S(33, __c2, 1)),
-          billingAccount: S.optional(S.String),
-          availableUpdates: S.optional(S.Number),
-          labels: S.optional(__S(38, __c2, 6)),
-          saaEnrollmentResponse: S.optional(__S(39, __c2, 7)),
-          kajEnrollmentState: S.optional(S.String),
-          complianceStatus: S.optional(__S(40, __c2, 8)),
-          complianceUpdatesEnabled: S.optional(S.Boolean),
-          fedrampModerateSettings: S.optional(__S(33, __c2, 1)),
-          workloadOptions: S.optional(__S(41, __c2, 9)),
-          compliantButDisallowedServices: S.optional(__S(608, __c38, 0)),
-          etag: S.optional(S.String),
-          displayName: S.optional(S.String),
-          resources: S.optional(__S(43, __c2, 11)),
-          violationNotificationsEnabled: S.optional(S.Boolean),
-          complianceRegime: S.optional(S.String),
-          enableSovereignControls: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          kmsSettings: S.optional(__S(32, __c2, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1Workload" });
   }
 }
 function __c3(j: number): any {
@@ -2421,7 +2528,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          controlAssessmentDetails: S.optional(__S(592, __c37, 0)),
+          controlAssessmentDetails: S.optional(__S(608, __c38, 0)),
           updateTime: S.optional(S.String),
           framework: S.optional(S.String),
           supportedCloudProviders: S.optional(__S(16, __c1, 0)),
@@ -2530,6 +2637,44 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          provisionedResourcesParent: S.optional(S.String),
+          fedrampHighSettings: S.optional(__S(33, __c2, 1)),
+          partnerServicesBillingAccount: S.optional(S.String),
+          resourceMonitoringEnabled: S.optional(S.Boolean),
+          partner: S.optional(S.String),
+          ekmProvisioningResponse: S.optional(__S(34, __c2, 2)),
+          partnerPermissions: S.optional(__S(35, __c2, 3)),
+          resourceSettings: S.optional(__S(37, __c2, 5)),
+          il4Settings: S.optional(__S(33, __c2, 1)),
+          cjisSettings: S.optional(__S(33, __c2, 1)),
+          billingAccount: S.optional(S.String),
+          availableUpdates: S.optional(S.Number),
+          labels: S.optional(__S(38, __c2, 6)),
+          saaEnrollmentResponse: S.optional(__S(39, __c2, 7)),
+          kajEnrollmentState: S.optional(S.String),
+          complianceStatus: S.optional(__S(40, __c2, 8)),
+          complianceUpdatesEnabled: S.optional(S.Boolean),
+          fedrampModerateSettings: S.optional(__S(33, __c2, 1)),
+          workloadOptions: S.optional(__S(41, __c2, 9)),
+          compliantButDisallowedServices: S.optional(__S(624, __c39, 0)),
+          etag: S.optional(S.String),
+          displayName: S.optional(S.String),
+          resources: S.optional(__S(43, __c2, 11)),
+          violationNotificationsEnabled: S.optional(S.Boolean),
+          complianceRegime: S.optional(S.String),
+          enableSovereignControls: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          kmsSettings: S.optional(__S(32, __c2, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1Workload" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           view: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
@@ -2542,14 +2687,14 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsWorkloadsViolationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gcloudCommands: S.optional(__S(608, __c38, 0)),
-          additionalLinks: S.optional(__S(608, __c38, 0)),
-          steps: S.optional(__S(608, __c38, 0)),
+          gcloudCommands: S.optional(__S(624, __c39, 0)),
+          additionalLinks: S.optional(__S(624, __c39, 0)),
+          steps: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructionsGcloud",
@@ -2557,9 +2702,9 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          additionalLinks: S.optional(__S(608, __c38, 0)),
-          steps: S.optional(__S(608, __c38, 0)),
-          consoleUris: S.optional(__S(608, __c38, 0)),
+          additionalLinks: S.optional(__S(624, __c39, 0)),
+          steps: S.optional(__S(624, __c39, 0)),
+          consoleUris: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructionsConsole",
@@ -2567,8 +2712,8 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gcloudInstructions: S.optional(__S(224, __c14, 0)),
-          consoleInstructions: S.optional(__S(225, __c14, 1)),
+          gcloudInstructions: S.optional(__S(240, __c15, 0)),
+          consoleInstructions: S.optional(__S(241, __c15, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationRemediationInstructions",
@@ -2577,8 +2722,8 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           remediationType: S.optional(S.String),
-          compliantValues: S.optional(__S(608, __c38, 0)),
-          instructions: S.optional(__S(226, __c14, 2)),
+          compliantValues: S.optional(__S(624, __c39, 0)),
+          instructions: S.optional(__S(242, __c15, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationRemediation" });
     case 4:
@@ -2590,7 +2735,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ViolationExceptionContext" });
     case 5:
-      return S.Array(__S(228, __c14, 4));
+      return S.Array(__S(244, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2598,8 +2743,8 @@ function __c14(j: number): any {
           auditLogLink: S.optional(S.String),
           associatedOrgPolicyViolationId: S.optional(S.String),
           exceptionAuditLogLink: S.optional(S.String),
-          remediation: S.optional(__S(227, __c14, 3)),
-          exceptionContexts: S.optional(__S(229, __c14, 5)),
+          remediation: S.optional(__S(243, __c15, 3)),
+          exceptionContexts: S.optional(__S(245, __c15, 5)),
           acknowledgementTime: S.optional(S.String),
           state: S.optional(S.String),
           description: S.optional(S.String),
@@ -2614,14 +2759,14 @@ function __c14(j: number): any {
           orgPolicyConstraint: S.optional(S.String),
           nonCompliantOrgPolicy: S.optional(S.String),
           updateTime: S.optional(S.String),
-          affectedFrameworks: S.optional(__S(608, __c38, 0)),
+          affectedFrameworks: S.optional(__S(624, __c39, 0)),
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1Violation" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2640,7 +2785,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsDbFindingSummariesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2651,17 +2796,17 @@ function __c16(j: number): any {
           resourceFindingCount: S.optional(S.String),
           organizationPolicyFindingCount: S.optional(S.String),
           findingCount: S.optional(S.String),
-          relatedFrameworks: S.optional(__S(608, __c38, 0)),
+          relatedFrameworks: S.optional(__S(624, __c39, 0)),
           findingClass: S.optional(S.String),
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1DbFindingSummary" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dbFindingSummaries: S.optional(__S(257, __c16, 1)),
+          dbFindingSummaries: S.optional(__S(273, __c17, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({
@@ -2669,7 +2814,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2691,7 +2836,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2701,7 +2846,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1SimilarControls" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2714,7 +2859,7 @@ function __c18(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          manualCloudControlGuide: S.optional(__S(608, __c38, 0)),
+          manualCloudControlGuide: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1ManualCloudControlAssessmentDetails",
@@ -2722,14 +2867,14 @@ function __c18(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(608, __c38, 0)),
+          values: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1StringList" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           expression: S.optional(S.String),
-          resourceTypesValues: S.optional(__S(292, __c18, 4)),
+          resourceTypesValues: S.optional(__S(308, __c19, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1CELExpression" });
     case 6:
@@ -2737,58 +2882,58 @@ function __c18(j: number): any {
         S.Struct({
           ruleActionTypes: S.optional(__S(16, __c1, 0)),
           description: S.optional(S.String),
-          celExpression: S.optional(__S(293, __c18, 5)),
+          celExpression: S.optional(__S(309, __c19, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1Rule" });
     case 7:
-      return S.Array(__S(294, __c18, 6));
+      return S.Array(__S(310, __c19, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          frameworkMajorRevisionIds: S.optional(__S(608, __c38, 0)),
-          cloudControlAssessmentDetails: S.optional(__S(290, __c18, 2)),
+          frameworkMajorRevisionIds: S.optional(__S(624, __c39, 0)),
+          cloudControlAssessmentDetails: S.optional(__S(306, __c19, 2)),
           description: S.optional(S.String),
-          categories: S.optional(__S(608, __c38, 0)),
-          similarControls: S.optional(__S(289, __c18, 1)),
+          categories: S.optional(__S(624, __c39, 0)),
+          similarControls: S.optional(__S(305, __c19, 1)),
           majorRevisionId: S.optional(S.String),
-          manualCloudControlAssessmentDetails: S.optional(__S(291, __c18, 3)),
+          manualCloudControlAssessmentDetails: S.optional(__S(307, __c19, 3)),
           findingSeverity: S.optional(S.String),
           cloudControl: S.optional(S.String),
           cloudControlType: S.optional(S.String),
           displayName: S.optional(S.String),
           minorRevisionId: S.optional(S.String),
-          rules: S.optional(__S(295, __c18, 7)),
+          rules: S.optional(__S(311, __c19, 7)),
           cloudControlDeployment: S.optional(S.String),
           enforcementMode: S.optional(S.String),
           findingCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1CloudControlReport" });
     case 9:
-      return S.Array(__S(296, __c18, 8));
+      return S.Array(__S(312, __c19, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           overallEvaluationState: S.optional(S.String),
           controlResponsibilityType: S.optional(S.String),
           description: S.optional(S.String),
-          similarControls: S.optional(__S(289, __c18, 1)),
+          similarControls: S.optional(__S(305, __c19, 1)),
           orgPolicyFindingCount: S.optional(S.String),
           resourceFindingCount: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          complianceFrameworks: S.optional(__S(608, __c38, 0)),
+          complianceFrameworks: S.optional(__S(624, __c39, 0)),
           control: S.optional(S.String),
           totalFindingsCount: S.optional(S.Number),
           isFakeControl: S.optional(S.Boolean),
-          cloudControlReports: S.optional(__S(297, __c18, 9)),
+          cloudControlReports: S.optional(__S(313, __c19, 9)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1DbControlComplianceSummary" });
     case 11:
-      return S.Array(__S(298, __c18, 10));
+      return S.Array(__S(314, __c19, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          dbControlComplianceSummaries: S.optional(__S(299, __c18, 11)),
+          dbControlComplianceSummaries: S.optional(__S(315, __c19, 11)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({
@@ -2796,7 +2941,7 @@ function __c18(j: number): any {
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2816,7 +2961,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsDbFrameworkComplianceSummariesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2833,29 +2978,29 @@ function __c20(j: number): any {
           name: S.optional(S.String),
           frameworkCategories: S.optional(__S(16, __c1, 0)),
           minorRevisionId: S.optional(S.String),
-          controlAssessmentDetails: S.optional(__S(592, __c37, 0)),
+          controlAssessmentDetails: S.optional(__S(608, __c38, 0)),
           majorRevisionId: S.optional(S.String),
           findingCount: S.optional(S.String),
           supportedCloudProviders: S.optional(__S(16, __c1, 0)),
           framework: S.optional(S.String),
           targetResourceDetails: S.optional(__S(129, __c8, 1)),
-          controlsPassingTrend: S.optional(__S(320, __c20, 0)),
+          controlsPassingTrend: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1DbFrameworkComplianceSummary" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dbFrameworkComplianceSummaries: S.optional(__S(322, __c20, 2)),
+          dbFrameworkComplianceSummaries: S.optional(__S(338, __c21, 2)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1ListDbFrameworkComplianceSummariesResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2874,7 +3019,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsDbFindingSummariesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2896,7 +3041,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2916,7 +3061,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsDbFrameworkComplianceSummariesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2935,18 +3080,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(720, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(608, __c38, 0)),
-          operations: S.optional(__S(385, __c24, 1)),
+          unreachable: S.optional(__S(624, __c39, 0)),
+          operations: S.optional(__S(401, __c25, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2964,17 +3109,17 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsLocationsWorkloadsRequest" });
     case 1:
-      return S.Array(__S(44, __c2, 12));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          workloads: S.optional(__S(401, __c25, 1)),
+          workloads: S.optional(__S(417, __c26, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ListWorkloadsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2993,8 +3138,8 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deniedValues: S.optional(__S(608, __c38, 0)),
-          allowedValues: S.optional(__S(608, __c38, 0)),
+          deniedValues: S.optional(__S(624, __c39, 0)),
+          allowedValues: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRuleStringValues",
@@ -3004,7 +3149,7 @@ function __c26(j: number): any {
         S.Struct({
           allowAll: S.optional(S.Boolean),
           denyAll: S.optional(S.Boolean),
-          values: S.optional(__S(417, __c26, 1)),
+          values: S.optional(__S(433, __c27, 1)),
           enforce: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1OrgPolicyPolicyRule" });
@@ -3012,7 +3157,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           inherit: S.optional(S.Boolean),
-          rule: S.optional(__S(418, __c26, 2)),
+          rule: S.optional(__S(434, __c27, 2)),
           resource: S.optional(S.String),
           constraint: S.optional(S.String),
           reset: S.optional(S.Boolean),
@@ -3021,20 +3166,20 @@ function __c26(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          suggestedPolicy: S.optional(__S(419, __c26, 3)),
-          appliedPolicy: S.optional(__S(419, __c26, 3)),
+          suggestedPolicy: S.optional(__S(435, __c27, 3)),
+          appliedPolicy: S.optional(__S(435, __c27, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1OrgPolicyUpdate" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          orgPolicyUpdate: S.optional(__S(420, __c26, 4)),
+          orgPolicyUpdate: S.optional(__S(436, __c27, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1UpdateDetails" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(421, __c26, 5)),
+          details: S.optional(__S(437, __c27, 5)),
           state: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
@@ -3042,17 +3187,17 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1WorkloadUpdate" });
     case 7:
-      return S.Array(__S(422, __c26, 6));
+      return S.Array(__S(438, __c27, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          workloadUpdates: S.optional(__S(423, __c26, 7)),
+          workloadUpdates: S.optional(__S(439, __c27, 7)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ListWorkloadUpdatesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3074,18 +3219,18 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsLocationsWorkloadsViolationsRequest" });
     case 1:
-      return S.Array(__S(230, __c14, 6));
+      return S.Array(__S(246, __c15, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          violations: S.optional(__S(433, __c27, 1)),
+          violations: S.optional(__S(449, __c28, 1)),
           totalSize: S.optional(S.Number),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ListViolationsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3104,7 +3249,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDbFindingSummariesRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3126,7 +3271,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3146,14 +3291,41 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDbFrameworkComplianceSummariesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
+          provisionedResourcesParent: S.optional(S.String),
+          fedrampHighSettings: S.optional(__S(33, __c2, 1)),
+          partnerServicesBillingAccount: S.optional(S.String),
+          resourceMonitoringEnabled: S.optional(S.Boolean),
+          partner: S.optional(S.String),
+          ekmProvisioningResponse: S.optional(__S(34, __c2, 2)),
+          partnerPermissions: S.optional(__S(35, __c2, 3)),
+          resourceSettings: S.optional(__S(37, __c2, 5)),
+          il4Settings: S.optional(__S(33, __c2, 1)),
+          cjisSettings: S.optional(__S(33, __c2, 1)),
+          billingAccount: S.optional(S.String),
+          availableUpdates: S.optional(S.Number),
+          labels: S.optional(__S(38, __c2, 6)),
+          saaEnrollmentResponse: S.optional(__S(39, __c2, 7)),
+          kajEnrollmentState: S.optional(S.String),
+          complianceStatus: S.optional(__S(40, __c2, 8)),
+          complianceUpdatesEnabled: S.optional(S.Boolean),
+          fedrampModerateSettings: S.optional(__S(33, __c2, 1)),
+          workloadOptions: S.optional(__S(41, __c2, 9)),
+          compliantButDisallowedServices: S.optional(__S(624, __c39, 0)),
+          etag: S.optional(S.String),
+          displayName: S.optional(S.String),
+          resources: S.optional(__S(43, __c2, 11)),
+          violationNotificationsEnabled: S.optional(S.Boolean),
+          complianceRegime: S.optional(S.String),
+          enableSovereignControls: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          kmsSettings: S.optional(__S(32, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3164,21 +3336,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsWorkloadsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          restrictionType: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudAssuredworkloadsV1beta1RestrictAllowedResourcesRequest",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
+          restrictionType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3189,22 +3353,16 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           nonCompliantOrgPolicy: S.optional(S.String),
           view: S.optional(S.String),
           comment: S.optional(S.String),
           acknowledgeType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AcknowledgeViolationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3215,7 +3373,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -3223,7 +3381,7 @@ function __c34(j: number): any {
       });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3242,21 +3400,21 @@ function __c35(j: number): any {
       ).annotate({ identifier: "AggregateFoldersLocationsDbFrameworkComplianceReportsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          controlAssessmentDetails: S.optional(__S(592, __c37, 0)),
+          controlAssessmentDetails: S.optional(__S(608, __c38, 0)),
           reportTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AggregatedComplianceReport" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aggregatedComplianceReports: S.optional(__S(577, __c36, 1)),
+          aggregatedComplianceReports: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({
         identifier:
@@ -3264,30 +3422,30 @@ function __c36(j: number): any {
       });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           notAssessedControls: S.optional(S.Number),
-          assessedPassingControlIds: S.optional(__S(608, __c38, 0)),
+          assessedPassingControlIds: S.optional(__S(624, __c39, 0)),
           assessedPassingControls: S.optional(S.Number),
-          failingControlIds: S.optional(__S(608, __c38, 0)),
+          failingControlIds: S.optional(__S(624, __c39, 0)),
           failingControls: S.optional(S.Number),
-          passingControlIds: S.optional(__S(608, __c38, 0)),
+          passingControlIds: S.optional(__S(624, __c39, 0)),
           passingControls: S.optional(S.Number),
-          notAssessedControlIds: S.optional(__S(608, __c38, 0)),
+          notAssessedControlIds: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ControlAssessmentDetails" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3308,7 +3466,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3327,13 +3485,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "AggregateProjectsLocationsDbFrameworkComplianceReportsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          assetTypes: S.optional(__S(608, __c38, 0).pipe(T.Query())),
+          assetTypes: S.optional(__S(624, __c39, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           target: S.String.pipe(T.Label()),
           project: S.optional(S.String.pipe(T.Query())),
@@ -3352,72 +3510,66 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1MoveImpact" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(673, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          warnings: S.optional(__S(658, __c41, 2)),
-          blockers: S.optional(__S(658, __c41, 2)),
+          warnings: S.optional(__S(674, __c42, 2)),
+          blockers: S.optional(__S(674, __c42, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1MoveAnalysisResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          analysisResult: S.optional(__S(659, __c41, 3)),
-          error: S.optional(__S(674, __c42, 2)),
+          analysisResult: S.optional(__S(675, __c42, 3)),
+          error: S.optional(__S(690, __c43, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1MoveAnalysisGroup" });
     case 5:
-      return S.Array(__S(660, __c41, 4));
+      return S.Array(__S(676, __c42, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           asset: S.optional(S.String),
-          analysisGroups: S.optional(__S(661, __c41, 5)),
+          analysisGroups: S.optional(__S(677, __c42, 5)),
           assetType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AssetMoveAnalysis" });
     case 7:
-      return S.Array(__S(662, __c41, 6));
+      return S.Array(__S(678, __c42, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          assetMoveAnalyses: S.optional(__S(663, __c41, 7)),
+          assetMoveAnalyses: S.optional(__S(679, __c42, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1AnalyzeWorkloadMoveResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(688, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(673, __c42, 1)),
+          details: S.optional(__S(689, __c43, 1)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudAssuredworkloadsV1beta1ApplyWorkloadUpdateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(688, __c43, 0).pipe(T.HttpBody())),
+          action: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3428,14 +3580,14 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ApplyOrganizationsLocationsWorkloadsUpdatesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(672, __c42, 0)),
-          response: S.optional(__S(672, __c42, 0)),
-          error: S.optional(__S(674, __c42, 2)),
+          metadata: S.optional(__S(688, __c43, 0)),
+          response: S.optional(__S(688, __c43, 0)),
+          error: S.optional(__S(690, __c43, 2)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
         }),

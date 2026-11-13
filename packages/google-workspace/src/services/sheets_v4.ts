@@ -96,15 +96,6 @@ export type AppendSpreadsheetsValuesInsertDataOptionEnum = "OVERWRITE" | "INSERT
 export type DocumentList = Array<unknown>;
 export type DocumentListList = Array<DocumentList>;
 export type ValueRangeMajorDimensionEnum = "DIMENSION_UNSPECIFIED" | "ROWS" | "COLUMNS";
-/** Data within a range of the spreadsheet. */
-export interface ValueRange {
-  /** The data that was read or to be written. This is an array of arrays, the outer array representing all the data and each inner array representing a major dimension. Each item in the inner array corresponds with one cell. For output, empty trailing rows and columns will not be included. For input, supported value types are: bool, string, and double. Null values will be skipped. To set a cell to an empty value, set the string value to an empty string. */
-  values?: DocumentListList | undefined;
-  /** The major dimension of the values. For output, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=A1:B2,majorDimension=ROWS` will return `[[1,2],[3,4]]`, whereas requesting `range=A1:B2,majorDimension=COLUMNS` will return `[[1,3],[2,4]]`. For input, with `range=A1:B2,majorDimension=ROWS` then `[[1,2],[3,4]]` will set `A1=1,B1=2,A2=3,B2=4`. With `range=A1:B2,majorDimension=COLUMNS` then `[[1,2],[3,4]]` will set `A1=1,B1=3,A2=2,B2=4`. When writing, if this field is not set, it defaults to ROWS. */
-  majorDimension?: ValueRangeMajorDimensionEnum | (string & {}) | undefined;
-  /** The range the values cover, in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). For output, this range indicates the entire requested range, even though the values will exclude trailing rows and columns. When appending values, this field represents the range to search for a table, after which values will be appended. */
-  range?: string | undefined;
-}
 export interface AppendSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -126,8 +117,19 @@ export interface AppendSpreadsheetsValuesRequest {
   insertDataOption?: AppendSpreadsheetsValuesInsertDataOptionEnum | (string & {}) | undefined;
   /** The [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell) of a range to search for a logical table of data. Values are appended after the last row of the table. */
   range: string;
-  /** Request body */
-  body?: ValueRange | undefined;
+  /** The data that was read or to be written. This is an array of arrays, the outer array representing all the data and each inner array representing a major dimension. Each item in the inner array corresponds with one cell. For output, empty trailing rows and columns will not be included. For input, supported value types are: bool, string, and double. Null values will be skipped. To set a cell to an empty value, set the string value to an empty string. */
+  values?: DocumentListList | undefined;
+  /** The major dimension of the values. For output, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=A1:B2,majorDimension=ROWS` will return `[[1,2],[3,4]]`, whereas requesting `range=A1:B2,majorDimension=COLUMNS` will return `[[1,3],[2,4]]`. For input, with `range=A1:B2,majorDimension=ROWS` then `[[1,2],[3,4]]` will set `A1=1,B1=2,A2=3,B2=4`. With `range=A1:B2,majorDimension=COLUMNS` then `[[1,2],[3,4]]` will set `A1=1,B1=3,A2=2,B2=4`. When writing, if this field is not set, it defaults to ROWS. */
+  majorDimension?: ValueRangeMajorDimensionEnum | (string & {}) | undefined;
+}
+/** Data within a range of the spreadsheet. */
+export interface ValueRange {
+  /** The data that was read or to be written. This is an array of arrays, the outer array representing all the data and each inner array representing a major dimension. Each item in the inner array corresponds with one cell. For output, empty trailing rows and columns will not be included. For input, supported value types are: bool, string, and double. Null values will be skipped. To set a cell to an empty value, set the string value to an empty string. */
+  values?: DocumentListList | undefined;
+  /** The major dimension of the values. For output, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=A1:B2,majorDimension=ROWS` will return `[[1,2],[3,4]]`, whereas requesting `range=A1:B2,majorDimension=COLUMNS` will return `[[1,3],[2,4]]`. For input, with `range=A1:B2,majorDimension=ROWS` then `[[1,2],[3,4]]` will set `A1=1,B1=2,A2=3,B2=4`. With `range=A1:B2,majorDimension=COLUMNS` then `[[1,2],[3,4]]` will set `A1=1,B1=3,A2=2,B2=4`. When writing, if this field is not set, it defaults to ROWS. */
+  majorDimension?: ValueRangeMajorDimensionEnum | (string & {}) | undefined;
+  /** The range the values cover, in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). For output, this range indicates the entire requested range, even though the values will exclude trailing rows and columns. When appending values, this field represents the range to search for a table, after which values will be appended. */
+  range?: string | undefined;
 }
 /** The response when updating a range of values in a spreadsheet. */
 export interface UpdateValuesResponse {
@@ -239,16 +241,11 @@ export interface DataFilter {
   developerMetadataLookup?: DeveloperMetadataLookup | undefined;
 }
 export type DataFilterList = Array<DataFilter>;
-/** The request for clearing more than one range selected by a DataFilter in a spreadsheet. */
-export interface BatchClearValuesByDataFilterRequest {
-  /** The DataFilters used to determine which ranges to clear. */
-  dataFilters?: DataFilterList | undefined;
-}
 export interface BatchClearByDataFilterSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchClearValuesByDataFilterRequest | undefined;
+  /** The DataFilters used to determine which ranges to clear. */
+  dataFilters?: DataFilterList | undefined;
 }
 export type StringList = Array<string>;
 /** The response when clearing a range of values selected with DataFilters in a spreadsheet. */
@@ -258,16 +255,11 @@ export interface BatchClearValuesByDataFilterResponse {
   /** The ranges that were cleared, in [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). If the requests are for an unbounded range or a range larger than the bounds of the sheet, this is the actual ranges that were cleared, bounded to the sheet's limits. */
   clearedRanges?: StringList | undefined;
 }
-/** The request for clearing more than one range of values in a spreadsheet. */
-export interface BatchClearValuesRequest {
-  /** The ranges to clear, in [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). */
-  ranges?: StringList | undefined;
-}
 export interface BatchClearSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
-  /** Request body */
-  body?: BatchClearValuesRequest | undefined;
+  /** The ranges to clear, in [A1 notation or R1C1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). */
+  ranges?: StringList | undefined;
 }
 /** The response when clearing a range of values in a spreadsheet. */
 export interface BatchClearValuesResponse {
@@ -287,8 +279,9 @@ export type BatchGetValuesByDataFilterRequestValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
-/** The request for retrieving a range of values in a spreadsheet selected by a set of DataFilters. */
-export interface BatchGetValuesByDataFilterRequest {
+export interface BatchGetByDataFilterSpreadsheetsValuesRequest {
+  /** The ID of the spreadsheet to retrieve data from. */
+  spreadsheetId: string;
   /** How dates, times, and durations should be represented in the output. This is ignored if value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
   dateTimeRenderOption?:
     | BatchGetValuesByDataFilterRequestDateTimeRenderOptionEnum
@@ -303,12 +296,6 @@ export interface BatchGetValuesByDataFilterRequest {
     | BatchGetValuesByDataFilterRequestValueRenderOptionEnum
     | (string & {})
     | undefined;
-}
-export interface BatchGetByDataFilterSpreadsheetsValuesRequest {
-  /** The ID of the spreadsheet to retrieve data from. */
-  spreadsheetId: string;
-  /** Request body */
-  body?: BatchGetValuesByDataFilterRequest | undefined;
 }
 /** A value range that was matched by one or more data filers. */
 export interface MatchedValueRange {
@@ -381,8 +368,9 @@ export type BatchUpdateValuesByDataFilterRequestResponseValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
-/** The request for updating more than one range of values in a spreadsheet. */
-export interface BatchUpdateValuesByDataFilterRequest {
+export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest {
+  /** The ID of the spreadsheet to update. */
+  spreadsheetId: string;
   /** Determines if the update response should include the values of the cells that were updated. By default, responses do not include the updated values. The `updatedData` field within each of the BatchUpdateValuesResponse.responses contains the updated values. If the range to write was larger than the range actually written, the response includes all values in the requested range (excluding trailing empty rows and columns). */
   includeValuesInResponse?: boolean | undefined;
   /** Determines how dates, times, and durations in the response should be rendered. This is ignored if response_value_render_option is FORMATTED_VALUE. The default dateTime render option is SERIAL_NUMBER. */
@@ -402,12 +390,6 @@ export interface BatchUpdateValuesByDataFilterRequest {
     | BatchUpdateValuesByDataFilterRequestResponseValueRenderOptionEnum
     | (string & {})
     | undefined;
-}
-export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest {
-  /** The ID of the spreadsheet to update. */
-  spreadsheetId: string;
-  /** Request body */
-  body?: BatchUpdateValuesByDataFilterRequest | undefined;
 }
 /** The response when updating a range of values by a data filter in a spreadsheet. */
 export interface UpdateValuesByDataFilterResponse {
@@ -3069,8 +3051,9 @@ export interface Request {
   refreshDataSource?: RefreshDataSourceRequest | undefined;
 }
 export type RequestList = Array<Request>;
-/** The request for updating any aspect of a spreadsheet. */
-export interface BatchUpdateSpreadsheetRequest {
+export interface BatchUpdateSpreadsheetsRequest {
+  /** The spreadsheet to apply the updates to. */
+  spreadsheetId: string;
   /** Determines if the update response should include the spreadsheet resource. */
   includeSpreadsheetInResponse?: boolean | undefined;
   /** Limits the ranges included in the response spreadsheet. Meaningful only if include_spreadsheet_in_response is 'true'. */
@@ -3081,12 +3064,6 @@ export interface BatchUpdateSpreadsheetRequest {
   responseIncludeGridData?: boolean | undefined;
   /** A list of updates to apply to the spreadsheet. Requests will be applied in the order they are specified. If any request is not valid, no requests will be applied. */
   requests?: RequestList | undefined;
-}
-export interface BatchUpdateSpreadsheetsRequest {
-  /** The spreadsheet to apply the updates to. */
-  spreadsheetId: string;
-  /** Request body */
-  body?: BatchUpdateSpreadsheetRequest | undefined;
 }
 export type DimensionGroupList = Array<DimensionGroup>;
 /** The result of adding a group. */
@@ -3513,7 +3490,7 @@ export interface Spreadsheet {
   /** The developer metadata associated with a spreadsheet. */
   developerMetadata?: DeveloperMetadataList | undefined;
   /** Output only. The comments view mode applied to the spreadsheet. */
-  commentsViewMode?: SpreadsheetCommentsViewModeEnum | (string & {}) | undefined;
+  commentsViewMode?: SpreadsheetCommentsViewModeEnum | undefined;
   /** A list of external data sources connected with the spreadsheet. */
   dataSources?: DataSourceList | undefined;
   /** The url of the spreadsheet. This field is read-only. */
@@ -3543,8 +3520,9 @@ export type BatchUpdateValuesRequestResponseValueRenderOptionEnum =
   | "FORMATTED_VALUE"
   | "UNFORMATTED_VALUE"
   | "FORMULA";
-/** The request for updating more than one range of values in a spreadsheet. */
-export interface BatchUpdateValuesRequest {
+export interface BatchUpdateSpreadsheetsValuesRequest {
+  /** The ID of the spreadsheet to update. */
+  spreadsheetId: string;
   /** The new values to apply to the spreadsheet. */
   data?: ValueRangeList | undefined;
   /** How the input data should be interpreted. */
@@ -3561,12 +3539,6 @@ export interface BatchUpdateValuesRequest {
     | BatchUpdateValuesRequestResponseValueRenderOptionEnum
     | (string & {})
     | undefined;
-}
-export interface BatchUpdateSpreadsheetsValuesRequest {
-  /** The ID of the spreadsheet to update. */
-  spreadsheetId: string;
-  /** Request body */
-  body?: BatchUpdateValuesRequest | undefined;
 }
 export type UpdateValuesResponseList = Array<UpdateValuesResponse>;
 /** The response when updating a range of values in a spreadsheet. */
@@ -3601,30 +3573,44 @@ export interface ClearValuesResponse {
   /** The spreadsheet the updates were applied to. */
   spreadsheetId?: string | undefined;
 }
-/** The request to copy a sheet across spreadsheets. */
-export interface CopySheetToAnotherSpreadsheetRequest {
-  /** The ID of the spreadsheet to copy the sheet to. */
-  destinationSpreadsheetId?: string | undefined;
-}
 export interface CopyToSpreadsheetsSheetsRequest {
   /** The ID of the spreadsheet containing the sheet to copy. */
   spreadsheetId: string;
   /** The ID of the sheet to copy. */
   sheetId: number;
-  /** Request body */
-  body?: CopySheetToAnotherSpreadsheetRequest | undefined;
+  /** The ID of the spreadsheet to copy the sheet to. */
+  destinationSpreadsheetId?: string | undefined;
 }
 export interface CreateSpreadsheetsRequest {
-  /** Request body */
-  body?: Spreadsheet | undefined;
+  /** Overall properties of a spreadsheet. */
+  properties?: SpreadsheetProperties | undefined;
+  /** The sheets that are part of a spreadsheet. */
+  sheets?: SheetList | undefined;
+  /** The named ranges defined in a spreadsheet. */
+  namedRanges?: NamedRangeList | undefined;
+  /** The ID of the spreadsheet. This field is read-only. */
+  spreadsheetId?: string | undefined;
+  /** Output only. A list of data source refresh schedules. */
+  dataSourceSchedules?: DataSourceRefreshScheduleList | undefined;
+  /** The developer metadata associated with a spreadsheet. */
+  developerMetadata?: DeveloperMetadataList | undefined;
+  /** Output only. The comments view mode applied to the spreadsheet. */
+  commentsViewMode?: SpreadsheetCommentsViewModeEnum | (string & {}) | undefined;
+  /** A list of external data sources connected with the spreadsheet. */
+  dataSources?: DataSourceList | undefined;
+  /** The url of the spreadsheet. This field is read-only. */
+  spreadsheetUrl?: string | undefined;
+  /** The comment threads associated with the spreadsheet. */
+  comments?: CommentThreadList | undefined;
 }
 export type GetSpreadsheetByDataFilterRequestCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
   | "COMMENTS_VIEW_MODE_OMITTED"
   | "COMMENTS_VIEW_MODE_INCLUDED";
-/** The request for retrieving a Spreadsheet. */
-export interface GetSpreadsheetByDataFilterRequest {
+export interface GetByDataFilterSpreadsheetsRequest {
+  /** The spreadsheet to request. */
+  spreadsheetId: string;
   /** True if grid data should be returned. This parameter is ignored if a field mask was set in the request. */
   includeGridData?: boolean | undefined;
   /** True if tables should be excluded in the banded ranges. False if not set. */
@@ -3636,12 +3622,6 @@ export interface GetSpreadsheetByDataFilterRequest {
     | GetSpreadsheetByDataFilterRequestCommentsViewModeEnum
     | (string & {})
     | undefined;
-}
-export interface GetByDataFilterSpreadsheetsRequest {
-  /** The spreadsheet to request. */
-  spreadsheetId: string;
-  /** Request body */
-  body?: GetSpreadsheetByDataFilterRequest | undefined;
 }
 export type GetSpreadsheetsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
@@ -3684,16 +3664,11 @@ export interface GetSpreadsheetsValuesRequest {
   /** The major dimension that results should use. For example, if the spreadsheet data in Sheet1 is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=Sheet1!A1:B2?majorDimension=ROWS` returns `[[1,2],[3,4]]`, whereas requesting `range=Sheet1!A1:B2?majorDimension=COLUMNS` returns `[[1,3],[2,4]]`. */
   majorDimension?: GetSpreadsheetsValuesMajorDimensionEnum | (string & {}) | undefined;
 }
-/** A request to retrieve all developer metadata matching the set of specified criteria. */
-export interface SearchDeveloperMetadataRequest {
-  /** The data filters describing the criteria used to determine which DeveloperMetadata entries to return. DeveloperMetadata matching any of the specified filters are included in the response. */
-  dataFilters?: DataFilterList | undefined;
-}
 export interface SearchSpreadsheetsDeveloperMetadataRequest {
   /** The ID of the spreadsheet to retrieve metadata from. */
   spreadsheetId: string;
-  /** Request body */
-  body?: SearchDeveloperMetadataRequest | undefined;
+  /** The data filters describing the criteria used to determine which DeveloperMetadata entries to return. DeveloperMetadata matching any of the specified filters are included in the response. */
+  dataFilters?: DataFilterList | undefined;
 }
 /** A developer metadata entry and the data filters specified in the original request that matched it. */
 export interface MatchedDeveloperMetadata {
@@ -3738,8 +3713,10 @@ export interface UpdateSpreadsheetsValuesRequest {
     | undefined;
   /** How the input data should be interpreted. */
   valueInputOption?: UpdateSpreadsheetsValuesValueInputOptionEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: ValueRange | undefined;
+  /** The data that was read or to be written. This is an array of arrays, the outer array representing all the data and each inner array representing a major dimension. Each item in the inner array corresponds with one cell. For output, empty trailing rows and columns will not be included. For input, supported value types are: bool, string, and double. Null values will be skipped. To set a cell to an empty value, set the string value to an empty string. */
+  values?: DocumentListList | undefined;
+  /** The major dimension of the values. For output, if the spreadsheet data is: `A1=1,B1=2,A2=3,B2=4`, then requesting `range=A1:B2,majorDimension=ROWS` will return `[[1,2],[3,4]]`, whereas requesting `range=A1:B2,majorDimension=COLUMNS` will return `[[1,3],[2,4]]`. For input, with `range=A1:B2,majorDimension=ROWS` then `[[1,2],[3,4]]` will set `A1=1,B1=2,A2=3,B2=4`. With `range=A1:B2,majorDimension=COLUMNS` then `[[1,2],[3,4]]` will set `A1=1,B1=3,A2=2,B2=4`. When writing, if this field is not set, it defaults to ROWS. */
+  majorDimension?: ValueRangeMajorDimensionEnum | (string & {}) | undefined;
 }
 export type AppendSpreadsheetsValuesError =
   | NotFound
@@ -3798,8 +3775,8 @@ export const batchClearSpreadsheetsValues: API.OperationMethod<
   BatchClearSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c32, 1) as any as S.Schema<BatchClearSpreadsheetsValuesRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<BatchClearValuesResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<BatchClearSpreadsheetsValuesRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<BatchClearValuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3820,8 +3797,8 @@ export const batchGetByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchGetByDataFilterSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c33, 1) as any as S.Schema<BatchGetByDataFilterSpreadsheetsValuesRequest>,
-  output: __S(1060, __c33, 4) as any as S.Schema<BatchGetValuesByDataFilterResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<BatchGetByDataFilterSpreadsheetsValuesRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<BatchGetValuesByDataFilterResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3837,8 +3814,8 @@ export const batchGetSpreadsheetsValues: API.OperationMethod<
   BatchGetSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<BatchGetSpreadsheetsValuesRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<BatchGetValuesResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<BatchGetSpreadsheetsValuesRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<BatchGetValuesResponse>,
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3859,8 +3836,8 @@ export const batchUpdateByDataFilterSpreadsheetsValues: API.OperationMethod<
   BatchUpdateByDataFilterSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1155, __c36, 3) as any as S.Schema<BatchUpdateByDataFilterSpreadsheetsValuesRequest>,
-  output: __S(1158, __c36, 6) as any as S.Schema<BatchUpdateValuesByDataFilterResponse>,
+  input: __S(1122, __c35, 2) as any as S.Schema<BatchUpdateByDataFilterSpreadsheetsValuesRequest>,
+  output: __S(1125, __c35, 5) as any as S.Schema<BatchUpdateValuesByDataFilterResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3881,8 +3858,8 @@ export const batchUpdateSpreadsheets: API.OperationMethod<
   BatchUpdateSpreadsheetsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c2, 12) as any as S.Schema<BatchUpdateSpreadsheetsRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<BatchUpdateSpreadsheetResponse>,
+  input: __S(75, __c2, 11) as any as S.Schema<BatchUpdateSpreadsheetsRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<BatchUpdateSpreadsheetResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3903,8 +3880,8 @@ export const batchUpdateSpreadsheetsValues: API.OperationMethod<
   BatchUpdateSpreadsheetsValuesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c12, 1) as any as S.Schema<BatchUpdateSpreadsheetsValuesRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<BatchUpdateValuesResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<BatchUpdateSpreadsheetsValuesRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<BatchUpdateValuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3947,7 +3924,7 @@ export const copyToSpreadsheetsSheets: API.OperationMethod<
   CopyToSpreadsheetsSheetsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(449, __c14, 1) as any as S.Schema<CopyToSpreadsheetsSheetsRequest>,
+  input: __S(448, __c14, 0) as any as S.Schema<CopyToSpreadsheetsSheetsRequest>,
   output: __S(136, __c4, 8) as any as S.Schema<SheetProperties>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3991,7 +3968,7 @@ export const getByDataFilterSpreadsheets: API.OperationMethod<
   GetByDataFilterSpreadsheetsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c16, 1) as any as S.Schema<GetByDataFilterSpreadsheetsRequest>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetByDataFilterSpreadsheetsRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<Spreadsheet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -4116,7 +4093,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rule: S.optional(__S(175, __c5, 15)),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           filteredRowsIncluded: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SetDataValidationRequest" });
@@ -4129,7 +4106,7 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(928, __c29, 0)),
+          range: S.optional(__S(896, __c28, 0)),
           inheritFromBefore: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InsertDimensionRequest" });
@@ -4145,7 +4122,7 @@ function __c0(j: number): any {
           fields: S.optional(S.String),
           rows: S.optional(__S(223, __c6, 31)),
           start: S.optional(__S(224, __c7, 0)),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "UpdateCellsRequest" });
     case 7:
@@ -4158,7 +4135,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pasteType: S.optional(S.String),
-          source: S.optional(__S(960, __c30, 0)),
+          source: S.optional(__S(928, __c29, 0)),
           destination: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "CutPasteRequest" });
@@ -4185,7 +4162,7 @@ function __c0(j: number): any {
         S.Struct({
           delimiter: S.optional(S.String),
           delimiterType: S.optional(S.String),
-          source: S.optional(__S(960, __c30, 0)),
+          source: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "TextToColumnsRequest" });
     case 13:
@@ -4198,13 +4175,13 @@ function __c0(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "TrimWhitespaceRequest" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           shiftDimension: S.optional(S.String),
         }),
       ).annotate({ identifier: "InsertRangeRequest" });
@@ -4228,9 +4205,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pasteType: S.optional(S.String),
-          destination: S.optional(__S(960, __c30, 0)),
+          destination: S.optional(__S(928, __c29, 0)),
           pasteOrientation: S.optional(S.String),
-          source: S.optional(__S(960, __c30, 0)),
+          source: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "CopyPasteRequest" });
     case 19:
@@ -4256,7 +4233,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fields: S.optional(S.String),
-          dataFilters: S.optional(__S(896, __c28, 0)),
+          dataFilters: S.optional(__S(864, __c27, 0)),
           developerMetadata: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "UpdateDeveloperMetadataRequest" });
@@ -4285,7 +4262,7 @@ function __c0(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(928, __c29, 0)),
+          range: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "DeleteDimensionRequest" });
     case 27:
@@ -4300,7 +4277,7 @@ function __c0(j: number): any {
           innerHorizontal: S.optional(__S(187, __c5, 27)),
           right: S.optional(__S(187, __c5, 27)),
           innerVertical: S.optional(__S(187, __c5, 27)),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           left: S.optional(__S(187, __c5, 27)),
           top: S.optional(__S(187, __c5, 27)),
           bottom: S.optional(__S(187, __c5, 27)),
@@ -4309,7 +4286,7 @@ function __c0(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           cell: S.optional(__S(220, __c6, 28)),
           fields: S.optional(S.String),
         }),
@@ -4352,7 +4329,7 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dimensions: S.optional(__S(928, __c29, 0)),
+          dimensions: S.optional(__S(896, __c28, 0)),
           dataSourceSheetDimensions: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "AutoResizeDimensionsRequest" });
@@ -4365,7 +4342,7 @@ function __c1(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dataFilter: S.optional(__S(993, __c31, 1)),
+          dataFilter: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "DeleteDeveloperMetadataRequest" });
     case 5:
@@ -4407,13 +4384,13 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sortSpecs: S.optional(__S(177, __c5, 17)),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "SortRangeRequest" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(928, __c29, 0)),
+          source: S.optional(__S(896, __c28, 0)),
           destinationIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MoveDimensionRequest" });
@@ -4463,7 +4440,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           properties: S.optional(__S(254, __c7, 30)),
-          range: S.optional(__S(928, __c29, 0)),
+          range: S.optional(__S(896, __c28, 0)),
           fields: S.optional(S.String),
           dataSourceSheetRange: S.optional(__S(33, __c1, 1)),
         }),
@@ -4472,14 +4449,14 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dimension: S.optional(S.String),
-          source: S.optional(__S(960, __c30, 0)),
+          source: S.optional(__S(928, __c29, 0)),
           fillLength: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SourceAndDestination" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           useAlternateSeries: S.optional(S.Boolean),
           sourceAndDestination: S.optional(__S(51, __c1, 19)),
         }),
@@ -4493,16 +4470,16 @@ function __c1(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           mergeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MergeCellsRequest" });
     case 23:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(896, __c28, 0));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           comparisonColumns: S.optional(__S(55, __c1, 23)),
         }),
       ).annotate({ identifier: "DeleteDuplicatesRequest" });
@@ -4593,7 +4570,7 @@ function __c2(j: number): any {
           sheetId: S.optional(S.Number),
           find: S.optional(S.String),
           searchByRegex: S.optional(S.Boolean),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           matchEntireCell: S.optional(S.Boolean),
           replacement: S.optional(S.String),
           matchCase: S.optional(S.Boolean),
@@ -4713,18 +4690,12 @@ function __c2(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          spreadsheetId: S.String.pipe(T.Label()),
           includeSpreadsheetInResponse: S.optional(S.Boolean),
-          responseRanges: S.optional(__S(864, __c27, 0)),
+          responseRanges: S.optional(__S(832, __c26, 0)),
           commentsViewMode: S.optional(S.String),
           responseIncludeGridData: S.optional(S.Boolean),
           requests: S.optional(__S(74, __c2, 10)),
-        }),
-      ).annotate({ identifier: "BatchUpdateSpreadsheetRequest" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(75, __c2, 11).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4733,13 +4704,13 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateSpreadsheetsRequest" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           dimensionGroups: S.optional(__S(299, __c9, 11)),
         }),
       ).annotate({ identifier: "AddDimensionGroupResponse" });
-    case 14:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           oldRule: S.optional(__S(234, __c7, 10)),
@@ -4748,53 +4719,53 @@ function __c2(j: number): any {
           oldIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UpdateConditionalFormatRuleResponse" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           commentThread: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "InsertCommentResponse" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           dataSource: S.optional(__S(167, __c5, 7)),
           dataExecutionStatus: S.optional(__S(133, __c4, 5)),
         }),
       ).annotate({ identifier: "AddDataSourceResponse" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           position: S.optional(__S(226, __c7, 2)),
         }),
       ).annotate({ identifier: "UpdateEmbeddedObjectPositionResponse" });
-    case 18:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           deletedDeveloperMetadata: S.optional(__S(253, __c7, 29)),
         }),
       ).annotate({ identifier: "DeleteDeveloperMetadataResponse" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           reference: S.optional(__S(62, __c1, 30)),
           dataExecutionStatus: S.optional(__S(133, __c4, 5)),
         }),
       ).annotate({ identifier: "RefreshDataSourceObjectExecutionStatus" });
+    case 19:
+      return S.Array(__S(82, __c2, 18));
     case 20:
-      return S.Array(__S(83, __c2, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(84, __c2, 20)),
+          statuses: S.optional(__S(83, __c2, 19)),
         }),
       ).annotate({ identifier: "RefreshDataSourceResponse" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           rule: S.optional(__S(234, __c7, 10)),
         }),
       ).annotate({ identifier: "DeleteConditionalFormatRuleResponse" });
-    case 23:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           occurrencesChanged: S.optional(S.Number),
@@ -4804,95 +4775,95 @@ function __c2(j: number): any {
           valuesChanged: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FindReplaceResponse" });
-    case 24:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           errorCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "RefreshCancellationStatus" });
-    case 25:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          refreshCancellationStatus: S.optional(__S(88, __c2, 24)),
+          refreshCancellationStatus: S.optional(__S(87, __c2, 23)),
           reference: S.optional(__S(62, __c1, 30)),
         }),
       ).annotate({ identifier: "CancelDataSourceRefreshStatus" });
+    case 25:
+      return S.Array(__S(88, __c2, 24));
     case 26:
-      return S.Array(__S(89, __c2, 25));
-    case 27:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(90, __c2, 26)),
+          statuses: S.optional(__S(89, __c2, 25)),
         }),
       ).annotate({ identifier: "CancelDataSourceRefreshResponse" });
-    case 28:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           duplicatesRemovedCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DeleteDuplicatesResponse" });
-    case 29:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           developerMetadata: S.optional(__S(253, __c7, 29)),
         }),
       ).annotate({ identifier: "UpdateDeveloperMetadataResponse" });
-    case 30:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           cellsChangedCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TrimWhitespaceResponse" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           post: S.optional(__S(252, __c7, 28)),
         }),
       ).annotate({ identifier: "AddCommentReplyResponse" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          addDimensionGroup: S.optional(__S(76, __c2, 12)),
+          addNamedRange: S.optional(__S(11, __c0, 11)),
+          duplicateFilterView: S.optional(__S(49, __c1, 17)),
+          updateConditionalFormatRule: S.optional(__S(77, __c2, 13)),
+          addSheet: S.optional(__S(19, __c0, 19)),
+          insertComment: S.optional(__S(78, __c2, 14)),
+          addBanding: S.optional(__S(53, __c1, 21)),
+          addDataSource: S.optional(__S(79, __c2, 15)),
+          updateDataSource: S.optional(__S(79, __c2, 15)),
+          duplicateSheet: S.optional(__S(19, __c0, 19)),
+          updateEmbeddedObjectPosition: S.optional(__S(80, __c2, 16)),
+          deleteDeveloperMetadata: S.optional(__S(81, __c2, 17)),
+          addChart: S.optional(__S(67, __c2, 3)),
+          deleteDimensionGroup: S.optional(__S(76, __c2, 12)),
+          refreshDataSource: S.optional(__S(84, __c2, 20)),
+          deleteConditionalFormatRule: S.optional(__S(85, __c2, 21)),
+          createDeveloperMetadata: S.optional(__S(30, __c0, 30)),
+          findReplace: S.optional(__S(86, __c2, 22)),
+          cancelDataSourceRefresh: S.optional(__S(90, __c2, 26)),
+          addProtectedRange: S.optional(__S(69, __c2, 5)),
+          addTable: S.optional(__S(35, __c1, 3)),
+          addFilterView: S.optional(__S(49, __c1, 17)),
+          deleteDuplicates: S.optional(__S(91, __c2, 27)),
+          addSlicer: S.optional(__S(10, __c0, 10)),
+          updateDeveloperMetadata: S.optional(__S(92, __c2, 28)),
+          trimWhitespace: S.optional(__S(93, __c2, 29)),
+          addCommentReply: S.optional(__S(94, __c2, 30)),
+        }),
+      ).annotate({ identifier: "Response" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          addDimensionGroup: S.optional(__S(77, __c2, 13)),
-          addNamedRange: S.optional(__S(11, __c0, 11)),
-          duplicateFilterView: S.optional(__S(49, __c1, 17)),
-          updateConditionalFormatRule: S.optional(__S(78, __c2, 14)),
-          addSheet: S.optional(__S(19, __c0, 19)),
-          insertComment: S.optional(__S(79, __c2, 15)),
-          addBanding: S.optional(__S(53, __c1, 21)),
-          addDataSource: S.optional(__S(80, __c2, 16)),
-          updateDataSource: S.optional(__S(80, __c2, 16)),
-          duplicateSheet: S.optional(__S(19, __c0, 19)),
-          updateEmbeddedObjectPosition: S.optional(__S(81, __c2, 17)),
-          deleteDeveloperMetadata: S.optional(__S(82, __c2, 18)),
-          addChart: S.optional(__S(67, __c2, 3)),
-          deleteDimensionGroup: S.optional(__S(77, __c2, 13)),
-          refreshDataSource: S.optional(__S(85, __c2, 21)),
-          deleteConditionalFormatRule: S.optional(__S(86, __c2, 22)),
-          createDeveloperMetadata: S.optional(__S(30, __c0, 30)),
-          findReplace: S.optional(__S(87, __c2, 23)),
-          cancelDataSourceRefresh: S.optional(__S(91, __c2, 27)),
-          addProtectedRange: S.optional(__S(69, __c2, 5)),
-          addTable: S.optional(__S(35, __c1, 3)),
-          addFilterView: S.optional(__S(49, __c1, 17)),
-          deleteDuplicates: S.optional(__S(92, __c2, 28)),
-          addSlicer: S.optional(__S(10, __c0, 10)),
-          updateDeveloperMetadata: S.optional(__S(93, __c2, 29)),
-          trimWhitespace: S.optional(__S(94, __c2, 30)),
-          addCommentReply: S.optional(__S(95, __c2, 31)),
-        }),
-      ).annotate({ identifier: "Response" });
+      return S.Array(__S(95, __c2, 31));
     case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.optional(S.String),
-          replies: S.optional(__S(97, __c3, 1)),
+          replies: S.optional(__S(96, __c3, 0)),
           commentUpdateState: S.optional(S.String),
           updatedSpreadsheet: S.optional(__S(328, __c10, 8)),
         }),
@@ -4993,7 +4964,7 @@ function __c5(j: number): any {
         S.Struct({
           namedRangeId: S.optional(S.String),
           name: S.optional(S.String),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "DataSourceParameter" });
     case 2:
@@ -5081,7 +5052,7 @@ function __c5(j: number): any {
           condition: S.optional(__S(172, __c5, 12)),
           visibleBackgroundColorStyle: S.optional(__S(132, __c4, 4)),
           visibleForegroundColorStyle: S.optional(__S(132, __c4, 4)),
-          hiddenValues: S.optional(__S(864, __c27, 0)),
+          hiddenValues: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "FilterCriteria" });
     case 14:
@@ -5093,7 +5064,7 @@ function __c5(j: number): any {
           backgroundColor: S.optional(__S(131, __c4, 3)),
           filterCriteria: S.optional(__S(173, __c5, 13)),
           backgroundColorStyle: S.optional(__S(132, __c4, 4)),
-          dataRange: S.optional(__S(960, __c30, 0)),
+          dataRange: S.optional(__S(928, __c29, 0)),
           title: S.optional(S.String),
           applyToPivotTables: S.optional(S.Boolean),
         }),
@@ -5136,7 +5107,7 @@ function __c5(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           sortSpecs: S.optional(__S(177, __c5, 17)),
           criteria: S.optional(__S(178, __c5, 18)),
           filterSpecs: S.optional(__S(180, __c5, 20)),
@@ -5365,7 +5336,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(172, __c5, 12)),
-          visibleValues: S.optional(__S(864, __c27, 0)),
+          visibleValues: S.optional(__S(832, __c26, 0)),
           visibleByDefault: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PivotFilterCriteria" });
@@ -5403,7 +5374,7 @@ function __c6(j: number): any {
           dataExecutionStatus: S.optional(__S(133, __c4, 5)),
           rows: S.optional(__S(212, __c6, 20)),
           filterSpecs: S.optional(__S(215, __c6, 23)),
-          source: S.optional(__S(960, __c30, 0)),
+          source: S.optional(__S(928, __c29, 0)),
           criteria: S.optional(__S(216, __c6, 24)),
           values: S.optional(__S(218, __c6, 26)),
         }),
@@ -5478,7 +5449,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           namedRangeId: S.optional(S.String),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamedRange" });
@@ -5489,7 +5460,7 @@ function __c7(j: number): any {
           tableId: S.optional(S.String),
           title: S.optional(S.String),
           filterViewId: S.optional(S.Number),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           sortSpecs: S.optional(__S(177, __c5, 17)),
           criteria: S.optional(__S(178, __c5, 18)),
           filterSpecs: S.optional(__S(180, __c5, 20)),
@@ -5520,7 +5491,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "BooleanRule" });
     case 9:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(928, __c29, 0));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -5545,7 +5516,7 @@ function __c7(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           columnProperties: S.optional(__S(235, __c7, 11)),
           bandedRangeReference: S.optional(S.String),
           bandedRangeId: S.optional(S.Number),
@@ -5593,7 +5564,7 @@ function __c7(j: number): any {
         S.Struct({
           depth: S.optional(S.Number),
           collapsed: S.optional(S.Boolean),
-          range: S.optional(__S(928, __c29, 0)),
+          range: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "DimensionGroup" });
     case 19:
@@ -5632,7 +5603,7 @@ function __c7(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           columnProperties: S.optional(__S(246, __c7, 22)),
           tableId: S.optional(S.String),
           name: S.optional(S.String),
@@ -5642,9 +5613,9 @@ function __c7(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(864, __c27, 0)),
+          groups: S.optional(__S(832, __c26, 0)),
           domainUsersCanEdit: S.optional(S.Boolean),
-          users: S.optional(__S(864, __c27, 0)),
+          users: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "Editors" });
     case 26:
@@ -5655,7 +5626,7 @@ function __c7(j: number): any {
           namedRangeId: S.optional(S.String),
           editors: S.optional(__S(249, __c7, 25)),
           warningOnly: S.optional(S.Boolean),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
           unprotectedRanges: S.optional(__S(233, __c7, 9)),
           tableId: S.optional(S.String),
           protectedRangeId: S.optional(S.Number),
@@ -6110,7 +6081,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           anchorId: S.optional(S.String),
-          range: S.optional(__S(960, __c30, 0)),
+          range: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "CommentAnchor" });
     case 16:
@@ -6252,7 +6223,7 @@ function __c11(j: number): any {
           metadataId: S.optional(S.Number),
           visibility: S.optional(S.String),
           metadataKey: S.optional(S.String),
-          location: S.optional(__S(929, __c29, 1)),
+          location: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "DeveloperMetadata" });
   }
@@ -6262,18 +6233,12 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1120, __c35, 0)),
+          spreadsheetId: S.String.pipe(T.Label()),
+          data: S.optional(__S(1088, __c34, 0)),
           valueInputOption: S.optional(S.String),
           responseDateTimeRenderOption: S.optional(S.String),
           includeValuesInResponse: S.optional(S.Boolean),
           responseValueRenderOption: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchUpdateValuesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6282,9 +6247,9 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateSpreadsheetsValuesRequest" });
-    case 2:
+    case 1:
       return S.Array(__S(736, __c23, 0));
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           totalUpdatedRows: S.optional(S.Number),
@@ -6292,7 +6257,7 @@ function __c12(j: number): any {
           spreadsheetId: S.optional(S.String),
           totalUpdatedColumns: S.optional(S.Number),
           totalUpdatedCells: S.optional(S.Number),
-          responses: S.optional(__S(386, __c12, 2)),
+          responses: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "BatchUpdateValuesResponse" });
   }
@@ -6329,15 +6294,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationSpreadsheetId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CopySheetToAnotherSpreadsheetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
           sheetId: S.Number.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
+          destinationSpreadsheetId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6353,7 +6312,16 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(328, __c10, 8).pipe(T.HttpBody())),
+          properties: S.optional(__S(241, __c7, 17)),
+          sheets: S.optional(__S(315, __c9, 27)),
+          namedRanges: S.optional(__S(316, __c9, 28)),
+          spreadsheetId: S.optional(S.String),
+          dataSourceSchedules: S.optional(__S(325, __c10, 5)),
+          developerMetadata: S.optional(__S(253, __c7, 29)),
+          commentsViewMode: S.optional(S.String),
+          dataSources: S.optional(__S(326, __c10, 6)),
+          spreadsheetUrl: S.optional(S.String),
+          comments: S.optional(__S(327, __c10, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6369,17 +6337,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          spreadsheetId: S.String.pipe(T.Label()),
           includeGridData: S.optional(S.Boolean),
           excludeTablesInBandedRanges: S.optional(S.Boolean),
-          dataFilters: S.optional(__S(896, __c28, 0)),
+          dataFilters: S.optional(__S(864, __c27, 0)),
           commentsViewMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetSpreadsheetByDataFilterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6396,7 +6358,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includeGridData: S.optional(S.Boolean.pipe(T.Query())),
-          ranges: S.optional(__S(864, __c27, 0).pipe(T.Query())),
+          ranges: S.optional(__S(832, __c26, 0).pipe(T.Query())),
           commentsViewMode: S.optional(S.String.pipe(T.Query())),
           excludeTablesInBandedRanges: S.optional(S.Boolean.pipe(T.Query())),
           spreadsheetId: S.String.pipe(T.Label()),
@@ -6453,7 +6415,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          dataFilters: S.optional(__S(864, __c27, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6466,7 +6428,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           developerMetadata: S.optional(__S(352, __c11, 0)),
-          dataFilters: S.optional(__S(896, __c28, 0)),
+          dataFilters: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "MatchedDeveloperMetadata" });
     case 2:
@@ -6490,7 +6452,8 @@ function __c21(j: number): any {
           includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
           responseDateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
           valueInputOption: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
+          values: S.optional(__S(769, __c24, 1)),
+          majorDimension: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6513,7 +6476,8 @@ function __c22(j: number): any {
           includeValuesInResponse: S.optional(S.Boolean.pipe(T.Query())),
           insertDataOption: S.optional(S.String.pipe(T.Query())),
           range: S.String.pipe(T.Label()),
-          body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
+          values: S.optional(__S(769, __c24, 1)),
+          majorDimension: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6569,7 +6533,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          dataFilters: S.optional(__S(864, __c27, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6582,7 +6546,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.optional(S.String),
-          clearedRanges: S.optional(__S(864, __c27, 0)),
+          clearedRanges: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "BatchClearValuesByDataFilterResponse" });
   }
@@ -6590,26 +6554,16 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dataFilters: S.optional(__S(896, __c28, 0)),
-        }),
-      ).annotate({ identifier: "BatchClearValuesByDataFilterRequest" });
+      return S.Array(S.String);
   }
 }
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Array(__S(961, __c30, 1));
   }
 }
 function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(993, __c31, 1));
-  }
-}
-function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6626,12 +6580,12 @@ function __c29(j: number): any {
           sheetId: S.optional(S.Number),
           spreadsheet: S.optional(S.Boolean),
           locationType: S.optional(S.String),
-          dimensionRange: S.optional(__S(928, __c29, 0)),
+          dimensionRange: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "DeveloperMetadataLocation" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6645,13 +6599,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GridRange" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metadataValue: S.optional(S.String),
-          metadataLocation: S.optional(__S(929, __c29, 1)),
+          metadataLocation: S.optional(__S(897, __c28, 1)),
           locationType: S.optional(S.String),
           locationMatchingStrategy: S.optional(S.String),
           visibility: S.optional(S.String),
@@ -6663,25 +6617,19 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           a1Range: S.optional(S.String),
-          gridRange: S.optional(__S(960, __c30, 0)),
-          developerMetadataLookup: S.optional(__S(992, __c31, 0)),
+          gridRange: S.optional(__S(928, __c29, 0)),
+          developerMetadataLookup: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "DataFilter" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ranges: S.optional(__S(864, __c27, 0)),
-        }),
-      ).annotate({ identifier: "BatchClearValuesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          ranges: S.optional(__S(832, __c26, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6690,31 +6638,25 @@ function __c32(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchClearSpreadsheetsValuesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          clearedRanges: S.optional(__S(864, __c27, 0)),
+          clearedRanges: S.optional(__S(832, __c26, 0)),
           spreadsheetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchClearValuesResponse" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          spreadsheetId: S.String.pipe(T.Label()),
           dateTimeRenderOption: S.optional(S.String),
           majorDimension: S.optional(S.String),
-          dataFilters: S.optional(__S(896, __c28, 0)),
+          dataFilters: S.optional(__S(864, __c27, 0)),
           valueRenderOption: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchGetValuesByDataFilterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6723,30 +6665,30 @@ function __c33(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchGetByDataFilterSpreadsheetsValuesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          dataFilters: S.optional(__S(896, __c28, 0)),
+          dataFilters: S.optional(__S(864, __c27, 0)),
           valueRange: S.optional(__S(770, __c24, 2)),
         }),
       ).annotate({ identifier: "MatchedValueRange" });
+    case 2:
+      return S.Array(__S(1025, __c32, 1));
     case 3:
-      return S.Array(__S(1058, __c33, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           spreadsheetId: S.optional(S.String),
-          valueRanges: S.optional(__S(1059, __c33, 3)),
+          valueRanges: S.optional(__S(1026, __c32, 2)),
         }),
       ).annotate({ identifier: "BatchGetValuesByDataFilterResponse" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ranges: S.optional(__S(864, __c27, 0).pipe(T.Query())),
+          ranges: S.optional(__S(832, __c26, 0).pipe(T.Query())),
           dateTimeRenderOption: S.optional(S.String.pipe(T.Query())),
           valueRenderOption: S.optional(S.String.pipe(T.Query())),
           spreadsheetId: S.String.pipe(T.Label()),
@@ -6762,45 +6704,39 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          valueRanges: S.optional(__S(1120, __c35, 0)),
+          valueRanges: S.optional(__S(1088, __c34, 0)),
           spreadsheetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchGetValuesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(770, __c24, 2));
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataFilter: S.optional(__S(993, __c31, 1)),
+          dataFilter: S.optional(__S(961, __c30, 1)),
           majorDimension: S.optional(S.String),
           values: S.optional(__S(769, __c24, 1)),
         }),
       ).annotate({ identifier: "DataFilterValueRange" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          spreadsheetId: S.String.pipe(T.Label()),
           includeValuesInResponse: S.optional(S.Boolean),
           responseDateTimeRenderOption: S.optional(S.String),
-          data: S.optional(__S(1153, __c36, 1)),
+          data: S.optional(__S(1121, __c35, 1)),
           valueInputOption: S.optional(S.String),
           responseValueRenderOption: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchUpdateValuesByDataFilterRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          spreadsheetId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1154, __c36, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6809,7 +6745,7 @@ function __c36(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateByDataFilterSpreadsheetsValuesRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           updatedColumns: S.optional(S.Number),
@@ -6817,16 +6753,16 @@ function __c36(j: number): any {
           updatedData: S.optional(__S(770, __c24, 2)),
           updatedCells: S.optional(S.Number),
           updatedRange: S.optional(S.String),
-          dataFilter: S.optional(__S(993, __c31, 1)),
+          dataFilter: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "UpdateValuesByDataFilterResponse" });
+    case 4:
+      return S.Array(__S(1123, __c35, 3));
     case 5:
-      return S.Array(__S(1156, __c36, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           totalUpdatedCells: S.optional(S.Number),
-          responses: S.optional(__S(1157, __c36, 5)),
+          responses: S.optional(__S(1124, __c35, 4)),
           totalUpdatedColumns: S.optional(S.Number),
           totalUpdatedSheets: S.optional(S.Number),
           totalUpdatedRows: S.optional(S.Number),

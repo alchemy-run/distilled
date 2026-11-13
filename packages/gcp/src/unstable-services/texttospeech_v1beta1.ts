@@ -281,8 +281,9 @@ export interface SynthesisInput {
   /** This system instruction is supported only for controllable/promptable voice models. If this system instruction is used, we pass the unedited text to Gemini-TTS. Otherwise, a default system instruction is used. AI Studio calls this system instruction, Style Instructions. */
   prompt?: string | undefined;
 }
-/** The top-level message sent by the client for the `SynthesizeLongAudio` method. */
-export interface SynthesizeLongAudioRequest {
+export interface SynthesizeLongAudioProjectsLocationsRequest {
+  /** The resource states of the request in the form of `projects/*\/locations/*`. */
+  parent: string;
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
   /** Required. The desired voice of the synthesized audio. */
@@ -291,12 +292,6 @@ export interface SynthesizeLongAudioRequest {
   outputGcsUri?: string | undefined;
   /** Required. The Synthesizer requires either plain text or SSML as input. */
   input?: SynthesisInput | undefined;
-}
-export interface SynthesizeLongAudioProjectsLocationsRequest {
-  /** The resource states of the request in the form of `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: SynthesizeLongAudioRequest | undefined;
 }
 export type SafetySettingThresholdEnum =
   | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
@@ -341,8 +336,7 @@ export type SynthesizeSpeechRequestEnableTimePointingItemEnum =
 export type SynthesizeSpeechRequestEnableTimePointingItemEnumList = Array<
   SynthesizeSpeechRequestEnableTimePointingItemEnum | (string & {})
 >;
-/** The top-level message sent by the client for the `SynthesizeSpeech` method. */
-export interface SynthesizeSpeechRequest {
+export interface SynthesizeTextRequest {
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
   /** Optional. Advanced voice options. */
@@ -353,10 +347,6 @@ export interface SynthesizeSpeechRequest {
   voice?: VoiceSelectionParams | undefined;
   /** Required. The Synthesizer requires either plain text or SSML as input. */
   input?: SynthesisInput | undefined;
-}
-export interface SynthesizeTextRequest {
-  /** Request body */
-  body?: SynthesizeSpeechRequest | undefined;
 }
 /** This contains a mapping between a certain point in the input text and a corresponding time in the output audio. */
 export interface Timepoint {
@@ -441,7 +431,7 @@ export const synthesizeLongAudioProjectsLocations: API.OperationMethod<
   SynthesizeLongAudioProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<SynthesizeLongAudioProjectsLocationsRequest>,
+  input: __S(80, __c5, 0) as any as S.Schema<SynthesizeLongAudioProjectsLocationsRequest>,
   output: __S(19, __c1, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -458,8 +448,8 @@ export const synthesizeText: API.OperationMethod<
   SynthesizeTextError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(118, __c7, 6) as any as S.Schema<SynthesizeTextRequest>,
-  output: __S(121, __c7, 9) as any as S.Schema<SynthesizeSpeechResponse>,
+  input: __S(117, __c7, 5) as any as S.Schema<SynthesizeTextRequest>,
+  output: __S(120, __c7, 8) as any as S.Schema<SynthesizeSpeechResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -584,17 +574,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           audioConfig: S.optional(__S(96, __c6, 0)),
           voice: S.optional(__S(102, __c6, 6)),
           outputGcsUri: S.optional(S.String),
           input: S.optional(__S(109, __c6, 13)),
-        }),
-      ).annotate({ identifier: "SynthesizeLongAudioRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -738,12 +722,6 @@ function __c7(j: number): any {
           enableTimePointing: S.optional(__S(116, __c7, 4)),
           voice: S.optional(__S(102, __c6, 6)),
           input: S.optional(__S(109, __c6, 13)),
-        }),
-      ).annotate({ identifier: "SynthesizeSpeechRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(117, __c7, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -752,21 +730,21 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SynthesizeTextRequest" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           timeSeconds: S.optional(S.Number),
           markName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Timepoint" });
+    case 7:
+      return S.Array(__S(118, __c7, 6));
     case 8:
-      return S.Array(__S(119, __c7, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           audioConfig: S.optional(__S(96, __c6, 0)),
           audioContent: S.optional(S.String),
-          timepoints: S.optional(__S(120, __c7, 8)),
+          timepoints: S.optional(__S(119, __c7, 7)),
         }),
       ).annotate({ identifier: "SynthesizeSpeechResponse" });
   }

@@ -211,16 +211,11 @@ export interface GoogleCloudBillingBudgetsV1beta1Budget {
   /** Required. Budgeted amount. */
   amount?: GoogleCloudBillingBudgetsV1beta1BudgetAmount | undefined;
 }
-/** Request for CreateBudget */
-export interface GoogleCloudBillingBudgetsV1beta1CreateBudgetRequest {
-  /** Required. Budget to create. */
-  budget?: GoogleCloudBillingBudgetsV1beta1Budget | undefined;
-}
 export interface CreateBillingAccountsBudgetsRequest {
   /** Required. The name of the billing account to create the budget in. Values are of the form `billingAccounts/{billingAccountId}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudBillingBudgetsV1beta1CreateBudgetRequest | undefined;
+  /** Required. Budget to create. */
+  budget?: GoogleCloudBillingBudgetsV1beta1Budget | undefined;
 }
 export interface DeleteBillingAccountsBudgetsRequest {
   /** Required. Name of the budget to delete. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
@@ -251,18 +246,13 @@ export interface GoogleCloudBillingBudgetsV1beta1ListBudgetsResponse {
   /** If not empty, indicates that there may be more budgets that match the request; this value should be passed in a new `ListBudgetsRequest`. */
   nextPageToken?: string | undefined;
 }
-/** Request for UpdateBudget */
-export interface GoogleCloudBillingBudgetsV1beta1UpdateBudgetRequest {
+export interface PatchBillingAccountsBudgetsRequest {
+  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
+  name: string;
   /** Required. The updated budget object. The budget to update is specified by the budget name in the budget. */
   budget?: GoogleCloudBillingBudgetsV1beta1Budget | undefined;
   /** Optional. Indicates which fields in the provided budget to update. Read-only fields (such as `name`) cannot be changed. If this is not provided, then only fields with non-default values from the request are updated. See https://developers.google.com/protocol-buffers/docs/proto3#default for more details about default values. */
   updateMask?: string | undefined;
-}
-export interface PatchBillingAccountsBudgetsRequest {
-  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudBillingBudgetsV1beta1UpdateBudgetRequest | undefined;
 }
 export type CreateBillingAccountsBudgetsError =
   | NotFound
@@ -277,7 +267,7 @@ export const createBillingAccountsBudgets: API.OperationMethod<
   CreateBillingAccountsBudgetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateBillingAccountsBudgetsRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateBillingAccountsBudgetsRequest>,
   output: __S(43, __c2, 11) as any as S.Schema<GoogleCloudBillingBudgetsV1beta1Budget>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -357,7 +347,7 @@ export const patchBillingAccountsBudgets: API.OperationMethod<
   PatchBillingAccountsBudgetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<PatchBillingAccountsBudgetsRequest>,
+  input: __S(96, __c6, 0) as any as S.Schema<PatchBillingAccountsBudgetsRequest>,
   output: __S(43, __c2, 11) as any as S.Schema<GoogleCloudBillingBudgetsV1beta1Budget>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -372,14 +362,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          budget: S.optional(__S(43, __c2, 11)),
-        }),
-      ).annotate({ identifier: "GoogleCloudBillingBudgetsV1beta1CreateBudgetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
+          budget: S.optional(__S(43, __c2, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -549,15 +533,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           budget: S.optional(__S(43, __c2, 11)),
           updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudBillingBudgetsV1beta1UpdateBudgetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",

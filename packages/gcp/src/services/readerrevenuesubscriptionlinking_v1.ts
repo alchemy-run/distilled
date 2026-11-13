@@ -136,8 +136,8 @@ export interface UpdateEntitlementsPublicationsReadersRequest {
   name: string;
   /** Optional. The list of fields to update. Defaults to all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ReaderEntitlements | undefined;
+  /** All of the entitlements for a publication reader. */
+  entitlements?: EntitlementList | undefined;
 }
 export type DeletePublicationsReadersError =
   | NotFound
@@ -308,7 +308,7 @@ function __c4(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(10, __c2, 2).pipe(T.HttpBody())),
+          entitlements: S.optional(__S(9, __c2, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",

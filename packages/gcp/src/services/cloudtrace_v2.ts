@@ -254,24 +254,43 @@ export interface Span {
   startTime?: string | undefined;
 }
 export type SpanList = Array<Span>;
-/** The request message for the `BatchWriteSpans` method. */
-export interface BatchWriteSpansRequest {
-  /** Required. A list of new spans. The span names must not match existing spans, otherwise the results are undefined. */
-  spans?: SpanList | undefined;
-}
 export interface BatchWriteProjectsTracesRequest {
   /** Required. The name of the project where the spans belong. The format is `projects/[PROJECT_ID]`. */
   name: string;
-  /** Request body */
-  body?: BatchWriteSpansRequest | undefined;
+  /** Required. A list of new spans. The span names must not match existing spans, otherwise the results are undefined. */
+  spans?: SpanList | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface CreateSpanProjectsTracesSpansRequest {
   /** Identifier. The resource name of the span in the following format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]` `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. It should not be zero. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. It should not be zero. . */
   name: string;
-  /** Request body */
-  body?: Span | undefined;
+  /** Optional. A set of attributes on the span. You can have up to 32 attributes per span. */
+  attributes?: Attributes | undefined;
+  /** Required. A description of the span's operation (up to 128 bytes). Cloud Trace displays the description in the Cloud console. For example, the display name can be a qualified method name or a file name and a line number where the operation is called. A best practice is to use the same display name within an application and at the same call point. This makes it easier to correlate spans in different traces. */
+  displayName?: TruncatableString | undefined;
+  /** Optional. Set this parameter to indicate whether this span is in the same process as its parent. If you do not set this parameter, Trace is unable to take advantage of this helpful information. */
+  sameProcessAsParentSpan?: boolean | undefined;
+  /** Optional. The final status for this span. */
+  status?: Status | undefined;
+  /** Required. The end time of the span. On the client side, this is the time kept by the local machine where the span execution ends. On the server side, this is the time when the server application handler stops running. */
+  endTime?: string | undefined;
+  /** Optional. The `[SPAN_ID]` of this span's parent span. If this is a root span, then this field must be empty. */
+  parentSpanId?: string | undefined;
+  /** Optional. Links associated with the span. You can have up to 128 links per Span. */
+  links?: Links | undefined;
+  /** Optional. Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `CLIENT` (caller) and `SERVER` (callee) to identify an RPC call. */
+  spanKind?: SpanSpanKindEnum | (string & {}) | undefined;
+  /** Required. The `[SPAN_ID]` portion of the span's resource name. */
+  spanId?: string | undefined;
+  /** Optional. The number of child spans that were generated while this span was active. If set, allows implementation to detect missing child spans. */
+  childSpanCount?: number | undefined;
+  /** Optional. A set of time events. You can have up to 32 annotations and 128 message events per span. */
+  timeEvents?: TimeEvents | undefined;
+  /** Optional. Stack trace captured at the start of the span. */
+  stackTrace?: StackTrace | undefined;
+  /** Required. The start time of the span. On the client side, this is the time kept by the local machine where the span execution starts. On the server side, this is the time when the server's application handler starts running. */
+  startTime?: string | undefined;
 }
 export type BatchWriteProjectsTracesError =
   | NotFound
@@ -286,8 +305,8 @@ export const batchWriteProjectsTraces: API.OperationMethod<
   BatchWriteProjectsTracesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<BatchWriteProjectsTracesRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<Empty>,
+  input: __S(1, __c0, 1) as any as S.Schema<BatchWriteProjectsTracesRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -325,14 +344,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          spans: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "BatchWriteSpansRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
+          spans: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -341,7 +354,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchWriteProjectsTracesRequest" });
-    case 3:
+    case 2:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
@@ -497,7 +510,19 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(52, __c1, 20).pipe(T.HttpBody())),
+          attributes: S.optional(__S(35, __c1, 3)),
+          displayName: S.optional(__S(32, __c1, 0)),
+          sameProcessAsParentSpan: S.optional(S.Boolean),
+          status: S.optional(__S(38, __c1, 6)),
+          endTime: S.optional(S.String),
+          parentSpanId: S.optional(S.String),
+          links: S.optional(__S(41, __c1, 9)),
+          spanKind: S.optional(S.String),
+          spanId: S.optional(S.String),
+          childSpanCount: S.optional(S.Number),
+          timeEvents: S.optional(__S(46, __c1, 14)),
+          stackTrace: S.optional(__S(51, __c1, 19)),
+          startTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

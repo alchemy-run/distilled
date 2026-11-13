@@ -84,16 +84,11 @@ export class NotFound
 
 export type StringList = Array<string>;
 export type BatchGetAmpUrlsRequestLookupStrategyEnum = "FETCH_LIVE_DOC" | "IN_INDEX_DOC";
-/** AMP URL request for a batch of URLs. */
-export interface BatchGetAmpUrlsRequest {
+export interface BatchGetAmpUrlsRequest_ {
   /** List of URLs to look up for the paired AMP URLs. The URLs are case-sensitive. Up to 50 URLs per lookup (see [Usage Limits](/amp/cache/reference/limits)). */
   urls?: StringList | undefined;
   /** The lookup_strategy being requested. */
   lookupStrategy?: BatchGetAmpUrlsRequestLookupStrategyEnum | (string & {}) | undefined;
-}
-export interface BatchGetAmpUrlsRequest_ {
-  /** Request body */
-  body?: BatchGetAmpUrlsRequest | undefined;
 }
 /** AMP URL response for a requested URL. */
 export interface AmpUrl {
@@ -137,8 +132,8 @@ export const batchGetAmpUrls: API.OperationMethod<
   BatchGetAmpUrlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<BatchGetAmpUrlsRequest_>,
-  output: __S(7, __c0, 7) as any as S.Schema<BatchGetAmpUrlsResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<BatchGetAmpUrlsRequest_>,
+  output: __S(6, __c0, 6) as any as S.Schema<BatchGetAmpUrlsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -156,12 +151,6 @@ function __c0(j: number): any {
         S.Struct({
           urls: S.optional(__S(0, __c0, 0)),
           lookupStrategy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchGetAmpUrlsRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -170,7 +159,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchGetAmpUrlsRequest_" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           cdnAmpUrl: S.optional(S.String),
@@ -178,9 +167,9 @@ function __c0(j: number): any {
           originalUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpUrl" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
     case 4:
-      return S.Array(__S(3, __c0, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           errorCode: S.optional(S.String),
@@ -188,13 +177,13 @@ function __c0(j: number): any {
           originalUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmpUrlError" });
+    case 5:
+      return S.Array(__S(4, __c0, 4));
     case 6:
-      return S.Array(__S(5, __c0, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          ampUrls: S.optional(__S(4, __c0, 4)),
-          urlErrors: S.optional(__S(6, __c0, 6)),
+          ampUrls: S.optional(__S(3, __c0, 3)),
+          urlErrors: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "BatchGetAmpUrlsResponse" });
   }

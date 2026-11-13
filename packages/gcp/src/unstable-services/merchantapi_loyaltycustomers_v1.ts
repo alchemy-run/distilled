@@ -126,16 +126,11 @@ export interface LoyaltyCustomer {
   /** Optional. The point balance of the loyalty customer. */
   pointBalance?: string | undefined;
 }
-/** Request message for the ManageLoyaltyCustomerMatch method. */
-export interface ManageLoyaltyCustomerMatchRequest {
-  /** Required. The loyalty customer to insert, update, or remove. */
-  loyaltyCustomer?: LoyaltyCustomer | undefined;
-}
 export interface ManageAccountsLoyaltyCustomersRequest {
   /** Required. The parent account where this loyalty customer will be handled. Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: ManageLoyaltyCustomerMatchRequest | undefined;
+  /** Required. The loyalty customer to insert, update, or remove. */
+  loyaltyCustomer?: LoyaltyCustomer | undefined;
 }
 /** Response message for the ManageLoyaltyCustomerMatch method. */
 export interface ManageLoyaltyCustomerMatchResponse {
@@ -155,8 +150,8 @@ export const manageAccountsLoyaltyCustomers: API.OperationMethod<
   ManageAccountsLoyaltyCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c0, 4) as any as S.Schema<ManageAccountsLoyaltyCustomersRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<ManageLoyaltyCustomerMatchResponse>,
+  input: __S(3, __c0, 3) as any as S.Schema<ManageAccountsLoyaltyCustomersRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<ManageLoyaltyCustomerMatchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -197,14 +192,8 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          loyaltyCustomer: S.optional(__S(2, __c0, 2)),
-        }),
-      ).annotate({ identifier: "ManageLoyaltyCustomerMatchRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3, __c0, 3).pipe(T.HttpBody())),
+          loyaltyCustomer: S.optional(__S(2, __c0, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -213,6 +202,12 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ManageAccountsLoyaltyCustomersRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          loyaltyCustomer: S.optional(__S(2, __c0, 2)),
+        }),
+      ).annotate({ identifier: "ManageLoyaltyCustomerMatchResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

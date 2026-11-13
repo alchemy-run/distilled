@@ -92,8 +92,13 @@ export interface ResourcePolicyMember {
 }
 export type StringMap = { [key: string]: string | undefined };
 export type ParameterFormatEnum = "PARAMETER_FORMAT_UNSPECIFIED" | "UNFORMATTED" | "YAML" | "JSON";
-/** Message describing Parameter resource */
-export interface Parameter {
+export interface CreateProjectsLocationsParametersRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Id of the Parameter resource */
+  parameterId?: string | undefined;
   /** Optional. Customer managed encryption key (CMEK) to use for encrypting the Parameter Versions. If not set, the default Google-managed encryption key will be used. Cloud KMS CryptoKeys must reside in the same location as the Parameter. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
   kmsKey?: string | undefined;
   /** Output only. Policy member strings of a Google Cloud resource. */
@@ -111,15 +116,24 @@ export interface Parameter {
   /** Output only. Create time stamp */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsParametersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Id of the Parameter resource */
-  parameterId?: string | undefined;
-  /** Request body */
-  body?: Parameter | undefined;
+/** Message describing Parameter resource */
+export interface Parameter {
+  /** Optional. Customer managed encryption key (CMEK) to use for encrypting the Parameter Versions. If not set, the default Google-managed encryption key will be used. Cloud KMS CryptoKeys must reside in the same location as the Parameter. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  kmsKey?: string | undefined;
+  /** Output only. Policy member strings of a Google Cloud resource. */
+  policyMember?: ResourcePolicyMember | undefined;
+  /** Identifier. The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
+  name?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys and tag values that are bound to this Parameter. You must represent each item in the map as: `"" : ""`. For example, a single resource can have the following tags: ``` "123/environment": "production", "123/costCenter": "marketing", ``` Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
+  tags?: StringMap | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Optional. Specifies the format of a Parameter. */
+  format?: ParameterFormatEnum | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
 }
 /** Message for storing a ParameterVersion resource's payload data */
 export interface ParameterVersionPayload {
@@ -132,8 +146,13 @@ export type ParameterVersionChecksumSourceEnum =
   | "CHECKSUM_SOURCE_UNSPECIFIED"
   | "SERVER_GENERATED"
   | "USER_SPECIFIED";
-/** Message describing ParameterVersion resource */
-export interface ParameterVersion {
+export interface CreateProjectsLocationsParametersVersionsRequest {
+  /** Required. Id of the ParameterVersion resource */
+  parameterVersionId?: string | undefined;
+  /** Required. Value for parent in the format `projects/*\/locations/*\/parameters/*`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. Update time stamp */
   updateTime?: string | undefined;
   /** Required. Immutable. Payload content of a ParameterVersion resource. This is only returned when the request provides the View value of FULL (default for GET request). */
@@ -149,22 +168,34 @@ export interface ParameterVersion {
   /** Optional. Output only. The resource name of the KMS key version used to encrypt the ParameterVersion payload. This field is populated only if the Parameter resource has customer managed encryption key (CMEK) configured. */
   kmsKeyVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsParametersVersionsRequest {
-  /** Required. Id of the ParameterVersion resource */
-  parameterVersionId?: string | undefined;
-  /** Required. Value for parent in the format `projects/*\/locations/*\/parameters/*`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: ParameterVersion | undefined;
+/** Message describing ParameterVersion resource */
+export interface ParameterVersion {
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Required. Immutable. Payload content of a ParameterVersion resource. This is only returned when the request provides the View value of FULL (default for GET request). */
+  payload?: ParameterVersionPayload | undefined;
+  /** Optional. Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. */
+  disabled?: boolean | undefined;
+  /** Identifier. The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
+  name?: string | undefined;
+  /** Optional. Output only. The source of the checksum. */
+  checksumSource?: ParameterVersionChecksumSourceEnum | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** Optional. Output only. The resource name of the KMS key version used to encrypt the ParameterVersion payload. This field is populated only if the Parameter resource has customer managed encryption key (CMEK) configured. */
+  kmsKeyVersion?: string | undefined;
 }
 export type TemplateFormatEnum =
   | "TEMPLATE_FORMAT_UNSPECIFIED"
   | "TEMPLATE_FORMAT_YAML"
   | "TEMPLATE_FORMAT_JSON";
-/** Message describing Template resource */
-export interface Template {
+export interface CreateProjectsLocationsTemplatesRequest {
+  /** Required. Value for parent in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Id of the Template resource */
+  templateId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
   name?: string | undefined;
   /** Output only. Update time stamp */
@@ -176,20 +207,41 @@ export interface Template {
   /** Output only. Create time stamp */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsTemplatesRequest {
-  /** Required. Value for parent in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Id of the Template resource */
-  templateId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Template | undefined;
+/** Message describing Template resource */
+export interface Template {
+  /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
+  name?: string | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Optional. Specifies the format of a Template. */
+  format?: TemplateFormatEnum | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
 }
 /** Message for storing a TemplateVersion resource's payload data */
 export interface TemplateVersionPayload {
   /** Required. bytes data for storing payload. */
   data?: string | undefined;
+}
+export interface CreateProjectsLocationsTemplatesVersionsRequest {
+  /** Required. Value for parent in the format `projects/*\/locations/*\/templates/*`. */
+  parent: string;
+  /** Required. Id of the TemplateVersion resource */
+  templateVersionId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Identifier. The resource name of the TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  name?: string | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** Required. Immutable. Payload content of a TemplateVersion resource. */
+  payload?: TemplateVersionPayload | undefined;
+  /** Optional. Disabled boolean to determine if a TemplateVersion acts as a metadata only resource (payload is never returned if disabled is true). */
+  disabled?: boolean | undefined;
 }
 /** Message describing TemplateVersion resource */
 export interface TemplateVersion {
@@ -203,16 +255,6 @@ export interface TemplateVersion {
   payload?: TemplateVersionPayload | undefined;
   /** Optional. Disabled boolean to determine if a TemplateVersion acts as a metadata only resource (payload is never returned if disabled is true). */
   disabled?: boolean | undefined;
-}
-export interface CreateProjectsLocationsTemplatesVersionsRequest {
-  /** Required. Value for parent in the format `projects/*\/locations/*\/templates/*`. */
-  parent: string;
-  /** Required. Id of the TemplateVersion resource */
-  templateVersionId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: TemplateVersion | undefined;
 }
 export interface DeleteProjectsLocationsParametersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -396,8 +438,20 @@ export interface PatchProjectsLocationsParametersRequest {
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Parameter | undefined;
+  /** Optional. Customer managed encryption key (CMEK) to use for encrypting the Parameter Versions. If not set, the default Google-managed encryption key will be used. Cloud KMS CryptoKeys must reside in the same location as the Parameter. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  kmsKey?: string | undefined;
+  /** Output only. Policy member strings of a Google Cloud resource. */
+  policyMember?: ResourcePolicyMember | undefined;
+  /** Optional. Input only. Immutable. Tag keys and tag values that are bound to this Parameter. You must represent each item in the map as: `"" : ""`. For example, a single resource can have the following tags: ``` "123/environment": "production", "123/costCenter": "marketing", ``` Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
+  tags?: StringMap | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Optional. Specifies the format of a Parameter. */
+  format?: ParameterFormatEnum | (string & {}) | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsParametersVersionsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ParameterVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
@@ -406,8 +460,18 @@ export interface PatchProjectsLocationsParametersVersionsRequest {
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ParameterVersion | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Required. Immutable. Payload content of a ParameterVersion resource. This is only returned when the request provides the View value of FULL (default for GET request). */
+  payload?: ParameterVersionPayload | undefined;
+  /** Optional. Disabled boolean to determine if a ParameterVersion acts as a metadata only resource (payload is never returned if disabled is true). If true any calls will always default to BASIC view even if the user explicitly passes FULL view as part of the request. A render call on a disabled resource fails with an error. Default value is False. */
+  disabled?: boolean | undefined;
+  /** Optional. Output only. The source of the checksum. */
+  checksumSource?: ParameterVersionChecksumSourceEnum | (string & {}) | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** Optional. Output only. The resource name of the KMS key version used to encrypt the ParameterVersion payload. This field is populated only if the Parameter resource has customer managed encryption key (CMEK) configured. */
+  kmsKeyVersion?: string | undefined;
 }
 export interface PatchProjectsLocationsTemplatesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -416,8 +480,14 @@ export interface PatchProjectsLocationsTemplatesRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Template resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Template | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Optional. Specifies the format of a Template. */
+  format?: TemplateFormatEnum | (string & {}) | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsTemplatesVersionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -426,8 +496,14 @@ export interface PatchProjectsLocationsTemplatesVersionsRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TemplateVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TemplateVersion | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** Required. Immutable. Payload content of a TemplateVersion resource. */
+  payload?: TemplateVersionPayload | undefined;
+  /** Optional. Disabled boolean to determine if a TemplateVersion acts as a metadata only resource (payload is never returned if disabled is true). */
+  disabled?: boolean | undefined;
 }
 export interface RenderProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource */
@@ -1239,7 +1315,13 @@ function __c14(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(85, __c21, 1).pipe(T.HttpBody())),
+          kmsKey: S.optional(S.String),
+          policyMember: S.optional(__S(84, __c21, 0)),
+          tags: S.optional(__S(88, __c22, 0)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(88, __c22, 0)),
+          format: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1258,7 +1340,12 @@ function __c15(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          payload: S.optional(__S(100, __c25, 0)),
+          disabled: S.optional(S.Boolean),
+          checksumSource: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kmsKeyVersion: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1277,7 +1364,10 @@ function __c16(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(108, __c27, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(88, __c22, 0)),
+          format: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1296,7 +1386,10 @@ function __c17(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(116, __c29, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          payload: S.optional(__S(120, __c30, 0)),
+          disabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1366,7 +1459,14 @@ function __c20(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           parameterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(85, __c21, 1).pipe(T.HttpBody())),
+          kmsKey: S.optional(S.String),
+          policyMember: S.optional(__S(84, __c21, 0)),
+          name: S.optional(S.String),
+          tags: S.optional(__S(88, __c22, 0)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(88, __c22, 0)),
+          format: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1415,7 +1515,13 @@ function __c23(j: number): any {
           parameterVersionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          payload: S.optional(__S(100, __c25, 0)),
+          disabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          checksumSource: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kmsKeyVersion: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1461,7 +1567,11 @@ function __c26(j: number): any {
           parent: S.String.pipe(T.Label()),
           templateId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(108, __c27, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(88, __c22, 0)),
+          format: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1494,7 +1604,11 @@ function __c28(j: number): any {
           parent: S.String.pipe(T.Label()),
           templateVersionId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(116, __c29, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          payload: S.optional(__S(120, __c30, 0)),
+          disabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",

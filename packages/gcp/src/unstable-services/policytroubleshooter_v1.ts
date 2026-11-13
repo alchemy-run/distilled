@@ -91,14 +91,9 @@ export interface GoogleCloudPolicytroubleshooterV1AccessTuple {
   /** Required. The IAM permission to check for the specified principal and resource. For a complete list of IAM permissions, see https://cloud.google.com/iam/help/permissions/reference. For a complete list of predefined IAM roles and the permissions in each role, see https://cloud.google.com/iam/help/roles/reference. */
   permission?: string | undefined;
 }
-/** Request for TroubleshootIamPolicy. */
-export interface GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest {
+export interface TroubleshootIamRequest {
   /** The information to use for checking whether a principal has a permission for a resource. */
   accessTuple?: GoogleCloudPolicytroubleshooterV1AccessTuple | undefined;
-}
-export interface TroubleshootIamRequest {
-  /** Request body */
-  body?: GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest | undefined;
 }
 export type GoogleCloudPolicytroubleshooterV1BindingExplanationRolePermissionEnum =
   | "ROLE_PERMISSION_UNSPECIFIED"
@@ -282,11 +277,11 @@ export const troubleshootIam: API.OperationMethod<
   TroubleshootIamError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<TroubleshootIamRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<TroubleshootIamRequest>,
   output: __S(
-    22,
+    21,
     __c0,
-    22,
+    21,
   ) as any as S.Schema<GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -310,12 +305,6 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessTuple: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -324,7 +313,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TroubleshootIamRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           membership: S.optional(S.String),
@@ -333,9 +322,9 @@ function __c0(j: number): any {
       ).annotate({
         identifier: "GoogleCloudPolicytroubleshooterV1BindingExplanationAnnotatedMembership",
       });
+    case 3:
+      return S.Record(S.String, __S(2, __c0, 2));
     case 4:
-      return S.Record(S.String, __S(3, __c0, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           expression: S.optional(S.String),
@@ -344,91 +333,91 @@ function __c0(j: number): any {
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleTypeExpr" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           rolePermission: S.optional(S.String),
-          memberships: S.optional(__S(4, __c0, 4)),
+          memberships: S.optional(__S(3, __c0, 3)),
           relevance: S.optional(S.String),
           access: S.optional(S.String),
           role: S.optional(S.String),
           rolePermissionRelevance: S.optional(S.String),
-          condition: S.optional(__S(5, __c0, 5)),
+          condition: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1BindingExplanation" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
     case 7:
-      return S.Array(__S(6, __c0, 6));
-    case 8:
       return S.Array(S.String);
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          members: S.optional(__S(8, __c0, 8)),
-          condition: S.optional(__S(5, __c0, 5)),
+          members: S.optional(__S(7, __c0, 7)),
+          condition: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
+    case 9:
+      return S.Array(__S(8, __c0, 8));
     case 10:
-      return S.Array(__S(9, __c0, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(8, __c0, 8)),
+          exemptedMembers: S.optional(__S(7, __c0, 7)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
+    case 11:
+      return S.Array(__S(10, __c0, 10));
     case 12:
-      return S.Array(__S(11, __c0, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(12, __c0, 12)),
+          auditLogConfigs: S.optional(__S(11, __c0, 11)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
+    case 13:
+      return S.Array(__S(12, __c0, 12));
     case 14:
-      return S.Array(__S(13, __c0, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          bindings: S.optional(__S(10, __c0, 10)),
-          auditConfigs: S.optional(__S(14, __c0, 14)),
+          bindings: S.optional(__S(9, __c0, 9)),
+          auditConfigs: S.optional(__S(13, __c0, 13)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          bindingExplanations: S.optional(__S(7, __c0, 7)),
+          bindingExplanations: S.optional(__S(6, __c0, 6)),
           relevance: S.optional(S.String),
           access: S.optional(S.String),
-          policy: S.optional(__S(15, __c0, 15)),
+          policy: S.optional(__S(14, __c0, 14)),
           fullResourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1ExplainedPolicy" });
+    case 16:
+      return S.Array(__S(15, __c0, 15));
     case 17:
-      return S.Array(__S(16, __c0, 16));
-    case 18:
       return S.Record(S.String, S.Unknown);
+    case 18:
+      return S.Array(__S(17, __c0, 17));
     case 19:
-      return S.Array(__S(18, __c0, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(19, __c0, 19)),
+          details: S.optional(__S(18, __c0, 18)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
+    case 20:
+      return S.Array(__S(19, __c0, 19));
     case 21:
-      return S.Array(__S(20, __c0, 20));
-    case 22:
       return S.suspend(() =>
         S.Struct({
-          explainedPolicies: S.optional(__S(17, __c0, 17)),
+          explainedPolicies: S.optional(__S(16, __c0, 16)),
           access: S.optional(S.String),
-          errors: S.optional(__S(21, __c0, 21)),
+          errors: S.optional(__S(20, __c0, 20)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyResponse" });
   }

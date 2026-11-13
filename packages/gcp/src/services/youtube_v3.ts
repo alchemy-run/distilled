@@ -547,17 +547,19 @@ export interface AbuseType {
   id?: string | undefined;
 }
 export type AbuseTypeList = Array<AbuseType>;
-export interface AbuseReport {
+export interface InsertAbuseReportsRequest {
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
+  part: StringList;
   relatedEntities?: RelatedEntityList | undefined;
   subject?: Entity | undefined;
   abuseTypes?: AbuseTypeList | undefined;
   description?: string | undefined;
 }
-export interface InsertAbuseReportsRequest {
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
-  part: StringList;
-  /** Request body */
-  body?: AbuseReport | undefined;
+export interface AbuseReport {
+  relatedEntities?: RelatedEntityList | undefined;
+  subject?: Entity | undefined;
+  abuseTypes?: AbuseTypeList | undefined;
+  description?: string | undefined;
 }
 export type CaptionSnippetFailureReasonEnum =
   | "unknownFormat"
@@ -595,6 +597,24 @@ export interface CaptionSnippet {
   /** The caption track's type. */
   trackKind?: CaptionSnippetTrackKindEnum | (string & {}) | undefined;
 }
+export interface InsertCaptionsRequest {
+  /** The *part* parameter specifies the caption resource parts that the API response will include. Set the parameter value to snippet. */
+  part: StringList;
+  /** ID of the Google+ Page for the channel that the request is be on behalf of */
+  onBehalfOf?: string | undefined;
+  /** Extra parameter to allow automatically syncing the uploaded caption/transcript with the audio. */
+  sync?: boolean | undefined;
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the caption track. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the caption. */
+  snippet?: CaptionSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#caption". */
+  kind?: string | undefined;
+}
 /** A *caption* resource represents a YouTube caption track. A caption track is associated with exactly one YouTube video. */
 export interface Caption {
   /** Etag of this resource. */
@@ -606,17 +626,18 @@ export interface Caption {
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#caption". */
   kind?: string | undefined;
 }
-export interface InsertCaptionsRequest {
-  /** The *part* parameter specifies the caption resource parts that the API response will include. Set the parameter value to snippet. */
-  part: StringList;
-  /** ID of the Google+ Page for the channel that the request is be on behalf of */
-  onBehalfOf?: string | undefined;
-  /** Extra parameter to allow automatically syncing the uploaded caption/transcript with the audio. */
-  sync?: boolean | undefined;
+export interface InsertChannelBannersRequest {
+  /** Unused, channel_id is currently derived from the security context of the requestor. */
+  channelId?: string | undefined;
+  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
+  onBehalfOfContentOwnerChannel?: string | undefined;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Caption | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#channelBannerResource". */
+  kind?: string | undefined;
+  /** The URL of this banner image. */
+  url?: string | undefined;
+  etag?: string | undefined;
 }
 /** A channel banner returned as the response to a channel_banner.insert call. */
 export interface ChannelBannerResource {
@@ -625,16 +646,6 @@ export interface ChannelBannerResource {
   /** The URL of this banner image. */
   url?: string | undefined;
   etag?: string | undefined;
-}
-export interface InsertChannelBannersRequest {
-  /** Unused, channel_id is currently derived from the security context of the requestor. */
-  channelId?: string | undefined;
-  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
-  onBehalfOfContentOwnerChannel?: string | undefined;
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: ChannelBannerResource | undefined;
 }
 /** Details about a channelsection, including playlists and channels. */
 export interface ChannelSectionContentDetails {
@@ -699,7 +710,13 @@ export interface ChannelSectionTargeting {
   /** The country the channel section is targeting. */
   countries?: StringList | undefined;
 }
-export interface ChannelSection {
+export interface InsertChannelSectionsRequest {
+  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
+  onBehalfOfContentOwnerChannel?: string | undefined;
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part names that you can include in the parameter value are snippet and contentDetails. */
+  part: StringList;
   /** The contentDetails object contains details about the channel section content, such as a list of playlists or channels featured in the section. */
   contentDetails?: ChannelSectionContentDetails | undefined;
   /** The snippet object contains basic details about the channel section, such as its type, style and title. */
@@ -715,15 +732,21 @@ export interface ChannelSection {
   /** Etag of this resource. */
   etag?: string | undefined;
 }
-export interface InsertChannelSectionsRequest {
-  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
-  onBehalfOfContentOwnerChannel?: string | undefined;
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part names that you can include in the parameter value are snippet and contentDetails. */
-  part: StringList;
-  /** Request body */
-  body?: ChannelSection | undefined;
+export interface ChannelSection {
+  /** The contentDetails object contains details about the channel section content, such as a list of playlists or channels featured in the section. */
+  contentDetails?: ChannelSectionContentDetails | undefined;
+  /** The snippet object contains basic details about the channel section, such as its type, style and title. */
+  snippet?: ChannelSectionSnippet | undefined;
+  /** Localizations for different languages */
+  localizations?: ChannelSectionLocalizationMap | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#channelSection". */
+  kind?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the channel section. */
+  id?: string | undefined;
+  /** The targeting object contains basic targeting settings about the channel section. */
+  targeting?: ChannelSectionTargeting | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
 }
 export type CommentSnippetModerationStatusEnum =
   | "published"
@@ -770,6 +793,18 @@ export interface CommentSnippet {
   /** The comment's text. The format is either plain text or HTML dependent on what has been requested. Even the plain text representation may differ from the text originally posted in that it may replace video links with video titles etc. */
   textDisplay?: string | undefined;
 }
+export interface InsertCommentsRequest {
+  /** The *part* parameter identifies the properties that the API response will include. Set the parameter value to snippet. The snippet part has a quota cost of 2 units. */
+  part: StringList;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#comment". */
+  kind?: string | undefined;
+  /** The snippet object contains basic details about the comment. */
+  snippet?: CommentSnippet | undefined;
+  /** The ID that YouTube uses to uniquely identify the comment. */
+  id?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+}
 /** A *comment* represents a single YouTube comment. */
 export interface Comment {
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#comment". */
@@ -780,12 +815,6 @@ export interface Comment {
   id?: string | undefined;
   /** Etag of this resource. */
   etag?: string | undefined;
-}
-export interface InsertCommentsRequest {
-  /** The *part* parameter identifies the properties that the API response will include. Set the parameter value to snippet. The snippet part has a quota cost of 2 units. */
-  part: StringList;
-  /** Request body */
-  body?: Comment | undefined;
 }
 export type CommentList = Array<Comment>;
 /** Comments written in (direct or indirect) reply to the top level comment. */
@@ -808,6 +837,20 @@ export interface CommentThreadSnippet {
   /** Whether the current viewer of the thread can reply to it. This is viewer specific - other viewers may see a different value for this field. */
   canReply?: boolean | undefined;
 }
+export interface InsertCommentThreadsRequest {
+  /** The *part* parameter identifies the properties that the API response will include. Set the parameter value to snippet. The snippet part has a quota cost of 2 units. */
+  part: StringList;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#commentThread". */
+  kind?: string | undefined;
+  /** The replies object contains a limited number of replies (if any) to the top level comment found in the snippet. */
+  replies?: CommentThreadReplies | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the comment thread. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the comment thread and also the top level comment. */
+  snippet?: CommentThreadSnippet | undefined;
+}
 /** A *comment thread* represents information that applies to a top level comment and all its replies. It can also include the top level comment itself and some of the replies. */
 export interface CommentThread {
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#commentThread". */
@@ -821,26 +864,7 @@ export interface CommentThread {
   /** The snippet object contains basic details about the comment thread and also the top level comment. */
   snippet?: CommentThreadSnippet | undefined;
 }
-export interface InsertCommentThreadsRequest {
-  /** The *part* parameter identifies the properties that the API response will include. Set the parameter value to snippet. The snippet part has a quota cost of 2 units. */
-  part: StringList;
-  /** Request body */
-  body?: CommentThread | undefined;
-}
 export type CuepointCueTypeEnum = "cueTypeUnspecified" | "cueTypeAd";
-/** Note that there may be a 5-second end-point resolution issue. For instance, if a cuepoint comes in for 22:03:27, we may stuff the cuepoint into 22:03:25 or 22:03:30, depending. This is an artifact of HLS. */
-export interface Cuepoint {
-  /** The time when the cuepoint should be inserted by offset to the broadcast actual start time. */
-  insertionOffsetTimeMs?: string | undefined;
-  /** The duration of this cuepoint. */
-  durationSecs?: number | undefined;
-  cueType?: CuepointCueTypeEnum | (string & {}) | undefined;
-  /** The identifier for cuepoint resource. */
-  id?: string | undefined;
-  /** The wall clock time at which the cuepoint should be inserted. Only one of insertion_offset_time_ms and walltime_ms may be set at a time. */
-  walltimeMs?: string | undefined;
-  etag?: string | undefined;
-}
 export interface InsertCuepointLiveBroadcastsRequest {
   /** The *part* parameter specifies a comma-separated list of one or more liveBroadcast resource properties that the API response will include. The part names that you can include in the parameter value are id, snippet, contentDetails, and status. */
   part?: StringList | undefined;
@@ -850,8 +874,27 @@ export interface InsertCuepointLiveBroadcastsRequest {
   onBehalfOfContentOwnerChannel?: string | undefined;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Cuepoint | undefined;
+  /** The time when the cuepoint should be inserted by offset to the broadcast actual start time. */
+  insertionOffsetTimeMs?: string | undefined;
+  /** The duration of this cuepoint. */
+  durationSecs?: number | undefined;
+  cueType?: CuepointCueTypeEnum | (string & {}) | undefined;
+  /** The wall clock time at which the cuepoint should be inserted. Only one of insertion_offset_time_ms and walltime_ms may be set at a time. */
+  walltimeMs?: string | undefined;
+  etag?: string | undefined;
+}
+/** Note that there may be a 5-second end-point resolution issue. For instance, if a cuepoint comes in for 22:03:27, we may stuff the cuepoint into 22:03:25 or 22:03:30, depending. This is an artifact of HLS. */
+export interface Cuepoint {
+  /** The time when the cuepoint should be inserted by offset to the broadcast actual start time. */
+  insertionOffsetTimeMs?: string | undefined;
+  /** The duration of this cuepoint. */
+  durationSecs?: number | undefined;
+  cueType?: CuepointCueTypeEnum | undefined;
+  /** The identifier for cuepoint resource. */
+  id?: string | undefined;
+  /** The wall clock time at which the cuepoint should be inserted. Only one of insertion_offset_time_ms and walltime_ms may be set at a time. */
+  walltimeMs?: string | undefined;
+  etag?: string | undefined;
 }
 export interface InsertLiveBroadcastsRequest {
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -860,8 +903,22 @@ export interface InsertLiveBroadcastsRequest {
   part: StringList;
   /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
   onBehalfOfContentOwnerChannel?: string | undefined;
-  /** Request body */
-  body?: LiveBroadcast | undefined;
+  /** The contentDetails object contains information about the event's video content, such as whether the content can be shown in an embedded video player or if it will be archived and therefore available for viewing after the event has concluded. */
+  contentDetails?: LiveBroadcastContentDetails | undefined;
+  /** The ID that YouTube assigns to uniquely identify the broadcast. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the event, including its title, description, start time, and end time. */
+  snippet?: LiveBroadcastSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveBroadcast". */
+  kind?: string | undefined;
+  /** The statistics object contains info about the event's current stats. These include concurrent viewers and total chat count. Statistics can change (in either direction) during the lifetime of an event. Statistics are only returned while the event is live. */
+  statistics?: LiveBroadcastStatistics | undefined;
+  /** The monetizationDetails object contains information about the event's monetization details. */
+  monetizationDetails?: LiveBroadcastMonetizationDetails | undefined;
+  /** The status object contains information about the event's status. */
+  status?: LiveBroadcastStatus | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
 }
 export interface ChannelProfileDetails {
   /** The YouTube channel ID. */
@@ -883,6 +940,18 @@ export interface LiveChatBanSnippet {
   /** The chat this ban is pertinent to. */
   liveChatId?: string | undefined;
 }
+export interface InsertLiveChatBansRequest {
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response returns. Set the parameter value to snippet. */
+  part: StringList;
+  /** The ID that YouTube assigns to uniquely identify the ban. */
+  id?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string `"youtube#liveChatBan"`. */
+  kind?: string | undefined;
+  /** The `snippet` object contains basic details about the ban. */
+  snippet?: LiveChatBanSnippet | undefined;
+}
 /** A `__liveChatBan__` resource represents a ban for a YouTube live chat. */
 export interface LiveChatBan {
   /** The ID that YouTube assigns to uniquely identify the ban. */
@@ -893,12 +962,6 @@ export interface LiveChatBan {
   kind?: string | undefined;
   /** The `snippet` object contains basic details about the ban. */
   snippet?: LiveChatBanSnippet | undefined;
-}
-export interface InsertLiveChatBansRequest {
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response returns. Set the parameter value to snippet. */
-  part: StringList;
-  /** Request body */
-  body?: LiveChatBan | undefined;
 }
 export interface LiveChatMembershipGiftingDetails {
   /** The number of gift memberships purchased by the user. */
@@ -1098,6 +1161,20 @@ export interface LiveChatMessageAuthorDetails {
   /** Whether the author is a moderator of the live chat. */
   isChatModerator?: boolean | undefined;
 }
+export interface InsertLiveChatMessagesRequest {
+  /** The `part` parameter serves two purposes. It identifies the properties that the write operation sets as well as the properties that the API response includes. Set the parameter value to `snippet`. */
+  part: StringList;
+  /** The ID that YouTube assigns to uniquely identify the message. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the message. */
+  snippet?: LiveChatMessageSnippet | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The authorDetails object contains basic details about the user that posted this message. */
+  authorDetails?: LiveChatMessageAuthorDetails | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveChatMessage". */
+  kind?: string | undefined;
+}
 /** A *liveChatMessage* resource represents a chat message in a YouTube Live Chat. */
 export interface LiveChatMessage {
   /** The ID that YouTube assigns to uniquely identify the message. */
@@ -1111,17 +1188,23 @@ export interface LiveChatMessage {
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveChatMessage". */
   kind?: string | undefined;
 }
-export interface InsertLiveChatMessagesRequest {
-  /** The `part` parameter serves two purposes. It identifies the properties that the write operation sets as well as the properties that the API response includes. Set the parameter value to `snippet`. */
-  part: StringList;
-  /** Request body */
-  body?: LiveChatMessage | undefined;
-}
 export interface LiveChatModeratorSnippet {
   /** Details about the moderator. */
   moderatorDetails?: ChannelProfileDetails | undefined;
   /** The ID of the live chat this moderator can act on. */
   liveChatId?: string | undefined;
+}
+export interface InsertLiveChatModeratorsRequest {
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response returns. Set the parameter value to snippet. */
+  part: StringList;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveChatModerator". */
+  kind?: string | undefined;
+  /** The snippet object contains basic details about the moderator. */
+  snippet?: LiveChatModeratorSnippet | undefined;
+  /** The ID that YouTube assigns to uniquely identify the moderator. */
+  id?: string | undefined;
 }
 /** A *liveChatModerator* resource represents a moderator for a YouTube live chat. A chat moderator has the ability to ban/unban users from a chat, remove message, etc. */
 export interface LiveChatModerator {
@@ -1133,12 +1216,6 @@ export interface LiveChatModerator {
   snippet?: LiveChatModeratorSnippet | undefined;
   /** The ID that YouTube assigns to uniquely identify the moderator. */
   id?: string | undefined;
-}
-export interface InsertLiveChatModeratorsRequest {
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response returns. Set the parameter value to snippet. */
-  part: StringList;
-  /** Request body */
-  body?: LiveChatModerator | undefined;
 }
 export type CdnSettingsResolutionEnum =
   | "240p"
@@ -1263,6 +1340,28 @@ export interface LiveStreamStatus {
   /** The health status of the stream. */
   healthStatus?: LiveStreamHealthStatus | undefined;
 }
+export interface InsertLiveStreamsRequest {
+  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
+  onBehalfOfContentOwnerChannel?: string | undefined;
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, cdn, content_details, and status. */
+  part: StringList;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveStream". */
+  kind?: string | undefined;
+  /** The ID that YouTube assigns to uniquely identify the stream. */
+  id?: string | undefined;
+  /** The cdn object defines the live stream's content delivery network (CDN) settings. These settings provide details about the manner in which you stream your content to YouTube. */
+  cdn?: CdnSettings | undefined;
+  /** The content_details object contains information about the stream, including the closed captions ingestion URL. */
+  contentDetails?: LiveStreamContentDetails | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The snippet object contains basic details about the stream, including its channel, title, and description. */
+  snippet?: LiveStreamSnippet | undefined;
+  /** The status object contains information about live stream's status. */
+  status?: LiveStreamStatus | undefined;
+}
 /** A live stream describes a live ingestion point. */
 export interface LiveStream {
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveStream". */
@@ -1280,16 +1379,6 @@ export interface LiveStream {
   /** The status object contains information about live stream's status. */
   status?: LiveStreamStatus | undefined;
 }
-export interface InsertLiveStreamsRequest {
-  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
-  onBehalfOfContentOwnerChannel?: string | undefined;
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, cdn, content_details, and status. */
-  part: StringList;
-  /** Request body */
-  body?: LiveStream | undefined;
-}
 export type PlaylistImageSnippetTypeEnum = "hero";
 /** A *playlistImage* resource identifies another resource, such as a image, that is associated with a playlist. In addition, the playlistImage resource contains details about the included resource that pertain specifically to how that resource is used in that playlist. YouTube uses playlists to identify special collections of videos for a channel, such as: * uploaded videos * favorite videos * positively rated (liked) videos * watch history To be more specific, these lists are associated with a channel, which is a collection of a person, group, or company's videos, playlists, and other YouTube information. You can retrieve the playlist IDs for each of these lists from the [`channel resource`](https://developers.google.com/youtube/data/reference/rest/v3/channels) for a given channel. You can then use the [`playlistImages.list`](https://developers.google.com/youtube/data/reference/rest/v3/playlistImages/list) method to retrieve image data for any of those playlists. You can also add or remove images from those lists by calling the [`playlistImages.insert`](https://developers.google.com/youtube/data/reference/rest/v3/playlistImages/insert) and [`playlistImages.delete`](https://developers.google.com/youtube/data/reference/rest/v3/playlistImages/delete) methods. */
 export interface PlaylistImageSnippet {
@@ -1302,13 +1391,6 @@ export interface PlaylistImageSnippet {
   /** The image type. */
   type?: PlaylistImageSnippetTypeEnum | (string & {}) | undefined;
 }
-export interface PlaylistImage {
-  snippet?: PlaylistImageSnippet | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlistImages". */
-  kind?: string | undefined;
-  /** Identifies this resource (playlist id and image type). */
-  id?: string | undefined;
-}
 export interface InsertPlaylistImagesRequest {
   /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
   onBehalfOfContentOwnerChannel?: string | undefined;
@@ -1316,8 +1398,18 @@ export interface InsertPlaylistImagesRequest {
   part?: StringList | undefined;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: PlaylistImage | undefined;
+  snippet?: PlaylistImageSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlistImages". */
+  kind?: string | undefined;
+  /** Identifies this resource (playlist id and image type). */
+  id?: string | undefined;
+}
+export interface PlaylistImage {
+  snippet?: PlaylistImageSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlistImages". */
+  kind?: string | undefined;
+  /** Identifies this resource (playlist id and image type). */
+  id?: string | undefined;
 }
 export interface PlaylistItemContentDetails {
   /** The time, measured in seconds from the start of the video, when the video should stop playing. (The playlist owner can specify the times when the video should start and stop playing when the video is played in the context of the playlist.) By default, assume that the video.endTime is the end of the video. */
@@ -1373,6 +1465,24 @@ export interface PlaylistItemSnippet {
   /** Channel title for the channel that the playlist item belongs to. */
   channelTitle?: string | undefined;
 }
+export interface InsertPlaylistItemsRequest {
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
+  part: StringList;
+  /** The ID that YouTube uses to uniquely identify the playlist item. */
+  id?: string | undefined;
+  /** The contentDetails object is included in the resource if the included item is a YouTube video. The object contains additional information about the video. */
+  contentDetails?: PlaylistItemContentDetails | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The status object contains information about the playlist item's privacy status. */
+  status?: PlaylistItemStatus | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlistItem". */
+  kind?: string | undefined;
+  /** The snippet object contains basic details about the playlist item, such as its title and position in the playlist. */
+  snippet?: PlaylistItemSnippet | undefined;
+}
 /** A *playlistItem* resource identifies another resource, such as a video, that is included in a playlist. In addition, the playlistItem resource contains details about the included resource that pertain specifically to how that resource is used in that playlist. YouTube uses playlists to identify special collections of videos for a channel, such as: * uploaded videos * favorite videos * positively rated (liked) videos * watch history * watch later To be more specific, these lists are associated with a channel, which is a collection of a person, group, or company's videos, playlists, and other YouTube information. You can retrieve the playlist IDs for each of these lists from the [`channel resource`](https://developers.google.com/youtube/data/reference/rest/v3/channels) for a given channel. You can then use the [`playlistItems.list`](https://developers.google.com/youtube/data/reference/rest/v3/playlistItems/list) method to retrieve any of those lists. You can also add or remove items from those lists by calling the [`playlistItems.insert`](https://developers.google.com/youtube/data/reference/rest/v3/playlistItems/insert) and [`playlistItems.delete`](https://developers.google.com/youtube/data/reference/rest/v3/playlistItems/delete) methods. For example, if a user gives a positive rating to a video, you would insert that video into the liked videos playlist for that user's channel. */
 export interface PlaylistItem {
   /** The ID that YouTube uses to uniquely identify the playlist item. */
@@ -1387,14 +1497,6 @@ export interface PlaylistItem {
   kind?: string | undefined;
   /** The snippet object contains basic details about the playlist item, such as its title and position in the playlist. */
   snippet?: PlaylistItemSnippet | undefined;
-}
-export interface InsertPlaylistItemsRequest {
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
-  part: StringList;
-  /** Request body */
-  body?: PlaylistItem | undefined;
 }
 /** Playlist localization setting */
 export interface PlaylistLocalization {
@@ -1443,6 +1545,30 @@ export interface PlaylistStatus {
   /** The playlist's podcast status. */
   podcastStatus?: PlaylistStatusPodcastStatusEnum | (string & {}) | undefined;
 }
+export interface InsertPlaylistsRequest {
+  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
+  onBehalfOfContentOwnerChannel?: string | undefined;
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
+  part: StringList;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The snippet object contains basic details about the playlist, such as its title and description. */
+  snippet?: PlaylistSnippet | undefined;
+  /** The contentDetails object contains information like video count. */
+  contentDetails?: PlaylistContentDetails | undefined;
+  /** The player object contains information that you would use to play the playlist in an embedded player. */
+  player?: PlaylistPlayer | undefined;
+  /** Localizations for different languages */
+  localizations?: PlaylistLocalizationMap | undefined;
+  /** The status object contains status information for the playlist. */
+  status?: PlaylistStatus | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlist". */
+  kind?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the playlist. */
+  id?: string | undefined;
+}
 /** A *playlist* resource represents a YouTube playlist. A playlist is a collection of videos that can be viewed sequentially and shared with other users. A playlist can contain up to 200 videos, and YouTube does not limit the number of playlists that each user creates. By default, playlists are publicly visible to other users, but playlists can be public or private. YouTube also uses playlists to identify special collections of videos for a channel, such as: * uploaded videos * favorite videos * positively rated (liked) videos * watch history * watch later To be more specific, these lists are associated with a channel, which is a collection of a person, group, or company's videos, playlists, and other YouTube information. You can retrieve the playlist IDs for each of these lists from the [`channel resource`](https://developers.google.com/youtube/data/reference/rest/v3/channels) for a given channel. You can then use the [`playlistItems.list`](https://developers.google.com/youtube/data/reference/rest/v3/playlistItems/list) method to retrieve any of those lists. You can also add or remove items from those lists by calling the [`playlistItems.insert`](https://developers.google.com/youtube/data/reference/rest/v3/playlistItems/insert) and [`playlistItems.delete`](https://developers.google.com/youtube/data/reference/rest/v3/playlistItems/delete) methods. */
 export interface Playlist {
   /** Etag of this resource. */
@@ -1461,16 +1587,6 @@ export interface Playlist {
   kind?: string | undefined;
   /** The ID that YouTube uses to uniquely identify the playlist. */
   id?: string | undefined;
-}
-export interface InsertPlaylistsRequest {
-  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
-  onBehalfOfContentOwnerChannel?: string | undefined;
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
-  part: StringList;
-  /** Request body */
-  body?: Playlist | undefined;
 }
 /** Basic details about a subscription, including title, description and thumbnails of the subscribed item. */
 export interface SubscriptionSnippet {
@@ -1511,6 +1627,22 @@ export interface SubscriptionSubscriberSnippet {
   /** Thumbnails for this subscriber. */
   thumbnails?: ThumbnailDetails | undefined;
 }
+export interface InsertSubscriptionsRequest {
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
+  part: StringList;
+  /** The ID that YouTube uses to uniquely identify the subscription. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the subscription, including its title and the channel that the user subscribed to. */
+  snippet?: SubscriptionSnippet | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The contentDetails object contains basic statistics about the subscription. */
+  contentDetails?: SubscriptionContentDetails | undefined;
+  /** The subscriberSnippet object contains basic details about the subscriber. */
+  subscriberSnippet?: SubscriptionSubscriberSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#subscription". */
+  kind?: string | undefined;
+}
 /** A *subscription* resource contains information about a YouTube user subscription. A subscription notifies a user when new videos are added to a channel or when another user takes one of several actions on YouTube, such as uploading a video, rating a video, or commenting on a video. */
 export interface Subscription {
   /** The ID that YouTube uses to uniquely identify the subscription. */
@@ -1526,14 +1658,11 @@ export interface Subscription {
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#subscription". */
   kind?: string | undefined;
 }
-export interface InsertSubscriptionsRequest {
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
-  part: StringList;
-  /** Request body */
-  body?: Subscription | undefined;
-}
 export interface TestItemTestItemSnippet {}
-export interface TestItem {
+export interface InsertTestsRequest {
+  externalChannelId?: string | undefined;
+  part: StringList;
+  onBehalfOfContentOwnerChannel?: string | undefined;
   id?: string | undefined;
   gaia?: string | undefined;
   featuredPart?: boolean | undefined;
@@ -1541,12 +1670,13 @@ export interface TestItem {
   etag?: string | undefined;
   snippet?: TestItemTestItemSnippet | undefined;
 }
-export interface InsertTestsRequest {
-  externalChannelId?: string | undefined;
-  part: StringList;
-  onBehalfOfContentOwnerChannel?: string | undefined;
-  /** Request body */
-  body?: TestItem | undefined;
+export interface TestItem {
+  id?: string | undefined;
+  gaia?: string | undefined;
+  featuredPart?: boolean | undefined;
+  /** Etag for the resource. See https://en.wikipedia.org/wiki/HTTP_ETag. */
+  etag?: string | undefined;
+  snippet?: TestItemTestItemSnippet | undefined;
 }
 export type ChannelToAffiliateProgramLinkDetailsProgramStatusEnum =
   | "affiliateProgramStatusUnspecified"
@@ -1622,6 +1752,22 @@ export type ThirdPartyLinkStatusLinkStatusEnum = "unknown" | "failed" | "pending
 export interface ThirdPartyLinkStatus {
   linkStatus?: ThirdPartyLinkStatusLinkStatusEnum | (string & {}) | undefined;
 }
+export interface InsertThirdPartyLinksRequest {
+  /** The *part* parameter specifies the thirdPartyLink resource parts that the API request and response will include. Supported values are linkingToken, status, and snippet. */
+  part: StringList;
+  /** Channel ID to which changes should be applied, for delegation. */
+  externalChannelId?: string | undefined;
+  /** Etag of this resource */
+  etag?: string | undefined;
+  /** The linking_token identifies a YouTube account and channel with which the third party account is linked. */
+  linkingToken?: string | undefined;
+  /** The snippet object contains basic details about the third- party account link. */
+  snippet?: ThirdPartyLinkSnippet | undefined;
+  /** The status object contains information about the status of the link. */
+  status?: ThirdPartyLinkStatus | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#thirdPartyLink". */
+  kind?: string | undefined;
+}
 /** A *third party account link* resource represents a link between a YouTube account or a channel and an account on a third-party service. */
 export interface ThirdPartyLink {
   /** Etag of this resource */
@@ -1634,14 +1780,6 @@ export interface ThirdPartyLink {
   status?: ThirdPartyLinkStatus | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "youtube#thirdPartyLink". */
   kind?: string | undefined;
-}
-export interface InsertThirdPartyLinksRequest {
-  /** The *part* parameter specifies the thirdPartyLink resource parts that the API request and response will include. Supported values are linkingToken, status, and snippet. */
-  part: StringList;
-  /** Channel ID to which changes should be applied, for delegation. */
-  externalChannelId?: string | undefined;
-  /** Request body */
-  body?: ThirdPartyLink | undefined;
 }
 export type VideoFileDetailsVideoStreamRotationEnum =
   | "none"
@@ -2838,6 +2976,58 @@ export interface VideoContentDetails {
 }
 /** DEPRECATED. b/157517979: This part was never populated after it was added. However, it sees non-zero traffic because there is generated client code in the wild that refers to it [1]. We keep this field and do NOT remove it because otherwise V3 would return an error when this part gets requested [2]. [1] https://developers.google.com/resources/api-libraries/documentation/youtube/v3/csharp/latest/classGoogle_1_1Apis_1_1YouTube_1_1v3_1_1Data_1_1VideoProjectDetails.html [2] http://google3/video/youtube/src/python/servers/data_api/common.py?l=1565-1569&rcl=344141677 */
 export type VideoProjectDetails = TestItemTestItemSnippet;
+export interface InsertVideosRequest {
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that not all parts contain properties that can be set when inserting or updating a video. For example, the statistics object encapsulates statistics that YouTube calculates for a video and does not contain values that you can set or modify. If the parameter value specifies a part that does not contain mutable values, that part will still be included in the API response. */
+  part: StringList;
+  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
+  onBehalfOfContentOwnerChannel?: string | undefined;
+  /** Should auto-levels be applied to the upload. */
+  autoLevels?: boolean | undefined;
+  /** Notify the channel subscribers about the new video. As default, the notification is enabled. */
+  notifySubscribers?: boolean | undefined;
+  /** Should stabilize be applied to the upload. */
+  stabilize?: boolean | undefined;
+  /** The fileDetails object encapsulates information about the video file that was uploaded to YouTube, including the file's resolution, duration, audio and video codecs, stream bitrates, and more. This data can only be retrieved by the video owner. */
+  fileDetails?: VideoFileDetails | undefined;
+  /** Age restriction details related to a video. This data can only be retrieved by the video owner. */
+  ageGating?: VideoAgeGating | undefined;
+  /** The snippet object contains basic details about the video, such as its title, description, and category. */
+  snippet?: VideoSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#video". */
+  kind?: string | undefined;
+  /** The processingDetails object encapsulates information about YouTube's progress in processing the uploaded video file. The properties in the object identify the current processing status and an estimate of the time remaining until YouTube finishes processing the video. This part also indicates whether different types of data or content, such as file details or thumbnail images, are available for the video. The processingProgress object is designed to be polled so that the video uploaded can track the progress that YouTube has made in processing the uploaded video file. This data can only be retrieved by the video owner. */
+  processingDetails?: VideoProcessingDetails | undefined;
+  /** The topicDetails object encapsulates information about [Freebase](http://www.freebase.com) topics associated with the video. */
+  topicDetails?: VideoTopicDetails | undefined;
+  /** The liveStreamingDetails object contains metadata about a live video broadcast. The object will only be present in a video resource if the video is an upcoming, live, or completed live broadcast. */
+  liveStreamingDetails?: VideoLiveStreamingDetails | undefined;
+  /** The localizations object contains localized versions of the basic details about the video, such as its title and description. */
+  localizations?: VideoLocalizationMap | undefined;
+  /** The player object contains information that you would use to play the video in an embedded player. */
+  player?: VideoPlayer | undefined;
+  /** The status object contains information about the video's uploading, processing, and privacy statuses. */
+  status?: VideoStatus | undefined;
+  /** The recordingDetails object encapsulates information about the location, date and address where the video was recorded. */
+  recordingDetails?: VideoRecordingDetails | undefined;
+  paidProductPlacementDetails?: VideoPaidProductPlacementDetails | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The monetizationDetails object encapsulates information about the monetization status of the video. */
+  monetizationDetails?: VideoMonetizationDetails | undefined;
+  /** The statistics object contains statistics about the video. */
+  statistics?: VideoStatistics | undefined;
+  brandPartner?: BrandPartner | undefined;
+  /** The suggestions object encapsulates suggestions that identify opportunities to improve the video quality or the metadata for the uploaded video. This data can only be retrieved by the video owner. */
+  suggestions?: VideoSuggestions | undefined;
+  /** The ID that YouTube uses to uniquely identify the video. */
+  id?: string | undefined;
+  /** The contentDetails object contains information about the video content, including the length of the video and its aspect ratio. */
+  contentDetails?: VideoContentDetails | undefined;
+  /** The projectDetails object contains information about the project specific video metadata. b/157517979: This part was never populated after it was added. However, it sees non-zero traffic because there is generated client code in the wild that refers to it [1]. We keep this field and do NOT remove it because otherwise V3 would return an error when this part gets requested [2]. [1] https://developers.google.com/resources/api-libraries/documentation/youtube/v3/csharp/latest/classGoogle_1_1Apis_1_1YouTube_1_1v3_1_1Data_1_1VideoProjectDetails.html [2] http://google3/video/youtube/src/python/servers/data_api/common.py?l=1565-1569&rcl=344141677 */
+  projectDetails?: TestItemTestItemSnippet | undefined;
+}
 /** A *video* resource represents a YouTube video. */
 export interface Video {
   /** The fileDetails object encapsulates information about the video file that was uploaded to YouTube, including the file's resolution, duration, audio and video codecs, stream bitrates, and more. This data can only be retrieved by the video owner. */
@@ -2878,22 +3068,6 @@ export interface Video {
   contentDetails?: VideoContentDetails | undefined;
   /** The projectDetails object contains information about the project specific video metadata. b/157517979: This part was never populated after it was added. However, it sees non-zero traffic because there is generated client code in the wild that refers to it [1]. We keep this field and do NOT remove it because otherwise V3 would return an error when this part gets requested [2]. [1] https://developers.google.com/resources/api-libraries/documentation/youtube/v3/csharp/latest/classGoogle_1_1Apis_1_1YouTube_1_1v3_1_1Data_1_1VideoProjectDetails.html [2] http://google3/video/youtube/src/python/servers/data_api/common.py?l=1565-1569&rcl=344141677 */
   projectDetails?: TestItemTestItemSnippet | undefined;
-}
-export interface InsertVideosRequest {
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that not all parts contain properties that can be set when inserting or updating a video. For example, the statistics object encapsulates statistics that YouTube calculates for a video and does not contain values that you can set or modify. If the parameter value specifies a part that does not contain mutable values, that part will still be included in the API response. */
-  part: StringList;
-  /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
-  onBehalfOfContentOwnerChannel?: string | undefined;
-  /** Should auto-levels be applied to the upload. */
-  autoLevels?: boolean | undefined;
-  /** Notify the channel subscribers about the new video. As default, the notification is enabled. */
-  notifySubscribers?: boolean | undefined;
-  /** Should stabilize be applied to the upload. */
-  stabilize?: boolean | undefined;
-  /** Request body */
-  body?: Video | undefined;
 }
 export interface ListActivitiesRequest {
   regionCode?: string | undefined;
@@ -4393,7 +4567,9 @@ export interface RateVideosRequest {
   rating: RateVideosRatingEnum | (string & {});
 }
 export interface RateVideosResponse {}
-export interface VideoAbuseReport {
+export interface ReportAbuseVideosRequest {
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
   /** The high-level, or primary, reason that the content is abusive. The value is an abuse report reason ID. */
   reasonId?: string | undefined;
   /** The language that the content was viewed in. */
@@ -4404,12 +4580,6 @@ export interface VideoAbuseReport {
   comments?: string | undefined;
   /** The ID that YouTube uses to uniquely identify the video. */
   videoId?: string | undefined;
-}
-export interface ReportAbuseVideosRequest {
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: VideoAbuseReport | undefined;
 }
 export interface ReportAbuseVideosResponse {}
 export type SetModerationStatusCommentsModerationStatusEnum =
@@ -4468,8 +4638,10 @@ export interface InvideoTiming {
   /** Defines the duration in milliseconds for which the promotion should be displayed. If missing, the client should use the default. */
   durationMs?: string | undefined;
 }
-/** Describes an invideo branding. */
-export interface InvideoBranding {
+export interface SetWatermarksRequest {
+  channelId: string;
+  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
   /** The spatial position within the video where the branding watermark will be displayed. */
   position?: InvideoPosition | undefined;
   /** The channel to which this branding links. If not present it defaults to the current channel. */
@@ -4480,13 +4652,6 @@ export interface InvideoBranding {
   timing?: InvideoTiming | undefined;
   /** The bytes the uploaded image. Only used in api to youtube communication. */
   imageBytes?: string | undefined;
-}
-export interface SetWatermarksRequest {
-  channelId: string;
-  /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: InvideoBranding | undefined;
 }
 export interface SetWatermarksResponse {}
 export interface StreamYoutubeV3LiveChatMessagesRequest {
@@ -4542,30 +4707,78 @@ export interface UpdateCaptionsRequest {
   onBehalfOf?: string | undefined;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Caption | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the caption track. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the caption. */
+  snippet?: CaptionSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#caption". */
+  kind?: string | undefined;
 }
 export interface UpdateChannelsRequest {
   /** The *onBehalfOfContentOwner* parameter indicates that the authenticated user is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with needs to be linked to the specified YouTube content owner. This parameter must be provided if the request is authenticated with credentials for a CMS content owner user acting on a managed channel. If omitted, the request executes under the authenticated user's direct context and returns an HTTP 403 Forbidden error. */
   onBehalfOfContentOwner?: string | undefined;
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The API currently only allows the parameter value to be set to either brandingSettings or invideoPromotion. (You cannot update both of those parts with a single request.) Note that this method overrides the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. */
   part: StringList;
-  /** Request body */
-  body?: Channel | undefined;
+  /** The topicDetails object encapsulates information about Freebase topics associated with the channel. */
+  topicDetails?: ChannelTopicDetails | undefined;
+  /** The contentOwnerDetails object encapsulates channel data that is relevant for YouTube Partners linked with the channel. */
+  contentOwnerDetails?: ChannelContentOwnerDetails | undefined;
+  /** The statistics object encapsulates statistics for the channel. */
+  statistics?: ChannelStatistics | undefined;
+  /** The contentDetails object encapsulates information about the channel's content. */
+  contentDetails?: ChannelContentDetails | undefined;
+  /** Localizations for different languages */
+  localizations?: ChannelLocalizationMap | undefined;
+  /** The conversionPings object encapsulates information about conversion pings that need to be respected by the channel. */
+  conversionPings?: ChannelConversionPings | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#channel". */
+  kind?: string | undefined;
+  /** The auditionDetails object encapsulates channel data that is relevant for YouTube Partners during the audition process. */
+  auditDetails?: ChannelAuditDetails | undefined;
+  /** The snippet object contains basic details about the channel, such as its title, description, and thumbnail images. */
+  snippet?: ChannelSnippet | undefined;
+  /** The status object encapsulates information about the privacy status of the channel. */
+  status?: ChannelStatus | undefined;
+  /** The ID that YouTube uses to uniquely identify the channel. */
+  id?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The brandingSettings object encapsulates information about the branding of the channel. */
+  brandingSettings?: ChannelBrandingSettings | undefined;
 }
 export interface UpdateChannelSectionsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part names that you can include in the parameter value are snippet and contentDetails. */
   part: StringList;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: ChannelSection | undefined;
+  /** The contentDetails object contains details about the channel section content, such as a list of playlists or channels featured in the section. */
+  contentDetails?: ChannelSectionContentDetails | undefined;
+  /** The snippet object contains basic details about the channel section, such as its type, style and title. */
+  snippet?: ChannelSectionSnippet | undefined;
+  /** Localizations for different languages */
+  localizations?: ChannelSectionLocalizationMap | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#channelSection". */
+  kind?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the channel section. */
+  id?: string | undefined;
+  /** The targeting object contains basic targeting settings about the channel section. */
+  targeting?: ChannelSectionTargeting | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
 }
 export interface UpdateCommentsRequest {
   /** The *part* parameter identifies the properties that the API response will include. You must at least include the snippet part in the parameter value since that part contains all of the properties that the API request can update. */
   part: StringList;
-  /** Request body */
-  body?: Comment | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#comment". */
+  kind?: string | undefined;
+  /** The snippet object contains basic details about the comment. */
+  snippet?: CommentSnippet | undefined;
+  /** The ID that YouTube uses to uniquely identify the comment. */
+  id?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
 }
 export interface UpdateLiveBroadcastsRequest {
   /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
@@ -4574,8 +4787,22 @@ export interface UpdateLiveBroadcastsRequest {
   onBehalfOfContentOwner?: string | undefined;
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, contentDetails, and status. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. For example, a broadcast's privacy status is defined in the status part. As such, if your request is updating a private or unlisted broadcast, and the request's part parameter value includes the status part, the broadcast's privacy setting will be updated to whatever value the request body specifies. If the request body does not specify a value, the existing privacy setting will be removed and the broadcast will revert to the default privacy setting. */
   part: StringList;
-  /** Request body */
-  body?: LiveBroadcast | undefined;
+  /** The contentDetails object contains information about the event's video content, such as whether the content can be shown in an embedded video player or if it will be archived and therefore available for viewing after the event has concluded. */
+  contentDetails?: LiveBroadcastContentDetails | undefined;
+  /** The ID that YouTube assigns to uniquely identify the broadcast. */
+  id?: string | undefined;
+  /** The snippet object contains basic details about the event, including its title, description, start time, and end time. */
+  snippet?: LiveBroadcastSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveBroadcast". */
+  kind?: string | undefined;
+  /** The statistics object contains info about the event's current stats. These include concurrent viewers and total chat count. Statistics can change (in either direction) during the lifetime of an event. Statistics are only returned while the event is live. */
+  statistics?: LiveBroadcastStatistics | undefined;
+  /** The monetizationDetails object contains information about the event's monetization details. */
+  monetizationDetails?: LiveBroadcastMonetizationDetails | undefined;
+  /** The status object contains information about the event's status. */
+  status?: LiveBroadcastStatus | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
 }
 export interface UpdateLiveStreamsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, cdn, and status. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. If the request body does not specify a value for a mutable property, the existing value for that property will be removed. */
@@ -4584,48 +4811,131 @@ export interface UpdateLiveStreamsRequest {
   onBehalfOfContentOwner?: string | undefined;
   /** This parameter can only be used in a properly [authorized request](https://developers.google.com/youtube/data/guides/authentication). *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwnerChannel* parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the onBehalfOfContentOwner parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the onBehalfOfContentOwner parameter specifies. Finally, the channel that the onBehalfOfContentOwnerChannel parameter value specifies must be linked to the content owner that the onBehalfOfContentOwner parameter specifies. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and perform actions on behalf of the channel specified in the parameter value, without having to provide authentication credentials for each separate channel. */
   onBehalfOfContentOwnerChannel?: string | undefined;
-  /** Request body */
-  body?: LiveStream | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#liveStream". */
+  kind?: string | undefined;
+  /** The ID that YouTube assigns to uniquely identify the stream. */
+  id?: string | undefined;
+  /** The cdn object defines the live stream's content delivery network (CDN) settings. These settings provide details about the manner in which you stream your content to YouTube. */
+  cdn?: CdnSettings | undefined;
+  /** The content_details object contains information about the stream, including the closed captions ingestion URL. */
+  contentDetails?: LiveStreamContentDetails | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The snippet object contains basic details about the stream, including its channel, title, and description. */
+  snippet?: LiveStreamSnippet | undefined;
+  /** The status object contains information about live stream's status. */
+  status?: LiveStreamStatus | undefined;
 }
 export interface UpdatePlaylistImagesRequest {
   /** The *part* parameter specifies the properties that the API response will include. */
   part?: StringList | undefined;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: PlaylistImage | undefined;
+  snippet?: PlaylistImageSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlistImages". */
+  kind?: string | undefined;
+  /** Identifies this resource (playlist id and image type). */
+  id?: string | undefined;
 }
 export interface UpdatePlaylistItemsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. For example, a playlist item can specify a start time and end time, which identify the times portion of the video that should play when users watch the video in the playlist. If your request is updating a playlist item that sets these values, and the request's part parameter value includes the contentDetails part, the playlist item's start and end times will be updated to whatever value the request body specifies. If the request body does not specify values, the existing start and end times will be removed and replaced with the default settings. */
   part: StringList;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: PlaylistItem | undefined;
+  /** The ID that YouTube uses to uniquely identify the playlist item. */
+  id?: string | undefined;
+  /** The contentDetails object is included in the resource if the included item is a YouTube video. The object contains additional information about the video. */
+  contentDetails?: PlaylistItemContentDetails | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The status object contains information about the playlist item's privacy status. */
+  status?: PlaylistItemStatus | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlistItem". */
+  kind?: string | undefined;
+  /** The snippet object contains basic details about the playlist item, such as its title and position in the playlist. */
+  snippet?: PlaylistItemSnippet | undefined;
 }
 export interface UpdatePlaylistsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that this method will override the existing values for mutable properties that are contained in any parts that the request body specifies. For example, a playlist's description is contained in the snippet part, which must be included in the request body. If the request does not specify a value for the snippet.description property, the playlist's existing description will be deleted. */
   part: StringList;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Playlist | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The snippet object contains basic details about the playlist, such as its title and description. */
+  snippet?: PlaylistSnippet | undefined;
+  /** The contentDetails object contains information like video count. */
+  contentDetails?: PlaylistContentDetails | undefined;
+  /** The player object contains information that you would use to play the playlist in an embedded player. */
+  player?: PlaylistPlayer | undefined;
+  /** Localizations for different languages */
+  localizations?: PlaylistLocalizationMap | undefined;
+  /** The status object contains status information for the playlist. */
+  status?: PlaylistStatus | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#playlist". */
+  kind?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the playlist. */
+  id?: string | undefined;
 }
 export interface UpdateThirdPartyLinksRequest {
   /** Channel ID to which changes should be applied, for delegation. */
   externalChannelId?: string | undefined;
   /** The *part* parameter specifies the thirdPartyLink resource parts that the API request and response will include. Supported values are linkingToken, status, and snippet. */
   part: StringList;
-  /** Request body */
-  body?: ThirdPartyLink | undefined;
+  /** Etag of this resource */
+  etag?: string | undefined;
+  /** The linking_token identifies a YouTube account and channel with which the third party account is linked. */
+  linkingToken?: string | undefined;
+  /** The snippet object contains basic details about the third- party account link. */
+  snippet?: ThirdPartyLinkSnippet | undefined;
+  /** The status object contains information about the status of the link. */
+  status?: ThirdPartyLinkStatus | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#thirdPartyLink". */
+  kind?: string | undefined;
 }
 export interface UpdateVideosRequest {
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. For example, a video's privacy setting is contained in the status part. As such, if your request is updating a private video, and the request's part parameter value includes the status part, the video's privacy setting will be updated to whatever value the request body specifies. If the request body does not specify a value, the existing privacy setting will be removed and the video will revert to the default privacy setting. In addition, not all parts contain properties that can be set when inserting or updating a video. For example, the statistics object encapsulates statistics that YouTube calculates for a video and does not contain values that you can set or modify. If the parameter value specifies a part that does not contain mutable values, that part will still be included in the API response. */
   part: StringList;
-  /** Request body */
-  body?: Video | undefined;
+  /** The fileDetails object encapsulates information about the video file that was uploaded to YouTube, including the file's resolution, duration, audio and video codecs, stream bitrates, and more. This data can only be retrieved by the video owner. */
+  fileDetails?: VideoFileDetails | undefined;
+  /** Age restriction details related to a video. This data can only be retrieved by the video owner. */
+  ageGating?: VideoAgeGating | undefined;
+  /** The snippet object contains basic details about the video, such as its title, description, and category. */
+  snippet?: VideoSnippet | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "youtube#video". */
+  kind?: string | undefined;
+  /** The processingDetails object encapsulates information about YouTube's progress in processing the uploaded video file. The properties in the object identify the current processing status and an estimate of the time remaining until YouTube finishes processing the video. This part also indicates whether different types of data or content, such as file details or thumbnail images, are available for the video. The processingProgress object is designed to be polled so that the video uploaded can track the progress that YouTube has made in processing the uploaded video file. This data can only be retrieved by the video owner. */
+  processingDetails?: VideoProcessingDetails | undefined;
+  /** The topicDetails object encapsulates information about [Freebase](http://www.freebase.com) topics associated with the video. */
+  topicDetails?: VideoTopicDetails | undefined;
+  /** The liveStreamingDetails object contains metadata about a live video broadcast. The object will only be present in a video resource if the video is an upcoming, live, or completed live broadcast. */
+  liveStreamingDetails?: VideoLiveStreamingDetails | undefined;
+  /** The localizations object contains localized versions of the basic details about the video, such as its title and description. */
+  localizations?: VideoLocalizationMap | undefined;
+  /** The player object contains information that you would use to play the video in an embedded player. */
+  player?: VideoPlayer | undefined;
+  /** The status object contains information about the video's uploading, processing, and privacy statuses. */
+  status?: VideoStatus | undefined;
+  /** The recordingDetails object encapsulates information about the location, date and address where the video was recorded. */
+  recordingDetails?: VideoRecordingDetails | undefined;
+  paidProductPlacementDetails?: VideoPaidProductPlacementDetails | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** The monetizationDetails object encapsulates information about the monetization status of the video. */
+  monetizationDetails?: VideoMonetizationDetails | undefined;
+  /** The statistics object contains statistics about the video. */
+  statistics?: VideoStatistics | undefined;
+  brandPartner?: BrandPartner | undefined;
+  /** The suggestions object encapsulates suggestions that identify opportunities to improve the video quality or the metadata for the uploaded video. This data can only be retrieved by the video owner. */
+  suggestions?: VideoSuggestions | undefined;
+  /** The ID that YouTube uses to uniquely identify the video. */
+  id?: string | undefined;
+  /** The contentDetails object contains information about the video content, including the length of the video and its aspect ratio. */
+  contentDetails?: VideoContentDetails | undefined;
+  /** The projectDetails object contains information about the project specific video metadata. b/157517979: This part was never populated after it was added. However, it sees non-zero traffic because there is generated client code in the wild that refers to it [1]. We keep this field and do NOT remove it because otherwise V3 would return an error when this part gets requested [2]. [1] https://developers.google.com/resources/api-libraries/documentation/youtube/v3/csharp/latest/classGoogle_1_1Apis_1_1YouTube_1_1v3_1_1Data_1_1VideoProjectDetails.html [2] http://google3/video/youtube/src/python/servers/data_api/common.py?l=1565-1569&rcl=344141677 */
+  projectDetails?: TestItemTestItemSnippet | undefined;
 }
 export type BatchGetStatsVideosError = NotFound | Forbidden | GcpOpError;
 /** Retrieves a batch of VideoStat resources, possibly filtered. BatchGetStats is intentionally not atomic to provide a better user experience. */
@@ -4963,8 +5273,8 @@ export const insertAbuseReports: API.OperationMethod<
   InsertAbuseReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(422, __c13, 6) as any as S.Schema<InsertAbuseReportsRequest>,
-  output: __S(421, __c13, 5) as any as S.Schema<AbuseReport>,
+  input: __S(421, __c13, 5) as any as S.Schema<InsertAbuseReportsRequest>,
+  output: __S(422, __c13, 6) as any as S.Schema<AbuseReport>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4997,8 +5307,8 @@ export const insertChannelBanners: API.OperationMethod<
   InsertChannelBannersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c16, 1) as any as S.Schema<InsertChannelBannersRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<ChannelBannerResource>,
+  input: __S(512, __c16, 0) as any as S.Schema<InsertChannelBannersRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<ChannelBannerResource>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5070,8 +5380,8 @@ export const insertCuepointLiveBroadcasts: API.OperationMethod<
   InsertCuepointLiveBroadcastsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(801, __c25, 1) as any as S.Schema<InsertCuepointLiveBroadcastsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Cuepoint>,
+  input: __S(800, __c25, 0) as any as S.Schema<InsertCuepointLiveBroadcastsRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<Cuepoint>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5104,8 +5414,8 @@ export const insertLiveChatBans: API.OperationMethod<
   InsertLiveChatBansError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(866, __c27, 2) as any as S.Schema<InsertLiveChatBansRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<LiveChatBan>,
+  input: __S(865, __c27, 1) as any as S.Schema<InsertLiveChatBansRequest>,
+  output: __S(866, __c27, 2) as any as S.Schema<LiveChatBan>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5245,8 +5555,8 @@ export const insertTests: API.OperationMethod<
   InsertTestsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c46, 1) as any as S.Schema<InsertTestsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<TestItem>,
+  input: __S(1472, __c46, 0) as any as S.Schema<InsertTestsRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<TestItem>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5770,7 +6080,7 @@ export const reportAbuseVideos: API.OperationMethod<
   ReportAbuseVideosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2785, __c87, 1) as any as S.Schema<ReportAbuseVideosRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ReportAbuseVideosRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<ReportAbuseVideosResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5826,7 +6136,7 @@ export const setWatermarks: API.OperationMethod<
   SetWatermarksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2915, __c91, 3) as any as S.Schema<SetWatermarksRequest>,
+  input: __S(2914, __c91, 2) as any as S.Schema<SetWatermarksRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<SetWatermarksResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -6382,17 +6692,11 @@ function __c13(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          part: __S(1536, __c48, 0).pipe(T.Query()),
           relatedEntities: S.optional(__S(418, __c13, 2)),
           subject: S.optional(__S(416, __c13, 0)),
           abuseTypes: S.optional(__S(420, __c13, 4)),
           description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AbuseReport" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(421, __c13, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6401,6 +6705,15 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertAbuseReportsRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          relatedEntities: S.optional(__S(418, __c13, 2)),
+          subject: S.optional(__S(416, __c13, 0)),
+          abuseTypes: S.optional(__S(420, __c13, 4)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AbuseReport" });
   }
 }
 function __c14(j: number): any {
@@ -6412,7 +6725,10 @@ function __c14(j: number): any {
           onBehalfOf: S.optional(S.String.pipe(T.Query())),
           sync: S.optional(S.Boolean.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(481, __c15, 1).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(480, __c15, 0)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6459,18 +6775,12 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          url: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChannelBannerResource" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           channelId: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          url: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6479,6 +6789,14 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertChannelBannersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          url: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChannelBannerResource" });
   }
 }
 function __c17(j: number): any {
@@ -6489,7 +6807,13 @@ function __c17(j: number): any {
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(581, __c18, 5).pipe(T.HttpBody())),
+          contentDetails: S.optional(__S(576, __c18, 0)),
+          snippet: S.optional(__S(578, __c18, 2)),
+          localizations: S.optional(__S(579, __c18, 3)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          targeting: S.optional(__S(580, __c18, 4)),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6557,7 +6881,10 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(672, __c21, 0)),
+          id: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6618,7 +6945,11 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(770, __c24, 2).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          replies: S.optional(__S(768, __c24, 0)),
+          etag: S.optional(S.String),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(769, __c24, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6671,22 +7002,15 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          insertionOffsetTimeMs: S.optional(S.String),
-          durationSecs: S.optional(S.Number),
-          cueType: S.optional(S.String),
-          id: S.optional(S.String),
-          walltimeMs: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Cuepoint" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           part: S.optional(__S(1536, __c48, 0).pipe(T.Query())),
           id: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
+          insertionOffsetTimeMs: S.optional(S.String),
+          durationSecs: S.optional(S.Number),
+          cueType: S.optional(S.String),
+          walltimeMs: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6695,6 +7019,17 @@ function __c25(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertCuepointLiveBroadcastsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          insertionOffsetTimeMs: S.optional(S.String),
+          durationSecs: S.optional(S.Number),
+          cueType: S.optional(S.String),
+          id: S.optional(S.String),
+          walltimeMs: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Cuepoint" });
   }
 }
 function __c26(j: number): any {
@@ -6705,7 +7040,14 @@ function __c26(j: number): any {
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2093, __c65, 13).pipe(T.HttpBody())),
+          contentDetails: S.optional(__S(2087, __c65, 7)),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(2088, __c65, 8)),
+          kind: S.optional(S.String),
+          statistics: S.optional(__S(2089, __c65, 9)),
+          monetizationDetails: S.optional(__S(2091, __c65, 11)),
+          status: S.optional(__S(2092, __c65, 12)),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6730,17 +7072,11 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          part: __S(1536, __c48, 0).pipe(T.Query()),
           id: S.optional(S.String),
           etag: S.optional(S.String),
           kind: S.optional(S.String),
           snippet: S.optional(__S(864, __c27, 0)),
-        }),
-      ).annotate({ identifier: "LiveChatBan" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6749,6 +7085,15 @@ function __c27(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertLiveChatBansRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          etag: S.optional(S.String),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(864, __c27, 0)),
+        }),
+      ).annotate({ identifier: "LiveChatBan" });
   }
 }
 function __c28(j: number): any {
@@ -6770,7 +7115,11 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1010, __c31, 18).pipe(T.HttpBody())),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(1008, __c31, 16)),
+          etag: S.optional(S.String),
+          authorDetails: S.optional(__S(1009, __c31, 17)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6971,7 +7320,10 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1057, __c33, 1).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(1056, __c33, 0)),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7010,7 +7362,13 @@ function __c34(j: number): any {
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1128, __c35, 8).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          cdn: S.optional(__S(1121, __c35, 1)),
+          contentDetails: S.optional(__S(1122, __c35, 2)),
+          etag: S.optional(S.String),
+          snippet: S.optional(__S(1123, __c35, 3)),
+          status: S.optional(__S(1127, __c35, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7108,7 +7466,9 @@ function __c36(j: number): any {
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           part: S.optional(__S(1536, __c48, 0).pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1185, __c37, 1).pipe(T.HttpBody())),
+          snippet: S.optional(__S(1184, __c37, 0)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7147,7 +7507,12 @@ function __c38(j: number): any {
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
+          id: S.optional(S.String),
+          contentDetails: S.optional(__S(1280, __c40, 0)),
+          etag: S.optional(S.String),
+          status: S.optional(__S(1281, __c40, 1)),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(1282, __c40, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7226,7 +7591,14 @@ function __c41(j: number): any {
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1380, __c43, 4).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          snippet: S.optional(__S(1376, __c43, 0)),
+          contentDetails: S.optional(__S(1377, __c43, 1)),
+          player: S.optional(__S(1378, __c43, 2)),
+          localizations: S.optional(__S(1345, __c42, 1)),
+          status: S.optional(__S(1379, __c43, 3)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7307,7 +7679,12 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1443, __c45, 3).pipe(T.HttpBody())),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(1440, __c45, 0)),
+          etag: S.optional(S.String),
+          contentDetails: S.optional(__S(1441, __c45, 1)),
+          subscriberSnippet: S.optional(__S(1442, __c45, 2)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7366,20 +7743,14 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          externalChannelId: S.optional(S.String.pipe(T.Query())),
+          part: __S(1536, __c48, 0).pipe(T.Query()),
+          onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           id: S.optional(S.String),
           gaia: S.optional(S.String),
           featuredPart: S.optional(S.Boolean),
           etag: S.optional(S.String),
           snippet: S.optional(__S(2496, __c78, 0)),
-        }),
-      ).annotate({ identifier: "TestItem" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          externalChannelId: S.optional(S.String.pipe(T.Query())),
-          part: __S(1536, __c48, 0).pipe(T.Query()),
-          onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7388,6 +7759,16 @@ function __c46(j: number): any {
           }),
         ),
       ).annotate({ identifier: "InsertTestsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          gaia: S.optional(S.String),
+          featuredPart: S.optional(S.Boolean),
+          etag: S.optional(S.String),
+          snippet: S.optional(__S(2496, __c78, 0)),
+        }),
+      ).annotate({ identifier: "TestItem" });
   }
 }
 function __c47(j: number): any {
@@ -7462,7 +7843,11 @@ function __c49(j: number): any {
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
           externalChannelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1606, __c50, 6).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          linkingToken: S.optional(S.String),
+          snippet: S.optional(__S(1604, __c50, 4)),
+          status: S.optional(__S(1605, __c50, 5)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7543,7 +7928,26 @@ function __c51(j: number): any {
           autoLevels: S.optional(S.Boolean.pipe(T.Query())),
           notifySubscribers: S.optional(S.Boolean.pipe(T.Query())),
           stabilize: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1693, __c52, 29).pipe(T.HttpBody())),
+          fileDetails: S.optional(__S(1668, __c52, 4)),
+          ageGating: S.optional(__S(1669, __c52, 5)),
+          snippet: S.optional(__S(1671, __c52, 7)),
+          kind: S.optional(S.String),
+          processingDetails: S.optional(__S(1673, __c52, 9)),
+          topicDetails: S.optional(__S(1674, __c52, 10)),
+          liveStreamingDetails: S.optional(__S(1675, __c52, 11)),
+          localizations: S.optional(__S(1676, __c52, 12)),
+          player: S.optional(__S(1677, __c52, 13)),
+          status: S.optional(__S(1678, __c52, 14)),
+          recordingDetails: S.optional(__S(1680, __c52, 16)),
+          paidProductPlacementDetails: S.optional(__S(1681, __c52, 17)),
+          etag: S.optional(S.String),
+          monetizationDetails: S.optional(__S(1683, __c52, 19)),
+          statistics: S.optional(__S(1684, __c52, 20)),
+          brandPartner: S.optional(__S(1685, __c52, 21)),
+          suggestions: S.optional(__S(1689, __c52, 25)),
+          id: S.optional(S.String),
+          contentDetails: S.optional(__S(1692, __c52, 28)),
+          projectDetails: S.optional(__S(2496, __c78, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9505,18 +9909,12 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           reasonId: S.optional(S.String),
           language: S.optional(S.String),
           secondaryReasonId: S.optional(S.String),
           comments: S.optional(S.String),
           videoId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VideoAbuseReport" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9611,19 +10009,13 @@ function __c91(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          channelId: S.String.pipe(T.Query()),
+          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           position: S.optional(__S(2912, __c91, 0)),
           targetChannelId: S.optional(S.String),
           imageUrl: S.optional(S.String),
           timing: S.optional(__S(2913, __c91, 1)),
           imageBytes: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InvideoBranding" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          channelId: S.String.pipe(T.Query()),
-          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2914, __c91, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9718,7 +10110,10 @@ function __c96(j: number): any {
           sync: S.optional(S.Boolean.pipe(T.Query())),
           onBehalfOf: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(481, __c15, 1).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(480, __c15, 0)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9736,7 +10131,19 @@ function __c97(j: number): any {
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1844, __c57, 20).pipe(T.HttpBody())),
+          topicDetails: S.optional(__S(1824, __c57, 0)),
+          contentOwnerDetails: S.optional(__S(1825, __c57, 1)),
+          statistics: S.optional(__S(1826, __c57, 2)),
+          contentDetails: S.optional(__S(1828, __c57, 4)),
+          localizations: S.optional(__S(1345, __c42, 1)),
+          conversionPings: S.optional(__S(1831, __c57, 7)),
+          kind: S.optional(S.String),
+          auditDetails: S.optional(__S(1832, __c57, 8)),
+          snippet: S.optional(__S(1833, __c57, 9)),
+          status: S.optional(__S(1834, __c57, 10)),
+          id: S.optional(S.String),
+          etag: S.optional(S.String),
+          brandingSettings: S.optional(__S(1843, __c57, 19)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9754,7 +10161,13 @@ function __c98(j: number): any {
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(581, __c18, 5).pipe(T.HttpBody())),
+          contentDetails: S.optional(__S(576, __c18, 0)),
+          snippet: S.optional(__S(578, __c18, 2)),
+          localizations: S.optional(__S(579, __c18, 3)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          targeting: S.optional(__S(580, __c18, 4)),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9771,7 +10184,10 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(673, __c21, 1).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(672, __c21, 0)),
+          id: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9806,7 +10222,14 @@ function __c101(j: number): any {
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(2093, __c65, 13).pipe(T.HttpBody())),
+          contentDetails: S.optional(__S(2087, __c65, 7)),
+          id: S.optional(S.String),
+          snippet: S.optional(__S(2088, __c65, 8)),
+          kind: S.optional(S.String),
+          statistics: S.optional(__S(2089, __c65, 9)),
+          monetizationDetails: S.optional(__S(2091, __c65, 11)),
+          status: S.optional(__S(2092, __c65, 12)),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9825,7 +10248,13 @@ function __c102(j: number): any {
           part: __S(1536, __c48, 0).pipe(T.Query()),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwnerChannel: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1128, __c35, 8).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          cdn: S.optional(__S(1121, __c35, 1)),
+          contentDetails: S.optional(__S(1122, __c35, 2)),
+          etag: S.optional(S.String),
+          snippet: S.optional(__S(1123, __c35, 3)),
+          status: S.optional(__S(1127, __c35, 7)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9843,7 +10272,9 @@ function __c103(j: number): any {
         S.Struct({
           part: S.optional(__S(1536, __c48, 0).pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1185, __c37, 1).pipe(T.HttpBody())),
+          snippet: S.optional(__S(1184, __c37, 0)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9861,7 +10292,12 @@ function __c104(j: number): any {
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
+          id: S.optional(S.String),
+          contentDetails: S.optional(__S(1280, __c40, 0)),
+          etag: S.optional(S.String),
+          status: S.optional(__S(1281, __c40, 1)),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(1282, __c40, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9879,7 +10315,14 @@ function __c105(j: number): any {
         S.Struct({
           part: __S(1536, __c48, 0).pipe(T.Query()),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1380, __c43, 4).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          snippet: S.optional(__S(1376, __c43, 0)),
+          contentDetails: S.optional(__S(1377, __c43, 1)),
+          player: S.optional(__S(1378, __c43, 2)),
+          localizations: S.optional(__S(1345, __c42, 1)),
+          status: S.optional(__S(1379, __c43, 3)),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9897,7 +10340,11 @@ function __c106(j: number): any {
         S.Struct({
           externalChannelId: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1606, __c50, 6).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          linkingToken: S.optional(S.String),
+          snippet: S.optional(__S(1604, __c50, 4)),
+          status: S.optional(__S(1605, __c50, 5)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9915,7 +10362,26 @@ function __c107(j: number): any {
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           part: __S(1536, __c48, 0).pipe(T.Query()),
-          body: S.optional(__S(1693, __c52, 29).pipe(T.HttpBody())),
+          fileDetails: S.optional(__S(1668, __c52, 4)),
+          ageGating: S.optional(__S(1669, __c52, 5)),
+          snippet: S.optional(__S(1671, __c52, 7)),
+          kind: S.optional(S.String),
+          processingDetails: S.optional(__S(1673, __c52, 9)),
+          topicDetails: S.optional(__S(1674, __c52, 10)),
+          liveStreamingDetails: S.optional(__S(1675, __c52, 11)),
+          localizations: S.optional(__S(1676, __c52, 12)),
+          player: S.optional(__S(1677, __c52, 13)),
+          status: S.optional(__S(1678, __c52, 14)),
+          recordingDetails: S.optional(__S(1680, __c52, 16)),
+          paidProductPlacementDetails: S.optional(__S(1681, __c52, 17)),
+          etag: S.optional(S.String),
+          monetizationDetails: S.optional(__S(1683, __c52, 19)),
+          statistics: S.optional(__S(1684, __c52, 20)),
+          brandPartner: S.optional(__S(1685, __c52, 21)),
+          suggestions: S.optional(__S(1689, __c52, 25)),
+          id: S.optional(S.String),
+          contentDetails: S.optional(__S(1692, __c52, 28)),
+          projectDetails: S.optional(__S(2496, __c78, 0)),
         }).pipe(
           T.Http({
             method: "PUT",

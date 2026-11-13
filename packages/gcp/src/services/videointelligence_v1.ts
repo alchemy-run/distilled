@@ -222,8 +222,7 @@ export type GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnum 
 export type GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnumList = Array<
   GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnum | (string & {})
 >;
-/** Video annotation request. */
-export interface GoogleCloudVideointelligenceV1_AnnotateVideoRequest {
+export interface AnnotateVideosRequest {
   /** Input video location. Currently, only [Cloud Storage](https://cloud.google.com/storage/) URIs are supported. URIs must be specified in the following format: `gs://bucket-id/object-id` (other URI formats return google.rpc.Code.INVALID_ARGUMENT). For more information, see [Request URIs](https://cloud.google.com/storage/docs/request-endpoints). To identify multiple videos, a video URI may include wildcards in the `object-id`. Supported wildcards: '*' to match 0 or more characters; '?' to match 1 character. If unset, the input video should be embedded in the request as `input_content`. If set, `input_content` must be unset. */
   inputUri?: string | undefined;
   /** Additional video context and/or feature-specific parameters. */
@@ -236,10 +235,6 @@ export interface GoogleCloudVideointelligenceV1_AnnotateVideoRequest {
   features?: GoogleCloudVideointelligenceV1_AnnotateVideoRequestFeaturesItemEnumList | undefined;
   /** Optional. Cloud region where annotation should take place. Supported cloud regions are: `us-east1`, `us-west1`, `europe-west1`, `asia-east1`. If no region is specified, the region will be determined based on video file location. */
   locationId?: string | undefined;
-}
-export interface AnnotateVideosRequest {
-  /** Request body */
-  body?: GoogleCloudVideointelligenceV1_AnnotateVideoRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -325,7 +320,7 @@ export const annotateVideos: API.OperationMethod<
   AnnotateVideosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(46, __c2, 14) as any as S.Schema<AnnotateVideosRequest>,
+  input: __S(45, __c2, 13) as any as S.Schema<AnnotateVideosRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<GoogleLongrunning_Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -622,12 +617,6 @@ function __c2(j: number): any {
           inputContent: S.optional(S.String),
           features: S.optional(__S(44, __c2, 12)),
           locationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudVideointelligenceV1_AnnotateVideoRequest" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(45, __c2, 13).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

@@ -204,18 +204,13 @@ export interface QuotaOperation {
   /** Identity of the consumer for whom this quota operation is being performed. This can be in one of the following formats: project:, project_number:, api_key:. */
   consumerId?: string | undefined;
 }
-/** Request message for the AllocateQuota method. */
-export interface AllocateQuotaRequest {
+export interface AllocateQuotaServicesRequest {
+  /** Name of the service as specified in the service configuration. For example, `"pubsub.googleapis.com"`. See google.api.Service for the definition of a service name. */
+  serviceName: string;
   /** Operation that describes the quota allocation. */
   allocateOperation?: QuotaOperation | undefined;
   /** Specifies which version of service configuration should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
   serviceConfigId?: string | undefined;
-}
-export interface AllocateQuotaServicesRequest {
-  /** Name of the service as specified in the service configuration. For example, `"pubsub.googleapis.com"`. See google.api.Service for the definition of a service name. */
-  serviceName: string;
-  /** Request body */
-  body?: AllocateQuotaRequest | undefined;
 }
 export interface AllocateInfo {
   /** A list of label keys that were unused by the server in processing the request. Thus, for similar requests repeated in a certain future time window, the caller can choose to ignore these labels in the requests to achieve better client-side cache hits and quota aggregation for rate quota. This field is not populated for allocation quota checks. */
@@ -466,8 +461,9 @@ export interface Operation {
   /** The resources that are involved in the operation. The maximum supported number of entries in this field is 100. */
   resources?: ResourceInfoList | undefined;
 }
-/** Request message for the Check method. */
-export interface CheckRequest {
+export interface CheckServicesRequest {
+  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
+  serviceName: string;
   /** Requests the project settings to be returned as part of the check response. */
   requestProjectSettings?: boolean | undefined;
   /** Indicates if service activation check should be skipped for this request. Default behavior is to perform the check and apply relevant quota. WARNING: Setting this flag to "true" will disable quota enforcement. */
@@ -476,12 +472,6 @@ export interface CheckRequest {
   serviceConfigId?: string | undefined;
   /** The operation to be checked. */
   operation?: Operation | undefined;
-}
-export interface CheckServicesRequest {
-  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
-  serviceName: string;
-  /** Request body */
-  body?: CheckRequest | undefined;
 }
 export type QuotaInfoQuotaExtractionStateEnum =
   | "QUOTA_EXTRACTION_STATE_UNSPECIFIED"
@@ -591,18 +581,13 @@ export interface CheckResponse {
   checkInfo?: CheckInfo | undefined;
 }
 export type OperationList = Array<Operation>;
-/** Request message for the Report method. */
-export interface ReportRequest {
+export interface ReportServicesRequest {
+  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
+  serviceName: string;
   /** Operations to be reported. Typically the service should report one operation per request. Putting multiple operations into a single request is allowed, but should be used only when multiple operations are natually available at the time of the report. There is no limit on the number of operations in the same ReportRequest, however the ReportRequest size should be no larger than 1MB. See ReportResponse.report_errors for partial failure behavior. */
   operations?: OperationList | undefined;
   /** Specifies which version of service config should be used to process the request. If unspecified or no matching version can be found, the latest one will be used. */
   serviceConfigId?: string | undefined;
-}
-export interface ReportServicesRequest {
-  /** The service name as specified in its service configuration. For example, `"pubsub.googleapis.com"`. See [google.api.Service](https://cloud.google.com/service-management/reference/rpc/google.api#google.api.Service) for the definition of a service name. */
-  serviceName: string;
-  /** Request body */
-  body?: ReportRequest | undefined;
 }
 /** Represents the processing error of one Operation in the request. */
 export interface ReportError {
@@ -629,8 +614,8 @@ export const allocateQuotaServices: API.OperationMethod<
   AllocateQuotaServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<AllocateQuotaServicesRequest>,
-  output: __S(6, __c0, 6) as any as S.Schema<AllocateQuotaResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<AllocateQuotaServicesRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<AllocateQuotaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -646,8 +631,8 @@ export const checkServices: API.OperationMethod<
   CheckServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c2, 1) as any as S.Schema<CheckServicesRequest>,
-  output: __S(72, __c2, 8) as any as S.Schema<CheckResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CheckServicesRequest>,
+  output: __S(71, __c2, 7) as any as S.Schema<CheckResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -663,8 +648,8 @@ export const reportServices: API.OperationMethod<
   ReportServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(130, __c4, 2) as any as S.Schema<ReportServicesRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<ReportResponse>,
+  input: __S(129, __c4, 1) as any as S.Schema<ReportServicesRequest>,
+  output: __S(132, __c4, 4) as any as S.Schema<ReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -689,15 +674,9 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          serviceName: S.String.pipe(T.Label()),
           allocateOperation: S.optional(__S(0, __c0, 0)),
           serviceConfigId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AllocateQuotaRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -706,13 +685,13 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AllocateQuotaServicesRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           unusedArguments: S.optional(__S(39, __c1, 7)),
         }),
       ).annotate({ identifier: "AllocateInfo" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subject: S.optional(S.String),
@@ -721,14 +700,14 @@ function __c0(j: number): any {
           status: S.optional(__S(48, __c1, 16)),
         }),
       ).annotate({ identifier: "QuotaError" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
     case 5:
-      return S.Array(__S(4, __c0, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          allocateInfo: S.optional(__S(3, __c0, 3)),
+          allocateInfo: S.optional(__S(2, __c0, 2)),
           operationId: S.optional(S.String),
-          allocateErrors: S.optional(__S(5, __c0, 5)),
+          allocateErrors: S.optional(__S(4, __c0, 4)),
           serviceConfigId: S.optional(S.String),
           quotaMetrics: S.optional(__S(47, __c1, 15)),
         }),
@@ -842,17 +821,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceName: S.String.pipe(T.Label()),
           requestProjectSettings: S.optional(S.Boolean),
           skipActivationCheck: S.optional(S.Boolean),
           serviceConfigId: S.optional(S.String),
           operation: S.optional(__S(110, __c3, 14)),
-        }),
-      ).annotate({ identifier: "CheckRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -861,18 +834,18 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CheckServicesRequest" });
-    case 2:
+    case 1:
       return S.Record(S.String, S.Number);
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           limitExceeded: S.optional(__S(39, __c1, 7)),
           quotaMetrics: S.optional(__S(47, __c1, 15)),
           quotaExtractionState: S.optional(S.String),
-          quotaConsumed: S.optional(__S(66, __c2, 2)),
+          quotaConsumed: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "QuotaInfo" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
@@ -881,9 +854,9 @@ function __c2(j: number): any {
           status: S.optional(__S(48, __c1, 16)),
         }),
       ).annotate({ identifier: "CheckError" });
+    case 4:
+      return S.Array(__S(67, __c2, 3));
     case 5:
-      return S.Array(__S(68, __c2, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -891,24 +864,24 @@ function __c2(j: number): any {
           projectNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsumerInfo" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          consumerInfo: S.optional(__S(70, __c2, 6)),
+          consumerInfo: S.optional(__S(69, __c2, 5)),
           ignoreApiKeyUidAsCredentialId: S.optional(S.Boolean),
           unusedArguments: S.optional(__S(39, __c1, 7)),
           apiKeyUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckInfo" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           operationId: S.optional(S.String),
-          quotaInfo: S.optional(__S(67, __c2, 3)),
-          checkErrors: S.optional(__S(69, __c2, 5)),
+          quotaInfo: S.optional(__S(66, __c2, 2)),
+          checkErrors: S.optional(__S(68, __c2, 4)),
           serviceRolloutId: S.optional(S.String),
           serviceConfigId: S.optional(S.String),
-          checkInfo: S.optional(__S(71, __c2, 7)),
+          checkInfo: S.optional(__S(70, __c2, 6)),
         }),
       ).annotate({ identifier: "CheckResponse" });
   }
@@ -1057,15 +1030,9 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          serviceName: S.String.pipe(T.Label()),
           operations: S.optional(__S(128, __c4, 0)),
           serviceConfigId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          serviceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c4, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1074,20 +1041,20 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ReportServicesRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           operationId: S.optional(S.String),
           status: S.optional(__S(48, __c1, 16)),
         }),
       ).annotate({ identifier: "ReportError" });
+    case 3:
+      return S.Array(__S(130, __c4, 2));
     case 4:
-      return S.Array(__S(131, __c4, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           serviceRolloutId: S.optional(S.String),
-          reportErrors: S.optional(__S(132, __c4, 4)),
+          reportErrors: S.optional(__S(131, __c4, 3)),
           serviceConfigId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportResponse" });

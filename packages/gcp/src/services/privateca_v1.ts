@@ -96,20 +96,15 @@ export interface SubordinateConfig {
   /** Required. Contains the PEM certificate chain for the issuers of this CertificateAuthority, but not pem certificate for this CA itself. */
   pemIssuerChain?: SubordinateConfigChain | undefined;
 }
-/** Request message for CertificateAuthorityService.ActivateCertificateAuthority. */
-export interface ActivateCertificateAuthorityRequest {
+export interface ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+  /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
+  name: string;
   /** Required. The signed CA certificate issued from FetchCertificateAuthorityCsrResponse.pem_csr. */
   pemCaCertificate?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Must include information about the issuer of 'pem_ca_certificate', and any further issuers until the self-signed CA. */
   subordinateConfig?: SubordinateConfig | undefined;
-}
-export interface ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
-  /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
-  name: string;
-  /** Request body */
-  body?: ActivateCertificateAuthorityRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -356,8 +351,13 @@ export interface IssuancePolicy {
   /** Optional. Describes constraints on identities that may appear in Certificates issued through this CaPool. If this is omitted, then this CaPool will not add restrictions on a certificate's identity. */
   identityConstraints?: CertificateIdentityConstraints | undefined;
 }
-/** A CaPool represents a group of CertificateAuthorities that form a trust anchor. A CaPool can be used to manage issuance policies for one or more CertificateAuthority resources and to rotate CA certificates in and out of the trust anchor. */
-export interface CaPool {
+export interface CreateProjectsLocationsCaPoolsRequest {
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
+  caPoolId?: string | undefined;
+  /** Required. The resource name of the location associated with the CaPool, in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. The PublishingOptions to follow when issuing Certificates from any CertificateAuthority in this CaPool. */
   publishingOptions?: PublishingOptions | undefined;
   /** Optional. Labels with user-defined metadata. */
@@ -370,16 +370,6 @@ export interface CaPool {
   tier?: CaPoolTierEnum | (string & {}) | undefined;
   /** Optional. The IssuancePolicy to control how Certificates will be issued from this CaPool. */
   issuancePolicy?: IssuancePolicy | undefined;
-}
-export interface CreateProjectsLocationsCaPoolsRequest {
-  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
-  caPoolId?: string | undefined;
-  /** Required. The resource name of the location associated with the CaPool, in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: CaPool | undefined;
 }
 /** URLs where a CertificateAuthority will publish content. */
 export interface AccessUrls {
@@ -559,8 +549,13 @@ export interface CertificateConfig {
   /** Optional. When specified this provides a custom SKI to be used in the certificate. This should only be used to maintain a SKI of an existing CA originally created outside CA service, which was not generated using method (1) described in RFC 5280 section 4.2.1.2. */
   subjectKeyId?: CertificateConfigKeyId | undefined;
 }
-/** A CertificateAuthority represents an individual Certificate Authority. A CertificateAuthority can be used to create Certificates. */
-export interface CertificateAuthority {
+export interface CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+  /** Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/*\/locations/*\/caPools/*`. */
+  parent: string;
+  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
+  certificateAuthorityId?: string | undefined;
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. This CertificateAuthority's certificate chain, including the current CertificateAuthority's certificate. Ordered such that the root issuer is the final element (consistent with RFC 5246). For a self-signed CA, this will only list the current CertificateAuthority's certificate. */
   pemCaCertificates?: StringList | undefined;
   /** Output only. URLs for accessing content published by this CA, such as the CA certificate and CRLs. */
@@ -602,16 +597,6 @@ export interface CertificateAuthority {
   /** Required. Immutable. The config used to create a self-signed X.509 certificate or CSR. */
   config?: CertificateConfig | undefined;
 }
-export interface CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
-  /** Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/*\/locations/*\/caPools/*`. */
-  parent: string;
-  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
-  certificateAuthorityId?: string | undefined;
-  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: CertificateAuthority | undefined;
-}
 export type RevocationDetailsRevocationStateEnum =
   | "REVOCATION_REASON_UNSPECIFIED"
   | "KEY_COMPROMISE"
@@ -634,8 +619,17 @@ export type CertificateSubjectModeEnum =
   | "DEFAULT"
   | "RDN_SEQUENCE"
   | "REFLECTED_SPIFFE";
-/** A Certificate corresponds to a signed X.509 certificate issued by a CertificateAuthority. */
-export interface Certificate {
+export interface CreateProjectsLocationsCaPoolsCertificatesRequest {
+  /** Optional. The resource ID of the CertificateAuthority that should issue the certificate. This optional field will ignore the load-balancing scheme of the Pool and directly issue the certificate from the CA with the specified ID, contained in the same CaPool referenced by `parent`. Per-CA quota rules apply. If left empty, a CertificateAuthority will be chosen from the CaPool by the service. For example, to issue a Certificate from a Certificate Authority with resource name "projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca", you can set the parent to "projects/my-project/locations/us-central1/caPools/my-pool" and the issuing_certificate_authority_id to "my-ca". */
+  issuingCertificateAuthorityId?: string | undefined;
+  /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. This field is required when using a CertificateAuthority in the Enterprise CertificateAuthority.tier, but is optional and its value is ignored otherwise. */
+  certificateId?: string | undefined;
+  /** Required. The resource name of the CaPool associated with the Certificate, in the format `projects/*\/locations/*\/caPools/*`. */
+  parent: string;
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If this is true, no Certificate resource will be persisted regardless of the CaPool's tier, and the returned Certificate will not contain the pem_certificate field. */
+  validateOnly?: boolean | undefined;
   /** Immutable. A pem-encoded X.509 certificate signing request (CSR). */
   pemCsr?: string | undefined;
   /** Identifier. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
@@ -667,22 +661,46 @@ export interface Certificate {
   /** Output only. The pem-encoded, signed X.509 certificate. */
   pemCertificate?: string | undefined;
 }
-export interface CreateProjectsLocationsCaPoolsCertificatesRequest {
-  /** Optional. The resource ID of the CertificateAuthority that should issue the certificate. This optional field will ignore the load-balancing scheme of the Pool and directly issue the certificate from the CA with the specified ID, contained in the same CaPool referenced by `parent`. Per-CA quota rules apply. If left empty, a CertificateAuthority will be chosen from the CaPool by the service. For example, to issue a Certificate from a Certificate Authority with resource name "projects/my-project/locations/us-central1/caPools/my-pool/certificateAuthorities/my-ca", you can set the parent to "projects/my-project/locations/us-central1/caPools/my-pool" and the issuing_certificate_authority_id to "my-ca". */
-  issuingCertificateAuthorityId?: string | undefined;
-  /** Optional. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}`. This field is required when using a CertificateAuthority in the Enterprise CertificateAuthority.tier, but is optional and its value is ignored otherwise. */
-  certificateId?: string | undefined;
-  /** Required. The resource name of the CaPool associated with the Certificate, in the format `projects/*\/locations/*\/caPools/*`. */
-  parent: string;
+/** A Certificate corresponds to a signed X.509 certificate issued by a CertificateAuthority. */
+export interface Certificate {
+  /** Immutable. A pem-encoded X.509 certificate signing request (CSR). */
+  pemCsr?: string | undefined;
+  /** Identifier. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
+  name?: string | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which this Certificate was updated. */
+  updateTime?: string | undefined;
+  /** Immutable. The resource name for a CertificateTemplate used to issue this certificate, in the format `projects/*\/locations/*\/certificateTemplates/*`. If this is specified, the caller must have the necessary permission to use this template. If this is omitted, no template will be used. This template must be in the same location as the Certificate. */
+  certificateTemplate?: string | undefined;
+  /** Output only. A structured description of the issued X.509 certificate. */
+  certificateDescription?: CertificateDescription | undefined;
+  /** Output only. Details regarding the revocation of this Certificate. This Certificate is considered revoked if and only if this field is present. */
+  revocationDetails?: RevocationDetails | undefined;
+  /** Immutable. A description of the certificate and key that does not require X.509 or ASN.1. */
+  config?: CertificateConfig | undefined;
+  /** Required. Immutable. The desired lifetime of a certificate. Used to create the "not_before_time" and "not_after_time" fields inside an X.509 certificate. Note that the lifetime may be truncated if it would extend past the life of any certificate authority in the issuing chain. */
+  lifetime?: string | undefined;
+  /** Output only. The resource name of the issuing CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
+  issuerCertificateAuthority?: string | undefined;
+  /** Output only. The chain that may be used to verify the X.509 certificate. Expected to be in issuer-to-root order according to RFC 5246. */
+  pemCertificateChain?: StringList | undefined;
+  /** Output only. The time at which this Certificate was created. */
+  createTime?: string | undefined;
+  /** Optional. The requested not_before_time of this Certificate. This field may only be set if the CaPool.IssuancePolicy.allow_requester_specified_not_before_time field is set to true for the issuing CaPool. If this field is specified, the certificate will be issued with this 'not_before_time'. If this is not specified, the 'not_before_time' will be set to the issuance time or issuance time minus backdate_duration depending on the CaPool configuration. */
+  requestedNotBeforeTime?: string | undefined;
+  /** Immutable. Specifies how the Certificate's identity fields are to be decided. If this is omitted, the `DEFAULT` subject mode will be used. */
+  subjectMode?: CertificateSubjectModeEnum | undefined;
+  /** Output only. The pem-encoded, signed X.509 certificate. */
+  pemCertificate?: string | undefined;
+}
+export interface CreateProjectsLocationsCertificateTemplatesRequest {
+  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
+  certificateTemplateId?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. If this is true, no Certificate resource will be persisted regardless of the CaPool's tier, and the returned Certificate will not contain the pem_certificate field. */
-  validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Certificate | undefined;
-}
-/** A CertificateTemplate refers to a managed template for certificate issuance. */
-export interface CertificateTemplate {
+  /** Required. The resource name of the location associated with the CertificateTemplate, in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Output only. The time at which this CertificateTemplate was created. */
   createTime?: string | undefined;
   /** Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values. */
@@ -701,16 +719,6 @@ export interface CertificateTemplate {
   labels?: StringMap | undefined;
   /** Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail. */
   predefinedValues?: X509Parameters | undefined;
-}
-export interface CreateProjectsLocationsCertificateTemplatesRequest {
-  /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
-  certificateTemplateId?: string | undefined;
-  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the location associated with the CertificateTemplate, in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: CertificateTemplate | undefined;
 }
 export interface DeleteProjectsLocationsCaPoolsRequest {
   /** Optional. This field allows this pool to be deleted even if it's being depended on by another resource. However, doing so may result in unintended and unrecoverable effects on any dependent resources since the pool will no longer be able to issue certificates. */
@@ -742,37 +750,25 @@ export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
-/** Request message for CertificateAuthorityService.DisableCertificateAuthority. */
-export interface DisableCertificateAuthorityRequest {
+export interface DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
+  /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
+  name: string;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. This field allows this CA to be disabled even if it's being depended on by another resource. However, doing so may result in unintended and unrecoverable effects on any dependent resources since the CA will no longer be able to issue certificates. */
   ignoreDependentResources?: boolean | undefined;
 }
-export interface DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
-  /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
-  name: string;
-  /** Request body */
-  body?: DisableCertificateAuthorityRequest | undefined;
-}
-/** Request message for CertificateAuthorityService.EnableCertificateAuthority. */
-export interface EnableCertificateAuthorityRequest {
-  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-}
 export interface EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
-  /** Request body */
-  body?: EnableCertificateAuthorityRequest | undefined;
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
-/** Request message for CertificateAuthorityService.FetchCaCerts. */
-export type FetchCaCertsRequest = EnableCertificateAuthorityRequest;
 export interface FetchCaCertsProjectsLocationsCaPoolsRequest {
   /** Required. The resource name for the CaPool in the format `projects/*\/locations/*\/caPools/*`. */
   caPool: string;
-  /** Request body */
-  body?: EnableCertificateAuthorityRequest | undefined;
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface CertChain {
   /** The certificates that form the CA chain, from leaf to root order. */
@@ -874,9 +870,67 @@ export interface GetProjectsLocationsCaPoolsRequest {
   /** Required. The name of the CaPool to get. */
   name: string;
 }
+/** A CaPool represents a group of CertificateAuthorities that form a trust anchor. A CaPool can be used to manage issuance policies for one or more CertificateAuthority resources and to rotate CA certificates in and out of the trust anchor. */
+export interface CaPool {
+  /** Optional. The PublishingOptions to follow when issuing Certificates from any CertificateAuthority in this CaPool. */
+  publishingOptions?: PublishingOptions | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. When EncryptionSpec is provided, the Subject, SubjectAltNames, and the PEM-encoded certificate fields will be encrypted at rest. */
+  encryptionSpec?: EncryptionSpec | undefined;
+  /** Identifier. The resource name for this CaPool in the format `projects/*\/locations/*\/caPools/*`. */
+  name?: string | undefined;
+  /** Required. Immutable. The Tier of this CaPool. */
+  tier?: CaPoolTierEnum | undefined;
+  /** Optional. The IssuancePolicy to control how Certificates will be issued from this CaPool. */
+  issuancePolicy?: IssuancePolicy | undefined;
+}
 export interface GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The name of the CertificateAuthority to get. */
   name: string;
+}
+/** A CertificateAuthority represents an individual Certificate Authority. A CertificateAuthority can be used to create Certificates. */
+export interface CertificateAuthority {
+  /** Output only. This CertificateAuthority's certificate chain, including the current CertificateAuthority's certificate. Ordered such that the root issuer is the final element (consistent with RFC 5246). For a self-signed CA, this will only list the current CertificateAuthority's certificate. */
+  pemCaCertificates?: StringList | undefined;
+  /** Output only. URLs for accessing content published by this CA, such as the CA certificate and CRLs. */
+  accessUrls?: AccessUrls | undefined;
+  /** Output only. The time at which this CertificateAuthority will be permanently purged, if it is in the DELETED state. */
+  expireTime?: string | undefined;
+  /** Optional. If this is a subordinate CertificateAuthority, this field will be set with the subordinate configuration, which describes its issuers. This may be updated, but this CertificateAuthority must continue to validate. */
+  subordinateConfig?: SubordinateConfig | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which this CertificateAuthority was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The CaPool.Tier of the CaPool that includes this CertificateAuthority. */
+  tier?: CertificateAuthorityTierEnum | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The time at which this CertificateAuthority was created. */
+  createTime?: string | undefined;
+  /** Optional. User-defined URLs for CA certificate and CRLs. The service does not publish content to these URLs. It is up to the user to mirror content to these URLs. */
+  userDefinedAccessUrls?: UserDefinedAccessUrls | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Required. Immutable. The Type of this CertificateAuthority. */
+  type?: CertificateAuthorityTypeEnum | undefined;
+  /** Identifier. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
+  name?: string | undefined;
+  /** Output only. The time at which this CertificateAuthority was soft deleted, if it is in the DELETED state. */
+  deleteTime?: string | undefined;
+  /** Output only. The State for this CertificateAuthority. */
+  state?: CertificateAuthorityStateEnum | undefined;
+  /** Immutable. The name of a Cloud Storage bucket where this CertificateAuthority will publish content, such as the CA certificate and CRLs. This must be a bucket name, without any prefixes (such as `gs://`) or suffixes (such as `.googleapis.com`). For example, to use a bucket named `my-bucket`, you would simply specify `my-bucket`. If not specified, a managed bucket will be created. */
+  gcsBucket?: string | undefined;
+  /** Required. Immutable. Used when issuing certificates for this CertificateAuthority. If this CertificateAuthority is a self-signed CertificateAuthority, this key is also used to sign the self-signed CA certificate. Otherwise, it is used to sign a CSR. */
+  keySpec?: KeyVersionSpec | undefined;
+  /** Output only. A structured description of this CertificateAuthority's CA certificate and its issuers. Ordered as self-to-root. */
+  caCertificateDescriptions?: CertificateDescriptionList | undefined;
+  /** Required. Immutable. The desired lifetime of the CA certificate. Used to create the "not_before_time" and "not_after_time" fields inside an X.509 certificate. */
+  lifetime?: string | undefined;
+  /** Required. Immutable. The config used to create a self-signed X.509 certificate or CSR. */
+  config?: CertificateConfig | undefined;
 }
 export interface GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** Required. The name of the CertificateRevocationList to get. */
@@ -924,7 +978,7 @@ export interface CertificateRevocationList {
   /** Identifier. The resource name for this CertificateRevocationList in the format `projects/*\/locations/*\/caPools/*certificateAuthorities/*\/ certificateRevocationLists/*`. */
   name?: string | undefined;
   /** Output only. The State for this CertificateRevocationList. */
-  state?: CertificateRevocationListStateEnum | (string & {}) | undefined;
+  state?: CertificateRevocationListStateEnum | undefined;
 }
 export interface GetProjectsLocationsCaPoolsCertificatesRequest {
   /** Required. The name of the Certificate to get. */
@@ -933,6 +987,27 @@ export interface GetProjectsLocationsCaPoolsCertificatesRequest {
 export interface GetProjectsLocationsCertificateTemplatesRequest {
   /** Required. The name of the CertificateTemplate to get. */
   name: string;
+}
+/** A CertificateTemplate refers to a managed template for certificate issuance. */
+export interface CertificateTemplate {
+  /** Output only. The time at which this CertificateTemplate was created. */
+  createTime?: string | undefined;
+  /** Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values. */
+  passthroughExtensions?: CertificateExtensionConstraints | undefined;
+  /** Optional. The maximum lifetime allowed for issued Certificates that use this template. If the issuing CaPool resource's IssuancePolicy specifies a maximum_lifetime the minimum of the two durations will be the maximum lifetime for issued Certificates. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it. */
+  maximumLifetime?: string | undefined;
+  /** Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity. */
+  identityConstraints?: CertificateIdentityConstraints | undefined;
+  /** Identifier. The resource name for this CertificateTemplate in the format `projects/*\/locations/*\/certificateTemplates/*`. */
+  name?: string | undefined;
+  /** Output only. The time at which this CertificateTemplate was updated. */
+  updateTime?: string | undefined;
+  /** Optional. A human-readable description of scenarios this template is intended for. */
+  description?: string | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail. */
+  predefinedValues?: X509Parameters | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1097,8 +1172,16 @@ export interface PatchProjectsLocationsCaPoolsRequest {
   updateMask?: string | undefined;
   /** Identifier. The resource name for this CaPool in the format `projects/*\/locations/*\/caPools/*`. */
   name: string;
-  /** Request body */
-  body?: CaPool | undefined;
+  /** Optional. The PublishingOptions to follow when issuing Certificates from any CertificateAuthority in this CaPool. */
+  publishingOptions?: PublishingOptions | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. When EncryptionSpec is provided, the Subject, SubjectAltNames, and the PEM-encoded certificate fields will be encrypted at rest. */
+  encryptionSpec?: EncryptionSpec | undefined;
+  /** Required. Immutable. The Tier of this CaPool. */
+  tier?: CaPoolTierEnum | (string & {}) | undefined;
+  /** Optional. The IssuancePolicy to control how Certificates will be issued from this CaPool. */
+  issuancePolicy?: IssuancePolicy | undefined;
 }
 export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. A list of fields to be updated in this request. */
@@ -1107,8 +1190,44 @@ export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   name: string;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CertificateAuthority | undefined;
+  /** Output only. This CertificateAuthority's certificate chain, including the current CertificateAuthority's certificate. Ordered such that the root issuer is the final element (consistent with RFC 5246). For a self-signed CA, this will only list the current CertificateAuthority's certificate. */
+  pemCaCertificates?: StringList | undefined;
+  /** Output only. URLs for accessing content published by this CA, such as the CA certificate and CRLs. */
+  accessUrls?: AccessUrls | undefined;
+  /** Output only. The time at which this CertificateAuthority will be permanently purged, if it is in the DELETED state. */
+  expireTime?: string | undefined;
+  /** Optional. If this is a subordinate CertificateAuthority, this field will be set with the subordinate configuration, which describes its issuers. This may be updated, but this CertificateAuthority must continue to validate. */
+  subordinateConfig?: SubordinateConfig | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which this CertificateAuthority was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The CaPool.Tier of the CaPool that includes this CertificateAuthority. */
+  tier?: CertificateAuthorityTierEnum | (string & {}) | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The time at which this CertificateAuthority was created. */
+  createTime?: string | undefined;
+  /** Optional. User-defined URLs for CA certificate and CRLs. The service does not publish content to these URLs. It is up to the user to mirror content to these URLs. */
+  userDefinedAccessUrls?: UserDefinedAccessUrls | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Required. Immutable. The Type of this CertificateAuthority. */
+  type?: CertificateAuthorityTypeEnum | (string & {}) | undefined;
+  /** Output only. The time at which this CertificateAuthority was soft deleted, if it is in the DELETED state. */
+  deleteTime?: string | undefined;
+  /** Output only. The State for this CertificateAuthority. */
+  state?: CertificateAuthorityStateEnum | (string & {}) | undefined;
+  /** Immutable. The name of a Cloud Storage bucket where this CertificateAuthority will publish content, such as the CA certificate and CRLs. This must be a bucket name, without any prefixes (such as `gs://`) or suffixes (such as `.googleapis.com`). For example, to use a bucket named `my-bucket`, you would simply specify `my-bucket`. If not specified, a managed bucket will be created. */
+  gcsBucket?: string | undefined;
+  /** Required. Immutable. Used when issuing certificates for this CertificateAuthority. If this CertificateAuthority is a self-signed CertificateAuthority, this key is also used to sign the self-signed CA certificate. Otherwise, it is used to sign a CSR. */
+  keySpec?: KeyVersionSpec | undefined;
+  /** Output only. A structured description of this CertificateAuthority's CA certificate and its issuers. Ordered as self-to-root. */
+  caCertificateDescriptions?: CertificateDescriptionList | undefined;
+  /** Required. Immutable. The desired lifetime of the CA certificate. Used to create the "not_before_time" and "not_after_time" fields inside an X.509 certificate. */
+  lifetime?: string | undefined;
+  /** Required. Immutable. The config used to create a self-signed X.509 certificate or CSR. */
+  config?: CertificateConfig | undefined;
 }
 export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** Identifier. The resource name for this CertificateRevocationList in the format `projects/*\/locations/*\/caPools/*certificateAuthorities/*\/ certificateRevocationLists/*`. */
@@ -1117,8 +1236,24 @@ export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateR
   updateMask?: string | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: CertificateRevocationList | undefined;
+  /** Output only. The revision ID of this CertificateRevocationList. A new revision is committed whenever a new CRL is published. The format is an 8-character hexadecimal string. */
+  revisionId?: string | undefined;
+  /** Output only. The time at which this CertificateRevocationList was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The revoked serial numbers that appear in pem_crl. */
+  revokedCertificates?: RevokedCertificateList | undefined;
+  /** Output only. The CRL sequence number that appears in pem_crl. */
+  sequenceNumber?: string | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The PEM-encoded X.509 CRL. */
+  pemCrl?: string | undefined;
+  /** Output only. The time at which this CertificateRevocationList was created. */
+  createTime?: string | undefined;
+  /** Output only. The location where 'pem_crl' can be accessed. */
+  accessUrl?: string | undefined;
+  /** Output only. The State for this CertificateRevocationList. */
+  state?: CertificateRevocationListStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsCaPoolsCertificatesRequest {
   /** Required. A list of fields to be updated in this request. */
@@ -1127,8 +1262,34 @@ export interface PatchProjectsLocationsCaPoolsCertificatesRequest {
   requestId?: string | undefined;
   /** Identifier. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
   name: string;
-  /** Request body */
-  body?: Certificate | undefined;
+  /** Immutable. A pem-encoded X.509 certificate signing request (CSR). */
+  pemCsr?: string | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which this Certificate was updated. */
+  updateTime?: string | undefined;
+  /** Immutable. The resource name for a CertificateTemplate used to issue this certificate, in the format `projects/*\/locations/*\/certificateTemplates/*`. If this is specified, the caller must have the necessary permission to use this template. If this is omitted, no template will be used. This template must be in the same location as the Certificate. */
+  certificateTemplate?: string | undefined;
+  /** Output only. A structured description of the issued X.509 certificate. */
+  certificateDescription?: CertificateDescription | undefined;
+  /** Output only. Details regarding the revocation of this Certificate. This Certificate is considered revoked if and only if this field is present. */
+  revocationDetails?: RevocationDetails | undefined;
+  /** Immutable. A description of the certificate and key that does not require X.509 or ASN.1. */
+  config?: CertificateConfig | undefined;
+  /** Required. Immutable. The desired lifetime of a certificate. Used to create the "not_before_time" and "not_after_time" fields inside an X.509 certificate. Note that the lifetime may be truncated if it would extend past the life of any certificate authority in the issuing chain. */
+  lifetime?: string | undefined;
+  /** Output only. The resource name of the issuing CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
+  issuerCertificateAuthority?: string | undefined;
+  /** Output only. The chain that may be used to verify the X.509 certificate. Expected to be in issuer-to-root order according to RFC 5246. */
+  pemCertificateChain?: StringList | undefined;
+  /** Output only. The time at which this Certificate was created. */
+  createTime?: string | undefined;
+  /** Optional. The requested not_before_time of this Certificate. This field may only be set if the CaPool.IssuancePolicy.allow_requester_specified_not_before_time field is set to true for the issuing CaPool. If this field is specified, the certificate will be issued with this 'not_before_time'. If this is not specified, the 'not_before_time' will be set to the issuance time or issuance time minus backdate_duration depending on the CaPool configuration. */
+  requestedNotBeforeTime?: string | undefined;
+  /** Immutable. Specifies how the Certificate's identity fields are to be decided. If this is omitted, the `DEFAULT` subject mode will be used. */
+  subjectMode?: CertificateSubjectModeEnum | (string & {}) | undefined;
+  /** Output only. The pem-encoded, signed X.509 certificate. */
+  pemCertificate?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificateTemplatesRequest {
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1137,8 +1298,22 @@ export interface PatchProjectsLocationsCertificateTemplatesRequest {
   name: string;
   /** Required. A list of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CertificateTemplate | undefined;
+  /** Output only. The time at which this CertificateTemplate was created. */
+  createTime?: string | undefined;
+  /** Optional. Describes the set of X.509 extensions that may appear in a Certificate issued using this CertificateTemplate. If a certificate request sets extensions that don't appear in the passthrough_extensions, those extensions will be dropped. If the issuing CaPool's IssuancePolicy defines baseline_values that don't appear here, the certificate issuance request will fail. If this is omitted, then this template will not add restrictions on a certificate's X.509 extensions. These constraints do not apply to X.509 extensions set in this CertificateTemplate's predefined_values. */
+  passthroughExtensions?: CertificateExtensionConstraints | undefined;
+  /** Optional. The maximum lifetime allowed for issued Certificates that use this template. If the issuing CaPool resource's IssuancePolicy specifies a maximum_lifetime the minimum of the two durations will be the maximum lifetime for issued Certificates. Note that if the issuing CertificateAuthority expires before a Certificate's requested maximum_lifetime, the effective lifetime will be explicitly truncated to match it. */
+  maximumLifetime?: string | undefined;
+  /** Optional. Describes constraints on identities that may be appear in Certificates issued using this template. If this is omitted, then this template will not add restrictions on a certificate's identity. */
+  identityConstraints?: CertificateIdentityConstraints | undefined;
+  /** Output only. The time at which this CertificateTemplate was updated. */
+  updateTime?: string | undefined;
+  /** Optional. A human-readable description of scenarios this template is intended for. */
+  description?: string | undefined;
+  /** Optional. Labels with user-defined metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. A set of X.509 values that will be applied to all issued certificates that use this template. If the certificate request includes conflicting values for the same properties, they will be overwritten by the values defined here. If the issuing CaPool's IssuancePolicy defines conflicting baseline_values for the same properties, the certificate issuance request will fail. */
+  predefinedValues?: X509Parameters | undefined;
 }
 export type RevokeCertificateRequestReasonEnum =
   | "REVOCATION_REASON_UNSPECIFIED"
@@ -1150,54 +1325,43 @@ export type RevokeCertificateRequestReasonEnum =
   | "CERTIFICATE_HOLD"
   | "PRIVILEGE_WITHDRAWN"
   | "ATTRIBUTE_AUTHORITY_COMPROMISE";
-/** Request message for CertificateAuthorityService.RevokeCertificate. */
-export interface RevokeCertificateRequest {
+export interface RevokeProjectsLocationsCaPoolsCertificatesRequest {
+  /** Required. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
+  name: string;
   /** Required. The RevocationReason for revoking this certificate. */
   reason?: RevokeCertificateRequestReasonEnum | (string & {}) | undefined;
   /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RevokeProjectsLocationsCaPoolsCertificatesRequest {
-  /** Required. The resource name for this Certificate in the format `projects/*\/locations/*\/caPools/*\/certificates/*`. */
-  name: string;
-  /** Request body */
-  body?: RevokeCertificateRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsCaPoolsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsCaPoolsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsCertificateTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsCaPoolsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1207,22 +1371,20 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsCertificateTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
-/** Request message for CertificateAuthorityService.UndeleteCertificateAuthority. */
-export type UndeleteCertificateAuthorityRequest = EnableCertificateAuthorityRequest;
 export interface UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/*\/locations/*\/caPools/*\/certificateAuthorities/*`. */
   name: string;
-  /** Request body */
-  body?: EnableCertificateAuthorityRequest | undefined;
+  /** Optional. An ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type ActivateProjectsLocationsCaPoolsCertificateAuthoritiesError =
   | NotFound
@@ -1238,11 +1400,11 @@ export const activateProjectsLocationsCaPoolsCertificateAuthorities: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    545,
-    __c34,
-    1,
+    592,
+    __c37,
+    0,
   ) as any as S.Schema<ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1263,8 +1425,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<Empty>,
+  input: __S(816, __c51, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(832, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1285,8 +1447,8 @@ export const createProjectsLocationsCaPools: API.OperationMethod<
   CreateProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateProjectsLocationsCaPoolsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(848, __c53, 0) as any as S.Schema<CreateProjectsLocationsCaPoolsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1308,11 +1470,11 @@ export const createProjectsLocationsCaPoolsCertificateAuthorities: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    912,
-    __c57,
+    944,
+    __c59,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1333,8 +1495,8 @@ export const createProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   CreateProjectsLocationsCaPoolsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateProjectsLocationsCaPoolsCertificatesRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<Certificate>,
+  input: __S(992, __c62, 0) as any as S.Schema<CreateProjectsLocationsCaPoolsCertificatesRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<Certificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1355,8 +1517,8 @@ export const createProjectsLocationsCertificateTemplates: API.OperationMethod<
   CreateProjectsLocationsCertificateTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CreateProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateProjectsLocationsCertificateTemplatesRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1378,7 +1540,7 @@ export const deleteProjectsLocationsCaPools: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsCaPoolsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1404,7 +1566,7 @@ export const deleteProjectsLocationsCaPoolsCertificateAuthorities: API.Operation
     __c1,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1426,7 +1588,7 @@ export const deleteProjectsLocationsCertificateTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1448,7 +1610,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<Empty>,
+  output: __S(832, __c52, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1470,11 +1632,11 @@ export const disableProjectsLocationsCaPoolsCertificateAuthorities: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    65,
+    64,
     __c4,
-    1,
+    0,
   ) as any as S.Schema<DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1500,7 +1662,7 @@ export const enableProjectsLocationsCaPoolsCertificateAuthorities: API.Operation
     __c5,
     0,
   ) as any as S.Schema<EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1521,8 +1683,8 @@ export const fetchCaCertsProjectsLocationsCaPools: API.OperationMethod<
   FetchCaCertsProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<FetchCaCertsProjectsLocationsCaPoolsRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<FetchCaCertsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<FetchCaCertsProjectsLocationsCaPoolsRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<FetchCaCertsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1542,11 +1704,11 @@ export const fetchProjectsLocationsCaPoolsCertificateAuthorities: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c8,
+    112,
+    __c7,
     0,
   ) as any as S.Schema<FetchProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<FetchCertificateAuthorityCsrResponse>,
+  output: __S(113, __c7, 1) as any as S.Schema<FetchCertificateAuthorityCsrResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1562,8 +1724,8 @@ export const getIamPolicyProjectsLocationsCaPools: API.OperationMethod<
   GetIamPolicyProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetIamPolicyProjectsLocationsCaPoolsRequest>,
-  output: __S(166, __c10, 6) as any as S.Schema<Policy>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetIamPolicyProjectsLocationsCaPoolsRequest>,
+  output: __S(150, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1583,11 +1745,11 @@ export const getIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertifica
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    176,
-    __c11,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(166, __c10, 6) as any as S.Schema<Policy>,
+  output: __S(150, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1607,11 +1769,11 @@ export const getIamPolicyProjectsLocationsCertificateTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c12,
+    176,
+    __c11,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(166, __c10, 6) as any as S.Schema<Policy>,
+  output: __S(150, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1627,8 +1789,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<Location>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1644,8 +1806,8 @@ export const getProjectsLocationsCaPools: API.OperationMethod<
   GetProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsCaPoolsRequest>,
-  output: __S(840, __c52, 8) as any as S.Schema<CaPool>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsCaPoolsRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<CaPool>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1669,7 +1831,7 @@ export const getProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMet
     __c16,
     0,
   ) as any as S.Schema<GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(932, __c58, 4) as any as S.Schema<CertificateAuthority>,
+  output: __S(272, __c17, 0) as any as S.Schema<CertificateAuthority>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1689,11 +1851,11 @@ export const getProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    272,
-    __c17,
+    288,
+    __c18,
     0,
   ) as any as S.Schema<GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<CertificateRevocationList>,
+  output: __S(304, __c19, 0) as any as S.Schema<CertificateRevocationList>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1709,8 +1871,8 @@ export const getProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   GetProjectsLocationsCaPoolsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetProjectsLocationsCaPoolsCertificatesRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<Certificate>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetProjectsLocationsCaPoolsCertificatesRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<Certificate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1726,8 +1888,8 @@ export const getProjectsLocationsCertificateTemplates: API.OperationMethod<
   GetProjectsLocationsCertificateTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<CertificateTemplate>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetProjectsLocationsCertificateTemplatesRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<CertificateTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1743,8 +1905,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1761,8 +1923,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1780,8 +1942,8 @@ export const listProjectsLocationsCaPools: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCaPoolsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsCaPoolsRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<ListCaPoolsResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListProjectsLocationsCaPoolsRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<ListCaPoolsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1803,11 +1965,11 @@ export const listProjectsLocationsCaPoolsCertificateAuthorities: API.PaginatedOp
   ListCertificateAuthoritiesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    384,
-    __c24,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<ListCertificateAuthoritiesResponse>,
+  output: __S(434, __c27, 2) as any as S.Schema<ListCertificateAuthoritiesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1829,11 +1991,11 @@ export const listProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoca
   ListCertificateRevocationListsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    400,
-    __c25,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<ListCertificateRevocationListsResponse>,
+  output: __S(450, __c28, 2) as any as S.Schema<ListCertificateRevocationListsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1851,8 +2013,8 @@ export const listProjectsLocationsCaPoolsCertificates: API.PaginatedOperationMet
   GcpOpContext,
   ListCertificatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListProjectsLocationsCaPoolsCertificatesRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<ListCertificatesResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<ListProjectsLocationsCaPoolsCertificatesRequest>,
+  output: __S(466, __c29, 2) as any as S.Schema<ListCertificatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1870,8 +2032,8 @@ export const listProjectsLocationsCertificateTemplates: API.PaginatedOperationMe
   GcpOpContext,
   ListCertificateTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(434, __c27, 2) as any as S.Schema<ListCertificateTemplatesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListProjectsLocationsCertificateTemplatesRequest>,
+  output: __S(482, __c30, 2) as any as S.Schema<ListCertificateTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1889,8 +2051,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(450, __c28, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(498, __c31, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1912,8 +2074,8 @@ export const patchProjectsLocationsCaPools: API.OperationMethod<
   PatchProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<PatchProjectsLocationsCaPoolsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(512, __c32, 0) as any as S.Schema<PatchProjectsLocationsCaPoolsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1935,11 +2097,11 @@ export const patchProjectsLocationsCaPoolsCertificateAuthorities: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c30,
+    528,
+    __c33,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1961,11 +2123,11 @@ export const patchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoc
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c31,
+    544,
+    __c34,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1986,8 +2148,8 @@ export const patchProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   PatchProjectsLocationsCaPoolsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<PatchProjectsLocationsCaPoolsCertificatesRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<Certificate>,
+  input: __S(560, __c35, 0) as any as S.Schema<PatchProjectsLocationsCaPoolsCertificatesRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<Certificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2008,8 +2170,8 @@ export const patchProjectsLocationsCertificateTemplates: API.OperationMethod<
   PatchProjectsLocationsCertificateTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<PatchProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(576, __c36, 0) as any as S.Schema<PatchProjectsLocationsCertificateTemplatesRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2030,8 +2192,8 @@ export const revokeProjectsLocationsCaPoolsCertificates: API.OperationMethod<
   RevokeProjectsLocationsCaPoolsCertificatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(625, __c39, 1) as any as S.Schema<RevokeProjectsLocationsCaPoolsCertificatesRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<Certificate>,
+  input: __S(672, __c42, 0) as any as S.Schema<RevokeProjectsLocationsCaPoolsCertificatesRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<Certificate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2052,8 +2214,8 @@ export const setIamPolicyProjectsLocationsCaPools: API.OperationMethod<
   SetIamPolicyProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<SetIamPolicyProjectsLocationsCaPoolsRequest>,
-  output: __S(166, __c10, 6) as any as S.Schema<Policy>,
+  input: __S(688, __c43, 0) as any as S.Schema<SetIamPolicyProjectsLocationsCaPoolsRequest>,
+  output: __S(150, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2075,11 +2237,11 @@ export const setIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertifica
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c42,
+    704,
+    __c44,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(166, __c10, 6) as any as S.Schema<Policy>,
+  output: __S(150, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2101,11 +2263,11 @@ export const setIamPolicyProjectsLocationsCertificateTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    688,
-    __c43,
+    720,
+    __c45,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(166, __c10, 6) as any as S.Schema<Policy>,
+  output: __S(150, __c9, 6) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2126,8 +2288,8 @@ export const testIamPermissionsProjectsLocationsCaPools: API.OperationMethod<
   TestIamPermissionsProjectsLocationsCaPoolsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsCaPoolsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsCaPoolsRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2149,11 +2311,11 @@ export const testIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCer
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c46,
+    768,
+    __c48,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(752, __c47, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2175,11 +2337,11 @@ export const testIamPermissionsProjectsLocationsCertificateTemplates: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    752,
-    __c47,
+    784,
+    __c49,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsCertificateTemplatesRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(752, __c47, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2201,11 +2363,11 @@ export const undeleteProjectsLocationsCaPoolsCertificateAuthorities: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c48,
+    800,
+    __c50,
     0,
   ) as any as S.Schema<UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest>,
-  output: __S(594, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(642, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2290,15 +2452,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           ignoreDependentResources: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DisableCertificateAuthorityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2315,7 +2471,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2331,18 +2487,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnableCertificateAuthorityRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           caPool: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2354,20 +2500,20 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(560, __c35, 0)),
+          certificates: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "CertChain" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          caCerts: S.optional(__S(114, __c7, 2)),
+          caCerts: S.optional(__S(98, __c6, 2)),
         }),
       ).annotate({ identifier: "FetchCaCertsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2389,7 +2535,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "FetchCertificateAuthorityCsrResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2406,48 +2552,48 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsCaPoolsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(560, __c35, 0)),
+          exemptedMembers: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(161, __c10, 1)),
+          auditLogConfigs: S.optional(__S(145, __c9, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(162, __c10, 2));
+      return S.Array(__S(146, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(880, __c55, 0)),
+          condition: S.optional(__S(912, __c57, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(560, __c35, 0)),
+          members: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 5:
-      return S.Array(__S(164, __c10, 4));
+      return S.Array(__S(148, __c9, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(163, __c10, 3)),
+          auditConfigs: S.optional(__S(147, __c9, 3)),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(165, __c10, 5)),
+          bindings: S.optional(__S(149, __c9, 5)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2467,7 +2613,7 @@ function __c11(j: number): any {
       });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2484,7 +2630,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsCertificateTemplatesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2500,21 +2646,21 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(848, __c53, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(576, __c36, 0)),
+          metadata: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2528,6 +2674,21 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsCaPoolsRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          publishingOptions: S.optional(__S(864, __c54, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
+          encryptionSpec: S.optional(__S(865, __c54, 1)),
+          name: S.optional(S.String),
+          tier: S.optional(S.String),
+          issuancePolicy: S.optional(__S(871, __c54, 7)),
+        }),
+      ).annotate({ identifier: "CaPool" });
   }
 }
 function __c16(j: number): any {
@@ -2551,6 +2712,35 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pemCaCertificates: S.optional(__S(608, __c38, 0)),
+          accessUrls: S.optional(__S(960, __c60, 0)),
+          expireTime: S.optional(S.String),
+          subordinateConfig: S.optional(__S(657, __c41, 1)),
+          labels: S.optional(__S(880, __c55, 0)),
+          updateTime: S.optional(S.String),
+          tier: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          userDefinedAccessUrls: S.optional(__S(961, __c60, 1)),
+          satisfiesPzi: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          gcsBucket: S.optional(S.String),
+          keySpec: S.optional(__S(962, __c60, 2)),
+          caCertificateDescriptions: S.optional(__S(963, __c60, 3)),
+          lifetime: S.optional(S.String),
+          config: S.optional(__S(988, __c61, 12)),
+        }),
+      ).annotate({ identifier: "CertificateAuthority" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2565,7 +2755,26 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          revisionId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          revokedCertificates: S.optional(__S(321, __c20, 1)),
+          sequenceNumber: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          pemCrl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          accessUrl: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CertificateRevocationList" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2576,54 +2785,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "RevokedCertificate" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          revisionId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          revokedCertificates: S.optional(__S(289, __c18, 1)),
-          sequenceNumber: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
-          pemCrl: S.optional(S.String),
-          createTime: S.optional(S.String),
-          accessUrl: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CertificateRevocationList" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://privateca.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsCaPoolsCertificatesRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://privateca.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsCertificateTemplatesRequest" });
+      return S.Array(__S(320, __c20, 0));
   }
 }
 function __c21(j: number): any {
@@ -2639,7 +2801,7 @@ function __c21(j: number): any {
             baseUrl: "https://privateca.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsCaPoolsCertificatesRequest" });
   }
 }
 function __c22(j: number): any {
@@ -2648,8 +2810,58 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://privateca.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsCertificateTemplatesRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          passthroughExtensions: S.optional(__S(929, __c58, 1)),
+          maximumLifetime: S.optional(S.String),
+          identityConstraints: S.optional(__S(930, __c58, 2)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          predefinedValues: S.optional(__S(906, __c56, 10)),
+        }),
+      ).annotate({ identifier: "CertificateTemplate" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://privateca.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(560, __c35, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(608, __c38, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2661,17 +2873,17 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(353, __c22, 1)),
+          locations: S.optional(__S(401, __c25, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2690,18 +2902,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCaPoolsRequest" });
     case 1:
-      return S.Array(__S(840, __c52, 8));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(560, __c35, 0)),
-          caPools: S.optional(__S(369, __c23, 1)),
+          unreachable: S.optional(__S(608, __c38, 0)),
+          caPools: S.optional(__S(417, __c26, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCaPoolsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2720,18 +2932,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest" });
     case 1:
-      return S.Array(__S(932, __c58, 4));
+      return S.Array(__S(272, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificateAuthorities: S.optional(__S(385, __c24, 1)),
-          unreachable: S.optional(__S(560, __c35, 0)),
+          certificateAuthorities: S.optional(__S(433, __c27, 1)),
+          unreachable: S.optional(__S(608, __c38, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCertificateAuthoritiesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2753,18 +2965,18 @@ function __c25(j: number): any {
           "ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest",
       });
     case 1:
-      return S.Array(__S(290, __c18, 2));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(560, __c35, 0)),
+          unreachable: S.optional(__S(608, __c38, 0)),
           nextPageToken: S.optional(S.String),
-          certificateRevocationLists: S.optional(__S(401, __c25, 1)),
+          certificateRevocationLists: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "ListCertificateRevocationListsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2783,18 +2995,18 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCaPoolsCertificatesRequest" });
     case 1:
-      return S.Array(__S(977, __c61, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(560, __c35, 0)),
+          unreachable: S.optional(__S(608, __c38, 0)),
           nextPageToken: S.optional(S.String),
-          certificates: S.optional(__S(417, __c26, 1)),
+          certificates: S.optional(__S(465, __c29, 1)),
         }),
       ).annotate({ identifier: "ListCertificatesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2813,18 +3025,18 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCertificateTemplatesRequest" });
     case 1:
-      return S.Array(__S(1008, __c63, 0));
+      return S.Array(__S(368, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificateTemplates: S.optional(__S(433, __c27, 1)),
+          certificateTemplates: S.optional(__S(481, __c30, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(560, __c35, 0)),
+          unreachable: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "ListCertificateTemplatesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2843,18 +3055,18 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(594, __c37, 2));
+      return S.Array(__S(642, __c40, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(449, __c28, 1)),
-          unreachable: S.optional(__S(560, __c35, 0)),
+          operations: S.optional(__S(497, __c31, 1)),
+          unreachable: S.optional(__S(608, __c38, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2862,7 +3074,11 @@ function __c29(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(840, __c52, 8).pipe(T.HttpBody())),
+          publishingOptions: S.optional(__S(864, __c54, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
+          encryptionSpec: S.optional(__S(865, __c54, 1)),
+          tier: S.optional(S.String),
+          issuancePolicy: S.optional(__S(871, __c54, 7)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2873,7 +3089,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCaPoolsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2881,7 +3097,25 @@ function __c30(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(932, __c58, 4).pipe(T.HttpBody())),
+          pemCaCertificates: S.optional(__S(608, __c38, 0)),
+          accessUrls: S.optional(__S(960, __c60, 0)),
+          expireTime: S.optional(S.String),
+          subordinateConfig: S.optional(__S(657, __c41, 1)),
+          labels: S.optional(__S(880, __c55, 0)),
+          updateTime: S.optional(S.String),
+          tier: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          userDefinedAccessUrls: S.optional(__S(961, __c60, 1)),
+          satisfiesPzi: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          gcsBucket: S.optional(S.String),
+          keySpec: S.optional(__S(962, __c60, 2)),
+          caCertificateDescriptions: S.optional(__S(963, __c60, 3)),
+          lifetime: S.optional(S.String),
+          config: S.optional(__S(988, __c61, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2892,7 +3126,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2900,7 +3134,15 @@ function __c31(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(290, __c18, 2).pipe(T.HttpBody())),
+          revisionId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          revokedCertificates: S.optional(__S(321, __c20, 1)),
+          sequenceNumber: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          pemCrl: S.optional(S.String),
+          createTime: S.optional(S.String),
+          accessUrl: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2914,7 +3156,7 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2922,7 +3164,20 @@ function __c32(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(977, __c61, 1).pipe(T.HttpBody())),
+          pemCsr: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          updateTime: S.optional(S.String),
+          certificateTemplate: S.optional(S.String),
+          certificateDescription: S.optional(__S(986, __c61, 10)),
+          revocationDetails: S.optional(__S(1008, __c63, 0)),
+          config: S.optional(__S(988, __c61, 12)),
+          lifetime: S.optional(S.String),
+          issuerCertificateAuthority: S.optional(S.String),
+          pemCertificateChain: S.optional(__S(608, __c38, 0)),
+          createTime: S.optional(S.String),
+          requestedNotBeforeTime: S.optional(S.String),
+          subjectMode: S.optional(S.String),
+          pemCertificate: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2933,7 +3188,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCaPoolsCertificatesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2941,7 +3196,14 @@ function __c33(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          passthroughExtensions: S.optional(__S(929, __c58, 1)),
+          maximumLifetime: S.optional(S.String),
+          identityConstraints: S.optional(__S(930, __c58, 2)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          predefinedValues: S.optional(__S(906, __c56, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2952,21 +3214,15 @@ function __c33(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCertificateTemplatesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           pemCaCertificate: S.optional(S.String),
           requestId: S.optional(S.String),
-          subordinateConfig: S.optional(__S(609, __c38, 1)),
-        }),
-      ).annotate({ identifier: "ActivateCertificateAuthorityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c34, 0).pipe(T.HttpBody())),
+          subordinateConfig: S.optional(__S(657, __c41, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2977,26 +3233,26 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(624, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(592, __c37, 0)),
+          details: S.optional(__S(640, __c40, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -3005,45 +3261,39 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          response: S.optional(__S(576, __c36, 0)),
-          error: S.optional(__S(593, __c37, 1)),
-          metadata: S.optional(__S(576, __c36, 0)),
+          response: S.optional(__S(624, __c39, 0)),
+          error: S.optional(__S(641, __c40, 1)),
+          metadata: S.optional(__S(624, __c39, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pemCertificates: S.optional(__S(560, __c35, 0)),
+          pemCertificates: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "SubordinateConfigChain" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           certificateAuthority: S.optional(S.String),
-          pemIssuerChain: S.optional(__S(608, __c38, 0)),
+          pemIssuerChain: S.optional(__S(656, __c41, 0)),
         }),
       ).annotate({ identifier: "SubordinateConfig" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           reason: S.optional(S.String),
           requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RevokeCertificateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3054,13 +3304,14 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RevokeProjectsLocationsCaPoolsCertificatesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(656, __c41, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(150, __c9, 6)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3071,24 +3322,14 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsCaPoolsRequest" });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(166, __c10, 6)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(656, __c41, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(150, __c9, 6)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3102,13 +3343,14 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(656, __c41, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(150, __c9, 6)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3119,13 +3361,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsCertificateTemplatesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(608, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3136,23 +3378,23 @@ function __c44(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsCaPoolsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(560, __c35, 0)),
+          permissions: S.optional(__S(608, __c38, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(608, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3166,13 +3408,13 @@ function __c46(j: number): any {
       });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(608, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3183,13 +3425,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsCertificateTemplatesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3200,13 +3442,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(832, __c52, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3217,13 +3459,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3231,7 +3473,12 @@ function __c51(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           caPoolId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(840, __c52, 8).pipe(T.HttpBody())),
+          publishingOptions: S.optional(__S(864, __c54, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
+          encryptionSpec: S.optional(__S(865, __c54, 1)),
+          name: S.optional(S.String),
+          tier: S.optional(S.String),
+          issuancePolicy: S.optional(__S(871, __c54, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3242,7 +3489,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCaPoolsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3274,12 +3521,12 @@ function __c52(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rsa: S.optional(__S(834, __c52, 2)),
-          ellipticCurve: S.optional(__S(835, __c52, 3)),
+          rsa: S.optional(__S(866, __c54, 2)),
+          ellipticCurve: S.optional(__S(867, __c54, 3)),
         }),
       ).annotate({ identifier: "AllowedKeyType" });
     case 5:
-      return S.Array(__S(836, __c52, 4));
+      return S.Array(__S(868, __c54, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3290,36 +3537,25 @@ function __c52(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          baselineValues: S.optional(__S(874, __c54, 10)),
-          passthroughExtensions: S.optional(__S(897, __c56, 1)),
+          baselineValues: S.optional(__S(906, __c56, 10)),
+          passthroughExtensions: S.optional(__S(929, __c58, 1)),
           backdateDuration: S.optional(S.String),
           maximumLifetime: S.optional(S.String),
           allowRequesterSpecifiedNotBeforeTime: S.optional(S.Boolean),
-          allowedKeyTypes: S.optional(__S(837, __c52, 5)),
-          allowedIssuanceModes: S.optional(__S(838, __c52, 6)),
-          identityConstraints: S.optional(__S(898, __c56, 2)),
+          allowedKeyTypes: S.optional(__S(869, __c54, 5)),
+          allowedIssuanceModes: S.optional(__S(870, __c54, 6)),
+          identityConstraints: S.optional(__S(930, __c58, 2)),
         }),
       ).annotate({ identifier: "IssuancePolicy" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          publishingOptions: S.optional(__S(832, __c52, 0)),
-          labels: S.optional(__S(848, __c53, 0)),
-          encryptionSpec: S.optional(__S(833, __c52, 1)),
-          name: S.optional(S.String),
-          tier: S.optional(S.String),
-          issuancePolicy: S.optional(__S(839, __c52, 7)),
-        }),
-      ).annotate({ identifier: "CaPool" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3331,15 +3567,15 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          excludedEmailAddresses: S.optional(__S(560, __c35, 0)),
-          permittedIpRanges: S.optional(__S(560, __c35, 0)),
-          permittedEmailAddresses: S.optional(__S(560, __c35, 0)),
+          excludedEmailAddresses: S.optional(__S(608, __c38, 0)),
+          permittedIpRanges: S.optional(__S(608, __c38, 0)),
+          permittedEmailAddresses: S.optional(__S(608, __c38, 0)),
           critical: S.optional(S.Boolean),
-          excludedDnsNames: S.optional(__S(560, __c35, 0)),
-          permittedUris: S.optional(__S(560, __c35, 0)),
-          excludedUris: S.optional(__S(560, __c35, 0)),
-          permittedDnsNames: S.optional(__S(560, __c35, 0)),
-          excludedIpRanges: S.optional(__S(560, __c35, 0)),
+          excludedDnsNames: S.optional(__S(608, __c38, 0)),
+          permittedUris: S.optional(__S(608, __c38, 0)),
+          excludedUris: S.optional(__S(608, __c38, 0)),
+          permittedDnsNames: S.optional(__S(608, __c38, 0)),
+          excludedIpRanges: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "NameConstraints" });
     case 2:
@@ -3347,7 +3583,7 @@ function __c54(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          objectIdPath: S.optional(__S(866, __c54, 2)),
+          objectIdPath: S.optional(__S(898, __c56, 2)),
         }),
       ).annotate({ identifier: "ObjectId" });
     case 4:
@@ -3355,13 +3591,13 @@ function __c54(j: number): any {
         S.Struct({
           critical: S.optional(S.Boolean),
           value: S.optional(S.String),
-          objectId: S.optional(__S(867, __c54, 3)),
+          objectId: S.optional(__S(899, __c56, 3)),
         }),
       ).annotate({ identifier: "X509Extension" });
     case 5:
-      return S.Array(__S(868, __c54, 4));
+      return S.Array(__S(900, __c56, 4));
     case 6:
-      return S.Array(__S(867, __c54, 3));
+      return S.Array(__S(899, __c56, 3));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3390,25 +3626,25 @@ function __c54(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          extendedKeyUsage: S.optional(__S(871, __c54, 7)),
-          unknownExtendedKeyUsages: S.optional(__S(870, __c54, 6)),
-          baseKeyUsage: S.optional(__S(872, __c54, 8)),
+          extendedKeyUsage: S.optional(__S(903, __c56, 7)),
+          unknownExtendedKeyUsages: S.optional(__S(902, __c56, 6)),
+          baseKeyUsage: S.optional(__S(904, __c56, 8)),
         }),
       ).annotate({ identifier: "KeyUsage" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          caOptions: S.optional(__S(864, __c54, 0)),
-          nameConstraints: S.optional(__S(865, __c54, 1)),
-          aiaOcspServers: S.optional(__S(560, __c35, 0)),
-          additionalExtensions: S.optional(__S(869, __c54, 5)),
-          policyIds: S.optional(__S(870, __c54, 6)),
-          keyUsage: S.optional(__S(873, __c54, 9)),
+          caOptions: S.optional(__S(896, __c56, 0)),
+          nameConstraints: S.optional(__S(897, __c56, 1)),
+          aiaOcspServers: S.optional(__S(608, __c38, 0)),
+          additionalExtensions: S.optional(__S(901, __c56, 5)),
+          policyIds: S.optional(__S(902, __c56, 6)),
+          keyUsage: S.optional(__S(905, __c56, 9)),
         }),
       ).annotate({ identifier: "X509Parameters" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3421,28 +3657,28 @@ function __c55(j: number): any {
       ).annotate({ identifier: "Expr" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          knownExtensions: S.optional(__S(896, __c56, 0)),
-          additionalExtensions: S.optional(__S(870, __c54, 6)),
+          knownExtensions: S.optional(__S(928, __c58, 0)),
+          additionalExtensions: S.optional(__S(902, __c56, 6)),
         }),
       ).annotate({ identifier: "CertificateExtensionConstraints" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           allowSubjectPassthrough: S.optional(S.Boolean),
-          celExpression: S.optional(__S(880, __c55, 0)),
+          celExpression: S.optional(__S(912, __c57, 0)),
           allowSubjectAltNamesPassthrough: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CertificateIdentityConstraints" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3450,7 +3686,26 @@ function __c57(j: number): any {
           parent: S.String.pipe(T.Label()),
           certificateAuthorityId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(932, __c58, 4).pipe(T.HttpBody())),
+          pemCaCertificates: S.optional(__S(608, __c38, 0)),
+          accessUrls: S.optional(__S(960, __c60, 0)),
+          expireTime: S.optional(S.String),
+          subordinateConfig: S.optional(__S(657, __c41, 1)),
+          labels: S.optional(__S(880, __c55, 0)),
+          updateTime: S.optional(S.String),
+          tier: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          userDefinedAccessUrls: S.optional(__S(961, __c60, 1)),
+          satisfiesPzi: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          gcsBucket: S.optional(S.String),
+          keySpec: S.optional(__S(962, __c60, 2)),
+          caCertificateDescriptions: S.optional(__S(963, __c60, 3)),
+          lifetime: S.optional(S.String),
+          config: S.optional(__S(988, __c61, 12)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3461,20 +3716,20 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           caCertificateAccessUrl: S.optional(S.String),
-          crlAccessUrls: S.optional(__S(560, __c35, 0)),
+          crlAccessUrls: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "AccessUrls" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          aiaIssuingCertificateUrls: S.optional(__S(560, __c35, 0)),
-          crlAccessUrls: S.optional(__S(560, __c35, 0)),
+          aiaIssuingCertificateUrls: S.optional(__S(608, __c38, 0)),
+          crlAccessUrls: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "UserDefinedAccessUrls" });
     case 2:
@@ -3485,35 +3740,10 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "KeyVersionSpec" });
     case 3:
-      return S.Array(__S(954, __c59, 10));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          pemCaCertificates: S.optional(__S(560, __c35, 0)),
-          accessUrls: S.optional(__S(928, __c58, 0)),
-          expireTime: S.optional(S.String),
-          subordinateConfig: S.optional(__S(609, __c38, 1)),
-          labels: S.optional(__S(848, __c53, 0)),
-          updateTime: S.optional(S.String),
-          tier: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          userDefinedAccessUrls: S.optional(__S(929, __c58, 1)),
-          satisfiesPzi: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          state: S.optional(S.String),
-          gcsBucket: S.optional(S.String),
-          keySpec: S.optional(__S(930, __c58, 2)),
-          caCertificateDescriptions: S.optional(__S(931, __c58, 3)),
-          lifetime: S.optional(S.String),
-          config: S.optional(__S(956, __c59, 12)),
-        }),
-      ).annotate({ identifier: "CertificateAuthority" });
+      return S.Array(__S(986, __c61, 10));
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3525,20 +3755,20 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          objectId: S.optional(__S(867, __c54, 3)),
+          objectId: S.optional(__S(899, __c56, 3)),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttributeTypeAndValue" });
     case 2:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(977, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(946, __c59, 2)),
+          attributes: S.optional(__S(978, __c61, 2)),
         }),
       ).annotate({ identifier: "RelativeDistinguishedName" });
     case 4:
-      return S.Array(__S(947, __c59, 3));
+      return S.Array(__S(979, __c61, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3549,27 +3779,27 @@ function __c59(j: number): any {
           organizationalUnit: S.optional(S.String),
           postalCode: S.optional(S.String),
           commonName: S.optional(S.String),
-          rdnSequence: S.optional(__S(948, __c59, 4)),
+          rdnSequence: S.optional(__S(980, __c61, 4)),
           province: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subject" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dnsNames: S.optional(__S(560, __c35, 0)),
-          customSans: S.optional(__S(869, __c54, 5)),
-          ipAddresses: S.optional(__S(560, __c35, 0)),
-          uris: S.optional(__S(560, __c35, 0)),
-          emailAddresses: S.optional(__S(560, __c35, 0)),
+          dnsNames: S.optional(__S(608, __c38, 0)),
+          customSans: S.optional(__S(901, __c56, 5)),
+          ipAddresses: S.optional(__S(608, __c38, 0)),
+          uris: S.optional(__S(608, __c38, 0)),
+          emailAddresses: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "SubjectAltNames" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           notAfterTime: S.optional(S.String),
-          subject: S.optional(__S(949, __c59, 5)),
+          subject: S.optional(__S(981, __c61, 5)),
           hexSerialNumber: S.optional(S.String),
-          subjectAltName: S.optional(__S(950, __c59, 6)),
+          subjectAltName: S.optional(__S(982, __c61, 6)),
           lifetime: S.optional(S.String),
           notBeforeTime: S.optional(S.String),
         }),
@@ -3590,36 +3820,36 @@ function __c59(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          authorityKeyId: S.optional(__S(944, __c59, 0)),
-          aiaIssuingCertificateUrls: S.optional(__S(560, __c35, 0)),
-          subjectKeyId: S.optional(__S(944, __c59, 0)),
-          subjectDescription: S.optional(__S(951, __c59, 7)),
-          certFingerprint: S.optional(__S(952, __c59, 8)),
-          publicKey: S.optional(__S(953, __c59, 9)),
+          authorityKeyId: S.optional(__S(976, __c61, 0)),
+          aiaIssuingCertificateUrls: S.optional(__S(608, __c38, 0)),
+          subjectKeyId: S.optional(__S(976, __c61, 0)),
+          subjectDescription: S.optional(__S(983, __c61, 7)),
+          certFingerprint: S.optional(__S(984, __c61, 8)),
+          publicKey: S.optional(__S(985, __c61, 9)),
           tbsCertificateDigest: S.optional(S.String),
-          x509Description: S.optional(__S(874, __c54, 10)),
-          crlDistributionPoints: S.optional(__S(560, __c35, 0)),
+          x509Description: S.optional(__S(906, __c56, 10)),
+          crlDistributionPoints: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "CertificateDescription" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          subject: S.optional(__S(949, __c59, 5)),
-          subjectAltName: S.optional(__S(950, __c59, 6)),
+          subject: S.optional(__S(981, __c61, 5)),
+          subjectAltName: S.optional(__S(982, __c61, 6)),
         }),
       ).annotate({ identifier: "SubjectConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          subjectConfig: S.optional(__S(955, __c59, 11)),
-          publicKey: S.optional(__S(953, __c59, 9)),
-          x509Config: S.optional(__S(874, __c54, 10)),
-          subjectKeyId: S.optional(__S(944, __c59, 0)),
+          subjectConfig: S.optional(__S(987, __c61, 11)),
+          publicKey: S.optional(__S(985, __c61, 9)),
+          x509Config: S.optional(__S(906, __c56, 10)),
+          subjectKeyId: S.optional(__S(976, __c61, 0)),
         }),
       ).annotate({ identifier: "CertificateConfig" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3629,7 +3859,21 @@ function __c60(j: number): any {
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(977, __c61, 1).pipe(T.HttpBody())),
+          pemCsr: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          updateTime: S.optional(S.String),
+          certificateTemplate: S.optional(S.String),
+          certificateDescription: S.optional(__S(986, __c61, 10)),
+          revocationDetails: S.optional(__S(1008, __c63, 0)),
+          config: S.optional(__S(988, __c61, 12)),
+          lifetime: S.optional(S.String),
+          issuerCertificateAuthority: S.optional(S.String),
+          pemCertificateChain: S.optional(__S(608, __c38, 0)),
+          createTime: S.optional(S.String),
+          requestedNotBeforeTime: S.optional(S.String),
+          subjectMode: S.optional(S.String),
+          pemCertificate: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3640,7 +3884,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCaPoolsCertificatesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3654,15 +3898,15 @@ function __c61(j: number): any {
         S.Struct({
           pemCsr: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
           updateTime: S.optional(S.String),
           certificateTemplate: S.optional(S.String),
-          certificateDescription: S.optional(__S(954, __c59, 10)),
-          revocationDetails: S.optional(__S(976, __c61, 0)),
-          config: S.optional(__S(956, __c59, 12)),
+          certificateDescription: S.optional(__S(986, __c61, 10)),
+          revocationDetails: S.optional(__S(1008, __c63, 0)),
+          config: S.optional(__S(988, __c61, 12)),
           lifetime: S.optional(S.String),
           issuerCertificateAuthority: S.optional(S.String),
-          pemCertificateChain: S.optional(__S(560, __c35, 0)),
+          pemCertificateChain: S.optional(__S(608, __c38, 0)),
           createTime: S.optional(S.String),
           requestedNotBeforeTime: S.optional(S.String),
           subjectMode: S.optional(S.String),
@@ -3671,7 +3915,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "Certificate" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3679,7 +3923,15 @@ function __c62(j: number): any {
           certificateTemplateId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1008, __c63, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          passthroughExtensions: S.optional(__S(929, __c58, 1)),
+          maximumLifetime: S.optional(S.String),
+          identityConstraints: S.optional(__S(930, __c58, 2)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          predefinedValues: S.optional(__S(906, __c56, 10)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3688,24 +3940,6 @@ function __c62(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsCertificateTemplatesRequest" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          passthroughExtensions: S.optional(__S(897, __c56, 1)),
-          maximumLifetime: S.optional(S.String),
-          identityConstraints: S.optional(__S(898, __c56, 2)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
-          predefinedValues: S.optional(__S(874, __c54, 10)),
-        }),
-      ).annotate({ identifier: "CertificateTemplate" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

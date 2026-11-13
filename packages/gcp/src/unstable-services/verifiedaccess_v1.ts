@@ -102,16 +102,11 @@ export interface Challenge {
   /** Generated challenge */
   challenge?: SignedData | undefined;
 }
-/** signed ChallengeResponse */
-export interface VerifyChallengeResponseRequest {
+export interface VerifyChallengeRequest {
   /** Service can optionally provide identity information about the device or user associated with the key. For an EMK, this value is the enrolled domain. For an EUK, this value is the user's email address. If present, this value will be checked against contents of the response, and verification will fail if there is no match. */
   expectedIdentity?: string | undefined;
   /** The generated response to the challenge */
   challengeResponse?: SignedData | undefined;
-}
-export interface VerifyChallengeRequest {
-  /** Request body */
-  body?: VerifyChallengeResponseRequest | undefined;
 }
 /** Result message for VerifiedAccess.VerifyChallengeResponse. */
 export interface VerifyChallengeResponseResult {
@@ -151,8 +146,8 @@ export const verifyChallenge: API.OperationMethod<
   VerifyChallengeError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c2, 1) as any as S.Schema<VerifyChallengeRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<VerifyChallengeResponseResult>,
+  input: __S(8, __c2, 0) as any as S.Schema<VerifyChallengeRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<VerifyChallengeResponseResult>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -204,12 +199,6 @@ function __c2(j: number): any {
         S.Struct({
           expectedIdentity: S.optional(S.String),
           challengeResponse: S.optional(__S(4, __c1, 0)),
-        }),
-      ).annotate({ identifier: "VerifyChallengeResponseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -218,7 +207,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VerifyChallengeRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           deviceEnrollmentId: S.optional(S.String),

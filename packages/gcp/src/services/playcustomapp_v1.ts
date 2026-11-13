@@ -91,6 +91,18 @@ export interface Organization {
   organizationId?: string | undefined;
 }
 export type OrganizationList = Array<Organization>;
+export interface CreateAccountsCustomAppsRequest {
+  /** Developer account ID. */
+  account: string;
+  /** Title for the Android app. */
+  title?: string | undefined;
+  /** Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account. */
+  organizations?: OrganizationList | undefined;
+  /** Output only. Package name of the created Android app. Only present in the API response. */
+  packageName?: string | undefined;
+  /** Default listing language in BCP 47 format. */
+  languageCode?: string | undefined;
+}
 /** This resource represents a custom app. */
 export interface CustomApp {
   /** Title for the Android app. */
@@ -101,12 +113,6 @@ export interface CustomApp {
   packageName?: string | undefined;
   /** Default listing language in BCP 47 format. */
   languageCode?: string | undefined;
-}
-export interface CreateAccountsCustomAppsRequest {
-  /** Developer account ID. */
-  account: string;
-  /** Request body */
-  body?: CustomApp | undefined;
 }
 export type CreateAccountsCustomAppsError =
   | NotFound
@@ -121,8 +127,8 @@ export const createAccountsCustomApps: API.OperationMethod<
   CreateAccountsCustomAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<CreateAccountsCustomAppsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CustomApp>,
+  input: __S(2, __c0, 2) as any as S.Schema<CreateAccountsCustomAppsRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<CustomApp>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -145,17 +151,11 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          account: S.String.pipe(T.Label()),
           title: S.optional(S.String),
           organizations: S.optional(__S(1, __c0, 1)),
           packageName: S.optional(S.String),
           languageCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomApp" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -164,6 +164,15 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAccountsCustomAppsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          organizations: S.optional(__S(1, __c0, 1)),
+          packageName: S.optional(S.String),
+          languageCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomApp" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

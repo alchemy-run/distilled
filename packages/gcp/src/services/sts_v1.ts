@@ -138,8 +138,7 @@ export interface GetOpenid_configurationProjectsLocationsWorkloadIdentityPoolsWe
   /** Required. The name of the pool whose OpenID provider configuration to retrieve. Format: 'organizations/{ORGANIZATION_NUMBER}/locations/global/workloadIdentityPools/{POOL_ID}' 'projects/{PROJECT_NUMBER}/locations/global/workloadIdentityPools/{POOL_ID}' Example: 'organizations/1234/locations/global/workloadIdentityPools/agents.global.org-1234.system.id.goog' 'projects/12345678/locations/global/workloadIdentityPools/agents.global.proj-12345678.system.id.goog' */
   name: string;
 }
-/** Request message for ExchangeToken. */
-export interface GoogleIdentityStsV1ExchangeTokenRequest {
+export interface TokenV1Request {
   /** The OAuth 2.0 scopes to include on the resulting access token, formatted as a list of space-delimited, case-sensitive strings; for example, `https://www.googleapis.com/auth/cloud-platform`. Required when exchanging an external credential for a Google access token. For a list of OAuth 2.0 scopes, see [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes). */
   scope?: string | undefined;
   /** A set of features that Security Token Service supports, in addition to the standard OAuth 2.0 token exchange, formatted as a serialized JSON object of Options. The size of the parameter value must not exceed 4 * 1024 * 1024 characters (4 MB). */
@@ -158,10 +157,6 @@ export interface GoogleIdentityStsV1ExchangeTokenRequest {
   actorTokenType?: string | undefined;
   /** Required. The grant type. Must be `urn:ietf:params:oauth:grant-type:token-exchange`, which indicates a token exchange. */
   grantType?: string | undefined;
-}
-export interface TokenV1Request {
-  /** Request body */
-  body?: GoogleIdentityStsV1ExchangeTokenRequest | undefined;
 }
 /** Response message for ExchangeToken. */
 export interface GoogleIdentityStsV1ExchangeTokenResponse {
@@ -280,8 +275,8 @@ export const tokenV1: API.OperationMethod<
   TokenV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c6, 1) as any as S.Schema<TokenV1Request>,
-  output: __S(26, __c6, 2) as any as S.Schema<GoogleIdentityStsV1ExchangeTokenResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<TokenV1Request>,
+  output: __S(25, __c6, 1) as any as S.Schema<GoogleIdentityStsV1ExchangeTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -415,17 +410,11 @@ function __c6(j: number): any {
           subjectToken: S.optional(S.String),
           actorTokenType: S.optional(S.String),
           grantType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleIdentityStsV1ExchangeTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "POST", uri: "v1/token", baseUrl: "https://sts.googleapis.com/" }),
         ),
       ).annotate({ identifier: "TokenV1Request" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           access_boundary_session_key: S.optional(S.String),

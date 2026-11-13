@@ -83,22 +83,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Request message for [PartnerProcurementService.ApproveEntitlementPlanChange[]. */
-export interface ApproveEntitlementPlanChangeRequest {
-  /** Required. Name of the pending plan that's being approved. */
-  pendingPlanName?: string | undefined;
-}
 export interface ApprovePlanChangeProvidersEntitlementsRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
-  /** Request body */
-  body?: ApproveEntitlementPlanChangeRequest | undefined;
+  /** Required. Name of the pending plan that's being approved. */
+  pendingPlanName?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export type StringMap = { [key: string]: string | undefined };
-/** Request message for PartnerProcurementService.ApproveAccount. */
-export interface ApproveAccountRequest {
+export interface ApproveProvidersAccountsRequest {
+  /** Required. The resource name of the account, with the format `providers/{providerId}/accounts/{accountId}`. */
+  name: string;
   /** Free form text string explaining the approval reason. Optional. Max allowed length: 256 bytes. Longer strings will be truncated. */
   reason?: string | undefined;
   /** The name of the approval being approved. If absent and there is only one approval possible, that approval will be granted. If absent and there are many approvals possible, the request will fail with a 400 Bad Request. Optional. */
@@ -106,24 +102,13 @@ export interface ApproveAccountRequest {
   /** Set of properties that should be associated with the account. Optional. */
   properties?: StringMap | undefined;
 }
-export interface ApproveProvidersAccountsRequest {
-  /** Required. The resource name of the account, with the format `providers/{providerId}/accounts/{accountId}`. */
+export interface ApproveProvidersEntitlementsRequest {
+  /** Required. The resource name of the entitlement, with the format `providers/{providerId}/entitlements/{entitlementId}`. */
   name: string;
-  /** Request body */
-  body?: ApproveAccountRequest | undefined;
-}
-/** Request message for [PartnerProcurementService.ApproveEntitlement[]. */
-export interface ApproveEntitlementRequest {
   /** Optional. The resource name of the entitlement that was migrated, with the format `providers/{provider_id}/entitlements/{entitlement_id}`. Should only be sent when resources have been migrated from entitlement_migrated to the new entitlement. Optional. */
   entitlementMigrated?: string | undefined;
   /** Set of properties that should be associated with the entitlement. Optional. */
   properties?: StringMap | undefined;
-}
-export interface ApproveProvidersEntitlementsRequest {
-  /** Required. The resource name of the entitlement, with the format `providers/{providerId}/entitlements/{entitlementId}`. */
-  name: string;
-  /** Request body */
-  body?: ApproveEntitlementRequest | undefined;
 }
 export type GetProvidersAccountsViewEnum =
   | "ACCOUNT_VIEW_UNSPECIFIED"
@@ -199,7 +184,7 @@ export interface Entitlement {
   /** Output only. The creation timestamp. */
   createTime?: string | undefined;
   /** Output only. The state of the entitlement. */
-  state?: EntitlementStateEnum | (string & {}) | undefined;
+  state?: EntitlementStateEnum | undefined;
   /** Output only. The last update timestamp. */
   updateTime?: string | undefined;
   /** Output only. The identifier of the product that was procured. */
@@ -286,45 +271,78 @@ export interface PatchProvidersEntitlementsRequest {
   name: string;
   /** The update mask that applies to the resource. See the [FieldMask definition] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask) for more details. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Entitlement | undefined;
+  /** Output only. The consumerId to use when reporting usage through the Service Control API. See the consumerId field at [Reporting Metrics](https://cloud.google.com/service-control/reporting-metrics) for more details. This field is present only if the product has usage-based billing configured. */
+  usageReportingId?: string | undefined;
+  /** Output only. The creation timestamp. */
+  createTime?: string | undefined;
+  /** Output only. The state of the entitlement. */
+  state?: EntitlementStateEnum | (string & {}) | undefined;
+  /** Output only. The last update timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. The identifier of the product that was procured. */
+  productExternalName?: string | undefined;
+  /** Output only. End time for the current term of the Offer associated with this entitlement. The value of this field can change naturally over time due to auto-renewal, even if the offer isn't changed. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, then: * If the entitlement isn't approved yet approved, and the offer has a specified end date, then this field is populated with the expected end time of the upcoming offer, in the future. Otherwise, this field is empty. * If the entitlement is approved, then this field is populated with the expected end time of the upcoming offer, in the future. This means that this field and the field offer_duration can both exist. * If the entitlement is in the state ENTITLEMENT_ACTIVE or ENTITLEMENT_PENDING_CANCELLATION, then this field is populated with the expected end time of the current offer, in the future. This field's value is set regardless of whether the offer has a specific end date or a duration. This means that this field and the field offer_duration can both exist. * If the entitlement is in the state ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL or ENTITLEMENT_PENDING_PLAN_CHANGE: * If the entitlement's pricing model is usage based and the associated offer is a private offer whose term has ended, then this field reflects the ACTUAL end time of the entitlement's associated offer (in the past), even though the entitlement associated with this private offer does not terminate at the end of that private offer's term. * Otherwise, this is the expected end date of the current offer, in the future. * If the entitlement is in the state ENTITLEMENT_CANCELLED, then this field is populated with the end time, in the past, of the latest offer that the order was associated with. If the entitlement was cancelled before any offer started, then this field is empty. */
+  offerEndTime?: string | undefined;
+  /** Output only. The name of the offer that was procured. Field is empty if order wasn't made using an offer. Format: 'projects/{project}/services/{service}/privateOffers/{offer}' OR 'projects/{project}/services/{service}/standardOffers/{offer}', depending on whether the offer is private or public. The {service} in the name is the listing service of the offer. It could be either the product service that the offer is referencing, or a generic private offer parent service. We recommend that you don't build your integration to rely on the meaning of this {service} part. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, this field is populated with the upcoming offer. * If the entitlement is in the state ENTITLEMENT_ACTIVE, ENTITLEMENT_PENDING_CANCELLATION, ENTITLEMENT_PENDING_PLAN_CHANGE, or ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL, this field is populated with the current offer. * If the entitlement is in the state ENTITLEMENT_CANCELLED, then this field is populated with the latest offer that the order was associated with. */
+  offer?: string | undefined;
+  /** Output only. The identifier of the service provider that this entitlement was created against. Each service provider is assigned a unique provider value when they onboard with Cloud Commerce platform. */
+  provider?: string | undefined;
+  /** Output only. The offer duration of the current offer, in ISO 8601 duration format. This is empty if the entitlement wasn't made using an offer, or if the offer has a specified end date instead of a duration. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, and the upcoming offer doesn't have a specified end date, then this field is populated with the duration of the upcoming offer. Otherwise, this field is empty. * If the entitlement is in the state ENTITLEMENT_ACTIVE, ENTITLEMENT_PENDING_CANCELLATION, ENTITLEMENT_PENDING_PLAN_CHANGE, or ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL, and the current offer doesn't have a specified end date, then this field contains the duration of the current offer. Otherwise, this field is empty. * If the entitlement is in the state ENTITLEMENT_CANCELLED, and the offer doesn't have a specified end date, then this field is populated with the duration of the latest offer that the order was associated with. Otherwise, this field is empty. */
+  offerDuration?: string | undefined;
+  /** Output only. The reason the entitlement was cancelled. If this entitlement wasn't cancelled, this field is empty. Possible values include "unknown", "expired", "user-cancelled", "account-closed", "billing-disabled" (if the customer has manually disabled billing to their resources), "user-aborted", and "migrated" (if the entitlement has migrated across products). Values of this field are subject to change, and we recommend that you don't build your technical integration to rely on these fields. */
+  cancellationReason?: string | undefined;
+  /** Output only. The resources using this entitlement, if applicable. */
+  consumers?: ConsumerList | undefined;
+  /** Output only. The order ID of this entitlement, without any `orders/` resource name prefix. */
+  orderId?: string | undefined;
+  /** Output only. The identifier of the plan that was procured. Required if the product has plans. */
+  plan?: string | undefined;
+  /** Output only. End time for the subscription corresponding to this entitlement. */
+  subscriptionEndTime?: string | undefined;
+  /** Output only. The custom properties that were collected from the user to create this entitlement. */
+  inputProperties?: DocumentMap | undefined;
+  /** Output only. The identifier of the quote that was used to procure. Empty if the order is not purchased using a quote. */
+  quoteExternalName?: string | undefined;
+  /** Output only. The duration of the new offer, in ISO 8601 duration format. This field is populated for pending offer changes. It isn't populated for entitlements which aren't active yet. If the offer has a specified end date instead of a duration, this field is empty. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, ENTITLEMENT_ACTIVE, or ENTITLEMENT_PENDING_CANCELLATION, this field is empty. * If the entitlement is in the state ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL or ENTITLEMENT_PENDING_PLAN_CHANGE, and the upcoming offer doesn't have a specified end date, then this field is populated with the duration of the upcoming offer. Otherwise, this field is empty. * If the entitlement is in the state ENTITLEMENT_CANCELLED, then this field is empty. */
+  newPendingOfferDuration?: string | undefined;
+  /** Output only. The identifier of the pending new plan. Required if the product has plans and the entitlement has a pending plan change. */
+  newPendingPlan?: string | undefined;
+  /** Output only. Upon a pending plan change, the name of the offer that the entitlement is switching to. Only exists if the pending plan change is moving to an offer. This field isn't populated for entitlements which aren't active yet. Format: 'projects/{project}/services/{service}/privateOffers/{offer}' OR 'projects/{project}/services/{service}/standardOffers/{offer}', depending on whether the offer is private or public. The {service} in the name is the listing service of the offer. It could be either the product service that the offer is referencing, or a generic private offer parent service. We recommend that you don't build your integration to rely on the meaning of this {service} part. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, ENTITLEMENT_ACTIVE or ENTITLEMENT_PENDING_CANCELLATION, then this field is empty. * If the entitlement is in the state ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL or ENTITLEMENT_PENDING_PLAN_CHANGE, then this field is populated with the upcoming offer. * If the entitlement is in the state ENTITLEMENT_CANCELLED, then this is empty. */
+  newPendingOffer?: string | undefined;
+  /** Output only. The end time of the new offer, determined from the offer's specified end date. If the offer des not have a specified end date then this field is not set. This field is populated even if the entitlement isn't active yet. If there's no upcoming offer, the field is empty. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, ENTITLEMENT_ACTIVE, or ENTITLEMENT_PENDING_CANCELLATION, then this field is empty. * If the entitlement is in the state ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL or ENTITLEMENT_PENDING_PLAN_CHANGE, and the upcoming offer has a specified end date, then this field is populated with the expected end time of the upcoming offer, in the future. Otherwise, this field is empty. * If the entitlement is in the state ENTITLEMENT_CANCELLED, then this field is empty. */
+  newOfferEndTime?: string | undefined;
+  /** Output only. The entitlement benefit IDs associated with the purchase. */
+  entitlementBenefitIds?: StringList | undefined;
+  /** Output only. The timestamp when the new offer becomes effective. This field is populated even if the entitlement isn't active yet. If there's no upcoming offer, the field is empty. * If the entitlement is in the state ENTITLEMENT_ACTIVATION_REQUESTED, this field isn't populated when the entitlement isn't yet approved. After the entitlement is approved, this field is populated with the effective time of the upcoming offer. * If the entitlement is in the state ENTITLEMENT_ACTIVE or ENTITLEMENT_PENDING_CANCELLATION, this field isn't populated. * If the entitlement is in the state ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL, this field isn't populated, because the entitlement change is waiting on approval. * If the entitlement is in the state ENTITLEMENT_PENDING_PLAN_CHANGE, this field is populated with the expected effective time of the upcoming offer, which is in the future. * If the entitlement is in the state ENTITLEMENT_CANCELLED, then this field is empty. */
+  newOfferStartTime?: string | undefined;
+  /** Output only. The identifier of the entity that was purchased. This may actually represent a product, quote, or offer. We strongly recommend that you use the following more explicit fields: productExternalName, quoteExternalName, or offer. */
+  product?: string | undefined;
+  /** Output only. The resource name of the account that this entitlement is based on, if any. */
+  account?: string | undefined;
+  /** Provider-supplied message that is displayed to the end user. Currently this is used to communicate progress and ETA for provisioning. This field can be updated only when a user is waiting for an action from the provider, i.e. entitlement state is EntitlementState.ENTITLEMENT_ACTIVATION_REQUESTED or EntitlementState.ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL. This field is cleared automatically when the entitlement state changes. */
+  messageToUser?: string | undefined;
 }
-/** Request message for PartnerProcurementService.RejectEntitlementPlanChange. */
-export interface RejectEntitlementPlanChangeRequest {
+export interface RejectPlanChangeProvidersEntitlementsRequest {
+  /** Required. The resource name of the entitlement. */
+  name: string;
   /** Free form text string explaining the rejection reason. Max allowed length: 256 bytes. Longer strings will be truncated. */
   reason?: string | undefined;
   /** Required. Name of the pending plan that is being rejected. */
   pendingPlanName?: string | undefined;
 }
-export interface RejectPlanChangeProvidersEntitlementsRequest {
-  /** Required. The resource name of the entitlement. */
-  name: string;
-  /** Request body */
-  body?: RejectEntitlementPlanChangeRequest | undefined;
-}
-/** Request message for PartnerProcurementService.RejectAccount. */
-export interface RejectAccountRequest {
-  /** The name of the approval being rejected. If absent and there is only one approval possible, that approval will be rejected. If absent and there are many approvals possible, the request will fail with a 400 Bad Request. Optional. */
-  approvalName?: string | undefined;
-  /** Free form text string explaining the rejection reason. Max allowed length: 256 bytes. Longer strings will be truncated. */
-  reason?: string | undefined;
-}
 export interface RejectProvidersAccountsRequest {
   /** Required. The resource name of the account. */
   name: string;
-  /** Request body */
-  body?: RejectAccountRequest | undefined;
-}
-/** Request message for PartnerProcurementService.RejectEntitlement. */
-export interface RejectEntitlementRequest {
+  /** The name of the approval being rejected. If absent and there is only one approval possible, that approval will be rejected. If absent and there are many approvals possible, the request will fail with a 400 Bad Request. Optional. */
+  approvalName?: string | undefined;
   /** Free form text string explaining the rejection reason. Max allowed length: 256 bytes. Longer strings will be truncated. */
   reason?: string | undefined;
 }
 export interface RejectProvidersEntitlementsRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
-  /** Request body */
-  body?: RejectEntitlementRequest | undefined;
+  /** Free form text string explaining the rejection reason. Max allowed length: 256 bytes. Longer strings will be truncated. */
+  reason?: string | undefined;
 }
 /** Request message for PartnerProcurementService.ResetAccount. */
 export interface ResetAccountRequest {}
@@ -334,16 +352,11 @@ export interface ResetProvidersAccountsRequest {
   /** Request body */
   body?: ResetAccountRequest | undefined;
 }
-/** Request message for ParterProcurementService.SuspendEntitlement. This is not yet supported. */
-export interface SuspendEntitlementRequest {
-  /** A free-form reason string, explaining the reason for suspension request. */
-  reason?: string | undefined;
-}
 export interface SuspendProvidersEntitlementsRequest {
   /** Required. The name of the entitlement to suspend. */
   name: string;
-  /** Request body */
-  body?: SuspendEntitlementRequest | undefined;
+  /** A free-form reason string, explaining the reason for suspension request. */
+  reason?: string | undefined;
 }
 export type ApprovePlanChangeProvidersEntitlementsError =
   | NotFound
@@ -358,8 +371,8 @@ export const approvePlanChangeProvidersEntitlements: API.OperationMethod<
   ApprovePlanChangeProvidersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c8, 1) as any as S.Schema<ApprovePlanChangeProvidersEntitlementsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(28, __c7, 0) as any as S.Schema<ApprovePlanChangeProvidersEntitlementsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -380,8 +393,8 @@ export const approveProvidersAccounts: API.OperationMethod<
   ApproveProvidersAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c10, 1) as any as S.Schema<ApproveProvidersAccountsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(36, __c9, 0) as any as S.Schema<ApproveProvidersAccountsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -402,8 +415,8 @@ export const approveProvidersEntitlements: API.OperationMethod<
   ApproveProvidersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c12, 1) as any as S.Schema<ApproveProvidersEntitlementsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(44, __c11, 0) as any as S.Schema<ApproveProvidersEntitlementsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -419,8 +432,8 @@ export const getProvidersAccounts: API.OperationMethod<
   GetProvidersAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetProvidersAccountsRequest>,
-  output: __S(62, __c15, 2) as any as S.Schema<Account>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetProvidersAccountsRequest>,
+  output: __S(58, __c14, 2) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -436,8 +449,8 @@ export const getProvidersEntitlements: API.OperationMethod<
   GetProvidersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetProvidersEntitlementsRequest>,
-  output: __S(71, __c17, 3) as any as S.Schema<Entitlement>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetProvidersEntitlementsRequest>,
+  output: __S(67, __c16, 3) as any as S.Schema<Entitlement>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -454,8 +467,8 @@ export const listProvidersAccounts: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAccountsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<ListProvidersAccountsRequest>,
-  output: __S(74, __c18, 2) as any as S.Schema<ListAccountsResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<ListProvidersAccountsRequest>,
+  output: __S(70, __c17, 2) as any as S.Schema<ListAccountsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -497,7 +510,7 @@ export const patchProvidersEntitlements: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<PatchProvidersEntitlementsRequest>,
-  output: __S(71, __c17, 3) as any as S.Schema<Entitlement>,
+  output: __S(67, __c16, 3) as any as S.Schema<Entitlement>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -518,8 +531,8 @@ export const rejectPlanChangeProvidersEntitlements: API.OperationMethod<
   RejectPlanChangeProvidersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c2, 1) as any as S.Schema<RejectPlanChangeProvidersEntitlementsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(8, __c2, 0) as any as S.Schema<RejectPlanChangeProvidersEntitlementsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -540,8 +553,8 @@ export const rejectProvidersAccounts: API.OperationMethod<
   RejectProvidersAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<RejectProvidersAccountsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(12, __c3, 0) as any as S.Schema<RejectProvidersAccountsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -563,7 +576,7 @@ export const rejectProvidersEntitlements: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<RejectProvidersEntitlementsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -579,8 +592,8 @@ export const resetProvidersAccounts: API.OperationMethod<
   ResetProvidersAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ResetProvidersAccountsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(20, __c5, 0) as any as S.Schema<ResetProvidersAccountsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -601,8 +614,8 @@ export const suspendProvidersEntitlements: API.OperationMethod<
   SuspendProvidersEntitlementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<SuspendProvidersEntitlementsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
+  input: __S(24, __c6, 0) as any as S.Schema<SuspendProvidersEntitlementsRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -629,7 +642,7 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListProvidersEntitlementsRequest" });
     case 1:
-      return S.Array(__S(71, __c17, 3));
+      return S.Array(__S(67, __c16, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -646,7 +659,31 @@ function __c1(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(71, __c17, 3).pipe(T.HttpBody())),
+          usageReportingId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          productExternalName: S.optional(S.String),
+          offerEndTime: S.optional(S.String),
+          offer: S.optional(S.String),
+          provider: S.optional(S.String),
+          offerDuration: S.optional(S.String),
+          cancellationReason: S.optional(S.String),
+          consumers: S.optional(__S(65, __c16, 1)),
+          orderId: S.optional(S.String),
+          plan: S.optional(S.String),
+          subscriptionEndTime: S.optional(S.String),
+          inputProperties: S.optional(__S(52, __c13, 0)),
+          quoteExternalName: S.optional(S.String),
+          newPendingOfferDuration: S.optional(S.String),
+          newPendingPlan: S.optional(S.String),
+          newPendingOffer: S.optional(S.String),
+          newOfferEndTime: S.optional(S.String),
+          entitlementBenefitIds: S.optional(__S(66, __c16, 2)),
+          newOfferStartTime: S.optional(S.String),
+          product: S.optional(S.String),
+          account: S.optional(S.String),
+          messageToUser: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -662,15 +699,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           reason: S.optional(S.String),
           pendingPlanName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RejectEntitlementPlanChangeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -686,15 +717,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           approvalName: S.optional(S.String),
           reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RejectAccountRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -711,7 +736,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
+          reason: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -727,18 +752,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RejectEntitlementRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -749,13 +764,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ResetProvidersAccountsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
+          reason: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -766,19 +781,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SuspendProvidersEntitlementsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pendingPlanName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApproveEntitlementPlanChangeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
+          pendingPlanName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -789,27 +798,21 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ApprovePlanChangeProvidersEntitlementsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           reason: S.optional(S.String),
           approvalName: S.optional(S.String),
-          properties: S.optional(__S(44, __c11, 0)),
-        }),
-      ).annotate({ identifier: "ApproveAccountRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c10, 0).pipe(T.HttpBody())),
+          properties: S.optional(__S(40, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -820,26 +823,20 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ApproveProvidersAccountsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entitlementMigrated: S.optional(S.String),
-          properties: S.optional(__S(44, __c11, 0)),
-        }),
-      ).annotate({ identifier: "ApproveEntitlementRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          entitlementMigrated: S.optional(S.String),
+          properties: S.optional(__S(40, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -850,7 +847,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ApproveProvidersEntitlementsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -867,13 +864,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProvidersAccountsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -885,13 +882,13 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "Approval" });
     case 1:
-      return S.Array(__S(60, __c15, 0));
+      return S.Array(__S(56, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inputProperties: S.optional(__S(56, __c14, 0)),
+          inputProperties: S.optional(__S(52, __c13, 0)),
           resellerParentBillingAccount: S.optional(S.String),
-          approvals: S.optional(__S(61, __c15, 1)),
+          approvals: S.optional(__S(57, __c14, 1)),
           provider: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
@@ -901,7 +898,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "Account" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -917,7 +914,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetProvidersEntitlementsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -926,7 +923,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "Consumer" });
     case 1:
-      return S.Array(__S(68, __c17, 0));
+      return S.Array(__S(64, __c16, 0));
     case 2:
       return S.Array(S.String);
     case 3:
@@ -943,17 +940,17 @@ function __c17(j: number): any {
           name: S.optional(S.String),
           offerDuration: S.optional(S.String),
           cancellationReason: S.optional(S.String),
-          consumers: S.optional(__S(69, __c17, 1)),
+          consumers: S.optional(__S(65, __c16, 1)),
           orderId: S.optional(S.String),
           plan: S.optional(S.String),
           subscriptionEndTime: S.optional(S.String),
-          inputProperties: S.optional(__S(56, __c14, 0)),
+          inputProperties: S.optional(__S(52, __c13, 0)),
           quoteExternalName: S.optional(S.String),
           newPendingOfferDuration: S.optional(S.String),
           newPendingPlan: S.optional(S.String),
           newPendingOffer: S.optional(S.String),
           newOfferEndTime: S.optional(S.String),
-          entitlementBenefitIds: S.optional(__S(70, __c17, 2)),
+          entitlementBenefitIds: S.optional(__S(66, __c16, 2)),
           newOfferStartTime: S.optional(S.String),
           product: S.optional(S.String),
           account: S.optional(S.String),
@@ -962,7 +959,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "Entitlement" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -979,12 +976,12 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProvidersAccountsRequest" });
     case 1:
-      return S.Array(__S(62, __c15, 2));
+      return S.Array(__S(58, __c14, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          accounts: S.optional(__S(73, __c18, 1)),
+          accounts: S.optional(__S(69, __c17, 1)),
         }),
       ).annotate({ identifier: "ListAccountsResponse" });
   }

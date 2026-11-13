@@ -1644,8 +1644,13 @@ export interface CommonFeatureState {
   /** Service Mesh-specific state. */
   servicemesh?: ServiceMeshFeatureState | undefined;
 }
-/** Feature represents the settings and status of any Fleet Feature. */
-export interface Feature {
+export interface CreateProjectsLocationsFeaturesRequest {
+  /** Required. The parent (project and location) where the Feature will be created. Specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** The ID of the feature to create. */
+  featureId?: string | undefined;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. When the Feature resource was deleted. */
   deleteTime?: string | undefined;
   /** Output only. List of locations that could not be reached while fetching this feature. */
@@ -1674,16 +1679,6 @@ export interface Feature {
   fleetDefaultMemberConfig?: CommonFleetDefaultMemberConfigSpec | undefined;
   /** Output only. The Fleet-wide Feature state. */
   state?: CommonFeatureState | undefined;
-}
-export interface CreateProjectsLocationsFeaturesRequest {
-  /** Required. The parent (project and location) where the Feature will be created. Specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** The ID of the feature to create. */
-  featureId?: string | undefined;
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Feature | undefined;
 }
 export interface ComplianceStandard {
   /** Name of the compliance standard. */
@@ -1752,8 +1747,9 @@ export interface FleetLifecycleState {
   /** Output only. The current state of the Fleet resource. */
   code?: FleetLifecycleStateCodeEnum | (string & {}) | undefined;
 }
-/** Fleet contains the Fleet-wide metadata and configuration. */
-export interface Fleet {
+export interface CreateProjectsLocationsFleetsRequest {
+  /** Required. The parent (project and location) where the Fleet will be created. Specified in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. The default cluster configurations to apply across the fleet. */
   defaultClusterConfig?: DefaultClusterConfig | undefined;
   /** Output only. When the Fleet was deleted. */
@@ -1772,12 +1768,6 @@ export interface Fleet {
   name?: string | undefined;
   /** Output only. When the Fleet was last updated. */
   updateTime?: string | undefined;
-}
-export interface CreateProjectsLocationsFleetsRequest {
-  /** Required. The parent (project and location) where the Fleet will be created. Specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: Fleet | undefined;
 }
 export type MembershipClusterTierEnum = "CLUSTER_TIER_UNSPECIFIED" | "STANDARD" | "ENTERPRISE";
 export type MembershipStateCodeEnum =
@@ -1926,8 +1916,13 @@ export interface Authority {
   oidcJwks?: string | undefined;
 }
 export type MembershipMembershipTypeEnum = "MEMBERSHIP_TYPE_UNSPECIFIED" | "LIGHTWEIGHT";
-/** Membership contains information about a member cluster. */
-export interface Membership {
+export interface CreateProjectsLocationsMembershipsRequest {
+  /** Required. Client chosen ID for the membership. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  membershipId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent (project and location) where the Memberships will be created. Specified in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Output only. When the Membership was last updated. */
   updateTime?: string | undefined;
   /** Output only. Description of this membership, limited to 63 characters. Must match the regex: `a-zA-Z0-9*` This field is present for legacy purposes. */
@@ -1959,16 +1954,6 @@ export interface Membership {
   /** Output only. The type of the membership. */
   membershipType?: MembershipMembershipTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsMembershipsRequest {
-  /** Required. Client chosen ID for the membership. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
-  membershipId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent (project and location) where the Memberships will be created. Specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: Membership | undefined;
-}
 export type MembershipBindingLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
   | "CREATING"
@@ -1980,8 +1965,11 @@ export interface MembershipBindingLifecycleState {
   /** Output only. The current state of the MembershipBinding resource. */
   code?: MembershipBindingLifecycleStateCodeEnum | (string & {}) | undefined;
 }
-/** MembershipBinding is a subresource of a Membership, representing what Fleet Scopes (or other, future Fleet resources) a Membership is bound to. */
-export interface MembershipBinding {
+export interface CreateProjectsLocationsMembershipsBindingsRequest {
+  /** Required. The parent (project and location) where the MembershipBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
+  parent: string;
+  /** Required. The ID to use for the MembershipBinding. */
+  membershipBindingId?: string | undefined;
   /** Output only. When the membership binding was last updated. */
   updateTime?: string | undefined;
   /** The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}` */
@@ -1998,14 +1986,6 @@ export interface MembershipBinding {
   deleteTime?: string | undefined;
   /** A Scope resource name in the format `projects/*\/locations/*\/scopes/*`. */
   scope?: string | undefined;
-}
-export interface CreateProjectsLocationsMembershipsBindingsRequest {
-  /** Required. The parent (project and location) where the MembershipBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
-  parent: string;
-  /** Required. The ID to use for the MembershipBinding. */
-  membershipBindingId?: string | undefined;
-  /** Request body */
-  body?: MembershipBinding | undefined;
 }
 export type RolePredefinedRoleEnum = "UNKNOWN" | "ADMIN" | "EDIT" | "VIEW" | "ANTHOS_SUPPORT";
 /** Role is the type for Kubernetes roles */
@@ -2026,8 +2006,11 @@ export interface RBACRoleBindingLifecycleState {
   /** Output only. The current state of the rbacrolebinding resource. */
   code?: RBACRoleBindingLifecycleStateCodeEnum | (string & {}) | undefined;
 }
-/** RBACRoleBinding represents a rbacrolebinding across the Fleet */
-export interface RBACRoleBinding {
+export interface CreateProjectsLocationsMembershipsRbacrolebindingsRequest {
+  /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  rbacrolebindingId?: string | undefined;
+  /** Required. The parent (project and location) where the RBACRoleBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
+  parent: string;
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name?: string | undefined;
   /** Output only. When the rbacrolebinding was created. */
@@ -2048,14 +2031,6 @@ export interface RBACRoleBinding {
   group?: string | undefined;
   /** Output only. Google-generated UUID for this resource. This is unique across all rbacrolebinding resources. If a rbacrolebinding resource is deleted and another resource with the same name is created, it gets a different uid. */
   uid?: string | undefined;
-}
-export interface CreateProjectsLocationsMembershipsRbacrolebindingsRequest {
-  /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
-  rbacrolebindingId?: string | undefined;
-  /** Required. The parent (project and location) where the RBACRoleBinding will be created. Specified in the format `projects/*\/locations/*\/memberships/*`. */
-  parent: string;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
 }
 /** Selector for clusters. */
 export interface ClusterSelector {
@@ -2126,8 +2101,11 @@ export interface Stage {
   soakDuration?: string | undefined;
 }
 export type StageList = Array<Stage>;
-/** RolloutSequence defines the desired order of upgrades. Next ID: 22 */
-export interface RolloutSequence {
+export interface CreateProjectsLocationsRolloutSequencesRequest {
+  /** Required. The parent resource where this rollout sequence will be created. projects/{project}/locations/{location} */
+  parent: string;
+  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
+  rolloutSequenceId?: string | undefined;
   /** Output only. The timestamp at which the Rollout Sequence was last updated. */
   updateTime?: string | undefined;
   /** Output only. etag of the Rollout Sequence Ex. abc1234 */
@@ -2165,14 +2143,6 @@ export interface RolloutSequence {
   /** Output only. The timestamp at the Rollout Sequence was deleted. */
   deleteTime?: string | undefined;
 }
-export interface CreateProjectsLocationsRolloutSequencesRequest {
-  /** Required. The parent resource where this rollout sequence will be created. projects/{project}/locations/{location} */
-  parent: string;
-  /** Required. User provided identifier that is used as part of the resource name; must conform to RFC-1034 and additionally restrict to lower-cased letters. This comes out roughly to: /^a-z+[a-z0-9]$/ */
-  rolloutSequenceId?: string | undefined;
-  /** Request body */
-  body?: RolloutSequence | undefined;
-}
 export type ScopeLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
   | "CREATING"
@@ -2184,8 +2154,11 @@ export interface ScopeLifecycleState {
   /** Output only. The current state of the scope resource. */
   code?: ScopeLifecycleStateCodeEnum | (string & {}) | undefined;
 }
-/** Scope represents a Scope in a Fleet. */
-export interface Scope {
+export interface CreateProjectsLocationsScopesRequest {
+  /** Required. The parent (project and location) where the Scope will be created. Specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Client chosen ID for the Scope. `scope_id` must be a ???? */
+  scopeId?: string | undefined;
   /** Output only. When the scope was created. */
   createTime?: string | undefined;
   /** Output only. When the scope was deleted. */
@@ -2203,14 +2176,6 @@ export interface Scope {
   /** Optional. Labels for this Scope. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsScopesRequest {
-  /** Required. The parent (project and location) where the Scope will be created. Specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Client chosen ID for the Scope. `scope_id` must be a ???? */
-  scopeId?: string | undefined;
-  /** Request body */
-  body?: Scope | undefined;
-}
 export type NamespaceLifecycleStateCodeEnum =
   | "CODE_UNSPECIFIED"
   | "CREATING"
@@ -2222,8 +2187,11 @@ export interface NamespaceLifecycleState {
   /** Output only. The current state of the Namespace resource. */
   code?: NamespaceLifecycleStateCodeEnum | (string & {}) | undefined;
 }
-/** Namespace represents a namespace across the Fleet */
-export interface Namespace {
+export interface CreateProjectsLocationsScopesNamespacesRequest {
+  /** Required. The parent (project and location) where the Namespace will be created. Specified in the format `projects/*\/locations/*\/scopes/*`. */
+  parent: string;
+  /** Required. Client chosen ID for the Namespace. `namespace_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  scopeNamespaceId?: string | undefined;
   /** Required. Scope associated with the namespace */
   scope?: string | undefined;
   /** Output only. Google-generated UUID for this resource. This is unique across all namespace resources. If a namespace resource is deleted and another resource with the same name is created, it gets a different uid. */
@@ -2243,21 +2211,31 @@ export interface Namespace {
   /** Output only. When the namespace was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsScopesNamespacesRequest {
-  /** Required. The parent (project and location) where the Namespace will be created. Specified in the format `projects/*\/locations/*\/scopes/*`. */
-  parent: string;
-  /** Required. Client chosen ID for the Namespace. `namespace_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
-  scopeNamespaceId?: string | undefined;
-  /** Request body */
-  body?: Namespace | undefined;
-}
 export interface CreateProjectsLocationsScopesRbacrolebindingsRequest {
   /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   rbacrolebindingId?: string | undefined;
   /** Required. The parent (project and location) where the RBACRoleBinding will be created. Specified in the format `projects/*\/locations/*\/scopes/*`. */
   parent: string;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
+  /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
+  name?: string | undefined;
+  /** Output only. When the rbacrolebinding was created. */
+  createTime?: string | undefined;
+  /** Required. Role to bind to the principal */
+  role?: Role | undefined;
+  /** Optional. Labels for this RBACRolebinding. */
+  labels?: StringMap | undefined;
+  /** Output only. When the rbacrolebinding was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. State of the rbacrolebinding resource. */
+  state?: RBACRoleBindingLifecycleState | undefined;
+  /** Output only. When the rbacrolebinding was deleted. */
+  deleteTime?: string | undefined;
+  /** user is the name of the user as seen by the kubernetes cluster, example "alice" or "alice@domain.tld" */
+  user?: string | undefined;
+  /** group is the group, as seen by the kubernetes cluster. */
+  group?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all rbacrolebinding resources. If a rbacrolebinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
 }
 export interface DeleteProjectsLocationsFeaturesRequest {
   /** If set to true, the delete will ignore any outstanding resources for this Feature (that is, `FeatureState.has_resources` is set to true). These resources will NOT be cleaned up or modified in any way. */
@@ -2313,16 +2291,11 @@ export interface DeleteProjectsLocationsScopesRbacrolebindingsRequest {
   /** Required. The RBACRoleBinding resource name in the format `projects/*\/locations/*\/scopes/*\/rbacrolebindings/*`. */
   name: string;
 }
-/** Request message for force-completing a rollout stage. */
-export interface ForceCompleteRolloutStageRequest {
-  /** Required. The stage number to force-complete. */
-  stageNumber?: number | undefined;
-}
 export interface ForceCompleteStageProjectsLocationsRolloutsRequest {
   /** Required. The name of the rollout. Format: projects/{project}/locations/{location}/rollouts/{rollout} */
   name: string;
-  /** Request body */
-  body?: ForceCompleteRolloutStageRequest | undefined;
+  /** Required. The stage number to force-complete. */
+  stageNumber?: number | undefined;
 }
 export interface GenerateConnectManifestProjectsLocationsMembershipsRequest {
   /** Optional. URI of a proxy if connectivity from the agent to gkeconnect.googleapis.com requires the use of a proxy. Format must be in the form `http(s)://{proxy_address}`, depending on the HTTP/HTTPS protocol supported by the proxy. This will direct the connect agent's outbound traffic through a HTTP(S) proxy. */
@@ -2365,8 +2338,26 @@ export interface GenerateMembershipRBACRoleBindingYAMLProjectsLocationsMembershi
   parent: string;
   /** Required. Client chosen ID for the RBACRoleBinding. `rbacrolebinding_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   rbacrolebindingId?: string | undefined;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
+  /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
+  name?: string | undefined;
+  /** Output only. When the rbacrolebinding was created. */
+  createTime?: string | undefined;
+  /** Required. Role to bind to the principal */
+  role?: Role | undefined;
+  /** Optional. Labels for this RBACRolebinding. */
+  labels?: StringMap | undefined;
+  /** Output only. When the rbacrolebinding was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. State of the rbacrolebinding resource. */
+  state?: RBACRoleBindingLifecycleState | undefined;
+  /** Output only. When the rbacrolebinding was deleted. */
+  deleteTime?: string | undefined;
+  /** user is the name of the user as seen by the kubernetes cluster, example "alice" or "alice@domain.tld" */
+  user?: string | undefined;
+  /** group is the group, as seen by the kubernetes cluster. */
+  group?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all rbacrolebinding resources. If a rbacrolebinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
 }
 /** Response for GenerateRBACRoleBindingYAML. */
 export interface GenerateMembershipRBACRoleBindingYAMLResponse {
@@ -2467,21 +2458,148 @@ export interface GetProjectsLocationsFeaturesRequest {
   /** Optional. If set to true, the response will return partial results when some regions are unreachable and the unreachable field in Feature proto will be populated. If set to false, the request will fail when some regions are unreachable. */
   returnPartialSuccess?: boolean | undefined;
 }
+/** Feature represents the settings and status of any Fleet Feature. */
+export interface Feature {
+  /** Output only. When the Feature resource was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. List of locations that could not be reached while fetching this feature. */
+  unreachable?: StringList | undefined;
+  /** Output only. State of the Feature resource itself. */
+  resourceState?: FeatureResourceState | undefined;
+  /** Output only. The full, unique name of this Feature resource in the format `projects/*\/locations/*\/features/*`. */
+  name?: string | undefined;
+  /** Output only. When the Feature resource was created. */
+  createTime?: string | undefined;
+  /** Labels for this Feature. */
+  labels?: StringMap | undefined;
+  /** Output only. Membership-specific Feature status. If this Feature does report any per-Membership status, this field may be unused. The keys indicate which Membership the state is for, in the form: `projects/{p}/locations/{l}/memberships/{m}` Where {p} is the project number, {l} is a valid location and {m} is a valid Membership in this project at that location. {p} MUST match the Feature's project number. */
+  membershipStates?: MembershipFeatureStateMap | undefined;
+  /** Optional. Scope-specific configuration for this Feature. If this Feature does not support any per-Scope configuration, this field may be unused. The keys indicate which Scope the configuration is for, in the form: `projects/{p}/locations/global/scopes/{s}` Where {p} is the project, {s} is a valid Scope in this project. {p} WILL match the Feature's project. {p} will always be returned as the project number, but the project ID is also accepted during input. If the same Scope is specified in the map twice (using the project ID form, and the project number form), exactly ONE of the entries will be saved, with no guarantees as to which. For this reason, it is recommended the same format be used for all entries when mutating a Feature. */
+  scopeSpecs?: ScopeFeatureSpecMap | undefined;
+  /** Optional. Membership-specific configuration for this Feature. If this Feature does not support any per-Membership configuration, this field may be unused. The keys indicate which Membership the configuration is for, in the form: `projects/{p}/locations/{l}/memberships/{m}` Where {p} is the project, {l} is a valid location and {m} is a valid Membership in this project at that location. {p} WILL match the Feature's project. {p} will always be returned as the project number, but the project ID is also accepted during input. If the same Membership is specified in the map twice (using the project ID form, and the project number form), exactly ONE of the entries will be saved, with no guarantees as to which. For this reason, it is recommended the same format be used for all entries when mutating a Feature. */
+  membershipSpecs?: MembershipFeatureSpecMap | undefined;
+  /** Output only. Scope-specific Feature status. If this Feature does report any per-Scope status, this field may be unused. The keys indicate which Scope the state is for, in the form: `projects/{p}/locations/global/scopes/{s}` Where {p} is the project, {s} is a valid Scope in this project. {p} WILL match the Feature's project. */
+  scopeStates?: ScopeFeatureStateMap | undefined;
+  /** Optional. Fleet-wide Feature configuration. If this Feature does not support any Fleet-wide configuration, this field may be unused. */
+  spec?: CommonFeatureSpec | undefined;
+  /** Output only. When the Feature resource was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Feature configuration applicable to all memberships of the fleet. */
+  fleetDefaultMemberConfig?: CommonFleetDefaultMemberConfigSpec | undefined;
+  /** Output only. The Fleet-wide Feature state. */
+  state?: CommonFeatureState | undefined;
+}
 export interface GetProjectsLocationsFleetsRequest {
   /** Required. The Fleet resource name in the format `projects/*\/locations/*\/fleets/*`. */
   name: string;
+}
+/** Fleet contains the Fleet-wide metadata and configuration. */
+export interface Fleet {
+  /** Optional. The default cluster configurations to apply across the fleet. */
+  defaultClusterConfig?: DefaultClusterConfig | undefined;
+  /** Output only. When the Fleet was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Fleet resources. If a Fleet resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Optional. A user-assigned display name of the Fleet. When present, it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `Production Fleet` */
+  displayName?: string | undefined;
+  /** Output only. When the Fleet was created. */
+  createTime?: string | undefined;
+  /** Optional. Labels for this Fleet. */
+  labels?: StringMap | undefined;
+  /** Output only. State of the namespace resource. */
+  state?: FleetLifecycleState | undefined;
+  /** Output only. The full, unique resource name of this fleet in the format of `projects/{project}/locations/{location}/fleets/{fleet}`. Each Google Cloud project can have at most one fleet resource, named "default". */
+  name?: string | undefined;
+  /** Output only. When the Fleet was last updated. */
+  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsMembershipsRequest {
   /** Required. The Membership resource name in the format `projects/*\/locations/*\/memberships/*`. */
   name: string;
 }
+/** Membership contains information about a member cluster. */
+export interface Membership {
+  /** Output only. When the Membership was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Description of this membership, limited to 63 characters. Must match the regex: `a-zA-Z0-9*` This field is present for legacy purposes. */
+  description?: string | undefined;
+  /** Optional. An externally-generated and managed ID for this Membership. This ID may be modified after creation, but this is not recommended. The ID must match the regex: `a-zA-Z0-9*` If this Membership represents a Kubernetes cluster, this value should be set to the UID of the `kube-system` namespace object. */
+  externalId?: string | undefined;
+  /** Output only. The tier of the cluster. */
+  clusterTier?: MembershipClusterTierEnum | undefined;
+  /** Output only. State of the Membership resource. */
+  state?: MembershipState | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Membership resources. If a Membership resource is deleted and another resource with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Output only. For clusters using Connect, the timestamp of the most recent connection established with Google Cloud. This time is updated every several minutes, not continuously. For clusters that do not use GKE Connect, or that have never connected successfully, this field will be unset. */
+  lastConnectionTime?: string | undefined;
+  /** Optional. Labels for this membership. These labels are not leveraged by multi-cluster features, instead, we prefer cluster labels, which can be set on GKE cluster or other cluster types. */
+  labels?: StringMap | undefined;
+  /** Output only. When the Membership was created. */
+  createTime?: string | undefined;
+  /** Output only. The full, unique name of this Membership resource in the format `projects/*\/locations/*\/memberships/{membership_id}`, set during creation. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  name?: string | undefined;
+  /** Optional. Endpoint information to reach this member. */
+  endpoint?: MembershipEndpoint | undefined;
+  /** Optional. The monitoring config information for this membership. */
+  monitoringConfig?: MonitoringConfig | undefined;
+  /** Output only. When the Membership was deleted. */
+  deleteTime?: string | undefined;
+  /** Optional. How to identify workloads from this Membership. See the documentation on Workload Identity for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity */
+  authority?: Authority | undefined;
+  /** Output only. The type of the membership. */
+  membershipType?: MembershipMembershipTypeEnum | undefined;
+}
 export interface GetProjectsLocationsMembershipsBindingsRequest {
   /** Required. The MembershipBinding resource name in the format `projects/*\/locations/*\/memberships/*\/bindings/*`. */
   name: string;
 }
+/** MembershipBinding is a subresource of a Membership, representing what Fleet Scopes (or other, future Fleet resources) a Membership is bound to. */
+export interface MembershipBinding {
+  /** Output only. When the membership binding was last updated. */
+  updateTime?: string | undefined;
+  /** The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}` */
+  name?: string | undefined;
+  /** Output only. State of the membership binding resource. */
+  state?: MembershipBindingLifecycleState | undefined;
+  /** Optional. Labels for this MembershipBinding. */
+  labels?: StringMap | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all membershipbinding resources. If a membershipbinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Output only. When the membership binding was created. */
+  createTime?: string | undefined;
+  /** Output only. When the membership binding was deleted. */
+  deleteTime?: string | undefined;
+  /** A Scope resource name in the format `projects/*\/locations/*\/scopes/*`. */
+  scope?: string | undefined;
+}
 export interface GetProjectsLocationsMembershipsRbacrolebindingsRequest {
   /** Required. The RBACRoleBinding resource name in the format `projects/*\/locations/*\/memberships/*\/rbacrolebindings/*`. */
   name: string;
+}
+/** RBACRoleBinding represents a rbacrolebinding across the Fleet */
+export interface RBACRoleBinding {
+  /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
+  name?: string | undefined;
+  /** Output only. When the rbacrolebinding was created. */
+  createTime?: string | undefined;
+  /** Required. Role to bind to the principal */
+  role?: Role | undefined;
+  /** Optional. Labels for this RBACRolebinding. */
+  labels?: StringMap | undefined;
+  /** Output only. When the rbacrolebinding was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. State of the rbacrolebinding resource. */
+  state?: RBACRoleBindingLifecycleState | undefined;
+  /** Output only. When the rbacrolebinding was deleted. */
+  deleteTime?: string | undefined;
+  /** user is the name of the user as seen by the kubernetes cluster, example "alice" or "alice@domain.tld" */
+  user?: string | undefined;
+  /** group is the group, as seen by the kubernetes cluster. */
+  group?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all rbacrolebinding resources. If a rbacrolebinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -2632,13 +2750,92 @@ export interface GetProjectsLocationsRolloutSequencesRequest {
   /** Required. The name of the rollout sequence to retrieve. projects/{project}/locations/{location}/rolloutSequences/{rollout_sequence} */
   name: string;
 }
+/** RolloutSequence defines the desired order of upgrades. Next ID: 22 */
+export interface RolloutSequence {
+  /** Output only. The timestamp at which the Rollout Sequence was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. etag of the Rollout Sequence Ex. abc1234 */
+  etag?: string | undefined;
+  /** Optional. Selector for clusters to exclude from the Rollout Sequence. */
+  ignoredClustersSelector?: ClusterSelector | undefined;
+  /** Output only. The computed release channel used for the Rollout Sequence. */
+  computedReleaseChannel?: RolloutSequenceComputedReleaseChannelEnum | undefined;
+  /** Output only. The last qualified control plane version. */
+  lastQualifiedControlPlaneVersion?: string | undefined;
+  /** Optional. Labels for this Rollout Sequence. */
+  labels?: StringMap | undefined;
+  /** Output only. Operational state of the Rollout Sequence. */
+  operationalState?: OperationalState | undefined;
+  /** Identifier. Name of the rollout sequence in the format of: projects/{PROJECT_ID}/locations/global/rolloutSequences/{NAME} */
+  name?: string | undefined;
+  /** Optional. Human readable display name of the Rollout Sequence. */
+  displayName?: string | undefined;
+  /** Output only. The last qualified node version. */
+  lastQualifiedNodeVersion?: string | undefined;
+  /** Output only. The resolved auto-upgrade options which are in effect. */
+  effectiveAutoUpgradeConfig?: AutoUpgradeConfig | undefined;
+  /** Output only. The target control plane version of the Rollout Sequence. */
+  targetControlPlaneVersion?: string | undefined;
+  /** Output only. The target node version of the Rollout Sequence. */
+  targetNodeVersion?: string | undefined;
+  /** Required. Ordered list of stages that constitutes this Rollout. */
+  stages?: StageList | undefined;
+  /** Output only. The timestamp at which the Rollout Sequence was created. */
+  createTime?: string | undefined;
+  /** Optional. Configuration for automatic upgrades. If this message is `unset`, the system applies default behavior. */
+  autoUpgradeConfig?: AutoUpgradeConfig | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Rollout Sequence resources. If a Rollout Sequence resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Output only. The timestamp at the Rollout Sequence was deleted. */
+  deleteTime?: string | undefined;
+}
 export interface GetProjectsLocationsScopesRequest {
   /** Required. The Scope resource name in the format `projects/*\/locations/*\/scopes/*`. */
   name: string;
 }
+/** Scope represents a Scope in a Fleet. */
+export interface Scope {
+  /** Output only. When the scope was created. */
+  createTime?: string | undefined;
+  /** Output only. When the scope was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. State of the scope resource. */
+  state?: ScopeLifecycleState | undefined;
+  /** The resource name for the scope `projects/{project}/locations/{location}/scopes/{scope}` */
+  name?: string | undefined;
+  /** Output only. When the scope was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all scope resources. If a scope resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Optional. Scope-level cluster namespace labels. For the member clusters bound to the Scope, these labels are applied to each namespace under the Scope. Scope-level labels take precedence over Namespace-level labels (`namespace_labels` in the Fleet Namespace resource) if they share a key. Keys and values must be Kubernetes-conformant. */
+  namespaceLabels?: StringMap | undefined;
+  /** Optional. Labels for this Scope. */
+  labels?: StringMap | undefined;
+}
 export interface GetProjectsLocationsScopesNamespacesRequest {
   /** Required. The Namespace resource name in the format `projects/*\/locations/*\/scopes/*\/namespaces/*`. */
   name: string;
+}
+/** Namespace represents a namespace across the Fleet */
+export interface Namespace {
+  /** Required. Scope associated with the namespace */
+  scope?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all namespace resources. If a namespace resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Output only. State of the namespace resource. */
+  state?: NamespaceLifecycleState | undefined;
+  /** The resource name for the namespace `projects/{project}/locations/{location}/namespaces/{namespace}` */
+  name?: string | undefined;
+  /** Output only. When the namespace was deleted. */
+  deleteTime?: string | undefined;
+  /** Optional. Labels for this Namespace. */
+  labels?: StringMap | undefined;
+  /** Optional. Namespace-level cluster namespace labels. These labels are applied to the related namespace of the member clusters bound to the parent Scope. Scope-level labels (`namespace_labels` in the Fleet Scope resource) take precedence over Namespace-level labels if they share a key. Keys and values must be Kubernetes-conformant. */
+  namespaceLabels?: StringMap | undefined;
+  /** Output only. When the namespace was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. When the namespace was created. */
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsScopesRbacrolebindingsRequest {
   /** Required. The RBACRoleBinding resource name in the format `projects/*\/locations/*\/scopes/*\/rbacrolebindings/*`. */
@@ -2916,16 +3113,54 @@ export interface PatchProjectsLocationsFeaturesRequest {
   updateMask?: string | undefined;
   /** Required. The Feature resource name in the format `projects/*\/locations/*\/features/*`. */
   name: string;
-  /** Request body */
-  body?: Feature | undefined;
+  /** Output only. When the Feature resource was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. List of locations that could not be reached while fetching this feature. */
+  unreachable?: StringList | undefined;
+  /** Output only. State of the Feature resource itself. */
+  resourceState?: FeatureResourceState | undefined;
+  /** Output only. When the Feature resource was created. */
+  createTime?: string | undefined;
+  /** Labels for this Feature. */
+  labels?: StringMap | undefined;
+  /** Output only. Membership-specific Feature status. If this Feature does report any per-Membership status, this field may be unused. The keys indicate which Membership the state is for, in the form: `projects/{p}/locations/{l}/memberships/{m}` Where {p} is the project number, {l} is a valid location and {m} is a valid Membership in this project at that location. {p} MUST match the Feature's project number. */
+  membershipStates?: MembershipFeatureStateMap | undefined;
+  /** Optional. Scope-specific configuration for this Feature. If this Feature does not support any per-Scope configuration, this field may be unused. The keys indicate which Scope the configuration is for, in the form: `projects/{p}/locations/global/scopes/{s}` Where {p} is the project, {s} is a valid Scope in this project. {p} WILL match the Feature's project. {p} will always be returned as the project number, but the project ID is also accepted during input. If the same Scope is specified in the map twice (using the project ID form, and the project number form), exactly ONE of the entries will be saved, with no guarantees as to which. For this reason, it is recommended the same format be used for all entries when mutating a Feature. */
+  scopeSpecs?: ScopeFeatureSpecMap | undefined;
+  /** Optional. Membership-specific configuration for this Feature. If this Feature does not support any per-Membership configuration, this field may be unused. The keys indicate which Membership the configuration is for, in the form: `projects/{p}/locations/{l}/memberships/{m}` Where {p} is the project, {l} is a valid location and {m} is a valid Membership in this project at that location. {p} WILL match the Feature's project. {p} will always be returned as the project number, but the project ID is also accepted during input. If the same Membership is specified in the map twice (using the project ID form, and the project number form), exactly ONE of the entries will be saved, with no guarantees as to which. For this reason, it is recommended the same format be used for all entries when mutating a Feature. */
+  membershipSpecs?: MembershipFeatureSpecMap | undefined;
+  /** Output only. Scope-specific Feature status. If this Feature does report any per-Scope status, this field may be unused. The keys indicate which Scope the state is for, in the form: `projects/{p}/locations/global/scopes/{s}` Where {p} is the project, {s} is a valid Scope in this project. {p} WILL match the Feature's project. */
+  scopeStates?: ScopeFeatureStateMap | undefined;
+  /** Optional. Fleet-wide Feature configuration. If this Feature does not support any Fleet-wide configuration, this field may be unused. */
+  spec?: CommonFeatureSpec | undefined;
+  /** Output only. When the Feature resource was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Feature configuration applicable to all memberships of the fleet. */
+  fleetDefaultMemberConfig?: CommonFleetDefaultMemberConfigSpec | undefined;
+  /** Output only. The Fleet-wide Feature state. */
+  state?: CommonFeatureState | undefined;
 }
 export interface PatchProjectsLocationsFleetsRequest {
   /** Required. The fields to be updated; */
   updateMask?: string | undefined;
   /** Output only. The full, unique resource name of this fleet in the format of `projects/{project}/locations/{location}/fleets/{fleet}`. Each Google Cloud project can have at most one fleet resource, named "default". */
   name: string;
-  /** Request body */
-  body?: Fleet | undefined;
+  /** Optional. The default cluster configurations to apply across the fleet. */
+  defaultClusterConfig?: DefaultClusterConfig | undefined;
+  /** Output only. When the Fleet was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Fleet resources. If a Fleet resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Optional. A user-assigned display name of the Fleet. When present, it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `Production Fleet` */
+  displayName?: string | undefined;
+  /** Output only. When the Fleet was created. */
+  createTime?: string | undefined;
+  /** Optional. Labels for this Fleet. */
+  labels?: StringMap | undefined;
+  /** Output only. State of the namespace resource. */
+  state?: FleetLifecycleState | undefined;
+  /** Output only. When the Fleet was last updated. */
+  updateTime?: string | undefined;
 }
 export interface PatchProjectsLocationsMembershipsRequest {
   /** Required. The Membership resource name in the format `projects/*\/locations/*\/memberships/*`. */
@@ -2934,56 +3169,184 @@ export interface PatchProjectsLocationsMembershipsRequest {
   requestId?: string | undefined;
   /** Required. Mask of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Membership | undefined;
+  /** Output only. When the Membership was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Description of this membership, limited to 63 characters. Must match the regex: `a-zA-Z0-9*` This field is present for legacy purposes. */
+  description?: string | undefined;
+  /** Optional. An externally-generated and managed ID for this Membership. This ID may be modified after creation, but this is not recommended. The ID must match the regex: `a-zA-Z0-9*` If this Membership represents a Kubernetes cluster, this value should be set to the UID of the `kube-system` namespace object. */
+  externalId?: string | undefined;
+  /** Output only. The tier of the cluster. */
+  clusterTier?: MembershipClusterTierEnum | (string & {}) | undefined;
+  /** Output only. State of the Membership resource. */
+  state?: MembershipState | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Membership resources. If a Membership resource is deleted and another resource with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Output only. For clusters using Connect, the timestamp of the most recent connection established with Google Cloud. This time is updated every several minutes, not continuously. For clusters that do not use GKE Connect, or that have never connected successfully, this field will be unset. */
+  lastConnectionTime?: string | undefined;
+  /** Optional. Labels for this membership. These labels are not leveraged by multi-cluster features, instead, we prefer cluster labels, which can be set on GKE cluster or other cluster types. */
+  labels?: StringMap | undefined;
+  /** Output only. When the Membership was created. */
+  createTime?: string | undefined;
+  /** Optional. Endpoint information to reach this member. */
+  endpoint?: MembershipEndpoint | undefined;
+  /** Optional. The monitoring config information for this membership. */
+  monitoringConfig?: MonitoringConfig | undefined;
+  /** Output only. When the Membership was deleted. */
+  deleteTime?: string | undefined;
+  /** Optional. How to identify workloads from this Membership. See the documentation on Workload Identity for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity */
+  authority?: Authority | undefined;
+  /** Output only. The type of the membership. */
+  membershipType?: MembershipMembershipTypeEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsMembershipsBindingsRequest {
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name for the membershipbinding itself `projects/{project}/locations/{location}/memberships/{membership}/bindings/{membershipbinding}` */
   name: string;
-  /** Request body */
-  body?: MembershipBinding | undefined;
+  /** Output only. When the membership binding was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. State of the membership binding resource. */
+  state?: MembershipBindingLifecycleState | undefined;
+  /** Optional. Labels for this MembershipBinding. */
+  labels?: StringMap | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all membershipbinding resources. If a membershipbinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Output only. When the membership binding was created. */
+  createTime?: string | undefined;
+  /** Output only. When the membership binding was deleted. */
+  deleteTime?: string | undefined;
+  /** A Scope resource name in the format `projects/*\/locations/*\/scopes/*`. */
+  scope?: string | undefined;
 }
 export interface PatchProjectsLocationsMembershipsRbacrolebindingsRequest {
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
+  /** Output only. When the rbacrolebinding was created. */
+  createTime?: string | undefined;
+  /** Required. Role to bind to the principal */
+  role?: Role | undefined;
+  /** Optional. Labels for this RBACRolebinding. */
+  labels?: StringMap | undefined;
+  /** Output only. When the rbacrolebinding was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. State of the rbacrolebinding resource. */
+  state?: RBACRoleBindingLifecycleState | undefined;
+  /** Output only. When the rbacrolebinding was deleted. */
+  deleteTime?: string | undefined;
+  /** user is the name of the user as seen by the kubernetes cluster, example "alice" or "alice@domain.tld" */
+  user?: string | undefined;
+  /** group is the group, as seen by the kubernetes cluster. */
+  group?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all rbacrolebinding resources. If a rbacrolebinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
 }
 export interface PatchProjectsLocationsRolloutSequencesRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Name of the rollout sequence in the format of: projects/{PROJECT_ID}/locations/global/rolloutSequences/{NAME} */
   name: string;
-  /** Request body */
-  body?: RolloutSequence | undefined;
+  /** Output only. The timestamp at which the Rollout Sequence was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. etag of the Rollout Sequence Ex. abc1234 */
+  etag?: string | undefined;
+  /** Optional. Selector for clusters to exclude from the Rollout Sequence. */
+  ignoredClustersSelector?: ClusterSelector | undefined;
+  /** Output only. The computed release channel used for the Rollout Sequence. */
+  computedReleaseChannel?: RolloutSequenceComputedReleaseChannelEnum | (string & {}) | undefined;
+  /** Output only. The last qualified control plane version. */
+  lastQualifiedControlPlaneVersion?: string | undefined;
+  /** Optional. Labels for this Rollout Sequence. */
+  labels?: StringMap | undefined;
+  /** Output only. Operational state of the Rollout Sequence. */
+  operationalState?: OperationalState | undefined;
+  /** Optional. Human readable display name of the Rollout Sequence. */
+  displayName?: string | undefined;
+  /** Output only. The last qualified node version. */
+  lastQualifiedNodeVersion?: string | undefined;
+  /** Output only. The resolved auto-upgrade options which are in effect. */
+  effectiveAutoUpgradeConfig?: AutoUpgradeConfig | undefined;
+  /** Output only. The target control plane version of the Rollout Sequence. */
+  targetControlPlaneVersion?: string | undefined;
+  /** Output only. The target node version of the Rollout Sequence. */
+  targetNodeVersion?: string | undefined;
+  /** Required. Ordered list of stages that constitutes this Rollout. */
+  stages?: StageList | undefined;
+  /** Output only. The timestamp at which the Rollout Sequence was created. */
+  createTime?: string | undefined;
+  /** Optional. Configuration for automatic upgrades. If this message is `unset`, the system applies default behavior. */
+  autoUpgradeConfig?: AutoUpgradeConfig | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Rollout Sequence resources. If a Rollout Sequence resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Output only. The timestamp at the Rollout Sequence was deleted. */
+  deleteTime?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRequest {
   /** The resource name for the scope `projects/{project}/locations/{location}/scopes/{scope}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Scope | undefined;
+  /** Output only. When the scope was created. */
+  createTime?: string | undefined;
+  /** Output only. When the scope was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. State of the scope resource. */
+  state?: ScopeLifecycleState | undefined;
+  /** Output only. When the scope was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all scope resources. If a scope resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Optional. Scope-level cluster namespace labels. For the member clusters bound to the Scope, these labels are applied to each namespace under the Scope. Scope-level labels take precedence over Namespace-level labels (`namespace_labels` in the Fleet Namespace resource) if they share a key. Keys and values must be Kubernetes-conformant. */
+  namespaceLabels?: StringMap | undefined;
+  /** Optional. Labels for this Scope. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsScopesNamespacesRequest {
   /** The resource name for the namespace `projects/{project}/locations/{location}/namespaces/{namespace}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Namespace | undefined;
+  /** Required. Scope associated with the namespace */
+  scope?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all namespace resources. If a namespace resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
+  /** Output only. State of the namespace resource. */
+  state?: NamespaceLifecycleState | undefined;
+  /** Output only. When the namespace was deleted. */
+  deleteTime?: string | undefined;
+  /** Optional. Labels for this Namespace. */
+  labels?: StringMap | undefined;
+  /** Optional. Namespace-level cluster namespace labels. These labels are applied to the related namespace of the member clusters bound to the parent Scope. Scope-level labels (`namespace_labels` in the Fleet Scope resource) take precedence over Namespace-level labels if they share a key. Keys and values must be Kubernetes-conformant. */
+  namespaceLabels?: StringMap | undefined;
+  /** Output only. When the namespace was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. When the namespace was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRbacrolebindingsRequest {
   /** The resource name for the rbacrolebinding `projects/{project}/locations/{location}/scopes/{scope}/rbacrolebindings/{rbacrolebinding}` or `projects/{project}/locations/{location}/memberships/{membership}/rbacrolebindings/{rbacrolebinding}` */
   name: string;
   /** Required. The fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RBACRoleBinding | undefined;
+  /** Output only. When the rbacrolebinding was created. */
+  createTime?: string | undefined;
+  /** Required. Role to bind to the principal */
+  role?: Role | undefined;
+  /** Optional. Labels for this RBACRolebinding. */
+  labels?: StringMap | undefined;
+  /** Output only. When the rbacrolebinding was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. State of the rbacrolebinding resource. */
+  state?: RBACRoleBindingLifecycleState | undefined;
+  /** Output only. When the rbacrolebinding was deleted. */
+  deleteTime?: string | undefined;
+  /** user is the name of the user as seen by the kubernetes cluster, example "alice" or "alice@domain.tld" */
+  user?: string | undefined;
+  /** group is the group, as seen by the kubernetes cluster. */
+  group?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all rbacrolebinding resources. If a rbacrolebinding resource is deleted and another resource with the same name is created, it gets a different uid. */
+  uid?: string | undefined;
 }
 /** Request message for pausing a rollout. */
 export type PauseRolloutRequest = CancelOperationRequest;
@@ -2993,54 +3356,43 @@ export interface PauseProjectsLocationsRolloutsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-/** Request message for resuming a rollout. */
-export interface ResumeRolloutRequest {
+export interface ResumeProjectsLocationsRolloutsRequest {
+  /** Required. The name of the rollout to resume. projects/{project}/locations/{location}/rollouts/{rollout} */
+  name: string;
   /** Optional. If set, resume rollout will be executed in dry-run mode. */
   validateOnly?: boolean | undefined;
   /** Optional. The duration to offset the Rollout schedule by. */
   scheduleOffset?: string | undefined;
 }
-export interface ResumeProjectsLocationsRolloutsRequest {
-  /** Required. The name of the rollout to resume. projects/{project}/locations/{location}/rollouts/{rollout} */
-  name: string;
-  /** Request body */
-  body?: ResumeRolloutRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsFeaturesRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsFeaturesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsMembershipsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsScopesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsFeaturesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -3050,14 +3402,14 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsMembershipsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsScopesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type UpgradeRolloutSequenceRequestUpgradeTypeEnum =
   | "UPGRADE_TYPE_UNSPECIFIED"
@@ -3068,8 +3420,9 @@ export interface PerStageSoakDurationOverrides {
   /** Required. A mapping of stage numbers to their respective desired soak durations. Key is the stage number, value is the desired soak duration. Stages omitted from the map will receive the standard soak duration configured on the sequence for that stage. */
   stageOverrides?: StringMap | undefined;
 }
-/** Request message for upgrading a rollout sequence. */
-export interface UpgradeRolloutSequenceRequest {
+export interface UpgradeProjectsLocationsRolloutSequencesRequest {
+  /** Required. The name of the rollout sequence. Format: projects/{project}/locations/{location}/rolloutSequences/{rollout_sequence} */
+  name: string;
   /** Required. The type of upgrade. */
   upgradeType?: UpgradeRolloutSequenceRequestUpgradeTypeEnum | (string & {}) | undefined;
   /** Required. GKE version to upgrade to. A valid GKE version available on the release channel used by the sequence. Patch versions from less conservative channels are allowed if their minor version is already available in the sequence's channel. This is similar to single-cluster upgrade rules, see https://cloud.google.com/kubernetes-engine/docs/how-to/upgrading-a-cluster#supported-versions Example: With the following versions available on the RAPID and REGULAR channels: * REGULAR: 1.35.3-gke.123000 * RAPID: 1.36.4-gke.321000, 1.35.6-gke.045000 Valid versions are 1.35.3-gke.123, 1.35.6-gke.045000 Aliases like `latest` are supported. For more information on valid upgrade versions and specifying cluster versions, see: https://cloud.google.com/kubernetes-engine/versioning#specifying_cluster_version */
@@ -3089,12 +3442,6 @@ export interface UpgradeRolloutSequenceRequest {
   /** Optional. If set to true, the rollout will ignore the disruption budgets of the clusters. */
   ignoreClusterDisruptionBudgets?: boolean | undefined;
 }
-export interface UpgradeProjectsLocationsRolloutSequencesRequest {
-  /** Required. The name of the rollout sequence. Format: projects/{project}/locations/{location}/rolloutSequences/{rollout_sequence} */
-  name: string;
-  /** Request body */
-  body?: UpgradeRolloutSequenceRequest | undefined;
-}
 export type CancelProjectsLocationsOperationsError =
   | NotFound
   | Forbidden
@@ -3108,8 +3455,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3130,8 +3477,8 @@ export const cancelProjectsLocationsRollouts: API.OperationMethod<
   CancelProjectsLocationsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CancelProjectsLocationsRolloutsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1888, __c59, 0) as any as S.Schema<CancelProjectsLocationsRolloutsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3152,8 +3499,8 @@ export const createProjectsLocationsFeatures: API.OperationMethod<
   CreateProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CreateProjectsLocationsFeaturesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2336, __c73, 0) as any as S.Schema<CreateProjectsLocationsFeaturesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3174,8 +3521,8 @@ export const createProjectsLocationsFleets: API.OperationMethod<
   CreateProjectsLocationsFleetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<CreateProjectsLocationsFleetsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateProjectsLocationsFleetsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3196,8 +3543,8 @@ export const createProjectsLocationsMemberships: API.OperationMethod<
   CreateProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<CreateProjectsLocationsMembershipsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(3264, __c102, 0) as any as S.Schema<CreateProjectsLocationsMembershipsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3218,8 +3565,8 @@ export const createProjectsLocationsMembershipsBindings: API.OperationMethod<
   CreateProjectsLocationsMembershipsBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<CreateProjectsLocationsMembershipsBindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(3328, __c104, 0) as any as S.Schema<CreateProjectsLocationsMembershipsBindingsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3245,7 +3592,7 @@ export const createProjectsLocationsMembershipsRbacrolebindings: API.OperationMe
     __c0,
     0,
   ) as any as S.Schema<CreateProjectsLocationsMembershipsRbacrolebindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3267,7 +3614,7 @@ export const createProjectsLocationsRolloutSequences: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateProjectsLocationsRolloutSequencesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3289,7 +3636,7 @@ export const createProjectsLocationsScopes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateProjectsLocationsScopesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3310,8 +3657,8 @@ export const createProjectsLocationsScopesNamespaces: API.OperationMethod<
   CreateProjectsLocationsScopesNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateProjectsLocationsScopesNamespacesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateProjectsLocationsScopesNamespacesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3332,8 +3679,8 @@ export const createProjectsLocationsScopesRbacrolebindings: API.OperationMethod<
   CreateProjectsLocationsScopesRbacrolebindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateProjectsLocationsScopesRbacrolebindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateProjectsLocationsScopesRbacrolebindingsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3354,8 +3701,8 @@ export const deleteProjectsLocationsFeatures: API.OperationMethod<
   DeleteProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteProjectsLocationsFeaturesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteProjectsLocationsFeaturesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3376,8 +3723,8 @@ export const deleteProjectsLocationsFleets: API.OperationMethod<
   DeleteProjectsLocationsFleetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteProjectsLocationsFleetsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteProjectsLocationsFleetsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3398,8 +3745,8 @@ export const deleteProjectsLocationsMemberships: API.OperationMethod<
   DeleteProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteProjectsLocationsMembershipsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteProjectsLocationsMembershipsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3420,8 +3767,8 @@ export const deleteProjectsLocationsMembershipsBindings: API.OperationMethod<
   DeleteProjectsLocationsMembershipsBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteProjectsLocationsMembershipsBindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteProjectsLocationsMembershipsBindingsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3443,11 +3790,11 @@ export const deleteProjectsLocationsMembershipsRbacrolebindings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    448,
-    __c14,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsMembershipsRbacrolebindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3468,8 +3815,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Empty>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3490,8 +3837,8 @@ export const deleteProjectsLocationsRollouts: API.OperationMethod<
   DeleteProjectsLocationsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DeleteProjectsLocationsRolloutsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteProjectsLocationsRolloutsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3512,8 +3859,8 @@ export const deleteProjectsLocationsRolloutSequences: API.OperationMethod<
   DeleteProjectsLocationsRolloutSequencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DeleteProjectsLocationsRolloutSequencesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteProjectsLocationsRolloutSequencesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3534,8 +3881,8 @@ export const deleteProjectsLocationsScopes: API.OperationMethod<
   DeleteProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsLocationsScopesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteProjectsLocationsScopesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3556,8 +3903,8 @@ export const deleteProjectsLocationsScopesNamespaces: API.OperationMethod<
   DeleteProjectsLocationsScopesNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsLocationsScopesNamespacesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteProjectsLocationsScopesNamespacesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3579,11 +3926,11 @@ export const deleteProjectsLocationsScopesRbacrolebindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c20,
+    576,
+    __c18,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsScopesRbacrolebindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3604,8 +3951,8 @@ export const forceCompleteStageProjectsLocationsRollouts: API.OperationMethod<
   ForceCompleteStageProjectsLocationsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c21, 1) as any as S.Schema<ForceCompleteStageProjectsLocationsRolloutsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<ForceCompleteStageProjectsLocationsRolloutsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3625,11 +3972,11 @@ export const generateConnectManifestProjectsLocationsMemberships: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<GenerateConnectManifestProjectsLocationsMembershipsRequest>,
-  output: __S(708, __c22, 4) as any as S.Schema<GenerateConnectManifestResponse>,
+  output: __S(644, __c20, 4) as any as S.Schema<GenerateConnectManifestResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3651,11 +3998,11 @@ export const generateMembershipRBACRoleBindingYAMLProjectsLocationsMembershipsRb
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c23,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<GenerateMembershipRBACRoleBindingYAMLProjectsLocationsMembershipsRbacrolebindingsRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<GenerateMembershipRBACRoleBindingYAMLResponse>,
+  output: __S(673, __c21, 1) as any as S.Schema<GenerateMembershipRBACRoleBindingYAMLResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3671,8 +4018,8 @@ export const getIamPolicyProjectsLocationsFeatures: API.OperationMethod<
   GetIamPolicyProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetIamPolicyProjectsLocationsFeaturesRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Policy>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetIamPolicyProjectsLocationsFeaturesRequest>,
+  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3688,8 +4035,8 @@ export const getIamPolicyProjectsLocationsMemberships: API.OperationMethod<
   GetIamPolicyProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetIamPolicyProjectsLocationsMembershipsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Policy>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetIamPolicyProjectsLocationsMembershipsRequest>,
+  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3705,8 +4052,8 @@ export const getIamPolicyProjectsLocationsScopes: API.OperationMethod<
   GetIamPolicyProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetIamPolicyProjectsLocationsScopesRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Policy>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetIamPolicyProjectsLocationsScopesRequest>,
+  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3722,8 +4069,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<Location>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(864, __c27, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3739,8 +4086,8 @@ export const getProjectsLocationsFeatures: API.OperationMethod<
   GetProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsFeaturesRequest>,
-  output: __S(2366, __c73, 30) as any as S.Schema<Feature>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetProjectsLocationsFeaturesRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<Feature>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3756,8 +4103,8 @@ export const getProjectsLocationsFleets: API.OperationMethod<
   GetProjectsLocationsFleetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetProjectsLocationsFleetsRequest>,
-  output: __S(2760, __c86, 8) as any as S.Schema<Fleet>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsFleetsRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<Fleet>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3774,7 +4121,7 @@ export const getProjectsLocationsMemberships: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsLocationsMembershipsRequest>,
-  output: __S(3148, __c98, 12) as any as S.Schema<Membership>,
+  output: __S(1056, __c33, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3790,8 +4137,8 @@ export const getProjectsLocationsMembershipsBindings: API.OperationMethod<
   GetProjectsLocationsMembershipsBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsMembershipsBindingsRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<MembershipBinding>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetProjectsLocationsMembershipsBindingsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<MembershipBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3811,11 +4158,11 @@ export const getProjectsLocationsMembershipsRbacrolebindings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<GetProjectsLocationsMembershipsRbacrolebindingsRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<RBACRoleBinding>,
+  output: __S(1184, __c37, 0) as any as S.Schema<RBACRoleBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3831,8 +4178,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3848,8 +4195,8 @@ export const getProjectsLocationsRollouts: API.OperationMethod<
   GetProjectsLocationsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetProjectsLocationsRolloutsRequest>,
-  output: __S(1191, __c37, 7) as any as S.Schema<Rollout>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetProjectsLocationsRolloutsRequest>,
+  output: __S(1287, __c40, 7) as any as S.Schema<Rollout>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3865,8 +4212,8 @@ export const getProjectsLocationsRolloutSequences: API.OperationMethod<
   GetProjectsLocationsRolloutSequencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetProjectsLocationsRolloutSequencesRequest>,
-  output: __S(133, __c4, 5) as any as S.Schema<RolloutSequence>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsRolloutSequencesRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<RolloutSequence>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3882,8 +4229,8 @@ export const getProjectsLocationsScopes: API.OperationMethod<
   GetProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetProjectsLocationsScopesRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<Scope>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsLocationsScopesRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<Scope>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3899,8 +4246,8 @@ export const getProjectsLocationsScopesNamespaces: API.OperationMethod<
   GetProjectsLocationsScopesNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsLocationsScopesNamespacesRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<Namespace>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsLocationsScopesNamespacesRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<Namespace>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3916,8 +4263,8 @@ export const getProjectsLocationsScopesRbacrolebindings: API.OperationMethod<
   GetProjectsLocationsScopesRbacrolebindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsScopesRbacrolebindingsRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<RBACRoleBinding>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsLocationsScopesRbacrolebindingsRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<RBACRoleBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3934,8 +4281,8 @@ export const listMembershipsProjectsLocationsScopes: API.PaginatedOperationMetho
   GcpOpContext,
   ListBoundMembershipsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListMembershipsProjectsLocationsScopesRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<ListBoundMembershipsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListMembershipsProjectsLocationsScopesRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<ListBoundMembershipsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3953,8 +4300,8 @@ export const listOrganizationsLocationsFleets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFleetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListOrganizationsLocationsFleetsRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<ListFleetsResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListOrganizationsLocationsFleetsRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<ListFleetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3972,8 +4319,8 @@ export const listPermittedProjectsLocationsScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPermittedScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListPermittedProjectsLocationsScopesRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<ListPermittedScopesResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListPermittedProjectsLocationsScopesRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<ListPermittedScopesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3991,8 +4338,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4010,8 +4357,8 @@ export const listProjectsLocationsFeatures: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFeaturesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListProjectsLocationsFeaturesRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ListFeaturesResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsLocationsFeaturesRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListFeaturesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4029,8 +4376,8 @@ export const listProjectsLocationsFleets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFleetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListProjectsLocationsFleetsRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<ListFleetsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsLocationsFleetsRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<ListFleetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4048,8 +4395,8 @@ export const listProjectsLocationsMemberships: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMembershipsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsLocationsMembershipsRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<ListMembershipsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsLocationsMembershipsRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<ListMembershipsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4067,8 +4414,8 @@ export const listProjectsLocationsMembershipsBindings: API.PaginatedOperationMet
   GcpOpContext,
   ListMembershipBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsLocationsMembershipsBindingsRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<ListMembershipBindingsResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListProjectsLocationsMembershipsBindingsRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ListMembershipBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4090,11 +4437,11 @@ export const listProjectsLocationsMembershipsRbacrolebindings: API.PaginatedOper
   ListMembershipRBACRoleBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1856,
-    __c58,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<ListProjectsLocationsMembershipsRbacrolebindingsRequest>,
-  output: __S(1857, __c58, 1) as any as S.Schema<ListMembershipRBACRoleBindingsResponse>,
+  output: __S(2049, __c64, 1) as any as S.Schema<ListMembershipRBACRoleBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4112,8 +4459,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4131,8 +4478,8 @@ export const listProjectsLocationsRollouts: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRolloutsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectsLocationsRolloutsRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<ListRolloutsResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListProjectsLocationsRolloutsRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ListRolloutsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4150,8 +4497,8 @@ export const listProjectsLocationsRolloutSequences: API.PaginatedOperationMethod
   GcpOpContext,
   ListRolloutSequencesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsLocationsRolloutSequencesRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<ListRolloutSequencesResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListProjectsLocationsRolloutSequencesRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<ListRolloutSequencesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4169,8 +4516,8 @@ export const listProjectsLocationsScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListProjectsLocationsScopesRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<ListScopesResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListProjectsLocationsScopesRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<ListScopesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4188,8 +4535,8 @@ export const listProjectsLocationsScopesNamespaces: API.PaginatedOperationMethod
   GcpOpContext,
   ListScopeNamespacesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsLocationsScopesNamespacesRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<ListScopeNamespacesResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListProjectsLocationsScopesNamespacesRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<ListScopeNamespacesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4207,8 +4554,8 @@ export const listProjectsLocationsScopesRbacrolebindings: API.PaginatedOperation
   GcpOpContext,
   ListScopeRBACRoleBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsScopesRbacrolebindingsRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<ListScopeRBACRoleBindingsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListProjectsLocationsScopesRbacrolebindingsRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<ListScopeRBACRoleBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4230,8 +4577,8 @@ export const patchProjectsLocationsFeatures: API.OperationMethod<
   PatchProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<PatchProjectsLocationsFeaturesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2304, __c72, 0) as any as S.Schema<PatchProjectsLocationsFeaturesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4252,8 +4599,8 @@ export const patchProjectsLocationsFleets: API.OperationMethod<
   PatchProjectsLocationsFleetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PatchProjectsLocationsFleetsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2592, __c81, 0) as any as S.Schema<PatchProjectsLocationsFleetsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4274,8 +4621,8 @@ export const patchProjectsLocationsMemberships: API.OperationMethod<
   PatchProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PatchProjectsLocationsMembershipsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2624, __c82, 0) as any as S.Schema<PatchProjectsLocationsMembershipsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4296,8 +4643,8 @@ export const patchProjectsLocationsMembershipsBindings: API.OperationMethod<
   PatchProjectsLocationsMembershipsBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PatchProjectsLocationsMembershipsBindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PatchProjectsLocationsMembershipsBindingsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4319,11 +4666,11 @@ export const patchProjectsLocationsMembershipsRbacrolebindings: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2496,
-    __c78,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<PatchProjectsLocationsMembershipsRbacrolebindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4344,8 +4691,8 @@ export const patchProjectsLocationsRolloutSequences: API.OperationMethod<
   PatchProjectsLocationsRolloutSequencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PatchProjectsLocationsRolloutSequencesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PatchProjectsLocationsRolloutSequencesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4366,8 +4713,8 @@ export const patchProjectsLocationsScopes: API.OperationMethod<
   PatchProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchProjectsLocationsScopesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PatchProjectsLocationsScopesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4388,8 +4735,8 @@ export const patchProjectsLocationsScopesNamespaces: API.OperationMethod<
   PatchProjectsLocationsScopesNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchProjectsLocationsScopesNamespacesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PatchProjectsLocationsScopesNamespacesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4411,11 +4758,11 @@ export const patchProjectsLocationsScopesRbacrolebindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2624,
-    __c82,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<PatchProjectsLocationsScopesRbacrolebindingsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4436,8 +4783,8 @@ export const pauseProjectsLocationsRollouts: API.OperationMethod<
   PauseProjectsLocationsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<PauseProjectsLocationsRolloutsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2848, __c89, 0) as any as S.Schema<PauseProjectsLocationsRolloutsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4458,8 +4805,8 @@ export const resumeProjectsLocationsRollouts: API.OperationMethod<
   ResumeProjectsLocationsRolloutsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2689, __c84, 1) as any as S.Schema<ResumeProjectsLocationsRolloutsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ResumeProjectsLocationsRolloutsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4480,8 +4827,8 @@ export const setIamPolicyProjectsLocationsFeatures: API.OperationMethod<
   SetIamPolicyProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<SetIamPolicyProjectsLocationsFeaturesRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Policy>,
+  input: __S(3008, __c94, 0) as any as S.Schema<SetIamPolicyProjectsLocationsFeaturesRequest>,
+  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4502,8 +4849,8 @@ export const setIamPolicyProjectsLocationsMemberships: API.OperationMethod<
   SetIamPolicyProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMembershipsRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Policy>,
+  input: __S(3040, __c95, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMembershipsRequest>,
+  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4524,8 +4871,8 @@ export const setIamPolicyProjectsLocationsScopes: API.OperationMethod<
   SetIamPolicyProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<SetIamPolicyProjectsLocationsScopesRequest>,
-  output: __S(807, __c25, 7) as any as S.Schema<Policy>,
+  input: __S(3072, __c96, 0) as any as S.Schema<SetIamPolicyProjectsLocationsScopesRequest>,
+  output: __S(743, __c23, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4546,8 +4893,8 @@ export const testIamPermissionsProjectsLocationsFeatures: API.OperationMethod<
   TestIamPermissionsProjectsLocationsFeaturesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsFeaturesRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsFeaturesRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4569,11 +4916,11 @@ export const testIamPermissionsProjectsLocationsMemberships: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    3168,
+    __c99,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsMembershipsRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4594,8 +4941,8 @@ export const testIamPermissionsProjectsLocationsScopes: API.OperationMethod<
   TestIamPermissionsProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsScopesRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsScopesRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4616,8 +4963,8 @@ export const upgradeProjectsLocationsRolloutSequences: API.OperationMethod<
   UpgradeProjectsLocationsRolloutSequencesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3074, __c96, 2) as any as S.Schema<UpgradeProjectsLocationsRolloutSequencesRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(3233, __c101, 1) as any as S.Schema<UpgradeProjectsLocationsRolloutSequencesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4633,7 +4980,16 @@ function __c0(j: number): any {
         S.Struct({
           rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          role: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          user: S.optional(S.String),
+          group: S.optional(S.String),
+          uid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4653,21 +5009,6 @@ function __c1(j: number): any {
           predefinedRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "Role" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          role: S.optional(__S(32, __c1, 0)),
-          labels: S.optional(__S(2368, __c74, 0)),
-          updateTime: S.optional(S.String),
-          state: S.optional(__S(2784, __c87, 0)),
-          deleteTime: S.optional(S.String),
-          user: S.optional(S.String),
-          group: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RBACRoleBinding" });
   }
 }
 function __c2(j: number): any {
@@ -4677,7 +5018,24 @@ function __c2(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           rolloutSequenceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(133, __c4, 5).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          ignoredClustersSelector: S.optional(__S(96, __c3, 0)),
+          computedReleaseChannel: S.optional(S.String),
+          lastQualifiedControlPlaneVersion: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          operationalState: S.optional(__S(128, __c4, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          lastQualifiedNodeVersion: S.optional(S.String),
+          effectiveAutoUpgradeConfig: S.optional(__S(130, __c4, 2)),
+          targetControlPlaneVersion: S.optional(S.String),
+          targetNodeVersion: S.optional(S.String),
+          stages: S.optional(__S(132, __c4, 4)),
+          createTime: S.optional(S.String),
+          autoUpgradeConfig: S.optional(__S(130, __c4, 2)),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4703,7 +5061,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reasons: S.optional(__S(2208, __c69, 0)),
+          reasons: S.optional(__S(2400, __c75, 0)),
           state: S.optional(S.String),
           stateChangeTime: S.optional(S.String),
         }),
@@ -4711,49 +5069,26 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          upgradeTypes: S.optional(__S(2208, __c69, 0)),
+          upgradeTypes: S.optional(__S(2400, __c75, 0)),
         }),
       ).annotate({ identifier: "RolloutCreationScope" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           rolloutCreationScope: S.optional(__S(129, __c4, 1)),
-          enforcedRollouts: S.optional(__S(2368, __c74, 0)),
+          enforcedRollouts: S.optional(__S(2560, __c80, 0)),
         }),
       ).annotate({ identifier: "AutoUpgradeConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fleetProjects: S.optional(__S(2176, __c68, 0)),
+          fleetProjects: S.optional(__S(2368, __c74, 0)),
           clusterSelector: S.optional(__S(96, __c3, 0)),
           soakDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stage" });
     case 4:
       return S.Array(__S(131, __c4, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          ignoredClustersSelector: S.optional(__S(96, __c3, 0)),
-          computedReleaseChannel: S.optional(S.String),
-          lastQualifiedControlPlaneVersion: S.optional(S.String),
-          labels: S.optional(__S(2368, __c74, 0)),
-          operationalState: S.optional(__S(128, __c4, 0)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          lastQualifiedNodeVersion: S.optional(S.String),
-          effectiveAutoUpgradeConfig: S.optional(__S(130, __c4, 2)),
-          targetControlPlaneVersion: S.optional(S.String),
-          targetNodeVersion: S.optional(S.String),
-          stages: S.optional(__S(132, __c4, 4)),
-          createTime: S.optional(S.String),
-          autoUpgradeConfig: S.optional(__S(130, __c4, 2)),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RolloutSequence" });
   }
 }
 function __c5(j: number): any {
@@ -4763,7 +5098,14 @@ function __c5(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           scopeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          namespaceLabels: S.optional(__S(2560, __c80, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4779,26 +5121,17 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          state: S.optional(__S(2784, __c87, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          namespaceLabels: S.optional(__S(2368, __c74, 0)),
-          labels: S.optional(__S(2368, __c74, 0)),
-        }),
-      ).annotate({ identifier: "Scope" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
           scopeNamespaceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
+          scope: S.optional(S.String),
+          uid: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          namespaceLabels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4809,32 +5142,23 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsScopesNamespacesRequest" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          scope: S.optional(S.String),
-          uid: S.optional(S.String),
-          state: S.optional(__S(2784, __c87, 0)),
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          labels: S.optional(__S(2368, __c74, 0)),
-          namespaceLabels: S.optional(__S(2368, __c74, 0)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Namespace" });
-  }
-}
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          role: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          user: S.optional(S.String),
+          group: S.optional(S.String),
+          uid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4845,7 +5169,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsScopesRbacrolebindingsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4863,7 +5187,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsFeaturesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4879,7 +5203,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsFleetsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4897,7 +5221,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMembershipsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4913,7 +5237,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMembershipsBindingsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4929,7 +5253,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMembershipsRbacrolebindingsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4945,7 +5269,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4962,7 +5286,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRolloutsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4978,7 +5302,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRolloutSequencesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4994,7 +5318,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsScopesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5010,7 +5334,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsScopesNamespacesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5026,19 +5350,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsScopesRbacrolebindingsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageNumber: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ForceCompleteRolloutStageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c21, 0).pipe(T.HttpBody())),
+          stageNumber: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5049,7 +5367,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ForceCompleteStageProjectsLocationsRolloutsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5079,28 +5397,37 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(705, __c22, 1)),
+          type: S.optional(__S(641, __c20, 1)),
           manifest: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectAgentResource" });
     case 3:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(642, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          manifest: S.optional(__S(707, __c22, 3)),
+          manifest: S.optional(__S(643, __c20, 3)),
         }),
       ).annotate({ identifier: "GenerateConnectManifestResponse" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           rbacrolebindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          role: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          user: S.optional(S.String),
+          group: S.optional(S.String),
+          uid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5120,7 +5447,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GenerateMembershipRBACRoleBindingYAMLResponse" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5137,26 +5464,26 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsFeaturesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(2176, __c68, 0)),
+          exemptedMembers: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(800, __c25, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(801, __c25, 1)),
+          auditLogConfigs: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(738, __c23, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5170,24 +5497,24 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          members: S.optional(__S(2176, __c68, 0)),
-          condition: S.optional(__S(804, __c25, 4)),
+          members: S.optional(__S(2368, __c74, 0)),
+          condition: S.optional(__S(740, __c23, 4)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(805, __c25, 5));
+      return S.Array(__S(741, __c23, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(803, __c25, 3)),
-          bindings: S.optional(__S(806, __c25, 6)),
+          auditConfigs: S.optional(__S(739, __c23, 3)),
+          bindings: S.optional(__S(742, __c23, 6)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5204,7 +5531,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsMembershipsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5221,7 +5548,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsScopesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5233,21 +5560,21 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(2368, __c74, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1920, __c60, 0)),
           locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5260,7 +5587,30 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsFeaturesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deleteTime: S.optional(S.String),
+          unreachable: S.optional(__S(2368, __c74, 0)),
+          resourceState: S.optional(__S(2432, __c76, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          membershipStates: S.optional(__S(2504, __c78, 8)),
+          scopeSpecs: S.optional(__S(2505, __c78, 9)),
+          membershipSpecs: S.optional(__S(2521, __c78, 25)),
+          scopeStates: S.optional(__S(2523, __c78, 27)),
+          spec: S.optional(__S(2536, __c79, 8)),
+          updateTime: S.optional(S.String),
+          fleetDefaultMemberConfig: S.optional(__S(2537, __c79, 9)),
+          state: S.optional(__S(2557, __c79, 29)),
+        }),
+      ).annotate({ identifier: "Feature" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5270,6 +5620,24 @@ function __c31(j: number): any {
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsFleetsRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          defaultClusterConfig: S.optional(__S(2951, __c92, 7)),
+          deleteTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          state: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Fleet" });
   }
 }
 function __c32(j: number): any {
@@ -5289,11 +5657,23 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsMembershipsBindingsRequest" });
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          externalId: S.optional(S.String),
+          clusterTier: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          uniqueId: S.optional(S.String),
+          lastConnectionTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          endpoint: S.optional(__S(3305, __c103, 9)),
+          monitoringConfig: S.optional(__S(3306, __c103, 10)),
+          deleteTime: S.optional(S.String),
+          authority: S.optional(__S(3307, __c103, 11)),
+          membershipType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Membership" });
   }
 }
 function __c34(j: number): any {
@@ -5305,7 +5685,7 @@ function __c34(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsMembershipsRbacrolebindingsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsMembershipsBindingsRequest" });
   }
 }
 function __c35(j: number): any {
@@ -5313,11 +5693,16 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          scope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MembershipBinding" });
   }
 }
 function __c36(j: number): any {
@@ -5329,10 +5714,53 @@ function __c36(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsRolloutsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsMembershipsRbacrolebindingsRequest" });
   }
 }
 function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          role: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          user: S.optional(S.String),
+          group: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RBACRoleBinding" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsRolloutsRequest" });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5341,13 +5769,13 @@ function __c37(j: number): any {
           endTime: S.optional(S.String),
           soakDuration: S.optional(S.String),
           state: S.optional(S.String),
-          fleetProjects: S.optional(__S(2176, __c68, 0)),
+          fleetProjects: S.optional(__S(2368, __c74, 0)),
           startTime: S.optional(S.String),
           clusterSelector: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "RolloutStage" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1280, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5366,21 +5794,21 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "RolloutTarget" });
     case 4:
-      return S.Array(__S(1187, __c37, 3));
+      return S.Array(__S(1283, __c40, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           lastUpdateTime: S.optional(S.String),
           stageAssignment: S.optional(S.Number),
-          targets: S.optional(__S(1188, __c37, 4)),
+          targets: S.optional(__S(1284, __c40, 4)),
         }),
       ).annotate({ identifier: "RolloutMembershipState" });
     case 6:
-      return S.Record(S.String, __S(1189, __c37, 5));
+      return S.Record(S.String, __S(1285, __c40, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          stages: S.optional(__S(1185, __c37, 1)),
+          stages: S.optional(__S(1281, __c40, 1)),
           prioritized: S.optional(S.Boolean),
           etag: S.optional(S.String),
           updateTime: S.optional(S.String),
@@ -5390,29 +5818,29 @@ function __c37(j: number): any {
           stateReasonType: S.optional(S.String),
           state: S.optional(S.String),
           ignoreMaintenancePolicies: S.optional(S.Boolean),
-          versionUpgrade: S.optional(__S(1186, __c37, 2)),
+          versionUpgrade: S.optional(__S(1282, __c40, 2)),
           name: S.optional(S.String),
           rolloutSequence: S.optional(S.String),
           displayName: S.optional(S.String),
           ignoreClusterDisruptionBudgets: S.optional(S.Boolean),
           createTime: S.optional(S.String),
-          membershipStates: S.optional(__S(1190, __c37, 6)),
-          labels: S.optional(__S(2368, __c74, 0)),
+          membershipStates: S.optional(__S(1286, __c40, 6)),
+          labels: S.optional(__S(2560, __c80, 0)),
           deleteTime: S.optional(S.String),
           completeTime: S.optional(S.String),
           intent: S.optional(S.String),
-          stageSoakDurationOverrides: S.optional(__S(2368, __c74, 0)),
+          stageSoakDurationOverrides: S.optional(__S(2560, __c80, 0)),
         }),
       ).annotate({ identifier: "Rollout" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5423,46 +5851,10 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRolloutSequencesRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsScopesRequest" });
-  }
-}
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsScopesNamespacesRequest" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
 function __c43(j: number): any {
@@ -5474,10 +5866,108 @@ function __c43(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsScopesRbacrolebindingsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsRolloutSequencesRequest" });
   }
 }
 function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          ignoredClustersSelector: S.optional(__S(96, __c3, 0)),
+          computedReleaseChannel: S.optional(S.String),
+          lastQualifiedControlPlaneVersion: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          operationalState: S.optional(__S(128, __c4, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          lastQualifiedNodeVersion: S.optional(S.String),
+          effectiveAutoUpgradeConfig: S.optional(__S(130, __c4, 2)),
+          targetControlPlaneVersion: S.optional(S.String),
+          targetNodeVersion: S.optional(S.String),
+          stages: S.optional(__S(132, __c4, 4)),
+          createTime: S.optional(S.String),
+          autoUpgradeConfig: S.optional(__S(130, __c4, 2)),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RolloutSequence" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsScopesRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          namespaceLabels: S.optional(__S(2560, __c80, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+        }),
+      ).annotate({ identifier: "Scope" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsScopesNamespacesRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scope: S.optional(S.String),
+          uid: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          namespaceLabels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Namespace" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsScopesRbacrolebindingsRequest" });
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5498,19 +5988,19 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          memberships: S.optional(__S(1440, __c45, 0)),
-          unreachable: S.optional(__S(2176, __c68, 0)),
+          memberships: S.optional(__S(1632, __c51, 0)),
+          unreachable: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "ListBoundMembershipsResponse" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3148, __c98, 12));
+      return S.Array(__S(1056, __c33, 0));
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5528,20 +6018,20 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsFleetsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2760, __c86, 8));
+      return S.Array(__S(992, __c31, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          fleets: S.optional(__S(1504, __c47, 0)),
+          fleets: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "ListFleetsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5559,27 +6049,27 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListPermittedProjectsLocationsScopesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(1472, __c46, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(1568, __c49, 0)),
+          scopes: S.optional(__S(1760, __c55, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPermittedScopesResponse" });
   }
 }
-function __c50(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(2176, __c68, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2368, __c74, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -5591,17 +6081,17 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(864, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1601, __c50, 1)),
+          locations: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5621,17 +6111,17 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsFeaturesRequest" });
     case 1:
-      return S.Array(__S(2366, __c73, 30));
+      return S.Array(__S(928, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          resources: S.optional(__S(1633, __c51, 1)),
+          resources: S.optional(__S(1825, __c57, 1)),
         }),
       ).annotate({ identifier: "ListFeaturesResponse" });
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5649,13 +6139,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsFleetsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5666,37 +6156,37 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsRolloutsRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(1760, __c55, 0)),
+          details: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          error: S.optional(__S(1761, __c55, 1)),
-          metadata: S.optional(__S(1728, __c54, 0)),
-          response: S.optional(__S(1728, __c54, 0)),
+          error: S.optional(__S(1953, __c61, 1)),
+          metadata: S.optional(__S(1920, __c60, 0)),
+          response: S.optional(__S(1920, __c60, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5717,14 +6207,14 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(1440, __c45, 0)),
+          resources: S.optional(__S(1632, __c51, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2176, __c68, 0)),
+          unreachable: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "ListMembershipsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5742,18 +6232,18 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMembershipsBindingsRequest" });
     case 1:
-      return S.Array(__S(3200, __c100, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2176, __c68, 0)),
-          membershipBindings: S.optional(__S(1825, __c57, 1)),
+          unreachable: S.optional(__S(2368, __c74, 0)),
+          membershipBindings: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "ListMembershipBindingsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5772,20 +6262,20 @@ function __c58(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rbacrolebindings: S.optional(__S(1888, __c59, 0)),
+          rbacrolebindings: S.optional(__S(2080, __c65, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2176, __c68, 0)),
+          unreachable: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "ListMembershipRBACRoleBindingsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(1184, __c37, 0));
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5804,18 +6294,18 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1762, __c55, 2));
+      return S.Array(__S(1954, __c61, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1921, __c60, 1)),
+          operations: S.optional(__S(2113, __c66, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(2176, __c68, 0)),
+          unreachable: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5833,17 +6323,17 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRolloutsRequest" });
     case 1:
-      return S.Array(__S(1191, __c37, 7));
+      return S.Array(__S(1287, __c40, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          rollouts: S.optional(__S(1953, __c61, 1)),
+          rollouts: S.optional(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "ListRolloutsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5861,17 +6351,17 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRolloutSequencesRequest" });
     case 1:
-      return S.Array(__S(133, __c4, 5));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rolloutSequences: S.optional(__S(1985, __c62, 1)),
+          rolloutSequences: S.optional(__S(2177, __c68, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRolloutSequencesResponse" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5889,7 +6379,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsScopesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5906,17 +6396,17 @@ function __c64(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsScopesNamespacesRequest" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(1536, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scopeNamespaces: S.optional(__S(2049, __c64, 1)),
+          scopeNamespaces: S.optional(__S(2241, __c70, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListScopeNamespacesResponse" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5935,13 +6425,13 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rbacrolebindings: S.optional(__S(1888, __c59, 0)),
+          rbacrolebindings: S.optional(__S(2080, __c65, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListScopeRBACRoleBindingsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5949,14 +6439,26 @@ function __c66(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2366, __c73, 30).pipe(T.HttpBody())),
+          deleteTime: S.optional(S.String),
+          unreachable: S.optional(__S(2368, __c74, 0)),
+          resourceState: S.optional(__S(2432, __c76, 0)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          membershipStates: S.optional(__S(2504, __c78, 8)),
+          scopeSpecs: S.optional(__S(2505, __c78, 9)),
+          membershipSpecs: S.optional(__S(2521, __c78, 25)),
+          scopeStates: S.optional(__S(2523, __c78, 27)),
+          spec: S.optional(__S(2536, __c79, 8)),
+          updateTime: S.optional(S.String),
+          fleetDefaultMemberConfig: S.optional(__S(2537, __c79, 9)),
+          state: S.optional(__S(2557, __c79, 29)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsFeaturesRequest" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5964,7 +6466,20 @@ function __c67(j: number): any {
           parent: S.String.pipe(T.Label()),
           featureId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2366, __c73, 30).pipe(T.HttpBody())),
+          deleteTime: S.optional(S.String),
+          unreachable: S.optional(__S(2368, __c74, 0)),
+          resourceState: S.optional(__S(2432, __c76, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          membershipStates: S.optional(__S(2504, __c78, 8)),
+          scopeSpecs: S.optional(__S(2505, __c78, 9)),
+          membershipSpecs: S.optional(__S(2521, __c78, 25)),
+          scopeStates: S.optional(__S(2523, __c78, 27)),
+          spec: S.optional(__S(2536, __c79, 8)),
+          updateTime: S.optional(S.String),
+          fleetDefaultMemberConfig: S.optional(__S(2537, __c79, 9)),
+          state: S.optional(__S(2557, __c79, 29)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5975,19 +6490,19 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsFeaturesRequest" });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6003,20 +6518,20 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "PolicyControllerOnClusterState" });
     case 2:
-      return S.Record(S.String, __S(2241, __c70, 1));
+      return S.Record(S.String, __S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bundleStates: S.optional(__S(2242, __c70, 2)),
-          templateLibraryState: S.optional(__S(2241, __c70, 1)),
-          referentialSyncConfigState: S.optional(__S(2241, __c70, 1)),
+          bundleStates: S.optional(__S(2434, __c76, 2)),
+          templateLibraryState: S.optional(__S(2433, __c76, 1)),
+          referentialSyncConfigState: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "PolicyControllerPolicyContentState" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          policyContentState: S.optional(__S(2243, __c70, 3)),
-          componentStates: S.optional(__S(2242, __c70, 2)),
+          policyContentState: S.optional(__S(2435, __c76, 3)),
+          componentStates: S.optional(__S(2434, __c76, 2)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyControllerMembershipState" });
@@ -6031,7 +6546,7 @@ function __c70(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          backends: S.optional(__S(2208, __c69, 0)),
+          backends: S.optional(__S(2400, __c75, 0)),
         }),
       ).annotate({ identifier: "ConfigManagementPolicyControllerMonitoring" });
     case 7:
@@ -6039,9 +6554,9 @@ function __c70(j: number): any {
         S.Struct({
           referentialRulesEnabled: S.optional(S.Boolean),
           updateTime: S.optional(S.String),
-          exemptableNamespaces: S.optional(__S(2176, __c68, 0)),
+          exemptableNamespaces: S.optional(__S(2368, __c74, 0)),
           templateLibraryInstalled: S.optional(S.Boolean),
-          monitoring: S.optional(__S(2246, __c70, 6)),
+          monitoring: S.optional(__S(2438, __c76, 6)),
           enabled: S.optional(S.Boolean),
           mutationEnabled: S.optional(S.Boolean),
           auditIntervalSeconds: S.optional(S.String),
@@ -6069,17 +6584,17 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "ConfigManagementContainerOverride" });
     case 10:
-      return S.Array(__S(2249, __c70, 9));
+      return S.Array(__S(2441, __c76, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(2250, __c70, 10)),
+          containers: S.optional(__S(2442, __c76, 10)),
           deploymentNamespace: S.optional(S.String),
           deploymentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigManagementDeploymentOverride" });
     case 12:
-      return S.Array(__S(2251, __c70, 11));
+      return S.Array(__S(2443, __c76, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -6097,12 +6612,12 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           stopSyncing: S.optional(S.Boolean),
-          oci: S.optional(__S(2248, __c70, 8)),
+          oci: S.optional(__S(2440, __c76, 8)),
           metricsGcpServiceAccountEmail: S.optional(S.String),
-          deploymentOverrides: S.optional(__S(2252, __c70, 12)),
+          deploymentOverrides: S.optional(__S(2444, __c76, 12)),
           sourceFormat: S.optional(S.String),
           preventDrift: S.optional(S.Boolean),
-          git: S.optional(__S(2253, __c70, 13)),
+          git: S.optional(__S(2445, __c76, 13)),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConfigManagementConfigSync" });
@@ -6111,9 +6626,9 @@ function __c70(j: number): any {
         S.Struct({
           cluster: S.optional(S.String),
           management: S.optional(S.String),
-          hierarchyController: S.optional(__S(2245, __c70, 5)),
-          policyController: S.optional(__S(2247, __c70, 7)),
-          configSync: S.optional(__S(2254, __c70, 14)),
+          hierarchyController: S.optional(__S(2437, __c76, 5)),
+          policyController: S.optional(__S(2439, __c76, 7)),
+          configSync: S.optional(__S(2446, __c76, 14)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigManagementMembershipSpec" });
@@ -6124,7 +6639,7 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "ConfigManagementConfigSyncError" });
     case 17:
-      return S.Array(__S(2256, __c70, 16));
+      return S.Array(__S(2448, __c76, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -6150,24 +6665,24 @@ function __c70(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          resourceGvk: S.optional(__S(2259, __c70, 19)),
+          resourceGvk: S.optional(__S(2451, __c76, 19)),
           resourceNamespace: S.optional(S.String),
           sourcePath: S.optional(S.String),
           resourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigManagementErrorResource" });
     case 21:
-      return S.Array(__S(2260, __c70, 20));
+      return S.Array(__S(2452, __c76, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          errorResources: S.optional(__S(2261, __c70, 21)),
+          errorResources: S.optional(__S(2453, __c76, 21)),
           code: S.optional(S.String),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigManagementSyncError" });
     case 23:
-      return S.Array(__S(2262, __c70, 22));
+      return S.Array(__S(2454, __c76, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -6175,7 +6690,7 @@ function __c70(j: number): any {
           syncToken: S.optional(S.String),
           lastSync: S.optional(S.String),
           code: S.optional(S.String),
-          errors: S.optional(__S(2263, __c70, 23)),
+          errors: S.optional(__S(2455, __c76, 23)),
           sourceToken: S.optional(S.String),
           importToken: S.optional(S.String),
         }),
@@ -6197,15 +6712,15 @@ function __c70(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(2257, __c70, 17)),
+          errors: S.optional(__S(2449, __c76, 17)),
           reposyncCrd: S.optional(S.String),
-          version: S.optional(__S(2258, __c70, 18)),
+          version: S.optional(__S(2450, __c76, 18)),
           clusterLevelStopSyncingState: S.optional(S.String),
           rootsyncCrd: S.optional(S.String),
-          syncState: S.optional(__S(2264, __c70, 24)),
+          syncState: S.optional(__S(2456, __c76, 24)),
           crCount: S.optional(S.Number),
           state: S.optional(S.String),
-          deploymentState: S.optional(__S(2265, __c70, 25)),
+          deploymentState: S.optional(__S(2457, __c76, 25)),
         }),
       ).annotate({ identifier: "ConfigManagementConfigSyncState" });
     case 27:
@@ -6225,8 +6740,8 @@ function __c70(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(2267, __c70, 27)),
-          state: S.optional(__S(2268, __c70, 28)),
+          version: S.optional(__S(2459, __c76, 27)),
+          state: S.optional(__S(2460, __c76, 28)),
         }),
       ).annotate({ identifier: "ConfigManagementHierarchyControllerState" });
     case 30:
@@ -6246,7 +6761,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ConfigManagementPolicyControllerMigration" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6257,16 +6772,16 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deploymentState: S.optional(__S(2270, __c70, 30)),
-          migration: S.optional(__S(2271, __c70, 31)),
-          version: S.optional(__S(2272, __c71, 0)),
+          deploymentState: S.optional(__S(2462, __c76, 30)),
+          migration: S.optional(__S(2463, __c76, 31)),
+          version: S.optional(__S(2464, __c77, 0)),
         }),
       ).annotate({ identifier: "ConfigManagementPolicyControllerState" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           deploymentState: S.optional(S.String),
-          errors: S.optional(__S(2257, __c70, 17)),
+          errors: S.optional(__S(2449, __c76, 17)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigManagementOperatorState" });
@@ -6274,11 +6789,11 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clusterName: S.optional(S.String),
-          membershipSpec: S.optional(__S(2255, __c70, 15)),
-          configSyncState: S.optional(__S(2266, __c70, 26)),
-          hierarchyControllerState: S.optional(__S(2269, __c70, 29)),
-          policyControllerState: S.optional(__S(2273, __c71, 1)),
-          operatorState: S.optional(__S(2274, __c71, 2)),
+          membershipSpec: S.optional(__S(2447, __c76, 15)),
+          configSyncState: S.optional(__S(2458, __c76, 26)),
+          hierarchyControllerState: S.optional(__S(2461, __c76, 29)),
+          policyControllerState: S.optional(__S(2465, __c77, 1)),
+          operatorState: S.optional(__S(2466, __c77, 2)),
           kubernetesApiServerVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigManagementMembershipState" });
@@ -6292,7 +6807,7 @@ function __c71(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          networkingInstallSucceeded: S.optional(__S(2276, __c71, 4)),
+          networkingInstallSucceeded: S.optional(__S(2468, __c77, 4)),
         }),
       ).annotate({ identifier: "AppDevExperienceFeatureState" });
     case 6:
@@ -6305,7 +6820,7 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "ServiceMeshCondition" });
     case 7:
-      return S.Array(__S(2278, __c71, 6));
+      return S.Array(__S(2470, __c77, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6314,28 +6829,28 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "ServiceMeshStatusDetails" });
     case 9:
-      return S.Array(__S(2280, __c71, 8));
+      return S.Array(__S(2472, __c77, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           implementation: S.optional(S.String),
-          details: S.optional(__S(2281, __c71, 9)),
+          details: S.optional(__S(2473, __c77, 9)),
         }),
       ).annotate({ identifier: "ServiceMeshControlPlaneManagement" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(2281, __c71, 9)),
+          details: S.optional(__S(2473, __c77, 9)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceMeshDataPlaneManagement" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(2279, __c71, 7)),
-          controlPlaneManagement: S.optional(__S(2282, __c71, 10)),
-          dataPlaneManagement: S.optional(__S(2283, __c71, 11)),
+          conditions: S.optional(__S(2471, __c77, 7)),
+          controlPlaneManagement: S.optional(__S(2474, __c77, 10)),
+          dataPlaneManagement: S.optional(__S(2475, __c77, 11)),
         }),
       ).annotate({ identifier: "ServiceMeshMembershipState" });
     case 13:
@@ -6363,17 +6878,17 @@ function __c71(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(2286, __c71, 14)),
-          upgrade: S.optional(__S(2287, __c71, 15)),
+          status: S.optional(__S(2478, __c77, 14)),
+          upgrade: S.optional(__S(2479, __c77, 15)),
         }),
       ).annotate({ identifier: "ClusterUpgradeMembershipGKEUpgradeState" });
     case 17:
-      return S.Array(__S(2288, __c71, 16));
+      return S.Array(__S(2480, __c77, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          ignored: S.optional(__S(2285, __c71, 13)),
-          upgrades: S.optional(__S(2289, __c71, 17)),
+          ignored: S.optional(__S(2477, __c77, 13)),
+          upgrades: S.optional(__S(2481, __c77, 17)),
         }),
       ).annotate({ identifier: "ClusterUpgradeMembershipState" });
     case 19:
@@ -6399,7 +6914,7 @@ function __c71(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          simpleBindCredentials: S.optional(__S(2292, __c71, 20)),
+          simpleBindCredentials: S.optional(__S(2484, __c77, 20)),
         }),
       ).annotate({ identifier: "IdentityServiceServiceAccountConfig" });
     case 22:
@@ -6430,10 +6945,10 @@ function __c71(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          serviceAccount: S.optional(__S(2293, __c71, 21)),
-          group: S.optional(__S(2294, __c71, 22)),
-          server: S.optional(__S(2295, __c71, 23)),
-          user: S.optional(__S(2296, __c71, 24)),
+          serviceAccount: S.optional(__S(2485, __c77, 21)),
+          group: S.optional(__S(2486, __c77, 22)),
+          server: S.optional(__S(2487, __c77, 23)),
+          user: S.optional(__S(2488, __c77, 24)),
         }),
       ).annotate({ identifier: "IdentityServiceLdapConfig" });
     case 26:
@@ -6445,10 +6960,10 @@ function __c71(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          identityProviderCertificates: S.optional(__S(2176, __c68, 0)),
+          identityProviderCertificates: S.optional(__S(2368, __c74, 0)),
           groupsAttribute: S.optional(S.String),
           userPrefix: S.optional(S.String),
-          attributeMapping: S.optional(__S(2368, __c74, 0)),
+          attributeMapping: S.optional(__S(2560, __c80, 0)),
           identityProviderId: S.optional(S.String),
           groupPrefix: S.optional(S.String),
           identityProviderSsoUri: S.optional(S.String),
@@ -6477,17 +6992,17 @@ function __c71(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          azureadConfig: S.optional(__S(2291, __c71, 19)),
-          ldapConfig: S.optional(__S(2297, __c71, 25)),
+          azureadConfig: S.optional(__S(2483, __c77, 19)),
+          ldapConfig: S.optional(__S(2489, __c77, 25)),
           name: S.optional(S.String),
-          googleConfig: S.optional(__S(2298, __c71, 26)),
-          samlConfig: S.optional(__S(2299, __c71, 27)),
+          googleConfig: S.optional(__S(2490, __c77, 26)),
+          samlConfig: S.optional(__S(2491, __c77, 27)),
           proxy: S.optional(S.String),
-          oidcConfig: S.optional(__S(2300, __c71, 28)),
+          oidcConfig: S.optional(__S(2492, __c77, 28)),
         }),
       ).annotate({ identifier: "IdentityServiceAuthMethod" });
     case 30:
-      return S.Array(__S(2301, __c71, 29));
+      return S.Array(__S(2493, __c77, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -6497,26 +7012,26 @@ function __c71(j: number): any {
       ).annotate({ identifier: "IdentityServiceDiagnosticInterface" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          diagnosticInterface: S.optional(__S(2303, __c71, 31)),
+          diagnosticInterface: S.optional(__S(2495, __c77, 31)),
           sessionDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdentityServiceIdentityServiceOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authMethods: S.optional(__S(2302, __c71, 30)),
-          identityServiceOptions: S.optional(__S(2304, __c72, 0)),
+          authMethods: S.optional(__S(2494, __c77, 30)),
+          identityServiceOptions: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "IdentityServiceMembershipSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          memberConfig: S.optional(__S(2305, __c72, 1)),
+          memberConfig: S.optional(__S(2497, __c78, 1)),
           state: S.optional(S.String),
           installedVersion: S.optional(S.String),
           failureReason: S.optional(S.String),
@@ -6538,32 +7053,32 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "WorkloadIdentityIdentityProviderStateDetail" });
     case 5:
-      return S.Record(S.String, __S(2308, __c72, 4));
+      return S.Record(S.String, __S(2500, __c78, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          identityProviderStateDetails: S.optional(__S(2309, __c72, 5)),
+          identityProviderStateDetails: S.optional(__S(2501, __c78, 5)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkloadIdentityMembershipState" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          policycontroller: S.optional(__S(2244, __c70, 4)),
-          configmanagement: S.optional(__S(2275, __c71, 3)),
-          appdevexperience: S.optional(__S(2277, __c71, 5)),
-          servicemesh: S.optional(__S(2284, __c71, 12)),
-          clusterupgrade: S.optional(__S(2290, __c71, 18)),
-          fleetobservability: S.optional(__S(1248, __c39, 0)),
-          identityservice: S.optional(__S(2306, __c72, 2)),
-          state: S.optional(__S(2307, __c72, 3)),
-          workloadidentity: S.optional(__S(2310, __c72, 6)),
+          policycontroller: S.optional(__S(2436, __c76, 4)),
+          configmanagement: S.optional(__S(2467, __c77, 3)),
+          appdevexperience: S.optional(__S(2469, __c77, 5)),
+          servicemesh: S.optional(__S(2476, __c77, 12)),
+          clusterupgrade: S.optional(__S(2482, __c77, 18)),
+          fleetobservability: S.optional(__S(1344, __c42, 0)),
+          identityservice: S.optional(__S(2498, __c78, 2)),
+          state: S.optional(__S(2499, __c78, 3)),
+          workloadidentity: S.optional(__S(2502, __c78, 6)),
         }),
       ).annotate({ identifier: "MembershipFeatureState" });
     case 8:
-      return S.Record(S.String, __S(2311, __c72, 7));
+      return S.Record(S.String, __S(2503, __c78, 7));
     case 9:
-      return S.Record(S.String, __S(1248, __c39, 0));
+      return S.Record(S.String, __S(1344, __c42, 0));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -6582,7 +7097,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "PolicyControllerToleration" });
     case 12:
-      return S.Array(__S(2315, __c72, 11));
+      return S.Array(__S(2507, __c78, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -6593,30 +7108,30 @@ function __c72(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          limits: S.optional(__S(2317, __c72, 13)),
-          requests: S.optional(__S(2317, __c72, 13)),
+          limits: S.optional(__S(2509, __c78, 13)),
+          requests: S.optional(__S(2509, __c78, 13)),
         }),
       ).annotate({ identifier: "PolicyControllerResourceRequirements" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          podTolerations: S.optional(__S(2316, __c72, 12)),
-          containerResources: S.optional(__S(2318, __c72, 14)),
+          podTolerations: S.optional(__S(2508, __c78, 12)),
+          containerResources: S.optional(__S(2510, __c78, 14)),
           podAntiAffinity: S.optional(S.Boolean),
           podAffinity: S.optional(S.String),
           replicaCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyControllerPolicyControllerDeploymentConfig" });
     case 16:
-      return S.Record(S.String, __S(2319, __c72, 15));
+      return S.Record(S.String, __S(2511, __c78, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          exemptedNamespaces: S.optional(__S(2176, __c68, 0)),
+          exemptedNamespaces: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "PolicyControllerBundleInstallSpec" });
     case 18:
-      return S.Record(S.String, __S(2321, __c72, 17));
+      return S.Record(S.String, __S(2513, __c78, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -6626,18 +7141,18 @@ function __c72(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          bundles: S.optional(__S(2322, __c72, 18)),
-          templateLibrary: S.optional(__S(2323, __c72, 19)),
+          bundles: S.optional(__S(2514, __c78, 18)),
+          templateLibrary: S.optional(__S(2515, __c78, 19)),
         }),
       ).annotate({ identifier: "PolicyControllerPolicyContentSpec" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          monitoring: S.optional(__S(2246, __c70, 6)),
-          deploymentConfigs: S.optional(__S(2320, __c72, 16)),
+          monitoring: S.optional(__S(2438, __c76, 6)),
+          deploymentConfigs: S.optional(__S(2512, __c78, 16)),
           constraintViolationLimit: S.optional(S.String),
-          exemptableNamespaces: S.optional(__S(2176, __c68, 0)),
-          policyContent: S.optional(__S(2324, __c72, 20)),
+          exemptableNamespaces: S.optional(__S(2368, __c74, 0)),
+          policyContent: S.optional(__S(2516, __c78, 20)),
           logDeniesEnabled: S.optional(S.Boolean),
           installSpec: S.optional(S.String),
           mutationEnabled: S.optional(S.Boolean),
@@ -6648,7 +7163,7 @@ function __c72(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          policyControllerHubConfig: S.optional(__S(2325, __c72, 21)),
+          policyControllerHubConfig: S.optional(__S(2517, __c78, 21)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyControllerMembershipSpec" });
@@ -6661,24 +7176,24 @@ function __c72(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          mesh: S.optional(__S(2314, __c72, 10)),
-          identityservice: S.optional(__S(2305, __c72, 1)),
-          policycontroller: S.optional(__S(2326, __c72, 22)),
-          configmanagement: S.optional(__S(2255, __c70, 15)),
-          fleetobservability: S.optional(__S(1248, __c39, 0)),
-          origin: S.optional(__S(2327, __c72, 23)),
+          mesh: S.optional(__S(2506, __c78, 10)),
+          identityservice: S.optional(__S(2497, __c78, 1)),
+          policycontroller: S.optional(__S(2518, __c78, 22)),
+          configmanagement: S.optional(__S(2447, __c76, 15)),
+          fleetobservability: S.optional(__S(1344, __c42, 0)),
+          origin: S.optional(__S(2519, __c78, 23)),
         }),
       ).annotate({ identifier: "MembershipFeatureSpec" });
     case 25:
-      return S.Record(S.String, __S(2328, __c72, 24));
+      return S.Record(S.String, __S(2520, __c78, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(__S(2307, __c72, 3)),
+          state: S.optional(__S(2499, __c78, 3)),
         }),
       ).annotate({ identifier: "ScopeFeatureState" });
     case 27:
-      return S.Record(S.String, __S(2330, __c72, 26));
+      return S.Record(S.String, __S(2522, __c78, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -6706,19 +7221,19 @@ function __c72(j: number): any {
       ).annotate({ identifier: "FleetObservabilityRoutingConfig" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fleetScopeLogsConfig: S.optional(__S(2335, __c72, 31)),
-          defaultConfig: S.optional(__S(2335, __c72, 31)),
+          fleetScopeLogsConfig: S.optional(__S(2527, __c78, 31)),
+          defaultConfig: S.optional(__S(2527, __c78, 31)),
         }),
       ).annotate({ identifier: "FleetObservabilityLoggingConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          loggingConfig: S.optional(__S(2336, __c73, 0)),
+          loggingConfig: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "FleetObservabilityFeatureSpec" });
     case 2:
@@ -6730,7 +7245,7 @@ function __c73(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedCustomRoles: S.optional(__S(2176, __c68, 0)),
+          allowedCustomRoles: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "RBACRoleBindingActuationFeatureSpec" });
     case 4:
@@ -6742,52 +7257,52 @@ function __c73(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          postConditions: S.optional(__S(2340, __c73, 4)),
-          upgrade: S.optional(__S(2287, __c71, 15)),
+          postConditions: S.optional(__S(2532, __c79, 4)),
+          upgrade: S.optional(__S(2479, __c77, 15)),
         }),
       ).annotate({ identifier: "ClusterUpgradeGKEUpgradeOverride" });
     case 6:
-      return S.Array(__S(2341, __c73, 5));
+      return S.Array(__S(2533, __c79, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          upstreamFleets: S.optional(__S(2176, __c68, 0)),
-          gkeUpgradeOverrides: S.optional(__S(2342, __c73, 6)),
-          postConditions: S.optional(__S(2340, __c73, 4)),
+          upstreamFleets: S.optional(__S(2368, __c74, 0)),
+          gkeUpgradeOverrides: S.optional(__S(2534, __c79, 6)),
+          postConditions: S.optional(__S(2532, __c79, 4)),
         }),
       ).annotate({ identifier: "ClusterUpgradeFleetSpec" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          dataplanev2: S.optional(__S(2332, __c72, 28)),
-          mesh: S.optional(__S(2333, __c72, 29)),
-          multiclusteringress: S.optional(__S(2334, __c72, 30)),
-          fleetobservability: S.optional(__S(2337, __c73, 1)),
-          workloadidentity: S.optional(__S(2338, __c73, 2)),
-          rbacrolebindingactuation: S.optional(__S(2339, __c73, 3)),
-          appdevexperience: S.optional(__S(1248, __c39, 0)),
-          clusterupgrade: S.optional(__S(2343, __c73, 7)),
+          dataplanev2: S.optional(__S(2524, __c78, 28)),
+          mesh: S.optional(__S(2525, __c78, 29)),
+          multiclusteringress: S.optional(__S(2526, __c78, 30)),
+          fleetobservability: S.optional(__S(2529, __c79, 1)),
+          workloadidentity: S.optional(__S(2530, __c79, 2)),
+          rbacrolebindingactuation: S.optional(__S(2531, __c79, 3)),
+          appdevexperience: S.optional(__S(1344, __c42, 0)),
+          clusterupgrade: S.optional(__S(2535, __c79, 7)),
         }),
       ).annotate({ identifier: "CommonFeatureSpec" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          mesh: S.optional(__S(2314, __c72, 10)),
-          policycontroller: S.optional(__S(2326, __c72, 22)),
-          configmanagement: S.optional(__S(2255, __c70, 15)),
-          identityservice: S.optional(__S(2305, __c72, 1)),
+          mesh: S.optional(__S(2506, __c78, 10)),
+          policycontroller: S.optional(__S(2518, __c78, 22)),
+          configmanagement: S.optional(__S(2447, __c76, 15)),
+          identityservice: S.optional(__S(2497, __c78, 1)),
         }),
       ).annotate({ identifier: "CommonFleetDefaultMemberConfigSpec" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(2368, __c74, 0)),
-          status: S.optional(__S(2286, __c71, 14)),
-          upgrade: S.optional(__S(2287, __c71, 15)),
+          stats: S.optional(__S(2560, __c80, 0)),
+          status: S.optional(__S(2478, __c77, 14)),
+          upgrade: S.optional(__S(2479, __c77, 15)),
         }),
       ).annotate({ identifier: "ClusterUpgradeGKEUpgradeState" });
     case 11:
-      return S.Array(__S(2346, __c73, 10));
+      return S.Array(__S(2538, __c79, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -6798,36 +7313,36 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "ClusterUpgradeGKEUpgradeFeatureCondition" });
     case 13:
-      return S.Array(__S(2348, __c73, 12));
+      return S.Array(__S(2540, __c79, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          upgradeState: S.optional(__S(2347, __c73, 11)),
-          conditions: S.optional(__S(2349, __c73, 13)),
+          upgradeState: S.optional(__S(2539, __c79, 11)),
+          conditions: S.optional(__S(2541, __c79, 13)),
         }),
       ).annotate({ identifier: "ClusterUpgradeGKEUpgradeFeatureState" });
     case 15:
-      return S.Record(S.String, __S(2285, __c71, 13));
+      return S.Record(S.String, __S(2477, __c77, 13));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          downstreamFleets: S.optional(__S(2176, __c68, 0)),
-          gkeState: S.optional(__S(2350, __c73, 14)),
-          ignored: S.optional(__S(2351, __c73, 15)),
+          downstreamFleets: S.optional(__S(2368, __c74, 0)),
+          gkeState: S.optional(__S(2542, __c79, 14)),
+          ignored: S.optional(__S(2543, __c79, 15)),
         }),
       ).annotate({ identifier: "ClusterUpgradeFleetState" });
     case 17:
-      return S.Record(S.String, __S(2276, __c71, 4));
+      return S.Record(S.String, __S(2468, __c77, 4));
     case 18:
       return S.Record(S.String, S.String);
     case 19:
       return S.suspend(() =>
         S.Struct({
-          workloadIdentityPoolStateDetails: S.optional(__S(2309, __c72, 5)),
+          workloadIdentityPoolStateDetails: S.optional(__S(2501, __c78, 5)),
           workloadIdentityPool: S.optional(S.String),
-          namespaceStateDetails: S.optional(__S(2353, __c73, 17)),
+          namespaceStateDetails: S.optional(__S(2545, __c79, 17)),
           scopeTenancyWorkloadIdentityPool: S.optional(S.String),
-          namespaceStates: S.optional(__S(2354, __c73, 18)),
+          namespaceStates: S.optional(__S(2546, __c79, 18)),
         }),
       ).annotate({ identifier: "WorkloadIdentityFeatureState" });
     case 20:
@@ -6838,32 +7353,32 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "FleetObservabilityFeatureError" });
     case 21:
-      return S.Array(__S(2356, __c73, 20));
+      return S.Array(__S(2548, __c79, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          errors: S.optional(__S(2357, __c73, 21)),
+          errors: S.optional(__S(2549, __c79, 21)),
         }),
       ).annotate({ identifier: "FleetObservabilityFleetObservabilityBaseFeatureState" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(__S(2358, __c73, 22)),
+          state: S.optional(__S(2550, __c79, 22)),
         }),
       ).annotate({ identifier: "FleetObservabilityFleetObservabilityMonitoringState" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          defaultLog: S.optional(__S(2358, __c73, 22)),
-          scopeLog: S.optional(__S(2358, __c73, 22)),
+          defaultLog: S.optional(__S(2550, __c79, 22)),
+          scopeLog: S.optional(__S(2550, __c79, 22)),
         }),
       ).annotate({ identifier: "FleetObservabilityFleetObservabilityLoggingState" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          monitoring: S.optional(__S(2359, __c73, 23)),
-          logging: S.optional(__S(2360, __c73, 24)),
+          monitoring: S.optional(__S(2551, __c79, 23)),
+          logging: S.optional(__S(2552, __c79, 24)),
         }),
       ).annotate({ identifier: "FleetObservabilityFeatureState" });
     case 26:
@@ -6876,135 +7391,31 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "ServiceMeshFeatureCondition" });
     case 27:
-      return S.Array(__S(2362, __c73, 26));
+      return S.Array(__S(2554, __c79, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(2363, __c73, 27)),
+          conditions: S.optional(__S(2555, __c79, 27)),
         }),
       ).annotate({ identifier: "ServiceMeshFeatureState" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          rbacrolebindingactuation: S.optional(__S(1248, __c39, 0)),
-          clusterupgrade: S.optional(__S(2352, __c73, 16)),
-          workloadidentity: S.optional(__S(2355, __c73, 19)),
-          state: S.optional(__S(2307, __c72, 3)),
-          appdevexperience: S.optional(__S(2277, __c71, 5)),
-          fleetobservability: S.optional(__S(2361, __c73, 25)),
-          servicemesh: S.optional(__S(2364, __c73, 28)),
+          rbacrolebindingactuation: S.optional(__S(1344, __c42, 0)),
+          clusterupgrade: S.optional(__S(2544, __c79, 16)),
+          workloadidentity: S.optional(__S(2547, __c79, 19)),
+          state: S.optional(__S(2499, __c78, 3)),
+          appdevexperience: S.optional(__S(2469, __c77, 5)),
+          fleetobservability: S.optional(__S(2553, __c79, 25)),
+          servicemesh: S.optional(__S(2556, __c79, 28)),
         }),
       ).annotate({ identifier: "CommonFeatureState" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          deleteTime: S.optional(S.String),
-          unreachable: S.optional(__S(2176, __c68, 0)),
-          resourceState: S.optional(__S(2240, __c70, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2368, __c74, 0)),
-          membershipStates: S.optional(__S(2312, __c72, 8)),
-          scopeSpecs: S.optional(__S(2313, __c72, 9)),
-          membershipSpecs: S.optional(__S(2329, __c72, 25)),
-          scopeStates: S.optional(__S(2331, __c72, 27)),
-          spec: S.optional(__S(2344, __c73, 8)),
-          updateTime: S.optional(S.String),
-          fleetDefaultMemberConfig: S.optional(__S(2345, __c73, 9)),
-          state: S.optional(__S(2365, __c73, 29)),
-        }),
-      ).annotate({ identifier: "Feature" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2760, __c86, 8).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsFleetsRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3148, __c98, 12).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsMembershipsRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsMembershipsBindingsRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsMembershipsRbacrolebindingsRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(133, __c4, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsRolloutSequencesRequest" });
   }
 }
 function __c80(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchProjectsLocationsScopesRequest" });
+      return S.Record(S.String, S.String);
   }
 }
 function __c81(j: number): any {
@@ -7012,13 +7423,20 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          defaultClusterConfig: S.optional(__S(2951, __c92, 7)),
+          deleteTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          state: S.optional(__S(2976, __c93, 0)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "PatchProjectsLocationsScopesNamespacesRequest" });
+      ).annotate({ identifier: "PatchProjectsLocationsFleetsRequest" });
   }
 }
 function __c82(j: number): any {
@@ -7027,12 +7445,26 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          externalId: S.optional(S.String),
+          clusterTier: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          uniqueId: S.optional(S.String),
+          lastConnectionTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          createTime: S.optional(S.String),
+          endpoint: S.optional(__S(3305, __c103, 9)),
+          monitoringConfig: S.optional(__S(3306, __c103, 10)),
+          deleteTime: S.optional(S.String),
+          authority: S.optional(__S(3307, __c103, 11)),
+          membershipType: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "PatchProjectsLocationsScopesRbacrolebindingsRequest" });
+      ).annotate({ identifier: "PatchProjectsLocationsMembershipsRequest" });
   }
 }
 function __c83(j: number): any {
@@ -7040,8 +7472,143 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          scope: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsMembershipsBindingsRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          createTime: S.optional(S.String),
+          role: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          user: S.optional(S.String),
+          group: S.optional(S.String),
+          uid: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsMembershipsRbacrolebindingsRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          ignoredClustersSelector: S.optional(__S(96, __c3, 0)),
+          computedReleaseChannel: S.optional(S.String),
+          lastQualifiedControlPlaneVersion: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          operationalState: S.optional(__S(128, __c4, 0)),
+          displayName: S.optional(S.String),
+          lastQualifiedNodeVersion: S.optional(S.String),
+          effectiveAutoUpgradeConfig: S.optional(__S(130, __c4, 2)),
+          targetControlPlaneVersion: S.optional(S.String),
+          targetNodeVersion: S.optional(S.String),
+          stages: S.optional(__S(132, __c4, 4)),
+          createTime: S.optional(S.String),
+          autoUpgradeConfig: S.optional(__S(130, __c4, 2)),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsRolloutSequencesRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          namespaceLabels: S.optional(__S(2560, __c80, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsScopesRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          scope: S.optional(S.String),
+          uid: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          namespaceLabels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsScopesNamespacesRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          createTime: S.optional(S.String),
+          role: S.optional(__S(32, __c1, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          updateTime: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          deleteTime: S.optional(S.String),
+          user: S.optional(S.String),
+          group: S.optional(S.String),
+          uid: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://gkehub.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchProjectsLocationsScopesRbacrolebindingsRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7052,20 +7619,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PauseProjectsLocationsRolloutsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
           scheduleOffset: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResumeRolloutRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7076,13 +7637,21 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ResumeProjectsLocationsRolloutsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2760, __c86, 8).pipe(T.HttpBody())),
+          defaultClusterConfig: S.optional(__S(2951, __c92, 7)),
+          deleteTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          state: S.optional(__S(2976, __c93, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7093,7 +7662,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsFleetsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7102,11 +7671,11 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "ComplianceStandard" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(2944, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          complianceStandards: S.optional(__S(2753, __c86, 1)),
+          complianceStandards: S.optional(__S(2945, __c92, 1)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompliancePostureConfig" });
@@ -7124,39 +7693,25 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "PolicyBinding" });
     case 5:
-      return S.Array(__S(2756, __c86, 4));
+      return S.Array(__S(2948, __c92, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           evaluationMode: S.optional(S.String),
-          policyBindings: S.optional(__S(2757, __c86, 5)),
+          policyBindings: S.optional(__S(2949, __c92, 5)),
         }),
       ).annotate({ identifier: "BinaryAuthorizationConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          compliancePostureConfig: S.optional(__S(2754, __c86, 2)),
-          securityPostureConfig: S.optional(__S(2755, __c86, 3)),
-          binaryAuthorizationConfig: S.optional(__S(2758, __c86, 6)),
+          compliancePostureConfig: S.optional(__S(2946, __c92, 2)),
+          securityPostureConfig: S.optional(__S(2947, __c92, 3)),
+          binaryAuthorizationConfig: S.optional(__S(2950, __c92, 6)),
         }),
       ).annotate({ identifier: "DefaultClusterConfig" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          defaultClusterConfig: S.optional(__S(2759, __c86, 7)),
-          deleteTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(2368, __c74, 0)),
-          state: S.optional(__S(2784, __c87, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Fleet" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7166,13 +7721,14 @@ function __c87(j: number): any {
       ).annotate({ identifier: "FleetLifecycleState" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(743, __c23, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7183,24 +7739,14 @@ function __c88(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsFeaturesRequest" });
   }
 }
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(807, __c25, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c90(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(743, __c23, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7211,13 +7757,14 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsMembershipsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(743, __c23, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7228,13 +7775,13 @@ function __c91(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsScopesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2368, __c74, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7245,23 +7792,23 @@ function __c92(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsFeaturesRequest" });
   }
 }
-function __c93(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(2176, __c68, 0)),
+          permissions: S.optional(__S(2368, __c74, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2368, __c74, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7272,13 +7819,13 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsMembershipsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2368, __c74, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7289,33 +7836,27 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsScopesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stageOverrides: S.optional(__S(2368, __c74, 0)),
+          stageOverrides: S.optional(__S(2560, __c80, 0)),
         }),
       ).annotate({ identifier: "PerStageSoakDurationOverrides" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           upgradeType: S.optional(S.String),
           version: S.optional(S.String),
           prioritized: S.optional(S.Boolean),
           soakDurationOverrideAllStages: S.optional(S.String),
           ignoreMaintenancePolicies: S.optional(S.Boolean),
           force: S.optional(S.Boolean),
-          soakDurationOverridePerStage: S.optional(__S(3072, __c96, 0)),
+          soakDurationOverridePerStage: S.optional(__S(3232, __c101, 0)),
           patchOnly: S.optional(S.Boolean),
           ignoreClusterDisruptionBudgets: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UpgradeRolloutSequenceRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3073, __c96, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7326,7 +7867,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpgradeProjectsLocationsRolloutSequencesRequest" });
   }
 }
-function __c97(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7334,7 +7875,21 @@ function __c97(j: number): any {
           membershipId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3148, __c98, 12).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          externalId: S.optional(S.String),
+          clusterTier: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          uniqueId: S.optional(S.String),
+          lastConnectionTime: S.optional(S.String),
+          labels: S.optional(__S(2560, __c80, 0)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          endpoint: S.optional(__S(3305, __c103, 9)),
+          monitoringConfig: S.optional(__S(3306, __c103, 10)),
+          deleteTime: S.optional(S.String),
+          authority: S.optional(__S(3307, __c103, 11)),
+          membershipType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7345,7 +7900,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMembershipsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7377,7 +7932,7 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "ResourceManifest" });
     case 4:
-      return S.Array(__S(3139, __c98, 3));
+      return S.Array(__S(3299, __c103, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7391,9 +7946,9 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           membershipCrManifest: S.optional(S.String),
-          connectResources: S.optional(__S(3140, __c98, 4)),
-          membershipResources: S.optional(__S(3140, __c98, 4)),
-          resourceOptions: S.optional(__S(3141, __c98, 5)),
+          connectResources: S.optional(__S(3300, __c103, 4)),
+          membershipResources: S.optional(__S(3300, __c103, 4)),
+          resourceOptions: S.optional(__S(3301, __c103, 5)),
         }),
       ).annotate({ identifier: "KubernetesResource" });
     case 7:
@@ -7417,14 +7972,14 @@ function __c98(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          applianceCluster: S.optional(__S(3136, __c98, 0)),
-          multiCloudCluster: S.optional(__S(3137, __c98, 1)),
-          onPremCluster: S.optional(__S(3138, __c98, 2)),
-          kubernetesResource: S.optional(__S(3142, __c98, 6)),
+          applianceCluster: S.optional(__S(3296, __c103, 0)),
+          multiCloudCluster: S.optional(__S(3297, __c103, 1)),
+          onPremCluster: S.optional(__S(3298, __c103, 2)),
+          kubernetesResource: S.optional(__S(3302, __c103, 6)),
           googleManaged: S.optional(S.Boolean),
-          gkeCluster: S.optional(__S(3143, __c98, 7)),
-          kubernetesMetadata: S.optional(__S(3144, __c98, 8)),
-          edgeCluster: S.optional(__S(3136, __c98, 0)),
+          gkeCluster: S.optional(__S(3303, __c103, 7)),
+          kubernetesMetadata: S.optional(__S(3304, __c103, 8)),
+          edgeCluster: S.optional(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "MembershipEndpoint" });
     case 10:
@@ -7448,36 +8003,23 @@ function __c98(j: number): any {
           oidcJwks: S.optional(S.String),
         }),
       ).annotate({ identifier: "Authority" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          externalId: S.optional(S.String),
-          clusterTier: S.optional(S.String),
-          state: S.optional(__S(2784, __c87, 0)),
-          uniqueId: S.optional(S.String),
-          lastConnectionTime: S.optional(S.String),
-          labels: S.optional(__S(2368, __c74, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          endpoint: S.optional(__S(3145, __c98, 9)),
-          monitoringConfig: S.optional(__S(3146, __c98, 10)),
-          deleteTime: S.optional(S.String),
-          authority: S.optional(__S(3147, __c98, 11)),
-          membershipType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Membership" });
   }
 }
-function __c99(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           membershipBindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3200, __c100, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(__S(2976, __c93, 0)),
+          labels: S.optional(__S(2560, __c80, 0)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          scope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7486,23 +8028,6 @@ function __c99(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsMembershipsBindingsRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(__S(2784, __c87, 0)),
-          labels: S.optional(__S(2368, __c74, 0)),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          scope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MembershipBinding" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

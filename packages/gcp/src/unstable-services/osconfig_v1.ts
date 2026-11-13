@@ -600,8 +600,13 @@ export interface OSPolicyAssignmentRollout {
   /** Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment. */
   disruptionBudget?: FixedOrPercent | undefined;
 }
-/** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information about the OS policy resource definitions and examples, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
-export interface OSPolicyAssignment {
+export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
+  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
+  requestId?: string | undefined;
+  /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
+  osPolicyAssignmentId?: string | undefined;
+  /** Required. The parent resource name in the form: projects/{project}/locations/{location}. Note: Specify the zone of your VMs as the location. */
+  parent: string;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name?: string | undefined;
   /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
@@ -628,16 +633,6 @@ export interface OSPolicyAssignment {
   revisionCreateTime?: string | undefined;
   /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
   etag?: string | undefined;
-}
-export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
-  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string | undefined;
-  /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  osPolicyAssignmentId?: string | undefined;
-  /** Required. The parent resource name in the form: projects/{project}/locations/{location}. Note: Specify the zone of your VMs as the location. */
-  parent: string;
-  /** Request body */
-  body?: OSPolicyAssignment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -752,8 +747,11 @@ export interface OneTimeSchedule {
   /** Required. The desired patch job execution time. */
   executeTime?: string | undefined;
 }
-/** Patch deployments are configurations that individual patch jobs use to complete a patch. These configurations include instance filter, package repository settings, and a schedule. For more information about creating and managing patch deployments, see [Scheduling patch jobs](https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs). */
-export interface PatchDeployment {
+export interface CreateProjectsPatchDeploymentsRequest {
+  /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
+  patchDeploymentId?: string | undefined;
+  /** Required. The project to apply this patch deployment to in the form `projects/*`. */
+  parent: string;
   /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
   updateTime?: string | undefined;
   /** Optional. Rollout strategy of the patch job. */
@@ -779,13 +777,32 @@ export interface PatchDeployment {
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name?: string | undefined;
 }
-export interface CreateProjectsPatchDeploymentsRequest {
-  /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  patchDeploymentId?: string | undefined;
-  /** Required. The project to apply this patch deployment to in the form `projects/*`. */
-  parent: string;
-  /** Request body */
-  body?: PatchDeployment | undefined;
+/** Patch deployments are configurations that individual patch jobs use to complete a patch. These configurations include instance filter, package repository settings, and a schedule. For more information about creating and managing patch deployments, see [Scheduling patch jobs](https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs). */
+export interface PatchDeployment {
+  /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  updateTime?: string | undefined;
+  /** Optional. Rollout strategy of the patch job. */
+  rollout?: PatchRollout | undefined;
+  /** Required. VM instances to patch. */
+  instanceFilter?: PatchInstanceFilter | undefined;
+  /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  lastExecuteTime?: string | undefined;
+  /** Output only. Current state of the patch deployment. */
+  state?: PatchDeploymentStateEnum | undefined;
+  /** Required. Schedule recurring executions. */
+  recurringSchedule?: RecurringSchedule | undefined;
+  /** Optional. Patch configuration that is applied. */
+  patchConfig?: PatchConfig | undefined;
+  /** Optional. Duration of the patch. After the duration ends, the patch times out. */
+  duration?: string | undefined;
+  /** Optional. Description of the patch deployment. Length of the description is limited to 1024 characters. */
+  description?: string | undefined;
+  /** Required. Schedule a one-time execution. */
+  oneTimeSchedule?: OneTimeSchedule | undefined;
+  /** Output only. Time the patch deployment was created. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  createTime?: string | undefined;
+  /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
+  name?: string | undefined;
 }
 export interface DeleteProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The name of the OS policy assignment to be deleted */
@@ -797,8 +814,9 @@ export interface DeleteProjectsPatchDeploymentsRequest {
   /** Required. The resource name of the patch deployment in the form `projects/*\/patchDeployments/*`. */
   name: string;
 }
-/** A request message to initiate patching across Compute Engine instances. */
-export interface ExecutePatchJobRequest {
+export interface ExecuteProjectsPatchJobsRequest {
+  /** Required. The project in which to run this patch in the form `projects/*` */
+  parent: string;
   /** Duration of the patch job. After the duration ends, the patch job times out. */
   duration?: string | undefined;
   /** Patch configuration being applied. If omitted, instances are patched using the default configurations. */
@@ -814,12 +832,6 @@ export interface ExecutePatchJobRequest {
   /** Required. Instances to patch, either explicitly or filtered by some criteria such as zone or labels. */
   instanceFilter?: PatchInstanceFilter | undefined;
 }
-export interface ExecuteProjectsPatchJobsRequest {
-  /** Required. The project in which to run this patch in the form `projects/*` */
-  parent: string;
-  /** Request body */
-  body?: ExecutePatchJobRequest | undefined;
-}
 export interface GetProjectFeatureSettingsProjectsLocationsGlobalRequest {
   /** Required. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
   name: string;
@@ -831,10 +843,7 @@ export type ProjectFeatureSettingsPatchAndConfigFeatureSetEnum =
 /** ProjectFeatureSettings represents the VM Manager feature settings in a project. For more information, see Enable full VM Manager functionality. */
 export interface ProjectFeatureSettings {
   /** Set PatchAndConfigFeatureSet for the project. */
-  patchAndConfigFeatureSet?:
-    | ProjectFeatureSettingsPatchAndConfigFeatureSetEnum
-    | (string & {})
-    | undefined;
+  patchAndConfigFeatureSet?: ProjectFeatureSettingsPatchAndConfigFeatureSetEnum | undefined;
   /** Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
   name?: string | undefined;
 }
@@ -1226,6 +1235,35 @@ export interface GetProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The resource name of OS policy assignment. Format: `projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}@{revisionId}` */
   name: string;
 }
+/** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information about the OS policy resource definitions and examples, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
+export interface OSPolicyAssignment {
+  /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
+  name?: string | undefined;
+  /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
+  revisionId?: string | undefined;
+  /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
+  reconciling?: boolean | undefined;
+  /** Output only. Indicates that this revision deletes the OS policy assignment. */
+  deleted?: boolean | undefined;
+  /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
+  baseline?: boolean | undefined;
+  /** Required. List of OS policies to be applied to the VMs. */
+  osPolicies?: OSPolicyList | undefined;
+  /** Output only. Server generated unique id for the OS policy assignment resource. */
+  uid?: string | undefined;
+  /** Output only. OS policy assignment rollout state */
+  rolloutState?: OSPolicyAssignmentRolloutStateEnum | undefined;
+  /** Required. Filter to select VMs. */
+  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
+  /** OS policy assignment description. Length of the description is limited to 1024 characters. */
+  description?: string | undefined;
+  /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
+  rollout?: OSPolicyAssignmentRollout | undefined;
+  /** Output only. The timestamp that the revision was created. */
+  revisionCreateTime?: string | undefined;
+  /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
+  etag?: string | undefined;
+}
 export interface GetProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1421,16 +1459,58 @@ export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
   requestId?: string | undefined;
   /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: OSPolicyAssignment | undefined;
+  /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
+  revisionId?: string | undefined;
+  /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
+  reconciling?: boolean | undefined;
+  /** Output only. Indicates that this revision deletes the OS policy assignment. */
+  deleted?: boolean | undefined;
+  /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
+  baseline?: boolean | undefined;
+  /** Required. List of OS policies to be applied to the VMs. */
+  osPolicies?: OSPolicyList | undefined;
+  /** Output only. Server generated unique id for the OS policy assignment resource. */
+  uid?: string | undefined;
+  /** Output only. OS policy assignment rollout state */
+  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {}) | undefined;
+  /** Required. Filter to select VMs. */
+  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
+  /** OS policy assignment description. Length of the description is limited to 1024 characters. */
+  description?: string | undefined;
+  /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
+  rollout?: OSPolicyAssignmentRollout | undefined;
+  /** Output only. The timestamp that the revision was created. */
+  revisionCreateTime?: string | undefined;
+  /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
+  etag?: string | undefined;
 }
 export interface PatchProjectsPatchDeploymentsRequest {
   /** Optional. Field mask that controls which fields of the patch deployment should be updated. */
   updateMask?: string | undefined;
   /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
   name: string;
-  /** Request body */
-  body?: PatchDeployment | undefined;
+  /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  updateTime?: string | undefined;
+  /** Optional. Rollout strategy of the patch job. */
+  rollout?: PatchRollout | undefined;
+  /** Required. VM instances to patch. */
+  instanceFilter?: PatchInstanceFilter | undefined;
+  /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  lastExecuteTime?: string | undefined;
+  /** Output only. Current state of the patch deployment. */
+  state?: PatchDeploymentStateEnum | (string & {}) | undefined;
+  /** Required. Schedule recurring executions. */
+  recurringSchedule?: RecurringSchedule | undefined;
+  /** Optional. Patch configuration that is applied. */
+  patchConfig?: PatchConfig | undefined;
+  /** Optional. Duration of the patch. After the duration ends, the patch times out. */
+  duration?: string | undefined;
+  /** Optional. Description of the patch deployment. Length of the description is limited to 1024 characters. */
+  description?: string | undefined;
+  /** Required. Schedule a one-time execution. */
+  oneTimeSchedule?: OneTimeSchedule | undefined;
+  /** Output only. Time the patch deployment was created. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  createTime?: string | undefined;
 }
 /** A request message for pausing a patch deployment. */
 export type PausePatchDeploymentRequest = CancelOperationRequest;
@@ -1453,8 +1533,11 @@ export interface UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest {
   updateMask?: string | undefined;
   /** Required. Immutable. Name specifies the URL for the ProjectFeatureSettings resource: projects/project_id/locations/global/projectFeatureSettings. */
   name: string;
-  /** Request body */
-  body?: ProjectFeatureSettings | undefined;
+  /** Set PatchAndConfigFeatureSet for the project. */
+  patchAndConfigFeatureSet?:
+    | ProjectFeatureSettingsPatchAndConfigFeatureSetEnum
+    | (string & {})
+    | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -1470,11 +1553,11 @@ export const cancelProjectsLocationsOsPolicyAssignmentsOperations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<Empty>,
+  output: __S(928, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1495,8 +1578,8 @@ export const cancelProjectsPatchJobs: API.OperationMethod<
   CancelProjectsPatchJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CancelProjectsPatchJobsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<PatchJob>,
+  input: __S(960, __c30, 0) as any as S.Schema<CancelProjectsPatchJobsRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<PatchJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1517,8 +1600,8 @@ export const createProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   CreateProjectsLocationsOsPolicyAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CreateProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<Operation>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1539,8 +1622,8 @@ export const createProjectsPatchDeployments: API.OperationMethod<
   CreateProjectsPatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CreateProjectsPatchDeploymentsRequest>,
-  output: __S(1223, __c38, 7) as any as S.Schema<PatchDeployment>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateProjectsPatchDeploymentsRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<PatchDeployment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1561,8 +1644,8 @@ export const deleteProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   DeleteProjectsLocationsOsPolicyAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<Operation>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1583,8 +1666,8 @@ export const deleteProjectsPatchDeployments: API.OperationMethod<
   DeleteProjectsPatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteProjectsPatchDeploymentsRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteProjectsPatchDeploymentsRequest>,
+  output: __S(928, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1605,8 +1688,8 @@ export const executeProjectsPatchJobs: API.OperationMethod<
   ExecuteProjectsPatchJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<ExecuteProjectsPatchJobsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<PatchJob>,
+  input: __S(0, __c0, 0) as any as S.Schema<ExecuteProjectsPatchJobsRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<PatchJob>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1712,7 +1795,7 @@ export const getProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(1146, __c35, 26) as any as S.Schema<OSPolicyAssignment>,
+  output: __S(320, __c10, 0) as any as S.Schema<OSPolicyAssignment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1732,11 +1815,11 @@ export const getProjectsLocationsOsPolicyAssignmentsOperations: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    352,
+    __c11,
     0,
   ) as any as S.Schema<GetProjectsLocationsOsPolicyAssignmentsOperationsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<Operation>,
+  output: __S(1187, __c37, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1752,8 +1835,8 @@ export const getProjectsPatchDeployments: API.OperationMethod<
   GetProjectsPatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsPatchDeploymentsRequest>,
-  output: __S(1223, __c38, 7) as any as S.Schema<PatchDeployment>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsPatchDeploymentsRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<PatchDeployment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1769,8 +1852,8 @@ export const getProjectsPatchJobs: API.OperationMethod<
   GetProjectsPatchJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsPatchJobsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<PatchJob>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsPatchJobsRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<PatchJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1787,8 +1870,8 @@ export const listProjectsLocationsInstancesInventories: API.PaginatedOperationMe
   GcpOpContext,
   ListInventoriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListProjectsLocationsInstancesInventoriesRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<ListInventoriesResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListProjectsLocationsInstancesInventoriesRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<ListInventoriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1810,11 +1893,11 @@ export const listProjectsLocationsInstancesOsPolicyAssignmentsReports: API.Pagin
   ListOSPolicyAssignmentReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    448,
-    __c14,
+    480,
+    __c15,
     0,
   ) as any as S.Schema<ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<ListOSPolicyAssignmentReportsResponse>,
+  output: __S(482, __c15, 2) as any as S.Schema<ListOSPolicyAssignmentReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1836,11 +1919,11 @@ export const listProjectsLocationsInstancesVulnerabilityReports: API.PaginatedOp
   ListVulnerabilityReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    480,
-    __c15,
+    512,
+    __c16,
     0,
   ) as any as S.Schema<ListProjectsLocationsInstancesVulnerabilityReportsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<ListVulnerabilityReportsResponse>,
+  output: __S(514, __c16, 2) as any as S.Schema<ListVulnerabilityReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1858,8 +1941,8 @@ export const listProjectsLocationsOsPolicyAssignments: API.PaginatedOperationMet
   GcpOpContext,
   ListOSPolicyAssignmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListOSPolicyAssignmentsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListOSPolicyAssignmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1877,8 +1960,8 @@ export const listProjectsPatchDeployments: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPatchDeploymentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListProjectsPatchDeploymentsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<ListPatchDeploymentsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListProjectsPatchDeploymentsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListPatchDeploymentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1896,8 +1979,8 @@ export const listProjectsPatchJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPatchJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListProjectsPatchJobsRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<ListPatchJobsResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsPatchJobsRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListPatchJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1915,8 +1998,8 @@ export const listProjectsPatchJobsInstanceDetails: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPatchJobInstanceDetailsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsPatchJobsInstanceDetailsRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<ListPatchJobInstanceDetailsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsPatchJobsInstanceDetailsRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<ListPatchJobInstanceDetailsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1938,11 +2021,11 @@ export const listRevisionsProjectsLocationsOsPolicyAssignments: API.PaginatedOpe
   ListOSPolicyAssignmentRevisionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    672,
-    __c21,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<ListOSPolicyAssignmentRevisionsResponse>,
+  output: __S(705, __c22, 1) as any as S.Schema<ListOSPolicyAssignmentRevisionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1964,8 +2047,8 @@ export const patchProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   PatchProjectsLocationsOsPolicyAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<PatchProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsLocationsOsPolicyAssignmentsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1986,8 +2069,8 @@ export const patchProjectsPatchDeployments: API.OperationMethod<
   PatchProjectsPatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsPatchDeploymentsRequest>,
-  output: __S(1223, __c38, 7) as any as S.Schema<PatchDeployment>,
+  input: __S(768, __c24, 0) as any as S.Schema<PatchProjectsPatchDeploymentsRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<PatchDeployment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2008,8 +2091,8 @@ export const pauseProjectsPatchDeployments: API.OperationMethod<
   PauseProjectsPatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<PauseProjectsPatchDeploymentsRequest>,
-  output: __S(1223, __c38, 7) as any as S.Schema<PatchDeployment>,
+  input: __S(800, __c25, 0) as any as S.Schema<PauseProjectsPatchDeploymentsRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<PatchDeployment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2030,8 +2113,8 @@ export const resumeProjectsPatchDeployments: API.OperationMethod<
   ResumeProjectsPatchDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ResumeProjectsPatchDeploymentsRequest>,
-  output: __S(1223, __c38, 7) as any as S.Schema<PatchDeployment>,
+  input: __S(832, __c26, 0) as any as S.Schema<ResumeProjectsPatchDeploymentsRequest>,
+  output: __S(1255, __c39, 7) as any as S.Schema<PatchDeployment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2053,8 +2136,8 @@ export const updateProjectFeatureSettingsProjectsLocationsGlobal: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ProjectFeatureSettings>,
@@ -2071,20 +2154,14 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           duration: S.optional(S.String),
-          patchConfig: S.optional(__S(1067, __c33, 11)),
+          patchConfig: S.optional(__S(1099, __c34, 11)),
           description: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
-          rollout: S.optional(__S(1056, __c33, 0)),
+          rollout: S.optional(__S(1088, __c34, 0)),
           displayName: S.optional(S.String),
-          instanceFilter: S.optional(__S(1057, __c33, 1)),
-        }),
-      ).annotate({ identifier: "ExecutePatchJobRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
+          instanceFilter: S.optional(__S(1089, __c34, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2185,8 +2262,8 @@ function __c4(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          kbArticleIds: S.optional(__S(992, __c31, 0)),
-          moreInfoUrls: S.optional(__S(992, __c31, 0)),
+          kbArticleIds: S.optional(__S(1024, __c32, 0)),
+          moreInfoUrls: S.optional(__S(1024, __c32, 0)),
           revisionNumber: S.optional(S.Number),
           supportUrl: S.optional(S.String),
           lastDeploymentChangeTime: S.optional(S.String),
@@ -2391,10 +2468,10 @@ function __c8(j: number): any {
         S.Struct({
           createTime: S.optional(S.String),
           details: S.optional(__S(259, __c8, 3)),
-          availableInventoryItemIds: S.optional(__S(992, __c31, 0)),
+          availableInventoryItemIds: S.optional(__S(1024, __c32, 0)),
           updateTime: S.optional(S.String),
           items: S.optional(__S(261, __c8, 5)),
-          installedInventoryItemIds: S.optional(__S(992, __c31, 0)),
+          installedInventoryItemIds: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "VulnerabilityReportVulnerability" });
     case 7:
@@ -2427,11 +2504,21 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOsPolicyAssignmentsOperationsRequest" });
+          name: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean),
+          baseline: S.optional(S.Boolean),
+          osPolicies: S.optional(__S(1175, __c36, 23)),
+          uid: S.optional(S.String),
+          rolloutState: S.optional(S.String),
+          instanceFilter: S.optional(__S(1176, __c36, 24)),
+          description: S.optional(S.String),
+          rollout: S.optional(__S(1177, __c36, 25)),
+          revisionCreateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSPolicyAssignment" });
   }
 }
 function __c11(j: number): any {
@@ -2443,7 +2530,7 @@ function __c11(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsPatchDeploymentsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOsPolicyAssignmentsOperationsRequest" });
   }
 }
 function __c12(j: number): any {
@@ -2455,10 +2542,22 @@ function __c12(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsPatchJobsRequest" });
+      ).annotate({ identifier: "GetProjectsPatchDeploymentsRequest" });
   }
 }
 function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsPatchJobsRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2481,13 +2580,13 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inventories: S.optional(__S(417, __c13, 1)),
+          inventories: S.optional(__S(449, __c14, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInventoriesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2510,12 +2609,12 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          osPolicyAssignmentReports: S.optional(__S(449, __c14, 1)),
+          osPolicyAssignmentReports: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "ListOSPolicyAssignmentReportsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2538,12 +2637,12 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          vulnerabilityReports: S.optional(__S(481, __c15, 1)),
+          vulnerabilityReports: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ListVulnerabilityReportsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2563,18 +2662,18 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          osPolicyAssignments: S.optional(__S(544, __c17, 0)),
+          osPolicyAssignments: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ListOSPolicyAssignmentsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1146, __c35, 26));
+      return S.Array(__S(320, __c10, 0));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2591,17 +2690,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsPatchDeploymentsRequest" });
     case 1:
-      return S.Array(__S(1223, __c38, 7));
+      return S.Array(__S(1255, __c39, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          patchDeployments: S.optional(__S(577, __c18, 1)),
+          patchDeployments: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "ListPatchDeploymentsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2619,17 +2718,17 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsPatchJobsRequest" });
     case 1:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(993, __c31, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          patchJobs: S.optional(__S(609, __c19, 1)),
+          patchJobs: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "ListPatchJobsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2657,17 +2756,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "PatchJobInstanceDetails" });
     case 2:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          patchJobInstanceDetails: S.optional(__S(642, __c20, 2)),
+          patchJobInstanceDetails: S.optional(__S(674, __c21, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPatchJobInstanceDetailsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2686,13 +2785,13 @@ function __c21(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          osPolicyAssignments: S.optional(__S(544, __c17, 0)),
+          osPolicyAssignments: S.optional(__S(576, __c18, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOSPolicyAssignmentRevisionsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2701,7 +2800,18 @@ function __c22(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1146, __c35, 26).pipe(T.HttpBody())),
+          revisionId: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean),
+          baseline: S.optional(S.Boolean),
+          osPolicies: S.optional(__S(1175, __c36, 23)),
+          uid: S.optional(S.String),
+          rolloutState: S.optional(S.String),
+          instanceFilter: S.optional(__S(1176, __c36, 24)),
+          description: S.optional(S.String),
+          rollout: S.optional(__S(1177, __c36, 25)),
+          revisionCreateTime: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2712,14 +2822,24 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsOsPolicyAssignmentsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1223, __c38, 7).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          rollout: S.optional(__S(1088, __c34, 0)),
+          instanceFilter: S.optional(__S(1089, __c34, 1)),
+          lastExecuteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          recurringSchedule: S.optional(__S(1253, __c39, 5)),
+          patchConfig: S.optional(__S(1099, __c34, 11)),
+          duration: S.optional(S.String),
+          description: S.optional(S.String),
+          oneTimeSchedule: S.optional(__S(1254, __c39, 6)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2730,13 +2850,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PatchProjectsPatchDeploymentsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2747,13 +2867,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PauseProjectsPatchDeploymentsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2764,14 +2884,14 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ResumeProjectsPatchDeploymentsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
+          patchAndConfigFeatureSet: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2782,13 +2902,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateProjectFeatureSettingsProjectsLocationsGlobalRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2799,19 +2919,19 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2822,7 +2942,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CancelProjectsPatchJobsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2849,7 +2969,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          rollout: S.optional(__S(1056, __c33, 0)),
+          rollout: S.optional(__S(1088, __c34, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -2857,23 +2977,23 @@ function __c30(j: number): any {
           dryRun: S.optional(S.Boolean),
           patchDeployment: S.optional(S.String),
           percentComplete: S.optional(S.Number),
-          instanceDetailsSummary: S.optional(__S(960, __c30, 0)),
+          instanceDetailsSummary: S.optional(__S(992, __c31, 0)),
           errorMessage: S.optional(S.String),
-          instanceFilter: S.optional(__S(1057, __c33, 1)),
+          instanceFilter: S.optional(__S(1089, __c34, 1)),
           updateTime: S.optional(S.String),
-          patchConfig: S.optional(__S(1067, __c33, 11)),
+          patchConfig: S.optional(__S(1099, __c34, 11)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "PatchJob" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2887,30 +3007,30 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1025, __c32, 1)),
+          labels: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "PatchInstanceFilterGroupLabel" });
     case 3:
-      return S.Array(__S(1026, __c32, 2));
+      return S.Array(__S(1058, __c33, 2));
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          disruptionBudget: S.optional(__S(1024, __c32, 0)),
+          disruptionBudget: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "PatchRollout" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instanceNamePrefixes: S.optional(__S(992, __c31, 0)),
-          groupLabels: S.optional(__S(1027, __c32, 3)),
+          instanceNamePrefixes: S.optional(__S(1024, __c32, 0)),
+          groupLabels: S.optional(__S(1059, __c33, 3)),
           all: S.optional(S.Boolean),
-          zones: S.optional(__S(992, __c31, 0)),
-          instances: S.optional(__S(992, __c31, 0)),
+          zones: S.optional(__S(1024, __c32, 0)),
+          instances: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "PatchInstanceFilter" });
     case 2:
@@ -2928,15 +3048,15 @@ function __c33(j: number): any {
         S.Struct({
           localPath: S.optional(S.String),
           interpreter: S.optional(S.String),
-          gcsObject: S.optional(__S(1058, __c33, 2)),
-          allowedSuccessCodes: S.optional(__S(1059, __c33, 3)),
+          gcsObject: S.optional(__S(1090, __c34, 2)),
+          allowedSuccessCodes: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "ExecStepConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          linuxExecStepConfig: S.optional(__S(1060, __c33, 4)),
-          windowsExecStepConfig: S.optional(__S(1060, __c33, 4)),
+          linuxExecStepConfig: S.optional(__S(1092, __c34, 4)),
+          windowsExecStepConfig: S.optional(__S(1092, __c34, 4)),
         }),
       ).annotate({ identifier: "ExecStep" });
     case 6:
@@ -2944,19 +3064,19 @@ function __c33(j: number): any {
         S.Struct({
           minimal: S.optional(S.Boolean),
           security: S.optional(S.Boolean),
-          excludes: S.optional(__S(992, __c31, 0)),
-          exclusivePackages: S.optional(__S(992, __c31, 0)),
+          excludes: S.optional(__S(1024, __c32, 0)),
+          exclusivePackages: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "YumSettings" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          exclusivePatches: S.optional(__S(992, __c31, 0)),
-          categories: S.optional(__S(992, __c31, 0)),
+          exclusivePatches: S.optional(__S(1024, __c32, 0)),
+          categories: S.optional(__S(1024, __c32, 0)),
           withOptional: S.optional(S.Boolean),
           withUpdate: S.optional(S.Boolean),
-          severities: S.optional(__S(992, __c31, 0)),
-          excludes: S.optional(__S(992, __c31, 0)),
+          severities: S.optional(__S(1024, __c32, 0)),
+          excludes: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "ZypperSettings" });
     case 8:
@@ -2964,37 +3084,37 @@ function __c33(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          classifications: S.optional(__S(1064, __c33, 8)),
-          excludes: S.optional(__S(992, __c31, 0)),
-          exclusivePatches: S.optional(__S(992, __c31, 0)),
+          classifications: S.optional(__S(1096, __c34, 8)),
+          excludes: S.optional(__S(1024, __c32, 0)),
+          exclusivePatches: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "WindowsUpdateSettings" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          exclusivePackages: S.optional(__S(992, __c31, 0)),
-          excludes: S.optional(__S(992, __c31, 0)),
+          exclusivePackages: S.optional(__S(1024, __c32, 0)),
+          excludes: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "AptSettings" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           migInstancesAllowed: S.optional(S.Boolean),
-          postStep: S.optional(__S(1061, __c33, 5)),
-          yum: S.optional(__S(1062, __c33, 6)),
+          postStep: S.optional(__S(1093, __c34, 5)),
+          yum: S.optional(__S(1094, __c34, 6)),
           skipUnpatchableVms: S.optional(S.Boolean),
-          goo: S.optional(__S(896, __c28, 0)),
-          zypper: S.optional(__S(1063, __c33, 7)),
-          windowsUpdate: S.optional(__S(1065, __c33, 9)),
+          goo: S.optional(__S(928, __c29, 0)),
+          zypper: S.optional(__S(1095, __c34, 7)),
+          windowsUpdate: S.optional(__S(1097, __c34, 9)),
           rebootConfig: S.optional(S.String),
-          apt: S.optional(__S(1066, __c33, 10)),
-          preStep: S.optional(__S(1061, __c33, 5)),
+          apt: S.optional(__S(1098, __c34, 10)),
+          preStep: S.optional(__S(1093, __c34, 5)),
         }),
       ).annotate({ identifier: "PatchConfig" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3002,7 +3122,19 @@ function __c34(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1146, __c35, 26).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean),
+          baseline: S.optional(S.Boolean),
+          osPolicies: S.optional(__S(1175, __c36, 23)),
+          uid: S.optional(S.String),
+          rolloutState: S.optional(S.String),
+          instanceFilter: S.optional(__S(1176, __c36, 24)),
+          description: S.optional(S.String),
+          rollout: S.optional(__S(1177, __c36, 25)),
+          revisionCreateTime: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3013,7 +3145,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsOsPolicyAssignmentsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3023,12 +3155,12 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "OSPolicyInventoryFilter" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          gpgKeys: S.optional(__S(992, __c31, 0)),
+          gpgKeys: S.optional(__S(1024, __c32, 0)),
           id: S.optional(S.String),
           baseUrl: S.optional(S.String),
         }),
@@ -3047,13 +3179,13 @@ function __c35(j: number): any {
           archiveType: S.optional(S.String),
           uri: S.optional(S.String),
           gpgKey: S.optional(S.String),
-          components: S.optional(__S(992, __c31, 0)),
+          components: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResourceAptRepository" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          gpgKeys: S.optional(__S(992, __c31, 0)),
+          gpgKeys: S.optional(__S(1024, __c32, 0)),
           displayName: S.optional(S.String),
           id: S.optional(S.String),
           baseUrl: S.optional(S.String),
@@ -3062,10 +3194,10 @@ function __c35(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          zypper: S.optional(__S(1122, __c35, 2)),
-          goo: S.optional(__S(1123, __c35, 3)),
-          apt: S.optional(__S(1124, __c35, 4)),
-          yum: S.optional(__S(1125, __c35, 5)),
+          zypper: S.optional(__S(1154, __c36, 2)),
+          goo: S.optional(__S(1155, __c36, 3)),
+          apt: S.optional(__S(1156, __c36, 4)),
+          yum: S.optional(__S(1157, __c36, 5)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResource" });
     case 7:
@@ -3087,26 +3219,26 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           localPath: S.optional(S.String),
-          gcs: S.optional(__S(1127, __c35, 7)),
+          gcs: S.optional(__S(1159, __c36, 7)),
           allowInsecure: S.optional(S.Boolean),
-          remote: S.optional(__S(1128, __c35, 8)),
+          remote: S.optional(__S(1160, __c36, 8)),
         }),
       ).annotate({ identifier: "OSPolicyResourceFile" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          args: S.optional(__S(992, __c31, 0)),
+          args: S.optional(__S(1024, __c32, 0)),
           interpreter: S.optional(S.String),
           outputFilePath: S.optional(S.String),
           script: S.optional(S.String),
-          file: S.optional(__S(1129, __c35, 9)),
+          file: S.optional(__S(1161, __c36, 9)),
         }),
       ).annotate({ identifier: "OSPolicyResourceExecResourceExec" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          enforce: S.optional(__S(1130, __c35, 10)),
-          validate: S.optional(__S(1130, __c35, 10)),
+          enforce: S.optional(__S(1162, __c36, 10)),
+          validate: S.optional(__S(1162, __c36, 10)),
         }),
       ).annotate({ identifier: "OSPolicyResourceExecResource" });
     case 12:
@@ -3116,20 +3248,20 @@ function __c35(j: number): any {
           path: S.optional(S.String),
           state: S.optional(S.String),
           permissions: S.optional(S.String),
-          file: S.optional(__S(1129, __c35, 9)),
+          file: S.optional(__S(1161, __c36, 9)),
         }),
       ).annotate({ identifier: "OSPolicyResourceFileResource" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           pullDeps: S.optional(S.Boolean),
-          source: S.optional(__S(1129, __c35, 9)),
+          source: S.optional(__S(1161, __c36, 9)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceRPM" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1129, __c35, 9)),
+          source: S.optional(__S(1161, __c36, 9)),
           pullDeps: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceDeb" });
@@ -3142,20 +3274,20 @@ function __c35(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(992, __c31, 0)),
-          source: S.optional(__S(1129, __c35, 9)),
+          properties: S.optional(__S(1024, __c32, 0)),
+          source: S.optional(__S(1161, __c36, 9)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceMSI" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          rpm: S.optional(__S(1133, __c35, 13)),
-          deb: S.optional(__S(1134, __c35, 14)),
-          googet: S.optional(__S(1135, __c35, 15)),
-          zypper: S.optional(__S(1135, __c35, 15)),
-          apt: S.optional(__S(1135, __c35, 15)),
-          yum: S.optional(__S(1135, __c35, 15)),
-          msi: S.optional(__S(1136, __c35, 16)),
+          rpm: S.optional(__S(1165, __c36, 13)),
+          deb: S.optional(__S(1166, __c36, 14)),
+          googet: S.optional(__S(1167, __c36, 15)),
+          zypper: S.optional(__S(1167, __c36, 15)),
+          apt: S.optional(__S(1167, __c36, 15)),
+          yum: S.optional(__S(1167, __c36, 15)),
+          msi: S.optional(__S(1168, __c36, 16)),
           desiredState: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResource" });
@@ -3163,105 +3295,98 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          repository: S.optional(__S(1126, __c35, 6)),
-          exec: S.optional(__S(1131, __c35, 11)),
-          file: S.optional(__S(1132, __c35, 12)),
-          pkg: S.optional(__S(1137, __c35, 17)),
+          repository: S.optional(__S(1158, __c36, 6)),
+          exec: S.optional(__S(1163, __c36, 11)),
+          file: S.optional(__S(1164, __c36, 12)),
+          pkg: S.optional(__S(1169, __c36, 17)),
         }),
       ).annotate({ identifier: "OSPolicyResource" });
     case 19:
-      return S.Array(__S(1138, __c35, 18));
+      return S.Array(__S(1170, __c36, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          inventoryFilters: S.optional(__S(1121, __c35, 1)),
-          resources: S.optional(__S(1139, __c35, 19)),
+          inventoryFilters: S.optional(__S(1153, __c36, 1)),
+          resources: S.optional(__S(1171, __c36, 19)),
         }),
       ).annotate({ identifier: "OSPolicyResourceGroup" });
     case 21:
-      return S.Array(__S(1140, __c35, 20));
+      return S.Array(__S(1172, __c36, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           allowNoResourceGroupMatch: S.optional(S.Boolean),
-          resourceGroups: S.optional(__S(1141, __c35, 21)),
+          resourceGroups: S.optional(__S(1173, __c36, 21)),
           id: S.optional(S.String),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicy" });
     case 23:
-      return S.Array(__S(1142, __c35, 22));
+      return S.Array(__S(1174, __c36, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
           all: S.optional(S.Boolean),
-          inclusionLabels: S.optional(__S(1027, __c32, 3)),
-          exclusionLabels: S.optional(__S(1027, __c32, 3)),
-          inventories: S.optional(__S(1121, __c35, 1)),
+          inclusionLabels: S.optional(__S(1059, __c33, 3)),
+          exclusionLabels: S.optional(__S(1059, __c33, 3)),
+          inventories: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentInstanceFilter" });
     case 25:
       return S.suspend(() =>
         S.Struct({
           minWaitDuration: S.optional(S.String),
-          disruptionBudget: S.optional(__S(1024, __c32, 0)),
+          disruptionBudget: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentRollout" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          deleted: S.optional(S.Boolean),
-          baseline: S.optional(S.Boolean),
-          osPolicies: S.optional(__S(1143, __c35, 23)),
-          uid: S.optional(S.String),
-          rolloutState: S.optional(S.String),
-          instanceFilter: S.optional(__S(1144, __c35, 24)),
-          description: S.optional(S.String),
-          rollout: S.optional(__S(1145, __c35, 25)),
-          revisionCreateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OSPolicyAssignment" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(1153, __c36, 1)),
+          details: S.optional(__S(1185, __c37, 1)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(1152, __c36, 0)),
+          response: S.optional(__S(1184, __c37, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(1154, __c36, 2)),
-          metadata: S.optional(__S(1152, __c36, 0)),
+          error: S.optional(__S(1186, __c37, 2)),
+          metadata: S.optional(__S(1184, __c37, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           patchDeploymentId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1223, __c38, 7).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          rollout: S.optional(__S(1088, __c34, 0)),
+          instanceFilter: S.optional(__S(1089, __c34, 1)),
+          lastExecuteTime: S.optional(S.String),
+          state: S.optional(S.String),
+          recurringSchedule: S.optional(__S(1253, __c39, 5)),
+          patchConfig: S.optional(__S(1099, __c34, 11)),
+          duration: S.optional(S.String),
+          description: S.optional(S.String),
+          oneTimeSchedule: S.optional(__S(1254, __c39, 6)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3272,7 +3397,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsPatchDeploymentsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3292,7 +3417,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           monthDay: S.optional(S.Number),
-          weekDayOfMonth: S.optional(__S(1217, __c38, 1)),
+          weekDayOfMonth: S.optional(__S(1249, __c39, 1)),
         }),
       ).annotate({ identifier: "MonthlySchedule" });
     case 3:
@@ -3316,12 +3441,12 @@ function __c38(j: number): any {
         S.Struct({
           lastExecuteTime: S.optional(S.String),
           nextExecuteTime: S.optional(S.String),
-          weekly: S.optional(__S(1216, __c38, 0)),
+          weekly: S.optional(__S(1248, __c39, 0)),
           startTime: S.optional(S.String),
-          monthly: S.optional(__S(1218, __c38, 2)),
-          timeZone: S.optional(__S(1219, __c38, 3)),
+          monthly: S.optional(__S(1250, __c39, 2)),
+          timeZone: S.optional(__S(1251, __c39, 3)),
           endTime: S.optional(S.String),
-          timeOfDay: S.optional(__S(1220, __c38, 4)),
+          timeOfDay: S.optional(__S(1252, __c39, 4)),
           frequency: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecurringSchedule" });
@@ -3335,22 +3460,22 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          rollout: S.optional(__S(1056, __c33, 0)),
-          instanceFilter: S.optional(__S(1057, __c33, 1)),
+          rollout: S.optional(__S(1088, __c34, 0)),
+          instanceFilter: S.optional(__S(1089, __c34, 1)),
           lastExecuteTime: S.optional(S.String),
           state: S.optional(S.String),
-          recurringSchedule: S.optional(__S(1221, __c38, 5)),
-          patchConfig: S.optional(__S(1067, __c33, 11)),
+          recurringSchedule: S.optional(__S(1253, __c39, 5)),
+          patchConfig: S.optional(__S(1099, __c34, 11)),
           duration: S.optional(S.String),
           description: S.optional(S.String),
-          oneTimeSchedule: S.optional(__S(1222, __c38, 6)),
+          oneTimeSchedule: S.optional(__S(1254, __c39, 6)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PatchDeployment" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3367,7 +3492,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOsPolicyAssignmentsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

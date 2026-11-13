@@ -408,8 +408,13 @@ export interface SqlServerWorkload {
   /** Compute Engine service account. Let customers bring their own service account for Compute Engine. */
   computeEngineServiceAccount?: string | undefined;
 }
-/** The Deployment object represents user intent for deploying a specific type of workload. */
-export interface Deployment {
+export interface CreateProjectsLocationsDeploymentsRequest {
+  /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Required. ID of the deployment. */
+  deploymentId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. Update time stamp. */
   updateTime?: string | undefined;
   /** Output only. Current state of the deployment. */
@@ -432,16 +437,6 @@ export interface Deployment {
   workerPool?: string | undefined;
   /** MS SQL workload input. */
   sqlServerWorkload?: SqlServerWorkload | undefined;
-}
-export interface CreateProjectsLocationsDeploymentsRequest {
-  /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Required. ID of the deployment. */
-  deploymentId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Deployment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -520,8 +515,11 @@ export type ActuationStateEnum =
   | "POST_INFRA_CONFIGURING"
   | "INFRA_DESTROYING"
   | "TIMEOUT";
-/** The Actuation object represents the bootstrap state and output results of deployed infrastructure and software. */
-export interface Actuation {
+export interface CreateProjectsLocationsDeploymentsActuationsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The resource name of the Actuation location using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
+  parent: string;
   /** Output only. Actuation output. */
   actuationOutput?: ActuationOutput | undefined;
   /** Output only. End time stamp. */
@@ -534,14 +532,6 @@ export interface Actuation {
   deploymentOutput?: DeploymentOutputList | undefined;
   /** Output only. Actuation state. */
   state?: ActuationStateEnum | (string & {}) | undefined;
-}
-export interface CreateProjectsLocationsDeploymentsActuationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The resource name of the Actuation location using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  parent: string;
-  /** Request body */
-  body?: Actuation | undefined;
 }
 export type ResourceStatusStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
 /** The lifecycle status of an Evaluation resource. */
@@ -578,8 +568,13 @@ export interface BigQueryDestination {
   /** Optional. Determines if a new results table will be created when an Execution is created. */
   createNewResultsTable?: boolean | undefined;
 }
-/** Represents a Workload Manager Evaluation configuration. An Evaluation defines a set of rules to be validated against a scope of Cloud resources. */
-export interface Evaluation {
+export interface CreateProjectsLocationsEvaluationsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Id of the requesting object. */
+  evaluationId?: string | undefined;
+  /** Required. The resource prefix of the evaluation location using the form: `projects/{project_id}/locations/{location_id}`. */
+  parent: string;
   /** The Cloud Storage bucket name for custom rules. */
   customRulesBucket?: string | undefined;
   /** Output only. [Output only] The current lifecycle state of the evaluation resource. */
@@ -606,16 +601,6 @@ export interface Evaluation {
   ruleNames?: StringList | undefined;
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsEvaluationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Id of the requesting object. */
-  evaluationId?: string | undefined;
-  /** Required. The resource prefix of the evaluation location using the form: `projects/{project_id}/locations/{location_id}`. */
-  parent: string;
-  /** Request body */
-  body?: Evaluation | undefined;
 }
 export interface DeleteProjectsLocationsDeploymentsRequest {
   /** Optional. If set to true, any actuation will also be deleted. Follows the best practice from https://aip.dev/135#cascading-delete. */
@@ -672,9 +657,49 @@ export interface GetProjectsLocationsDeploymentsRequest {
   /** Required. Name of the resource. The format is 'projects/{project_id}/locations/{location_id}/deployments/{deployment_id}'. */
   name: string;
 }
+/** The Deployment object represents user intent for deploying a specific type of workload. */
+export interface Deployment {
+  /** Output only. Update time stamp. */
+  updateTime?: string | undefined;
+  /** Output only. Current state of the deployment. */
+  state?: DeploymentStateEnum | undefined;
+  /** SAP system workload input. */
+  sapSystemS4Config?: SapSystemS4Config | undefined;
+  /** Optional. Workload type of the deployment. */
+  workloadType?: DeploymentWorkloadTypeEnum | undefined;
+  /** The name of the deployment resource. The format is 'projects/{project_id}/locations/{location_id}/deployments/{deployment_id}'. */
+  name?: string | undefined;
+  /** Optional. terraform_variables represents all the Terraform variables for the deployment workload. The key is the name of the Terraform variable, and the value is the TerraformVariable. For example: { "project_id": { "input_value": { "string_value": "my-project-id" } }, "zone": { "input_value": { "string_value": "us-central1-a" } } } */
+  terraformVariables?: TerraformVariableMap | undefined;
+  /** User-specified Service Account (SA) credentials to be used for Cloud Build. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` The default Cloud Build SA will be used initially if this field is not set during deployment creation. */
+  serviceAccount?: string | undefined;
+  /** Output only. Create time stamp. */
+  createTime?: string | undefined;
+  /** Description of the deployment. */
+  description?: string | undefined;
+  /** Optional. The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
+  workerPool?: string | undefined;
+  /** MS SQL workload input. */
+  sqlServerWorkload?: SqlServerWorkload | undefined;
+}
 export interface GetProjectsLocationsDeploymentsActuationsRequest {
   /** Required. Name of the resource. */
   name: string;
+}
+/** The Actuation object represents the bootstrap state and output results of deployed infrastructure and software. */
+export interface Actuation {
+  /** Output only. Actuation output. */
+  actuationOutput?: ActuationOutput | undefined;
+  /** Output only. End time stamp. */
+  endTime?: string | undefined;
+  /** Output only. Start time stamp. */
+  startTime?: string | undefined;
+  /** The name of the actuation resource. The format is projects/{project}/locations/{location}/deployments/{deployment}/actuations/{actuation}. */
+  name?: string | undefined;
+  /** Output only. Deployment output. */
+  deploymentOutput?: DeploymentOutputList | undefined;
+  /** Output only. Actuation state. */
+  state?: ActuationStateEnum | undefined;
 }
 export interface GetProjectsLocationsDiscoveredprofilesRequest {
   /** Required. Name of the resource */
@@ -937,6 +962,35 @@ export interface WorkloadProfileHealth {
 export interface GetProjectsLocationsEvaluationsRequest {
   /** Required. Name of the resource. */
   name: string;
+}
+/** Represents a Workload Manager Evaluation configuration. An Evaluation defines a set of rules to be validated against a scope of Cloud resources. */
+export interface Evaluation {
+  /** The Cloud Storage bucket name for custom rules. */
+  customRulesBucket?: string | undefined;
+  /** Output only. [Output only] The current lifecycle state of the evaluation resource. */
+  resourceStatus?: ResourceStatus | undefined;
+  /** Description of the Evaluation. */
+  description?: string | undefined;
+  /** Evaluation type. */
+  evaluationType?: EvaluationEvaluationTypeEnum | undefined;
+  /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
+  name?: string | undefined;
+  /** Output only. [Output only] Update time stamp. */
+  updateTime?: string | undefined;
+  /** Resource filter for an evaluation defining the scope of resources to be evaluated. */
+  resourceFilter?: ResourceFilter | undefined;
+  /** Crontab format schedule for scheduled evaluation, currently only supports the following fixed schedules: * `0 *\/1 * * *` # Hourly * `0 *\/6 * * *` # Every 6 hours * `0 *\/12 * * *` # Every 12 hours * `0 0 *\/1 * *` # Daily * `0 0 *\/7 * *` # Weekly * `0 0 *\/14 * *` # Every 14 days * `0 0 1 *\/1 *` # Monthly */
+  schedule?: string | undefined;
+  /** Optional. The BigQuery destination for detailed evaluation results. If this field is specified, the results of each evaluation execution are exported to BigQuery. */
+  bigQueryDestination?: BigQueryDestination | undefined;
+  /** Output only. [Output only] Create time stamp. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. Customer-managed encryption key name, in the format projects/*\/locations/*\/keyRings/*\/cryptoKeys/*. The key will be used for CMEK encryption of the evaluation resource. */
+  kmsKey?: string | undefined;
+  /** The names of the rules used for this evaluation. */
+  ruleNames?: StringList | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsEvaluationsExecutionsRequest {
   /** Required. Name of the resource. */
@@ -1356,23 +1410,40 @@ export interface PatchProjectsLocationsEvaluationsRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Evaluation | undefined;
+  /** The Cloud Storage bucket name for custom rules. */
+  customRulesBucket?: string | undefined;
+  /** Output only. [Output only] The current lifecycle state of the evaluation resource. */
+  resourceStatus?: ResourceStatus | undefined;
+  /** Description of the Evaluation. */
+  description?: string | undefined;
+  /** Evaluation type. */
+  evaluationType?: EvaluationEvaluationTypeEnum | (string & {}) | undefined;
+  /** Output only. [Output only] Update time stamp. */
+  updateTime?: string | undefined;
+  /** Resource filter for an evaluation defining the scope of resources to be evaluated. */
+  resourceFilter?: ResourceFilter | undefined;
+  /** Crontab format schedule for scheduled evaluation, currently only supports the following fixed schedules: * `0 *\/1 * * *` # Hourly * `0 *\/6 * * *` # Every 6 hours * `0 *\/12 * * *` # Every 12 hours * `0 0 *\/1 * *` # Daily * `0 0 *\/7 * *` # Weekly * `0 0 *\/14 * *` # Every 14 days * `0 0 1 *\/1 *` # Monthly */
+  schedule?: string | undefined;
+  /** Optional. The BigQuery destination for detailed evaluation results. If this field is specified, the results of each evaluation execution are exported to BigQuery. */
+  bigQueryDestination?: BigQueryDestination | undefined;
+  /** Output only. [Output only] Create time stamp. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. Customer-managed encryption key name, in the format projects/*\/locations/*\/keyRings/*\/cryptoKeys/*. The key will be used for CMEK encryption of the evaluation resource. */
+  kmsKey?: string | undefined;
+  /** The names of the rules used for this evaluation. */
+  ruleNames?: StringList | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
-/** Request message for the RunEvaluation RPC. */
-export interface RunEvaluationRequest {
+export interface RunProjectsLocationsEvaluationsExecutionsRequest {
+  /** Required. The resource name of the Evaluation using the form: `projects/{project}/locations/{location}/evaluations/{evaluation}`. */
+  name: string;
   /** Required. The resource being created. */
   execution?: Execution | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. ID of the execution which will be created. */
   executionId?: string | undefined;
-}
-export interface RunProjectsLocationsEvaluationsExecutionsRequest {
-  /** Required. The resource name of the Evaluation using the form: `projects/{project}/locations/{location}/evaluations/{evaluation}`. */
-  name: string;
-  /** Request body */
-  body?: RunEvaluationRequest | undefined;
 }
 export type TorsoValidationWorkloadTypeEnum =
   | "WORKLOAD_TYPE_UNSPECIFIED"
@@ -1860,20 +1931,15 @@ export interface Insight {
   /** Optional. The instance id where the insight is generated from */
   instanceId?: string | undefined;
 }
-/** Request for sending the data insights. */
-export interface WriteInsightRequest {
+export interface WriteInsightProjectsLocationsInsightsRequest {
+  /** Required. The GCP location. The format is: projects/{project}/locations/{location}. */
+  location: string;
   /** Optional. The agent version collected this data point. */
   agentVersion?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The metrics data details. */
   insight?: Insight | undefined;
-}
-export interface WriteInsightProjectsLocationsInsightsRequest {
-  /** Required. The GCP location. The format is: projects/{project}/locations/{location}. */
-  location: string;
-  /** Request body */
-  body?: WriteInsightRequest | undefined;
 }
 /** The response for write insights request. */
 export interface WriteInsightResponse {}
@@ -1891,8 +1957,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<Empty>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1914,8 +1980,8 @@ export const createProjectsLocationsDeployments: API.OperationMethod<
   CreateProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateProjectsLocationsDeploymentsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsDeploymentsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1938,11 +2004,11 @@ export const createProjectsLocationsDeploymentsActuations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDeploymentsActuationsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1964,8 +2030,8 @@ export const createProjectsLocationsEvaluations: API.OperationMethod<
   CreateProjectsLocationsEvaluationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<CreateProjectsLocationsEvaluationsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateProjectsLocationsEvaluationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1987,8 +2053,8 @@ export const deleteProjectsLocationsDeployments: API.OperationMethod<
   DeleteProjectsLocationsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteProjectsLocationsDeploymentsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeleteProjectsLocationsDeploymentsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2011,7 +2077,7 @@ export const deleteProjectsLocationsDeploymentsActuations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsDeploymentsActuationsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2034,7 +2100,7 @@ export const deleteProjectsLocationsEvaluations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsEvaluationsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2057,7 +2123,7 @@ export const deleteProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsEvaluationsExecutionsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2080,7 +2146,7 @@ export const deleteProjectsLocationsInsights: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsInsightsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<Empty>,
+  output: __S(1120, __c35, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2103,7 +2169,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<Empty>,
+  output: __S(1120, __c35, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2141,7 +2207,7 @@ export const getProjectsLocationsDeployments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetProjectsLocationsDeploymentsRequest>,
-  output: __S(1099, __c34, 11) as any as S.Schema<Deployment>,
+  output: __S(256, __c8, 0) as any as S.Schema<Deployment>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2161,8 +2227,8 @@ export const getProjectsLocationsDeploymentsActuations: API.OperationMethod<
   GetProjectsLocationsDeploymentsActuationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetProjectsLocationsDeploymentsActuationsRequest>,
-  output: __S(1251, __c39, 3) as any as S.Schema<Actuation>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsDeploymentsActuationsRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<Actuation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2182,8 +2248,8 @@ export const getProjectsLocationsDiscoveredprofiles: API.OperationMethod<
   GetProjectsLocationsDiscoveredprofilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsDiscoveredprofilesRequest>,
-  output: __S(359, __c11, 7) as any as S.Schema<WorkloadProfile>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsDiscoveredprofilesRequest>,
+  output: __S(423, __c13, 7) as any as S.Schema<WorkloadProfile>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2203,8 +2269,8 @@ export const getProjectsLocationsDiscoveredprofilesHealth: API.OperationMethod<
   GetProjectsLocationsDiscoveredprofilesHealthError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsDiscoveredprofilesHealthRequest>,
-  output: __S(389, __c12, 5) as any as S.Schema<WorkloadProfileHealth>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsDiscoveredprofilesHealthRequest>,
+  output: __S(453, __c14, 5) as any as S.Schema<WorkloadProfileHealth>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2224,8 +2290,8 @@ export const getProjectsLocationsEvaluations: API.OperationMethod<
   GetProjectsLocationsEvaluationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsEvaluationsRequest>,
-  output: __S(1348, __c42, 4) as any as S.Schema<Evaluation>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsEvaluationsRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<Evaluation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2245,8 +2311,8 @@ export const getProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   GetProjectsLocationsEvaluationsExecutionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsEvaluationsExecutionsRequest>,
-  output: __S(487, __c15, 7) as any as S.Schema<Execution>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsEvaluationsExecutionsRequest>,
+  output: __S(583, __c18, 7) as any as S.Schema<Execution>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2266,8 +2332,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2284,8 +2350,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2307,8 +2373,8 @@ export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDeploymentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListProjectsLocationsDeploymentsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<ListDeploymentsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsDeploymentsRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<ListDeploymentsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2330,8 +2396,8 @@ export const listProjectsLocationsDeploymentsActuations: API.PaginatedOperationM
   GcpOpContext,
   ListActuationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListProjectsLocationsDeploymentsActuationsRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<ListActuationsResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsDeploymentsActuationsRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<ListActuationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2353,8 +2419,8 @@ export const listProjectsLocationsDiscoveredprofiles: API.PaginatedOperationMeth
   GcpOpContext,
   ListDiscoveredProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsDiscoveredprofilesRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<ListDiscoveredProfilesResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListProjectsLocationsDiscoveredprofilesRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<ListDiscoveredProfilesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2376,8 +2442,8 @@ export const listProjectsLocationsEvaluations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEvaluationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsEvaluationsRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<ListEvaluationsResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsEvaluationsRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<ListEvaluationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2399,8 +2465,8 @@ export const listProjectsLocationsEvaluationsExecutions: API.PaginatedOperationM
   GcpOpContext,
   ListExecutionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsEvaluationsExecutionsRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ListExecutionsResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsEvaluationsExecutionsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<ListExecutionsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2423,11 +2489,11 @@ export const listProjectsLocationsEvaluationsExecutionsResults: API.PaginatedOpe
   ListExecutionResultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    736,
-    __c23,
+    832,
+    __c26,
     0,
   ) as any as S.Schema<ListProjectsLocationsEvaluationsExecutionsResultsRequest>,
-  output: __S(747, __c23, 11) as any as S.Schema<ListExecutionResultsResponse>,
+  output: __S(843, __c26, 11) as any as S.Schema<ListExecutionResultsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2450,11 +2516,11 @@ export const listProjectsLocationsEvaluationsExecutionsScannedResources: API.Pag
   ListScannedResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    768,
-    __c24,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<ListProjectsLocationsEvaluationsExecutionsScannedResourcesRequest>,
-  output: __S(771, __c24, 3) as any as S.Schema<ListScannedResourcesResponse>,
+  output: __S(867, __c27, 3) as any as S.Schema<ListScannedResourcesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2476,8 +2542,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2494,8 +2560,8 @@ export const listProjectsLocationsRules: API.OperationMethod<
   ListProjectsLocationsRulesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListProjectsLocationsRulesRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<ListRulesResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListProjectsLocationsRulesRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<ListRulesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2517,8 +2583,8 @@ export const patchProjectsLocationsEvaluations: API.OperationMethod<
   PatchProjectsLocationsEvaluationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsEvaluationsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsEvaluationsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2540,8 +2606,8 @@ export const runProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   RunProjectsLocationsEvaluationsExecutionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c28, 1) as any as S.Schema<RunProjectsLocationsEvaluationsExecutionsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<RunProjectsLocationsEvaluationsExecutionsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2563,8 +2629,8 @@ export const writeInsightProjectsLocationsInsights: API.OperationMethod<
   WriteInsightProjectsLocationsInsightsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(970, __c30, 10) as any as S.Schema<WriteInsightProjectsLocationsInsightsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<WriteInsightResponse>,
+  input: __S(1065, __c33, 9) as any as S.Schema<WriteInsightProjectsLocationsInsightsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<WriteInsightResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2678,11 +2744,11 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1152, __c36, 0)),
+          metadata: S.optional(__S(1248, __c39, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
+          labels: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -2708,15 +2774,19 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://workloadmanager.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsDeploymentsActuationsRequest" });
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          sapSystemS4Config: S.optional(__S(1187, __c37, 3)),
+          workloadType: S.optional(S.String),
+          name: S.optional(S.String),
+          terraformVariables: S.optional(__S(1189, __c37, 5)),
+          serviceAccount: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          workerPool: S.optional(S.String),
+          sqlServerWorkload: S.optional(__S(1194, __c37, 10)),
+        }),
+      ).annotate({ identifier: "Deployment" });
   }
 }
 function __c9(j: number): any {
@@ -2732,10 +2802,41 @@ function __c9(j: number): any {
             baseUrl: "https://workloadmanager.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDiscoveredprofilesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDeploymentsActuationsRequest" });
   }
 }
 function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actuationOutput: S.optional(__S(1344, __c42, 0)),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          name: S.optional(S.String),
+          deploymentOutput: S.optional(__S(1346, __c42, 2)),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Actuation" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://workloadmanager.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsDiscoveredprofilesRequest" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2757,12 +2858,12 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "IAMPermission" });
     case 3:
-      return S.Array(__S(322, __c10, 2));
+      return S.Array(__S(386, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          iamPermissions: S.optional(__S(323, __c10, 3)),
+          iamPermissions: S.optional(__S(387, __c12, 3)),
         }),
       ).annotate({ identifier: "ServiceStates" });
     case 5:
@@ -2770,41 +2871,41 @@ function __c10(j: number): any {
         S.Struct({
           availableVersion: S.optional(S.String),
           isFullyEnabled: S.optional(S.Boolean),
-          hanaMonitoring: S.optional(__S(324, __c10, 4)),
-          processMetrics: S.optional(__S(324, __c10, 4)),
+          hanaMonitoring: S.optional(__S(388, __c12, 4)),
+          processMetrics: S.optional(__S(388, __c12, 4)),
           installedVersion: S.optional(S.String),
-          systemDiscovery: S.optional(__S(324, __c10, 4)),
+          systemDiscovery: S.optional(__S(388, __c12, 4)),
         }),
       ).annotate({ identifier: "AgentStates" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          agentStates: S.optional(__S(325, __c10, 5)),
-          numbers: S.optional(__S(1120, __c35, 0)),
+          agentStates: S.optional(__S(389, __c12, 5)),
+          numbers: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "SapInstanceProperties" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          upcomingMaintenanceEvent: S.optional(__S(320, __c10, 0)),
+          upcomingMaintenanceEvent: S.optional(__S(384, __c12, 0)),
           instanceNumber: S.optional(S.String),
           machineType: S.optional(S.String),
-          roles: S.optional(__S(321, __c10, 1)),
-          sapInstanceProperties: S.optional(__S(326, __c10, 6)),
+          roles: S.optional(__S(385, __c12, 1)),
+          sapInstanceProperties: S.optional(__S(390, __c12, 6)),
         }),
       ).annotate({ identifier: "InstanceProperties" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          instanceProperties: S.optional(__S(327, __c10, 7)),
+          instanceProperties: S.optional(__S(391, __c12, 7)),
           name: S.optional(S.String),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudResource" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2814,9 +2915,9 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "Product" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
-      return S.Array(__S(328, __c10, 8));
+      return S.Array(__S(392, __c12, 8));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2828,16 +2929,16 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           databaseType: S.optional(S.String),
-          backupProperties: S.optional(__S(355, __c11, 3)),
+          backupProperties: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "DatabaseProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           sid: S.optional(S.String),
-          resources: S.optional(__S(354, __c11, 2)),
-          databaseProperties: S.optional(__S(356, __c11, 4)),
-          haHosts: S.optional(__S(1120, __c35, 0)),
+          resources: S.optional(__S(418, __c13, 2)),
+          databaseProperties: S.optional(__S(420, __c13, 4)),
+          haHosts: S.optional(__S(1216, __c38, 0)),
           topologyType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SapComponent" });
@@ -2845,25 +2946,25 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           architecture: S.optional(S.String),
-          products: S.optional(__S(353, __c11, 1)),
-          metadata: S.optional(__S(1312, __c41, 0)),
-          database: S.optional(__S(357, __c11, 5)),
-          application: S.optional(__S(357, __c11, 5)),
+          products: S.optional(__S(417, __c13, 1)),
+          metadata: S.optional(__S(1408, __c44, 0)),
+          database: S.optional(__S(421, __c13, 5)),
+          application: S.optional(__S(421, __c13, 5)),
         }),
       ).annotate({ identifier: "SapWorkload" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           refreshedTime: S.optional(S.String),
-          sapWorkload: S.optional(__S(358, __c11, 6)),
+          sapWorkload: S.optional(__S(422, __c13, 6)),
           workloadType: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
+          labels: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "WorkloadProfile" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2881,37 +2982,37 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          resource: S.optional(__S(328, __c10, 8)),
+          resource: S.optional(__S(392, __c12, 8)),
           state: S.optional(S.String),
           metric: S.optional(S.String),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "HealthCheck" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           componentHealthType: S.optional(S.String),
-          subComponentsHealth: S.optional(S.suspend(() => __S(388, __c12, 4))),
+          subComponentsHealth: S.optional(S.suspend(() => __S(452, __c14, 4))),
           component: S.optional(S.String),
           state: S.optional(S.String),
-          componentHealthChecks: S.optional(__S(386, __c12, 2)),
+          componentHealthChecks: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "ComponentHealth" });
     case 4:
-      return S.Array(__S(387, __c12, 3));
+      return S.Array(__S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           checkTime: S.optional(S.String),
-          componentsHealth: S.optional(__S(388, __c12, 4)),
+          componentsHealth: S.optional(__S(452, __c14, 4)),
         }),
       ).annotate({ identifier: "WorkloadProfileHealth" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2927,7 +3028,29 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsEvaluationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customRulesBucket: S.optional(S.String),
+          resourceStatus: S.optional(__S(1440, __c45, 0)),
+          description: S.optional(S.String),
+          evaluationType: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceFilter: S.optional(__S(1442, __c45, 2)),
+          schedule: S.optional(S.String),
+          bigQueryDestination: S.optional(__S(1443, __c45, 3)),
+          createTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          ruleNames: S.optional(__S(1216, __c38, 0)),
+          labels: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "Evaluation" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2943,7 +3066,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsEvaluationsExecutionsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2952,7 +3075,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "Notice" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2964,7 +3087,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "RuleExecutionResult" });
     case 3:
-      return S.Array(__S(482, __c15, 2));
+      return S.Array(__S(578, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2983,28 +3106,28 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ExternalDataSources" });
     case 6:
-      return S.Array(__S(485, __c15, 5));
+      return S.Array(__S(581, __c18, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          notices: S.optional(__S(481, __c15, 1)),
-          ruleResults: S.optional(__S(483, __c15, 3)),
-          resultSummary: S.optional(__S(484, __c15, 4)),
+          notices: S.optional(__S(577, __c18, 1)),
+          ruleResults: S.optional(__S(579, __c18, 3)),
+          resultSummary: S.optional(__S(580, __c18, 4)),
           engine: S.optional(S.String),
           evaluationId: S.optional(S.String),
-          externalDataSources: S.optional(__S(486, __c15, 6)),
+          externalDataSources: S.optional(__S(582, __c18, 6)),
           name: S.optional(S.String),
           state: S.optional(S.String),
           runType: S.optional(S.String),
           endTime: S.optional(S.String),
           inventoryTime: S.optional(S.String),
           startTime: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
+          labels: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "Execution" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3020,12 +3143,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(1120, __c35, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -3043,13 +3166,13 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(545, __c17, 1)),
+          locations: S.optional(__S(641, __c20, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3068,18 +3191,18 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeploymentsRequest" });
     case 1:
-      return S.Array(__S(1099, __c34, 11));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          deployments: S.optional(__S(577, __c18, 1)),
-          unreachable: S.optional(__S(1120, __c35, 0)),
+          deployments: S.optional(__S(673, __c21, 1)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "ListDeploymentsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3098,18 +3221,18 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDeploymentsActuationsRequest" });
     case 1:
-      return S.Array(__S(1251, __c39, 3));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          actuations: S.optional(__S(609, __c19, 1)),
-          unreachable: S.optional(__S(1120, __c35, 0)),
+          actuations: S.optional(__S(705, __c22, 1)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "ListActuationsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3127,18 +3250,18 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDiscoveredprofilesRequest" });
     case 1:
-      return S.Array(__S(359, __c11, 7));
+      return S.Array(__S(423, __c13, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1120, __c35, 0)),
-          workloadProfiles: S.optional(__S(641, __c20, 1)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
+          workloadProfiles: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "ListDiscoveredProfilesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3157,18 +3280,18 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEvaluationsRequest" });
     case 1:
-      return S.Array(__S(1348, __c42, 4));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          evaluations: S.optional(__S(673, __c21, 1)),
-          unreachable: S.optional(__S(1120, __c35, 0)),
+          evaluations: S.optional(__S(769, __c24, 1)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEvaluationsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3187,18 +3310,18 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEvaluationsExecutionsRequest" });
     case 1:
-      return S.Array(__S(487, __c15, 7));
+      return S.Array(__S(583, __c18, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          executions: S.optional(__S(705, __c22, 1)),
+          executions: S.optional(__S(801, __c25, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1120, __c35, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "ListExecutionsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3219,16 +3342,16 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(1312, __c41, 0)),
+          details: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "RuleOutput" });
     case 2:
-      return S.Array(__S(737, __c23, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ruleOutput: S.optional(__S(738, __c23, 2)),
-          observed: S.optional(__S(1312, __c41, 0)),
+          ruleOutput: S.optional(__S(834, __c26, 2)),
+          observed: S.optional(__S(1408, __c44, 0)),
           asset: S.optional(S.String),
           serviceAccount: S.optional(S.String),
         }),
@@ -3245,7 +3368,7 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           command: S.optional(S.String),
-          parameters: S.optional(__S(1312, __c41, 0)),
+          parameters: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "AgentCommand" });
     case 6:
@@ -3259,19 +3382,19 @@ function __c23(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          agentCommand: S.optional(__S(741, __c23, 5)),
-          shellCommand: S.optional(__S(742, __c23, 6)),
+          agentCommand: S.optional(__S(837, __c26, 5)),
+          shellCommand: S.optional(__S(838, __c26, 6)),
         }),
       ).annotate({ identifier: "Command" });
     case 8:
-      return S.Array(__S(743, __c23, 7));
+      return S.Array(__S(839, __c26, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          violationDetails: S.optional(__S(739, __c23, 3)),
+          violationDetails: S.optional(__S(835, __c26, 3)),
           violationMessage: S.optional(S.String),
-          resource: S.optional(__S(740, __c23, 4)),
-          commands: S.optional(__S(744, __c23, 8)),
+          resource: S.optional(__S(836, __c26, 4)),
+          commands: S.optional(__S(840, __c26, 8)),
           documentationUrl: S.optional(S.String),
           severity: S.optional(S.String),
           rule: S.optional(S.String),
@@ -3279,17 +3402,17 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ExecutionResult" });
     case 10:
-      return S.Array(__S(745, __c23, 9));
+      return S.Array(__S(841, __c26, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          executionResults: S.optional(__S(746, __c23, 10)),
+          executionResults: S.optional(__S(842, __c26, 10)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListExecutionResultsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3318,17 +3441,17 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ScannedResource" });
     case 2:
-      return S.Array(__S(769, __c24, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scannedResources: S.optional(__S(770, __c24, 2)),
+          scannedResources: S.optional(__S(866, __c27, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListScannedResourcesResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3347,18 +3470,18 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1186, __c37, 2));
+      return S.Array(__S(1282, __c40, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(801, __c25, 1)),
+          operations: S.optional(__S(897, __c28, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1120, __c35, 0)),
+          unreachable: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3385,7 +3508,7 @@ function __c26(j: number): any {
           errorMessage: S.optional(S.String),
           name: S.optional(S.String),
           assetType: S.optional(S.String),
-          tags: S.optional(__S(1120, __c35, 0)),
+          tags: S.optional(__S(1216, __c38, 0)),
           displayName: S.optional(S.String),
           revisionId: S.optional(S.String),
           uri: S.optional(S.String),
@@ -3396,16 +3519,16 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "Rule" });
     case 2:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(929, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(834, __c26, 2)),
+          rules: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "ListRulesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3413,7 +3536,18 @@ function __c27(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1348, __c42, 4).pipe(T.HttpBody())),
+          customRulesBucket: S.optional(S.String),
+          resourceStatus: S.optional(__S(1440, __c45, 0)),
+          description: S.optional(S.String),
+          evaluationType: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceFilter: S.optional(__S(1442, __c45, 2)),
+          schedule: S.optional(S.String),
+          bigQueryDestination: S.optional(__S(1443, __c45, 3)),
+          createTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          ruleNames: S.optional(__S(1216, __c38, 0)),
+          labels: S.optional(__S(1408, __c44, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3424,21 +3558,15 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsEvaluationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          execution: S.optional(__S(487, __c15, 7)),
+          name: S.String.pipe(T.Label()),
+          execution: S.optional(__S(583, __c18, 7)),
           requestId: S.optional(S.String),
           executionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RunEvaluationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3449,7 +3577,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RunProjectsLocationsEvaluationsExecutionsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3458,24 +3586,24 @@ function __c29(j: number): any {
           projectId: S.optional(S.String),
           workloadType: S.optional(S.String),
           instanceName: S.optional(S.String),
-          validationDetails: S.optional(__S(1312, __c41, 0)),
+          validationDetails: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "TorsoValidation" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(1312, __c41, 0)),
+          details: S.optional(__S(1408, __c44, 0)),
           sapValidationType: S.optional(S.String),
           isPresent: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SapValidationValidationDetail" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           zone: S.optional(S.String),
-          validationDetails: S.optional(__S(930, __c29, 2)),
+          validationDetails: S.optional(__S(1026, __c32, 2)),
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SapValidation" });
@@ -3492,9 +3620,9 @@ function __c29(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          distroKernel: S.optional(__S(932, __c29, 4)),
+          distroKernel: S.optional(__S(1028, __c32, 4)),
           rawString: S.optional(S.String),
-          osKernel: S.optional(__S(932, __c29, 4)),
+          osKernel: S.optional(__S(1028, __c32, 4)),
         }),
       ).annotate({ identifier: "SapDiscoveryResourceInstancePropertiesKernelVersion" });
     case 6:
@@ -3505,7 +3633,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "AgentStatusIAMPermission" });
     case 7:
-      return S.Array(__S(934, __c29, 6));
+      return S.Array(__S(1030, __c32, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -3515,21 +3643,21 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "AgentStatusConfigValue" });
     case 9:
-      return S.Array(__S(936, __c29, 8));
+      return S.Array(__S(1032, __c32, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           unspecifiedStateMessage: S.optional(S.String),
           fullyFunctional: S.optional(S.String),
           errorMessage: S.optional(S.String),
-          iamPermissions: S.optional(__S(935, __c29, 7)),
-          configValues: S.optional(__S(937, __c29, 9)),
+          iamPermissions: S.optional(__S(1031, __c32, 7)),
+          configValues: S.optional(__S(1033, __c32, 9)),
           name: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentStatusServiceStatus" });
     case 11:
-      return S.Array(__S(938, __c29, 10));
+      return S.Array(__S(1034, __c32, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -3538,7 +3666,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "AgentStatusReference" });
     case 13:
-      return S.Array(__S(940, __c29, 12));
+      return S.Array(__S(1036, __c32, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -3547,11 +3675,11 @@ function __c29(j: number): any {
           agentName: S.optional(S.String),
           configurationFilePath: S.optional(S.String),
           availableVersion: S.optional(S.String),
-          kernelVersion: S.optional(__S(933, __c29, 5)),
+          kernelVersion: S.optional(__S(1029, __c32, 5)),
           systemdServiceRunning: S.optional(S.String),
-          services: S.optional(__S(939, __c29, 11)),
+          services: S.optional(__S(1035, __c32, 11)),
           configurationValid: S.optional(S.String),
-          references: S.optional(__S(941, __c29, 13)),
+          references: S.optional(__S(1037, __c32, 13)),
           installedVersion: S.optional(S.String),
           systemdServiceEnabled: S.optional(S.String),
           instanceUri: S.optional(S.String),
@@ -3560,33 +3688,33 @@ function __c29(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(1312, __c41, 0)),
+          fields: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "SqlserverValidationDetails" });
     case 16:
-      return S.Array(__S(943, __c29, 15));
+      return S.Array(__S(1039, __c32, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(944, __c29, 16)),
+          details: S.optional(__S(1040, __c32, 16)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlserverValidationValidationDetail" });
     case 18:
-      return S.Array(__S(945, __c29, 17));
+      return S.Array(__S(1041, __c32, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           instance: S.optional(S.String),
           agentVersion: S.optional(S.String),
           projectId: S.optional(S.String),
-          validationDetails: S.optional(__S(946, __c29, 18)),
+          validationDetails: S.optional(__S(1042, __c32, 18)),
         }),
       ).annotate({ identifier: "SqlserverValidation" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          validationDetails: S.optional(__S(1152, __c36, 0)),
+          validationDetails: S.optional(__S(1248, __c39, 0)),
           clusterId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpenShiftValidation" });
@@ -3600,7 +3728,7 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "SapDiscoveryWorkloadPropertiesSoftwareComponentProperties" });
     case 22:
-      return S.Array(__S(949, __c29, 21));
+      return S.Array(__S(1045, __c32, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -3609,12 +3737,12 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "SapDiscoveryWorkloadPropertiesProductVersion" });
     case 24:
-      return S.Array(__S(951, __c29, 23));
+      return S.Array(__S(1047, __c32, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          softwareComponentVersions: S.optional(__S(950, __c29, 22)),
-          productVersions: S.optional(__S(952, __c29, 24)),
+          softwareComponentVersions: S.optional(__S(1046, __c32, 22)),
+          productVersions: S.optional(__S(1048, __c32, 24)),
         }),
       ).annotate({ identifier: "SapDiscoveryWorkloadProperties" });
     case 26:
@@ -3646,11 +3774,11 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sourceSite: S.optional(S.String),
-          component: S.optional(S.suspend(() => __S(965, __c30, 5))),
+          component: S.optional(S.suspend(() => __S(1061, __c33, 5))),
         }),
       ).annotate({ identifier: "SapDiscoveryComponentReplicationSite" });
     case 29:
-      return S.Array(__S(956, __c29, 28));
+      return S.Array(__S(1052, __c32, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -3659,58 +3787,58 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "SapDiscoveryResourceInstancePropertiesAppInstance" });
     case 31:
-      return S.Array(__S(958, __c29, 30));
+      return S.Array(__S(1054, __c32, 30));
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          diskNames: S.optional(__S(1120, __c35, 0)),
+          diskNames: S.optional(__S(1216, __c38, 0)),
           name: S.optional(S.String),
           mountPoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "SapDiscoveryResourceInstancePropertiesDiskMount" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           instanceNumber: S.optional(S.String),
-          clusterInstances: S.optional(__S(1120, __c35, 0)),
-          appInstances: S.optional(__S(959, __c29, 31)),
+          clusterInstances: S.optional(__S(1216, __c38, 0)),
+          appInstances: S.optional(__S(1055, __c32, 31)),
           isDrSite: S.optional(S.Boolean),
-          diskMounts: S.optional(__S(961, __c30, 1)),
+          diskMounts: S.optional(__S(1057, __c33, 1)),
           virtualHostname: S.optional(S.String),
           instanceRole: S.optional(S.String),
-          osKernelVersion: S.optional(__S(933, __c29, 5)),
+          osKernelVersion: S.optional(__S(1029, __c32, 5)),
         }),
       ).annotate({ identifier: "SapDiscoveryResourceInstanceProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instanceProperties: S.optional(__S(962, __c30, 2)),
+          instanceProperties: S.optional(__S(1058, __c33, 2)),
           updateTime: S.optional(S.String),
           resourceKind: S.optional(S.String),
           resourceType: S.optional(S.String),
-          relatedResources: S.optional(__S(1120, __c35, 0)),
+          relatedResources: S.optional(__S(1216, __c38, 0)),
           resourceUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "SapDiscoveryResource" });
     case 4:
-      return S.Array(__S(963, __c30, 3));
+      return S.Array(__S(1059, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           hostProject: S.optional(S.String),
-          applicationProperties: S.optional(__S(954, __c29, 26)),
+          applicationProperties: S.optional(__S(1050, __c32, 26)),
           region: S.optional(S.String),
           topologyType: S.optional(S.String),
-          databaseProperties: S.optional(__S(955, __c29, 27)),
-          haHosts: S.optional(__S(1120, __c35, 0)),
-          replicationSites: S.optional(__S(957, __c29, 29)),
-          resources: S.optional(__S(964, __c30, 4)),
+          databaseProperties: S.optional(__S(1051, __c32, 27)),
+          haHosts: S.optional(__S(1216, __c38, 0)),
+          replicationSites: S.optional(__S(1053, __c32, 29)),
+          resources: S.optional(__S(1060, __c33, 4)),
           sid: S.optional(S.String),
         }),
       ).annotate({ identifier: "SapDiscoveryComponent" });
@@ -3726,42 +3854,36 @@ function __c30(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          workloadProperties: S.optional(__S(953, __c29, 25)),
-          databaseLayer: S.optional(__S(965, __c30, 5)),
+          workloadProperties: S.optional(__S(1049, __c32, 25)),
+          databaseLayer: S.optional(__S(1061, __c33, 5)),
           useDrReconciliation: S.optional(S.Boolean),
-          metadata: S.optional(__S(966, __c30, 6)),
+          metadata: S.optional(__S(1062, __c33, 6)),
           systemId: S.optional(S.String),
           projectNumber: S.optional(S.String),
           updateTime: S.optional(S.String),
-          applicationLayer: S.optional(__S(965, __c30, 5)),
+          applicationLayer: S.optional(__S(1061, __c33, 5)),
         }),
       ).annotate({ identifier: "SapDiscovery" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           sentTime: S.optional(S.String),
-          torsoValidation: S.optional(__S(928, __c29, 0)),
-          sapValidation: S.optional(__S(931, __c29, 3)),
-          agentStatus: S.optional(__S(942, __c29, 14)),
-          sqlserverValidation: S.optional(__S(947, __c29, 19)),
-          openShiftValidation: S.optional(__S(948, __c29, 20)),
-          sapDiscovery: S.optional(__S(967, __c30, 7)),
+          torsoValidation: S.optional(__S(1024, __c32, 0)),
+          sapValidation: S.optional(__S(1027, __c32, 3)),
+          agentStatus: S.optional(__S(1038, __c32, 14)),
+          sqlserverValidation: S.optional(__S(1043, __c32, 19)),
+          openShiftValidation: S.optional(__S(1044, __c32, 20)),
+          sapDiscovery: S.optional(__S(1063, __c33, 7)),
           instanceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Insight" });
     case 9:
       return S.suspend(() =>
         S.Struct({
+          location: S.String.pipe(T.Label()),
           agentVersion: S.optional(S.String),
           requestId: S.optional(S.String),
-          insight: S.optional(__S(968, __c30, 8)),
-        }),
-      ).annotate({ identifier: "WriteInsightRequest" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(969, __c30, 9).pipe(T.HttpBody())),
+          insight: S.optional(__S(1064, __c33, 8)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3772,13 +3894,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "WriteInsightProjectsLocationsInsightsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3789,13 +3911,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3803,7 +3925,17 @@ function __c33(j: number): any {
           parent: S.String.pipe(T.Label()),
           deploymentId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1099, __c34, 11).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          sapSystemS4Config: S.optional(__S(1187, __c37, 3)),
+          workloadType: S.optional(S.String),
+          name: S.optional(S.String),
+          terraformVariables: S.optional(__S(1189, __c37, 5)),
+          serviceAccount: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          workerPool: S.optional(S.String),
+          sqlServerWorkload: S.optional(__S(1194, __c37, 10)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3814,7 +3946,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDeploymentsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3831,7 +3963,7 @@ function __c34(j: number): any {
           ascsServiceAccount: S.optional(S.String),
           ersVm: S.optional(S.String),
           vmsMultiplier: S.optional(S.Number),
-          appVmNames: S.optional(__S(1120, __c35, 0)),
+          appVmNames: S.optional(__S(1216, __c38, 0)),
           sid: S.optional(S.String),
           ascsMachineType: S.optional(S.String),
           ersInstanceId: S.optional(S.String),
@@ -3856,7 +3988,7 @@ function __c34(j: number): any {
         S.Struct({
           vpcName: S.optional(S.String),
           createCommsFirewall: S.optional(S.Boolean),
-          customTags: S.optional(__S(1120, __c35, 0)),
+          customTags: S.optional(__S(1216, __c38, 0)),
           networkProject: S.optional(S.String),
           internetAccess: S.optional(S.String),
           zone2Name: S.optional(S.String),
@@ -3877,11 +4009,11 @@ function __c34(j: number): any {
           gcpProjectId: S.optional(S.String),
           version: S.optional(S.String),
           ansibleRunnerServiceAccount: S.optional(S.String),
-          app: S.optional(__S(1088, __c34, 0)),
-          database: S.optional(__S(1089, __c34, 1)),
+          app: S.optional(__S(1184, __c37, 0)),
+          database: S.optional(__S(1185, __c37, 1)),
           sapBootDiskImage: S.optional(S.String),
           scalingMethod: S.optional(S.String),
-          location: S.optional(__S(1090, __c34, 2)),
+          location: S.optional(__S(1186, __c37, 2)),
           mediaBucketName: S.optional(S.String),
           allowStoppingForUpdate: S.optional(S.Boolean),
         }),
@@ -3893,7 +4025,7 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "TerraformVariable" });
     case 5:
-      return S.Record(S.String, __S(1092, __c34, 4));
+      return S.Record(S.String, __S(1188, __c37, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3950,85 +4082,74 @@ function __c34(j: number): any {
         S.Struct({
           sqlServerEdition: S.optional(S.String),
           deploymentModel: S.optional(S.String),
-          pacemaker: S.optional(__S(1094, __c34, 6)),
+          pacemaker: S.optional(__S(1190, __c37, 6)),
           environmentType: S.optional(S.String),
           osImageType: S.optional(S.String),
           sqlServerVersion: S.optional(S.String),
           vmPrefix: S.optional(S.String),
           osImage: S.optional(S.String),
-          location: S.optional(__S(1095, __c34, 7)),
-          activeDirectory: S.optional(__S(1096, __c34, 8)),
+          location: S.optional(__S(1191, __c37, 7)),
+          activeDirectory: S.optional(__S(1192, __c37, 8)),
           haType: S.optional(S.String),
           mediaBucket: S.optional(S.String),
           fciType: S.optional(S.String),
           operatingSystemType: S.optional(S.String),
           isSqlPayg: S.optional(S.Boolean),
-          database: S.optional(__S(1097, __c34, 9)),
+          database: S.optional(__S(1193, __c37, 9)),
           computeEngineServiceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlServerWorkload" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          sapSystemS4Config: S.optional(__S(1091, __c34, 3)),
-          workloadType: S.optional(S.String),
-          name: S.optional(S.String),
-          terraformVariables: S.optional(__S(1093, __c34, 5)),
-          serviceAccount: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          sqlServerWorkload: S.optional(__S(1098, __c34, 10)),
-        }),
-      ).annotate({ identifier: "Deployment" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(1184, __c37, 0)),
+          details: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          error: S.optional(__S(1185, __c37, 1)),
-          response: S.optional(__S(1152, __c36, 0)),
-          metadata: S.optional(__S(1152, __c36, 0)),
+          error: S.optional(__S(1281, __c40, 1)),
+          response: S.optional(__S(1248, __c39, 0)),
+          metadata: S.optional(__S(1248, __c39, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1251, __c39, 3).pipe(T.HttpBody())),
+          actuationOutput: S.optional(__S(1344, __c42, 0)),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          name: S.optional(S.String),
+          deploymentOutput: S.optional(__S(1346, __c42, 2)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4039,14 +4160,14 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDeploymentsActuationsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cloudbuildId: S.optional(S.String),
           hasUserFacingErrorMsg: S.optional(S.Boolean),
-          ansibleFailedTask: S.optional(__S(1120, __c35, 0)),
+          ansibleFailedTask: S.optional(__S(1216, __c38, 0)),
           terraformError: S.optional(S.String),
           errorCode: S.optional(S.String),
           terraformTemplate: S.optional(S.String),
@@ -4064,21 +4185,10 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentOutput" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          actuationOutput: S.optional(__S(1248, __c39, 0)),
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-          name: S.optional(S.String),
-          deploymentOutput: S.optional(__S(1250, __c39, 2)),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Actuation" });
+      return S.Array(__S(1345, __c42, 1));
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4086,7 +4196,19 @@ function __c40(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           evaluationId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1348, __c42, 4).pipe(T.HttpBody())),
+          customRulesBucket: S.optional(S.String),
+          resourceStatus: S.optional(__S(1440, __c45, 0)),
+          description: S.optional(S.String),
+          evaluationType: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceFilter: S.optional(__S(1442, __c45, 2)),
+          schedule: S.optional(S.String),
+          bigQueryDestination: S.optional(__S(1443, __c45, 3)),
+          createTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          ruleNames: S.optional(__S(1216, __c38, 0)),
+          labels: S.optional(__S(1408, __c44, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4097,13 +4219,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEvaluationsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4114,16 +4236,16 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serviceAccounts: S.optional(__S(1120, __c35, 0)),
+          serviceAccounts: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "GceInstanceFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourceIdPatterns: S.optional(__S(1120, __c35, 0)),
-          scopes: S.optional(__S(1120, __c35, 0)),
-          gceInstanceFilter: S.optional(__S(1345, __c42, 1)),
-          inclusionLabels: S.optional(__S(1312, __c41, 0)),
+          resourceIdPatterns: S.optional(__S(1216, __c38, 0)),
+          scopes: S.optional(__S(1216, __c38, 0)),
+          gceInstanceFilter: S.optional(__S(1441, __c45, 1)),
+          inclusionLabels: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "ResourceFilter" });
     case 3:
@@ -4133,27 +4255,9 @@ function __c42(j: number): any {
           createNewResultsTable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BigQueryDestination" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          customRulesBucket: S.optional(S.String),
-          resourceStatus: S.optional(__S(1344, __c42, 0)),
-          description: S.optional(S.String),
-          evaluationType: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          resourceFilter: S.optional(__S(1346, __c42, 2)),
-          schedule: S.optional(S.String),
-          bigQueryDestination: S.optional(__S(1347, __c42, 3)),
-          createTime: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          ruleNames: S.optional(__S(1120, __c35, 0)),
-          labels: S.optional(__S(1312, __c41, 0)),
-        }),
-      ).annotate({ identifier: "Evaluation" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

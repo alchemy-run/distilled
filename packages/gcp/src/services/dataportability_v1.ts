@@ -84,18 +84,13 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-/** Request to kick off an Archive job. */
-export interface ArchiveInitiatePortabilityRequest {
+export interface ArchiveInitiatePortabilityRequest_ {
   /** Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data. */
   startTime?: string | undefined;
   /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
   endTime?: string | undefined;
   /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
   resources?: StringList | undefined;
-}
-export interface ArchiveInitiatePortabilityRequest_ {
-  /** Request body */
-  body?: ArchiveInitiatePortabilityRequest | undefined;
 }
 export type ArchiveInitiatePortabilityResponseAccessTypeEnum =
   | "ACCESS_TYPE_UNSPECIFIED"
@@ -188,8 +183,8 @@ export const archiveInitiatePortability: API.OperationMethod<
   ArchiveInitiatePortabilityError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<ArchiveInitiatePortabilityRequest_>,
-  output: __S(2, __c0, 2) as any as S.Schema<ArchiveInitiatePortabilityResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<ArchiveInitiatePortabilityRequest_>,
+  output: __S(1, __c0, 1) as any as S.Schema<ArchiveInitiatePortabilityResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -205,8 +200,8 @@ export const cancelArchiveJobs: API.OperationMethod<
   CancelArchiveJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<CancelArchiveJobsRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<CancelPortabilityArchiveResponse>,
+  input: __S(4, __c2, 0) as any as S.Schema<CancelArchiveJobsRequest>,
+  output: __S(6, __c3, 0) as any as S.Schema<CancelPortabilityArchiveResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -222,8 +217,8 @@ export const checkAccessType: API.OperationMethod<
   CheckAccessTypeError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<CheckAccessTypeRequest_>,
-  output: __S(17, __c4, 1) as any as S.Schema<CheckAccessTypeResponse>,
+  input: __S(8, __c4, 0) as any as S.Schema<CheckAccessTypeRequest_>,
+  output: __S(9, __c4, 1) as any as S.Schema<CheckAccessTypeResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -239,8 +234,8 @@ export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<
   GetPortabilityArchiveStateArchiveJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetPortabilityArchiveStateArchiveJobsRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<PortabilityArchiveState>,
+  input: __S(10, __c5, 0) as any as S.Schema<GetPortabilityArchiveStateArchiveJobsRequest>,
+  output: __S(11, __c5, 1) as any as S.Schema<PortabilityArchiveState>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -256,8 +251,8 @@ export const resetAuthorization: API.OperationMethod<
   ResetAuthorizationError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ResetAuthorizationRequest_>,
-  output: __S(12, __c3, 0) as any as S.Schema<Empty>,
+  input: __S(12, __c6, 0) as any as S.Schema<ResetAuthorizationRequest_>,
+  output: __S(6, __c3, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -273,8 +268,8 @@ export const retryArchiveJobs: API.OperationMethod<
   RetryArchiveJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<RetryArchiveJobsRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<RetryPortabilityArchiveResponse>,
+  input: __S(14, __c7, 0) as any as S.Schema<RetryArchiveJobsRequest>,
+  output: __S(15, __c7, 1) as any as S.Schema<RetryPortabilityArchiveResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -290,13 +285,7 @@ function __c0(j: number): any {
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          resources: S.optional(__S(4, __c1, 0)),
-        }),
-      ).annotate({ identifier: "ArchiveInitiatePortabilityRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
+          resources: S.optional(__S(2, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -305,7 +294,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ArchiveInitiatePortabilityRequest_" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           accessType: S.optional(S.String),
@@ -326,7 +315,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -350,7 +339,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -362,8 +351,8 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timeBasedResources: S.optional(__S(4, __c1, 0)),
-          oneTimeResources: S.optional(__S(4, __c1, 0)),
+          timeBasedResources: S.optional(__S(2, __c1, 0)),
+          oneTimeResources: S.optional(__S(2, __c1, 0)),
         }),
       ).annotate({ identifier: "CheckAccessTypeResponse" });
   }
@@ -388,7 +377,7 @@ function __c5(j: number): any {
           startTime: S.optional(S.String),
           name: S.optional(S.String),
           exportTime: S.optional(S.String),
-          urls: S.optional(__S(4, __c1, 0)),
+          urls: S.optional(__S(2, __c1, 0)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "PortabilityArchiveState" });
@@ -399,7 +388,7 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -416,7 +405,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(6, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

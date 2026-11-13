@@ -204,6 +204,30 @@ export interface GoogleCloudRecommendationengineV1beta1ProductCatalogItem {
     | (string & {})
     | undefined;
 }
+export interface CreateProjectsLocationsCatalogsCatalogItemsRequest {
+  /** Required. The parent catalog resource name, such as `projects/*\/locations/global/catalogs/default_catalog`. */
+  parent: string;
+  /** Optional. Catalog item description. UTF-8 encoded string with a length limit of 5 KiB. */
+  description?: string | undefined;
+  /** Required. Catalog item identifier. UTF-8 encoded string with a length limit of 128 bytes. This id must be unique among all catalog items within the same catalog. It should also be used when logging user events in order for the user events to be joined with the Catalog. */
+  id?: string | undefined;
+  /** Required. Catalog item categories. This field is repeated for supporting one catalog item belonging to several parallel category hierarchies. For example, if a shoes product belongs to both ["Shoes & Accessories" -> "Shoes"] and ["Sports & Fitness" -> "Athletic Clothing" -> "Shoes"], it could be represented as: "categoryHierarchies": [ { "categories": ["Shoes & Accessories", "Shoes"]}, { "categories": ["Sports & Fitness", "Athletic Clothing", "Shoes"] } ] */
+  categoryHierarchies?:
+    | GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierarchyList
+    | undefined;
+  /** Optional. Filtering tags associated with the catalog item. Each tag should be a UTF-8 encoded string with a length limit of 1 KiB. This tag can be used for filtering recommendation results by passing the tag as part of the predict request filter. */
+  tags?: StringList | undefined;
+  /** Optional. Deprecated. The model automatically detects the text language. Your catalog can include text in different languages, but duplicating catalog items to provide text in multiple languages can result in degraded model performance. */
+  languageCode?: string | undefined;
+  /** Required. Catalog item title. UTF-8 encoded string with a length limit of 1 KiB. */
+  title?: string | undefined;
+  /** Optional. Highly encouraged. Extra catalog item attributes to be included in the recommendation model. For example, for retail products, this could include the store name, vendor, style, color, etc. These are very strong signals for recommendation model, thus we highly recommend providing the item attributes here. */
+  itemAttributes?: GoogleCloudRecommendationengineV1beta1FeatureMap | undefined;
+  /** Optional. Metadata specific to retail products. */
+  productMetadata?: GoogleCloudRecommendationengineV1beta1ProductCatalogItem | undefined;
+  /** Optional. Variant group identifier for prediction results. UTF-8 encoded string with a length limit of 128 bytes. This field must be enabled before it can be used. [Learn more](/recommendations-ai/docs/catalog#item-group-id). */
+  itemGroupId?: string | undefined;
+}
 /** CatalogItem captures all metadata information of items to be recommended. */
 export interface GoogleCloudRecommendationengineV1beta1CatalogItem {
   /** Optional. Catalog item description. UTF-8 encoded string with a length limit of 5 KiB. */
@@ -227,30 +251,17 @@ export interface GoogleCloudRecommendationengineV1beta1CatalogItem {
   /** Optional. Variant group identifier for prediction results. UTF-8 encoded string with a length limit of 128 bytes. This field must be enabled before it can be used. [Learn more](/recommendations-ai/docs/catalog#item-group-id). */
   itemGroupId?: string | undefined;
 }
-export interface CreateProjectsLocationsCatalogsCatalogItemsRequest {
-  /** Required. The parent catalog resource name, such as `projects/*\/locations/global/catalogs/default_catalog`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1CatalogItem | undefined;
-}
 /** Registered Api Key. */
 export interface GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration {
   /** The API key. */
   apiKey?: string | undefined;
 }
-/** Request message for the `CreatePredictionApiKeyRegistration` method. */
-export interface GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest {
-  /** Required. The prediction API key registration. */
-  predictionApiKeyRegistration?:
-    | GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration
-    | undefined;
-}
 export interface CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest {
   /** Required. The parent resource path. `projects/*\/locations/global/catalogs/default_catalog/eventStores/default_event_store`. */
   parent: string;
-  /** Request body */
-  body?:
-    | GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest
+  /** Required. The prediction API key registration. */
+  predictionApiKeyRegistration?:
+    | GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration
     | undefined;
 }
 export interface DeleteProjectsLocationsCatalogsCatalogItemsRequest {
@@ -458,8 +469,9 @@ export interface GoogleCloudRecommendationengineV1beta1ImportErrorsConfig {
   /** Google Cloud Storage path for import errors. This must be an empty, existing Cloud Storage bucket. Import errors will be written to a file in this bucket, one per line, as a JSON-encoded `google.rpc.Status` message. */
   gcsPrefix?: string | undefined;
 }
-/** Request message for Import methods. */
-export interface GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest {
+export interface ImportProjectsLocationsCatalogsCatalogItemsRequest {
+  /** Required. `projects/1234/locations/global/catalogs/default_catalog` If no updateMask is specified, requires catalogItems.create permission. If updateMask is specified, requires catalogItems.update permission. */
+  parent: string;
   /** Optional. Indicates which fields in the provided imported 'items' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
   /** Required. The desired input location of the data. */
@@ -469,26 +481,15 @@ export interface GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest
   /** Optional. Unique identifier provided by client, within the ancestor dataset scope. Ensures idempotency and used for request deduplication. Server-generated if unspecified. Up to 128 characters long. This is returned as google.longrunning.Operation.name in the response. */
   requestId?: string | undefined;
 }
-export interface ImportProjectsLocationsCatalogsCatalogItemsRequest {
-  /** Required. `projects/1234/locations/global/catalogs/default_catalog` If no updateMask is specified, requires catalogItems.create permission. If updateMask is specified, requires catalogItems.update permission. */
+export interface ImportProjectsLocationsCatalogsEventStoresUserEventsRequest {
+  /** Required. `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest | undefined;
-}
-/** Request message for the ImportUserEvents request. */
-export interface GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest {
   /** Optional. Unique identifier provided by client, within the ancestor dataset scope. Ensures idempotency for expensive long running operations. Server-generated if unspecified. Up to 128 characters long. This is returned as google.longrunning.Operation.name in the response. Note that this field must not be set if the desired input config is catalog_inline_source. */
   requestId?: string | undefined;
   /** Required. The desired input location of the data. */
   inputConfig?: GoogleCloudRecommendationengineV1beta1InputConfig | undefined;
   /** Optional. The desired location of errors incurred during the Import. */
   errorsConfig?: GoogleCloudRecommendationengineV1beta1ImportErrorsConfig | undefined;
-}
-export interface ImportProjectsLocationsCatalogsEventStoresUserEventsRequest {
-  /** Required. `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest | undefined;
 }
 export interface ListProjectsLocationsCatalogsRequest {
   /** Required. The account resource name with an associated location. */
@@ -631,20 +632,42 @@ export interface PatchProjectsLocationsCatalogsRequest {
   updateMask?: string | undefined;
   /** The fully qualified resource name of the catalog. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1Catalog | undefined;
+  /** Required. The catalog item level configuration. */
+  catalogItemLevelConfig?: GoogleCloudRecommendationengineV1beta1CatalogItemLevelConfig | undefined;
+  /** Required. The catalog display name. */
+  displayName?: string | undefined;
+  /** Required. The ID of the default event store. */
+  defaultEventStoreId?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsCatalogItemsRequest {
   /** Optional. Indicates which fields in the provided 'item' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
   /** Required. Full resource name of catalog item, such as `projects/*\/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1CatalogItem | undefined;
+  /** Optional. Catalog item description. UTF-8 encoded string with a length limit of 5 KiB. */
+  description?: string | undefined;
+  /** Required. Catalog item identifier. UTF-8 encoded string with a length limit of 128 bytes. This id must be unique among all catalog items within the same catalog. It should also be used when logging user events in order for the user events to be joined with the Catalog. */
+  id?: string | undefined;
+  /** Required. Catalog item categories. This field is repeated for supporting one catalog item belonging to several parallel category hierarchies. For example, if a shoes product belongs to both ["Shoes & Accessories" -> "Shoes"] and ["Sports & Fitness" -> "Athletic Clothing" -> "Shoes"], it could be represented as: "categoryHierarchies": [ { "categories": ["Shoes & Accessories", "Shoes"]}, { "categories": ["Sports & Fitness", "Athletic Clothing", "Shoes"] } ] */
+  categoryHierarchies?:
+    | GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierarchyList
+    | undefined;
+  /** Optional. Filtering tags associated with the catalog item. Each tag should be a UTF-8 encoded string with a length limit of 1 KiB. This tag can be used for filtering recommendation results by passing the tag as part of the predict request filter. */
+  tags?: StringList | undefined;
+  /** Optional. Deprecated. The model automatically detects the text language. Your catalog can include text in different languages, but duplicating catalog items to provide text in multiple languages can result in degraded model performance. */
+  languageCode?: string | undefined;
+  /** Required. Catalog item title. UTF-8 encoded string with a length limit of 1 KiB. */
+  title?: string | undefined;
+  /** Optional. Highly encouraged. Extra catalog item attributes to be included in the recommendation model. For example, for retail products, this could include the store name, vendor, style, color, etc. These are very strong signals for recommendation model, thus we highly recommend providing the item attributes here. */
+  itemAttributes?: GoogleCloudRecommendationengineV1beta1FeatureMap | undefined;
+  /** Optional. Metadata specific to retail products. */
+  productMetadata?: GoogleCloudRecommendationengineV1beta1ProductCatalogItem | undefined;
+  /** Optional. Variant group identifier for prediction results. UTF-8 encoded string with a length limit of 128 bytes. This field must be enabled before it can be used. [Learn more](/recommendations-ai/docs/catalog#item-group-id). */
+  itemGroupId?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** Request message for Predict method. Full resource name of the format: `{name=projects/*\/locations/global/catalogs/default_catalog/eventStores/default_event_store/placements/*}` The id of the recommendation engine placement. This id is used to identify the set of models that will be used to make the prediction. We currently support three placements with the following IDs by default: // * `shopping_cart`: Predicts items frequently bought together with one or more catalog items in the same shopping session. Commonly displayed after `add-to-cart` event, on product detail pages, or on the shopping cart page. * `home_page`: Predicts the next product that a user will most likely engage with or purchase based on the shopping or viewing history of the specified `userId` or `visitorId`. For example - Recommendations for you. * `product_detail`: Predicts the next product that a user will most likely engage with or purchase. The prediction is based on the shopping or viewing history of the specified `userId` or `visitorId` and its relevance to a specified `CatalogItem`. Typically used on product detail pages. For example - More items like this. * `recently_viewed_default`: Returns up to 75 items recently viewed by the specified `userId` or `visitorId`, most recent ones first. Returns nothing if neither of them has viewed any items yet. For example - Recently viewed. The full list of available placements can be seen at https://console.cloud.google.com/recommendation/catalogs/default_catalog/placements */
-export interface GoogleCloudRecommendationengineV1beta1PredictRequest {
+export interface PredictProjectsLocationsCatalogsEventStoresPlacementsRequest {
+  name: string;
   /** Optional. Filter for restricting prediction results. Accepts values for tags and the `filterOutOfStockItems` flag. * Tag expressions. Restricts predictions to items that match all of the specified tags. Boolean operators `OR` and `NOT` are supported if the expression is enclosed in parentheses, and must be separated from the tag values by a space. `-"tagA"` is also supported and is equivalent to `NOT "tagA"`. Tag values must be double quoted UTF-8 encoded strings with a size limit of 1 KiB. * filterOutOfStockItems. Restricts predictions to items that do not have a stockState value of OUT_OF_STOCK. Examples: * tag=("Red" OR "Blue") tag="New-Arrival" tag=(NOT "promotional") * filterOutOfStockItems tag=(-"promotional") * filterOutOfStockItems If your filter blocks all prediction results, nothing will be returned. If you want generic (unfiltered) popular items to be returned instead, set `strictFiltering` to false in `PredictRequest.params`. */
   filter?: string | undefined;
   /** Optional. Use dryRun mode for this prediction query. If set to true, a fake model will be used that returns arbitrary catalog items. Note that the dryRun mode should only be used for testing the API, or if the model is not ready. */
@@ -659,11 +682,6 @@ export interface GoogleCloudRecommendationengineV1beta1PredictRequest {
   pageToken?: string | undefined;
   /** Optional. Additional domain specific parameters for the predictions. Allowed values: * `returnCatalogItem`: Boolean. If set to true, the associated catalogItem object will be returned in the `PredictResponse.PredictionResult.itemMetadata` object in the method response. * `returnItemScore`: Boolean. If set to true, the prediction 'score' corresponding to each returned item will be set in the `metadata` field in the prediction response. The given 'score' indicates the probability of an item being clicked/purchased given the user's context and history. * `strictFiltering`: Boolean. True by default. If set to false, the service will return generic (unfiltered) popular items instead of empty if your filter blocks all prediction results. * `priceRerankLevel`: String. Default empty. If set to be non-empty, then it needs to be one of {'no-price-reranking', 'low-price-reranking', 'medium-price-reranking', 'high-price-reranking'}. This gives request level control and adjust prediction results based on product price. * `diversityLevel`: String. Default empty. If set to be non-empty, then it needs to be one of {'no-diversity', 'low-diversity', 'medium-diversity', 'high-diversity', 'auto-diversity'}. This gives request level control and adjust prediction results based on product category. */
   params?: DocumentMap | undefined;
-}
-export interface PredictProjectsLocationsCatalogsEventStoresPlacementsRequest {
-  name: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1PredictRequest | undefined;
 }
 /** PredictionResult represents the recommendation prediction results. */
 export interface GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResult {
@@ -689,42 +707,45 @@ export interface GoogleCloudRecommendationengineV1beta1PredictResponse {
   /** A list of recommended items. The order represents the ranking (from the most relevant item to the least). */
   results?: GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResultList | undefined;
 }
-/** Request message for PurgeUserEvents method. */
-export interface GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest {
+export interface PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest {
+  /** Required. The resource name of the event_store under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/eventStores/${eventStoreId}` */
+  parent: string;
   /** Required. The filter string to specify the events to be deleted. Empty string filter is not allowed. The eligible fields for filtering are: * `eventType`: UserEvent.eventType field of type string. * `eventTime`: in ISO 8601 "zulu" format. * `visitorId`: field of type string. Specifying this will delete all events associated with a visitor. * `userId`: field of type string. Specifying this will delete all events associated with a user. Examples: * Deleting all events in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z"` * Deleting specific eventType in time range: `eventTime > "2012-04-23T18:25:43.511Z" eventType = "detail-page-view"` * Deleting all events for a specific visitor: `visitorId = "visitor1024"` The filtering fields are assumed to have an implicit AND. */
   filter?: string | undefined;
   /** Optional. The default value is false. Override this flag to true to actually perform the purge. If the field is not set to true, a sampling of events to be deleted will be returned. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest {
-  /** Required. The resource name of the event_store under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/eventStores/${eventStoreId}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest | undefined;
-}
 export type GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequestUserEventRejoinScopeEnum =
   | "USER_EVENT_REJOIN_SCOPE_UNSPECIFIED"
   | "JOINED_EVENTS"
   | "UNJOINED_EVENTS";
-/** Request message for CatalogRejoin method. */
-export interface GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest {
+export interface RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest {
+  /** Required. Full resource name of user event, such as `projects/*\/locations/*\/catalogs/default_catalog/eventStores/default_event_store`. */
+  parent: string;
   /** Required. The type of the catalog rejoin to define the scope and range of the user events to be rejoined with catalog items. */
   userEventRejoinScope?:
     | GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequestUserEventRejoinScopeEnum
     | (string & {})
     | undefined;
 }
-export interface RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest {
-  /** Required. Full resource name of user event, such as `projects/*\/locations/*\/catalogs/default_catalog/eventStores/default_event_store`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest | undefined;
-}
 export interface WriteProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Required. The parent eventStore resource name, such as "projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store". */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudRecommendationengineV1beta1UserEvent | undefined;
+  /** Optional. This field should *not* be set when using JavaScript pixel or the Recommendations AI Tag. Defaults to `EVENT_SOURCE_UNSPECIFIED`. */
+  eventSource?:
+    | GoogleCloudRecommendationengineV1beta1UserEventEventSourceEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Only required for ImportUserEvents method. Timestamp of user event created. */
+  eventTime?: string | undefined;
+  /** Optional. Retail product specific user event metadata. This field is required for the following event types: * `add-to-cart` * `add-to-list` * `category-page-view` * `checkout-start` * `detail-page-view` * `purchase-complete` * `refund` * `remove-from-cart` * `remove-from-list` * `search` This field is optional for the following event types: * `page-visit` * `shopping-cart-page-view` - note that 'product_event_detail' should be set for this unless the shopping cart is empty. This field is not allowed for the following event types: * `home-page-view` */
+  productEventDetail?: GoogleCloudRecommendationengineV1beta1ProductEventDetail | undefined;
+  /** Optional. User event detailed information common across different recommendation types. */
+  eventDetail?: GoogleCloudRecommendationengineV1beta1EventDetail | undefined;
+  /** Required. User information. */
+  userInfo?: GoogleCloudRecommendationengineV1beta1UserInfo | undefined;
+  /** Required. User event type. Allowed values are: * `add-to-cart` Products being added to cart. * `add-to-list` Items being added to a list (shopping list, favorites etc). * `category-page-view` Special pages such as sale or promotion pages viewed. * `checkout-start` User starting a checkout process. * `detail-page-view` Products detail page viewed. * `home-page-view` Homepage viewed. * `page-visit` Generic page visits not included in the event types above. * `purchase-complete` User finishing a purchase. * `refund` Purchased items being refunded or returned. * `remove-from-cart` Products being removed from cart. * `remove-from-list` Items being removed from a list. * `search` Product search. * `shopping-cart-page-view` User viewing a shopping cart. * `impression` List of items displayed. Used by Google Tag Manager. */
+  eventType?: string | undefined;
 }
 export type CollectProjectsLocationsCatalogsEventStoresUserEventsError =
   | NotFound
@@ -789,9 +810,9 @@ export const createProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    497,
+    496,
     __c31,
-    1,
+    0,
   ) as any as S.Schema<CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest>,
   output: __S(
     512,
@@ -936,7 +957,7 @@ export const importProjectsLocationsCatalogsCatalogItems: API.OperationMethod<
   ImportProjectsLocationsCatalogsCatalogItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c4, 1) as any as S.Schema<ImportProjectsLocationsCatalogsCatalogItemsRequest>,
+  input: __S(64, __c4, 0) as any as S.Schema<ImportProjectsLocationsCatalogsCatalogItemsRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -960,9 +981,9 @@ export const importProjectsLocationsCatalogsEventStoresUserEvents: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    145,
+    144,
     __c9,
-    1,
+    0,
   ) as any as S.Schema<ImportProjectsLocationsCatalogsEventStoresUserEventsRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
@@ -1199,14 +1220,14 @@ export const predictProjectsLocationsCatalogsEventStoresPlacements: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    322,
+    321,
     __c20,
-    2,
+    1,
   ) as any as S.Schema<PredictProjectsLocationsCatalogsEventStoresPlacementsRequest>,
   output: __S(
-    325,
+    324,
     __c20,
-    5,
+    4,
   ) as any as S.Schema<GoogleCloudRecommendationengineV1beta1PredictResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1230,9 +1251,9 @@ export const purgeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    337,
+    336,
     __c21,
-    1,
+    0,
   ) as any as S.Schema<PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
@@ -1257,9 +1278,9 @@ export const rejoinProjectsLocationsCatalogsEventStoresUserEvents: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    353,
+    352,
     __c22,
-    1,
+    0,
   ) as any as S.Schema<RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
@@ -1372,17 +1393,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           inputConfig: S.optional(__S(84, __c5, 4)),
           errorsConfig: S.optional(__S(85, __c5, 5)),
           requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1ImportCatalogItemsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1530,16 +1545,10 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           inputConfig: S.optional(__S(84, __c5, 4)),
           errorsConfig: S.optional(__S(85, __c5, 5)),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1742,7 +1751,9 @@ function __c18(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(177, __c11, 1).pipe(T.HttpBody())),
+          catalogItemLevelConfig: S.optional(__S(176, __c11, 0)),
+          displayName: S.optional(S.String),
+          defaultEventStoreId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1760,7 +1771,15 @@ function __c19(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(485, __c30, 5).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          id: S.optional(S.String),
+          categoryHierarchies: S.optional(__S(465, __c29, 1)),
+          tags: S.optional(__S(448, __c28, 0)),
+          languageCode: S.optional(S.String),
+          title: S.optional(S.String),
+          itemAttributes: S.optional(__S(471, __c29, 7)),
+          productMetadata: S.optional(__S(484, __c30, 4)),
+          itemGroupId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1778,6 +1797,7 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
           userEvent: S.optional(__S(134, __c8, 6)),
@@ -1785,13 +1805,6 @@ function __c20(j: number): any {
           pageSize: S.optional(S.Number),
           pageToken: S.optional(S.String),
           params: S.optional(__S(400, __c25, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1PredictRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c20, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1800,7 +1813,7 @@ function __c20(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PredictProjectsLocationsCatalogsEventStoresPlacementsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -1809,9 +1822,9 @@ function __c20(j: number): any {
       ).annotate({
         identifier: "GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResult",
       });
+    case 3:
+      return S.Array(__S(322, __c20, 2));
     case 4:
-      return S.Array(__S(323, __c20, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
@@ -1819,7 +1832,7 @@ function __c20(j: number): any {
           itemsMissingInCatalog: S.optional(__S(448, __c28, 0)),
           recommendationToken: S.optional(S.String),
           metadata: S.optional(__S(400, __c25, 0)),
-          results: S.optional(__S(324, __c20, 4)),
+          results: S.optional(__S(323, __c20, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1PredictResponse" });
   }
@@ -1829,15 +1842,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String),
           force: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1853,14 +1860,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userEventRejoinScope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
+          userEventRejoinScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1877,7 +1878,12 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(134, __c8, 6).pipe(T.HttpBody())),
+          eventSource: S.optional(S.String),
+          eventTime: S.optional(S.String),
+          productEventDetail: S.optional(__S(131, __c8, 3)),
+          eventDetail: S.optional(__S(132, __c8, 4)),
+          userInfo: S.optional(__S(133, __c8, 5)),
+          eventType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1933,7 +1939,15 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(485, __c30, 5).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          id: S.optional(S.String),
+          categoryHierarchies: S.optional(__S(465, __c29, 1)),
+          tags: S.optional(__S(448, __c28, 0)),
+          languageCode: S.optional(S.String),
+          title: S.optional(S.String),
+          itemAttributes: S.optional(__S(471, __c29, 7)),
+          productMetadata: S.optional(__S(484, __c30, 4)),
+          itemGroupId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2055,17 +2069,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          predictionApiKeyRegistration: S.optional(__S(512, __c32, 0)),
-        }),
-      ).annotate({
-        identifier:
-          "GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
+          predictionApiKeyRegistration: S.optional(__S(512, __c32, 0)),
         }).pipe(
           T.Http({
             method: "POST",

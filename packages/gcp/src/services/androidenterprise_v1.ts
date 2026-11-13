@@ -113,19 +113,15 @@ export interface ApprovalUrlInfo {
   /** A URL that displays a product's permissions and that can also be used to approve the product with the Products.approve call. */
   approvalUrl?: string | undefined;
 }
-export interface ProductsApproveRequest {
-  /** Sets how new permission requests for the product are handled. "allPermissions" automatically approves all current and future permissions for the product. "currentPermissionsOnly" approves the current set of permissions for the product, but any future permissions added through updates will require manual reapproval. If not specified, only the current set of permissions will be approved. */
-  approvedPermissions?: ProductsApproveRequestApprovedPermissionsEnum | (string & {}) | undefined;
-  /** The approval URL that was shown to the user. Only the permissions shown to the user with that URL will be accepted, which may not be the product's entire set of permissions. For example, the URL may only display new permissions from an update after the product was approved, or not include new permissions if the product was updated since the URL was generated. */
-  approvalUrlInfo?: ApprovalUrlInfo | undefined;
-}
 export interface ApproveProductsRequest {
   /** The ID of the product. */
   productId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ProductsApproveRequest | undefined;
+  /** Sets how new permission requests for the product are handled. "allPermissions" automatically approves all current and future permissions for the product. "currentPermissionsOnly" approves the current set of permissions for the product, but any future permissions added through updates will require manual reapproval. If not specified, only the current set of permissions will be approved. */
+  approvedPermissions?: ProductsApproveRequestApprovedPermissionsEnum | (string & {}) | undefined;
+  /** The approval URL that was shown to the user. Only the permissions shown to the user with that URL will be accepted, which may not be the product's entire set of permissions. For example, the URL may only display new permissions from an update after the product was approved, or not include new permissions if the product was updated since the URL was generated. */
+  approvalUrlInfo?: ApprovalUrlInfo | undefined;
 }
 export interface ApproveProductsResponse {}
 export interface CompleteSignupEnterprisesRequest {
@@ -167,11 +163,11 @@ export interface Enterprise {
   /** The name of the enterprise, for example, "Example, Inc". */
   name?: string | undefined;
   /** The type of the enterprise. */
-  enterpriseType?: EnterpriseEnterpriseTypeEnum | (string & {}) | undefined;
+  enterpriseType?: EnterpriseEnterpriseTypeEnum | undefined;
   /** The enterprise's primary domain, such as "example.com". */
   primaryDomain?: string | undefined;
   /** The type of managed Google domain */
-  managedGoogleDomainType?: EnterpriseManagedGoogleDomainTypeEnum | (string & {}) | undefined;
+  managedGoogleDomainType?: EnterpriseManagedGoogleDomainTypeEnum | undefined;
   /** The unique ID for the enterprise. */
   id?: string | undefined;
   /** Admins of the enterprise. This is only supported for enterprises created via the EMM-initiated flow. */
@@ -195,8 +191,9 @@ export type EnrollmentTokenEnrollmentTokenTypeEnum =
   | "enrollmentTokenTypeUnspecified"
   | "userlessDevice"
   | "userDevice";
-/** A token used to enroll a device. */
-export interface EnrollmentToken {
+export interface CreateEnrollmentTokensRequest {
+  /** Required. The ID of the enterprise. */
+  enterpriseId: string;
   /** [Optional] Provides options related to Google authentication during the enrollment. */
   googleAuthenticationOptions?: EnrollmentTokenGoogleAuthenticationOptions | undefined;
   /** [Optional] The length of time the enrollment token is valid, ranging from 1 minute to [`Durations.MAX_VALUE`](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/util/Durations.html#MAX_VALUE), approximately 10,000 years. If not specified, the default duration is 1 hour. In the JSON REST API, this is represented as a string (e.g., `3600s`). */
@@ -206,11 +203,16 @@ export interface EnrollmentToken {
   /** [Required] The type of the enrollment token. */
   enrollmentTokenType?: EnrollmentTokenEnrollmentTokenTypeEnum | (string & {}) | undefined;
 }
-export interface CreateEnrollmentTokensRequest {
-  /** Required. The ID of the enterprise. */
-  enterpriseId: string;
-  /** Request body */
-  body?: EnrollmentToken | undefined;
+/** A token used to enroll a device. */
+export interface EnrollmentToken {
+  /** [Optional] Provides options related to Google authentication during the enrollment. */
+  googleAuthenticationOptions?: EnrollmentTokenGoogleAuthenticationOptions | undefined;
+  /** [Optional] The length of time the enrollment token is valid, ranging from 1 minute to [`Durations.MAX_VALUE`](https://developers.google.com/protocol-buffers/docs/reference/java/com/google/protobuf/util/Durations.html#MAX_VALUE), approximately 10,000 years. If not specified, the default duration is 1 hour. In the JSON REST API, this is represented as a string (e.g., `3600s`). */
+  duration?: string | undefined;
+  /** The token value that's passed to the device and authorizes the device to enroll. This is a read-only field generated by the server. */
+  token?: string | undefined;
+  /** [Required] The type of the enrollment token. */
+  enrollmentTokenType?: EnrollmentTokenEnrollmentTokenTypeEnum | undefined;
 }
 export interface AdministratorWebTokenSpecPrivateApps {
   /** Whether the Private Apps page is displayed. Default is true. */
@@ -242,8 +244,9 @@ export interface AdministratorWebTokenSpecManagedConfigurations {
   /** Whether the Managed Configuration page is displayed. Default is true. */
   enabled?: boolean | undefined;
 }
-/** Specification for a token used to generate iframes. The token specifies what data the admin is allowed to modify and the URI the iframe is allowed to communiate with. */
-export interface AdministratorWebTokenSpec {
+export interface CreateWebTokenEnterprisesRequest {
+  /** The ID of the enterprise. */
+  enterpriseId: string;
   /** Options for displaying the Private Apps page. */
   privateApps?: AdministratorWebTokenSpecPrivateApps | undefined;
   /** The URI of the parent frame hosting the iframe. To prevent XSS, the iframe may not be hosted at other URIs. This URI must be https. Use whitespaces to separate multiple parent URIs. */
@@ -260,12 +263,6 @@ export interface AdministratorWebTokenSpec {
   permission?: AdministratorWebTokenSpecPermissionItemEnumList | undefined;
   /** Options for displaying the Managed Configuration page. */
   managedConfigurations?: AdministratorWebTokenSpecManagedConfigurations | undefined;
-}
-export interface CreateWebTokenEnterprisesRequest {
-  /** The ID of the enterprise. */
-  enterpriseId: string;
-  /** Request body */
-  body?: AdministratorWebTokenSpec | undefined;
 }
 /** A token authorizing an admin to access an iframe. */
 export interface AdministratorWebToken {
@@ -352,8 +349,20 @@ export interface DeleteWebappsResponse {}
 export interface EnrollEnterprisesRequest {
   /** Required. The token provided by the enterprise to register the EMM. */
   token: string;
-  /** Request body */
-  body?: Enterprise | undefined;
+  /** Output only. Settings for Google-provided user authentication. */
+  googleAuthenticationSettings?: GoogleAuthenticationSettings | undefined;
+  /** The name of the enterprise, for example, "Example, Inc". */
+  name?: string | undefined;
+  /** The type of the enterprise. */
+  enterpriseType?: EnterpriseEnterpriseTypeEnum | (string & {}) | undefined;
+  /** The enterprise's primary domain, such as "example.com". */
+  primaryDomain?: string | undefined;
+  /** The type of managed Google domain */
+  managedGoogleDomainType?: EnterpriseManagedGoogleDomainTypeEnum | (string & {}) | undefined;
+  /** The unique ID for the enterprise. */
+  id?: string | undefined;
+  /** Admins of the enterprise. This is only supported for enterprises created via the EMM-initiated flow. */
+  administrator?: AdministratorList | undefined;
 }
 export interface ForceReportUploadDevicesRequest {
   /** The ID of the user. */
@@ -520,7 +529,7 @@ export interface ProductSet {
   /** The list of product IDs making up the set of products. */
   productId?: StringList | undefined;
   /** The interpretation of this product set. "unknown" should never be sent and is ignored if received. "whitelist" means that the user is entitled to access the product set. "includeAll" means that all products are accessible, including products that are approved, products with revoked approval, and products that have never been approved. "allApproved" means that the user is entitled to access all products that are approved for the enterprise. If the value is "allApproved" or "includeAll", the productId field is ignored. If no value is provided, it is interpreted as "whitelist" for backwards compatibility. Further "allApproved" or "includeAll" does not enable automatic visibility of "alpha" or "beta" tracks for Android app. Use ProductVisibility to enable "alpha" or "beta" tracks per user. */
-  productSetBehavior?: ProductSetProductSetBehaviorEnum | (string & {}) | undefined;
+  productSetBehavior?: ProductSetProductSetBehaviorEnum | undefined;
 }
 export interface GetDevicesRequest {
   /** The ID of the user. */
@@ -740,7 +749,7 @@ export interface Device {
   /** The internal hardware codename of the device. This comes from android.os.Build.DEVICE. (field named "device" per logs/wireless/android/android_checkin.proto) */
   device?: string | undefined;
   /** Identifies the extent to which the device is controlled by a managed Google Play EMM in various deployment configurations. Possible values include: - "managedDevice", a device that has the EMM's device policy controller (DPC) as the device owner. - "managedProfile", a device that has a profile managed by the DPC (DPC is profile owner) in addition to a separate, personal profile that is unavailable to the DPC. - "containerApp", no longer used (deprecated). - "unmanagedProfile", a device that has been allowed (by the domain's admin, using the Admin Console to enable the privilege) to use managed Google Play, but the profile is itself not owned by a DPC. */
-  managementType?: DeviceManagementTypeEnum | (string & {}) | undefined;
+  managementType?: DeviceManagementTypeEnum | undefined;
   /** The Google Play Services Android ID for the device encoded as a lowercase hex string. For example, "123456789abcdef0". */
   androidId?: string | undefined;
   /** The product name of the device. This comes from android.os.Build.PRODUCT. */
@@ -770,7 +779,7 @@ export type EntitlementReasonEnum = "free" | "groupLicense" | "userPurchase";
 /** *Deprecated:* New integrations cannot use this method and can refer to our new recommendations. */
 export interface Entitlement {
   /** The reason for the entitlement. For example, "free" for free apps. This property is temporary: it will be replaced by the acquisition kind field of group licenses. */
-  reason?: EntitlementReasonEnum | (string & {}) | undefined;
+  reason?: EntitlementReasonEnum | undefined;
   /** The ID of the product that the entitlement is for. For example, "app:com.google.android.gm". */
   productId?: string | undefined;
 }
@@ -815,7 +824,7 @@ export type InstallInstallStateEnum = "installed" | "installPending";
 /** The existence of an Installs resource indicates that an app is installed on a particular device (or that an install is pending). The API can be used to create an install resource using the update method. This triggers the actual install of the app on the device. If the user does not already have an entitlement for the app, then an attempt is made to create one. If this fails (for example, because the app is not free and there is no available license), then the creation of the install fails. The API can also be used to update an installed app. If the update method is used on an existing install, then the app will be updated to the latest available version. Note that it is not possible to force the installation of a specific version of an app: the version code is read-only. If a user installs an app themselves (as permitted by the enterprise), then again an install resource and possibly an entitlement resource are automatically created. The API can also be used to delete an install resource, which triggers the removal of the app from the device. Note that deleting an install does not automatically remove the corresponding entitlement, even if there are no remaining installs. The install resource will also be deleted if the user uninstalls the app themselves. */
 export interface Install {
   /** Install state. The state "installPending" means that an install request has recently been made and download to the device is in progress. The state "installed" means that the app has been installed. This field is read-only. */
-  installState?: InstallInstallStateEnum | (string & {}) | undefined;
+  installState?: InstallInstallStateEnum | undefined;
   /** The version of the installed product. Guaranteed to be set only if the install state is "installed". */
   versionCode?: number | undefined;
   /** The ID of the product that the install is for. For example, "app:com.google.android.gm". */
@@ -995,7 +1004,7 @@ export type ServiceAccountKeyTypeEnum = "googleCredentials" | "pkcs12";
 /** *Deprecated:* New integrations cannot use this method and can refer to our new recommendations */
 export interface ServiceAccountKey {
   /** The file format of the generated key data. */
-  type?: ServiceAccountKeyTypeEnum | (string & {}) | undefined;
+  type?: ServiceAccountKeyTypeEnum | undefined;
   /** Public key data for the credentials file. This is an X.509 cert. If you are using the googleCredentials key type, this is identical to the cert that can be retrieved by using the X.509 cert url inside of the credentials file. */
   publicData?: string | undefined;
   /** The body of the private key credentials file, in string format. This is only populated when the ServiceAccountKey is created, and is not stored by Google. When type is "pkcs12", the contents of the data field is base64 encoded and has the password "notasecret". */
@@ -1022,7 +1031,7 @@ export type DeviceStateAccountStateEnum = "enabled" | "disabled";
 /** The state of a user's device, as accessed by the getState and setState methods on device resources. */
 export interface DeviceState {
   /** The state of the Google account on the device. "enabled" indicates that the Google account on the device can be used to access Google services (including Google Play), while "disabled" means that it cannot. A new device is initially in the "disabled" state. */
-  accountState?: DeviceStateAccountStateEnum | (string & {}) | undefined;
+  accountState?: DeviceStateAccountStateEnum | undefined;
 }
 export interface GetStorelayoutclustersRequest {
   /** The ID of the cluster. */
@@ -1061,7 +1070,7 @@ export interface StoreLayout {
   /** The ID of the store page to be used as the homepage. The homepage is the first page shown in the managed Google Play Store. Not specifying a homepage is equivalent to setting the store layout type to "basic". */
   homepageId?: string | undefined;
   /** The store layout type. By default, this value is set to "basic" if the homepageId field is not set, and to "custom" otherwise. If set to "basic", the layout will consist of all approved apps that have been whitelisted for the user. */
-  storeLayoutType?: StoreLayoutStoreLayoutTypeEnum | (string & {}) | undefined;
+  storeLayoutType?: StoreLayoutStoreLayoutTypeEnum | undefined;
 }
 export interface GetStorelayoutpagesRequest {
   /** The ID of the page. */
@@ -1093,13 +1102,13 @@ export interface User {
   /** A unique identifier you create for this user, such as "user342" or "asset#44418". Do not use personally identifiable information (PII) for this property. Must always be set for EMM-managed users. Not set for Google-managed users. */
   accountIdentifier?: string | undefined;
   /** The type of account that this user represents. A userAccount can be installed on multiple devices, but a deviceAccount is specific to a single device. An EMM-managed user (emmManaged) can be either type (userAccount, deviceAccount), but a Google-managed user (googleManaged) is always a userAccount. */
-  accountType?: UserAccountTypeEnum | (string & {}) | undefined;
+  accountType?: UserAccountTypeEnum | undefined;
   /** The unique ID for the user. */
   id?: string | undefined;
   /** The name that will appear in user interfaces. Setting this property is optional when creating EMM-managed users. If you do set this property, use something generic about the organization (such as "Example, Inc.") or your name (as EMM). Not used for Google-managed user accounts. @mutable androidenterprise.users.update */
   displayName?: string | undefined;
   /** The entity that manages the user. With googleManaged users, the source of truth is Google so EMMs have to make sure a Google Account exists for the user. With emmManaged users, the EMM is in charge. */
-  managementType?: UserManagementTypeEnum | (string & {}) | undefined;
+  managementType?: UserManagementTypeEnum | undefined;
 }
 export interface GetWebappsRequest {
   /** The ID of the enterprise. */
@@ -1125,7 +1134,7 @@ export interface WebApp {
   /** A flag whether the app has been published to the Play store yet. */
   isPublished?: boolean | undefined;
   /** The display mode of the web app. Possible values include: - "minimalUi", the device's status bar, navigation bar, the app's URL, and a refresh button are visible when the app is open. For HTTP URLs, you can only select this option. - "standalone", the device's status bar and navigation bar are visible when the app is open. - "fullScreen", the app opens in full screen mode, hiding the device's status and navigation bars. All browser UI elements, page URL, system status bar and back button are not visible, and the web app takes up the entirety of the available display area. */
-  displayMode?: WebAppDisplayModeEnum | (string & {}) | undefined;
+  displayMode?: WebAppDisplayModeEnum | undefined;
   /** The current version of the app. Note that the version can automatically increase during the lifetime of the web app, while Google does internal housekeeping to keep the web app up-to-date. */
   versionCode?: string | undefined;
   /** A list of icons representing this website. If absent, a default icon (for create) or the current icon (for update) will be used. */
@@ -1138,34 +1147,72 @@ export interface WebApp {
 export interface InsertServiceaccountkeysRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ServiceAccountKey | undefined;
+  /** The file format of the generated key data. */
+  type?: ServiceAccountKeyTypeEnum | (string & {}) | undefined;
+  /** Public key data for the credentials file. This is an X.509 cert. If you are using the googleCredentials key type, this is identical to the cert that can be retrieved by using the X.509 cert url inside of the credentials file. */
+  publicData?: string | undefined;
+  /** The body of the private key credentials file, in string format. This is only populated when the ServiceAccountKey is created, and is not stored by Google. When type is "pkcs12", the contents of the data field is base64 encoded and has the password "notasecret". */
+  data?: string | undefined;
+  /** An opaque, unique identifier for this ServiceAccountKey. Assigned by the server. */
+  id?: string | undefined;
 }
 export interface InsertStorelayoutclustersRequest {
   /** The ID of the page. */
   pageId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StoreCluster | undefined;
+  /** Ordered list of localized strings giving the name of this page. The text displayed is the one that best matches the user locale, or the first entry if there is no good match. There needs to be at least one entry. */
+  name?: LocalizedTextList | undefined;
+  /** String (US-ASCII only) used to determine order of this cluster within the parent page's elements. Page elements are sorted in lexicographic order of this field. Duplicated values are allowed, but ordering between elements with duplicate order is undefined. The value of this field is never visible to a user, it is used solely for the purpose of defining an ordering. Maximum length is 256 characters. */
+  orderInPage?: string | undefined;
+  /** List of products in the order they are displayed in the cluster. There should not be duplicates within a cluster. */
+  productId?: StringList | undefined;
+  /** Unique ID of this cluster. Assigned by the server. Immutable once assigned. */
+  id?: string | undefined;
 }
 export interface InsertStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StorePage | undefined;
+  /** Ordered list of localized strings giving the name of this page. The text displayed is the one that best matches the user locale, or the first entry if there is no good match. There needs to be at least one entry. */
+  name?: LocalizedTextList | undefined;
+  /** Unique ID of this page. Assigned by the server. Immutable once assigned. */
+  id?: string | undefined;
+  /** Ordered list of pages a user should be able to reach from this page. The list can't include this page. It is recommended that the basic pages are created first, before adding the links between pages. The API doesn't verify that the pages exist or the pages are reachable. */
+  link?: StringList | undefined;
 }
 export interface InsertUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: User | undefined;
+  /** The user's primary email address, for example, "jsmith@example.com". Will always be set for Google managed users and not set for EMM managed users. */
+  primaryEmail?: string | undefined;
+  /** A unique identifier you create for this user, such as "user342" or "asset#44418". Do not use personally identifiable information (PII) for this property. Must always be set for EMM-managed users. Not set for Google-managed users. */
+  accountIdentifier?: string | undefined;
+  /** The type of account that this user represents. A userAccount can be installed on multiple devices, but a deviceAccount is specific to a single device. An EMM-managed user (emmManaged) can be either type (userAccount, deviceAccount), but a Google-managed user (googleManaged) is always a userAccount. */
+  accountType?: UserAccountTypeEnum | (string & {}) | undefined;
+  /** The unique ID for the user. */
+  id?: string | undefined;
+  /** The name that will appear in user interfaces. Setting this property is optional when creating EMM-managed users. If you do set this property, use something generic about the organization (such as "Example, Inc.") or your name (as EMM). Not used for Google-managed user accounts. @mutable androidenterprise.users.update */
+  displayName?: string | undefined;
+  /** The entity that manages the user. With googleManaged users, the source of truth is Google so EMMs have to make sure a Google Account exists for the user. With emmManaged users, the EMM is in charge. */
+  managementType?: UserManagementTypeEnum | (string & {}) | undefined;
 }
 export interface InsertWebappsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: WebApp | undefined;
+  /** The title of the web app as displayed to the user (e.g., amongst a list of other applications, or as a label for an icon). */
+  title?: string | undefined;
+  /** A flag whether the app has been published to the Play store yet. */
+  isPublished?: boolean | undefined;
+  /** The display mode of the web app. Possible values include: - "minimalUi", the device's status bar, navigation bar, the app's URL, and a refresh button are visible when the app is open. For HTTP URLs, you can only select this option. - "standalone", the device's status bar and navigation bar are visible when the app is open. - "fullScreen", the app opens in full screen mode, hiding the device's status and navigation bars. All browser UI elements, page URL, system status bar and back button are not visible, and the web app takes up the entirety of the available display area. */
+  displayMode?: WebAppDisplayModeEnum | (string & {}) | undefined;
+  /** The current version of the app. Note that the version can automatically increase during the lifetime of the web app, while Google does internal housekeeping to keep the web app up-to-date. */
+  versionCode?: string | undefined;
+  /** A list of icons representing this website. If absent, a default icon (for create) or the current icon (for update) will be used. */
+  icons?: WebAppIconList | undefined;
+  /** The start URL, i.e. the URL that should load when the user opens the application. */
+  startUrl?: string | undefined;
+  /** The ID of the application. A string of the form "app:<package name>" where the package name always starts with the prefix "com.google.enterprise.webapp." followed by a random id. */
+  webAppId?: string | undefined;
 }
 export interface ListDevicesRequest {
   /** The ID of the user. */
@@ -1513,24 +1560,28 @@ export interface EnterprisesSendTestPushNotificationResponse {
   /** The message ID of the test push notification that was sent. */
   messageId?: string | undefined;
 }
+export interface SetAccountEnterprisesRequest {
+  /** The ID of the enterprise. */
+  enterpriseId: string;
+  /** The email address of the service account. */
+  accountEmail?: string | undefined;
+}
 /** A service account that can be used to authenticate as the enterprise to API calls that require such authentication. */
 export interface EnterpriseAccount {
   /** The email address of the service account. */
   accountEmail?: string | undefined;
-}
-export interface SetAccountEnterprisesRequest {
-  /** The ID of the enterprise. */
-  enterpriseId: string;
-  /** Request body */
-  body?: EnterpriseAccount | undefined;
 }
 export interface SetAvailableProductSetUsersRequest {
   /** The ID of the user. */
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ProductSet | undefined;
+  /** Additional list of product IDs making up the product set. Unlike the productID array, in this list It's possible to specify which tracks (alpha, beta, production) of a product are visible to the user. See ProductVisibility and its fields for more information. Specifying the same product ID both here and in the productId array is not allowed and it will result in an error. */
+  productVisibility?: ProductVisibilityList | undefined;
+  /** The list of product IDs making up the set of products. */
+  productId?: StringList | undefined;
+  /** The interpretation of this product set. "unknown" should never be sent and is ignored if received. "whitelist" means that the user is entitled to access the product set. "includeAll" means that all products are accessible, including products that are approved, products with revoked approval, and products that have never been approved. "allApproved" means that the user is entitled to access all products that are approved for the enterprise. If the value is "allApproved" or "includeAll", the productId field is ignored. If no value is provided, it is interpreted as "whitelist" for backwards compatibility. Further "allApproved" or "includeAll" does not enable automatic visibility of "alpha" or "beta" tracks for Android app. Use ProductVisibility to enable "alpha" or "beta" tracks per user. */
+  productSetBehavior?: ProductSetProductSetBehaviorEnum | (string & {}) | undefined;
 }
 export interface SetStateDevicesRequest {
   /** The ID of the user. */
@@ -1539,14 +1590,16 @@ export interface SetStateDevicesRequest {
   enterpriseId: string;
   /** The ID of the device. */
   deviceId: string;
-  /** Request body */
-  body?: DeviceState | undefined;
+  /** The state of the Google account on the device. "enabled" indicates that the Google account on the device can be used to access Google services (including Google Play), while "disabled" means that it cannot. A new device is initially in the "disabled" state. */
+  accountState?: DeviceStateAccountStateEnum | (string & {}) | undefined;
 }
 export interface SetStoreLayoutEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StoreLayout | undefined;
+  /** The ID of the store page to be used as the homepage. The homepage is the first page shown in the managed Google Play Store. Not specifying a homepage is equivalent to setting the store layout type to "basic". */
+  homepageId?: string | undefined;
+  /** The store layout type. By default, this value is set to "basic" if the homepageId field is not set, and to "custom" otherwise. If set to "basic", the layout will consist of all approved apps that have been whitelisted for the user. */
+  storeLayoutType?: StoreLayoutStoreLayoutTypeEnum | (string & {}) | undefined;
 }
 export interface UnapproveProductsRequest {
   /** The ID of the enterprise. */
@@ -1569,8 +1622,28 @@ export interface UpdateDevicesRequest {
   userId: string;
   /** Mask that identifies which fields to update. If not set, all modifiable fields will be modified. When set in a query parameter, this field should be specified as updateMask=<field1>,<field2>,... */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Device | undefined;
+  /** The build fingerprint of the device if known. */
+  latestBuildFingerprint?: string | undefined;
+  /** The policy enforced on the device. */
+  policy?: Policy | undefined;
+  /** The model name of the device. This comes from android.os.Build.MODEL. */
+  model?: string | undefined;
+  /** The internal hardware codename of the device. This comes from android.os.Build.DEVICE. (field named "device" per logs/wireless/android/android_checkin.proto) */
+  device?: string | undefined;
+  /** Identifies the extent to which the device is controlled by a managed Google Play EMM in various deployment configurations. Possible values include: - "managedDevice", a device that has the EMM's device policy controller (DPC) as the device owner. - "managedProfile", a device that has a profile managed by the DPC (DPC is profile owner) in addition to a separate, personal profile that is unavailable to the DPC. - "containerApp", no longer used (deprecated). - "unmanagedProfile", a device that has been allowed (by the domain's admin, using the Admin Console to enable the privilege) to use managed Google Play, but the profile is itself not owned by a DPC. */
+  managementType?: DeviceManagementTypeEnum | (string & {}) | undefined;
+  /** The Google Play Services Android ID for the device encoded as a lowercase hex string. For example, "123456789abcdef0". */
+  androidId?: string | undefined;
+  /** The product name of the device. This comes from android.os.Build.PRODUCT. */
+  product?: string | undefined;
+  /** The device report updated with the latest app states. */
+  report?: DeviceReport | undefined;
+  /** Retail brand for the device, if set. See android.os.Build.BRAND */
+  retailBrand?: string | undefined;
+  /** The manufacturer of the device. This comes from android.os.Build.MANUFACTURER. */
+  maker?: string | undefined;
+  /** API compatibility version. */
+  sdkVersion?: number | undefined;
 }
 export interface UpdateEntitlementsRequest {
   /** Set to true to also install the product on all the user's devices where possible. Failure to install on one or more devices will not prevent this operation from returning successfully, as long as the entitlement was successfully assigned to the user. */
@@ -1581,8 +1654,10 @@ export interface UpdateEntitlementsRequest {
   enterpriseId: string;
   /** The ID of the user. */
   userId: string;
-  /** Request body */
-  body?: Entitlement | undefined;
+  /** The reason for the entitlement. For example, "free" for free apps. This property is temporary: it will be replaced by the acquisition kind field of group licenses. */
+  reason?: EntitlementReasonEnum | (string & {}) | undefined;
+  /** The ID of the product that the entitlement is for. For example, "app:com.google.android.gm". */
+  productId?: string | undefined;
 }
 export interface UpdateInstallsRequest {
   /** The ID of the user. */
@@ -1593,8 +1668,12 @@ export interface UpdateInstallsRequest {
   deviceId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: Install | undefined;
+  /** Install state. The state "installPending" means that an install request has recently been made and download to the device is in progress. The state "installed" means that the app has been installed. This field is read-only. */
+  installState?: InstallInstallStateEnum | (string & {}) | undefined;
+  /** The version of the installed product. Guaranteed to be set only if the install state is "installed". */
+  versionCode?: number | undefined;
+  /** The ID of the product that the install is for. For example, "app:com.google.android.gm". */
+  productId?: string | undefined;
 }
 export interface UpdateManagedconfigurationsfordeviceRequest {
   /** The ID of the managed configuration (a product ID), e.g. "app:com.google.android.gm". */
@@ -1605,8 +1684,14 @@ export interface UpdateManagedconfigurationsfordeviceRequest {
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ManagedConfiguration | undefined;
+  /** The set of managed properties for this configuration. */
+  managedProperty?: ManagedPropertyList | undefined;
+  /** The ID of the product that the managed configuration is for, e.g. "app:com.google.android.gm". */
+  productId?: string | undefined;
+  /** Contains the ID of the managed configuration profile and the set of configuration variables (if any) defined for the user. */
+  configurationVariables?: ConfigurationVariables | undefined;
+  /** Deprecated. */
+  kind?: string | undefined;
 }
 export interface UpdateManagedconfigurationsforuserRequest {
   /** The ID of the user. */
@@ -1615,8 +1700,14 @@ export interface UpdateManagedconfigurationsforuserRequest {
   managedConfigurationForUserId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: ManagedConfiguration | undefined;
+  /** The set of managed properties for this configuration. */
+  managedProperty?: ManagedPropertyList | undefined;
+  /** The ID of the product that the managed configuration is for, e.g. "app:com.google.android.gm". */
+  productId?: string | undefined;
+  /** Contains the ID of the managed configuration profile and the set of configuration variables (if any) defined for the user. */
+  configurationVariables?: ConfigurationVariables | undefined;
+  /** Deprecated. */
+  kind?: string | undefined;
 }
 export interface UpdateStorelayoutclustersRequest {
   /** The ID of the page. */
@@ -1625,32 +1716,62 @@ export interface UpdateStorelayoutclustersRequest {
   clusterId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: StoreCluster | undefined;
+  /** Ordered list of localized strings giving the name of this page. The text displayed is the one that best matches the user locale, or the first entry if there is no good match. There needs to be at least one entry. */
+  name?: LocalizedTextList | undefined;
+  /** String (US-ASCII only) used to determine order of this cluster within the parent page's elements. Page elements are sorted in lexicographic order of this field. Duplicated values are allowed, but ordering between elements with duplicate order is undefined. The value of this field is never visible to a user, it is used solely for the purpose of defining an ordering. Maximum length is 256 characters. */
+  orderInPage?: string | undefined;
+  /** List of products in the order they are displayed in the cluster. There should not be duplicates within a cluster. */
+  productId?: StringList | undefined;
+  /** Unique ID of this cluster. Assigned by the server. Immutable once assigned. */
+  id?: string | undefined;
 }
 export interface UpdateStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
   /** The ID of the page. */
   pageId: string;
-  /** Request body */
-  body?: StorePage | undefined;
+  /** Ordered list of localized strings giving the name of this page. The text displayed is the one that best matches the user locale, or the first entry if there is no good match. There needs to be at least one entry. */
+  name?: LocalizedTextList | undefined;
+  /** Unique ID of this page. Assigned by the server. Immutable once assigned. */
+  id?: string | undefined;
+  /** Ordered list of pages a user should be able to reach from this page. The list can't include this page. It is recommended that the basic pages are created first, before adding the links between pages. The API doesn't verify that the pages exist or the pages are reachable. */
+  link?: StringList | undefined;
 }
 export interface UpdateUsersRequest {
   /** The ID of the user. */
   userId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: User | undefined;
+  /** The user's primary email address, for example, "jsmith@example.com". Will always be set for Google managed users and not set for EMM managed users. */
+  primaryEmail?: string | undefined;
+  /** A unique identifier you create for this user, such as "user342" or "asset#44418". Do not use personally identifiable information (PII) for this property. Must always be set for EMM-managed users. Not set for Google-managed users. */
+  accountIdentifier?: string | undefined;
+  /** The type of account that this user represents. A userAccount can be installed on multiple devices, but a deviceAccount is specific to a single device. An EMM-managed user (emmManaged) can be either type (userAccount, deviceAccount), but a Google-managed user (googleManaged) is always a userAccount. */
+  accountType?: UserAccountTypeEnum | (string & {}) | undefined;
+  /** The unique ID for the user. */
+  id?: string | undefined;
+  /** The name that will appear in user interfaces. Setting this property is optional when creating EMM-managed users. If you do set this property, use something generic about the organization (such as "Example, Inc.") or your name (as EMM). Not used for Google-managed user accounts. @mutable androidenterprise.users.update */
+  displayName?: string | undefined;
+  /** The entity that manages the user. With googleManaged users, the source of truth is Google so EMMs have to make sure a Google Account exists for the user. With emmManaged users, the EMM is in charge. */
+  managementType?: UserManagementTypeEnum | (string & {}) | undefined;
 }
 export interface UpdateWebappsRequest {
   /** The ID of the web app. */
   webAppId: string;
   /** The ID of the enterprise. */
   enterpriseId: string;
-  /** Request body */
-  body?: WebApp | undefined;
+  /** The title of the web app as displayed to the user (e.g., amongst a list of other applications, or as a label for an icon). */
+  title?: string | undefined;
+  /** A flag whether the app has been published to the Play store yet. */
+  isPublished?: boolean | undefined;
+  /** The display mode of the web app. Possible values include: - "minimalUi", the device's status bar, navigation bar, the app's URL, and a refresh button are visible when the app is open. For HTTP URLs, you can only select this option. - "standalone", the device's status bar and navigation bar are visible when the app is open. - "fullScreen", the app opens in full screen mode, hiding the device's status and navigation bars. All browser UI elements, page URL, system status bar and back button are not visible, and the web app takes up the entirety of the available display area. */
+  displayMode?: WebAppDisplayModeEnum | (string & {}) | undefined;
+  /** The current version of the app. Note that the version can automatically increase during the lifetime of the web app, while Google does internal housekeeping to keep the web app up-to-date. */
+  versionCode?: string | undefined;
+  /** A list of icons representing this website. If absent, a default icon (for create) or the current icon (for update) will be used. */
+  icons?: WebAppIconList | undefined;
+  /** The start URL, i.e. the URL that should load when the user opens the application. */
+  startUrl?: string | undefined;
 }
 export type AcknowledgeNotificationSetEnterprisesError =
   | NotFound
@@ -1682,7 +1803,7 @@ export const approveProducts: API.OperationMethod<
   ApproveProductsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1186, __c74, 2) as any as S.Schema<ApproveProductsRequest>,
+  input: __S(1185, __c74, 1) as any as S.Schema<ApproveProductsRequest>,
   output: __S(976, __c61, 0) as any as S.Schema<ApproveProductsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1721,8 +1842,8 @@ export const createEnrollmentTokens: API.OperationMethod<
   CreateEnrollmentTokensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1554, __c97, 2) as any as S.Schema<CreateEnrollmentTokensRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<EnrollmentToken>,
+  input: __S(1553, __c97, 1) as any as S.Schema<CreateEnrollmentTokensRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<EnrollmentToken>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1743,7 +1864,7 @@ export const createWebTokenEnterprises: API.OperationMethod<
   CreateWebTokenEnterprisesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1603, __c100, 3) as any as S.Schema<CreateWebTokenEnterprisesRequest>,
+  input: __S(1602, __c100, 2) as any as S.Schema<CreateWebTokenEnterprisesRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<AdministratorWebToken>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2887,8 +3008,8 @@ export const setAccountEnterprises: API.OperationMethod<
   SetAccountEnterprisesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1313, __c82, 1) as any as S.Schema<SetAccountEnterprisesRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<EnterpriseAccount>,
+  input: __S(1312, __c82, 0) as any as S.Schema<SetAccountEnterprisesRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<EnterpriseAccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3360,7 +3481,13 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.String.pipe(T.Query()),
-          body: S.optional(__S(1379, __c86, 3).pipe(T.HttpBody())),
+          googleAuthenticationSettings: S.optional(__S(1376, __c86, 0)),
+          name: S.optional(S.String),
+          enterpriseType: S.optional(S.String),
+          primaryDomain: S.optional(S.String),
+          managedGoogleDomainType: S.optional(S.String),
+          id: S.optional(S.String),
+          administrator: S.optional(__S(1378, __c86, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4290,7 +4417,10 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          publicData: S.optional(S.String),
+          data: S.optional(S.String),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4308,7 +4438,10 @@ function __c55(j: number): any {
         S.Struct({
           pageId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          name: S.optional(__S(705, __c44, 1)),
+          orderInPage: S.optional(S.String),
+          productId: S.optional(__S(240, __c15, 0)),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4325,7 +4458,9 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
+          name: S.optional(__S(705, __c44, 1)),
+          id: S.optional(S.String),
+          link: S.optional(__S(240, __c15, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4342,7 +4477,12 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
+          primaryEmail: S.optional(S.String),
+          accountIdentifier: S.optional(S.String),
+          accountType: S.optional(S.String),
+          id: S.optional(S.String),
+          displayName: S.optional(S.String),
+          managementType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4359,7 +4499,13 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
+          title: S.optional(S.String),
+          isPublished: S.optional(S.Boolean),
+          displayMode: S.optional(S.String),
+          versionCode: S.optional(S.String),
+          icons: S.optional(__S(849, __c53, 1)),
+          startUrl: S.optional(S.String),
+          webAppId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4714,16 +4860,10 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approvedPermissions: S.optional(S.String),
-          approvalUrlInfo: S.optional(__S(1184, __c74, 0)),
-        }),
-      ).annotate({ identifier: "ProductsApproveRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           productId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1185, __c74, 1).pipe(T.HttpBody())),
+          approvedPermissions: S.optional(S.String),
+          approvalUrlInfo: S.optional(__S(1184, __c74, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4972,14 +5112,8 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountEmail: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnterpriseAccount" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c82, 0).pipe(T.HttpBody())),
+          accountEmail: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4988,6 +5122,12 @@ function __c82(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SetAccountEnterprisesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountEmail: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnterpriseAccount" });
   }
 }
 function __c83(j: number): any {
@@ -4997,7 +5137,9 @@ function __c83(j: number): any {
         S.Struct({
           userId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c20, 2).pipe(T.HttpBody())),
+          productVisibility: S.optional(__S(321, __c20, 1)),
+          productId: S.optional(__S(240, __c15, 0)),
+          productSetBehavior: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5016,7 +5158,7 @@ function __c84(j: number): any {
           userId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
           deviceId: S.String.pipe(T.Label()),
-          body: S.optional(__S(672, __c42, 0).pipe(T.HttpBody())),
+          accountState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5080,7 +5222,8 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(752, __c47, 0).pipe(T.HttpBody())),
+          homepageId: S.optional(S.String),
+          storeLayoutType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5133,7 +5276,17 @@ function __c90(j: number): any {
           deviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(393, __c24, 9).pipe(T.HttpBody())),
+          latestBuildFingerprint: S.optional(S.String),
+          policy: S.optional(__S(392, __c24, 8)),
+          model: S.optional(S.String),
+          device: S.optional(S.String),
+          managementType: S.optional(S.String),
+          androidId: S.optional(S.String),
+          product: S.optional(S.String),
+          report: S.optional(__S(372, __c23, 4)),
+          retailBrand: S.optional(S.String),
+          maker: S.optional(S.String),
+          sdkVersion: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5153,7 +5306,8 @@ function __c91(j: number): any {
           entitlementId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
+          reason: S.optional(S.String),
+          productId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5173,7 +5327,9 @@ function __c92(j: number): any {
           installId: S.String.pipe(T.Label()),
           deviceId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
+          installState: S.optional(S.String),
+          versionCode: S.optional(S.Number),
+          productId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5193,7 +5349,10 @@ function __c93(j: number): any {
           deviceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(359, __c22, 7).pipe(T.HttpBody())),
+          managedProperty: S.optional(__S(355, __c22, 3)),
+          productId: S.optional(S.String),
+          configurationVariables: S.optional(__S(358, __c22, 6)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5212,7 +5371,10 @@ function __c94(j: number): any {
           userId: S.String.pipe(T.Label()),
           managedConfigurationForUserId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(359, __c22, 7).pipe(T.HttpBody())),
+          managedProperty: S.optional(__S(355, __c22, 3)),
+          productId: S.optional(S.String),
+          configurationVariables: S.optional(__S(358, __c22, 6)),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5231,7 +5393,10 @@ function __c95(j: number): any {
           pageId: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          name: S.optional(__S(705, __c44, 1)),
+          orderInPage: S.optional(S.String),
+          productId: S.optional(__S(240, __c15, 0)),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5249,7 +5414,9 @@ function __c96(j: number): any {
         S.Struct({
           enterpriseId: S.String.pipe(T.Label()),
           pageId: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
+          name: S.optional(__S(705, __c44, 1)),
+          id: S.optional(S.String),
+          link: S.optional(__S(240, __c15, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5272,17 +5439,11 @@ function __c97(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          enterpriseId: S.String.pipe(T.Label()),
           googleAuthenticationOptions: S.optional(__S(1552, __c97, 0)),
           duration: S.optional(S.String),
           token: S.optional(S.String),
           enrollmentTokenType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnrollmentToken" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1553, __c97, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5291,6 +5452,15 @@ function __c97(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateEnrollmentTokensRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          googleAuthenticationOptions: S.optional(__S(1552, __c97, 0)),
+          duration: S.optional(S.String),
+          token: S.optional(S.String),
+          enrollmentTokenType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnrollmentToken" });
   }
 }
 function __c98(j: number): any {
@@ -5300,7 +5470,12 @@ function __c98(j: number): any {
         S.Struct({
           userId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(816, __c51, 0).pipe(T.HttpBody())),
+          primaryEmail: S.optional(S.String),
+          accountIdentifier: S.optional(S.String),
+          accountType: S.optional(S.String),
+          id: S.optional(S.String),
+          displayName: S.optional(S.String),
+          managementType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5318,7 +5493,12 @@ function __c99(j: number): any {
         S.Struct({
           webAppId: S.String.pipe(T.Label()),
           enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
+          title: S.optional(S.String),
+          isPublished: S.optional(S.Boolean),
+          displayMode: S.optional(S.String),
+          versionCode: S.optional(S.String),
+          icons: S.optional(__S(849, __c53, 1)),
+          startUrl: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5347,6 +5527,7 @@ function __c100(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          enterpriseId: S.String.pipe(T.Label()),
           privateApps: S.optional(__S(1600, __c100, 0)),
           parent: S.optional(S.String),
           storeBuilder: S.optional(__S(1600, __c100, 0)),
@@ -5355,13 +5536,6 @@ function __c100(j: number): any {
           webApps: S.optional(__S(1600, __c100, 0)),
           permission: S.optional(__S(1632, __c102, 0)),
           managedConfigurations: S.optional(__S(1600, __c100, 0)),
-        }),
-      ).annotate({ identifier: "AdministratorWebTokenSpec" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          enterpriseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1602, __c100, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

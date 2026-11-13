@@ -110,8 +110,9 @@ export type GoogleFirestoreAdminV1beta2IndexQueryScopeEnum =
   | "QUERY_SCOPE_UNSPECIFIED"
   | "COLLECTION"
   | "COLLECTION_GROUP";
-/** Cloud Firestore indexes enable simple and complex queries against documents in a database. */
-export interface GoogleFirestoreAdminV1beta2Index {
+export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest {
+  /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
+  parent: string;
   /** Output only. A server defined name for this index. The form of this name for composite indexes will be: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{composite_index_id}` For single field indexes, this field will be empty. */
   name?: string | undefined;
   /** Output only. The serving state of the index. */
@@ -120,12 +121,6 @@ export interface GoogleFirestoreAdminV1beta2Index {
   fields?: GoogleFirestoreAdminV1beta2IndexFieldList | undefined;
   /** Indexes with a collection query scope specified allow queries against a collection that is the child of a specific document, specified at query time, and that has the same collection id. Indexes with a collection group query scope specified allow queries against all collections descended from a specific document, specified at query time, and that have the same collection id as this index. */
   queryScope?: GoogleFirestoreAdminV1beta2IndexQueryScopeEnum | (string & {}) | undefined;
-}
-export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest {
-  /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2Index | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -158,22 +153,28 @@ export interface DeleteProjectsDatabasesCollectionGroupsIndexesRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export type StringList = Array<string>;
-/** The request for FirestoreAdmin.ExportDocuments. */
-export interface GoogleFirestoreAdminV1beta2ExportDocumentsRequest {
+export interface ExportDocumentsProjectsDatabasesRequest {
+  /** Database to export. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
+  name: string;
   /** The output URI. Currently only supports Google Cloud Storage URIs of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Google Cloud Storage bucket and `NAMESPACE_PATH` is an optional Google Cloud Storage namespace path. When choosing a name, be sure to consider Google Cloud Storage naming guidelines: https://cloud.google.com/storage/docs/naming. If the URI is a bucket (without a namespace path), a prefix will be generated based on the start time. */
   outputUriPrefix?: string | undefined;
   /** Which collection ids to export. Unspecified means all collections. */
   collectionIds?: StringList | undefined;
 }
-export interface ExportDocumentsProjectsDatabasesRequest {
-  /** Database to export. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
-  name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2ExportDocumentsRequest | undefined;
-}
 export interface GetProjectsDatabasesCollectionGroupsFieldsRequest {
   /** A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_id}` */
   name: string;
+}
+/** Cloud Firestore indexes enable simple and complex queries against documents in a database. */
+export interface GoogleFirestoreAdminV1beta2Index {
+  /** Output only. A server defined name for this index. The form of this name for composite indexes will be: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{composite_index_id}` For single field indexes, this field will be empty. */
+  name?: string | undefined;
+  /** Output only. The serving state of the index. */
+  state?: GoogleFirestoreAdminV1beta2IndexStateEnum | (string & {}) | undefined;
+  /** The fields supported by this index. For composite indexes, this is always 2 or more fields. The last field entry is always for the field path `__name__`. If, on creation, `__name__` was not specified as the last field, it will be added automatically with the same direction as that of the last field defined. If the final field in a composite index is not directional, the `__name__` will be ordered ASCENDING (unless explicitly specified). For single field indexes, this will always be exactly one entry with a field path equal to the field path of the associated field. */
+  fields?: GoogleFirestoreAdminV1beta2IndexFieldList | undefined;
+  /** Indexes with a collection query scope specified allow queries against a collection that is the child of a specific document, specified at query time, and that has the same collection id. Indexes with a collection group query scope specified allow queries against all collections descended from a specific document, specified at query time, and that have the same collection id as this index. */
+  queryScope?: GoogleFirestoreAdminV1beta2IndexQueryScopeEnum | (string & {}) | undefined;
 }
 export type GoogleFirestoreAdminV1beta2IndexList = Array<GoogleFirestoreAdminV1beta2Index>;
 /** The index configuration for this field. */
@@ -198,18 +199,13 @@ export interface GetProjectsDatabasesCollectionGroupsIndexesRequest {
   /** A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}` */
   name: string;
 }
-/** The request for FirestoreAdmin.ImportDocuments. */
-export interface GoogleFirestoreAdminV1beta2ImportDocumentsRequest {
+export interface ImportDocumentsProjectsDatabasesRequest {
+  /** Database to import into. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
+  name: string;
   /** Which collection ids to import. Unspecified means all collections included in the import. */
   collectionIds?: StringList | undefined;
   /** Location of the exported files. This must match the output_uri_prefix of an ExportDocumentsResponse from an export that has completed successfully. See: google.firestore.admin.v1beta2.ExportDocumentsResponse.output_uri_prefix. */
   inputUriPrefix?: string | undefined;
-}
-export interface ImportDocumentsProjectsDatabasesRequest {
-  /** Database to import into. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
-  name: string;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2ImportDocumentsRequest | undefined;
 }
 export interface ListProjectsDatabasesCollectionGroupsFieldsRequest {
   /** The number of results to return. */
@@ -251,8 +247,8 @@ export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest {
   name: string;
   /** A mask, relative to the field. If specified, only configuration specified by this field_mask will be updated in the field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirestoreAdminV1beta2Field | undefined;
+  /** The index configuration for this field. If unset, field indexing will revert to the configuration defined by the `ancestor_field`. To explicitly remove all indexes for this field, specify an index config with an empty list of indexes. */
+  indexConfig?: GoogleFirestoreAdminV1beta2IndexConfig | undefined;
 }
 export type CreateProjectsDatabasesCollectionGroupsIndexesError =
   | NotFound
@@ -311,7 +307,7 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   ExportDocumentsProjectsDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29, __c7, 1) as any as S.Schema<ExportDocumentsProjectsDatabasesRequest>,
+  input: __S(28, __c7, 0) as any as S.Schema<ExportDocumentsProjectsDatabasesRequest>,
   output: __S(19, __c4, 3) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -329,7 +325,7 @@ export const getProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetProjectsDatabasesCollectionGroupsFieldsRequest>,
-  output: __S(45, __c11, 1) as any as S.Schema<GoogleFirestoreAdminV1beta2Field>,
+  output: __S(40, __c10, 0) as any as S.Schema<GoogleFirestoreAdminV1beta2Field>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -345,8 +341,8 @@ export const getProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<
   GetProjectsDatabasesCollectionGroupsIndexesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetProjectsDatabasesCollectionGroupsIndexesRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<GoogleFirestoreAdminV1beta2Index>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetProjectsDatabasesCollectionGroupsIndexesRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<GoogleFirestoreAdminV1beta2Index>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -367,7 +363,7 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   ImportDocumentsProjectsDatabasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(53, __c13, 1) as any as S.Schema<ImportDocumentsProjectsDatabasesRequest>,
+  input: __S(60, __c15, 0) as any as S.Schema<ImportDocumentsProjectsDatabasesRequest>,
   output: __S(19, __c4, 3) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -455,7 +451,7 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsDatabasesCollectionGroupsFieldsRequest" });
     case 1:
-      return S.Array(__S(45, __c11, 1));
+      return S.Array(__S(40, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -486,7 +482,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          indexes: S.optional(__S(40, __c10, 0)),
+          indexes: S.optional(__S(44, __c11, 0)),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ListIndexesResponse" });
   }
@@ -498,7 +494,7 @@ function __c2(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(45, __c11, 1).pipe(T.HttpBody())),
+          indexConfig: S.optional(__S(48, __c12, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -515,7 +511,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(22, __c5, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          fields: S.optional(__S(21, __c5, 1)),
+          queryScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -564,15 +563,6 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2IndexField" });
     case 1:
       return S.Array(__S(20, __c5, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          fields: S.optional(__S(21, __c5, 1)),
-          queryScope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleFirestoreAdminV1beta2Index" });
   }
 }
 function __c6(j: number): any {
@@ -598,15 +588,9 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           outputUriPrefix: S.optional(S.String),
           collectionIds: S.optional(__S(32, __c8, 0)),
-        }),
-      ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ExportDocumentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(28, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -642,10 +626,21 @@ function __c9(j: number): any {
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(22, __c5, 2));
+      return S.suspend(() =>
+        S.Struct({
+          indexConfig: S.optional(__S(48, __c12, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleFirestoreAdminV1beta2Field" });
   }
 }
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(52, __c13, 0));
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -653,19 +648,25 @@ function __c11(j: number): any {
           reverting: S.optional(S.Boolean),
           usesAncestorConfig: S.optional(S.Boolean),
           ancestorField: S.optional(S.String),
-          indexes: S.optional(__S(40, __c10, 0)),
+          indexes: S.optional(__S(44, __c11, 0)),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2IndexConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          indexConfig: S.optional(__S(44, __c11, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleFirestoreAdminV1beta2Field" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          fields: S.optional(__S(21, __c5, 1)),
+          queryScope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleFirestoreAdminV1beta2Index" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -681,20 +682,14 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetProjectsDatabasesCollectionGroupsIndexesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           collectionIds: S.optional(__S(32, __c8, 0)),
           inputUriPrefix: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ImportDocumentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(52, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

@@ -83,18 +83,13 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The request for HubService.AcceptHubSpoke. */
-export interface AcceptHubSpokeRequest {
+export interface AcceptSpokeProjectsLocationsGlobalHubsRequest {
+  /** Required. The name of the hub into which to accept the spoke. */
+  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The URI of the spoke to accept into the hub. */
   spokeUri?: string | undefined;
-}
-export interface AcceptSpokeProjectsLocationsGlobalHubsRequest {
-  /** Required. The name of the hub into which to accept the spoke. */
-  name: string;
-  /** Request body */
-  body?: AcceptHubSpokeRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -120,20 +115,15 @@ export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
 }
-/** The request for HubService.AcceptSpokeUpdate. */
-export interface AcceptSpokeUpdateRequest {
+export interface AcceptSpokeUpdateProjectsLocationsGlobalHubsRequest {
+  /** Required. The name of the hub to accept spoke update. */
+  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The etag of the spoke to accept update. */
   spokeEtag?: string | undefined;
   /** Required. The URI of the spoke to accept update. */
   spokeUri?: string | undefined;
-}
-export interface AcceptSpokeUpdateProjectsLocationsGlobalHubsRequest {
-  /** Required. The name of the hub to accept spoke update. */
-  name: string;
-  /** Request body */
-  body?: AcceptSpokeUpdateRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface GoogleLongrunningCancelOperationRequest {}
@@ -149,8 +139,9 @@ export type CheckConsumerConfigRequestRequestedIpVersionEnum =
   | "IP_VERSION_UNSPECIFIED"
   | "IPV4"
   | "IPV6";
-/** Request for CheckConsumerConfig. */
-export interface CheckConsumerConfigRequest {
+export interface CheckConsumerConfigProjectsLocationsRequest {
+  /** Required. The location resource path. Example: - projects/{project}/locations/{location} */
+  location: string;
   /** Required. Full resource name of the consumer network. Example: - projects/{project}/global/networks/{network}. */
   consumerNetwork?: string | undefined;
   /** Required. The service class identifier of the producer. */
@@ -159,12 +150,6 @@ export interface CheckConsumerConfigRequest {
   endpointProject?: string | undefined;
   /** The requested IP Version */
   requestedIpVersion?: CheckConsumerConfigRequestRequestedIpVersionEnum | (string & {}) | undefined;
-}
-export interface CheckConsumerConfigProjectsLocationsRequest {
-  /** Required. The location resource path. Example: - projects/{project}/locations/{location} */
-  location: string;
-  /** Request body */
-  body?: CheckConsumerConfigRequest | undefined;
 }
 export type CheckConsumerConfigResponseErrorsItemEnum =
   | "ERROR_UNSPECIFIED"
@@ -213,8 +198,15 @@ export type AutomatedDnsRecordCreationModeEnum =
   | "CREATION_MODE_UNSPECIFIED"
   | "CONSUMER_API"
   | "SERVICE_CONNECTION_MAP";
-/** Represents a DNS record managed by the AutomatedDnsRecord API. */
-export interface AutomatedDnsRecord {
+export interface CreateProjectsLocationsAutomatedDnsRecordsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/automatedDnsRecords/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
+  automatedDnsRecordId?: string | undefined;
+  /** Optional. The insert mode when creating AutomatedDnsRecord. */
+  insertMode?: CreateProjectsLocationsAutomatedDnsRecordsInsertModeEnum | (string & {}) | undefined;
+  /** Required. The parent resource's name of the AutomatedDnsRecord. ex. projects/123/locations/us-east1 */
+  parent: string;
   /** Output only. The current settings for this record as identified by (`hostname`, `dns_suffix`, `type`) in Cloud DNS. The `current_config` field reflects the actual settings of the DNS record in Cloud DNS based on the `hostname`, `dns_suffix`, and `type`. * **Absence:** If `current_config` is unset, it means a DNS record with the specified `hostname`, `dns_suffix`, and `type` does not currently exist in Cloud DNS. This could be because the `AutomatedDnsRecord` has never been successfully programmed, has been deleted, or there was an error during provisioning. * **Presence:** If `current_config` is present: * It can be different from the `original_config`. This can happen due to several reasons: * Out-of-band changes: A consumer might have directly modified the DNS record in Cloud DNS. * `OVERWRITE` operations from other `AutomatedDnsRecord` resources: Another `AutomatedDnsRecord` with the same identifying attributes (`hostname`, `dns_suffix`, `type`) but a different configuration might have overwritten the record using `insert_mode: OVERWRITE`. Therefore, the presence of `current_config` indicates that a corresponding DNS record exists, but its values (TTL and RRData) might not always align with the `original_config` of the AutomatedDnsRecord. */
   currentConfig?: Config | undefined;
   /** Output only. A human-readable message providing more context about the current state, such as an error description if the state is `FAILED_DEPROGRAMMING`. */
@@ -251,18 +243,6 @@ export interface AutomatedDnsRecord {
   description?: string | undefined;
   /** Output only. The timestamp of when the record was updated. */
   updateTime?: string | undefined;
-}
-export interface CreateProjectsLocationsAutomatedDnsRecordsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/automatedDnsRecords/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
-  automatedDnsRecordId?: string | undefined;
-  /** Optional. The insert mode when creating AutomatedDnsRecord. */
-  insertMode?: CreateProjectsLocationsAutomatedDnsRecordsInsertModeEnum | (string & {}) | undefined;
-  /** Required. The parent resource's name of the AutomatedDnsRecord. ex. projects/123/locations/us-east1 */
-  parent: string;
-  /** Request body */
-  body?: AutomatedDnsRecord | undefined;
 }
 export type HubPresetTopologyEnum =
   | "PRESET_TOPOLOGY_UNSPECIFIED"
@@ -357,8 +337,13 @@ export interface ExportPscConfig {
   /** Optional. Controls whether Private Service Connect endpoints for global Google APIs should be propagated. The default value is false. */
   globalGoogleApis?: boolean | undefined;
 }
-/** A Network Connectivity Center hub is a global management resource to which you attach spokes. A single hub can contain spokes from multiple regions. However, if any of a hub's spokes use the site-to-site data transfer feature, the resources associated with those spokes must all be in the same VPC network. Spokes that do not use site-to-site data transfer can be associated with any VPC network in your project. */
-export interface Hub {
+export interface CreateProjectsLocationsGlobalHubsRequest {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource. */
+  parent: string;
+  /** Required. A unique identifier for the hub. */
+  hubId?: string | undefined;
   /** Optional. An optional description of the hub. */
   description?: string | undefined;
   /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
@@ -387,16 +372,6 @@ export interface Hub {
   exportPscConfig?: ExportPscConfig | undefined;
   /** Immutable. The name of the hub. Hub names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}` */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsGlobalHubsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource. */
-  parent: string;
-  /** Required. A unique identifier for the hub. */
-  hubId?: string | undefined;
-  /** Request body */
-  body?: Hub | undefined;
 }
 export type PolicyBasedRouteNextHopOtherRoutesEnum = "OTHER_ROUTES_UNSPECIFIED" | "DEFAULT_ROUTING";
 export type FilterProtocolVersionEnum = "PROTOCOL_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
@@ -435,8 +410,13 @@ export interface Warnings {
   data?: StringMap | undefined;
 }
 export type WarningsList = Array<Warnings>;
-/** Policy-based routes route L4 network traffic based on not just destination IP address, but also source IP address, protocol, and more. If a policy-based route conflicts with other types of routes, the policy-based route always takes precedence. */
-export interface PolicyBasedRoute {
+export interface CreateProjectsLocationsGlobalPolicyBasedRoutesRequest {
+  /** Required. The parent resource's name of the PolicyBasedRoute. */
+  parent: string;
+  /** Required. Unique id for the policy-based route to create. Provided by the client when the resource is created. The name must comply with https://google.aip.dev/122#resource-id-segments. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([a-z0-9-]*[a-z0-9])?. The first character must be a lowercase letter, and all following characters (except for the last character) must be a dash, lowercase letter, or digit. The last character must be a lowercase letter or digit. */
+  policyBasedRouteId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. Time when the policy-based route was updated. */
   updateTime?: string | undefined;
   /** Optional. The IP address of a global-access-enabled L4 ILB that is the next hop for matching packets. For this version, only nextHopIlbIp is supported. */
@@ -467,16 +447,6 @@ export interface PolicyBasedRoute {
   createTime?: string | undefined;
   /** Output only. If potential misconfigurations are detected for this route, this field will be populated with warning messages. */
   warnings?: WarningsList | undefined;
-}
-export interface CreateProjectsLocationsGlobalPolicyBasedRoutesRequest {
-  /** Required. The parent resource's name of the PolicyBasedRoute. */
-  parent: string;
-  /** Required. Unique id for the policy-based route to create. Provided by the client when the resource is created. The name must comply with https://google.aip.dev/122#resource-id-segments. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([a-z0-9-]*[a-z0-9])?. The first character must be a lowercase letter, and all following characters (except for the last character) must be a dash, lowercase letter, or digit. The last character must be a lowercase letter or digit. */
-  policyBasedRouteId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: PolicyBasedRoute | undefined;
 }
 /** Specification for migration with source and target resource names. */
 export interface Migration {
@@ -522,8 +492,13 @@ export type InternalRangeRangeStatusEnum =
   | "OBSOLETE"
   | "CREATING"
   | "DELETING";
-/** The internal range resource for IPAM operations within a VPC network. Used to represent a private address range along with behavioral characteristics of that range (its usage and peering behavior). Networking resources can link to this range if they are created as belonging to it. */
-export interface InternalRange {
+export interface CreateProjectsLocationsInternalRangesRequest {
+  /** Required. The parent resource's name of the internal range. */
+  parent: string;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/internalRanges/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
+  internalRangeId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. Must be present if usage is set to FOR_MIGRATION. */
   migration?: Migration | undefined;
   /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
@@ -563,16 +538,6 @@ export interface InternalRange {
   /** Output only. Status of the Internal Range. */
   rangeStatus?: InternalRangeRangeStatusEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsInternalRangesRequest {
-  /** Required. The parent resource's name of the internal range. */
-  parent: string;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/internalRanges/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
-  internalRangeId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: InternalRange | undefined;
-}
 export type StateMetadataStateEnum =
   | "STATE_UNSPECIFIED"
   | "ADDING"
@@ -594,8 +559,13 @@ export interface StateTimeline {
   states?: StateMetadataList | undefined;
 }
 export type StateTimelineMap = { [key: string]: StateTimeline | undefined };
-/** The `MulticloudDataTransferConfig` resource. It lists the services that you configure for Data Transfer Essentials billing and metering. */
-export interface MulticloudDataTransferConfig {
+export interface CreateProjectsLocationsMulticloudDataTransferConfigsRequest {
+  /** Required. The name of the parent resource. */
+  parent: string;
+  /** Required. The ID to use for the `MulticloudDataTransferConfig` resource, which becomes the final component of the `MulticloudDataTransferConfig` resource name. */
+  multicloudDataTransferConfigId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
   /** Output only. The number of `Destination` resources configured for the `MulticloudDataTransferConfig` resource. */
   destinationsCount?: number | undefined;
   /** Output only. Time when the `MulticloudDataTransferConfig` resource was created. */
@@ -617,16 +587,6 @@ export interface MulticloudDataTransferConfig {
   /** Optional. Maps services to their current or planned states. Service names are keys, and the associated values describe the state of the service. If a state change is expected, the value is either `ADDING` or `DELETING`, depending on the actions taken. Sample output: "services": { "big-query": { "states": [ { "effectiveTime": "2024-12-12T08:00:00Z" "state": "ADDING", }, ] }, "cloud-storage": { "states": [ { "state": "ACTIVE", } ] } } */
   services?: StateTimelineMap | undefined;
 }
-export interface CreateProjectsLocationsMulticloudDataTransferConfigsRequest {
-  /** Required. The name of the parent resource. */
-  parent: string;
-  /** Required. The ID to use for the `MulticloudDataTransferConfig` resource, which becomes the final component of the `MulticloudDataTransferConfig` resource name. */
-  multicloudDataTransferConfigId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: MulticloudDataTransferConfig | undefined;
-}
 export type DestinationEndpointStateEnum = "STATE_UNSPECIFIED" | "VALID" | "INVALID";
 /** The metadata for a `DestinationEndpoint` resource. */
 export interface DestinationEndpoint {
@@ -640,8 +600,13 @@ export interface DestinationEndpoint {
   csp?: string | undefined;
 }
 export type DestinationEndpointList = Array<DestinationEndpoint>;
-/** The `Destination` resource. It specifies the IP prefix and the associated autonomous system numbers (ASN) that you want to include in a `MulticloudDataTransferConfig` resource. */
-export interface Destination {
+export interface CreateProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `Destination` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
+  requestId?: string | undefined;
+  /** Required. The name of the parent resource. */
+  parent: string;
+  /** Required. The ID to use for the `Destination` resource, which becomes the final component of the `Destination` resource name. */
+  destinationId?: string | undefined;
   /** Required. Unordered list. The list of `DestinationEndpoint` resources configured for the IP prefix. */
   endpoints?: DestinationEndpointList | undefined;
   /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
@@ -663,21 +628,16 @@ export interface Destination {
   /** Optional. A description of this resource. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `Destination` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
-  requestId?: string | undefined;
-  /** Required. The name of the parent resource. */
-  parent: string;
-  /** Required. The ID to use for the `Destination` resource, which becomes the final component of the `Destination` resource name. */
-  destinationId?: string | undefined;
-  /** Request body */
-  body?: Destination | undefined;
-}
 export type PscAuthorizationPolicyAuthorizationModeEnum =
   | "AUTHORIZATION_MODE_UNSPECIFIED"
   | "AUTHORIZATION_MODE_TRANSITIVE_TO_SERVICE_ATTACHMENT";
-/** Represents a PSC Authorization Policy. */
-export interface PscAuthorizationPolicy {
+export interface CreateProjectsLocationsPscAuthorizationPoliciesRequest {
+  /** Required. Resource ID of the PscAuthorizationPolicy. */
+  pscAuthorizationPolicyId?: string | undefined;
+  /** Required. The parent resource's name of the PscAuthorizationPolicy. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. */
+  requestId?: string | undefined;
   /** Output only. The time when the PscAuthorizationPolicy was created. */
   createTime?: string | undefined;
   /** Required. The full absolute URI of the targeted resource governed by this policy. For example, for an AgentRegistry resource, the format is: `//agentregistry.googleapis.com/projects/{project}/locations/{location}` */
@@ -699,19 +659,14 @@ export interface PscAuthorizationPolicy {
   /** Output only. The unique identifier of the PscAuthorizationPolicy. */
   uid?: string | undefined;
 }
-export interface CreateProjectsLocationsPscAuthorizationPoliciesRequest {
-  /** Required. Resource ID of the PscAuthorizationPolicy. */
-  pscAuthorizationPolicyId?: string | undefined;
-  /** Required. The parent resource's name of the PscAuthorizationPolicy. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: PscAuthorizationPolicy | undefined;
-}
 export type RegionalEndpointAccessTypeEnum = "ACCESS_TYPE_UNSPECIFIED" | "GLOBAL" | "REGIONAL";
-/** The RegionalEndpoint resource. */
-export interface RegionalEndpoint {
+export interface CreateProjectsLocationsRegionalEndpointsRequest {
+  /** Required. Unique id of the Regional Endpoint to be created. @pattern: ^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$ */
+  regionalEndpointId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource's name of the RegionalEndpoint. */
+  parent: string;
   /** User-defined labels. */
   labels?: StringMap | undefined;
   /** Optional. The name of the VPC network for this private regional endpoint. Format: `projects/{project}/global/networks/{network}` */
@@ -736,16 +691,6 @@ export interface RegionalEndpoint {
   targetGoogleApi?: string | undefined;
   /** Output only. The name of a RegionalEndpoint. Pattern: `projects/{project}/locations/{location}/regionalEndpoints/^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$`. */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsRegionalEndpointsRequest {
-  /** Required. Unique id of the Regional Endpoint to be created. @pattern: ^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$ */
-  regionalEndpointId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource's name of the RegionalEndpoint. */
-  parent: string;
-  /** Request body */
-  body?: RegionalEndpoint | undefined;
 }
 export type ConsumerPscConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -869,8 +814,13 @@ export interface ConsumerPscConfig {
 }
 export type ConsumerPscConfigList = Array<ConsumerPscConfig>;
 export type ServiceConnectionMapInfrastructureEnum = "INFRASTRUCTURE_UNSPECIFIED" | "PSC";
-/** The ServiceConnectionMap resource. */
-export interface ServiceConnectionMap {
+export interface CreateProjectsLocationsServiceConnectionMapsRequest {
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/serviceConnectionMaps/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
+  serviceConnectionMapId?: string | undefined;
+  /** Required. The parent resource's name of the ServiceConnectionMap. ex. projects/123/locations/us-east1 */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. PSC connection details on consumer side. */
   consumerPscConnections?: ConsumerPscConnectionList | undefined;
   /** Output only. The service class uri this ServiceConnectionMap is for. */
@@ -897,16 +847,6 @@ export interface ServiceConnectionMap {
   infrastructure?: ServiceConnectionMapInfrastructureEnum | (string & {}) | undefined;
   /** The service class identifier this ServiceConnectionMap is for. The user of ServiceConnectionMap create API needs to have networkconnectivity.serviceClasses.use IAM permission for the service class. */
   serviceClass?: string | undefined;
-}
-export interface CreateProjectsLocationsServiceConnectionMapsRequest {
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/serviceConnectionMaps/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
-  serviceConnectionMapId?: string | undefined;
-  /** Required. The parent resource's name of the ServiceConnectionMap. ex. projects/123/locations/us-east1 */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceConnectionMap | undefined;
 }
 export type CreateProjectsLocationsServiceConnectionPoliciesAutoSubnetworkConfig_ipStackEnum =
   | "SUBNET_IP_STACK_UNSPECIFIED"
@@ -991,8 +931,27 @@ export interface PscConnection {
 }
 export type PscConnectionList = Array<PscConnection>;
 export type ServiceConnectionPolicyInfrastructureEnum = "INFRASTRUCTURE_UNSPECIFIED" | "PSC";
-/** The ServiceConnectionPolicy resource. */
-export interface ServiceConnectionPolicy {
+export interface CreateProjectsLocationsServiceConnectionPoliciesRequest {
+  /** Optional. The requested IP stack for the subnetwork. If not specified, IPv4 is used. */
+  "autoSubnetworkConfig.ipStack"?:
+    | CreateProjectsLocationsServiceConnectionPoliciesAutoSubnetworkConfig_ipStackEnum
+    | (string & {})
+    | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If this field is not set, USER_PROVIDED is the inferred value to use. */
+  subnetworkMode?:
+    | CreateProjectsLocationsServiceConnectionPoliciesSubnetworkModeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The space where we search for a free range to create a subnetwork. It can be narrow down or pick a different space. This is in standard CIDR format. If not specified, "10.0.0.0/8" is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
+  "autoSubnetworkConfig.allocRangeSpace"?: StringList | undefined;
+  /** Optional. The desired prefix length for the subnet's IP address range. E.g., 24 for a /24. The actual range is allocated from available space. If not specified, 24 is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
+  "autoSubnetworkConfig.prefixLength"?: number | undefined;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/serviceConnectionPolicies/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
+  serviceConnectionPolicyId?: string | undefined;
+  /** Required. The parent resource's name of the ServiceConnectionPolicy. ex. projects/123/locations/us-east1 */
+  parent: string;
   /** The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass. It is provided by the Service Producer. Google services have a prefix of gcp or google-cloud. For example, gcp-memorystore-redis or google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx. */
   serviceClass?: string | undefined;
   /** Output only. Time when the ServiceConnectionPolicy was updated. */
@@ -1018,32 +977,13 @@ export interface ServiceConnectionPolicy {
   /** The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}. */
   network?: string | undefined;
 }
-export interface CreateProjectsLocationsServiceConnectionPoliciesRequest {
-  /** Optional. The requested IP stack for the subnetwork. If not specified, IPv4 is used. */
-  "autoSubnetworkConfig.ipStack"?:
-    | CreateProjectsLocationsServiceConnectionPoliciesAutoSubnetworkConfig_ipStackEnum
-    | (string & {})
-    | undefined;
+export interface CreateProjectsLocationsServiceConnectionTokensRequest {
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/ServiceConnectionTokens/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
+  serviceConnectionTokenId?: string | undefined;
+  /** Required. The parent resource's name of the ServiceConnectionToken. ex. projects/123/locations/us-east1 */
+  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. If this field is not set, USER_PROVIDED is the inferred value to use. */
-  subnetworkMode?:
-    | CreateProjectsLocationsServiceConnectionPoliciesSubnetworkModeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The space where we search for a free range to create a subnetwork. It can be narrow down or pick a different space. This is in standard CIDR format. If not specified, "10.0.0.0/8" is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
-  "autoSubnetworkConfig.allocRangeSpace"?: StringList | undefined;
-  /** Optional. The desired prefix length for the subnet's IP address range. E.g., 24 for a /24. The actual range is allocated from available space. If not specified, 24 is used. Only eligible for IPV4_ONLY and IPV4_IPV6 subnetwork. */
-  "autoSubnetworkConfig.prefixLength"?: number | undefined;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/serviceConnectionPolicies/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
-  serviceConnectionPolicyId?: string | undefined;
-  /** Required. The parent resource's name of the ServiceConnectionPolicy. ex. projects/123/locations/us-east1 */
-  parent: string;
-  /** Request body */
-  body?: ServiceConnectionPolicy | undefined;
-}
-/** The ServiceConnectionToken resource. */
-export interface ServiceConnectionToken {
   /** Output only. The time to which this token is valid. */
   expireTime?: string | undefined;
   /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
@@ -1062,16 +1002,6 @@ export interface ServiceConnectionToken {
   createTime?: string | undefined;
   /** Immutable. The name of a ServiceConnectionToken. Format: projects/{project}/locations/{location}/ServiceConnectionTokens/{service_connection_token} See: https://google.aip.dev/122#fields-representing-resource-names */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsServiceConnectionTokensRequest {
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/ServiceConnectionTokens/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. If one is not provided, one will be generated. */
-  serviceConnectionTokenId?: string | undefined;
-  /** Required. The parent resource's name of the ServiceConnectionToken. ex. projects/123/locations/us-east1 */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceConnectionToken | undefined;
 }
 export type StateReasonCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -1248,8 +1178,13 @@ export type SpokeStateEnum =
   | "INACTIVE"
   | "OBSOLETE"
   | "FAILED";
-/** A Network Connectivity Center spoke represents one or more network connectivity resources. When you create a spoke, you associate it with a hub. You must also identify a value for exactly one of the following fields: * linked_vpn_tunnels * linked_interconnect_attachments * linked_router_appliance_instances * linked_vpc_network */
-export interface Spoke {
+export interface CreateProjectsLocationsSpokesRequest {
+  /** Required. Unique id for the spoke to create. */
+  spokeId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource. */
+  parent: string;
   /** Output only. The reasons for current state of the spoke. */
   reasons?: StateReasonList | undefined;
   /** Optional. The linked producer VPC that is associated with the spoke. */
@@ -1289,16 +1224,6 @@ export interface Spoke {
   /** Output only. The current lifecycle state of this spoke. */
   state?: SpokeStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsSpokesRequest {
-  /** Required. Unique id for the spoke to create. */
-  spokeId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource. */
-  parent: string;
-  /** Request body */
-  body?: Spoke | undefined;
-}
 export type GatewayAdvertisedRouteRecipientEnum = "RECIPIENT_UNSPECIFIED" | "ADVERTISE_TO_HUB";
 export type GatewayAdvertisedRouteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1311,8 +1236,13 @@ export type GatewayAdvertisedRouteStateEnum =
   | "INACTIVE"
   | "OBSOLETE"
   | "FAILED";
-/** A gateway advertised route is a route that a gateway spoke advertises somewhere. */
-export interface GatewayAdvertisedRoute {
+export interface CreateProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
+  /** Required. Unique id for the route to create. */
+  gatewayAdvertisedRouteId?: string | undefined;
+  /** Required. The parent resource. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. The Google-generated UUID for the gateway advertised route. This value is unique across all gateway advertised route resources. If a gateway advertised route is deleted and another with the same name is created, the new route is assigned a different `unique_id`. */
   uniqueId?: string | undefined;
   /** Optional. The recipient of this advertised route. */
@@ -1333,16 +1263,6 @@ export interface GatewayAdvertisedRoute {
   ipRange?: string | undefined;
   /** Output only. The time the gateway advertised route was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
-  /** Required. Unique id for the route to create. */
-  gatewayAdvertisedRouteId?: string | undefined;
-  /** Required. The parent resource. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: GatewayAdvertisedRoute | undefined;
 }
 export type TransportStackTypeEnum = "STACK_TYPE_UNSPECIFIED" | "IPV4_ONLY" | "IPV4_IPV6";
 export type TransportStateEnum =
@@ -1369,8 +1289,13 @@ export type TransportBandwidthEnum =
   | "BPS_20G"
   | "BPS_50G"
   | "BPS_100G";
-/** Message describing Transport object. */
-export interface Transport {
+export interface CreateProjectsLocationsTransportsRequest {
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. Id of the requesting object */
+  transportId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. Immutable. Name of the remoteTransportProfile that this Transport is connecting to. */
   remoteProfile?: string | undefined;
   /** Identifier. Name of the resource. */
@@ -1409,16 +1334,6 @@ export interface Transport {
   advertisedRoutes?: StringList | undefined;
   /** Output only. The maximum transmission unit (MTU) of a packet that can be sent over this transport. */
   mtuLimit?: number | undefined;
-}
-export interface CreateProjectsLocationsTransportsRequest {
-  /** Required. Value for parent. */
-  parent: string;
-  /** Required. Id of the requesting object */
-  transportId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Transport | undefined;
 }
 export type DeleteProjectsLocationsAutomatedDnsRecordsDeleteModeEnum =
   | "DELETE_MODE_UNSPECIFIED"
@@ -1640,9 +1555,79 @@ export interface GetProjectsLocationsAutomatedDnsRecordsRequest {
   /** Required. Name of the AutomatedDnsRecord to get. Format: projects/{project}/locations/{location}/automatedDnsRecords/{automated_dns_record} */
   name: string;
 }
+/** Represents a DNS record managed by the AutomatedDnsRecord API. */
+export interface AutomatedDnsRecord {
+  /** Output only. The current settings for this record as identified by (`hostname`, `dns_suffix`, `type`) in Cloud DNS. The `current_config` field reflects the actual settings of the DNS record in Cloud DNS based on the `hostname`, `dns_suffix`, and `type`. * **Absence:** If `current_config` is unset, it means a DNS record with the specified `hostname`, `dns_suffix`, and `type` does not currently exist in Cloud DNS. This could be because the `AutomatedDnsRecord` has never been successfully programmed, has been deleted, or there was an error during provisioning. * **Presence:** If `current_config` is present: * It can be different from the `original_config`. This can happen due to several reasons: * Out-of-band changes: A consumer might have directly modified the DNS record in Cloud DNS. * `OVERWRITE` operations from other `AutomatedDnsRecord` resources: Another `AutomatedDnsRecord` with the same identifying attributes (`hostname`, `dns_suffix`, `type`) but a different configuration might have overwritten the record using `insert_mode: OVERWRITE`. Therefore, the presence of `current_config` indicates that a corresponding DNS record exists, but its values (TTL and RRData) might not always align with the `original_config` of the AutomatedDnsRecord. */
+  currentConfig?: Config | undefined;
+  /** Output only. A human-readable message providing more context about the current state, such as an error description if the state is `FAILED_DEPROGRAMMING`. */
+  stateDetails?: string | undefined;
+  /** Required. Immutable. The configuration settings used to create this DNS record. These settings define the desired state of the record as specified by the producer. */
+  originalConfig?: Config | undefined;
+  /** Output only. The current operational state of this AutomatedDnsRecord as managed by Service Connectivity Automation. */
+  state?: AutomatedDnsRecordStateEnum | undefined;
+  /** Required. Immutable. The full resource path of the consumer network this AutomatedDnsRecord is visible to. Example: "projects/{projectNumOrId}/global/networks/{networkName}". */
+  consumerNetwork?: string | undefined;
+  /** Output only. The timestamp of when the record was created. */
+  createTime?: string | undefined;
+  /** Required. Immutable. The service class identifier which authorizes this AutomatedDnsRecord. Any API calls targeting this AutomatedDnsRecord must have `networkconnectivity.serviceClasses.use` IAM permission for the provided service class. */
+  serviceClass?: string | undefined;
+  /** Output only. DnsZone is the DNS zone managed by automation. Format: projects/{project}/managedZones/{managedZone} */
+  dnsZone?: string | undefined;
+  /** Required. Immutable. The dns suffix for this record to use in longest-suffix matching. Requires a trailing dot. Example: "example.com." */
+  dnsSuffix?: string | undefined;
+  /** Required. Immutable. The identifier of a supported record type. */
+  recordType?: AutomatedDnsRecordRecordTypeEnum | undefined;
+  /** Immutable. Identifier. The name of an AutomatedDnsRecord. Format: projects/{project}/locations/{location}/automatedDnsRecords/{automated_dns_record} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The FQDN created by combining the hostname and dns suffix. Should include a trailing dot. */
+  fqdn?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The hostname for the DNS record. This value will be prepended to the `dns_suffix` to create the full domain name (FQDN) for the record. For example, if `hostname` is "corp.db" and `dns_suffix` is "example.com.", the resulting record will be "corp.db.example.com.". Should not include a trailing dot. */
+  hostname?: string | undefined;
+  /** Required. Immutable. The creation mode of the AutomatedDnsRecord. This field is immutable. */
+  creationMode?: AutomatedDnsRecordCreationModeEnum | undefined;
+  /** A human-readable description of the record. */
+  description?: string | undefined;
+  /** Output only. The timestamp of when the record was updated. */
+  updateTime?: string | undefined;
+}
 export interface GetProjectsLocationsGlobalHubsRequest {
   /** Required. The name of the hub resource to get. */
   name: string;
+}
+/** A Network Connectivity Center hub is a global management resource to which you attach spokes. A single hub can contain spokes from multiple regions. However, if any of a hub's spokes use the site-to-site data transfer feature, the resources associated with those spokes must all be in the same VPC network. Spokes that do not use site-to-site data transfer can be associated with any VPC network in your project. */
+export interface Hub {
+  /** Optional. An optional description of the hub. */
+  description?: string | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. Whether Private Service Connect connection propagation is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false. */
+  exportPsc?: boolean | undefined;
+  /** Optional. The topology implemented in this hub. Currently, this field is only used when policy_mode = PRESET. The available preset topologies are MESH and STAR. If preset_topology is unspecified and policy_mode = PRESET, the preset_topology defaults to MESH. When policy_mode = CUSTOM, the preset_topology is set to PRESET_TOPOLOGY_UNSPECIFIED. */
+  presetTopology?: HubPresetTopologyEnum | undefined;
+  /** Output only. The current lifecycle state of this hub. */
+  state?: HubStateEnum | undefined;
+  /** Output only. The time the hub was created. */
+  createTime?: string | undefined;
+  /** Output only. A summary of the spokes associated with a hub. The summary includes a count of spokes according to type and according to state. If any spokes are inactive, the summary also lists the reasons they are inactive, including a count for each reason. */
+  spokeSummary?: SpokeSummary | undefined;
+  /** Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policy_mode defaults to PRESET. */
+  policyMode?: HubPolicyModeEnum | undefined;
+  /** Output only. The time the hub was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The route tables that belong to this hub. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}/routeTables/{route_table_id}` This field is read-only. Network Connectivity Center automatically populates it based on the route tables nested under the hub. */
+  routeTables?: StringList | undefined;
+  /** Output only. The VPC networks associated with this hub's spokes. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub. */
+  routingVpcs?: RoutingVPCList | undefined;
+  /** Output only. The Google-generated UUID for the hub. This value is unique across all hub resources. If a hub is deleted and another with the same name is created, the new hub is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Optional. Config for more granular control of Private Service Connect transitivity. */
+  exportPscConfig?: ExportPscConfig | undefined;
+  /** Immutable. The name of the hub. Hub names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}` */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalHubsGroupsRequest {
   /** Required. The name of the route table resource. */
@@ -1675,7 +1660,7 @@ export interface Group {
   /** Optional. The description of the group. */
   description?: string | undefined;
   /** Output only. The current lifecycle state of this group. */
-  state?: GroupStateEnum | (string & {}) | undefined;
+  state?: GroupStateEnum | undefined;
   /** Output only. The time the group was created. */
   createTime?: string | undefined;
   /** Optional. The auto-accept setting for this group. */
@@ -1816,17 +1801,137 @@ export interface GetProjectsLocationsGlobalPolicyBasedRoutesRequest {
   /** Required. Name of the PolicyBasedRoute resource to get. */
   name: string;
 }
+/** Policy-based routes route L4 network traffic based on not just destination IP address, but also source IP address, protocol, and more. If a policy-based route conflicts with other types of routes, the policy-based route always takes precedence. */
+export interface PolicyBasedRoute {
+  /** Output only. Time when the policy-based route was updated. */
+  updateTime?: string | undefined;
+  /** Optional. The IP address of a global-access-enabled L4 ILB that is the next hop for matching packets. For this version, only nextHopIlbIp is supported. */
+  nextHopIlbIp?: string | undefined;
+  /** Output only. Type of this resource. Always networkconnectivity#policyBasedRoute for policy-based Route resources. */
+  kind?: string | undefined;
+  /** Required. Fully-qualified URL of the network that this route applies to, for example: projects/my-project/global/networks/my-network. */
+  network?: string | undefined;
+  /** Immutable. Identifier. A unique name of the resource in the form of `projects/{project_number}/locations/global/PolicyBasedRoutes/{policy_based_route_id}` */
+  name?: string | undefined;
+  /** Optional. Other routes that will be referenced to determine the next hop of the packet. */
+  nextHopOtherRoutes?: PolicyBasedRouteNextHopOtherRoutesEnum | undefined;
+  /** Required. The filter to match L4 traffic. */
+  filter?: Filter | undefined;
+  /** Optional. VM instances that this policy-based route applies to. */
+  virtualMachine?: VirtualMachine | undefined;
+  /** Optional. An optional description of this resource. Provide this field when you create the resource. */
+  description?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. The priority of this policy-based route. Priority is used to break ties in cases where there are more than one matching policy-based routes found. In cases where multiple policy-based routes are matched, the one with the lowest-numbered priority value wins. The default value is 1000. The priority value must be from 1 to 65535, inclusive. */
+  priority?: number | undefined;
+  /** Output only. Server-defined fully-qualified URL for this resource. */
+  selfLink?: string | undefined;
+  /** Optional. The interconnect attachments that this policy-based route applies to. */
+  interconnectAttachment?: InterconnectAttachment | undefined;
+  /** Output only. Time when the policy-based route was created. */
+  createTime?: string | undefined;
+  /** Output only. If potential misconfigurations are detected for this route, this field will be populated with warning messages. */
+  warnings?: WarningsList | undefined;
+}
 export interface GetProjectsLocationsInternalRangesRequest {
   /** Required. Name of the InternalRange to get. */
   name: string;
+}
+/** The internal range resource for IPAM operations within a VPC network. Used to represent a private address range along with behavioral characteristics of that range (its usage and peering behavior). Networking resources can link to this range if they are created as belonging to it. */
+export interface InternalRange {
+  /** Optional. Must be present if usage is set to FOR_MIGRATION. */
+  migration?: Migration | undefined;
+  /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Optional. Immutable ranges cannot have their fields modified, except for labels and description. */
+  immutable?: boolean | undefined;
+  /** Optional. The IP range that this internal range defines. NOTE: IPv6 ranges are limited to usage=EXTERNAL_TO_VPC and peering=FOR_SELF. NOTE: For IPv6 Ranges this field is compulsory, i.e. the address range must be specified explicitly. */
+  ipCidrRange?: string | undefined;
+  /** Optional. Can be set to narrow down or pick a different address space while searching for a free range. If not set, defaults to the ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] address space (for auto-mode networks, the "10.0.0.0/9" range is used instead of "10.0.0.0/8"). This can be used to target the search in other rfc-1918 address spaces like "172.16.0.0/12" and "192.168.0.0/16" or non-rfc-1918 address spaces used in the VPC. */
+  targetCidrRange?: StringList | undefined;
+  /** Output only. The list of resources that refer to this internal range. Resources that use the internal range for their range allocation are referred to as users of the range. Other resources mark themselves as users while doing so by creating a reference to this internal range. Having a user, based on this reference, prevents deletion of the internal range referred to. Can be empty. */
+  users?: StringList | undefined;
+  /** Optional. ExcludeCidrRanges flag. Specifies a set of CIDR blocks that allows exclusion of particular CIDR ranges from the auto-allocation process, without having to reserve these blocks */
+  excludeCidrRanges?: StringList | undefined;
+  /** Output only. Time when the internal range was updated. */
+  updateTime?: string | undefined;
+  /** Optional. An alternate to ip_cidr_range. Can be set when trying to create an IPv4 reservation that automatically finds a free range of the given size. If both ip_cidr_range and prefix_length are set, there is an error if the range sizes do not match. Can also be used during updates to change the range size. NOTE: For IPv6 this field only works if ip_cidr_range is set as well, and both fields must match. In other words, with IPv6 this field only works as a redundant parameter. */
+  prefixLength?: number | undefined;
+  /** Optional. The type of peering set for this internal range. */
+  peering?: InternalRangePeeringEnum | undefined;
+  /** Output only. Time when the internal range was created. */
+  createTime?: string | undefined;
+  /** Immutable. The URL or resource ID of the network in which to reserve the internal range. The network cannot be deleted if there are any reserved internal ranges referring to it. Legacy networks are not supported. For example: https://www.googleapis.com/compute/v1/projects/{project}/locations/global/networks/{network} projects/{project}/locations/global/networks/{network} {network} */
+  network?: string | undefined;
+  /** Optional. Types of resources that are allowed to overlap with the current internal range. */
+  overlaps?: InternalRangeOverlapsItemEnumList | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. The type of usage set for this InternalRange. */
+  usage?: InternalRangeUsageEnum | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Optional. The purpose of this internal range. Defines the intended use of the range and any restrictions associated with it. If not specified, it defaults to VPC_SUBNET. */
+  purpose?: InternalRangePurposeEnum | undefined;
+  /** Optional. Range auto-allocation options, may be set only when auto-allocation is selected by not setting ip_cidr_range (and setting prefix_length). */
+  allocationOptions?: AllocationOptions | undefined;
+  /** Output only. Status of the Internal Range. */
+  rangeStatus?: InternalRangeRangeStatusEnum | undefined;
 }
 export interface GetProjectsLocationsMulticloudDataTransferConfigsRequest {
   /** Required. The name of the `MulticloudDataTransferConfig` resource to get. */
   name: string;
 }
+/** The `MulticloudDataTransferConfig` resource. It lists the services that you configure for Data Transfer Essentials billing and metering. */
+export interface MulticloudDataTransferConfig {
+  /** Output only. The number of `Destination` resources configured for the `MulticloudDataTransferConfig` resource. */
+  destinationsCount?: number | undefined;
+  /** Output only. Time when the `MulticloudDataTransferConfig` resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The number of `Destination` resources in use with the `MulticloudDataTransferConfig` resource. */
+  destinationsActiveCount?: number | undefined;
+  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The Google-generated unique ID for the `MulticloudDataTransferConfig` resource. This value is unique across all `MulticloudDataTransferConfig` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
+  uid?: string | undefined;
+  /** Output only. Time when the `MulticloudDataTransferConfig` resource was updated. */
+  updateTime?: string | undefined;
+  /** Identifier. The name of the `MulticloudDataTransferConfig` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}`. */
+  name?: string | undefined;
+  /** Optional. Maps services to their current or planned states. Service names are keys, and the associated values describe the state of the service. If a state change is expected, the value is either `ADDING` or `DELETING`, depending on the actions taken. Sample output: "services": { "big-query": { "states": [ { "effectiveTime": "2024-12-12T08:00:00Z" "state": "ADDING", }, ] }, "cloud-storage": { "states": [ { "state": "ACTIVE", } ] } } */
+  services?: StateTimelineMap | undefined;
+}
 export interface GetProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest {
   /** Required. The name of the `Destination` resource to get. */
   name: string;
+}
+/** The `Destination` resource. It specifies the IP prefix and the associated autonomous system numbers (ASN) that you want to include in a `MulticloudDataTransferConfig` resource. */
+export interface Destination {
+  /** Required. Unordered list. The list of `DestinationEndpoint` resources configured for the IP prefix. */
+  endpoints?: DestinationEndpointList | undefined;
+  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. Time when the `Destination` resource was created. */
+  createTime?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the `Destination` resource was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The Google-generated unique ID for the `Destination` resource. This value is unique across all `Destination` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
+  uid?: string | undefined;
+  /** Required. Immutable. The IP prefix that represents your workload on another CSP. */
+  ipPrefix?: string | undefined;
+  /** Identifier. The name of the `Destination` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}`. */
+  name?: string | undefined;
+  /** Output only. The timeline of the expected `Destination` states or the current rest state. If a state change is expected, the value is `ADDING`, `DELETING` or `SUSPENDING`, depending on the action specified. Example: "state_timeline": { "states": [ { // The time when the `Destination` resource will be activated. "effectiveTime": "2024-12-01T08:00:00Z", "state": "ADDING" }, { // The time when the `Destination` resource will be suspended. "effectiveTime": "2024-12-01T20:00:00Z", "state": "SUSPENDING" } ] } */
+  stateTimeline?: StateTimeline | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
 }
 export interface GetProjectsLocationsMulticloudDataTransferSupportedServicesRequest {
   /** Required. The name of the service. */
@@ -1860,9 +1965,59 @@ export interface GetProjectsLocationsPscAuthorizationPoliciesRequest {
   /** Required. Name of the PscAuthorizationPolicy to get. */
   name: string;
 }
+/** Represents a PSC Authorization Policy. */
+export interface PscAuthorizationPolicy {
+  /** Output only. The time when the PscAuthorizationPolicy was created. */
+  createTime?: string | undefined;
+  /** Required. The full absolute URI of the targeted resource governed by this policy. For example, for an AgentRegistry resource, the format is: `//agentregistry.googleapis.com/projects/{project}/locations/{location}` */
+  targetResourceUri?: string | undefined;
+  /** Required. The authorization mode. */
+  authorizationMode?: PscAuthorizationPolicyAuthorizationModeEnum | undefined;
+  /** Identifier. The name of the PscAuthorizationPolicy. Format: projects/{project}/locations/{location}/pscAuthorizationPolicies/{psc_authorization_policy} */
+  name?: string | undefined;
+  /** Required. List of authorized consumer resources allowed to connect. Supported values are: 1. Project resource name (e.g., `projects/{project_id}`) 2. Wildcard `"*"` (grants global ingress authorization to the target). */
+  authorizedClientResources?: StringList | undefined;
+  /** Output only. The time when the PscAuthorizationPolicy was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The etag of the PscAuthorizationPolicy. */
+  etag?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Output only. The unique identifier of the PscAuthorizationPolicy. */
+  uid?: string | undefined;
+}
 export interface GetProjectsLocationsRegionalEndpointsRequest {
   /** Required. Name of the RegionalEndpoint resource to get. Format: `projects/{project}/locations/{location}/regionalEndpoints/{regional_endpoint}` */
   name: string;
+}
+/** The RegionalEndpoint resource. */
+export interface RegionalEndpoint {
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. The name of the VPC network for this private regional endpoint. Format: `projects/{project}/global/networks/{network}` */
+  network?: string | undefined;
+  /** Optional. The IP Address of the Regional Endpoint. When no address is provided, an IP from the subnetwork is allocated. Use one of the following formats: * IPv4 address as in `10.0.0.1` * Address resource URI as in `projects/{project}/regions/{region}/addresses/{address_name}` for an IPv4 or IPv6 address. */
+  address?: string | undefined;
+  /** Output only. Time when the RegionalEndpoint was created. */
+  createTime?: string | undefined;
+  /** Required. The access type of this regional endpoint. This field is reflected in the PSC Forwarding Rule configuration to enable global access. */
+  accessType?: RegionalEndpointAccessTypeEnum | undefined;
+  /** Optional. The name of the subnetwork from which the IP address will be allocated. Format: `projects/{project}/regions/{region}/subnetworks/{subnetwork}` */
+  subnetwork?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Output only. Time when the RegionalEndpoint was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The resource reference of the PSC Forwarding Rule created on behalf of the customer. Format: `//compute.googleapis.com/projects/{project}/regions/{region}/forwardingRules/{forwarding_rule_name}` */
+  pscForwardingRule?: string | undefined;
+  /** Output only. The literal IP address of the PSC Forwarding Rule created on behalf of the customer. This field is deprecated. Use address instead. */
+  ipAddress?: string | undefined;
+  /** Required. The service endpoint this private regional endpoint connects to. Format: `{apiname}.{region}.p.rep.googleapis.com` Example: "cloudkms.us-central1.p.rep.googleapis.com". */
+  targetGoogleApi?: string | undefined;
+  /** Output only. The name of a RegionalEndpoint. Pattern: `projects/{project}/locations/{location}/regionalEndpoints/^[-a-z0-9](?:[-a-z0-9]{0,44})[a-z0-9]$`. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsRemoteTransportProfilesRequest {
   /** Required. Name of the resource. */
@@ -1943,25 +2098,207 @@ export interface GetProjectsLocationsServiceConnectionMapsRequest {
   /** Required. Name of the ServiceConnectionMap to get. */
   name: string;
 }
+/** The ServiceConnectionMap resource. */
+export interface ServiceConnectionMap {
+  /** Output only. PSC connection details on consumer side. */
+  consumerPscConnections?: ConsumerPscConnectionList | undefined;
+  /** Output only. The service class uri this ServiceConnectionMap is for. */
+  serviceClassUri?: string | undefined;
+  /** The PSC configurations on producer side. */
+  producerPscConfigs?: ProducerPscConfigList | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. Time when the ServiceConnectionMap was created. */
+  createTime?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Immutable. The name of a ServiceConnectionMap. Format: projects/{project}/locations/{location}/serviceConnectionMaps/{service_connection_map} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Output only. Time when the ServiceConnectionMap was updated. */
+  updateTime?: string | undefined;
+  /** The token provided by the consumer. This token authenticates that the consumer can create a connection within the specified project and network. */
+  token?: string | undefined;
+  /** The PSC configurations on consumer side. */
+  consumerPscConfigs?: ConsumerPscConfigList | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Output only. The infrastructure used for connections between consumers/producers. */
+  infrastructure?: ServiceConnectionMapInfrastructureEnum | undefined;
+  /** The service class identifier this ServiceConnectionMap is for. The user of ServiceConnectionMap create API needs to have networkconnectivity.serviceClasses.use IAM permission for the service class. */
+  serviceClass?: string | undefined;
+}
 export interface GetProjectsLocationsServiceConnectionPoliciesRequest {
   /** Required. Name of the ServiceConnectionPolicy to get. */
   name: string;
+}
+/** The ServiceConnectionPolicy resource. */
+export interface ServiceConnectionPolicy {
+  /** The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass. It is provided by the Service Producer. Google services have a prefix of gcp or google-cloud. For example, gcp-memorystore-redis or google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx. */
+  serviceClass?: string | undefined;
+  /** Output only. Time when the ServiceConnectionPolicy was updated. */
+  updateTime?: string | undefined;
+  /** Output only. Information for the automatically created subnetwork and its associated IR. */
+  autoCreatedSubnetInfo?: AutoCreatedSubnetworkInfo | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Configuration used for Private Service Connect connections. Used when Infrastructure is PSC. */
+  pscConfig?: PscConfig | undefined;
+  /** Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the ServiceConnectionPolicy was created. */
+  createTime?: string | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Output only. [Output only] Information about each Private Service Connect connection. */
+  pscConnections?: PscConnectionList | undefined;
+  /** Output only. The type of underlying resources used to create the connection. */
+  infrastructure?: ServiceConnectionPolicyInfrastructureEnum | undefined;
+  /** The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}. */
+  network?: string | undefined;
 }
 export interface GetProjectsLocationsServiceConnectionTokensRequest {
   /** Required. Name of the ServiceConnectionToken to get. */
   name: string;
 }
+/** The ServiceConnectionToken resource. */
+export interface ServiceConnectionToken {
+  /** Output only. The time to which this token is valid. */
+  expireTime?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The token generated by Automation. */
+  token?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the ServiceConnectionToken was updated. */
+  updateTime?: string | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** The resource path of the network associated with this token. Example: projects/{projectNumOrId}/global/networks/{resourceId}. */
+  network?: string | undefined;
+  /** Output only. Time when the ServiceConnectionToken was created. */
+  createTime?: string | undefined;
+  /** Immutable. The name of a ServiceConnectionToken. Format: projects/{project}/locations/{location}/ServiceConnectionTokens/{service_connection_token} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsSpokesRequest {
   /** Required. The name of the spoke resource. */
   name: string;
+}
+/** A Network Connectivity Center spoke represents one or more network connectivity resources. When you create a spoke, you associate it with a hub. You must also identify a value for exactly one of the following fields: * linked_vpn_tunnels * linked_interconnect_attachments * linked_router_appliance_instances * linked_vpc_network */
+export interface Spoke {
+  /** Output only. The reasons for current state of the spoke. */
+  reasons?: StateReasonList | undefined;
+  /** Optional. The linked producer VPC that is associated with the spoke. */
+  linkedProducerVpcNetwork?: LinkedProducerVpcNetwork | undefined;
+  /** Optional. VPC network that is associated with the spoke. */
+  linkedVpcNetwork?: LinkedVpcNetwork | undefined;
+  /** Optional. Router appliance instances that are associated with the spoke. */
+  linkedRouterApplianceInstances?: LinkedRouterApplianceInstances | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. The name of the group that this spoke is associated with. */
+  group?: string | undefined;
+  /** Immutable. The name of the hub that this spoke is attached to. */
+  hub?: string | undefined;
+  /** Output only. The time the spoke was created. */
+  createTime?: string | undefined;
+  /** Output only. The list of fields waiting for hub administrator's approval. */
+  fieldPathsPendingUpdate?: StringList | undefined;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Immutable. The name of the spoke. Spoke names must be unique. They use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke_id}` */
+  name?: string | undefined;
+  /** Output only. The time the spoke was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. VLAN attachments that are associated with the spoke. */
+  linkedInterconnectAttachments?: LinkedInterconnectAttachments | undefined;
+  /** Output only. The Google-generated UUID for the spoke. This value is unique across all spoke resources. If a spoke is deleted and another with the same name is created, the new spoke is assigned a different `unique_id`. */
+  uniqueId?: string | undefined;
+  /** Output only. The type of resource associated with the spoke. */
+  spokeType?: SpokeSpokeTypeEnum | undefined;
+  /** Optional. VPN tunnels that are associated with the spoke. */
+  linkedVpnTunnels?: LinkedVpnTunnels | undefined;
+  /** Optional. This is a gateway that can apply specialized processing to traffic going through it. */
+  gateway?: Gateway | undefined;
+  /** Optional. An optional description of the spoke. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this spoke. */
+  state?: SpokeStateEnum | undefined;
 }
 export interface GetProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
   /** Required. The name of the gateway advertised route to get. */
   name: string;
 }
+/** A gateway advertised route is a route that a gateway spoke advertises somewhere. */
+export interface GatewayAdvertisedRoute {
+  /** Output only. The Google-generated UUID for the gateway advertised route. This value is unique across all gateway advertised route resources. If a gateway advertised route is deleted and another with the same name is created, the new route is assigned a different `unique_id`. */
+  uniqueId?: string | undefined;
+  /** Optional. The recipient of this advertised route. */
+  recipient?: GatewayAdvertisedRouteRecipientEnum | undefined;
+  /** Optional. The priority of this advertised route. You can choose a value from `0` to `65335`. If you don't provide a value, Google Cloud assigns a priority of `100` to the ranges. */
+  priority?: number | undefined;
+  /** Output only. The time the gateway advertised route was last updated. */
+  updateTime?: string | undefined;
+  /** Identifier. The name of the gateway advertised route. Route names must be unique and use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke}/gatewayAdvertisedRoutes/{gateway_advertised_route_id}` */
+  name?: string | undefined;
+  /** An optional description of the gateway advertised route. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this gateway advertised route. */
+  state?: GatewayAdvertisedRouteStateEnum | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Immutable. This route's advertised IP address range. Must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as, for IPv4, a `/32` singular IP address range, and, for IPv6, `/128`. */
+  ipRange?: string | undefined;
+  /** Output only. The time the gateway advertised route was created. */
+  createTime?: string | undefined;
+}
 export interface GetProjectsLocationsTransportsRequest {
   /** Required. Name of the resource. */
   name: string;
+}
+/** Message describing Transport object. */
+export interface Transport {
+  /** Optional. Immutable. Name of the remoteTransportProfile that this Transport is connecting to. */
+  remoteProfile?: string | undefined;
+  /** Identifier. Name of the resource. */
+  name?: string | undefined;
+  /** Optional. Immutable. The NCC Hub that the Transport should attach to. The hub must be in the same project as the Transport. Format: `{hub}` or `projects/{project}/locations/global/hubs/{hub}` */
+  hub?: string | undefined;
+  /** Optional. Immutable. Controls whether a Routing VPC Spoke should be created and attached to the NCC Hub. This will provide Private Service Connect (PSC) connectivity through NCC. This can only be set when the Transport is first created. */
+  pscRoutingEnabled?: boolean | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Google-generated activation key. This is only output if the selected profile supports an OUTPUT key flow. Inputting this to the provider is only valid while the resource is in a PENDING_KEY state. Once the provider has accepted the key, the resource will move to the CONFIGURING state. */
+  generatedActivationKey?: string | undefined;
+  /** Optional. Description of the Transport. */
+  description?: string | undefined;
+  /** Output only. Create time stamp. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. Controls whether resources proposed by the Transport are automatically accepted on behalf of the user. List of actions that can be automatically accepted are: 1. VPC Peering creation 2. Routing VPC Spoke creation 3. Hybrid Spoke creation */
+  autoAccept?: boolean | undefined;
+  /** Optional. IP version stack for the established connectivity. */
+  stackType?: TransportStackTypeEnum | undefined;
+  /** Optional. Immutable. Key used for establishing a connection with the remote transport. This key can only be provided if the profile supports an INPUT key flow and the resource is in the PENDING_KEY state. */
+  providedActivationKey?: string | undefined;
+  /** Output only. State of the underlying connectivity. */
+  state?: TransportStateEnum | undefined;
+  /** Optional. Bandwidth of the Transport. This must be one of the supported bandwidths for the remote profile, and must be set when no activation key is being provided. */
+  bandwidth?: TransportBandwidthEnum | undefined;
+  /** Output only. VPC Network URI that was created for the VPC Peering connection to the provided `network`. If VPC Peering is disconnected, this can be used to re-establish. */
+  peeringNetwork?: string | undefined;
+  /** Output only. Update time stamp. */
+  updateTime?: string | undefined;
+  /** Optional. Immutable. Resource URI of the Network that will be peered with this Transport. This field must be provided during resource creation and cannot be changed. */
+  network?: string | undefined;
+  /** Optional. Immutable. The user supplied account id for the CSP associated with the remote profile. */
+  remoteAccountId?: string | undefined;
+  /** Optional. List of IP Prefixes that will be advertised to the remote provider. Both IPv4 and IPv6 addresses are supported. */
+  advertisedRoutes?: StringList | undefined;
+  /** Output only. The maximum transmission unit (MTU) of a packet that can be sent over this transport. */
+  mtuLimit?: number | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
@@ -2480,8 +2817,32 @@ export interface PatchProjectsLocationsGlobalHubsRequest {
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Hub | undefined;
+  /** Optional. An optional description of the hub. */
+  description?: string | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. Whether Private Service Connect connection propagation is enabled for the hub. If true, Private Service Connect endpoints in VPC spokes attached to the hub are made accessible to other VPC spokes attached to the hub. The default value is false. */
+  exportPsc?: boolean | undefined;
+  /** Optional. The topology implemented in this hub. Currently, this field is only used when policy_mode = PRESET. The available preset topologies are MESH and STAR. If preset_topology is unspecified and policy_mode = PRESET, the preset_topology defaults to MESH. When policy_mode = CUSTOM, the preset_topology is set to PRESET_TOPOLOGY_UNSPECIFIED. */
+  presetTopology?: HubPresetTopologyEnum | (string & {}) | undefined;
+  /** Output only. The current lifecycle state of this hub. */
+  state?: HubStateEnum | (string & {}) | undefined;
+  /** Output only. The time the hub was created. */
+  createTime?: string | undefined;
+  /** Output only. A summary of the spokes associated with a hub. The summary includes a count of spokes according to type and according to state. If any spokes are inactive, the summary also lists the reasons they are inactive, including a count for each reason. */
+  spokeSummary?: SpokeSummary | undefined;
+  /** Optional. The policy mode of this hub. This field can be either PRESET or CUSTOM. If unspecified, the policy_mode defaults to PRESET. */
+  policyMode?: HubPolicyModeEnum | (string & {}) | undefined;
+  /** Output only. The time the hub was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The route tables that belong to this hub. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}/routeTables/{route_table_id}` This field is read-only. Network Connectivity Center automatically populates it based on the route tables nested under the hub. */
+  routeTables?: StringList | undefined;
+  /** Output only. The VPC networks associated with this hub's spokes. This field is read-only. Network Connectivity Center automatically populates it based on the set of spokes attached to the hub. */
+  routingVpcs?: RoutingVPCList | undefined;
+  /** Output only. The Google-generated UUID for the hub. This value is unique across all hub resources. If a hub is deleted and another with the same name is created, the new hub is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Optional. Config for more granular control of Private Service Connect transitivity. */
+  exportPscConfig?: ExportPscConfig | undefined;
 }
 export interface PatchProjectsLocationsGlobalHubsGroupsRequest {
   /** Optional. In the case of an update to an existing group, field mask is used to specify the fields to be overwritten. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields are overwritten. */
@@ -2490,8 +2851,22 @@ export interface PatchProjectsLocationsGlobalHubsGroupsRequest {
   requestId?: string | undefined;
   /** Immutable. The name of the group. Group names must be unique. They use the following form: `projects/{project_number}/locations/global/hubs/{hub}/groups/{group_id}` */
   name: string;
-  /** Request body */
-  body?: Group | undefined;
+  /** Optional. Labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Output only. The name of the route table that corresponds to this group. They use the following form: `projects/{project_number}/locations/global/hubs/{hub_id}/routeTables/{route_table_id}` */
+  routeTable?: string | undefined;
+  /** Output only. The time the group was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. The description of the group. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this group. */
+  state?: GroupStateEnum | (string & {}) | undefined;
+  /** Output only. The time the group was created. */
+  createTime?: string | undefined;
+  /** Optional. The auto-accept setting for this group. */
+  autoAccept?: AutoAccept | undefined;
+  /** Output only. The Google-generated UUID for the group. This value is unique across all group resources. If a group is deleted and another with the same name is created, the new route table is assigned a different unique_id. */
+  uid?: string | undefined;
 }
 export interface PatchProjectsLocationsInternalRangesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2500,8 +2875,42 @@ export interface PatchProjectsLocationsInternalRangesRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the InternalRange resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InternalRange | undefined;
+  /** Optional. Must be present if usage is set to FOR_MIGRATION. */
+  migration?: Migration | undefined;
+  /** Optional. Immutable ranges cannot have their fields modified, except for labels and description. */
+  immutable?: boolean | undefined;
+  /** Optional. The IP range that this internal range defines. NOTE: IPv6 ranges are limited to usage=EXTERNAL_TO_VPC and peering=FOR_SELF. NOTE: For IPv6 Ranges this field is compulsory, i.e. the address range must be specified explicitly. */
+  ipCidrRange?: string | undefined;
+  /** Optional. Can be set to narrow down or pick a different address space while searching for a free range. If not set, defaults to the ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] address space (for auto-mode networks, the "10.0.0.0/9" range is used instead of "10.0.0.0/8"). This can be used to target the search in other rfc-1918 address spaces like "172.16.0.0/12" and "192.168.0.0/16" or non-rfc-1918 address spaces used in the VPC. */
+  targetCidrRange?: StringList | undefined;
+  /** Output only. The list of resources that refer to this internal range. Resources that use the internal range for their range allocation are referred to as users of the range. Other resources mark themselves as users while doing so by creating a reference to this internal range. Having a user, based on this reference, prevents deletion of the internal range referred to. Can be empty. */
+  users?: StringList | undefined;
+  /** Optional. ExcludeCidrRanges flag. Specifies a set of CIDR blocks that allows exclusion of particular CIDR ranges from the auto-allocation process, without having to reserve these blocks */
+  excludeCidrRanges?: StringList | undefined;
+  /** Output only. Time when the internal range was updated. */
+  updateTime?: string | undefined;
+  /** Optional. An alternate to ip_cidr_range. Can be set when trying to create an IPv4 reservation that automatically finds a free range of the given size. If both ip_cidr_range and prefix_length are set, there is an error if the range sizes do not match. Can also be used during updates to change the range size. NOTE: For IPv6 this field only works if ip_cidr_range is set as well, and both fields must match. In other words, with IPv6 this field only works as a redundant parameter. */
+  prefixLength?: number | undefined;
+  /** Optional. The type of peering set for this internal range. */
+  peering?: InternalRangePeeringEnum | (string & {}) | undefined;
+  /** Output only. Time when the internal range was created. */
+  createTime?: string | undefined;
+  /** Immutable. The URL or resource ID of the network in which to reserve the internal range. The network cannot be deleted if there are any reserved internal ranges referring to it. Legacy networks are not supported. For example: https://www.googleapis.com/compute/v1/projects/{project}/locations/global/networks/{network} projects/{project}/locations/global/networks/{network} {network} */
+  network?: string | undefined;
+  /** Optional. Types of resources that are allowed to overlap with the current internal range. */
+  overlaps?: InternalRangeOverlapsItemEnumList | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. The type of usage set for this InternalRange. */
+  usage?: InternalRangeUsageEnum | (string & {}) | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Optional. The purpose of this internal range. Defines the intended use of the range and any restrictions associated with it. If not specified, it defaults to VPC_SUBNET. */
+  purpose?: InternalRangePurposeEnum | (string & {}) | undefined;
+  /** Optional. Range auto-allocation options, may be set only when auto-allocation is selected by not setting ip_cidr_range (and setting prefix_length). */
+  allocationOptions?: AllocationOptions | undefined;
+  /** Output only. Status of the Internal Range. */
+  rangeStatus?: InternalRangeRangeStatusEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsMulticloudDataTransferConfigsRequest {
   /** Identifier. The name of the `MulticloudDataTransferConfig` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}`. */
@@ -2510,8 +2919,24 @@ export interface PatchProjectsLocationsMulticloudDataTransferConfigsRequest {
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. This prevents clients from accidentally creating duplicate `MulticloudDataTransferConfig` resources. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MulticloudDataTransferConfig | undefined;
+  /** Output only. The number of `Destination` resources configured for the `MulticloudDataTransferConfig` resource. */
+  destinationsCount?: number | undefined;
+  /** Output only. Time when the `MulticloudDataTransferConfig` resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The number of `Destination` resources in use with the `MulticloudDataTransferConfig` resource. */
+  destinationsActiveCount?: number | undefined;
+  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The Google-generated unique ID for the `MulticloudDataTransferConfig` resource. This value is unique across all `MulticloudDataTransferConfig` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
+  uid?: string | undefined;
+  /** Output only. Time when the `MulticloudDataTransferConfig` resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Maps services to their current or planned states. Service names are keys, and the associated values describe the state of the service. If a state change is expected, the value is either `ADDING` or `DELETING`, depending on the actions taken. Sample output: "services": { "big-query": { "states": [ { "effectiveTime": "2024-12-12T08:00:00Z" "state": "ADDING", }, ] }, "cloud-storage": { "states": [ { "state": "ACTIVE", } ] } } */
+  services?: StateTimelineMap | undefined;
 }
 export interface PatchProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest {
   /** Identifier. The name of the `Destination` resource. Format: `projects/{project}/locations/{location}/multicloudDataTransferConfigs/{multicloud_data_transfer_config}/destinations/{destination}`. */
@@ -2520,8 +2945,24 @@ export interface PatchProjectsLocationsMulticloudDataTransferConfigsDestinations
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server waits for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, can ignore the second request. The request ID must be a valid UUID with the exception that zero UUID (00000000-0000-0000-0000-000000000000) isn't supported. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Destination | undefined;
+  /** Required. Unordered list. The list of `DestinationEndpoint` resources configured for the IP prefix. */
+  endpoints?: DestinationEndpointList | undefined;
+  /** The etag is computed by the server, and might be sent with update and delete requests so that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. Time when the `Destination` resource was created. */
+  createTime?: string | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the `Destination` resource was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The Google-generated unique ID for the `Destination` resource. This value is unique across all `Destination` resources. If a resource is deleted and another with the same name is created, the new resource is assigned a different and unique ID. */
+  uid?: string | undefined;
+  /** Required. Immutable. The IP prefix that represents your workload on another CSP. */
+  ipPrefix?: string | undefined;
+  /** Output only. The timeline of the expected `Destination` states or the current rest state. If a state change is expected, the value is `ADDING`, `DELETING` or `SUSPENDING`, depending on the action specified. Example: "state_timeline": { "states": [ { // The time when the `Destination` resource will be activated. "effectiveTime": "2024-12-01T08:00:00Z", "state": "ADDING" }, { // The time when the `Destination` resource will be suspended. "effectiveTime": "2024-12-01T20:00:00Z", "state": "SUSPENDING" } ] } */
+  stateTimeline?: StateTimeline | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceClassesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceClass resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2530,8 +2971,18 @@ export interface PatchProjectsLocationsServiceClassesRequest {
   requestId?: string | undefined;
   /** Immutable. The name of a ServiceClass resource. Format: projects/{project}/locations/{location}/serviceClasses/{service_class} See: https://google.aip.dev/122#fields-representing-resource-names */
   name: string;
-  /** Request body */
-  body?: ServiceClass | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Output only. Time when the ServiceClass was created. */
+  createTime?: string | undefined;
+  /** Output only. The generated service class name. Use this name to refer to the Service class in Service Connection Maps and Service Connection Policies. */
+  serviceClass?: string | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. Time when the ServiceClass was updated. */
+  updateTime?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceConnectionMapsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceConnectionMap resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
@@ -2540,8 +2991,30 @@ export interface PatchProjectsLocationsServiceConnectionMapsRequest {
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceConnectionMap | undefined;
+  /** Output only. PSC connection details on consumer side. */
+  consumerPscConnections?: ConsumerPscConnectionList | undefined;
+  /** Output only. The service class uri this ServiceConnectionMap is for. */
+  serviceClassUri?: string | undefined;
+  /** The PSC configurations on producer side. */
+  producerPscConfigs?: ProducerPscConfigList | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. Time when the ServiceConnectionMap was created. */
+  createTime?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the ServiceConnectionMap was updated. */
+  updateTime?: string | undefined;
+  /** The token provided by the consumer. This token authenticates that the consumer can create a connection within the specified project and network. */
+  token?: string | undefined;
+  /** The PSC configurations on consumer side. */
+  consumerPscConfigs?: ConsumerPscConfigList | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Output only. The infrastructure used for connections between consumers/producers. */
+  infrastructure?: ServiceConnectionMapInfrastructureEnum | (string & {}) | undefined;
+  /** The service class identifier this ServiceConnectionMap is for. The user of ServiceConnectionMap create API needs to have networkconnectivity.serviceClasses.use IAM permission for the service class. */
+  serviceClass?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceConnectionPoliciesRequest {
   /** Immutable. The name of a ServiceConnectionPolicy. Format: projects/{project}/locations/{location}/serviceConnectionPolicies/{service_connection_policy} See: https://google.aip.dev/122#fields-representing-resource-names */
@@ -2550,8 +3023,28 @@ export interface PatchProjectsLocationsServiceConnectionPoliciesRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceConnectionPolicy | undefined;
+  /** The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass. It is provided by the Service Producer. Google services have a prefix of gcp or google-cloud. For example, gcp-memorystore-redis or google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx. */
+  serviceClass?: string | undefined;
+  /** Output only. Time when the ServiceConnectionPolicy was updated. */
+  updateTime?: string | undefined;
+  /** Output only. Information for the automatically created subnetwork and its associated IR. */
+  autoCreatedSubnetInfo?: AutoCreatedSubnetworkInfo | undefined;
+  /** Optional. The etag is computed by the server, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Configuration used for Private Service Connect connections. Used when Infrastructure is PSC. */
+  pscConfig?: PscConfig | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the ServiceConnectionPolicy was created. */
+  createTime?: string | undefined;
+  /** A description of this resource. */
+  description?: string | undefined;
+  /** Output only. [Output only] Information about each Private Service Connect connection. */
+  pscConnections?: PscConnectionList | undefined;
+  /** Output only. The type of underlying resources used to create the connection. */
+  infrastructure?: ServiceConnectionPolicyInfrastructureEnum | (string & {}) | undefined;
+  /** The resource path of the consumer network. Example: - projects/{projectNumOrId}/global/networks/{resourceId}. */
+  network?: string | undefined;
 }
 export interface PatchProjectsLocationsSpokesRequest {
   /** Immutable. The name of the spoke. Spoke names must be unique. They use the following form: `projects/{project_number}/locations/{region}/spokes/{spoke_id}` */
@@ -2560,8 +3053,42 @@ export interface PatchProjectsLocationsSpokesRequest {
   updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Spoke | undefined;
+  /** Output only. The reasons for current state of the spoke. */
+  reasons?: StateReasonList | undefined;
+  /** Optional. The linked producer VPC that is associated with the spoke. */
+  linkedProducerVpcNetwork?: LinkedProducerVpcNetwork | undefined;
+  /** Optional. VPC network that is associated with the spoke. */
+  linkedVpcNetwork?: LinkedVpcNetwork | undefined;
+  /** Optional. Router appliance instances that are associated with the spoke. */
+  linkedRouterApplianceInstances?: LinkedRouterApplianceInstances | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. The name of the group that this spoke is associated with. */
+  group?: string | undefined;
+  /** Immutable. The name of the hub that this spoke is attached to. */
+  hub?: string | undefined;
+  /** Output only. The time the spoke was created. */
+  createTime?: string | undefined;
+  /** Output only. The list of fields waiting for hub administrator's approval. */
+  fieldPathsPendingUpdate?: StringList | undefined;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The time the spoke was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. VLAN attachments that are associated with the spoke. */
+  linkedInterconnectAttachments?: LinkedInterconnectAttachments | undefined;
+  /** Output only. The Google-generated UUID for the spoke. This value is unique across all spoke resources. If a spoke is deleted and another with the same name is created, the new spoke is assigned a different `unique_id`. */
+  uniqueId?: string | undefined;
+  /** Output only. The type of resource associated with the spoke. */
+  spokeType?: SpokeSpokeTypeEnum | (string & {}) | undefined;
+  /** Optional. VPN tunnels that are associated with the spoke. */
+  linkedVpnTunnels?: LinkedVpnTunnels | undefined;
+  /** Optional. This is a gateway that can apply specialized processing to traffic going through it. */
+  gateway?: Gateway | undefined;
+  /** Optional. An optional description of the spoke. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this spoke. */
+  state?: SpokeStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2570,8 +3097,24 @@ export interface PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest {
   name: string;
   /** Optional. In the case of an update to an existing group, field mask is used to specify the fields to be overwritten. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GatewayAdvertisedRoute | undefined;
+  /** Output only. The Google-generated UUID for the gateway advertised route. This value is unique across all gateway advertised route resources. If a gateway advertised route is deleted and another with the same name is created, the new route is assigned a different `unique_id`. */
+  uniqueId?: string | undefined;
+  /** Optional. The recipient of this advertised route. */
+  recipient?: GatewayAdvertisedRouteRecipientEnum | (string & {}) | undefined;
+  /** Optional. The priority of this advertised route. You can choose a value from `0` to `65335`. If you don't provide a value, Google Cloud assigns a priority of `100` to the ranges. */
+  priority?: number | undefined;
+  /** Output only. The time the gateway advertised route was last updated. */
+  updateTime?: string | undefined;
+  /** An optional description of the gateway advertised route. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this gateway advertised route. */
+  state?: GatewayAdvertisedRouteStateEnum | (string & {}) | undefined;
+  /** Optional labels in key-value pair format. For more information about labels, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements). */
+  labels?: StringMap | undefined;
+  /** Immutable. This route's advertised IP address range. Must be a valid CIDR-formatted prefix. If an IP address is provided without a subnet mask, it is interpreted as, for IPv4, a `/32` singular IP address range, and, for IPv6, `/128`. */
+  ipRange?: string | undefined;
+  /** Output only. The time the gateway advertised route was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsTransportsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2580,8 +3123,42 @@ export interface PatchProjectsLocationsTransportsRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Transport resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Transport | undefined;
+  /** Optional. Immutable. Name of the remoteTransportProfile that this Transport is connecting to. */
+  remoteProfile?: string | undefined;
+  /** Optional. Immutable. The NCC Hub that the Transport should attach to. The hub must be in the same project as the Transport. Format: `{hub}` or `projects/{project}/locations/global/hubs/{hub}` */
+  hub?: string | undefined;
+  /** Optional. Immutable. Controls whether a Routing VPC Spoke should be created and attached to the NCC Hub. This will provide Private Service Connect (PSC) connectivity through NCC. This can only be set when the Transport is first created. */
+  pscRoutingEnabled?: boolean | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Google-generated activation key. This is only output if the selected profile supports an OUTPUT key flow. Inputting this to the provider is only valid while the resource is in a PENDING_KEY state. Once the provider has accepted the key, the resource will move to the CONFIGURING state. */
+  generatedActivationKey?: string | undefined;
+  /** Optional. Description of the Transport. */
+  description?: string | undefined;
+  /** Output only. Create time stamp. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. Controls whether resources proposed by the Transport are automatically accepted on behalf of the user. List of actions that can be automatically accepted are: 1. VPC Peering creation 2. Routing VPC Spoke creation 3. Hybrid Spoke creation */
+  autoAccept?: boolean | undefined;
+  /** Optional. IP version stack for the established connectivity. */
+  stackType?: TransportStackTypeEnum | (string & {}) | undefined;
+  /** Optional. Immutable. Key used for establishing a connection with the remote transport. This key can only be provided if the profile supports an INPUT key flow and the resource is in the PENDING_KEY state. */
+  providedActivationKey?: string | undefined;
+  /** Output only. State of the underlying connectivity. */
+  state?: TransportStateEnum | (string & {}) | undefined;
+  /** Optional. Bandwidth of the Transport. This must be one of the supported bandwidths for the remote profile, and must be set when no activation key is being provided. */
+  bandwidth?: TransportBandwidthEnum | (string & {}) | undefined;
+  /** Output only. VPC Network URI that was created for the VPC Peering connection to the provided `network`. If VPC Peering is disconnected, this can be used to re-establish. */
+  peeringNetwork?: string | undefined;
+  /** Output only. Update time stamp. */
+  updateTime?: string | undefined;
+  /** Optional. Immutable. Resource URI of the Network that will be peered with this Transport. This field must be provided during resource creation and cannot be changed. */
+  network?: string | undefined;
+  /** Optional. Immutable. The user supplied account id for the CSP associated with the remote profile. */
+  remoteAccountId?: string | undefined;
+  /** Optional. List of IP Prefixes that will be advertised to the remote provider. Both IPv4 and IPv6 addresses are supported. */
+  advertisedRoutes?: StringList | undefined;
+  /** Output only. The maximum transmission unit (MTU) of a packet that can be sent over this transport. */
+  mtuLimit?: number | undefined;
 }
 export interface QueryStatusProjectsLocationsGlobalHubsRequest {
   /** Optional. Sort the results in ascending order by the specified fields. A comma-separated list of any of these fields: * `psc_propagation_status.source_spoke` * `psc_propagation_status.source_group` * `psc_propagation_status.source_forwarding_rule` * `psc_propagation_status.target_spoke` * `psc_propagation_status.target_group` * `psc_propagation_status.code` If `group_by` is set, the value of the `order_by` field must be the same as or a subset of the `group_by` field. */
@@ -2639,8 +3216,9 @@ export interface QueryHubStatusResponse {
   /** The token for the next page of the response. To see more results, use this value as the page_token for your next request. If this value is empty, there are no more results. */
   nextPageToken?: string | undefined;
 }
-/** The request for HubService.RejectHubSpoke. */
-export interface RejectHubSpokeRequest {
+export interface RejectSpokeProjectsLocationsGlobalHubsRequest {
+  /** Required. The name of the hub from which to reject the spoke. */
+  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. Additional information provided by the hub administrator. */
@@ -2648,14 +3226,9 @@ export interface RejectHubSpokeRequest {
   /** Required. The URI of the spoke to reject from the hub. */
   spokeUri?: string | undefined;
 }
-export interface RejectSpokeProjectsLocationsGlobalHubsRequest {
-  /** Required. The name of the hub from which to reject the spoke. */
+export interface RejectSpokeUpdateProjectsLocationsGlobalHubsRequest {
+  /** Required. The name of the hub to reject spoke update. */
   name: string;
-  /** Request body */
-  body?: RejectHubSpokeRequest | undefined;
-}
-/** The request for HubService.RejectSpokeUpdate. */
-export interface RejectSpokeUpdateRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check to see whether the original operation was received. If it was, the server ignores the second request. This behavior prevents clients from mistakenly creating duplicate commitments. The request ID must be a valid UUID, with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. The URI of the spoke to reject update. */
@@ -2665,59 +3238,51 @@ export interface RejectSpokeUpdateRequest {
   /** Optional. Additional information provided by the hub administrator. */
   details?: string | undefined;
 }
-export interface RejectSpokeUpdateProjectsLocationsGlobalHubsRequest {
-  /** Required. The name of the hub to reject spoke update. */
-  name: string;
-  /** Request body */
-  body?: RejectSpokeUpdateRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsGlobalHubsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalHubsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsGlobalHubsGroupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsInternalRangesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsSpokesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalHubsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -2727,26 +3292,26 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsGlobalHubsGroupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalPolicyBasedRoutesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsInternalRangesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsSpokesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type AcceptSpokeProjectsLocationsGlobalHubsError =
   | NotFound
@@ -2761,8 +3326,8 @@ export const acceptSpokeProjectsLocationsGlobalHubs: API.OperationMethod<
   AcceptSpokeProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(945, __c59, 1) as any as S.Schema<AcceptSpokeProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(848, __c53, 0) as any as S.Schema<AcceptSpokeProjectsLocationsGlobalHubsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2784,11 +3349,11 @@ export const acceptSpokeUpdateProjectsLocationsGlobalHubs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1233,
-    __c77,
-    1,
+    1200,
+    __c75,
+    0,
   ) as any as S.Schema<AcceptSpokeUpdateProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2809,8 +3374,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
+  input: __S(1520, __c95, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2831,8 +3396,8 @@ export const checkConsumerConfigProjectsLocations: API.OperationMethod<
   CheckConsumerConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1649, __c103, 1) as any as S.Schema<CheckConsumerConfigProjectsLocationsRequest>,
-  output: __S(1650, __c103, 2) as any as S.Schema<CheckConsumerConfigResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CheckConsumerConfigProjectsLocationsRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<CheckConsumerConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2853,8 +3418,8 @@ export const createProjectsLocationsAutomatedDnsRecords: API.OperationMethod<
   CreateProjectsLocationsAutomatedDnsRecordsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<CreateProjectsLocationsAutomatedDnsRecordsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1984, __c124, 0) as any as S.Schema<CreateProjectsLocationsAutomatedDnsRecordsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2875,8 +3440,8 @@ export const createProjectsLocationsGlobalHubs: API.OperationMethod<
   CreateProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<CreateProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2224, __c139, 0) as any as S.Schema<CreateProjectsLocationsGlobalHubsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2898,7 +3463,7 @@ export const createProjectsLocationsGlobalPolicyBasedRoutes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2919,8 +3484,8 @@ export const createProjectsLocationsInternalRanges: API.OperationMethod<
   CreateProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CreateProjectsLocationsInternalRangesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateProjectsLocationsInternalRangesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2942,11 +3507,11 @@ export const createProjectsLocationsMulticloudDataTransferConfigs: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c18,
+    272,
+    __c17,
     0,
   ) as any as S.Schema<CreateProjectsLocationsMulticloudDataTransferConfigsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2968,11 +3533,11 @@ export const createProjectsLocationsMulticloudDataTransferConfigsDestinations: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    336,
-    __c21,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<CreateProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2994,11 +3559,11 @@ export const createProjectsLocationsPscAuthorizationPolicies: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c23,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<CreateProjectsLocationsPscAuthorizationPoliciesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3019,8 +3584,8 @@ export const createProjectsLocationsRegionalEndpoints: API.OperationMethod<
   CreateProjectsLocationsRegionalEndpointsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateProjectsLocationsRegionalEndpointsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(368, __c23, 0) as any as S.Schema<CreateProjectsLocationsRegionalEndpointsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3041,8 +3606,8 @@ export const createProjectsLocationsServiceConnectionMaps: API.OperationMethod<
   CreateProjectsLocationsServiceConnectionMapsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CreateProjectsLocationsServiceConnectionMapsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateProjectsLocationsServiceConnectionMapsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3064,11 +3629,11 @@ export const createProjectsLocationsServiceConnectionPolicies: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    480,
-    __c30,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<CreateProjectsLocationsServiceConnectionPoliciesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3090,11 +3655,11 @@ export const createProjectsLocationsServiceConnectionTokens: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    512,
-    __c32,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<CreateProjectsLocationsServiceConnectionTokensRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3115,8 +3680,8 @@ export const createProjectsLocationsSpokes: API.OperationMethod<
   CreateProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateProjectsLocationsSpokesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(480, __c30, 0) as any as S.Schema<CreateProjectsLocationsSpokesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3138,11 +3703,11 @@ export const createProjectsLocationsSpokesGatewayAdvertisedRoutes: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c36,
+    512,
+    __c32,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSpokesGatewayAdvertisedRoutesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3163,8 +3728,8 @@ export const createProjectsLocationsTransports: API.OperationMethod<
   CreateProjectsLocationsTransportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CreateProjectsLocationsTransportsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(528, __c33, 0) as any as S.Schema<CreateProjectsLocationsTransportsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3185,8 +3750,8 @@ export const deleteProjectsLocationsAutomatedDnsRecords: API.OperationMethod<
   DeleteProjectsLocationsAutomatedDnsRecordsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<DeleteProjectsLocationsAutomatedDnsRecordsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(544, __c34, 0) as any as S.Schema<DeleteProjectsLocationsAutomatedDnsRecordsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3207,8 +3772,8 @@ export const deleteProjectsLocationsGlobalHubs: API.OperationMethod<
   DeleteProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(560, __c35, 0) as any as S.Schema<DeleteProjectsLocationsGlobalHubsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3230,11 +3795,11 @@ export const deleteProjectsLocationsGlobalPolicyBasedRoutes: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c42,
+    576,
+    __c36,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3255,8 +3820,8 @@ export const deleteProjectsLocationsInternalRanges: API.OperationMethod<
   DeleteProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteProjectsLocationsInternalRangesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(592, __c37, 0) as any as S.Schema<DeleteProjectsLocationsInternalRangesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3278,11 +3843,11 @@ export const deleteProjectsLocationsMulticloudDataTransferConfigs: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c44,
+    608,
+    __c38,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsMulticloudDataTransferConfigsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3304,11 +3869,11 @@ export const deleteProjectsLocationsMulticloudDataTransferConfigsDestinations: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    720,
-    __c45,
+    624,
+    __c39,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3329,8 +3894,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1472, __c92, 0) as any as S.Schema<Empty>,
+  input: __S(640, __c40, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3352,11 +3917,11 @@ export const deleteProjectsLocationsPscAuthorizationPolicies: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    752,
-    __c47,
+    656,
+    __c41,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsPscAuthorizationPoliciesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3377,8 +3942,8 @@ export const deleteProjectsLocationsRegionalEndpoints: API.OperationMethod<
   DeleteProjectsLocationsRegionalEndpointsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DeleteProjectsLocationsRegionalEndpointsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(672, __c42, 0) as any as S.Schema<DeleteProjectsLocationsRegionalEndpointsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3399,8 +3964,8 @@ export const deleteProjectsLocationsServiceClasses: API.OperationMethod<
   DeleteProjectsLocationsServiceClassesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<DeleteProjectsLocationsServiceClassesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(688, __c43, 0) as any as S.Schema<DeleteProjectsLocationsServiceClassesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3421,8 +3986,8 @@ export const deleteProjectsLocationsServiceConnectionMaps: API.OperationMethod<
   DeleteProjectsLocationsServiceConnectionMapsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<DeleteProjectsLocationsServiceConnectionMapsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(704, __c44, 0) as any as S.Schema<DeleteProjectsLocationsServiceConnectionMapsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3444,11 +4009,11 @@ export const deleteProjectsLocationsServiceConnectionPolicies: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    816,
-    __c51,
+    720,
+    __c45,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsServiceConnectionPoliciesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3470,11 +4035,11 @@ export const deleteProjectsLocationsServiceConnectionTokens: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c52,
+    736,
+    __c46,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsServiceConnectionTokensRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3495,8 +4060,8 @@ export const deleteProjectsLocationsSpokes: API.OperationMethod<
   DeleteProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<DeleteProjectsLocationsSpokesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(752, __c47, 0) as any as S.Schema<DeleteProjectsLocationsSpokesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3518,11 +4083,11 @@ export const deleteProjectsLocationsSpokesGatewayAdvertisedRoutes: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c54,
+    768,
+    __c48,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsSpokesGatewayAdvertisedRoutesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3543,8 +4108,8 @@ export const deleteProjectsLocationsTransports: API.OperationMethod<
   DeleteProjectsLocationsTransportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<DeleteProjectsLocationsTransportsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(784, __c49, 0) as any as S.Schema<DeleteProjectsLocationsTransportsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3560,8 +4125,8 @@ export const getIamPolicyProjectsLocationsGlobalHubs: API.OperationMethod<
   GetIamPolicyProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetIamPolicyProjectsLocationsGlobalHubsRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetIamPolicyProjectsLocationsGlobalHubsRequest>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3578,11 +4143,11 @@ export const getIamPolicyProjectsLocationsGlobalHubsGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c58,
+    832,
+    __c52,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsGlobalHubsGroupsRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3602,11 +4167,11 @@ export const getIamPolicyProjectsLocationsGlobalPolicyBasedRoutes: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1008,
-    __c63,
+    912,
+    __c57,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3622,8 +4187,8 @@ export const getIamPolicyProjectsLocationsInternalRanges: API.OperationMethod<
   GetIamPolicyProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetIamPolicyProjectsLocationsInternalRangesRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetIamPolicyProjectsLocationsInternalRangesRequest>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3639,8 +4204,8 @@ export const getIamPolicyProjectsLocationsSpokes: API.OperationMethod<
   GetIamPolicyProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<GetIamPolicyProjectsLocationsSpokesRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetIamPolicyProjectsLocationsSpokesRequest>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3656,8 +4221,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<Location>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3673,8 +4238,8 @@ export const getProjectsLocationsAutomatedDnsRecords: API.OperationMethod<
   GetProjectsLocationsAutomatedDnsRecordsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetProjectsLocationsAutomatedDnsRecordsRequest>,
-  output: __S(1857, __c116, 1) as any as S.Schema<AutomatedDnsRecord>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetProjectsLocationsAutomatedDnsRecordsRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<AutomatedDnsRecord>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3690,8 +4255,8 @@ export const getProjectsLocationsGlobalHubs: API.OperationMethod<
   GetProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsRequest>,
-  output: __S(2106, __c131, 10) as any as S.Schema<Hub>,
+  input: __S(1024, __c64, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<Hub>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3707,8 +4272,8 @@ export const getProjectsLocationsGlobalHubsGroups: API.OperationMethod<
   GetProjectsLocationsGlobalHubsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsGroupsRequest>,
-  output: __S(1137, __c71, 1) as any as S.Schema<Group>,
+  input: __S(1056, __c66, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsGroupsRequest>,
+  output: __S(1072, __c67, 0) as any as S.Schema<Group>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3724,8 +4289,8 @@ export const getProjectsLocationsGlobalHubsRouteTables: API.OperationMethod<
   GetProjectsLocationsGlobalHubsRouteTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsRouteTablesRequest>,
-  output: __S(1168, __c73, 0) as any as S.Schema<RouteTable>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsRouteTablesRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<RouteTable>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3745,11 +4310,11 @@ export const getProjectsLocationsGlobalHubsRouteTablesRoutes: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c74,
+    1136,
+    __c71,
     0,
   ) as any as S.Schema<GetProjectsLocationsGlobalHubsRouteTablesRoutesRequest>,
-  output: __S(1205, __c75, 5) as any as S.Schema<Route>,
+  output: __S(1157, __c72, 5) as any as S.Schema<Route>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3765,8 +4330,8 @@ export const getProjectsLocationsGlobalPolicyBasedRoutes: API.OperationMethod<
   GetProjectsLocationsGlobalPolicyBasedRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<GetProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(21, __c1, 5) as any as S.Schema<PolicyBasedRoute>,
+  input: __S(1168, __c73, 0) as any as S.Schema<GetProjectsLocationsGlobalPolicyBasedRoutesRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<PolicyBasedRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3782,8 +4347,8 @@ export const getProjectsLocationsInternalRanges: API.OperationMethod<
   GetProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetProjectsLocationsInternalRangesRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<InternalRange>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetProjectsLocationsInternalRangesRequest>,
+  output: __S(1232, __c77, 0) as any as S.Schema<InternalRange>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3803,11 +4368,11 @@ export const getProjectsLocationsMulticloudDataTransferConfigs: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1264,
-    __c79,
+    1248,
+    __c78,
     0,
   ) as any as S.Schema<GetProjectsLocationsMulticloudDataTransferConfigsRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<MulticloudDataTransferConfig>,
+  output: __S(1264, __c79, 0) as any as S.Schema<MulticloudDataTransferConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3831,7 +4396,7 @@ export const getProjectsLocationsMulticloudDataTransferConfigsDestinations: API.
     __c80,
     0,
   ) as any as S.Schema<GetProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<Destination>,
+  output: __S(1296, __c81, 0) as any as S.Schema<Destination>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3851,11 +4416,11 @@ export const getProjectsLocationsMulticloudDataTransferSupportedServices: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1296,
-    __c81,
+    1312,
+    __c82,
     0,
   ) as any as S.Schema<GetProjectsLocationsMulticloudDataTransferSupportedServicesRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<MulticloudDataTransferSupportedService>,
+  output: __S(1330, __c83, 2) as any as S.Schema<MulticloudDataTransferSupportedService>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3871,8 +4436,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1344, __c84, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3889,11 +4454,11 @@ export const getProjectsLocationsPscAuthorizationPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1344,
-    __c84,
+    1360,
+    __c85,
     0,
   ) as any as S.Schema<GetProjectsLocationsPscAuthorizationPoliciesRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<PscAuthorizationPolicy>,
+  output: __S(1376, __c86, 0) as any as S.Schema<PscAuthorizationPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3909,8 +4474,8 @@ export const getProjectsLocationsRegionalEndpoints: API.OperationMethod<
   GetProjectsLocationsRegionalEndpointsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetProjectsLocationsRegionalEndpointsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<RegionalEndpoint>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetProjectsLocationsRegionalEndpointsRequest>,
+  output: __S(1408, __c88, 0) as any as S.Schema<RegionalEndpoint>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3926,8 +4491,8 @@ export const getProjectsLocationsRemoteTransportProfiles: API.OperationMethod<
   GetProjectsLocationsRemoteTransportProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetProjectsLocationsRemoteTransportProfilesRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<RemoteTransportProfile>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetProjectsLocationsRemoteTransportProfilesRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<RemoteTransportProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3943,8 +4508,8 @@ export const getProjectsLocationsServiceClasses: API.OperationMethod<
   GetProjectsLocationsServiceClassesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetProjectsLocationsServiceClassesRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<ServiceClass>,
+  input: __S(1456, __c91, 0) as any as S.Schema<GetProjectsLocationsServiceClassesRequest>,
+  output: __S(1472, __c92, 0) as any as S.Schema<ServiceClass>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3960,8 +4525,8 @@ export const getProjectsLocationsServiceConnectionMaps: API.OperationMethod<
   GetProjectsLocationsServiceConnectionMapsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetProjectsLocationsServiceConnectionMapsRequest>,
-  output: __S(472, __c29, 8) as any as S.Schema<ServiceConnectionMap>,
+  input: __S(1488, __c93, 0) as any as S.Schema<GetProjectsLocationsServiceConnectionMapsRequest>,
+  output: __S(1504, __c94, 0) as any as S.Schema<ServiceConnectionMap>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3978,11 +4543,11 @@ export const getProjectsLocationsServiceConnectionPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1488,
-    __c93,
+    1552,
+    __c97,
     0,
   ) as any as S.Schema<GetProjectsLocationsServiceConnectionPoliciesRequest>,
-  output: __S(500, __c31, 4) as any as S.Schema<ServiceConnectionPolicy>,
+  output: __S(1568, __c98, 0) as any as S.Schema<ServiceConnectionPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3998,8 +4563,8 @@ export const getProjectsLocationsServiceConnectionTokens: API.OperationMethod<
   GetProjectsLocationsServiceConnectionTokensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetProjectsLocationsServiceConnectionTokensRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<ServiceConnectionToken>,
+  input: __S(1584, __c99, 0) as any as S.Schema<GetProjectsLocationsServiceConnectionTokensRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ServiceConnectionToken>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4015,8 +4580,8 @@ export const getProjectsLocationsSpokes: API.OperationMethod<
   GetProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<GetProjectsLocationsSpokesRequest>,
-  output: __S(572, __c35, 12) as any as S.Schema<Spoke>,
+  input: __S(1616, __c101, 0) as any as S.Schema<GetProjectsLocationsSpokesRequest>,
+  output: __S(1632, __c102, 0) as any as S.Schema<Spoke>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4036,11 +4601,11 @@ export const getProjectsLocationsSpokesGatewayAdvertisedRoutes: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c96,
+    1648,
+    __c103,
     0,
   ) as any as S.Schema<GetProjectsLocationsSpokesGatewayAdvertisedRoutesRequest>,
-  output: __S(592, __c37, 0) as any as S.Schema<GatewayAdvertisedRoute>,
+  output: __S(1664, __c104, 0) as any as S.Schema<GatewayAdvertisedRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4056,8 +4621,8 @@ export const getProjectsLocationsTransports: API.OperationMethod<
   GetProjectsLocationsTransportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<GetProjectsLocationsTransportsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<Transport>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetProjectsLocationsTransportsRequest>,
+  output: __S(1696, __c106, 0) as any as S.Schema<Transport>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4074,8 +4639,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1570, __c98, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1714, __c107, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4093,8 +4658,8 @@ export const listProjectsLocationsAutomatedDnsRecords: API.PaginatedOperationMet
   GcpOpContext,
   ListAutomatedDnsRecordsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListProjectsLocationsAutomatedDnsRecordsRequest>,
-  output: __S(1586, __c99, 2) as any as S.Schema<ListAutomatedDnsRecordsResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<ListProjectsLocationsAutomatedDnsRecordsRequest>,
+  output: __S(1730, __c108, 2) as any as S.Schema<ListAutomatedDnsRecordsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4112,8 +4677,8 @@ export const listProjectsLocationsGlobalHubs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListHubsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsRequest>,
-  output: __S(1602, __c100, 2) as any as S.Schema<ListHubsResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsRequest>,
+  output: __S(1746, __c109, 2) as any as S.Schema<ListHubsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4131,8 +4696,8 @@ export const listProjectsLocationsGlobalHubsGroups: API.PaginatedOperationMethod
   GcpOpContext,
   ListGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsGroupsRequest>,
-  output: __S(1618, __c101, 2) as any as S.Schema<ListGroupsResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsGroupsRequest>,
+  output: __S(1762, __c110, 2) as any as S.Schema<ListGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4150,8 +4715,8 @@ export const listProjectsLocationsGlobalHubsRouteTables: API.PaginatedOperationM
   GcpOpContext,
   ListRouteTablesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsRouteTablesRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<ListRouteTablesResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsRouteTablesRequest>,
+  output: __S(1778, __c111, 2) as any as S.Schema<ListRouteTablesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4173,11 +4738,11 @@ export const listProjectsLocationsGlobalHubsRouteTablesRoutes: API.PaginatedOper
   ListRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1680,
-    __c105,
+    1824,
+    __c114,
     0,
   ) as any as S.Schema<ListProjectsLocationsGlobalHubsRouteTablesRoutesRequest>,
-  output: __S(1682, __c105, 2) as any as S.Schema<ListRoutesResponse>,
+  output: __S(1826, __c114, 2) as any as S.Schema<ListRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4196,11 +4761,11 @@ export const listProjectsLocationsGlobalPolicyBasedRoutes: API.PaginatedOperatio
   ListPolicyBasedRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1696,
-    __c106,
+    1840,
+    __c115,
     0,
   ) as any as S.Schema<ListProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(1698, __c106, 2) as any as S.Schema<ListPolicyBasedRoutesResponse>,
+  output: __S(1842, __c115, 2) as any as S.Schema<ListPolicyBasedRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4218,8 +4783,8 @@ export const listProjectsLocationsInternalRanges: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInternalRangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<ListProjectsLocationsInternalRangesRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<ListInternalRangesResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListProjectsLocationsInternalRangesRequest>,
+  output: __S(1858, __c116, 2) as any as S.Schema<ListInternalRangesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4241,11 +4806,11 @@ export const listProjectsLocationsMulticloudDataTransferConfigs: API.PaginatedOp
   ListMulticloudDataTransferConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1728,
-    __c108,
+    1872,
+    __c117,
     0,
   ) as any as S.Schema<ListProjectsLocationsMulticloudDataTransferConfigsRequest>,
-  output: __S(1730, __c108, 2) as any as S.Schema<ListMulticloudDataTransferConfigsResponse>,
+  output: __S(1874, __c117, 2) as any as S.Schema<ListMulticloudDataTransferConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4267,11 +4832,11 @@ export const listProjectsLocationsMulticloudDataTransferConfigsDestinations: API
   ListDestinationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1744,
-    __c109,
+    1888,
+    __c118,
     0,
   ) as any as S.Schema<ListProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest>,
-  output: __S(1746, __c109, 2) as any as S.Schema<ListDestinationsResponse>,
+  output: __S(1890, __c118, 2) as any as S.Schema<ListDestinationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4293,13 +4858,13 @@ export const listProjectsLocationsMulticloudDataTransferSupportedServices: API.P
   ListMulticloudDataTransferSupportedServicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1760,
-    __c110,
+    1904,
+    __c119,
     0,
   ) as any as S.Schema<ListProjectsLocationsMulticloudDataTransferSupportedServicesRequest>,
   output: __S(
-    1762,
-    __c110,
+    1906,
+    __c119,
     2,
   ) as any as S.Schema<ListMulticloudDataTransferSupportedServicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -4319,8 +4884,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(1778, __c111, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(1922, __c120, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4339,11 +4904,11 @@ export const listProjectsLocationsPscAuthorizationPolicies: API.PaginatedOperati
   ListPscAuthorizationPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1792,
-    __c112,
+    1936,
+    __c121,
     0,
   ) as any as S.Schema<ListProjectsLocationsPscAuthorizationPoliciesRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<ListPscAuthorizationPoliciesResponse>,
+  output: __S(1938, __c121, 2) as any as S.Schema<ListPscAuthorizationPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4361,8 +4926,8 @@ export const listProjectsLocationsRegionalEndpoints: API.PaginatedOperationMetho
   GcpOpContext,
   ListRegionalEndpointsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListProjectsLocationsRegionalEndpointsRequest>,
-  output: __S(1810, __c113, 2) as any as S.Schema<ListRegionalEndpointsResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<ListProjectsLocationsRegionalEndpointsRequest>,
+  output: __S(1954, __c122, 2) as any as S.Schema<ListRegionalEndpointsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4381,11 +4946,11 @@ export const listProjectsLocationsRemoteTransportProfiles: API.PaginatedOperatio
   ListRemoteTransportProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1824,
-    __c114,
+    1968,
+    __c123,
     0,
   ) as any as S.Schema<ListProjectsLocationsRemoteTransportProfilesRequest>,
-  output: __S(1826, __c114, 2) as any as S.Schema<ListRemoteTransportProfilesResponse>,
+  output: __S(1970, __c123, 2) as any as S.Schema<ListRemoteTransportProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4403,8 +4968,8 @@ export const listProjectsLocationsServiceClasses: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServiceClassesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListProjectsLocationsServiceClassesRequest>,
-  output: __S(1906, __c119, 2) as any as S.Schema<ListServiceClassesResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ListProjectsLocationsServiceClassesRequest>,
+  output: __S(2050, __c128, 2) as any as S.Schema<ListServiceClassesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4422,8 +4987,8 @@ export const listProjectsLocationsServiceConnectionMaps: API.PaginatedOperationM
   GcpOpContext,
   ListServiceConnectionMapsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListProjectsLocationsServiceConnectionMapsRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<ListServiceConnectionMapsResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ListProjectsLocationsServiceConnectionMapsRequest>,
+  output: __S(2066, __c129, 2) as any as S.Schema<ListServiceConnectionMapsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4442,11 +5007,11 @@ export const listProjectsLocationsServiceConnectionPolicies: API.PaginatedOperat
   ListServiceConnectionPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1936,
-    __c121,
+    2080,
+    __c130,
     0,
   ) as any as S.Schema<ListProjectsLocationsServiceConnectionPoliciesRequest>,
-  output: __S(1938, __c121, 2) as any as S.Schema<ListServiceConnectionPoliciesResponse>,
+  output: __S(2082, __c130, 2) as any as S.Schema<ListServiceConnectionPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4465,11 +5030,11 @@ export const listProjectsLocationsServiceConnectionTokens: API.PaginatedOperatio
   ListServiceConnectionTokensResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1952,
-    __c122,
+    2096,
+    __c131,
     0,
   ) as any as S.Schema<ListProjectsLocationsServiceConnectionTokensRequest>,
-  output: __S(1954, __c122, 2) as any as S.Schema<ListServiceConnectionTokensResponse>,
+  output: __S(2098, __c131, 2) as any as S.Schema<ListServiceConnectionTokensResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4487,8 +5052,8 @@ export const listProjectsLocationsSpokes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSpokesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListProjectsLocationsSpokesRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<ListSpokesResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListProjectsLocationsSpokesRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<ListSpokesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4510,11 +5075,11 @@ export const listProjectsLocationsSpokesGatewayAdvertisedRoutes: API.PaginatedOp
   ListGatewayAdvertisedRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2000,
-    __c125,
+    2144,
+    __c134,
     0,
   ) as any as S.Schema<ListProjectsLocationsSpokesGatewayAdvertisedRoutesRequest>,
-  output: __S(2002, __c125, 2) as any as S.Schema<ListGatewayAdvertisedRoutesResponse>,
+  output: __S(2146, __c134, 2) as any as S.Schema<ListGatewayAdvertisedRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4532,8 +5097,8 @@ export const listProjectsLocationsTransports: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTransportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListProjectsLocationsTransportsRequest>,
-  output: __S(2018, __c126, 2) as any as S.Schema<ListTransportsResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<ListProjectsLocationsTransportsRequest>,
+  output: __S(2162, __c135, 2) as any as S.Schema<ListTransportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4551,8 +5116,8 @@ export const listSpokesProjectsLocationsGlobalHubs: API.PaginatedOperationMethod
   GcpOpContext,
   ListHubSpokesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListSpokesProjectsLocationsGlobalHubsRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<ListHubSpokesResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListSpokesProjectsLocationsGlobalHubsRequest>,
+  output: __S(2177, __c136, 1) as any as S.Schema<ListHubSpokesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4574,8 +5139,8 @@ export const patchProjectsLocationsGlobalHubs: API.OperationMethod<
   PatchProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<PatchProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2192, __c137, 0) as any as S.Schema<PatchProjectsLocationsGlobalHubsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4596,8 +5161,8 @@ export const patchProjectsLocationsGlobalHubsGroups: API.OperationMethod<
   PatchProjectsLocationsGlobalHubsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<PatchProjectsLocationsGlobalHubsGroupsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2208, __c138, 0) as any as S.Schema<PatchProjectsLocationsGlobalHubsGroupsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4618,8 +5183,8 @@ export const patchProjectsLocationsInternalRanges: API.OperationMethod<
   PatchProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<PatchProjectsLocationsInternalRangesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2256, __c141, 0) as any as S.Schema<PatchProjectsLocationsInternalRangesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4641,11 +5206,11 @@ export const patchProjectsLocationsMulticloudDataTransferConfigs: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2128,
-    __c133,
+    2272,
+    __c142,
     0,
   ) as any as S.Schema<PatchProjectsLocationsMulticloudDataTransferConfigsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4667,11 +5232,11 @@ export const patchProjectsLocationsMulticloudDataTransferConfigsDestinations: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2144,
-    __c134,
+    2288,
+    __c143,
     0,
   ) as any as S.Schema<PatchProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4692,8 +5257,8 @@ export const patchProjectsLocationsServiceClasses: API.OperationMethod<
   PatchProjectsLocationsServiceClassesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<PatchProjectsLocationsServiceClassesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2304, __c144, 0) as any as S.Schema<PatchProjectsLocationsServiceClassesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4715,11 +5280,11 @@ export const patchProjectsLocationsServiceConnectionMaps: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2176,
-    __c136,
+    2320,
+    __c145,
     0,
   ) as any as S.Schema<PatchProjectsLocationsServiceConnectionMapsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4741,11 +5306,11 @@ export const patchProjectsLocationsServiceConnectionPolicies: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2192,
-    __c137,
+    2336,
+    __c146,
     0,
   ) as any as S.Schema<PatchProjectsLocationsServiceConnectionPoliciesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4766,8 +5331,8 @@ export const patchProjectsLocationsSpokes: API.OperationMethod<
   PatchProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<PatchProjectsLocationsSpokesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2352, __c147, 0) as any as S.Schema<PatchProjectsLocationsSpokesRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4789,11 +5354,11 @@ export const patchProjectsLocationsSpokesGatewayAdvertisedRoutes: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2224,
-    __c139,
+    2368,
+    __c148,
     0,
   ) as any as S.Schema<PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4814,8 +5379,8 @@ export const patchProjectsLocationsTransports: API.OperationMethod<
   PatchProjectsLocationsTransportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<PatchProjectsLocationsTransportsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2384, __c149, 0) as any as S.Schema<PatchProjectsLocationsTransportsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4832,8 +5397,8 @@ export const queryStatusProjectsLocationsGlobalHubs: API.PaginatedOperationMetho
   GcpOpContext,
   QueryHubStatusResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<QueryStatusProjectsLocationsGlobalHubsRequest>,
-  output: __S(2260, __c141, 4) as any as S.Schema<QueryHubStatusResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<QueryStatusProjectsLocationsGlobalHubsRequest>,
+  output: __S(2404, __c150, 4) as any as S.Schema<QueryHubStatusResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4855,8 +5420,8 @@ export const rejectSpokeProjectsLocationsGlobalHubs: API.OperationMethod<
   RejectSpokeProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<RejectSpokeProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(32, __c2, 0) as any as S.Schema<RejectSpokeProjectsLocationsGlobalHubsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4877,8 +5442,8 @@ export const rejectSpokeUpdateProjectsLocationsGlobalHubs: API.OperationMethod<
   RejectSpokeUpdateProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<RejectSpokeUpdateProjectsLocationsGlobalHubsRequest>,
-  output: __S(992, __c62, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(48, __c3, 0) as any as S.Schema<RejectSpokeUpdateProjectsLocationsGlobalHubsRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4900,7 +5465,7 @@ export const setIamPolicyProjectsLocationsGlobalHubs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalHubsRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4921,8 +5486,8 @@ export const setIamPolicyProjectsLocationsGlobalHubsGroups: API.OperationMethod<
   SetIamPolicyProjectsLocationsGlobalHubsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalHubsGroupsRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  input: __S(80, __c5, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalHubsGroupsRequest>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4944,11 +5509,11 @@ export const setIamPolicyProjectsLocationsGlobalPolicyBasedRoutes: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    112,
-    __c7,
+    96,
+    __c6,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4969,8 +5534,8 @@ export const setIamPolicyProjectsLocationsInternalRanges: API.OperationMethod<
   SetIamPolicyProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInternalRangesRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  input: __S(112, __c7, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInternalRangesRequest>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4991,8 +5556,8 @@ export const setIamPolicyProjectsLocationsSpokes: API.OperationMethod<
   SetIamPolicyProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSpokesRequest>,
-  output: __S(919, __c57, 7) as any as S.Schema<Policy>,
+  input: __S(128, __c8, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSpokesRequest>,
+  output: __S(823, __c51, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5013,12 +5578,8 @@ export const testIamPermissionsProjectsLocationsGlobalHubs: API.OperationMethod<
   TestIamPermissionsProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    160,
-    __c10,
-    0,
-  ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalHubsRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalHubsRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5040,11 +5601,11 @@ export const testIamPermissionsProjectsLocationsGlobalHubsGroups: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c12,
+    176,
+    __c11,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalHubsGroupsRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(160, __c10, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5066,11 +5627,11 @@ export const testIamPermissionsProjectsLocationsGlobalPolicyBasedRoutes: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c13,
+    192,
+    __c12,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalPolicyBasedRoutesRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(160, __c10, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5092,11 +5653,11 @@ export const testIamPermissionsProjectsLocationsInternalRanges: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c16,
+    240,
+    __c15,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsInternalRangesRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(160, __c10, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5117,8 +5678,8 @@ export const testIamPermissionsProjectsLocationsSpokes: API.OperationMethod<
   TestIamPermissionsProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsSpokesRequest>,
-  output: __S(176, __c11, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsSpokesRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5135,7 +5696,21 @@ function __c0(j: number): any {
           parent: S.String.pipe(T.Label()),
           policyBasedRouteId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(21, __c1, 5).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          nextHopIlbIp: S.optional(S.String),
+          kind: S.optional(S.String),
+          network: S.optional(S.String),
+          name: S.optional(S.String),
+          nextHopOtherRoutes: S.optional(S.String),
+          filter: S.optional(__S(16, __c1, 0)),
+          virtualMachine: S.optional(__S(17, __c1, 1)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          priority: S.optional(S.Number),
+          selfLink: S.optional(S.String),
+          interconnectAttachment: S.optional(__S(18, __c1, 2)),
+          createTime: S.optional(S.String),
+          warnings: S.optional(__S(20, __c1, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5160,7 +5735,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(1888, __c118, 0)),
+          tags: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "VirtualMachine" });
     case 2:
@@ -5174,31 +5749,11 @@ function __c1(j: number): any {
         S.Struct({
           warningMessage: S.optional(S.String),
           code: S.optional(S.String),
-          data: S.optional(__S(1872, __c117, 0)),
+          data: S.optional(__S(2016, __c126, 0)),
         }),
       ).annotate({ identifier: "Warnings" });
     case 4:
       return S.Array(__S(19, __c1, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          nextHopIlbIp: S.optional(S.String),
-          kind: S.optional(S.String),
-          network: S.optional(S.String),
-          name: S.optional(S.String),
-          nextHopOtherRoutes: S.optional(S.String),
-          filter: S.optional(__S(16, __c1, 0)),
-          virtualMachine: S.optional(__S(17, __c1, 1)),
-          description: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          priority: S.optional(S.Number),
-          selfLink: S.optional(S.String),
-          interconnectAttachment: S.optional(__S(18, __c1, 2)),
-          createTime: S.optional(S.String),
-          warnings: S.optional(__S(20, __c1, 4)),
-        }),
-      ).annotate({ identifier: "PolicyBasedRoute" });
   }
 }
 function __c2(j: number): any {
@@ -5206,16 +5761,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           details: S.optional(S.String),
           spokeUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RejectHubSpokeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5231,17 +5780,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           spokeUri: S.optional(S.String),
           spokeEtag: S.optional(S.String),
           details: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RejectSpokeUpdateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5258,7 +5801,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(823, __c51, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5274,19 +5818,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(919, __c57, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(823, __c51, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5297,13 +5831,14 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalHubsGroupsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(823, __c51, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5314,13 +5849,14 @@ function __c7(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(823, __c51, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5331,13 +5867,14 @@ function __c8(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(823, __c51, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5348,13 +5885,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsSpokesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2032, __c127, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5365,23 +5902,23 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGlobalHubsRequest" });
   }
 }
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(2032, __c127, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
 function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(1888, __c118, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2032, __c127, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5392,13 +5929,13 @@ function __c12(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGlobalHubsGroupsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2032, __c127, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5411,7 +5948,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5419,7 +5956,25 @@ function __c14(j: number): any {
           parent: S.String.pipe(T.Label()),
           internalRangeId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(242, __c15, 2).pipe(T.HttpBody())),
+          migration: S.optional(__S(224, __c14, 0)),
+          name: S.optional(S.String),
+          immutable: S.optional(S.Boolean),
+          ipCidrRange: S.optional(S.String),
+          targetCidrRange: S.optional(__S(2032, __c127, 0)),
+          users: S.optional(__S(2032, __c127, 0)),
+          excludeCidrRanges: S.optional(__S(2032, __c127, 0)),
+          updateTime: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          peering: S.optional(S.String),
+          createTime: S.optional(S.String),
+          network: S.optional(S.String),
+          overlaps: S.optional(__S(1808, __c113, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          usage: S.optional(S.String),
+          description: S.optional(S.String),
+          purpose: S.optional(S.String),
+          allocationOptions: S.optional(__S(225, __c14, 1)),
+          rangeStatus: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5430,7 +5985,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5446,39 +6001,15 @@ function __c15(j: number): any {
           firstAvailableRangesLookupSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AllocationOptions" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          migration: S.optional(__S(240, __c15, 0)),
-          name: S.optional(S.String),
-          immutable: S.optional(S.Boolean),
-          ipCidrRange: S.optional(S.String),
-          targetCidrRange: S.optional(__S(1888, __c118, 0)),
-          users: S.optional(__S(1888, __c118, 0)),
-          excludeCidrRanges: S.optional(__S(1888, __c118, 0)),
-          updateTime: S.optional(S.String),
-          prefixLength: S.optional(S.Number),
-          peering: S.optional(S.String),
-          createTime: S.optional(S.String),
-          network: S.optional(S.String),
-          overlaps: S.optional(__S(1664, __c104, 0)),
-          labels: S.optional(__S(1872, __c117, 0)),
-          usage: S.optional(S.String),
-          description: S.optional(S.String),
-          purpose: S.optional(S.String),
-          allocationOptions: S.optional(__S(241, __c15, 1)),
-          rangeStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InternalRange" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2032, __c127, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5489,13 +6020,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2032, __c127, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5506,7 +6037,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsSpokesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5514,7 +6045,16 @@ function __c18(j: number): any {
           parent: S.String.pipe(T.Label()),
           multicloudDataTransferConfigId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(321, __c20, 1).pipe(T.HttpBody())),
+          destinationsCount: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          destinationsActiveCount: S.optional(S.Number),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          services: S.optional(__S(304, __c19, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5525,7 +6065,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMulticloudDataTransferConfigsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5535,37 +6075,22 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "StateMetadata" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(288, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          states: S.optional(__S(305, __c19, 1)),
+          states: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "StateTimeline" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(306, __c19, 2));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          destinationsCount: S.optional(S.Number),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          destinationsActiveCount: S.optional(S.Number),
-          etag: S.optional(S.String),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          services: S.optional(__S(320, __c20, 0)),
-        }),
-      ).annotate({ identifier: "MulticloudDataTransferConfig" });
+      return S.Record(S.String, __S(290, __c18, 2));
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5573,7 +6098,16 @@ function __c21(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           destinationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(354, __c22, 2).pipe(T.HttpBody())),
+          endpoints: S.optional(__S(337, __c21, 1)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          ipPrefix: S.optional(S.String),
+          name: S.optional(S.String),
+          stateTimeline: S.optional(__S(290, __c18, 2)),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5586,7 +6120,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5598,25 +6132,10 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "DestinationEndpoint" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          endpoints: S.optional(__S(353, __c22, 1)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          ipPrefix: S.optional(S.String),
-          name: S.optional(S.String),
-          stateTimeline: S.optional(__S(306, __c19, 2)),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Destination" });
+      return S.Array(__S(336, __c21, 0));
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5624,7 +6143,16 @@ function __c23(j: number): any {
           pscAuthorizationPolicyId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(384, __c24, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          targetResourceUri: S.optional(S.String),
+          authorizationMode: S.optional(S.String),
+          name: S.optional(S.String),
+          authorizedClientResources: S.optional(__S(2032, __c127, 0)),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          description: S.optional(S.String),
+          uid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5635,26 +6163,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPscAuthorizationPoliciesRequest" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          targetResourceUri: S.optional(S.String),
-          authorizationMode: S.optional(S.String),
-          name: S.optional(S.String),
-          authorizedClientResources: S.optional(__S(1888, __c118, 0)),
-          updateTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          description: S.optional(S.String),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PscAuthorizationPolicy" });
-  }
-}
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5662,23 +6171,7 @@ function __c25(j: number): any {
           regionalEndpointId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/regionalEndpoints",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsRegionalEndpointsRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           network: S.optional(S.String),
           address: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -5690,11 +6183,17 @@ function __c26(j: number): any {
           ipAddress: S.optional(S.String),
           targetGoogleApi: S.optional(S.String),
           name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RegionalEndpoint" });
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/regionalEndpoints",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsRegionalEndpointsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5702,7 +6201,19 @@ function __c27(j: number): any {
           serviceConnectionMapId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(472, __c29, 8).pipe(T.HttpBody())),
+          consumerPscConnections: S.optional(__S(418, __c26, 2)),
+          serviceClassUri: S.optional(S.String),
+          producerPscConfigs: S.optional(__S(421, __c26, 5)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          token: S.optional(S.String),
+          consumerPscConfigs: S.optional(__S(423, __c26, 7)),
+          description: S.optional(S.String),
+          infrastructure: S.optional(S.String),
+          serviceClass: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5713,25 +6224,25 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServiceConnectionMapsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1872, __c117, 0)),
+          metadata: S.optional(__S(2016, __c126, 0)),
           reason: S.optional(S.String),
           domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleRpcErrorInfo" });
   }
 }
-function __c29(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          error: S.optional(__S(977, __c61, 1)),
+          error: S.optional(__S(881, __c55, 1)),
           fqdn: S.optional(S.String),
         }),
       ).annotate({ identifier: "DnsAutomationStatus" });
@@ -5743,21 +6254,21 @@ function __c29(j: number): any {
           ipVersion: S.optional(S.String),
           serviceAttachmentUri: S.optional(S.String),
           producerInstanceId: S.optional(S.String),
-          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
-          error: S.optional(__S(977, __c61, 1)),
+          producerInstanceMetadata: S.optional(__S(2016, __c126, 0)),
+          error: S.optional(__S(881, __c55, 1)),
           network: S.optional(S.String),
           forwardingRule: S.optional(S.String),
           gceOperation: S.optional(S.String),
           errorType: S.optional(S.String),
-          errorInfo: S.optional(__S(448, __c28, 0)),
+          errorInfo: S.optional(__S(400, __c25, 0)),
           ip: S.optional(S.String),
-          dnsAutomationStatus: S.optional(__S(464, __c29, 0)),
+          dnsAutomationStatus: S.optional(__S(416, __c26, 0)),
           selectedSubnetwork: S.optional(S.String),
           pscConnectionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsumerPscConnection" });
     case 2:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(417, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5769,18 +6280,18 @@ function __c29(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          automatedDnsCreationSpec: S.optional(__S(467, __c29, 3)),
+          automatedDnsCreationSpec: S.optional(__S(419, __c26, 3)),
           serviceAttachmentUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProducerPscConfig" });
     case 5:
-      return S.Array(__S(468, __c29, 4));
+      return S.Array(__S(420, __c26, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           ipVersion: S.optional(S.String),
-          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
-          serviceAttachmentIpAddressMap: S.optional(__S(1872, __c117, 0)),
+          producerInstanceMetadata: S.optional(__S(2016, __c126, 0)),
+          serviceAttachmentIpAddressMap: S.optional(__S(2016, __c126, 0)),
           producerInstanceId: S.optional(S.String),
           network: S.optional(S.String),
           project: S.optional(S.String),
@@ -5790,28 +6301,10 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ConsumerPscConfig" });
     case 7:
-      return S.Array(__S(470, __c29, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          consumerPscConnections: S.optional(__S(466, __c29, 2)),
-          serviceClassUri: S.optional(S.String),
-          producerPscConfigs: S.optional(__S(469, __c29, 5)),
-          etag: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          token: S.optional(S.String),
-          consumerPscConfigs: S.optional(__S(471, __c29, 7)),
-          description: S.optional(S.String),
-          infrastructure: S.optional(S.String),
-          serviceClass: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceConnectionMap" });
+      return S.Array(__S(422, __c26, 6));
   }
 }
-function __c30(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5819,11 +6312,22 @@ function __c30(j: number): any {
           "autoSubnetworkConfig.ipStack": S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           subnetworkMode: S.optional(S.String.pipe(T.Query())),
-          "autoSubnetworkConfig.allocRangeSpace": S.optional(__S(1888, __c118, 0).pipe(T.Query())),
+          "autoSubnetworkConfig.allocRangeSpace": S.optional(__S(2032, __c127, 0).pipe(T.Query())),
           "autoSubnetworkConfig.prefixLength": S.optional(S.Number.pipe(T.Query())),
           serviceConnectionPolicyId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(500, __c31, 4).pipe(T.HttpBody())),
+          serviceClass: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          autoCreatedSubnetInfo: S.optional(__S(448, __c28, 0)),
+          etag: S.optional(S.String),
+          pscConfig: S.optional(__S(449, __c28, 1)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          pscConnections: S.optional(__S(451, __c28, 3)),
+          infrastructure: S.optional(S.String),
+          network: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5834,7 +6338,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServiceConnectionPoliciesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5850,8 +6354,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           producerInstanceLocation: S.optional(S.String),
-          subnetworks: S.optional(__S(1888, __c118, 0)),
-          allowedGoogleProducersResourceHierarchyLevel: S.optional(__S(1888, __c118, 0)),
+          subnetworks: S.optional(__S(2032, __c127, 0)),
+          allowedGoogleProducersResourceHierarchyLevel: S.optional(__S(2032, __c127, 0)),
           limit: S.optional(S.String),
         }),
       ).annotate({ identifier: "PscConfig" });
@@ -5860,14 +6364,14 @@ function __c31(j: number): any {
         S.Struct({
           consumerAddress: S.optional(S.String),
           ipVersion: S.optional(S.String),
-          error: S.optional(__S(977, __c61, 1)),
+          error: S.optional(__S(881, __c55, 1)),
           selectedSubnetwork: S.optional(S.String),
           consumerForwardingRule: S.optional(S.String),
           serviceClass: S.optional(S.String),
           consumerTargetProject: S.optional(S.String),
-          producerInstanceMetadata: S.optional(__S(1872, __c117, 0)),
+          producerInstanceMetadata: S.optional(__S(2016, __c126, 0)),
           errorType: S.optional(S.String),
-          errorInfo: S.optional(__S(448, __c28, 0)),
+          errorInfo: S.optional(__S(400, __c25, 0)),
           producerInstanceId: S.optional(S.String),
           gceOperation: S.optional(S.String),
           state: S.optional(S.String),
@@ -5875,27 +6379,10 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "PscConnection" });
     case 3:
-      return S.Array(__S(498, __c31, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          serviceClass: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          autoCreatedSubnetInfo: S.optional(__S(496, __c31, 0)),
-          etag: S.optional(S.String),
-          pscConfig: S.optional(__S(497, __c31, 1)),
-          name: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          pscConnections: S.optional(__S(499, __c31, 3)),
-          infrastructure: S.optional(S.String),
-          network: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceConnectionPolicy" });
+      return S.Array(__S(450, __c28, 2));
   }
 }
-function __c32(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5903,7 +6390,15 @@ function __c32(j: number): any {
           serviceConnectionTokenId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          expireTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          token: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          network: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5914,25 +6409,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServiceConnectionTokensRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expireTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          token: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          network: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceConnectionToken" });
-  }
-}
-function __c34(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5940,7 +6417,25 @@ function __c34(j: number): any {
           spokeId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(572, __c35, 12).pipe(T.HttpBody())),
+          reasons: S.optional(__S(497, __c31, 1)),
+          linkedProducerVpcNetwork: S.optional(__S(498, __c31, 2)),
+          linkedVpcNetwork: S.optional(__S(499, __c31, 3)),
+          linkedRouterApplianceInstances: S.optional(__S(502, __c31, 6)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          group: S.optional(S.String),
+          hub: S.optional(S.String),
+          createTime: S.optional(S.String),
+          fieldPathsPendingUpdate: S.optional(__S(2032, __c127, 0)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedInterconnectAttachments: S.optional(__S(503, __c31, 7)),
+          uniqueId: S.optional(S.String),
+          spokeType: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(504, __c31, 8)),
+          gateway: S.optional(__S(507, __c31, 11)),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5951,7 +6446,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSpokesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5962,28 +6457,28 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "StateReason" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           serviceConsumerVpcSpoke: S.optional(S.String),
           peering: S.optional(S.String),
-          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          excludeExportRanges: S.optional(__S(2032, __c127, 0)),
           producerNetwork: S.optional(S.String),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeExportRanges: S.optional(__S(2032, __c127, 0)),
           network: S.optional(S.String),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeExportRanges: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "LinkedProducerVpcNetwork" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          producerVpcSpokes: S.optional(__S(1888, __c118, 0)),
-          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeExportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedIncludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          producerVpcSpokes: S.optional(__S(2032, __c127, 0)),
+          excludeExportRanges: S.optional(__S(2032, __c127, 0)),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedVpcNetwork" });
@@ -5995,53 +6490,53 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "RouterApplianceInstance" });
     case 5:
-      return S.Array(__S(564, __c35, 4));
+      return S.Array(__S(500, __c31, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          includeImportRanges: S.optional(__S(1888, __c118, 0)),
+          includeImportRanges: S.optional(__S(2032, __c127, 0)),
           vpcNetwork: S.optional(S.String),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedExcludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          includeExportRanges: S.optional(__S(2032, __c127, 0)),
           siteToSiteDataTransfer: S.optional(S.Boolean),
-          instances: S.optional(__S(565, __c35, 5)),
-          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          instances: S.optional(__S(501, __c31, 5)),
+          excludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeImportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedIncludeImportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedIncludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          excludeImportRanges: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "LinkedRouterApplianceInstances" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          includeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeImportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeExportRanges: S.optional(__S(2032, __c127, 0)),
           siteToSiteDataTransfer: S.optional(S.Boolean),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          uris: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          includeExportRanges: S.optional(__S(2032, __c127, 0)),
+          excludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeImportRanges: S.optional(__S(2032, __c127, 0)),
+          uris: S.optional(__S(2032, __c127, 0)),
+          proposedIncludeImportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedIncludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          excludeImportRanges: S.optional(__S(2032, __c127, 0)),
           vpcNetwork: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedInterconnectAttachments" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          proposedIncludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedIncludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeImportRanges: S.optional(__S(1888, __c118, 0)),
-          excludeImportRanges: S.optional(__S(1888, __c118, 0)),
+          proposedIncludeImportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedIncludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeImportRanges: S.optional(__S(2032, __c127, 0)),
+          excludeImportRanges: S.optional(__S(2032, __c127, 0)),
           vpcNetwork: S.optional(S.String),
-          includeImportRanges: S.optional(__S(1888, __c118, 0)),
-          proposedExcludeExportRanges: S.optional(__S(1888, __c118, 0)),
-          uris: S.optional(__S(1888, __c118, 0)),
-          includeExportRanges: S.optional(__S(1888, __c118, 0)),
+          includeImportRanges: S.optional(__S(2032, __c127, 0)),
+          proposedExcludeExportRanges: S.optional(__S(2032, __c127, 0)),
+          uris: S.optional(__S(2032, __c127, 0)),
+          includeExportRanges: S.optional(__S(2032, __c127, 0)),
           siteToSiteDataTransfer: S.optional(S.Boolean),
-          excludeExportRanges: S.optional(__S(1888, __c118, 0)),
+          excludeExportRanges: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "LinkedVpnTunnels" });
     case 9:
@@ -6051,43 +6546,19 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "IpRangeReservation" });
     case 10:
-      return S.Array(__S(569, __c35, 9));
+      return S.Array(__S(505, __c31, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          ipRangeReservations: S.optional(__S(570, __c35, 10)),
+          ipRangeReservations: S.optional(__S(506, __c31, 10)),
           sacAttachment: S.optional(S.String),
           capacity: S.optional(S.String),
-          cloudRouters: S.optional(__S(1888, __c118, 0)),
+          cloudRouters: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "Gateway" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          reasons: S.optional(__S(561, __c35, 1)),
-          linkedProducerVpcNetwork: S.optional(__S(562, __c35, 2)),
-          linkedVpcNetwork: S.optional(__S(563, __c35, 3)),
-          linkedRouterApplianceInstances: S.optional(__S(566, __c35, 6)),
-          labels: S.optional(__S(1872, __c117, 0)),
-          group: S.optional(S.String),
-          hub: S.optional(S.String),
-          createTime: S.optional(S.String),
-          fieldPathsPendingUpdate: S.optional(__S(1888, __c118, 0)),
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          linkedInterconnectAttachments: S.optional(__S(567, __c35, 7)),
-          uniqueId: S.optional(S.String),
-          spokeType: S.optional(S.String),
-          linkedVpnTunnels: S.optional(__S(568, __c35, 8)),
-          gateway: S.optional(__S(571, __c35, 11)),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Spoke" });
   }
 }
-function __c36(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6095,7 +6566,16 @@ function __c36(j: number): any {
           gatewayAdvertisedRouteId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
+          uniqueId: S.optional(S.String),
+          recipient: S.optional(S.String),
+          priority: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          ipRange: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6106,26 +6586,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSpokesGatewayAdvertisedRoutesRequest" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uniqueId: S.optional(S.String),
-          recipient: S.optional(S.String),
-          priority: S.optional(S.Number),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          ipRange: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GatewayAdvertisedRoute" });
-  }
-}
-function __c38(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6133,27 +6594,11 @@ function __c38(j: number): any {
           parent: S.String.pipe(T.Label()),
           transportId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/transports",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsTransportsRequest" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           remoteProfile: S.optional(S.String),
           name: S.optional(S.String),
           hub: S.optional(S.String),
           pscRoutingEnabled: S.optional(S.Boolean),
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           generatedActivationKey: S.optional(S.String),
           description: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -6166,13 +6611,19 @@ function __c39(j: number): any {
           updateTime: S.optional(S.String),
           network: S.optional(S.String),
           remoteAccountId: S.optional(S.String),
-          advertisedRoutes: S.optional(__S(1888, __c118, 0)),
+          advertisedRoutes: S.optional(__S(2032, __c127, 0)),
           mtuLimit: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Transport" });
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/transports",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsTransportsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6191,7 +6642,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAutomatedDnsRecordsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6208,7 +6659,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6225,7 +6676,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGlobalPolicyBasedRoutesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6242,7 +6693,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6260,7 +6711,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMulticloudDataTransferConfigsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6280,7 +6731,7 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6296,7 +6747,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6314,7 +6765,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPscAuthorizationPoliciesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6331,7 +6782,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsRegionalEndpointsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6349,7 +6800,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServiceClassesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6367,7 +6818,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServiceConnectionMapsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6385,7 +6836,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServiceConnectionPoliciesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6403,7 +6854,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServiceConnectionTokensRequest" });
   }
 }
-function __c53(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6420,7 +6871,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSpokesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6437,7 +6888,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSpokesGatewayAdvertisedRoutesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6454,7 +6905,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsTransportsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6471,26 +6922,26 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(1888, __c118, 0)),
+          exemptedMembers: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(912, __c57, 0));
+      return S.Array(__S(816, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(913, __c57, 1)),
+          auditLogConfigs: S.optional(__S(817, __c51, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(914, __c57, 2));
+      return S.Array(__S(818, __c51, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6503,25 +6954,25 @@ function __c57(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(916, __c57, 4)),
+          condition: S.optional(__S(820, __c51, 4)),
           role: S.optional(S.String),
-          members: S.optional(__S(1888, __c118, 0)),
+          members: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(917, __c57, 5));
+      return S.Array(__S(821, __c51, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(915, __c57, 3)),
+          auditConfigs: S.optional(__S(819, __c51, 3)),
           version: S.optional(S.Number),
-          bindings: S.optional(__S(918, __c57, 6)),
+          bindings: S.optional(__S(822, __c51, 6)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c58(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6538,20 +6989,14 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsGlobalHubsGroupsRequest" });
   }
 }
-function __c59(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           spokeUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AcceptHubSpokeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(944, __c59, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6562,41 +7007,41 @@ function __c59(j: number): any {
       ).annotate({ identifier: "AcceptSpokeProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c61(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(864, __c54, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(976, __c61, 0)),
+          details: S.optional(__S(880, __c55, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
 }
-function __c62(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(960, __c60, 0)),
-          response: S.optional(__S(960, __c60, 0)),
+          metadata: S.optional(__S(864, __c54, 0)),
+          response: S.optional(__S(864, __c54, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(977, __c61, 1)),
+          error: S.optional(__S(881, __c55, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c63(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6613,7 +7058,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsGlobalPolicyBasedRoutesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6630,7 +7075,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c65(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6647,7 +7092,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsSpokesRequest" });
   }
 }
-function __c66(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6663,7 +7108,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6671,13 +7116,13 @@ function __c67(j: number): any {
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          metadata: S.optional(__S(960, __c60, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          metadata: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c68(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6693,7 +7138,34 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAutomatedDnsRecordsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          currentConfig: S.optional(__S(2000, __c125, 0)),
+          stateDetails: S.optional(S.String),
+          originalConfig: S.optional(__S(2000, __c125, 0)),
+          state: S.optional(S.String),
+          consumerNetwork: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serviceClass: S.optional(S.String),
+          dnsZone: S.optional(S.String),
+          dnsSuffix: S.optional(S.String),
+          recordType: S.optional(S.String),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          hostname: S.optional(S.String),
+          creationMode: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutomatedDnsRecord" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6709,7 +7181,30 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          exportPsc: S.optional(S.Boolean),
+          presetTopology: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          spokeSummary: S.optional(__S(2246, __c140, 6)),
+          policyMode: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          routeTables: S.optional(__S(2032, __c127, 0)),
+          routingVpcs: S.optional(__S(2248, __c140, 8)),
+          uniqueId: S.optional(S.String),
+          exportPscConfig: S.optional(__S(2249, __c140, 9)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Hub" });
+  }
+}
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6725,31 +7220,35 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalHubsGroupsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoAcceptProjects: S.optional(__S(1888, __c118, 0)),
-        }),
-      ).annotate({ identifier: "AutoAccept" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           routeTable: S.optional(S.String),
           updateTime: S.optional(S.String),
           description: S.optional(S.String),
           state: S.optional(S.String),
           createTime: S.optional(S.String),
-          autoAccept: S.optional(__S(1136, __c71, 0)),
+          autoAccept: S.optional(__S(1088, __c68, 0)),
           uid: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Group" });
   }
 }
-function __c72(j: number): any {
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          autoAcceptProjects: S.optional(__S(2032, __c127, 0)),
+        }),
+      ).annotate({ identifier: "AutoAccept" });
+  }
+}
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6765,12 +7264,12 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalHubsRouteTablesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           state: S.optional(S.String),
           updateTime: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -6781,7 +7280,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "RouteTable" });
   }
 }
-function __c74(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6797,7 +7296,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalHubsRouteTablesRoutesRequest" });
   }
 }
-function __c75(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6841,26 +7340,26 @@ function __c75(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           createTime: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           spoke: S.optional(S.String),
           priority: S.optional(S.String),
           type: S.optional(S.String),
           uid: S.optional(S.String),
-          nextHopInterconnectAttachment: S.optional(__S(1200, __c75, 0)),
-          nextHopRouterApplianceInstance: S.optional(__S(1201, __c75, 1)),
+          nextHopInterconnectAttachment: S.optional(__S(1152, __c72, 0)),
+          nextHopRouterApplianceInstance: S.optional(__S(1153, __c72, 1)),
           location: S.optional(S.String),
-          nextHopSpoke: S.optional(__S(1202, __c75, 2)),
+          nextHopSpoke: S.optional(__S(1154, __c72, 2)),
           state: S.optional(S.String),
           ipCidrRange: S.optional(S.String),
-          nextHopVpcNetwork: S.optional(__S(1203, __c75, 3)),
+          nextHopVpcNetwork: S.optional(__S(1155, __c72, 3)),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
-          nextHopVpnTunnel: S.optional(__S(1204, __c75, 4)),
+          nextHopVpnTunnel: S.optional(__S(1156, __c72, 4)),
         }),
       ).annotate({ identifier: "Route" });
   }
 }
-function __c76(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6876,21 +7375,39 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalPolicyBasedRoutesRequest" });
   }
 }
-function __c77(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-          spokeEtag: S.optional(S.String),
-          spokeUri: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          nextHopIlbIp: S.optional(S.String),
+          kind: S.optional(S.String),
+          network: S.optional(S.String),
+          name: S.optional(S.String),
+          nextHopOtherRoutes: S.optional(S.String),
+          filter: S.optional(__S(16, __c1, 0)),
+          virtualMachine: S.optional(__S(17, __c1, 1)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          priority: S.optional(S.Number),
+          selfLink: S.optional(S.String),
+          interconnectAttachment: S.optional(__S(18, __c1, 2)),
+          createTime: S.optional(S.String),
+          warnings: S.optional(__S(20, __c1, 4)),
         }),
-      ).annotate({ identifier: "AcceptSpokeUpdateRequest" });
-    case 1:
+      ).annotate({ identifier: "PolicyBasedRoute" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1232, __c77, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
+          spokeEtag: S.optional(S.String),
+          spokeUri: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6901,7 +7418,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "AcceptSpokeUpdateProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6917,7 +7434,35 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          migration: S.optional(__S(224, __c14, 0)),
+          name: S.optional(S.String),
+          immutable: S.optional(S.Boolean),
+          ipCidrRange: S.optional(S.String),
+          targetCidrRange: S.optional(__S(2032, __c127, 0)),
+          users: S.optional(__S(2032, __c127, 0)),
+          excludeCidrRanges: S.optional(__S(2032, __c127, 0)),
+          updateTime: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          peering: S.optional(S.String),
+          createTime: S.optional(S.String),
+          network: S.optional(S.String),
+          overlaps: S.optional(__S(1808, __c113, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          usage: S.optional(S.String),
+          description: S.optional(S.String),
+          purpose: S.optional(S.String),
+          allocationOptions: S.optional(__S(225, __c14, 1)),
+          rangeStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InternalRange" });
+  }
+}
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6931,6 +7476,25 @@ function __c79(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsMulticloudDataTransferConfigsRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          destinationsCount: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          destinationsActiveCount: S.optional(S.Number),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          services: S.optional(__S(304, __c19, 0)),
+        }),
+      ).annotate({ identifier: "MulticloudDataTransferConfig" });
   }
 }
 function __c80(j: number): any {
@@ -6956,6 +7520,25 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          endpoints: S.optional(__S(337, __c21, 1)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          ipPrefix: S.optional(S.String),
+          name: S.optional(S.String),
+          stateTimeline: S.optional(__S(290, __c18, 2)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Destination" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6969,7 +7552,7 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6979,30 +7562,14 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "ServiceConfig" });
     case 1:
-      return S.Array(__S(1312, __c82, 0));
+      return S.Array(__S(1328, __c83, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          serviceConfigs: S.optional(__S(1313, __c82, 1)),
+          serviceConfigs: S.optional(__S(1329, __c83, 1)),
         }),
       ).annotate({ identifier: "MulticloudDataTransferSupportedService" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c84(j: number): any {
@@ -7018,7 +7585,7 @@ function __c84(j: number): any {
             baseUrl: "https://networkconnectivity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsPscAuthorizationPoliciesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c85(j: number): any {
@@ -7034,10 +7601,66 @@ function __c85(j: number): any {
             baseUrl: "https://networkconnectivity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsRegionalEndpointsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsPscAuthorizationPoliciesRequest" });
   }
 }
 function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          targetResourceUri: S.optional(S.String),
+          authorizationMode: S.optional(S.String),
+          name: S.optional(S.String),
+          authorizedClientResources: S.optional(__S(2032, __c127, 0)),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          description: S.optional(S.String),
+          uid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PscAuthorizationPolicy" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsRegionalEndpointsRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2016, __c126, 0)),
+          network: S.optional(S.String),
+          address: S.optional(S.String),
+          createTime: S.optional(S.String),
+          accessType: S.optional(S.String),
+          subnetwork: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          pscForwardingRule: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+          targetGoogleApi: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegionalEndpoint" });
+  }
+}
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7053,16 +7676,16 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRemoteTransportProfilesRequest" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           provider: S.optional(S.String),
           providerSite: S.optional(S.String),
-          supportedBandwidths: S.optional(__S(1664, __c104, 0)),
+          supportedBandwidths: S.optional(__S(1808, __c113, 0)),
           orderState: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
           flow: S.optional(S.String),
@@ -7072,7 +7695,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RemoteTransportProfile" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7088,13 +7711,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsServiceClassesRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           description: S.optional(S.String),
           createTime: S.optional(S.String),
           serviceClass: S.optional(S.String),
@@ -7102,47 +7725,6 @@ function __c89(j: number): any {
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceClass" });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceConnectionMapsRequest" });
-  }
-}
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+name}:cancel",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "GoogleLongrunningCancelOperationRequest",
-      });
   }
 }
 function __c93(j: number): any {
@@ -7158,7 +7740,7 @@ function __c93(j: number): any {
             baseUrl: "https://networkconnectivity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceConnectionPoliciesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServiceConnectionMapsRequest" });
   }
 }
 function __c94(j: number): any {
@@ -7166,15 +7748,21 @@ function __c94(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceConnectionTokensRequest" });
+          consumerPscConnections: S.optional(__S(418, __c26, 2)),
+          serviceClassUri: S.optional(S.String),
+          producerPscConfigs: S.optional(__S(421, __c26, 5)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          token: S.optional(S.String),
+          consumerPscConfigs: S.optional(__S(423, __c26, 7)),
+          description: S.optional(S.String),
+          infrastructure: S.optional(S.String),
+          serviceClass: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceConnectionMap" });
   }
 }
 function __c95(j: number): any {
@@ -7183,30 +7771,23 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          body: S.optional(__S(1536, __c96, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
+            method: "POST",
+            uri: "v1/{+name}:cancel",
             baseUrl: "https://networkconnectivity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSpokesRequest" });
+      ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
 function __c96(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsSpokesGatewayAdvertisedRoutesRequest" });
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "GoogleLongrunningCancelOperationRequest",
+      });
   }
 }
 function __c97(j: number): any {
@@ -7222,7 +7803,7 @@ function __c97(j: number): any {
             baseUrl: "https://networkconnectivity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTransportsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsServiceConnectionPoliciesRequest" });
   }
 }
 function __c98(j: number): any {
@@ -7230,9 +7811,187 @@ function __c98(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceClass: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          autoCreatedSubnetInfo: S.optional(__S(448, __c28, 0)),
+          etag: S.optional(S.String),
+          pscConfig: S.optional(__S(449, __c28, 1)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          pscConnections: S.optional(__S(451, __c28, 3)),
+          infrastructure: S.optional(S.String),
+          network: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceConnectionPolicy" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServiceConnectionTokensRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expireTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          token: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          network: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceConnectionToken" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSpokesRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reasons: S.optional(__S(497, __c31, 1)),
+          linkedProducerVpcNetwork: S.optional(__S(498, __c31, 2)),
+          linkedVpcNetwork: S.optional(__S(499, __c31, 3)),
+          linkedRouterApplianceInstances: S.optional(__S(502, __c31, 6)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          group: S.optional(S.String),
+          hub: S.optional(S.String),
+          createTime: S.optional(S.String),
+          fieldPathsPendingUpdate: S.optional(__S(2032, __c127, 0)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedInterconnectAttachments: S.optional(__S(503, __c31, 7)),
+          uniqueId: S.optional(S.String),
+          spokeType: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(504, __c31, 8)),
+          gateway: S.optional(__S(507, __c31, 11)),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Spoke" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSpokesGatewayAdvertisedRoutesRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uniqueId: S.optional(S.String),
+          recipient: S.optional(S.String),
+          priority: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          ipRange: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GatewayAdvertisedRoute" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTransportsRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          remoteProfile: S.optional(S.String),
+          name: S.optional(S.String),
+          hub: S.optional(S.String),
+          pscRoutingEnabled: S.optional(S.Boolean),
+          labels: S.optional(__S(2016, __c126, 0)),
+          generatedActivationKey: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          autoAccept: S.optional(S.Boolean),
+          stackType: S.optional(S.String),
+          providedActivationKey: S.optional(S.String),
+          state: S.optional(S.String),
+          bandwidth: S.optional(S.String),
+          peeringNetwork: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          network: S.optional(S.String),
+          remoteAccountId: S.optional(S.String),
+          advertisedRoutes: S.optional(__S(2032, __c127, 0)),
+          mtuLimit: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Transport" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1888, __c118, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2032, __c127, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
@@ -7244,17 +8003,17 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(1569, __c98, 1)),
+          locations: S.optional(__S(1713, __c107, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c99(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7273,18 +8032,18 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAutomatedDnsRecordsRequest" });
     case 1:
-      return S.Array(__S(1857, __c116, 1));
+      return S.Array(__S(1008, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          automatedDnsRecords: S.optional(__S(1585, __c99, 1)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          automatedDnsRecords: S.optional(__S(1729, __c108, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListAutomatedDnsRecordsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7303,18 +8062,18 @@ function __c100(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalHubsRequest" });
     case 1:
-      return S.Array(__S(2106, __c131, 10));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          hubs: S.optional(__S(1601, __c100, 1)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          hubs: S.optional(__S(1745, __c109, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListHubsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7333,18 +8092,18 @@ function __c101(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalHubsGroupsRequest" });
     case 1:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1072, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(1617, __c101, 1)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          groups: S.optional(__S(1761, __c110, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
 }
-function __c102(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7363,33 +8122,27 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalHubsRouteTablesRequest" });
     case 1:
-      return S.Array(__S(1168, __c73, 0));
+      return S.Array(__S(1120, __c70, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
-          routeTables: S.optional(__S(1633, __c102, 1)),
+          routeTables: S.optional(__S(1777, __c111, 1)),
         }),
       ).annotate({ identifier: "ListRouteTablesResponse" });
   }
 }
-function __c103(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          location: S.String.pipe(T.Label()),
           consumerNetwork: S.optional(S.String),
           serviceClass: S.optional(S.String),
           endpointProject: S.optional(S.String),
           requestedIpVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CheckConsumerConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(1648, __c103, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7398,21 +8151,21 @@ function __c103(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CheckConsumerConfigProjectsLocationsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(1664, __c104, 0)),
+          errors: S.optional(__S(1808, __c113, 0)),
         }),
       ).annotate({ identifier: "CheckConsumerConfigResponse" });
   }
 }
-function __c104(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c105(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7431,18 +8184,18 @@ function __c105(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalHubsRouteTablesRoutesRequest" });
     case 1:
-      return S.Array(__S(1205, __c75, 5));
+      return S.Array(__S(1157, __c72, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          routes: S.optional(__S(1681, __c105, 1)),
+          routes: S.optional(__S(1825, __c114, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
   }
 }
-function __c106(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7461,18 +8214,18 @@ function __c106(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalPolicyBasedRoutesRequest" });
     case 1:
-      return S.Array(__S(21, __c1, 5));
+      return S.Array(__S(1184, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          policyBasedRoutes: S.optional(__S(1697, __c106, 1)),
+          policyBasedRoutes: S.optional(__S(1841, __c115, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListPolicyBasedRoutesResponse" });
   }
 }
-function __c107(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7491,18 +8244,18 @@ function __c107(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInternalRangesRequest" });
     case 1:
-      return S.Array(__S(242, __c15, 2));
+      return S.Array(__S(1232, __c77, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          internalRanges: S.optional(__S(1713, __c107, 1)),
+          internalRanges: S.optional(__S(1857, __c116, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListInternalRangesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7522,18 +8275,18 @@ function __c108(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMulticloudDataTransferConfigsRequest" });
     case 1:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
-          multicloudDataTransferConfigs: S.optional(__S(1729, __c108, 1)),
+          multicloudDataTransferConfigs: S.optional(__S(1873, __c117, 1)),
         }),
       ).annotate({ identifier: "ListMulticloudDataTransferConfigsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7555,18 +8308,18 @@ function __c109(j: number): any {
         identifier: "ListProjectsLocationsMulticloudDataTransferConfigsDestinationsRequest",
       });
     case 1:
-      return S.Array(__S(354, __c22, 2));
+      return S.Array(__S(1296, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(1745, __c109, 1)),
+          destinations: S.optional(__S(1889, __c118, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListDestinationsResponse" });
   }
 }
-function __c110(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7585,17 +8338,17 @@ function __c110(j: number): any {
         identifier: "ListProjectsLocationsMulticloudDataTransferSupportedServicesRequest",
       });
     case 1:
-      return S.Array(__S(1314, __c82, 2));
+      return S.Array(__S(1330, __c83, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          multicloudDataTransferSupportedServices: S.optional(__S(1761, __c110, 1)),
+          multicloudDataTransferSupportedServices: S.optional(__S(1905, __c119, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMulticloudDataTransferSupportedServicesResponse" });
   }
 }
-function __c111(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7614,18 +8367,18 @@ function __c111(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(992, __c62, 0));
+      return S.Array(__S(896, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1777, __c111, 1)),
+          operations: S.optional(__S(1921, __c120, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c112(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7644,18 +8397,18 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPscAuthorizationPoliciesRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(1376, __c86, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
-          pscAuthorizationPolicies: S.optional(__S(1793, __c112, 1)),
+          pscAuthorizationPolicies: S.optional(__S(1937, __c121, 1)),
         }),
       ).annotate({ identifier: "ListPscAuthorizationPoliciesResponse" });
   }
 }
-function __c113(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7674,18 +8427,18 @@ function __c113(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRegionalEndpointsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(1408, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          regionalEndpoints: S.optional(__S(1809, __c113, 1)),
+          regionalEndpoints: S.optional(__S(1953, __c122, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListRegionalEndpointsResponse" });
   }
 }
-function __c114(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7704,18 +8457,18 @@ function __c114(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRemoteTransportProfilesRequest" });
     case 1:
-      return S.Array(__S(1392, __c87, 0));
+      return S.Array(__S(1440, __c90, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          remoteTransportProfiles: S.optional(__S(1825, __c114, 1)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          remoteTransportProfiles: S.optional(__S(1969, __c123, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRemoteTransportProfilesResponse" });
   }
 }
-function __c115(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7724,32 +8477,9 @@ function __c115(j: number): any {
           automatedDnsRecordId: S.optional(S.String.pipe(T.Query())),
           insertMode: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1857, __c116, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/automatedDnsRecords",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsAutomatedDnsRecordsRequest" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ttl: S.optional(S.String),
-          rrdatas: S.optional(__S(1888, __c118, 0)),
-        }),
-      ).annotate({ identifier: "Config" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          currentConfig: S.optional(__S(1856, __c116, 0)),
+          currentConfig: S.optional(__S(2000, __c125, 0)),
           stateDetails: S.optional(S.String),
-          originalConfig: S.optional(__S(1856, __c116, 0)),
+          originalConfig: S.optional(__S(2000, __c125, 0)),
           state: S.optional(S.String),
           consumerNetwork: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -7760,28 +8490,45 @@ function __c116(j: number): any {
           name: S.optional(S.String),
           etag: S.optional(S.String),
           fqdn: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
           hostname: S.optional(S.String),
           creationMode: S.optional(S.String),
           description: S.optional(S.String),
           updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutomatedDnsRecord" });
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/automatedDnsRecords",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsAutomatedDnsRecordsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ttl: S.optional(S.String),
+          rrdatas: S.optional(__S(2032, __c127, 0)),
+        }),
+      ).annotate({ identifier: "Config" });
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c118(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c119(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7800,18 +8547,18 @@ function __c119(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceClassesRequest" });
     case 1:
-      return S.Array(__S(1424, __c89, 0));
+      return S.Array(__S(1472, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          serviceClasses: S.optional(__S(1905, __c119, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
+          serviceClasses: S.optional(__S(2049, __c128, 1)),
         }),
       ).annotate({ identifier: "ListServiceClassesResponse" });
   }
 }
-function __c120(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7830,18 +8577,18 @@ function __c120(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceConnectionMapsRequest" });
     case 1:
-      return S.Array(__S(472, __c29, 8));
+      return S.Array(__S(1504, __c94, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          serviceConnectionMaps: S.optional(__S(1921, __c120, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
+          serviceConnectionMaps: S.optional(__S(2065, __c129, 1)),
         }),
       ).annotate({ identifier: "ListServiceConnectionMapsResponse" });
   }
 }
-function __c121(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7860,18 +8607,18 @@ function __c121(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceConnectionPoliciesRequest" });
     case 1:
-      return S.Array(__S(500, __c31, 4));
+      return S.Array(__S(1568, __c98, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceConnectionPolicies: S.optional(__S(1937, __c121, 1)),
+          serviceConnectionPolicies: S.optional(__S(2081, __c130, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListServiceConnectionPoliciesResponse" });
   }
 }
-function __c122(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7890,18 +8637,18 @@ function __c122(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceConnectionTokensRequest" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(1600, __c100, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
-          serviceConnectionTokens: S.optional(__S(1953, __c122, 1)),
+          serviceConnectionTokens: S.optional(__S(2097, __c131, 1)),
         }),
       ).annotate({ identifier: "ListServiceConnectionTokensResponse" });
   }
 }
-function __c123(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7922,20 +8669,20 @@ function __c123(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          spokes: S.optional(__S(1984, __c124, 0)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          spokes: S.optional(__S(2128, __c133, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSpokesResponse" });
   }
 }
-function __c124(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(572, __c35, 12));
+      return S.Array(__S(1632, __c102, 0));
   }
 }
-function __c125(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7954,18 +8701,18 @@ function __c125(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSpokesGatewayAdvertisedRoutesRequest" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(1664, __c104, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          gatewayAdvertisedRoutes: S.optional(__S(2001, __c125, 1)),
-          unreachable: S.optional(__S(1888, __c118, 0)),
+          gatewayAdvertisedRoutes: S.optional(__S(2145, __c134, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ListGatewayAdvertisedRoutesResponse" });
   }
 }
-function __c126(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7984,25 +8731,25 @@ function __c126(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTransportsRequest" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(1696, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          transports: S.optional(__S(2017, __c126, 1)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
+          transports: S.optional(__S(2161, __c135, 1)),
         }),
       ).annotate({ identifier: "ListTransportsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          spokeLocations: S.optional(__S(1888, __c118, 0).pipe(T.Query())),
+          spokeLocations: S.optional(__S(2032, __c127, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
@@ -8019,13 +8766,13 @@ function __c127(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1888, __c118, 0)),
-          spokes: S.optional(__S(1984, __c124, 0)),
+          unreachable: S.optional(__S(2032, __c127, 0)),
+          spokes: S.optional(__S(2128, __c133, 0)),
         }),
       ).annotate({ identifier: "ListHubSpokesResponse" });
   }
 }
-function __c128(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8033,7 +8780,19 @@ function __c128(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2106, __c131, 10).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          exportPsc: S.optional(S.Boolean),
+          presetTopology: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          spokeSummary: S.optional(__S(2246, __c140, 6)),
+          policyMode: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          routeTables: S.optional(__S(2032, __c127, 0)),
+          routingVpcs: S.optional(__S(2248, __c140, 8)),
+          uniqueId: S.optional(S.String),
+          exportPscConfig: S.optional(__S(2249, __c140, 9)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8044,7 +8803,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8052,7 +8811,14 @@ function __c129(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1137, __c71, 1).pipe(T.HttpBody())),
+          labels: S.optional(__S(2016, __c126, 0)),
+          routeTable: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          autoAccept: S.optional(__S(1088, __c68, 0)),
+          uid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8063,7 +8829,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalHubsGroupsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8071,7 +8837,20 @@ function __c130(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           hubId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2106, __c131, 10).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          exportPsc: S.optional(S.Boolean),
+          presetTopology: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          spokeSummary: S.optional(__S(2246, __c140, 6)),
+          policyMode: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          routeTables: S.optional(__S(2032, __c127, 0)),
+          routingVpcs: S.optional(__S(2248, __c140, 8)),
+          uniqueId: S.optional(S.String),
+          exportPscConfig: S.optional(__S(2249, __c140, 9)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8082,7 +8861,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8092,7 +8871,7 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "SpokeStateCount" });
     case 1:
-      return S.Array(__S(2096, __c131, 0));
+      return S.Array(__S(2240, __c140, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8101,7 +8880,7 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "SpokeStateReasonCount" });
     case 3:
-      return S.Array(__S(2098, __c131, 2));
+      return S.Array(__S(2242, __c140, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8110,13 +8889,13 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "SpokeTypeCount" });
     case 5:
-      return S.Array(__S(2100, __c131, 4));
+      return S.Array(__S(2244, __c140, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          spokeStateCounts: S.optional(__S(2097, __c131, 1)),
-          spokeStateReasonCounts: S.optional(__S(2099, __c131, 3)),
-          spokeTypeCounts: S.optional(__S(2101, __c131, 5)),
+          spokeStateCounts: S.optional(__S(2241, __c140, 1)),
+          spokeStateReasonCounts: S.optional(__S(2243, __c140, 3)),
+          spokeTypeCounts: S.optional(__S(2245, __c140, 5)),
         }),
       ).annotate({ identifier: "SpokeSummary" });
     case 7:
@@ -8127,7 +8906,7 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "RoutingVPC" });
     case 8:
-      return S.Array(__S(2103, __c131, 7));
+      return S.Array(__S(2247, __c140, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -8135,28 +8914,9 @@ function __c131(j: number): any {
           globalGoogleApis: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ExportPscConfig" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          labels: S.optional(__S(1872, __c117, 0)),
-          exportPsc: S.optional(S.Boolean),
-          presetTopology: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          spokeSummary: S.optional(__S(2102, __c131, 6)),
-          policyMode: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          routeTables: S.optional(__S(1888, __c118, 0)),
-          routingVpcs: S.optional(__S(2104, __c131, 8)),
-          uniqueId: S.optional(S.String),
-          exportPscConfig: S.optional(__S(2105, __c131, 9)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Hub" });
   }
 }
-function __c132(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8164,7 +8924,24 @@ function __c132(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(242, __c15, 2).pipe(T.HttpBody())),
+          migration: S.optional(__S(224, __c14, 0)),
+          immutable: S.optional(S.Boolean),
+          ipCidrRange: S.optional(S.String),
+          targetCidrRange: S.optional(__S(2032, __c127, 0)),
+          users: S.optional(__S(2032, __c127, 0)),
+          excludeCidrRanges: S.optional(__S(2032, __c127, 0)),
+          updateTime: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          peering: S.optional(S.String),
+          createTime: S.optional(S.String),
+          network: S.optional(S.String),
+          overlaps: S.optional(__S(1808, __c113, 0)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          usage: S.optional(S.String),
+          description: S.optional(S.String),
+          purpose: S.optional(S.String),
+          allocationOptions: S.optional(__S(225, __c14, 1)),
+          rangeStatus: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8175,7 +8952,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c133(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8183,7 +8960,15 @@ function __c133(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(321, __c20, 1).pipe(T.HttpBody())),
+          destinationsCount: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          destinationsActiveCount: S.optional(S.Number),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          services: S.optional(__S(304, __c19, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8194,7 +8979,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsMulticloudDataTransferConfigsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8202,7 +8987,15 @@ function __c134(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(354, __c22, 2).pipe(T.HttpBody())),
+          endpoints: S.optional(__S(337, __c21, 1)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          ipPrefix: S.optional(S.String),
+          stateTimeline: S.optional(__S(290, __c18, 2)),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8215,7 +9008,7 @@ function __c134(j: number): any {
       });
   }
 }
-function __c135(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8223,7 +9016,12 @@ function __c135(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1424, __c89, 0).pipe(T.HttpBody())),
+          labels: S.optional(__S(2016, __c126, 0)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serviceClass: S.optional(S.String),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8234,7 +9032,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServiceClassesRequest" });
   }
 }
-function __c136(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8242,7 +9040,18 @@ function __c136(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(472, __c29, 8).pipe(T.HttpBody())),
+          consumerPscConnections: S.optional(__S(418, __c26, 2)),
+          serviceClassUri: S.optional(S.String),
+          producerPscConfigs: S.optional(__S(421, __c26, 5)),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          updateTime: S.optional(S.String),
+          token: S.optional(S.String),
+          consumerPscConfigs: S.optional(__S(423, __c26, 7)),
+          description: S.optional(S.String),
+          infrastructure: S.optional(S.String),
+          serviceClass: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8253,7 +9062,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServiceConnectionMapsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8261,7 +9070,17 @@ function __c137(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(500, __c31, 4).pipe(T.HttpBody())),
+          serviceClass: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          autoCreatedSubnetInfo: S.optional(__S(448, __c28, 0)),
+          etag: S.optional(S.String),
+          pscConfig: S.optional(__S(449, __c28, 1)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          pscConnections: S.optional(__S(451, __c28, 3)),
+          infrastructure: S.optional(S.String),
+          network: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8272,7 +9091,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsServiceConnectionPoliciesRequest" });
   }
 }
-function __c138(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8280,7 +9099,24 @@ function __c138(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(572, __c35, 12).pipe(T.HttpBody())),
+          reasons: S.optional(__S(497, __c31, 1)),
+          linkedProducerVpcNetwork: S.optional(__S(498, __c31, 2)),
+          linkedVpcNetwork: S.optional(__S(499, __c31, 3)),
+          linkedRouterApplianceInstances: S.optional(__S(502, __c31, 6)),
+          labels: S.optional(__S(2016, __c126, 0)),
+          group: S.optional(S.String),
+          hub: S.optional(S.String),
+          createTime: S.optional(S.String),
+          fieldPathsPendingUpdate: S.optional(__S(2032, __c127, 0)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedInterconnectAttachments: S.optional(__S(503, __c31, 7)),
+          uniqueId: S.optional(S.String),
+          spokeType: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(504, __c31, 8)),
+          gateway: S.optional(__S(507, __c31, 11)),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8291,7 +9127,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSpokesRequest" });
   }
 }
-function __c139(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8299,7 +9135,15 @@ function __c139(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(592, __c37, 0).pipe(T.HttpBody())),
+          uniqueId: S.optional(S.String),
+          recipient: S.optional(S.String),
+          priority: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(2016, __c126, 0)),
+          ipRange: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8310,7 +9154,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSpokesGatewayAdvertisedRoutesRequest" });
   }
 }
-function __c140(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8318,7 +9162,24 @@ function __c140(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
+          remoteProfile: S.optional(S.String),
+          hub: S.optional(S.String),
+          pscRoutingEnabled: S.optional(S.Boolean),
+          labels: S.optional(__S(2016, __c126, 0)),
+          generatedActivationKey: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          autoAccept: S.optional(S.Boolean),
+          stackType: S.optional(S.String),
+          providedActivationKey: S.optional(S.String),
+          state: S.optional(S.String),
+          bandwidth: S.optional(S.String),
+          peeringNetwork: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          network: S.optional(S.String),
+          remoteAccountId: S.optional(S.String),
+          advertisedRoutes: S.optional(__S(2032, __c127, 0)),
+          mtuLimit: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8329,7 +9190,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsTransportsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8364,16 +9225,16 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          pscPropagationStatus: S.optional(__S(2257, __c141, 1)),
+          pscPropagationStatus: S.optional(__S(2401, __c150, 1)),
           groupBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "HubStatusEntry" });
     case 3:
-      return S.Array(__S(2258, __c141, 2));
+      return S.Array(__S(2402, __c150, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          hubStatusEntries: S.optional(__S(2259, __c141, 3)),
+          hubStatusEntries: S.optional(__S(2403, __c150, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryHubStatusResponse" });

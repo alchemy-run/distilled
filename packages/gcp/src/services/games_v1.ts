@@ -131,8 +131,9 @@ export interface DeveloperIntegrityVerdict {
   category?: DeveloperIntegrityVerdictCategoryEnum | (string & {}) | undefined;
 }
 export type DeveloperIntegrityVerdictList = Array<DeveloperIntegrityVerdict>;
-/** Request message for PlayerGameEvents.BatchRecordEvents Next ID: 8 */
-export interface BatchRecordEventsRequest {
+export interface BatchRecordEventsGameStatsRequest {
+  /** Required. The player ID of the player that performed the events. */
+  playerId: string;
   /** Optional. The salt used to generate content binding for the DroidGuard blob. This is used to prevent replay attacks. */
   salt?: string | undefined;
   /** Required. A list of player game events to be recorded. Maximum of 30 events per batch request. */
@@ -145,12 +146,6 @@ export interface BatchRecordEventsRequest {
   requestTime?: string | undefined;
   /** Required. Application package name (e.g., "com.example.game"). */
   packageName?: string | undefined;
-}
-export interface BatchRecordEventsGameStatsRequest {
-  /** Required. The player ID of the player that performed the events. */
-  playerId: string;
-  /** Request body */
-  body?: BatchRecordEventsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -692,8 +687,7 @@ export type LinkPersonaRequestConflictingLinksResolutionPolicyEnum =
   | "KEEP_EXISTING_LINKS"
   | "CREATE_NEW_LINK";
 export type LinkPersonaRequestCardinalityConstraintEnum = "ONE_PERSONA_TO_ONE_PLAYER";
-/** Request to link an in-game account with a PGS principal (encoded in the session id). */
-export interface LinkPersonaRequest {
+export interface LinkPersonaRecallRequest {
   /** Required. Resolution policy to apply when the linking of a persona to a player would result in violating the specified cardinality constraint. */
   conflictingLinksResolutionPolicy?:
     | LinkPersonaRequestConflictingLinksResolutionPolicyEnum
@@ -711,10 +705,6 @@ export interface LinkPersonaRequest {
   persona?: string | undefined;
   /** Required. Cardinality constraint to observe when linking a persona to a player in the scope of a game. */
   cardinalityConstraint?: LinkPersonaRequestCardinalityConstraintEnum | (string & {}) | undefined;
-}
-export interface LinkPersonaRecallRequest {
-  /** Request body */
-  body?: LinkPersonaRequest | undefined;
 }
 export type LinkPersonaResponseStateEnum = "LINK_CREATED" | "PERSONA_OR_PLAYER_ALREADY_LINKED";
 /** Outcome of a persona linking attempt. */
@@ -1091,8 +1081,9 @@ export interface EventPeriodUpdate {
   updates?: EventUpdateRequestList | undefined;
 }
 export type EventPeriodUpdateList = Array<EventPeriodUpdate>;
-/** An event period update resource. */
-export interface EventRecordRequest {
+export interface RecordEventsRequest {
+  /** The preferred language to use for strings returned by this method. */
+  language?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#eventRecordRequest`. */
   kind?: string | undefined;
   /** The request ID used to identify this attempt to record events. */
@@ -1101,12 +1092,6 @@ export interface EventRecordRequest {
   currentTimeMillis?: string | undefined;
   /** A list of the time period updates being made in this request. */
   timePeriods?: EventPeriodUpdateList | undefined;
-}
-export interface RecordEventsRequest {
-  /** The preferred language to use for strings returned by this method. */
-  language?: string | undefined;
-  /** Request body */
-  body?: EventRecordRequest | undefined;
 }
 export type EventBatchRecordFailureFailureCauseEnum =
   | "TOO_LARGE"
@@ -1147,14 +1132,9 @@ export interface EventUpdateResponse {
   /** Any failures updating a particular event. */
   eventFailures?: EventRecordFailureList | undefined;
 }
-/** Request to remove all Recall tokens associated with a persona for an app. */
-export interface ResetPersonaRequest {
+export interface ResetPersonaRecallRequest {
   /** Value of the 'persona' field as it was provided by the client in LinkPersona RPC */
   persona?: string | undefined;
-}
-export interface ResetPersonaRecallRequest {
-  /** Request body */
-  body?: ResetPersonaRequest | undefined;
 }
 /** Response for the ResetPersona RPC */
 export interface ResetPersonaResponse {
@@ -1202,18 +1182,13 @@ export interface ScoreSubmission {
   signature?: string | undefined;
 }
 export type ScoreSubmissionList = Array<ScoreSubmission>;
-/** A list of score submission requests. */
-export interface PlayerScoreSubmissionList {
+export interface SubmitMultipleScoresRequest {
+  /** The preferred language to use for strings returned by this method. */
+  language?: string | undefined;
   /** The score submissions. */
   scores?: ScoreSubmissionList | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#playerScoreSubmissionList`. */
   kind?: string | undefined;
-}
-export interface SubmitMultipleScoresRequest {
-  /** The preferred language to use for strings returned by this method. */
-  language?: string | undefined;
-  /** Request body */
-  body?: PlayerScoreSubmissionList | undefined;
 }
 export type PlayerScoreResponseBeatenScoreTimeSpansItemEnum = "ALL_TIME" | "WEEKLY" | "DAILY";
 export type PlayerScoreResponseBeatenScoreTimeSpansItemEnumList =
@@ -1266,18 +1241,13 @@ export interface SubmitScoresRequest {
   /** Additional information about the score you're submitting. Values must contain no more than 64 URI-safe characters as defined by section 2.3 of RFC 3986. */
   scoreTag?: string | undefined;
 }
-/** Request to remove a Recall token linking PGS principal and an in-game account */
-export interface UnlinkPersonaRequest {
+export interface UnlinkPersonaRecallRequest {
   /** Required. Opaque server-generated string that encodes all the necessary information to identify the PGS player / Google user and application. */
   sessionId?: string | undefined;
   /** Value of the 'persona' field as it was provided by the client in LinkPersona RPC */
   persona?: string | undefined;
   /** Value of the Recall token as it was provided by the client in LinkPersona RPC */
   token?: string | undefined;
-}
-export interface UnlinkPersonaRecallRequest {
-  /** Request body */
-  body?: UnlinkPersonaRequest | undefined;
 }
 /** Response for the UnlinkPersona RPC */
 export interface UnlinkPersonaResponse {
@@ -1330,16 +1300,11 @@ export interface AchievementUpdateRequest {
   kind?: string | undefined;
 }
 export type AchievementUpdateRequestList = Array<AchievementUpdateRequest>;
-/** A list of achievement update requests. */
-export interface AchievementUpdateMultipleRequest {
+export interface UpdateMultipleAchievementsRequest {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `games#achievementUpdateMultipleRequest`. */
   kind?: string | undefined;
   /** The individual achievement update requests. */
   updates?: AchievementUpdateRequestList | undefined;
-}
-export interface UpdateMultipleAchievementsRequest {
-  /** Request body */
-  body?: AchievementUpdateMultipleRequest | undefined;
 }
 export type AchievementUpdateResponseCurrentStateEnum = "HIDDEN" | "REVEALED" | "UNLOCKED";
 /** An updated achievement. */
@@ -1391,8 +1356,8 @@ export const batchRecordEventsGameStats: API.OperationMethod<
   BatchRecordEventsGameStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(615, __c38, 7) as any as S.Schema<BatchRecordEventsGameStatsRequest>,
-  output: __S(620, __c38, 12) as any as S.Schema<BatchRecordEventsResponse>,
+  input: __S(614, __c38, 6) as any as S.Schema<BatchRecordEventsGameStatsRequest>,
+  output: __S(619, __c38, 11) as any as S.Schema<BatchRecordEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1718,8 +1683,8 @@ export const linkPersonaRecall: API.OperationMethod<
   LinkPersonaRecallError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c16, 1) as any as S.Schema<LinkPersonaRecallRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<LinkPersonaResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<LinkPersonaRecallRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<LinkPersonaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1942,8 +1907,8 @@ export const recordEvents: API.OperationMethod<
   RecordEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(486, __c30, 6) as any as S.Schema<RecordEventsRequest>,
-  output: __S(491, __c30, 11) as any as S.Schema<EventUpdateResponse>,
+  input: __S(485, __c30, 5) as any as S.Schema<RecordEventsRequest>,
+  output: __S(490, __c30, 10) as any as S.Schema<EventUpdateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1959,7 +1924,7 @@ export const resetPersonaRecall: API.OperationMethod<
   ResetPersonaRecallError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(497, __c31, 1) as any as S.Schema<ResetPersonaRecallRequest>,
+  input: __S(496, __c31, 0) as any as S.Schema<ResetPersonaRecallRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<ResetPersonaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2015,8 +1980,8 @@ export const submitMultipleScores: API.OperationMethod<
   SubmitMultipleScoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(563, __c35, 3) as any as S.Schema<SubmitMultipleScoresRequest>,
-  output: __S(565, __c35, 5) as any as S.Schema<PlayerScoreListResponse>,
+  input: __S(562, __c35, 2) as any as S.Schema<SubmitMultipleScoresRequest>,
+  output: __S(564, __c35, 4) as any as S.Schema<PlayerScoreListResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2049,7 +2014,7 @@ export const unlinkPersonaRecall: API.OperationMethod<
   UnlinkPersonaRecallError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(625, __c39, 1) as any as S.Schema<UnlinkPersonaRecallRequest>,
+  input: __S(624, __c39, 0) as any as S.Schema<UnlinkPersonaRecallRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<UnlinkPersonaResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2088,8 +2053,8 @@ export const updateMultipleAchievements: API.OperationMethod<
   UpdateMultipleAchievementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(661, __c41, 5) as any as S.Schema<UpdateMultipleAchievementsRequest>,
-  output: __S(664, __c41, 8) as any as S.Schema<AchievementUpdateMultipleResponse>,
+  input: __S(660, __c41, 4) as any as S.Schema<UpdateMultipleAchievementsRequest>,
+  output: __S(663, __c41, 7) as any as S.Schema<AchievementUpdateMultipleResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2543,12 +2508,6 @@ function __c16(j: number): any {
           sessionId: S.optional(S.String),
           persona: S.optional(S.String),
           cardinalityConstraint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkPersonaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2557,7 +2516,7 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LinkPersonaRecallRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
@@ -2994,17 +2953,11 @@ function __c30(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          language: S.optional(S.String.pipe(T.Query())),
           kind: S.optional(S.String),
           requestId: S.optional(S.String),
           currentTimeMillis: S.optional(S.String),
           timePeriods: S.optional(__S(484, __c30, 4)),
-        }),
-      ).annotate({ identifier: "EventRecordRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          language: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(485, __c30, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3013,7 +2966,7 @@ function __c30(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RecordEventsRequest" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           range: S.optional(__S(480, __c30, 0)),
@@ -3021,9 +2974,9 @@ function __c30(j: number): any {
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventBatchRecordFailure" });
+    case 7:
+      return S.Array(__S(486, __c30, 6));
     case 8:
-      return S.Array(__S(487, __c30, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           eventId: S.optional(S.String),
@@ -3031,15 +2984,15 @@ function __c30(j: number): any {
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventRecordFailure" });
+    case 9:
+      return S.Array(__S(488, __c30, 8));
     case 10:
-      return S.Array(__S(489, __c30, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
           playerEvents: S.optional(__S(321, __c20, 1)),
           kind: S.optional(S.String),
-          batchFailures: S.optional(__S(488, __c30, 8)),
-          eventFailures: S.optional(__S(490, __c30, 10)),
+          batchFailures: S.optional(__S(487, __c30, 7)),
+          eventFailures: S.optional(__S(489, __c30, 9)),
         }),
       ).annotate({ identifier: "EventUpdateResponse" });
   }
@@ -3050,12 +3003,6 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           persona: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResetPersonaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3141,15 +3088,9 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          language: S.optional(S.String.pipe(T.Query())),
           scores: S.optional(__S(561, __c35, 1)),
           kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PlayerScoreSubmissionList" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          language: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(562, __c35, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3158,13 +3099,13 @@ function __c35(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SubmitMultipleScoresRequest" });
-    case 4:
+    case 3:
       return S.Array(__S(578, __c36, 2));
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          submittedScores: S.optional(__S(564, __c35, 4)),
+          submittedScores: S.optional(__S(563, __c35, 3)),
         }),
       ).annotate({ identifier: "PlayerScoreListResponse" });
   }
@@ -3253,19 +3194,13 @@ function __c38(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          playerId: S.String.pipe(T.Label()),
           salt: S.optional(S.String),
           events: S.optional(__S(611, __c38, 3)),
           droidGuardBlob: S.optional(S.String),
           integrityVerdicts: S.optional(__S(613, __c38, 5)),
           requestTime: S.optional(S.String),
           packageName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BatchRecordEventsRequest" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          playerId: S.String.pipe(T.Label()),
-          body: S.optional(__S(614, __c38, 6).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3274,24 +3209,24 @@ function __c38(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchRecordEventsGameStatsRequest" });
-    case 8:
+    case 7:
       return S.Record(S.String, S.Unknown);
+    case 8:
+      return S.Array(__S(615, __c38, 7));
     case 9:
-      return S.Array(__S(616, __c38, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(617, __c38, 9)),
+          details: S.optional(__S(616, __c38, 8)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
+    case 10:
+      return S.Record(S.String, __S(617, __c38, 9));
     case 11:
-      return S.Record(S.String, __S(618, __c38, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
-          failedRequests: S.optional(__S(619, __c38, 11)),
+          failedRequests: S.optional(__S(618, __c38, 10)),
         }),
       ).annotate({ identifier: "BatchRecordEventsResponse" });
   }
@@ -3304,12 +3239,6 @@ function __c39(j: number): any {
           sessionId: S.optional(S.String),
           persona: S.optional(S.String),
           token: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UnlinkPersonaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3377,12 +3306,6 @@ function __c41(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           updates: S.optional(__S(659, __c41, 3)),
-        }),
-      ).annotate({ identifier: "AchievementUpdateMultipleRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(660, __c41, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3391,7 +3314,7 @@ function __c41(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateMultipleAchievementsRequest" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           newlyUnlocked: S.optional(S.Boolean),
@@ -3402,12 +3325,12 @@ function __c41(j: number): any {
           updateOccurred: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AchievementUpdateResponse" });
+    case 6:
+      return S.Array(__S(661, __c41, 5));
     case 7:
-      return S.Array(__S(662, __c41, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          updatedAchievements: S.optional(__S(663, __c41, 7)),
+          updatedAchievements: S.optional(__S(662, __c41, 6)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AchievementUpdateMultipleResponse" });

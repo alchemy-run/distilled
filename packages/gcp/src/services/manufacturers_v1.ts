@@ -560,16 +560,114 @@ export interface PatchAccountsLanguagesProductCertificationsRequest {
   updateMask?: string | undefined;
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
   name: string;
-  /** Request body */
-  body?: ProductCertification | undefined;
+  /** Optional. A 2-letter country code (ISO 3166-1 Alpha 2). */
+  countryCode?: StringList | undefined;
+  /** Output only. A server-generated list of issues associated with the product. */
+  issues?: IssueList | undefined;
+  /** Output only. The statuses of the destinations. */
+  destinationStatuses?: DestinationStatusList | undefined;
+  /** Required. This is the product's brand name. The brand is used to help identify your product. */
+  brand?: string | undefined;
+  /** Optional. Another name for GTIN. */
+  productCode?: StringList | undefined;
+  /** Optional. These are the Manufacturer Part Numbers (MPN). MPNs are used to uniquely identify a specific product among all products from the same manufacturer */
+  mpn?: StringList | undefined;
+  /** Required. This is to clearly identify the product you are certifying. */
+  title?: string | undefined;
+  /** Required. A list of certifications to link to the described product. */
+  certification?: CertificationList | undefined;
+  /** Optional. These are your own product categorization system in your product data. */
+  productType?: StringList | undefined;
 }
 export interface UpdateAccountsProductsRequest {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
   name: string;
-  /** Request body */
-  body?: Attributes | undefined;
+  /** Rich product content. For more information, see https://support.google.com/manufacturers/answer/9389865 */
+  richProductContent?: StringList | undefined;
+  /** The name of the group of products related to the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productline. */
+  productLine?: string | undefined;
+  /** Grocery Attributes. See more at https://support.google.com/manufacturers/answer/12098458#grocery. */
+  grocery?: Grocery | undefined;
+  /** The suggested retail price (MSRP) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#price. */
+  suggestedRetailPrice?: Price | undefined;
+  /** The release date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#release. */
+  releaseDate?: string | undefined;
+  /** The description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#description. */
+  description?: string | undefined;
+  /** The capacity of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity. */
+  capacity?: Capacity | undefined;
+  /** The material of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#material. */
+  material?: string | undefined;
+  /** The target client id. Should only be used in the accounts of the data partners. For more information, see https://support.google.com/manufacturers/answer/10857344 */
+  targetClientId?: string | undefined;
+  /** The color of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#color. */
+  color?: string | undefined;
+  /** The item group id of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#itemgroupid. */
+  itemGroupId?: string | undefined;
+  /** The image of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#image. */
+  imageLink?: Image | undefined;
+  /** The target age group of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#agegroup. */
+  ageGroup?: string | undefined;
+  /** Optional. List of certifications claimed by this product. */
+  certification?: GoogleShoppingManufacturersV1ProductCertificationList | undefined;
+  /** Optional. List of countries to show this product in. Countries provided in this attribute will override any of the countries configured at feed level. The values should be: the [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the countries in which this item will be shown. */
+  intendedCountry?: StringList | undefined;
+  /** The pattern of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#pattern. */
+  pattern?: string | undefined;
+  /** The product highlights. For more information, see https://support.google.com/manufacturers/answer/10066942 */
+  productHighlight?: StringList | undefined;
+  /** The disclosure date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#disclosure. */
+  disclosureDate?: string | undefined;
+  /** The size of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#size. */
+  size?: string | undefined;
+  /** The format of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#format. */
+  format?: string | undefined;
+  /** The theme of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#theme. */
+  theme?: string | undefined;
+  /** Nutrition Attributes. See more at https://support.google.com/manufacturers/answer/12098458#food-servings. */
+  nutrition?: Nutrition | undefined;
+  /** The Manufacturer Part Number (MPN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#mpn. */
+  mpn?: string | undefined;
+  /** The rich format description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
+  featureDescription?: FeatureDescriptionList | undefined;
+  /** The scent of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#scent. */
+  scent?: string | undefined;
+  /** The size type of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizetype. */
+  sizeType?: StringList | undefined;
+  /** The videos of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#video. */
+  videoLink?: StringList | undefined;
+  /** The details of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail. */
+  productDetail?: ProductDetailList | undefined;
+  /** The flavor of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#flavor. */
+  flavor?: string | undefined;
+  /** The canonical name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productname. */
+  productName?: string | undefined;
+  /** The title of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#title. */
+  title?: string | undefined;
+  /** Virtual Model (3d) asset link. */
+  virtualModelLink?: string | undefined;
+  /** The target gender of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gender. */
+  gender?: string | undefined;
+  /** The brand name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#brand. */
+  brand?: string | undefined;
+  /** The count of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#count. */
+  count?: Count | undefined;
+  /** The size system of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizesystem. */
+  sizeSystem?: string | undefined;
+  /** The Global Trade Item Number (GTIN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gtin. */
+  gtin?: StringList | undefined;
+  /** A list of excluded destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
+  excludedDestination?: StringList | undefined;
+  /** The type or category of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#producttype. */
+  productType?: StringList | undefined;
+  /** The URL of the detail page of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productpage. */
+  productPageUrl?: string | undefined;
+  /** The additional images of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#addlimage. */
+  additionalImageLink?: ImageList | undefined;
+  /** A list of included destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
+  includedDestination?: StringList | undefined;
 }
 export type DeleteAccountsLanguagesProductCertificationsError =
   | NotFound
@@ -636,7 +734,7 @@ export const getAccountsProducts: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetAccountsProductsRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<Product>,
+  output: __S(162, __c10, 2) as any as S.Schema<Product>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -729,7 +827,15 @@ function __c0(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(130, __c8, 2).pipe(T.HttpBody())),
+          countryCode: S.optional(__S(112, __c7, 0)),
+          issues: S.optional(__S(97, __c6, 1)),
+          destinationStatuses: S.optional(__S(99, __c6, 3)),
+          brand: S.optional(S.String),
+          productCode: S.optional(__S(112, __c7, 0)),
+          mpn: S.optional(__S(112, __c7, 0)),
+          title: S.optional(S.String),
+          certification: S.optional(__S(129, __c8, 1)),
+          productType: S.optional(__S(112, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -747,7 +853,48 @@ function __c1(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(191, __c11, 15).pipe(T.HttpBody())),
+          richProductContent: S.optional(__S(112, __c7, 0)),
+          productLine: S.optional(S.String),
+          grocery: S.optional(__S(176, __c11, 0)),
+          suggestedRetailPrice: S.optional(__S(177, __c11, 1)),
+          releaseDate: S.optional(S.String),
+          description: S.optional(S.String),
+          capacity: S.optional(__S(178, __c11, 2)),
+          material: S.optional(S.String),
+          targetClientId: S.optional(S.String),
+          color: S.optional(S.String),
+          itemGroupId: S.optional(S.String),
+          imageLink: S.optional(__S(179, __c11, 3)),
+          ageGroup: S.optional(S.String),
+          certification: S.optional(__S(181, __c11, 5)),
+          intendedCountry: S.optional(__S(112, __c7, 0)),
+          pattern: S.optional(S.String),
+          productHighlight: S.optional(__S(112, __c7, 0)),
+          disclosureDate: S.optional(S.String),
+          size: S.optional(S.String),
+          format: S.optional(S.String),
+          theme: S.optional(S.String),
+          nutrition: S.optional(__S(185, __c11, 9)),
+          mpn: S.optional(S.String),
+          featureDescription: S.optional(__S(187, __c11, 11)),
+          scent: S.optional(S.String),
+          sizeType: S.optional(__S(112, __c7, 0)),
+          videoLink: S.optional(__S(112, __c7, 0)),
+          productDetail: S.optional(__S(189, __c11, 13)),
+          flavor: S.optional(S.String),
+          productName: S.optional(S.String),
+          title: S.optional(S.String),
+          virtualModelLink: S.optional(S.String),
+          gender: S.optional(S.String),
+          brand: S.optional(S.String),
+          count: S.optional(__S(178, __c11, 2)),
+          sizeSystem: S.optional(S.String),
+          gtin: S.optional(__S(112, __c7, 0)),
+          excludedDestination: S.optional(__S(112, __c7, 0)),
+          productType: S.optional(__S(112, __c7, 0)),
+          productPageUrl: S.optional(S.String),
+          additionalImageLink: S.optional(__S(190, __c11, 14)),
+          includedDestination: S.optional(__S(112, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -909,12 +1056,59 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          richProductContent: S.optional(__S(112, __c7, 0)),
+          productLine: S.optional(S.String),
+          grocery: S.optional(__S(176, __c11, 0)),
+          suggestedRetailPrice: S.optional(__S(177, __c11, 1)),
+          releaseDate: S.optional(S.String),
+          description: S.optional(S.String),
+          capacity: S.optional(__S(178, __c11, 2)),
+          material: S.optional(S.String),
+          targetClientId: S.optional(S.String),
+          color: S.optional(S.String),
+          itemGroupId: S.optional(S.String),
+          imageLink: S.optional(__S(179, __c11, 3)),
+          ageGroup: S.optional(S.String),
+          certification: S.optional(__S(181, __c11, 5)),
+          intendedCountry: S.optional(__S(112, __c7, 0)),
+          pattern: S.optional(S.String),
+          productHighlight: S.optional(__S(112, __c7, 0)),
+          disclosureDate: S.optional(S.String),
+          size: S.optional(S.String),
+          format: S.optional(S.String),
+          theme: S.optional(S.String),
+          nutrition: S.optional(__S(185, __c11, 9)),
+          mpn: S.optional(S.String),
+          featureDescription: S.optional(__S(187, __c11, 11)),
+          scent: S.optional(S.String),
+          sizeType: S.optional(__S(112, __c7, 0)),
+          videoLink: S.optional(__S(112, __c7, 0)),
+          productDetail: S.optional(__S(189, __c11, 13)),
+          flavor: S.optional(S.String),
+          productName: S.optional(S.String),
+          title: S.optional(S.String),
+          virtualModelLink: S.optional(S.String),
+          gender: S.optional(S.String),
+          brand: S.optional(S.String),
+          count: S.optional(__S(178, __c11, 2)),
+          sizeSystem: S.optional(S.String),
+          gtin: S.optional(__S(112, __c7, 0)),
+          excludedDestination: S.optional(__S(112, __c7, 0)),
+          productType: S.optional(__S(112, __c7, 0)),
+          productPageUrl: S.optional(S.String),
+          additionalImageLink: S.optional(__S(190, __c11, 14)),
+          includedDestination: S.optional(__S(112, __c7, 0)),
+        }),
+      ).annotate({ identifier: "Attributes" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           feedLabel: S.optional(S.String),
           destinationStatuses: S.optional(__S(99, __c6, 3)),
           parent: S.optional(S.String),
           name: S.optional(S.String),
           targetCountry: S.optional(S.String),
-          attributes: S.optional(__S(191, __c11, 15)),
+          attributes: S.optional(__S(161, __c10, 1)),
           issues: S.optional(__S(97, __c6, 1)),
           contentLanguage: S.optional(S.String),
           productId: S.optional(S.String),
@@ -1061,53 +1255,6 @@ function __c11(j: number): any {
       return S.Array(__S(188, __c11, 12));
     case 14:
       return S.Array(__S(179, __c11, 3));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          richProductContent: S.optional(__S(112, __c7, 0)),
-          productLine: S.optional(S.String),
-          grocery: S.optional(__S(176, __c11, 0)),
-          suggestedRetailPrice: S.optional(__S(177, __c11, 1)),
-          releaseDate: S.optional(S.String),
-          description: S.optional(S.String),
-          capacity: S.optional(__S(178, __c11, 2)),
-          material: S.optional(S.String),
-          targetClientId: S.optional(S.String),
-          color: S.optional(S.String),
-          itemGroupId: S.optional(S.String),
-          imageLink: S.optional(__S(179, __c11, 3)),
-          ageGroup: S.optional(S.String),
-          certification: S.optional(__S(181, __c11, 5)),
-          intendedCountry: S.optional(__S(112, __c7, 0)),
-          pattern: S.optional(S.String),
-          productHighlight: S.optional(__S(112, __c7, 0)),
-          disclosureDate: S.optional(S.String),
-          size: S.optional(S.String),
-          format: S.optional(S.String),
-          theme: S.optional(S.String),
-          nutrition: S.optional(__S(185, __c11, 9)),
-          mpn: S.optional(S.String),
-          featureDescription: S.optional(__S(187, __c11, 11)),
-          scent: S.optional(S.String),
-          sizeType: S.optional(__S(112, __c7, 0)),
-          videoLink: S.optional(__S(112, __c7, 0)),
-          productDetail: S.optional(__S(189, __c11, 13)),
-          flavor: S.optional(S.String),
-          productName: S.optional(S.String),
-          title: S.optional(S.String),
-          virtualModelLink: S.optional(S.String),
-          gender: S.optional(S.String),
-          brand: S.optional(S.String),
-          count: S.optional(__S(178, __c11, 2)),
-          sizeSystem: S.optional(S.String),
-          gtin: S.optional(__S(112, __c7, 0)),
-          excludedDestination: S.optional(__S(112, __c7, 0)),
-          productType: S.optional(__S(112, __c7, 0)),
-          productPageUrl: S.optional(S.String),
-          additionalImageLink: S.optional(__S(190, __c11, 14)),
-          includedDestination: S.optional(__S(112, __c7, 0)),
-        }),
-      ).annotate({ identifier: "Attributes" });
   }
 }
 function __c12(j: number): any {
@@ -1155,7 +1302,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsProductsRequest" });
     case 1:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(162, __c10, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({

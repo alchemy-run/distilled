@@ -97,36 +97,26 @@ export interface Tag {
   stringValue?: string | undefined;
 }
 export type TagList = Array<Tag>;
-/** Request message for CreateOrUpdateTags. VerifyToken. */
-export interface CreateOrUpdateTagsRequest {
-  /** Tags to be inserted or updated. */
-  tags?: TagList | undefined;
-}
 export interface CreateOrUpdateAppsTokensTagsRequest {
   /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
   appPackage: string;
   /** Required. Token for which the tags are being inserted or updated. Format: tokens/{token} */
   token: string;
-  /** Request body */
-  body?: CreateOrUpdateTagsRequest | undefined;
+  /** Tags to be inserted or updated. */
+  tags?: TagList | undefined;
 }
 /** Response message for CreateOrUpdateTags. */
 export interface CreateOrUpdateTagsResponse {
   /** All requested tags are returned, including pre-existing ones. */
   tags?: TagList | undefined;
 }
-/** Request message for VerifyToken. */
-export interface VerifyTokenRequest {
-  /** Required. Persona represented by the token. Format: personas/{persona} */
-  persona?: string | undefined;
-}
 export interface VerifyAppsTokensRequest {
   /** Required. The token to be verified. Format: tokens/{token} */
   token: string;
   /** Required. App the token belongs to. Format: apps/{package_name} */
   appPackage: string;
-  /** Request body */
-  body?: VerifyTokenRequest | undefined;
+  /** Required. Persona represented by the token. Format: personas/{persona} */
+  persona?: string | undefined;
 }
 /** Response message for VerifyToken. */
 export interface VerifyTokenResponse {}
@@ -143,8 +133,8 @@ export const createOrUpdateAppsTokensTags: API.OperationMethod<
   CreateOrUpdateAppsTokensTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<CreateOrUpdateAppsTokensTagsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<CreateOrUpdateTagsResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<CreateOrUpdateAppsTokensTagsRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<CreateOrUpdateTagsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -160,8 +150,8 @@ export const verifyAppsTokens: API.OperationMethod<
   VerifyAppsTokensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c1, 1) as any as S.Schema<VerifyAppsTokensRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<VerifyTokenResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<VerifyAppsTokensRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<VerifyTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -187,15 +177,9 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(1, __c0, 1)),
-        }),
-      ).annotate({ identifier: "CreateOrUpdateTagsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           appPackage: S.String.pipe(T.Label()),
           token: S.String.pipe(T.Label()),
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
+          tags: S.optional(__S(1, __c0, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -204,6 +188,12 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateOrUpdateAppsTokensTagsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "CreateOrUpdateTagsResponse" });
   }
 }
 function __c1(j: number): any {
@@ -211,15 +201,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          persona: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VerifyTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           token: S.String.pipe(T.Label()),
           appPackage: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c1, 0).pipe(T.HttpBody())),
+          persona: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -228,7 +212,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VerifyAppsTokensRequest" });
-    case 2:
+    case 1:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "VerifyTokenResponse" });
   }
 }

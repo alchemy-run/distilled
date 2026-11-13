@@ -194,8 +194,13 @@ export interface AccessRulesOptions {
   /** Optional. The access rules for the instance. */
   accessRules?: AccessRuleList | undefined;
 }
-/** A Managed Lustre instance. */
-export interface Instance {
+export interface CreateProjectsLocationsInstancesRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
+  parent: string;
+  /** Required. The name of the Managed Lustre instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. */
+  instanceId?: string | undefined;
   /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
   gkeSupportEnabled?: boolean | undefined;
   /** Output only. The state of the instance. */
@@ -243,16 +248,6 @@ export interface Instance {
   /** Output only. The software release version currently running on the instance. */
   effectiveVersion?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
-  parent: string;
-  /** Required. The name of the Managed Lustre instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. */
-  instanceId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
-}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
@@ -278,8 +273,11 @@ export interface Operation {
   done?: boolean | undefined;
 }
 export type DirectoryPolicyStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
-/** A directory policy for a Managed Lustre instance. */
-export interface DirectoryPolicy {
+export interface CreateProjectsLocationsInstancesDirectoryPoliciesRequest {
+  /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
+  parent: string;
+  /** Required. The ID for the DirectoryPolicy to create. */
+  directoryPolicyId?: string | undefined;
   /** Output only. Unique ID of the resource. */
   uid?: string | undefined;
   /** Output only. The current state of the directory policy. */
@@ -290,14 +288,6 @@ export interface DirectoryPolicy {
   name?: string | undefined;
   /** Output only. The lustre project ID assigned for the directory by the service. This read-only ID can be used to manage quotas. See more details in https://docs.cloud.google.com/managed-lustre/docs/file-system-quotas#set_quotas */
   lustreProjectId?: string | undefined;
-}
-export interface CreateProjectsLocationsInstancesDirectoryPoliciesRequest {
-  /** Required. The parent instance. It must be in the format of `projects/{project}/locations/{location}/instances/{instance}`. */
-  parent: string;
-  /** Required. The ID for the DirectoryPolicy to create. */
-  directoryPolicyId?: string | undefined;
-  /** Request body */
-  body?: DirectoryPolicy | undefined;
 }
 /** The root directory path to the Lustre file system. */
 export interface LustrePath {
@@ -317,8 +307,13 @@ export interface GcsPath {
   uri?: string | undefined;
 }
 export type MirrorDirectionEnum = "DIRECTION_UNSPECIFIED" | "FROM_CLOUD_STORAGE";
-/** Represents a Cloud Storage mirror. */
-export interface Mirror {
+export interface CreateProjectsLocationsInstancesMirrorsRequest {
+  /** Required. The ID to use for the mirror. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. The ID cannot be changed after the mirror is created. */
+  mirrorId?: string | undefined;
+  /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate mirrors for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate mirrors. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
+  requestId?: string | undefined;
+  /** Required. Parent instance resource where the mirror will be created, in the format: `projects/{project}/locations/{location}/instances/{instance}` */
+  parent: string;
   /** Output only. [Output only] Create time stamp. */
   createTime?: string | undefined;
   /** Required. Immutable. The Managed Lustre directory to mirror to. Must be an absolute path starting with `/`, for example `/data` or `/data/subdir`. Defaults to the root directory, `/`. If the specified directory doesn't exist, it is created. */
@@ -342,16 +337,6 @@ export interface Mirror {
   /** Required. Immutable. Represents the direction of the mirror. */
   direction?: MirrorDirectionEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsInstancesMirrorsRequest {
-  /** Required. The ID to use for the mirror. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. The ID cannot be changed after the mirror is created. */
-  mirrorId?: string | undefined;
-  /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate mirrors for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate mirrors. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
-  requestId?: string | undefined;
-  /** Required. Parent instance resource where the mirror will be created, in the format: `projects/{project}/locations/{location}/instances/{instance}` */
-  parent: string;
-  /** Request body */
-  body?: Mirror | undefined;
-}
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
@@ -374,8 +359,9 @@ export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
-/** Export data from Managed Lustre to a Cloud Storage bucket. */
-export interface ExportDataRequest {
+export interface ExportDataProjectsLocationsInstancesRequest {
+  /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
+  name: string;
   /** Optional. UUID to identify requests. */
   requestId?: string | undefined;
   /** The root directory path to the Managed Lustre file system. Must start with `/`. Default is `/`. */
@@ -384,12 +370,6 @@ export interface ExportDataRequest {
   serviceAccount?: string | undefined;
   /** The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs:////`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
   gcsPath?: GcsPath | undefined;
-}
-export interface ExportDataProjectsLocationsInstancesRequest {
-  /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
-  name: string;
-  /** Request body */
-  body?: ExportDataRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -477,20 +457,108 @@ export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name, in the format `projects/{projectId}/locations/{location}/instances/{instanceId}`. */
   name: string;
 }
+/** A Managed Lustre instance. */
+export interface Instance {
+  /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
+  gkeSupportEnabled?: boolean | undefined;
+  /** Output only. The state of the instance. */
+  state?: InstanceStateEnum | undefined;
+  /** Optional. The maintenance policy for the instance to determine when to allow or exclude the instance from maintenance updates. */
+  maintenancePolicy?: MaintenancePolicy | undefined;
+  /** Optional. The target version for the instance. To trigger an upgrade, specify a version listed in `available_version`, or `latest` for the newest version. */
+  targetVersion?: string | undefined;
+  /** Output only. The reason why the instance is in a certain state (e.g. SUSPENDED). */
+  stateReason?: string | undefined;
+  /** Required. Immutable. The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers. */
+  filesystem?: string | undefined;
+  /** Output only. Date and time of upcoming maintenance for the instance, if a maintenance policy is set. */
+  upcomingMaintenanceSchedule?: MaintenanceSchedule | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The full name of the VPC network to which the instance is connected. Must be in the format `projects/{project_id}/global/networks/{network_name}`. */
+  network?: string | undefined;
+  /** Optional. Immutable. Specifies whether the instance is on the Dynamic tier. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. */
+  dynamicTierOptions?: DynamicTierOptions | undefined;
+  /** Identifier. The name of the instance. */
+  name?: string | undefined;
+  /** Optional. The access rules options for the instance. */
+  accessRulesOptions?: AccessRulesOptions | undefined;
+  /** Output only. Unique ID of the resource. This is unrelated to the access rules which allow specifying the root squash uid. */
+  uid?: string | undefined;
+  /** Output only. Timestamp when the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. The Cloud KMS key name to use for data encryption. If not set, the instance will use Google-managed encryption keys. If set, the instance will use customer-managed encryption keys. The key must be in the same region as the instance. The key format is: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key} */
+  kmsKey?: string | undefined;
+  /** Required. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the `per_unit_storage_throughput`. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier. */
+  capacityGib?: string | undefined;
+  /** Output only. The version that this instance can be upgraded to. If this field is empty, the instance is already running the latest available release. */
+  availableVersion?: string | undefined;
+  /** Output only. Timestamp when the instance was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero. */
+  perUnitStorageThroughput?: string | undefined;
+  /** Optional. A user-readable description of the instance. */
+  description?: string | undefined;
+  /** Optional. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy} */
+  placementPolicy?: string | undefined;
+  /** Output only. Mount point of the instance in the format `IP_ADDRESS@tcp:/FILESYSTEM`. */
+  mountPoint?: string | undefined;
+  /** Output only. The software release version currently running on the instance. */
+  effectiveVersion?: string | undefined;
+}
 export interface GetProjectsLocationsInstancesDirectoryPoliciesRequest {
   /** Required. The resource name of the directory policy. DirectoryPolicy names have the form `projects/{project}/locations/{location}/instances/{instance}/directoryPolicies/{id}`. */
   name: string;
+}
+/** A directory policy for a Managed Lustre instance. */
+export interface DirectoryPolicy {
+  /** Output only. Unique ID of the resource. */
+  uid?: string | undefined;
+  /** Output only. The current state of the directory policy. */
+  state?: DirectoryPolicyStateEnum | undefined;
+  /** Required. Immutable. The lustre instance filesystem full path of the directory. It must start with a slash. e.g. /lustre/testFolder */
+  directoryPath?: string | undefined;
+  /** Immutable. Identifier. The resource name of the directory policy. DirectoryPolicy names have the form `projects/{project}/locations/{location}/instances/{instance}/directoryPolicies/{id}`. {id} is user provided. */
+  name?: string | undefined;
+  /** Output only. The lustre project ID assigned for the directory by the service. This read-only ID can be used to manage quotas. See more details in https://docs.cloud.google.com/managed-lustre/docs/file-system-quotas#set_quotas */
+  lustreProjectId?: string | undefined;
 }
 export interface GetProjectsLocationsInstancesMirrorsRequest {
   /** Required. Name of the mirror to retrieve, in the format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
   name: string;
 }
+/** Represents a Cloud Storage mirror. */
+export interface Mirror {
+  /** Output only. [Output only] Create time stamp. */
+  createTime?: string | undefined;
+  /** Required. Immutable. The Managed Lustre directory to mirror to. Must be an absolute path starting with `/`, for example `/data` or `/data/subdir`. Defaults to the root directory, `/`. If the specified directory doesn't exist, it is created. */
+  lustrePath?: LustrePath | undefined;
+  /** Output only. Unique ID of the resource. */
+  uid?: string | undefined;
+  /** Output only. [Output only] The current state of the mirror. */
+  state?: MirrorStateEnum | undefined;
+  /** Optional. Description of the mirror. */
+  description?: string | undefined;
+  /** Optional. If `true`, files are not deleted from Managed Lustre when the source files are deleted from Cloud Storage. Default is `false`. */
+  deletedFilesRetained?: boolean | undefined;
+  /** Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
+  name?: string | undefined;
+  /** Optional. Labels to apply to the mirror. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs://{BUCKET_NAME}/{OPTIONAL_PATH}/`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
+  gcsPath?: GcsPath | undefined;
+  /** Output only. [Output only] Update time stamp. */
+  updateTime?: string | undefined;
+  /** Required. Immutable. Represents the direction of the mirror. */
+  direction?: MirrorDirectionEnum | undefined;
+}
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
-/** Message for importing data to Lustre. */
-export interface ImportDataRequest {
+export interface ImportDataProjectsLocationsInstancesRequest {
+  /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
+  name: string;
   /** Optional. UUID to identify requests. */
   requestId?: string | undefined;
   /** The Cloud Storage source bucket and, optionally, path inside the bucket. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
@@ -499,12 +567,6 @@ export interface ImportDataRequest {
   lustrePath?: LustrePath | undefined;
   /** Optional. User-specified service account used to perform the transfer. If unspecified, the default Managed Lustre service agent will be used. The caller must have the `iam.serviceAccounts.actAs` permission (`roles/iam.serviceAccountUser`) on the specified service account. When IAM-based access control (`iam_access_control_enabled`) is enabled on the instance, specifying a custom service account is mandatory. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` */
   serviceAccount?: string | undefined;
-}
-export interface ImportDataProjectsLocationsInstancesRequest {
-  /** Required. The name of the Managed Lustre instance in the format `projects/{project}/locations/{location}/instances/{instance}`. */
-  name: string;
-  /** Request body */
-  body?: ImportDataRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -615,8 +677,50 @@ export interface PatchProjectsLocationsInstancesRequest {
   updateMask?: string | undefined;
   /** Identifier. The name of the instance. */
   name: string;
-  /** Request body */
-  body?: Instance | undefined;
+  /** Optional. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. */
+  gkeSupportEnabled?: boolean | undefined;
+  /** Output only. The state of the instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Optional. The maintenance policy for the instance to determine when to allow or exclude the instance from maintenance updates. */
+  maintenancePolicy?: MaintenancePolicy | undefined;
+  /** Optional. The target version for the instance. To trigger an upgrade, specify a version listed in `available_version`, or `latest` for the newest version. */
+  targetVersion?: string | undefined;
+  /** Output only. The reason why the instance is in a certain state (e.g. SUSPENDED). */
+  stateReason?: string | undefined;
+  /** Required. Immutable. The filesystem name for this instance. This name is used by client-side tools, including when mounting the instance. Must be eight characters or less and can only contain letters and numbers. */
+  filesystem?: string | undefined;
+  /** Output only. Date and time of upcoming maintenance for the instance, if a maintenance policy is set. */
+  upcomingMaintenanceSchedule?: MaintenanceSchedule | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The full name of the VPC network to which the instance is connected. Must be in the format `projects/{project_id}/global/networks/{network_name}`. */
+  network?: string | undefined;
+  /** Optional. Immutable. Specifies whether the instance is on the Dynamic tier. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. */
+  dynamicTierOptions?: DynamicTierOptions | undefined;
+  /** Optional. The access rules options for the instance. */
+  accessRulesOptions?: AccessRulesOptions | undefined;
+  /** Output only. Unique ID of the resource. This is unrelated to the access rules which allow specifying the root squash uid. */
+  uid?: string | undefined;
+  /** Output only. Timestamp when the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. The Cloud KMS key name to use for data encryption. If not set, the instance will use Google-managed encryption keys. If set, the instance will use customer-managed encryption keys. The key must be in the same region as the instance. The key format is: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{key} */
+  kmsKey?: string | undefined;
+  /** Required. The storage capacity of the instance in gibibytes (GiB). Allowed values depend on the `per_unit_storage_throughput`. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for specific minimums, maximums, and step sizes for each performance tier. */
+  capacityGib?: string | undefined;
+  /** Output only. The version that this instance can be upgraded to. If this field is empty, the instance is already running the latest available release. */
+  availableVersion?: string | undefined;
+  /** Output only. Timestamp when the instance was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See [Performance tiers](https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero. */
+  perUnitStorageThroughput?: string | undefined;
+  /** Optional. A user-readable description of the instance. */
+  description?: string | undefined;
+  /** Optional. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy} */
+  placementPolicy?: string | undefined;
+  /** Output only. Mount point of the instance in the format `IP_ADDRESS@tcp:/FILESYSTEM`. */
+  mountPoint?: string | undefined;
+  /** Output only. The software release version currently running on the instance. */
+  effectiveVersion?: string | undefined;
 }
 export interface PatchProjectsLocationsInstancesMirrorsRequest {
   /** Identifier. Name of the mirror. Format: `projects/{project}/locations/{location}/instances/{instance}/mirrors/{mirror}` */
@@ -625,8 +729,26 @@ export interface PatchProjectsLocationsInstancesMirrorsRequest {
   updateMask?: string | undefined;
   /** Optional. The unique ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in the same update request being executed for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Mirror | undefined;
+  /** Output only. [Output only] Create time stamp. */
+  createTime?: string | undefined;
+  /** Required. Immutable. The Managed Lustre directory to mirror to. Must be an absolute path starting with `/`, for example `/data` or `/data/subdir`. Defaults to the root directory, `/`. If the specified directory doesn't exist, it is created. */
+  lustrePath?: LustrePath | undefined;
+  /** Output only. Unique ID of the resource. */
+  uid?: string | undefined;
+  /** Output only. [Output only] The current state of the mirror. */
+  state?: MirrorStateEnum | (string & {}) | undefined;
+  /** Optional. Description of the mirror. */
+  description?: string | undefined;
+  /** Optional. If `true`, files are not deleted from Managed Lustre when the source files are deleted from Cloud Storage. Default is `false`. */
+  deletedFilesRetained?: boolean | undefined;
+  /** Optional. Labels to apply to the mirror. */
+  labels?: StringMap | undefined;
+  /** Required. Immutable. The URI to a Cloud Storage bucket, or a path within a bucket, using the format `gs://{BUCKET_NAME}/{OPTIONAL_PATH}/`. If a path inside the bucket is specified, it must end with a forward slash (`/`). */
+  gcsPath?: GcsPath | undefined;
+  /** Output only. [Output only] Update time stamp. */
+  updateTime?: string | undefined;
+  /** Required. Immutable. Represents the direction of the mirror. */
+  direction?: MirrorDirectionEnum | (string & {}) | undefined;
 }
 export type RescheduleRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -640,48 +762,35 @@ export interface Reschedule {
   /** Optional. Required if `reschedule_type` is `BY_TIME`. Timestamp when the maintenance shall be rescheduled to. This time must be within 28 days of the original scheduled maintenance start time. */
   scheduleTime?: string | undefined;
 }
-/** Message for requesting to reschedule a maintenance event for a specific instance. */
-export interface RescheduleMaintenanceRequest {
+export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
+  /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
+  name: string;
   /** Optional. A unique identifier for this request. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
   requestId?: string | undefined;
   /** Required. The desired reschedule settings. */
   reschedule?: Reschedule | undefined;
 }
-export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
-  /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
-  name: string;
-  /** Request body */
-  body?: RescheduleMaintenanceRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsInstancesRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsInstancesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsInstancesDirectoryPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -691,8 +800,8 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsInstancesDirectoryPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -707,8 +816,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(464, __c29, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -729,8 +838,8 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   CreateProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateProjectsLocationsInstancesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -752,11 +861,11 @@ export const createProjectsLocationsInstancesDirectoryPolicies: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    560,
-    __c35,
+    592,
+    __c37,
     0,
   ) as any as S.Schema<CreateProjectsLocationsInstancesDirectoryPoliciesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -777,8 +886,8 @@ export const createProjectsLocationsInstancesMirrors: API.OperationMethod<
   CreateProjectsLocationsInstancesMirrorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CreateProjectsLocationsInstancesMirrorsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateProjectsLocationsInstancesMirrorsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -800,7 +909,7 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<DeleteProjectsLocationsInstancesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -826,7 +935,7 @@ export const deleteProjectsLocationsInstancesDirectoryPolicies: API.OperationMet
     __c41,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsInstancesDirectoryPoliciesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -848,7 +957,7 @@ export const deleteProjectsLocationsInstancesMirrors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsInstancesMirrorsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -870,7 +979,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -891,8 +1000,8 @@ export const exportDataProjectsLocationsInstances: API.OperationMethod<
   ExportDataProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<ExportDataProjectsLocationsInstancesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(32, __c2, 0) as any as S.Schema<ExportDataProjectsLocationsInstancesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -967,7 +1076,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(508, __c31, 12) as any as S.Schema<Instance>,
+  output: __S(144, __c9, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -984,11 +1093,11 @@ export const getProjectsLocationsInstancesDirectoryPolicies: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    144,
-    __c9,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<GetProjectsLocationsInstancesDirectoryPoliciesRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<DirectoryPolicy>,
+  output: __S(176, __c11, 0) as any as S.Schema<DirectoryPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1004,8 +1113,8 @@ export const getProjectsLocationsInstancesMirrors: API.OperationMethod<
   GetProjectsLocationsInstancesMirrorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsInstancesMirrorsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<Mirror>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsInstancesMirrorsRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<Mirror>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1021,8 +1130,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1043,8 +1152,8 @@ export const importDataProjectsLocationsInstances: API.OperationMethod<
   ImportDataProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c12, 1) as any as S.Schema<ImportDataProjectsLocationsInstancesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(240, __c15, 0) as any as S.Schema<ImportDataProjectsLocationsInstancesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1061,8 +1170,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1080,8 +1189,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(226, __c14, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1103,11 +1212,11 @@ export const listProjectsLocationsInstancesDirectoryPolicies: API.PaginatedOpera
   ListDirectoryPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    240,
-    __c15,
+    288,
+    __c18,
     0,
   ) as any as S.Schema<ListProjectsLocationsInstancesDirectoryPoliciesRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<ListDirectoryPoliciesResponse>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListDirectoryPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1125,8 +1234,8 @@ export const listProjectsLocationsInstancesMirrors: API.PaginatedOperationMethod
   GcpOpContext,
   ListMirrorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListProjectsLocationsInstancesMirrorsRequest>,
-  output: __S(258, __c16, 2) as any as S.Schema<ListMirrorsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsInstancesMirrorsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListMirrorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1144,8 +1253,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1167,8 +1276,8 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   PatchProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(336, __c21, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1189,8 +1298,8 @@ export const patchProjectsLocationsInstancesMirrors: API.OperationMethod<
   PatchProjectsLocationsInstancesMirrorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<PatchProjectsLocationsInstancesMirrorsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  input: __S(352, __c22, 0) as any as S.Schema<PatchProjectsLocationsInstancesMirrorsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1212,11 +1321,11 @@ export const rescheduleMaintenanceProjectsLocationsInstances: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    322,
-    __c20,
-    2,
+    369,
+    __c23,
+    1,
   ) as any as S.Schema<RescheduleMaintenanceProjectsLocationsInstancesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<Operation>,
+  output: __S(562, __c35, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1237,7 +1346,7 @@ export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<
   SetIamPolicyProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesRequest>,
   output: __S(71, __c4, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1260,8 +1369,8 @@ export const setIamPolicyProjectsLocationsInstancesDirectoryPolicies: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c23,
+    400,
+    __c25,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsInstancesDirectoryPoliciesRequest>,
   output: __S(71, __c4, 7) as any as S.Schema<Policy>,
@@ -1285,8 +1394,8 @@ export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<
   TestIamPermissionsProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1308,11 +1417,11 @@ export const testIamPermissionsProjectsLocationsInstancesDirectoryPolicies: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c26,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsInstancesDirectoryPoliciesRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(432, __c27, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1359,17 +1468,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-          lustrePath: S.optional(__S(608, __c38, 0)),
-          serviceAccount: S.optional(S.String),
-          gcsPath: S.optional(__S(609, __c38, 1)),
-        }),
-      ).annotate({ identifier: "ExportDataRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
+          lustrePath: S.optional(__S(624, __c39, 0)),
+          serviceAccount: S.optional(S.String),
+          gcsPath: S.optional(__S(625, __c39, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1413,7 +1516,7 @@ function __c4(j: number): any {
         S.Struct({
           condition: S.optional(__S(64, __c4, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(480, __c30, 0)),
+          members: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
@@ -1422,7 +1525,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(480, __c30, 0)),
+          exemptedMembers: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
@@ -1482,10 +1585,10 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(512, __c32, 0)),
+          metadata: S.optional(__S(544, __c34, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(544, __c34, 0)),
+          labels: S.optional(__S(576, __c36, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1507,11 +1610,31 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsInstancesDirectoryPoliciesRequest" });
+          gkeSupportEnabled: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          maintenancePolicy: S.optional(__S(534, __c33, 6)),
+          targetVersion: S.optional(S.String),
+          stateReason: S.optional(S.String),
+          filesystem: S.optional(S.String),
+          upcomingMaintenanceSchedule: S.optional(__S(535, __c33, 7)),
+          labels: S.optional(__S(576, __c36, 0)),
+          network: S.optional(S.String),
+          dynamicTierOptions: S.optional(__S(536, __c33, 8)),
+          name: S.optional(S.String),
+          accessRulesOptions: S.optional(__S(539, __c33, 11)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          capacityGib: S.optional(S.String),
+          availableVersion: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          perUnitStorageThroughput: S.optional(S.String),
+          description: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          mountPoint: S.optional(S.String),
+          effectiveVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Instance" });
   }
 }
 function __c10(j: number): any {
@@ -1523,10 +1646,56 @@ function __c10(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsInstancesMirrorsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsInstancesDirectoryPoliciesRequest" });
   }
 }
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          directoryPath: S.optional(S.String),
+          name: S.optional(S.String),
+          lustreProjectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DirectoryPolicy" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsInstancesMirrorsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          lustrePath: S.optional(__S(624, __c39, 0)),
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          deletedFilesRetained: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          labels: S.optional(__S(576, __c36, 0)),
+          gcsPath: S.optional(__S(625, __c39, 1)),
+          updateTime: S.optional(S.String),
+          direction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Mirror" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1538,22 +1707,16 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-          gcsPath: S.optional(__S(609, __c38, 1)),
-          lustrePath: S.optional(__S(608, __c38, 0)),
-          serviceAccount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportDataRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
+          gcsPath: S.optional(__S(625, __c39, 1)),
+          lustrePath: S.optional(__S(624, __c39, 0)),
+          serviceAccount: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1564,7 +1727,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ImportDataProjectsLocationsInstancesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1572,7 +1735,7 @@ function __c13(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(480, __c30, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(512, __c32, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1588,12 +1751,12 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(209, __c13, 1)),
+          locations: S.optional(__S(257, __c16, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1612,18 +1775,18 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(508, __c31, 12));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: S.optional(__S(225, __c14, 1)),
+          instances: S.optional(__S(273, __c17, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          unreachable: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1640,17 +1803,17 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesDirectoryPoliciesRequest" });
     case 1:
-      return S.Array(__S(576, __c36, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          directoryPolicies: S.optional(__S(241, __c15, 1)),
+          directoryPolicies: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "ListDirectoryPoliciesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1669,18 +1832,18 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesMirrorsRequest" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          mirrors: S.optional(__S(257, __c16, 1)),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          mirrors: S.optional(__S(305, __c19, 1)),
+          unreachable: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "ListMirrorsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1699,18 +1862,18 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(530, __c33, 2));
+      return S.Array(__S(562, __c35, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(273, __c17, 1)),
-          unreachable: S.optional(__S(480, __c30, 0)),
+          operations: S.optional(__S(321, __c20, 1)),
+          unreachable: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1718,14 +1881,35 @@ function __c18(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(508, __c31, 12).pipe(T.HttpBody())),
+          gkeSupportEnabled: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          maintenancePolicy: S.optional(__S(534, __c33, 6)),
+          targetVersion: S.optional(S.String),
+          stateReason: S.optional(S.String),
+          filesystem: S.optional(S.String),
+          upcomingMaintenanceSchedule: S.optional(__S(535, __c33, 7)),
+          labels: S.optional(__S(576, __c36, 0)),
+          network: S.optional(S.String),
+          dynamicTierOptions: S.optional(__S(536, __c33, 8)),
+          accessRulesOptions: S.optional(__S(539, __c33, 11)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          capacityGib: S.optional(S.String),
+          availableVersion: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          perUnitStorageThroughput: S.optional(S.String),
+          description: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          mountPoint: S.optional(S.String),
+          effectiveVersion: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1733,14 +1917,23 @@ function __c19(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          lustrePath: S.optional(__S(624, __c39, 0)),
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          deletedFilesRetained: S.optional(S.Boolean),
+          labels: S.optional(__S(576, __c36, 0)),
+          gcsPath: S.optional(__S(625, __c39, 1)),
+          updateTime: S.optional(S.String),
+          direction: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://lustre.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchProjectsLocationsInstancesMirrorsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1752,15 +1945,9 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-          reschedule: S.optional(__S(320, __c20, 0)),
-        }),
-      ).annotate({ identifier: "RescheduleMaintenanceRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(321, __c20, 1).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
+          reschedule: S.optional(__S(368, __c23, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1771,13 +1958,14 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RescheduleMaintenanceProjectsLocationsInstancesRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(71, __c4, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1788,24 +1976,14 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsInstancesRequest" });
   }
 }
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(71, __c4, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(71, __c4, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1816,13 +1994,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsInstancesDirectoryPoliciesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(512, __c32, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1833,23 +2011,23 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsInstancesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(480, __c30, 0)),
+          permissions: S.optional(__S(512, __c32, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(512, __c32, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1862,7 +2040,7 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1878,13 +2056,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1892,7 +2070,29 @@ function __c29(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           instanceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(508, __c31, 12).pipe(T.HttpBody())),
+          gkeSupportEnabled: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          maintenancePolicy: S.optional(__S(534, __c33, 6)),
+          targetVersion: S.optional(S.String),
+          stateReason: S.optional(S.String),
+          filesystem: S.optional(S.String),
+          upcomingMaintenanceSchedule: S.optional(__S(535, __c33, 7)),
+          labels: S.optional(__S(576, __c36, 0)),
+          network: S.optional(S.String),
+          dynamicTierOptions: S.optional(__S(536, __c33, 8)),
+          name: S.optional(S.String),
+          accessRulesOptions: S.optional(__S(539, __c33, 11)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          capacityGib: S.optional(S.String),
+          availableVersion: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          perUnitStorageThroughput: S.optional(S.String),
+          description: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          mountPoint: S.optional(S.String),
+          effectiveVersion: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1903,13 +2103,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1924,11 +2124,11 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dayOfWeek: S.optional(S.String),
-          startTime: S.optional(__S(496, __c31, 0)),
+          startTime: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "WeeklyMaintenanceWindow" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1940,18 +2140,18 @@ function __c31(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          time: S.optional(__S(496, __c31, 0)),
-          startDate: S.optional(__S(499, __c31, 3)),
-          endDate: S.optional(__S(499, __c31, 3)),
+          time: S.optional(__S(528, __c33, 0)),
+          startDate: S.optional(__S(531, __c33, 3)),
+          endDate: S.optional(__S(531, __c33, 3)),
         }),
       ).annotate({ identifier: "MaintenanceExclusionWindow" });
     case 5:
-      return S.Array(__S(500, __c31, 4));
+      return S.Array(__S(532, __c33, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          weeklyMaintenanceWindows: S.optional(__S(498, __c31, 2)),
-          maintenanceExclusionWindow: S.optional(__S(501, __c31, 5)),
+          weeklyMaintenanceWindows: S.optional(__S(530, __c33, 2)),
+          maintenanceExclusionWindow: S.optional(__S(533, __c33, 5)),
         }),
       ).annotate({ identifier: "MaintenancePolicy" });
     case 7:
@@ -1971,95 +2171,71 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           squashMode: S.optional(S.String),
-          ipAddressRanges: S.optional(__S(480, __c30, 0)),
+          ipAddressRanges: S.optional(__S(512, __c32, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessRule" });
     case 10:
-      return S.Array(__S(505, __c31, 9));
+      return S.Array(__S(537, __c33, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           defaultSquashMode: S.optional(S.String),
           defaultSquashUid: S.optional(S.Number),
           defaultSquashGid: S.optional(S.Number),
-          accessRules: S.optional(__S(506, __c31, 10)),
+          accessRules: S.optional(__S(538, __c33, 10)),
         }),
       ).annotate({ identifier: "AccessRulesOptions" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          gkeSupportEnabled: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          maintenancePolicy: S.optional(__S(502, __c31, 6)),
-          targetVersion: S.optional(S.String),
-          stateReason: S.optional(S.String),
-          filesystem: S.optional(S.String),
-          upcomingMaintenanceSchedule: S.optional(__S(503, __c31, 7)),
-          labels: S.optional(__S(544, __c34, 0)),
-          network: S.optional(S.String),
-          dynamicTierOptions: S.optional(__S(504, __c31, 8)),
-          name: S.optional(S.String),
-          accessRulesOptions: S.optional(__S(507, __c31, 11)),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          kmsKey: S.optional(S.String),
-          capacityGib: S.optional(S.String),
-          availableVersion: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          perUnitStorageThroughput: S.optional(S.String),
-          description: S.optional(S.String),
-          placementPolicy: S.optional(S.String),
-          mountPoint: S.optional(S.String),
-          effectiveVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Instance" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(512, __c32, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          code: S.optional(S.Number),
-          details: S.optional(__S(528, __c33, 0)),
-        }),
-      ).annotate({ identifier: "Status" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(__S(529, __c33, 1)),
-          name: S.optional(S.String),
-          response: S.optional(__S(512, __c32, 0)),
-          metadata: S.optional(__S(512, __c32, 0)),
-          done: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Operation" });
   }
 }
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(544, __c34, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(560, __c35, 0)),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(__S(561, __c35, 1)),
+          name: S.optional(S.String),
+          response: S.optional(__S(544, __c34, 0)),
+          metadata: S.optional(__S(544, __c34, 0)),
+          done: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           directoryPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c36, 0).pipe(T.HttpBody())),
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          directoryPath: S.optional(S.String),
+          name: S.optional(S.String),
+          lustreProjectId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2070,21 +2246,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesDirectoryPoliciesRequest" });
   }
 }
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          directoryPath: S.optional(S.String),
-          name: S.optional(S.String),
-          lustreProjectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DirectoryPolicy" });
-  }
-}
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2092,7 +2254,17 @@ function __c37(j: number): any {
           mirrorId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          lustrePath: S.optional(__S(624, __c39, 0)),
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          deletedFilesRetained: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          labels: S.optional(__S(576, __c36, 0)),
+          gcsPath: S.optional(__S(625, __c39, 1)),
+          updateTime: S.optional(S.String),
+          direction: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2103,7 +2275,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInstancesMirrorsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2117,26 +2289,6 @@ function __c38(j: number): any {
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GcsPath" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          lustrePath: S.optional(__S(608, __c38, 0)),
-          uid: S.optional(S.String),
-          state: S.optional(S.String),
-          description: S.optional(S.String),
-          deletedFilesRetained: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          labels: S.optional(__S(544, __c34, 0)),
-          gcsPath: S.optional(__S(609, __c38, 1)),
-          updateTime: S.optional(S.String),
-          direction: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Mirror" });
   }
 }
 function __c40(j: number): any {

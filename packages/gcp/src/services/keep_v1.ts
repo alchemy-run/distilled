@@ -121,16 +121,11 @@ export interface CreatePermissionRequest {
   parent?: string | undefined;
 }
 export type CreatePermissionRequestList = Array<CreatePermissionRequest>;
-/** The request to add one or more permissions on the note. Currently, only the `WRITER` role may be specified. If adding a permission fails, then the entire request fails and no changes are made. */
-export interface BatchCreatePermissionsRequest {
-  /** The request message specifying the resources to create. */
-  requests?: CreatePermissionRequestList | undefined;
-}
 export interface BatchCreateNotesPermissionsRequest {
   /** The parent resource shared by all Permissions being created. Format: `notes/{note}` If this is set, the parent field in the CreatePermission messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchCreatePermissionsRequest | undefined;
+  /** The request message specifying the resources to create. */
+  requests?: CreatePermissionRequestList | undefined;
 }
 export type PermissionList = Array<Permission>;
 /** The response for creating permissions on a note. */
@@ -139,16 +134,11 @@ export interface BatchCreatePermissionsResponse {
   permissions?: PermissionList | undefined;
 }
 export type StringList = Array<string>;
-/** The request to remove one or more permissions from a note. A permission with the `OWNER` role can't be removed. If removing a permission fails, then the entire request fails and no changes are made. Returns a 400 bad request error if a specified permission does not exist on the note. */
-export interface BatchDeletePermissionsRequest {
-  /** Required. The names of the permissions to delete. Format: `notes/{note}/permissions/{permission}` */
-  names?: StringList | undefined;
-}
 export interface BatchDeleteNotesPermissionsRequest {
   /** The parent resource shared by all permissions being deleted. Format: `notes/{note}` If this is set, the parent of all of the permissions specified in the DeletePermissionRequest messages must match this field. */
   parent: string;
-  /** Request body */
-  body?: BatchDeletePermissionsRequest | undefined;
+  /** Required. The names of the permissions to delete. Format: `notes/{note}/permissions/{permission}` */
+  names?: StringList | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -187,6 +177,26 @@ export interface Attachment {
   mimeType?: StringList | undefined;
 }
 export type AttachmentList = Array<Attachment>;
+export interface CreateNotesRequest {
+  /** Output only. When this note was last modified. */
+  updateTime?: string | undefined;
+  /** Output only. The list of permissions set on the note. Contains at least one entry for the note owner. */
+  permissions?: PermissionList | undefined;
+  /** Output only. When this note was trashed. If `trashed`, the note is eventually deleted. If the note is not trashed, this field is not set (and the trashed field is `false`). */
+  trashTime?: string | undefined;
+  /** The body of the note. */
+  body?: Section | undefined;
+  /** Output only. The attachments attached to this note. */
+  attachments?: AttachmentList | undefined;
+  /** Output only. When this note was created. */
+  createTime?: string | undefined;
+  /** Output only. `true` if this note has been trashed. If trashed, the note is eventually deleted. */
+  trashed?: boolean | undefined;
+  /** Output only. The resource name of this note. See general note on identifiers in KeepService. */
+  name?: string | undefined;
+  /** The title of the note. Length must be less than 1,000 characters. */
+  title?: string | undefined;
+}
 /** A single note. */
 export interface Note {
   /** Output only. When this note was last modified. */
@@ -207,10 +217,6 @@ export interface Note {
   name?: string | undefined;
   /** The title of the note. Length must be less than 1,000 characters. */
   title?: string | undefined;
-}
-export interface CreateNotesRequest {
-  /** Request body */
-  body?: Note | undefined;
 }
 export interface DeleteNotesRequest {
   /** Required. Name of the note to delete. */
@@ -255,8 +261,8 @@ export const batchCreateNotesPermissions: API.OperationMethod<
   BatchCreateNotesPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11, __c1, 3) as any as S.Schema<BatchCreateNotesPermissionsRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<BatchCreatePermissionsResponse>,
+  input: __S(10, __c1, 2) as any as S.Schema<BatchCreateNotesPermissionsRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<BatchCreatePermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -277,7 +283,7 @@ export const batchDeleteNotesPermissions: API.OperationMethod<
   BatchDeleteNotesPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<BatchDeleteNotesPermissionsRequest>,
+  input: __S(32, __c4, 0) as any as S.Schema<BatchDeleteNotesPermissionsRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -407,14 +413,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(9, __c1, 1)),
-        }),
-      ).annotate({ identifier: "BatchCreatePermissionsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c1, 2).pipe(T.HttpBody())),
+          requests: S.optional(__S(9, __c1, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -423,7 +423,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchCreateNotesPermissionsRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(26, __c3, 2)),
@@ -466,14 +466,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(40, __c5, 0)),
-        }),
-      ).annotate({ identifier: "BatchDeletePermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
+          names: S.optional(__S(40, __c5, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -495,7 +489,15 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(70, __c8, 6).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          permissions: S.optional(__S(26, __c3, 2)),
+          trashTime: S.optional(S.String),
+          body: S.optional(__S(68, __c8, 4)),
+          attachments: S.optional(__S(69, __c8, 5)),
+          createTime: S.optional(S.String),
+          trashed: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          title: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "v1/notes", baseUrl: "https://keep.googleapis.com/" }),
         ),

@@ -246,14 +246,18 @@ export interface ListProjectsLocationsNotificationsRequest {
 export interface UpdateSettingsOrganizationsLocationsRequest {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAdvisorynotificationsV1Settings | undefined;
+  /** Required. Fingerprint for optimistic concurrency returned in Get requests. Must be provided for Update requests. If the value provided does not match the value known to the server, ABORTED will be thrown, and the client should retry the read-modify-write cycle. */
+  etag?: string | undefined;
+  /** Required. Map of each notification type and its settings to get/set all settings at once. The server will validate the value for each notification type. */
+  notificationSettings?: GoogleCloudAdvisorynotificationsV1NotificationSettingsMap | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudAdvisorynotificationsV1Settings | undefined;
+  /** Required. Fingerprint for optimistic concurrency returned in Get requests. Must be provided for Update requests. If the value provided does not match the value known to the server, ABORTED will be thrown, and the client should retry the read-modify-write cycle. */
+  etag?: string | undefined;
+  /** Required. Map of each notification type and its settings to get/set all settings at once. The server will validate the value for each notification type. */
+  notificationSettings?: GoogleCloudAdvisorynotificationsV1NotificationSettingsMap | undefined;
 }
 export type GetOrganizationsLocationsNotificationsError = NotFound | Forbidden | GcpOpError;
 /** Gets a notification. */
@@ -420,7 +424,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c6, 2).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          notificationSettings: S.optional(__S(97, __c6, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -437,7 +442,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(98, __c6, 2).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          notificationSettings: S.optional(__S(97, __c6, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",

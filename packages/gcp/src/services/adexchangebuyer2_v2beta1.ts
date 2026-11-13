@@ -97,18 +97,13 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Request to accept a proposal. */
-export interface AcceptProposalRequest {
-  /** The last known client revision number of the proposal. */
-  proposalRevision?: string | undefined;
-}
 export interface AcceptAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The ID of the proposal to accept. */
   proposalId: string;
-  /** Request body */
-  body?: AcceptProposalRequest | undefined;
+  /** The last known client revision number of the proposal. */
+  proposalRevision?: string | undefined;
 }
 /** Contains information on how a buyer or seller can be reached. */
 export interface ContactInformation {
@@ -631,11 +626,11 @@ export interface Proposal {
   /** The deals associated with this proposal. For Private Auction proposals (whose deals have NonGuaranteedAuctionTerms), there will only be one deal. */
   deals?: DealList | undefined;
   /** Output only. The current state of the proposal. */
-  proposalState?: ProposalProposalStateEnum | (string & {}) | undefined;
+  proposalState?: ProposalProposalStateEnum | undefined;
   /** Output only. The terms and conditions set by the publisher for this proposal. */
   termsAndConditions?: string | undefined;
   /** Output only. Indicates whether the buyer/seller created the proposal. */
-  originatorRole?: ProposalOriginatorRoleEnum | (string & {}) | undefined;
+  originatorRole?: ProposalOriginatorRoleEnum | undefined;
   /** Contact information for the buyer. */
   buyerContacts?: ContactInformationList | undefined;
   /** Output only. Reference to the buyer that will get billed for this proposal. */
@@ -645,7 +640,7 @@ export interface Proposal {
   /** Output only. True if the proposal is being renegotiated. */
   isRenegotiating?: boolean | undefined;
   /** Output only. The role of the last user that either updated the proposal or left a comment. */
-  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | (string & {}) | undefined;
+  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | undefined;
   /** Output only. Private auction ID if this proposal is a private auction proposal. */
   privateAuctionId?: string | undefined;
   /** Private data for buyer. (hidden from seller). */
@@ -668,33 +663,23 @@ export interface CreativeDealAssociation {
   /** The ID of the creative associated with the deal. */
   creativeId?: string | undefined;
 }
-/** A request for associating a deal and a creative. */
-export interface AddDealAssociationRequest {
-  /** The association between a creative and a deal that should be added. */
-  association?: CreativeDealAssociation | undefined;
-}
 export interface AddAccountsCreativesDealAssociationsRequest {
   /** The account the creative belongs to. */
   accountId: string;
   /** The ID of the creative associated with the deal. */
   creativeId: string;
-  /** Request body */
-  body?: AddDealAssociationRequest | undefined;
+  /** The association between a creative and a deal that should be added. */
+  association?: CreativeDealAssociation | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-/** Request message for adding a note to a given proposal. */
-export interface AddNoteRequest {
-  /** Details of the note to add. */
-  note?: Note | undefined;
-}
 export interface AddNoteAccountsProposalsRequest {
   /** The ID of the proposal to attach the note to. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: AddNoteRequest | undefined;
+  /** Details of the note to add. */
+  note?: Note | undefined;
 }
 /** Request to cancel an ongoing negotiation. */
 export interface CancelNegotiationRequest {}
@@ -706,18 +691,13 @@ export interface CancelNegotiationAccountsProposalsRequest {
   /** Request body */
   body?: CancelNegotiationRequest | undefined;
 }
-/** Request message for indicating that the proposal's setup step is complete. */
-export interface CompleteSetupRequest {
-  /** The external deal ids of the deals to mark as setup completed. If empty, all the deals in the proposal will be marked as setup completed. */
-  externalDealIds?: StringList | undefined;
-}
 export interface CompleteSetupAccountsProposalsRequest {
   /** The ID of the proposal to mark as setup completed. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: CompleteSetupRequest | undefined;
+  /** The external deal ids of the deals to mark as setup completed. If empty, all the deals in the proposal will be marked as setup completed. */
+  externalDealIds?: StringList | undefined;
 }
 export type ClientEntityTypeEnum =
   | "ENTITY_TYPE_UNSPECIFIED"
@@ -731,8 +711,9 @@ export type ClientRoleEnum =
   | "CLIENT_DEAL_NEGOTIATOR"
   | "CLIENT_DEAL_APPROVER";
 export type ClientStatusEnum = "CLIENT_STATUS_UNSPECIFIED" | "DISABLED" | "ACTIVE";
-/** A client resource represents a client buyer--an agency, a brand, or an advertiser customer of the sponsor buyer. Users associated with the client buyer have restricted access to the Marketplace and certain other sections of the Authorized Buyers UI based on the role granted to the client buyer. All fields are required unless otherwise specified. */
-export interface Client {
+export interface CreateAccountsClientsRequest {
+  /** Unique numerical account ID for the buyer of which the client buyer is a customer; the sponsor buyer to create a client for. (required) */
+  accountId: string;
   /** Numerical identifier of the client entity. The entity can be an advertiser, a brand, or an agency. This identifier is unique among all the entities with the same type. The value of this field is ignored if the entity type is not provided. A list of all known advertisers with their identifiers is available in the [advertisers.txt](https://storage.googleapis.com/adx-rtb-dictionaries/advertisers.txt) file. A list of all known brands with their identifiers is available in the [brands.txt](https://storage.googleapis.com/adx-rtb-dictionaries/brands.txt) file. A list of all known agencies with their identifiers is available in the [agencies.txt](https://storage.googleapis.com/adx-rtb-dictionaries/agencies.txt) file. */
   entityId?: string | undefined;
   /** An optional field for specifying the type of the client entity: `ADVERTISER`, `BRAND`, or `AGENCY`. */
@@ -752,11 +733,36 @@ export interface Client {
   /** The name of the entity. This field is automatically fetched based on the type and ID. The value of this field is ignored in create and update operations. */
   entityName?: string | undefined;
 }
-export interface CreateAccountsClientsRequest {
-  /** Unique numerical account ID for the buyer of which the client buyer is a customer; the sponsor buyer to create a client for. (required) */
+/** A client resource represents a client buyer--an agency, a brand, or an advertiser customer of the sponsor buyer. Users associated with the client buyer have restricted access to the Marketplace and certain other sections of the Authorized Buyers UI based on the role granted to the client buyer. All fields are required unless otherwise specified. */
+export interface Client {
+  /** Numerical identifier of the client entity. The entity can be an advertiser, a brand, or an agency. This identifier is unique among all the entities with the same type. The value of this field is ignored if the entity type is not provided. A list of all known advertisers with their identifiers is available in the [advertisers.txt](https://storage.googleapis.com/adx-rtb-dictionaries/advertisers.txt) file. A list of all known brands with their identifiers is available in the [brands.txt](https://storage.googleapis.com/adx-rtb-dictionaries/brands.txt) file. A list of all known agencies with their identifiers is available in the [agencies.txt](https://storage.googleapis.com/adx-rtb-dictionaries/agencies.txt) file. */
+  entityId?: string | undefined;
+  /** An optional field for specifying the type of the client entity: `ADVERTISER`, `BRAND`, or `AGENCY`. */
+  entityType?: ClientEntityTypeEnum | undefined;
+  /** Whether the client buyer will be visible to sellers. */
+  visibleToSeller?: boolean | undefined;
+  /** The role which is assigned to the client buyer. Each role implies a set of permissions granted to the client. Must be one of `CLIENT_DEAL_VIEWER`, `CLIENT_DEAL_NEGOTIATOR` or `CLIENT_DEAL_APPROVER`. */
+  role?: ClientRoleEnum | undefined;
+  /** The status of the client buyer. */
+  status?: ClientStatusEnum | undefined;
+  /** The globally-unique numerical ID of the client. The value of this field is ignored in create and update operations. */
+  clientAccountId?: string | undefined;
+  /** Name used to represent this client to publishers. You may have multiple clients that map to the same entity, but for each client the combination of `clientName` and entity must be unique. You can specify this field as empty. Maximum length of 255 characters is allowed. */
+  clientName?: string | undefined;
+  /** Optional arbitrary unique identifier of this client buyer from the standpoint of its Ad Exchange sponsor buyer. This field can be used to associate a client buyer with the identifier in the namespace of its sponsor buyer, lookup client buyers by that identifier and verify whether an Ad Exchange counterpart of a given client buyer already exists. If present, must be unique among all the client buyers for its Ad Exchange sponsor buyer. */
+  partnerClientId?: string | undefined;
+  /** The name of the entity. This field is automatically fetched based on the type and ID. The value of this field is ignored in create and update operations. */
+  entityName?: string | undefined;
+}
+export interface CreateAccountsClientsInvitationsRequest {
+  /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
-  /** Request body */
-  body?: Client | undefined;
+  /** Numerical account ID of the client buyer that the user should be associated with. (required) */
+  clientAccountId: string;
+  /** The unique numerical ID of the invitation that is sent to the user. The value of this field is ignored in create operations. */
+  invitationId?: string | undefined;
+  /** The email address to which the invitation is sent. Email addresses should be unique among all client users under each sponsor buyer. */
+  email?: string | undefined;
 }
 /** An invitation for a new client user to get access to the Authorized Buyers UI. All fields are required unless otherwise specified. */
 export interface ClientUserInvitation {
@@ -766,14 +772,6 @@ export interface ClientUserInvitation {
   invitationId?: string | undefined;
   /** The email address to which the invitation is sent. Email addresses should be unique among all client users under each sponsor buyer. */
   email?: string | undefined;
-}
-export interface CreateAccountsClientsInvitationsRequest {
-  /** Numerical account ID of the client's sponsor buyer. (required) */
-  accountId: string;
-  /** Numerical account ID of the client buyer that the user should be associated with. (required) */
-  clientAccountId: string;
-  /** Request body */
-  body?: ClientUserInvitation | undefined;
 }
 export type CreateAccountsCreativesDuplicateIdModeEnum =
   | "NO_DUPLICATES"
@@ -1104,8 +1102,11 @@ export interface Correction {
   details?: StringList | undefined;
 }
 export type CorrectionList = Array<Correction>;
-/** A creative and its classification data. */
-export interface Creative {
+export interface CreateAccountsCreativesRequest {
+  /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
+  accountId: string;
+  /** Indicates if multiple creatives can share an ID or not. Default is NO_DUPLICATES (one ID per creative). */
+  duplicateIdMode?: CreateAccountsCreativesDuplicateIdModeEnum | (string & {}) | undefined;
   /** A video creative. */
   video?: VideoContent | undefined;
   /** Output only. Detected product categories, if any. See the ad-product-categories.txt file in the technical documentation for a list of IDs. */
@@ -1148,6 +1149,59 @@ export interface Creative {
   dealsStatus?: CreativeDealsStatusEnum | (string & {}) | undefined;
   /** The buyer-defined creative ID of this creative. Can be used to filter the response of the creatives.list method. */
   creativeId?: string | undefined;
+  /** Output only. The last update timestamp of the creative through the API. */
+  apiUpdateTime?: string | undefined;
+  /** Output only. The detected ad technology providers. */
+  adTechnologyProviders?: AdTechnologyProviders | undefined;
+  /** Output only. The detected languages for this creative. The order is arbitrary. The codes are 2 or 5 characters and are documented at https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
+  detectedLanguages?: StringList | undefined;
+  /** Output only. Shows any corrections that were applied to this creative. */
+  corrections?: CorrectionList | undefined;
+}
+/** A creative and its classification data. */
+export interface Creative {
+  /** A video creative. */
+  video?: VideoContent | undefined;
+  /** Output only. Detected product categories, if any. See the ad-product-categories.txt file in the technical documentation for a list of IDs. */
+  detectedProductCategories?: IntegerList | undefined;
+  /** Output only. Detected advertiser IDs, if any. */
+  detectedAdvertiserIds?: StringList | undefined;
+  /** The name of the company being advertised in the creative. */
+  advertiserName?: string | undefined;
+  /** The link to AdChoices destination page. */
+  adChoicesDestinationUrl?: string | undefined;
+  /** The set of URLs to be called to record an impression. */
+  impressionTrackingUrls?: StringList | undefined;
+  /** Output only. The top-level open auction status of this creative. If disapproved, an entry for 'auctionType = OPEN_AUCTION' (or 'ALL') in serving_restrictions will also exist. Note that this may be nuanced with other contextual restrictions, in which case, it may be preferable to read from serving_restrictions directly. Can be used to filter the response of the creatives.list method. */
+  openAuctionStatus?: CreativeOpenAuctionStatusEnum | undefined;
+  /** An HTML creative. */
+  html?: HtmlContent | undefined;
+  /** Output only. The granular status of this ad in specific contexts. A context here relates to where something ultimately serves (for example, a physical location, a platform, an HTTPS versus HTTP request, or the type of auction). */
+  servingRestrictions?: ServingRestrictionList | undefined;
+  /** Output only. Detected sensitive categories, if any. See the ad-sensitive-categories.txt file in the technical documentation for a list of IDs. You should use these IDs along with the excluded-sensitive-category field in the bid request to filter your bids. */
+  detectedSensitiveCategories?: IntegerList | undefined;
+  /** The set of destination URLs for the creative. */
+  clickThroughUrls?: StringList | undefined;
+  /** A native creative. */
+  native?: NativeContent | undefined;
+  /** Output only. The detected domains for this creative. */
+  detectedDomains?: StringList | undefined;
+  /** All restricted categories for the ads that may be shown from this creative. */
+  restrictedCategories?: CreativeRestrictedCategoriesItemEnumList | undefined;
+  /** Output only. The version of this creative. */
+  version?: number | undefined;
+  /** The set of declared destination URLs for the creative. */
+  declaredClickThroughUrls?: StringList | undefined;
+  /** All attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
+  attributes?: CreativeAttributesItemEnumList | undefined;
+  /** The agency ID for this creative. */
+  agencyId?: string | undefined;
+  /** All vendor IDs for the ads that may be shown from this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. */
+  vendorIds?: IntegerList | undefined;
+  /** Output only. The top-level deals status of this creative. If disapproved, an entry for 'auctionType=DIRECT_DEALS' (or 'ALL') in serving_restrictions will also exist. Note that this may be nuanced with other contextual restrictions, in which case, it may be preferable to read from serving_restrictions directly. Can be used to filter the response of the creatives.list method. */
+  dealsStatus?: CreativeDealsStatusEnum | undefined;
+  /** The buyer-defined creative ID of this creative. Can be used to filter the response of the creatives.list method. */
+  creativeId?: string | undefined;
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId?: string | undefined;
   /** Output only. The last update timestamp of the creative through the API. */
@@ -1159,19 +1213,47 @@ export interface Creative {
   /** Output only. Shows any corrections that were applied to this creative. */
   corrections?: CorrectionList | undefined;
 }
-export interface CreateAccountsCreativesRequest {
-  /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
-  accountId: string;
-  /** Indicates if multiple creatives can share an ID or not. Default is NO_DUPLICATES (one ID per creative). */
-  duplicateIdMode?: CreateAccountsCreativesDuplicateIdModeEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Creative | undefined;
-}
 export interface CreateAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: Proposal | undefined;
+  /** Output only. True, if the buyside inventory setup is complete for this proposal. */
+  isSetupComplete?: boolean | undefined;
+  /** Output only. The revision number for the proposal. Each update to the proposal or the deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
+  proposalRevision?: string | undefined;
+  /** Output only. The unique ID of the proposal. */
+  proposalId?: string | undefined;
+  /** Output only. The time when the proposal was last revised. */
+  updateTime?: string | undefined;
+  /** The deals associated with this proposal. For Private Auction proposals (whose deals have NonGuaranteedAuctionTerms), there will only be one deal. */
+  deals?: DealList | undefined;
+  /** Output only. The current state of the proposal. */
+  proposalState?: ProposalProposalStateEnum | (string & {}) | undefined;
+  /** Output only. The terms and conditions set by the publisher for this proposal. */
+  termsAndConditions?: string | undefined;
+  /** Output only. Indicates whether the buyer/seller created the proposal. */
+  originatorRole?: ProposalOriginatorRoleEnum | (string & {}) | undefined;
+  /** Contact information for the buyer. */
+  buyerContacts?: ContactInformationList | undefined;
+  /** Output only. Reference to the buyer that will get billed for this proposal. */
+  billedBuyer?: Buyer | undefined;
+  /** Reference to the buyer on the proposal. Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
+  buyer?: Buyer | undefined;
+  /** Output only. True if the proposal is being renegotiated. */
+  isRenegotiating?: boolean | undefined;
+  /** Output only. The role of the last user that either updated the proposal or left a comment. */
+  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | (string & {}) | undefined;
+  /** Output only. Private auction ID if this proposal is a private auction proposal. */
+  privateAuctionId?: string | undefined;
+  /** Private data for buyer. (hidden from seller). */
+  buyerPrivateData?: PrivateData | undefined;
+  /** Output only. The notes associated with this proposal. */
+  notes?: NoteList | undefined;
+  /** Reference to the seller on the proposal. Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
+  seller?: Seller | undefined;
+  /** The name for the proposal. */
+  displayName?: string | undefined;
+  /** Output only. Contact information for the seller. */
+  sellerContacts?: ContactInformationList | undefined;
 }
 /** An open-ended realtime time range specified by the start timestamp. For filter sets that specify a realtime time range RTB metrics continue to be aggregated throughout the lifetime of the filter set. */
 export interface RealtimeTimeRange {
@@ -1227,8 +1309,11 @@ export type FilterSetTimeSeriesGranularityEnum =
   | "TIME_SERIES_GRANULARITY_UNSPECIFIED"
   | "HOURLY"
   | "DAILY";
-/** A set of filters that is applied to a request for data. Within a filter set, an AND operation is performed across the filters represented by each field. An OR operation is performed across the filters represented by the multiple values of a repeated field, for example, "format=VIDEO AND deal_id=12 AND (seller_network_id=34 OR seller_network_id=56)". */
-export interface FilterSet {
+export interface CreateBiddersAccountsFilterSetsRequest {
+  /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
+  ownerName: string;
+  /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
+  isTransient?: boolean | undefined;
   /** An open-ended realtime time range, defined by the aggregation start timestamp. */
   realtimeTimeRange?: RealtimeTimeRange | undefined;
   /** For Authorized Buyers only. The list of IDs of the seller (publisher) networks on which to filter; may be empty. The filters represented by multiple seller network IDs are ORed together (for example, if non-empty, results must match any one of the publisher networks). See [seller-network-ids](https://developers.google.com/authorized-buyers/rtb/downloads/seller-network-ids) file for the set of existing seller network IDs. */
@@ -1258,29 +1343,104 @@ export interface FilterSet {
   /** The ID of the deal on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
   dealId?: string | undefined;
 }
-export interface CreateBiddersAccountsFilterSetsRequest {
-  /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
-  ownerName: string;
-  /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
-  isTransient?: boolean | undefined;
-  /** Request body */
-  body?: FilterSet | undefined;
+/** A set of filters that is applied to a request for data. Within a filter set, an AND operation is performed across the filters represented by each field. An OR operation is performed across the filters represented by the multiple values of a repeated field, for example, "format=VIDEO AND deal_id=12 AND (seller_network_id=34 OR seller_network_id=56)". */
+export interface FilterSet {
+  /** An open-ended realtime time range, defined by the aggregation start timestamp. */
+  realtimeTimeRange?: RealtimeTimeRange | undefined;
+  /** For Authorized Buyers only. The list of IDs of the seller (publisher) networks on which to filter; may be empty. The filters represented by multiple seller network IDs are ORed together (for example, if non-empty, results must match any one of the publisher networks). See [seller-network-ids](https://developers.google.com/authorized-buyers/rtb/downloads/seller-network-ids) file for the set of existing seller network IDs. */
+  sellerNetworkIds?: IntegerList | undefined;
+  /** Creative format bidded on or allowed to bid on, can be empty. */
+  format?: FilterSetFormatEnum | undefined;
+  /** The set of dimensions along which to break down the response; may be empty. If multiple dimensions are requested, the breakdown is along the Cartesian product of the requested dimensions. */
+  breakdownDimensions?: FilterSetBreakdownDimensionsItemEnumList | undefined;
+  /** For Open Bidding partners only. The list of publisher identifiers on which to filter; may be empty. The filters represented by multiple publisher identifiers are ORed together. */
+  publisherIdentifiers?: StringList | undefined;
+  /** Creative formats bidded on or allowed to bid on, can be empty. Although this field is a list, it can only be populated with a single item. A HTTP 400 bad request error will be returned in the response if you specify multiple items. */
+  formats?: FilterSetFormatsItemEnumList | undefined;
+  /** The environment on which to filter; optional. */
+  environment?: FilterSetEnvironmentEnum | undefined;
+  /** The ID of the creative on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
+  creativeId?: string | undefined;
+  /** A relative date range, defined by an offset from today and a duration. Interpreted relative to Pacific time zone. */
+  relativeDateRange?: RelativeDateRange | undefined;
+  /** An absolute date range, defined by a start date and an end date. Interpreted relative to Pacific time zone. */
+  absoluteDateRange?: AbsoluteDateRange | undefined;
+  /** The list of platforms on which to filter; may be empty. The filters represented by multiple platforms are ORed together (for example, if non-empty, results must match any one of the platforms). */
+  platforms?: FilterSetPlatformsItemEnumList | undefined;
+  /** The granularity of time intervals if a time series breakdown is preferred; optional. */
+  timeSeriesGranularity?: FilterSetTimeSeriesGranularityEnum | undefined;
+  /** A user-defined name of the filter set. Filter set names must be unique globally and match one of the patterns: - `bidders/*\/filterSets/*` (for accessing bidder-level troubleshooting data) - `bidders/*\/accounts/*\/filterSets/*` (for accessing account-level troubleshooting data) This field is required in create operations. */
+  name?: string | undefined;
+  /** The ID of the deal on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
+  dealId?: string | undefined;
 }
 export interface CreateBiddersFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
   /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
   isTransient?: boolean | undefined;
-  /** Request body */
-  body?: FilterSet | undefined;
+  /** An open-ended realtime time range, defined by the aggregation start timestamp. */
+  realtimeTimeRange?: RealtimeTimeRange | undefined;
+  /** For Authorized Buyers only. The list of IDs of the seller (publisher) networks on which to filter; may be empty. The filters represented by multiple seller network IDs are ORed together (for example, if non-empty, results must match any one of the publisher networks). See [seller-network-ids](https://developers.google.com/authorized-buyers/rtb/downloads/seller-network-ids) file for the set of existing seller network IDs. */
+  sellerNetworkIds?: IntegerList | undefined;
+  /** Creative format bidded on or allowed to bid on, can be empty. */
+  format?: FilterSetFormatEnum | (string & {}) | undefined;
+  /** The set of dimensions along which to break down the response; may be empty. If multiple dimensions are requested, the breakdown is along the Cartesian product of the requested dimensions. */
+  breakdownDimensions?: FilterSetBreakdownDimensionsItemEnumList | undefined;
+  /** For Open Bidding partners only. The list of publisher identifiers on which to filter; may be empty. The filters represented by multiple publisher identifiers are ORed together. */
+  publisherIdentifiers?: StringList | undefined;
+  /** Creative formats bidded on or allowed to bid on, can be empty. Although this field is a list, it can only be populated with a single item. A HTTP 400 bad request error will be returned in the response if you specify multiple items. */
+  formats?: FilterSetFormatsItemEnumList | undefined;
+  /** The environment on which to filter; optional. */
+  environment?: FilterSetEnvironmentEnum | (string & {}) | undefined;
+  /** The ID of the creative on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
+  creativeId?: string | undefined;
+  /** A relative date range, defined by an offset from today and a duration. Interpreted relative to Pacific time zone. */
+  relativeDateRange?: RelativeDateRange | undefined;
+  /** An absolute date range, defined by a start date and an end date. Interpreted relative to Pacific time zone. */
+  absoluteDateRange?: AbsoluteDateRange | undefined;
+  /** The list of platforms on which to filter; may be empty. The filters represented by multiple platforms are ORed together (for example, if non-empty, results must match any one of the platforms). */
+  platforms?: FilterSetPlatformsItemEnumList | undefined;
+  /** The granularity of time intervals if a time series breakdown is preferred; optional. */
+  timeSeriesGranularity?: FilterSetTimeSeriesGranularityEnum | (string & {}) | undefined;
+  /** A user-defined name of the filter set. Filter set names must be unique globally and match one of the patterns: - `bidders/*\/filterSets/*` (for accessing bidder-level troubleshooting data) - `bidders/*\/accounts/*\/filterSets/*` (for accessing account-level troubleshooting data) This field is required in create operations. */
+  name?: string | undefined;
+  /** The ID of the deal on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
+  dealId?: string | undefined;
 }
 export interface CreateBuyersFilterSetsRequest {
   /** Whether the filter set is transient, or should be persisted indefinitely. By default, filter sets are not transient. If transient, it will be available for at least 1 hour after creation. */
   isTransient?: boolean | undefined;
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
-  /** Request body */
-  body?: FilterSet | undefined;
+  /** An open-ended realtime time range, defined by the aggregation start timestamp. */
+  realtimeTimeRange?: RealtimeTimeRange | undefined;
+  /** For Authorized Buyers only. The list of IDs of the seller (publisher) networks on which to filter; may be empty. The filters represented by multiple seller network IDs are ORed together (for example, if non-empty, results must match any one of the publisher networks). See [seller-network-ids](https://developers.google.com/authorized-buyers/rtb/downloads/seller-network-ids) file for the set of existing seller network IDs. */
+  sellerNetworkIds?: IntegerList | undefined;
+  /** Creative format bidded on or allowed to bid on, can be empty. */
+  format?: FilterSetFormatEnum | (string & {}) | undefined;
+  /** The set of dimensions along which to break down the response; may be empty. If multiple dimensions are requested, the breakdown is along the Cartesian product of the requested dimensions. */
+  breakdownDimensions?: FilterSetBreakdownDimensionsItemEnumList | undefined;
+  /** For Open Bidding partners only. The list of publisher identifiers on which to filter; may be empty. The filters represented by multiple publisher identifiers are ORed together. */
+  publisherIdentifiers?: StringList | undefined;
+  /** Creative formats bidded on or allowed to bid on, can be empty. Although this field is a list, it can only be populated with a single item. A HTTP 400 bad request error will be returned in the response if you specify multiple items. */
+  formats?: FilterSetFormatsItemEnumList | undefined;
+  /** The environment on which to filter; optional. */
+  environment?: FilterSetEnvironmentEnum | (string & {}) | undefined;
+  /** The ID of the creative on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
+  creativeId?: string | undefined;
+  /** A relative date range, defined by an offset from today and a duration. Interpreted relative to Pacific time zone. */
+  relativeDateRange?: RelativeDateRange | undefined;
+  /** An absolute date range, defined by a start date and an end date. Interpreted relative to Pacific time zone. */
+  absoluteDateRange?: AbsoluteDateRange | undefined;
+  /** The list of platforms on which to filter; may be empty. The filters represented by multiple platforms are ORed together (for example, if non-empty, results must match any one of the platforms). */
+  platforms?: FilterSetPlatformsItemEnumList | undefined;
+  /** The granularity of time intervals if a time series breakdown is preferred; optional. */
+  timeSeriesGranularity?: FilterSetTimeSeriesGranularityEnum | (string & {}) | undefined;
+  /** A user-defined name of the filter set. Filter set names must be unique globally and match one of the patterns: - `bidders/*\/filterSets/*` (for accessing bidder-level troubleshooting data) - `bidders/*\/accounts/*\/filterSets/*` (for accessing account-level troubleshooting data) This field is required in create operations. */
+  name?: string | undefined;
+  /** The ID of the deal on which to filter; optional. This field may be set only for a filter set that accesses account-level troubleshooting data, for example, one whose name matches the `bidders/*\/accounts/*\/filterSets/*` pattern. */
+  dealId?: string | undefined;
 }
 export interface DeleteBiddersAccountsFilterSetsRequest {
   /** Full name of the resource to delete. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
@@ -1324,7 +1484,7 @@ export interface ClientUser {
   /** Numerical account ID of the client buyer with which the user is associated; the buyer must be a client of the current sponsor buyer. The value of this field is ignored in an update operation. */
   clientAccountId?: string | undefined;
   /** The status of the client user. */
-  status?: ClientUserStatusEnum | (string & {}) | undefined;
+  status?: ClientUserStatusEnum | undefined;
   /** The unique numerical ID of the client user that has accepted an invitation. The value of this field is ignored in an update operation. */
   userId?: string | undefined;
 }
@@ -2126,24 +2286,14 @@ export interface ListBuyersFilterSetsNonBillableWinningBidsRequest {
   /** A token identifying a page of results the server should return. Typically, this is the value of ListNonBillableWinningBidsResponse.nextPageToken returned from the previous call to the nonBillableWinningBids.list method. */
   pageToken?: string | undefined;
 }
-/** Request message to pause serving for finalized deals. */
-export interface PauseProposalDealsRequest {
-  /** The external_deal_id's of the deals to be paused. If empty, all the deals in the proposal will be paused. */
-  externalDealIds?: StringList | undefined;
-  /** The reason why the deals are being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
-  reason?: string | undefined;
-}
 export interface PauseAccountsFinalizedProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The proposal_id of the proposal containing the deals. */
   proposalId: string;
-  /** Request body */
-  body?: PauseProposalDealsRequest | undefined;
-}
-/** Request message to pause serving for an already-finalized proposal. */
-export interface PauseProposalRequest {
-  /** The reason why the proposal is being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
+  /** The external_deal_id's of the deals to be paused. If empty, all the deals in the proposal will be paused. */
+  externalDealIds?: StringList | undefined;
+  /** The reason why the deals are being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
   reason?: string | undefined;
 }
 export interface PauseAccountsProposalsRequest {
@@ -2151,34 +2301,24 @@ export interface PauseAccountsProposalsRequest {
   accountId: string;
   /** The ID of the proposal to pause. */
   proposalId: string;
-  /** Request body */
-  body?: PauseProposalRequest | undefined;
-}
-/** A request for removing the association between a deal and a creative. */
-export interface RemoveDealAssociationRequest {
-  /** The association between a creative and a deal that should be removed. */
-  association?: CreativeDealAssociation | undefined;
+  /** The reason why the proposal is being paused. This human readable message will be displayed in the seller's UI. (Max length: 1000 unicode code units.) */
+  reason?: string | undefined;
 }
 export interface RemoveAccountsCreativesDealAssociationsRequest {
   /** The account the creative belongs to. */
   accountId: string;
   /** The ID of the creative associated with the deal. */
   creativeId: string;
-  /** Request body */
-  body?: RemoveDealAssociationRequest | undefined;
-}
-/** Request message to resume (unpause) serving for already-finalized deals. */
-export interface ResumeProposalDealsRequest {
-  /** The external_deal_id's of the deals to resume. If empty, all the deals in the proposal will be resumed. */
-  externalDealIds?: StringList | undefined;
+  /** The association between a creative and a deal that should be removed. */
+  association?: CreativeDealAssociation | undefined;
 }
 export interface ResumeAccountsFinalizedProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
   /** The proposal_id of the proposal containing the deals. */
   proposalId: string;
-  /** Request body */
-  body?: ResumeProposalDealsRequest | undefined;
+  /** The external_deal_id's of the deals to resume. If empty, all the deals in the proposal will be resumed. */
+  externalDealIds?: StringList | undefined;
 }
 /** Request message to resume (unpause) serving for an already-finalized proposal. */
 export type ResumeProposalRequest = CancelNegotiationRequest;
@@ -2205,8 +2345,22 @@ export interface UpdateAccountsClientsRequest {
   accountId: string;
   /** Unique numerical account ID of the client to update. (required) */
   clientAccountId: string;
-  /** Request body */
-  body?: Client | undefined;
+  /** Numerical identifier of the client entity. The entity can be an advertiser, a brand, or an agency. This identifier is unique among all the entities with the same type. The value of this field is ignored if the entity type is not provided. A list of all known advertisers with their identifiers is available in the [advertisers.txt](https://storage.googleapis.com/adx-rtb-dictionaries/advertisers.txt) file. A list of all known brands with their identifiers is available in the [brands.txt](https://storage.googleapis.com/adx-rtb-dictionaries/brands.txt) file. A list of all known agencies with their identifiers is available in the [agencies.txt](https://storage.googleapis.com/adx-rtb-dictionaries/agencies.txt) file. */
+  entityId?: string | undefined;
+  /** An optional field for specifying the type of the client entity: `ADVERTISER`, `BRAND`, or `AGENCY`. */
+  entityType?: ClientEntityTypeEnum | (string & {}) | undefined;
+  /** Whether the client buyer will be visible to sellers. */
+  visibleToSeller?: boolean | undefined;
+  /** The role which is assigned to the client buyer. Each role implies a set of permissions granted to the client. Must be one of `CLIENT_DEAL_VIEWER`, `CLIENT_DEAL_NEGOTIATOR` or `CLIENT_DEAL_APPROVER`. */
+  role?: ClientRoleEnum | (string & {}) | undefined;
+  /** The status of the client buyer. */
+  status?: ClientStatusEnum | (string & {}) | undefined;
+  /** Name used to represent this client to publishers. You may have multiple clients that map to the same entity, but for each client the combination of `clientName` and entity must be unique. You can specify this field as empty. Maximum length of 255 characters is allowed. */
+  clientName?: string | undefined;
+  /** Optional arbitrary unique identifier of this client buyer from the standpoint of its Ad Exchange sponsor buyer. This field can be used to associate a client buyer with the identifier in the namespace of its sponsor buyer, lookup client buyers by that identifier and verify whether an Ad Exchange counterpart of a given client buyer already exists. If present, must be unique among all the client buyers for its Ad Exchange sponsor buyer. */
+  partnerClientId?: string | undefined;
+  /** The name of the entity. This field is automatically fetched based on the type and ID. The value of this field is ignored in create and update operations. */
+  entityName?: string | undefined;
 }
 export interface UpdateAccountsClientsUsersRequest {
   /** Numerical identifier of the user to retrieve. (required) */
@@ -2215,37 +2369,114 @@ export interface UpdateAccountsClientsUsersRequest {
   accountId: string;
   /** Numerical account ID of the client buyer that the user to be retrieved is associated with. (required) */
   clientAccountId: string;
-  /** Request body */
-  body?: ClientUser | undefined;
+  /** User's email address. The value of this field is ignored in an update operation. */
+  email?: string | undefined;
+  /** The status of the client user. */
+  status?: ClientUserStatusEnum | (string & {}) | undefined;
 }
 export interface UpdateAccountsCreativesRequest {
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId: string;
   /** The buyer-defined creative ID of this creative. Can be used to filter the response of the creatives.list method. */
   creativeId: string;
-  /** Request body */
-  body?: Creative | undefined;
+  /** A video creative. */
+  video?: VideoContent | undefined;
+  /** Output only. Detected product categories, if any. See the ad-product-categories.txt file in the technical documentation for a list of IDs. */
+  detectedProductCategories?: IntegerList | undefined;
+  /** Output only. Detected advertiser IDs, if any. */
+  detectedAdvertiserIds?: StringList | undefined;
+  /** The name of the company being advertised in the creative. */
+  advertiserName?: string | undefined;
+  /** The link to AdChoices destination page. */
+  adChoicesDestinationUrl?: string | undefined;
+  /** The set of URLs to be called to record an impression. */
+  impressionTrackingUrls?: StringList | undefined;
+  /** Output only. The top-level open auction status of this creative. If disapproved, an entry for 'auctionType = OPEN_AUCTION' (or 'ALL') in serving_restrictions will also exist. Note that this may be nuanced with other contextual restrictions, in which case, it may be preferable to read from serving_restrictions directly. Can be used to filter the response of the creatives.list method. */
+  openAuctionStatus?: CreativeOpenAuctionStatusEnum | (string & {}) | undefined;
+  /** An HTML creative. */
+  html?: HtmlContent | undefined;
+  /** Output only. The granular status of this ad in specific contexts. A context here relates to where something ultimately serves (for example, a physical location, a platform, an HTTPS versus HTTP request, or the type of auction). */
+  servingRestrictions?: ServingRestrictionList | undefined;
+  /** Output only. Detected sensitive categories, if any. See the ad-sensitive-categories.txt file in the technical documentation for a list of IDs. You should use these IDs along with the excluded-sensitive-category field in the bid request to filter your bids. */
+  detectedSensitiveCategories?: IntegerList | undefined;
+  /** The set of destination URLs for the creative. */
+  clickThroughUrls?: StringList | undefined;
+  /** A native creative. */
+  native?: NativeContent | undefined;
+  /** Output only. The detected domains for this creative. */
+  detectedDomains?: StringList | undefined;
+  /** All restricted categories for the ads that may be shown from this creative. */
+  restrictedCategories?: CreativeRestrictedCategoriesItemEnumList | undefined;
+  /** Output only. The version of this creative. */
+  version?: number | undefined;
+  /** The set of declared destination URLs for the creative. */
+  declaredClickThroughUrls?: StringList | undefined;
+  /** All attributes for the ads that may be shown from this creative. Can be used to filter the response of the creatives.list method. */
+  attributes?: CreativeAttributesItemEnumList | undefined;
+  /** The agency ID for this creative. */
+  agencyId?: string | undefined;
+  /** All vendor IDs for the ads that may be shown from this creative. See https://storage.googleapis.com/adx-rtb-dictionaries/vendors.txt for possible values. */
+  vendorIds?: IntegerList | undefined;
+  /** Output only. The top-level deals status of this creative. If disapproved, an entry for 'auctionType=DIRECT_DEALS' (or 'ALL') in serving_restrictions will also exist. Note that this may be nuanced with other contextual restrictions, in which case, it may be preferable to read from serving_restrictions directly. Can be used to filter the response of the creatives.list method. */
+  dealsStatus?: CreativeDealsStatusEnum | (string & {}) | undefined;
+  /** Output only. The last update timestamp of the creative through the API. */
+  apiUpdateTime?: string | undefined;
+  /** Output only. The detected ad technology providers. */
+  adTechnologyProviders?: AdTechnologyProviders | undefined;
+  /** Output only. The detected languages for this creative. The order is arbitrary. The codes are 2 or 5 characters and are documented at https://developers.google.com/adwords/api/docs/appendix/languagecodes. */
+  detectedLanguages?: StringList | undefined;
+  /** Output only. Shows any corrections that were applied to this creative. */
+  corrections?: CorrectionList | undefined;
 }
 export interface UpdateAccountsProposalsRequest {
   /** The unique ID of the proposal. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
-  /** Request body */
-  body?: Proposal | undefined;
-}
-/** A request for watching changes to creative Status. */
-export interface WatchCreativeRequest {
-  /** The Pub/Sub topic to publish notifications to. This topic must already exist and must give permission to ad-exchange-buyside-reports@google.com to write to the topic. This should be the full resource name in "projects/{project_id}/topics/{topic_id}" format. */
-  topic?: string | undefined;
+  /** Output only. True, if the buyside inventory setup is complete for this proposal. */
+  isSetupComplete?: boolean | undefined;
+  /** Output only. The revision number for the proposal. Each update to the proposal or the deal causes the proposal revision number to auto-increment. The buyer keeps track of the last revision number they know of and pass it in when making an update. If the head revision number on the server has since incremented, then an ABORTED error is returned during the update operation to let the buyer know that a subsequent update was made. */
+  proposalRevision?: string | undefined;
+  /** Output only. The time when the proposal was last revised. */
+  updateTime?: string | undefined;
+  /** The deals associated with this proposal. For Private Auction proposals (whose deals have NonGuaranteedAuctionTerms), there will only be one deal. */
+  deals?: DealList | undefined;
+  /** Output only. The current state of the proposal. */
+  proposalState?: ProposalProposalStateEnum | (string & {}) | undefined;
+  /** Output only. The terms and conditions set by the publisher for this proposal. */
+  termsAndConditions?: string | undefined;
+  /** Output only. Indicates whether the buyer/seller created the proposal. */
+  originatorRole?: ProposalOriginatorRoleEnum | (string & {}) | undefined;
+  /** Contact information for the buyer. */
+  buyerContacts?: ContactInformationList | undefined;
+  /** Output only. Reference to the buyer that will get billed for this proposal. */
+  billedBuyer?: Buyer | undefined;
+  /** Reference to the buyer on the proposal. Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
+  buyer?: Buyer | undefined;
+  /** Output only. True if the proposal is being renegotiated. */
+  isRenegotiating?: boolean | undefined;
+  /** Output only. The role of the last user that either updated the proposal or left a comment. */
+  lastUpdaterOrCommentorRole?: ProposalLastUpdaterOrCommentorRoleEnum | (string & {}) | undefined;
+  /** Output only. Private auction ID if this proposal is a private auction proposal. */
+  privateAuctionId?: string | undefined;
+  /** Private data for buyer. (hidden from seller). */
+  buyerPrivateData?: PrivateData | undefined;
+  /** Output only. The notes associated with this proposal. */
+  notes?: NoteList | undefined;
+  /** Reference to the seller on the proposal. Note: This field may be set only when creating the resource. Modifying this field while updating the resource will result in an error. */
+  seller?: Seller | undefined;
+  /** The name for the proposal. */
+  displayName?: string | undefined;
+  /** Output only. Contact information for the seller. */
+  sellerContacts?: ContactInformationList | undefined;
 }
 export interface WatchAccountsCreativesRequest {
   /** The account of the creative to watch. */
   accountId: string;
   /** The creative ID to watch for status changes. Specify "-" to watch all creatives under the above account. If both creative-level and account-level notifications are sent, only a single notification will be sent to the creative-level notification topic. */
   creativeId: string;
-  /** Request body */
-  body?: WatchCreativeRequest | undefined;
+  /** The Pub/Sub topic to publish notifications to. This topic must already exist and must give permission to ad-exchange-buyside-reports@google.com to write to the topic. This should be the full resource name in "projects/{project_id}/topics/{topic_id}" format. */
+  topic?: string | undefined;
 }
 export type AcceptAccountsProposalsError =
   | NotFound
@@ -2261,7 +2492,7 @@ export const acceptAccountsProposals: API.OperationMethod<
   AcceptAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2017, __c63, 1) as any as S.Schema<AcceptAccountsProposalsRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<AcceptAccountsProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2285,7 +2516,7 @@ export const addAccountsCreativesDealAssociations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<AddAccountsCreativesDealAssociationsRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2307,7 +2538,7 @@ export const addNoteAccountsProposals: API.OperationMethod<
   AddNoteAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3009, __c94, 1) as any as S.Schema<AddNoteAccountsProposalsRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<AddNoteAccountsProposalsRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<Note>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2330,7 +2561,7 @@ export const cancelNegotiationAccountsProposals: API.OperationMethod<
   CancelNegotiationAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<CancelNegotiationAccountsProposalsRequest>,
+  input: __S(3328, __c104, 0) as any as S.Schema<CancelNegotiationAccountsProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2353,7 +2584,7 @@ export const completeSetupAccountsProposals: API.OperationMethod<
   CompleteSetupAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<CompleteSetupAccountsProposalsRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<CompleteSetupAccountsProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2538,7 +2769,7 @@ export const deleteBiddersAccountsFilterSets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteBiddersAccountsFilterSetsRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2561,7 +2792,7 @@ export const deleteBiddersFilterSets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteBiddersFilterSetsRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2584,7 +2815,7 @@ export const deleteBuyersFilterSets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteBuyersFilterSetsRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3485,7 +3716,7 @@ export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperation
   GcpOpContext,
   ListNonBillableWinningBidsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListBiddersFilterSetsNonBillableWinningBidsRequest>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListBiddersFilterSetsNonBillableWinningBidsRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<ListNonBillableWinningBidsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3504,7 +3735,7 @@ export const listBuyersFilterSets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFilterSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListBuyersFilterSetsRequest>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListBuyersFilterSetsRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<ListFilterSetsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3527,7 +3758,7 @@ export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBidMetricsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListBuyersFilterSetsBidMetricsRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListBuyersFilterSetsBidMetricsRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<ListBidMetricsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3550,7 +3781,7 @@ export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod
   GcpOpContext,
   ListBidResponseErrorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListBuyersFilterSetsBidResponseErrorsRequest>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListBuyersFilterSetsBidResponseErrorsRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<ListBidResponseErrorsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3573,7 +3804,7 @@ export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperation
   GcpOpContext,
   ListBidResponsesWithoutBidsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListBuyersFilterSetsBidResponsesWithoutBidsRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListBuyersFilterSetsBidResponsesWithoutBidsRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<ListBidResponsesWithoutBidsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3596,7 +3827,7 @@ export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMeth
   GcpOpContext,
   ListFilteredBidRequestsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidRequestsRequest>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidRequestsRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<ListFilteredBidRequestsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3619,7 +3850,7 @@ export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFilteredBidsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidsRequest>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidsRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<ListFilteredBidsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3642,7 +3873,7 @@ export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMe
   GcpOpContext,
   ListCreativeStatusBreakdownByCreativeResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidsCreativesRequest>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidsCreativesRequest>,
   output: __S(1730, __c54, 2) as any as S.Schema<ListCreativeStatusBreakdownByCreativeResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3665,7 +3896,7 @@ export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMeth
   GcpOpContext,
   ListCreativeStatusBreakdownByDetailResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidsDetailsRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListBuyersFilterSetsFilteredBidsDetailsRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<ListCreativeStatusBreakdownByDetailResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3688,7 +3919,7 @@ export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod
   GcpOpContext,
   ListImpressionMetricsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListBuyersFilterSetsImpressionMetricsRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListBuyersFilterSetsImpressionMetricsRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<ListImpressionMetricsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3711,7 +3942,7 @@ export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLosingBidsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListBuyersFilterSetsLosingBidsRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListBuyersFilterSetsLosingBidsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ListLosingBidsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3734,7 +3965,7 @@ export const listBuyersFilterSetsNonBillableWinningBids: API.PaginatedOperationM
   GcpOpContext,
   ListNonBillableWinningBidsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListBuyersFilterSetsNonBillableWinningBidsRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListBuyersFilterSetsNonBillableWinningBidsRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<ListNonBillableWinningBidsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3758,7 +3989,7 @@ export const pauseAccountsFinalizedProposals: API.OperationMethod<
   PauseAccountsFinalizedProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3105, __c97, 1) as any as S.Schema<PauseAccountsFinalizedProposalsRequest>,
+  input: __S(3072, __c96, 0) as any as S.Schema<PauseAccountsFinalizedProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3781,7 +4012,7 @@ export const pauseAccountsProposals: API.OperationMethod<
   PauseAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3137, __c98, 1) as any as S.Schema<PauseAccountsProposalsRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<PauseAccountsProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3804,8 +4035,8 @@ export const removeAccountsCreativesDealAssociations: API.OperationMethod<
   RemoveAccountsCreativesDealAssociationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<RemoveAccountsCreativesDealAssociationsRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  input: __S(3136, __c98, 0) as any as S.Schema<RemoveAccountsCreativesDealAssociationsRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3827,7 +4058,7 @@ export const resumeAccountsFinalizedProposals: API.OperationMethod<
   ResumeAccountsFinalizedProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ResumeAccountsFinalizedProposalsRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ResumeAccountsFinalizedProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3850,7 +4081,7 @@ export const resumeAccountsProposals: API.OperationMethod<
   ResumeAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ResumeAccountsProposalsRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ResumeAccountsProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3873,8 +4104,8 @@ export const stopWatchingAccountsCreatives: API.OperationMethod<
   StopWatchingAccountsCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<StopWatchingAccountsCreativesRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  input: __S(3232, __c101, 0) as any as S.Schema<StopWatchingAccountsCreativesRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3896,7 +4127,7 @@ export const updateAccountsClients: API.OperationMethod<
   UpdateAccountsClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<UpdateAccountsClientsRequest>,
+  input: __S(3264, __c102, 0) as any as S.Schema<UpdateAccountsClientsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Client>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3919,7 +4150,7 @@ export const updateAccountsClientsUsers: API.OperationMethod<
   UpdateAccountsClientsUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<UpdateAccountsClientsUsersRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<UpdateAccountsClientsUsersRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<ClientUser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3942,7 +4173,7 @@ export const updateAccountsCreatives: API.OperationMethod<
   UpdateAccountsCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateAccountsCreativesRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UpdateAccountsCreativesRequest>,
   output: __S(210, __c6, 18) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3965,7 +4196,7 @@ export const updateAccountsProposals: API.OperationMethod<
   UpdateAccountsProposalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateAccountsProposalsRequest>,
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateAccountsProposalsRequest>,
   output: __S(2232, __c69, 24) as any as S.Schema<Proposal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3988,8 +4219,8 @@ export const watchAccountsCreatives: API.OperationMethod<
   WatchAccountsCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3457, __c108, 1) as any as S.Schema<WatchAccountsCreativesRequest>,
-  output: __S(2656, __c83, 0) as any as S.Schema<Empty>,
+  input: __S(3424, __c107, 0) as any as S.Schema<WatchAccountsCreativesRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4004,7 +4235,15 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          entityId: S.optional(S.String),
+          entityType: S.optional(S.String),
+          visibleToSeller: S.optional(S.Boolean),
+          role: S.optional(S.String),
+          status: S.optional(S.String),
+          clientAccountId: S.optional(S.String),
+          clientName: S.optional(S.String),
+          partnerClientId: S.optional(S.String),
+          entityName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4040,7 +4279,8 @@ function __c2(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           clientAccountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          invitationId: S.optional(S.String),
+          email: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4070,7 +4310,31 @@ function __c4(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           duplicateIdMode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(210, __c6, 18).pipe(T.HttpBody())),
+          video: S.optional(__S(192, __c6, 0)),
+          detectedProductCategories: S.optional(__S(160, __c5, 0)),
+          detectedAdvertiserIds: S.optional(__S(2080, __c65, 0)),
+          advertiserName: S.optional(S.String),
+          adChoicesDestinationUrl: S.optional(S.String),
+          impressionTrackingUrls: S.optional(__S(2080, __c65, 0)),
+          openAuctionStatus: S.optional(S.String),
+          html: S.optional(__S(193, __c6, 1)),
+          servingRestrictions: S.optional(__S(204, __c6, 12)),
+          detectedSensitiveCategories: S.optional(__S(160, __c5, 0)),
+          clickThroughUrls: S.optional(__S(2080, __c65, 0)),
+          native: S.optional(__S(206, __c6, 14)),
+          detectedDomains: S.optional(__S(2080, __c65, 0)),
+          restrictedCategories: S.optional(__S(2112, __c66, 0)),
+          version: S.optional(S.Number),
+          declaredClickThroughUrls: S.optional(__S(2080, __c65, 0)),
+          attributes: S.optional(__S(2112, __c66, 0)),
+          agencyId: S.optional(S.String),
+          vendorIds: S.optional(__S(160, __c5, 0)),
+          dealsStatus: S.optional(S.String),
+          creativeId: S.optional(S.String),
+          apiUpdateTime: S.optional(S.String),
+          adTechnologyProviders: S.optional(__S(207, __c6, 15)),
+          detectedLanguages: S.optional(__S(2080, __c65, 0)),
+          corrections: S.optional(__S(209, __c6, 17)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4249,7 +4513,25 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2232, __c69, 24).pipe(T.HttpBody())),
+          isSetupComplete: S.optional(S.Boolean),
+          proposalRevision: S.optional(S.String),
+          proposalId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deals: S.optional(__S(2230, __c69, 22)),
+          proposalState: S.optional(S.String),
+          termsAndConditions: S.optional(S.String),
+          originatorRole: S.optional(S.String),
+          buyerContacts: S.optional(__S(2177, __c68, 1)),
+          billedBuyer: S.optional(__S(2189, __c68, 13)),
+          buyer: S.optional(__S(2189, __c68, 13)),
+          isRenegotiating: S.optional(S.Boolean),
+          lastUpdaterOrCommentorRole: S.optional(S.String),
+          privateAuctionId: S.optional(S.String),
+          buyerPrivateData: S.optional(__S(2208, __c69, 0)),
+          notes: S.optional(__S(2231, __c69, 23)),
+          seller: S.optional(__S(2144, __c67, 0)),
+          displayName: S.optional(S.String),
+          sellerContacts: S.optional(__S(2177, __c68, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4267,7 +4549,20 @@ function __c8(j: number): any {
         S.Struct({
           ownerName: S.String.pipe(T.Label()),
           isTransient: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(292, __c9, 4).pipe(T.HttpBody())),
+          realtimeTimeRange: S.optional(__S(288, __c9, 0)),
+          sellerNetworkIds: S.optional(__S(160, __c5, 0)),
+          format: S.optional(S.String),
+          breakdownDimensions: S.optional(__S(2112, __c66, 0)),
+          publisherIdentifiers: S.optional(__S(2080, __c65, 0)),
+          formats: S.optional(__S(2112, __c66, 0)),
+          environment: S.optional(S.String),
+          creativeId: S.optional(S.String),
+          relativeDateRange: S.optional(__S(289, __c9, 1)),
+          absoluteDateRange: S.optional(__S(291, __c9, 3)),
+          platforms: S.optional(__S(2112, __c66, 0)),
+          timeSeriesGranularity: S.optional(S.String),
+          name: S.optional(S.String),
+          dealId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4336,7 +4631,20 @@ function __c10(j: number): any {
         S.Struct({
           ownerName: S.String.pipe(T.Label()),
           isTransient: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(292, __c9, 4).pipe(T.HttpBody())),
+          realtimeTimeRange: S.optional(__S(288, __c9, 0)),
+          sellerNetworkIds: S.optional(__S(160, __c5, 0)),
+          format: S.optional(S.String),
+          breakdownDimensions: S.optional(__S(2112, __c66, 0)),
+          publisherIdentifiers: S.optional(__S(2080, __c65, 0)),
+          formats: S.optional(__S(2112, __c66, 0)),
+          environment: S.optional(S.String),
+          creativeId: S.optional(S.String),
+          relativeDateRange: S.optional(__S(289, __c9, 1)),
+          absoluteDateRange: S.optional(__S(291, __c9, 3)),
+          platforms: S.optional(__S(2112, __c66, 0)),
+          timeSeriesGranularity: S.optional(S.String),
+          name: S.optional(S.String),
+          dealId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4354,7 +4662,20 @@ function __c11(j: number): any {
         S.Struct({
           isTransient: S.optional(S.Boolean.pipe(T.Query())),
           ownerName: S.String.pipe(T.Label()),
-          body: S.optional(__S(292, __c9, 4).pipe(T.HttpBody())),
+          realtimeTimeRange: S.optional(__S(288, __c9, 0)),
+          sellerNetworkIds: S.optional(__S(160, __c5, 0)),
+          format: S.optional(S.String),
+          breakdownDimensions: S.optional(__S(2112, __c66, 0)),
+          publisherIdentifiers: S.optional(__S(2080, __c65, 0)),
+          formats: S.optional(__S(2112, __c66, 0)),
+          environment: S.optional(S.String),
+          creativeId: S.optional(S.String),
+          relativeDateRange: S.optional(__S(289, __c9, 1)),
+          absoluteDateRange: S.optional(__S(291, __c9, 3)),
+          platforms: S.optional(__S(2112, __c66, 0)),
+          timeSeriesGranularity: S.optional(S.String),
+          name: S.optional(S.String),
+          dealId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5355,15 +5676,9 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          proposalRevision: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AcceptProposalRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           accountId: S.String.pipe(T.Label()),
           proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          proposalRevision: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5951,7 +6266,7 @@ function __c80(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
+          association: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5977,20 +6292,10 @@ function __c81(j: number): any {
 function __c82(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          association: S.optional(__S(2592, __c81, 0)),
-        }),
-      ).annotate({ identifier: "AddDealAssociationRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6008,7 +6313,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ListBiddersFilterSetsNonBillableWinningBidsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6026,7 +6331,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6044,7 +6349,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsBidMetricsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6062,7 +6367,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsBidResponseErrorsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6080,7 +6385,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsBidResponsesWithoutBidsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6098,7 +6403,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsFilteredBidRequestsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6116,7 +6421,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsFilteredBidsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6135,7 +6440,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsFilteredBidsCreativesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6154,7 +6459,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsFilteredBidsDetailsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6172,20 +6477,14 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsImpressionMetricsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          note: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "AddNoteRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           proposalId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
+          note: S.optional(__S(2048, __c64, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6196,7 +6495,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "AddNoteAccountsProposalsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6214,7 +6513,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsLosingBidsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6232,21 +6531,15 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ListBuyersFilterSetsNonBillableWinningBidsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          externalDealIds: S.optional(__S(2080, __c65, 0)),
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PauseProposalDealsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           accountId: S.String.pipe(T.Label()),
           proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
+          externalDealIds: S.optional(__S(2080, __c65, 0)),
+          reason: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6257,20 +6550,14 @@ function __c97(j: number): any {
       ).annotate({ identifier: "PauseAccountsFinalizedProposalsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PauseProposalRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           accountId: S.String.pipe(T.Label()),
           proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
+          reason: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6281,14 +6568,14 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PauseAccountsProposalsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
+          association: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6299,14 +6586,14 @@ function __c99(j: number): any {
       ).annotate({ identifier: "RemoveAccountsCreativesDealAssociationsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
+          externalDealIds: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6317,14 +6604,14 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ResumeAccountsFinalizedProposalsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           proposalId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c83, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6335,14 +6622,14 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ResumeAccountsProposalsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           creativeId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c83, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6353,14 +6640,21 @@ function __c102(j: number): any {
       ).annotate({ identifier: "StopWatchingAccountsCreativesRequest" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           clientAccountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          entityId: S.optional(S.String),
+          entityType: S.optional(S.String),
+          visibleToSeller: S.optional(S.Boolean),
+          role: S.optional(S.String),
+          status: S.optional(S.String),
+          clientName: S.optional(S.String),
+          partnerClientId: S.optional(S.String),
+          entityName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6371,7 +6665,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateAccountsClientsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6379,7 +6673,8 @@ function __c104(j: number): any {
           userId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
           clientAccountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
+          email: S.optional(S.String),
+          status: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6390,14 +6685,14 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateAccountsClientsUsersRequest" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           proposalId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2656, __c83, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6408,14 +6703,37 @@ function __c105(j: number): any {
       ).annotate({ identifier: "CancelNegotiationAccountsProposalsRequest" });
   }
 }
-function __c106(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label()),
           creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(210, __c6, 18).pipe(T.HttpBody())),
+          video: S.optional(__S(192, __c6, 0)),
+          detectedProductCategories: S.optional(__S(160, __c5, 0)),
+          detectedAdvertiserIds: S.optional(__S(2080, __c65, 0)),
+          advertiserName: S.optional(S.String),
+          adChoicesDestinationUrl: S.optional(S.String),
+          impressionTrackingUrls: S.optional(__S(2080, __c65, 0)),
+          openAuctionStatus: S.optional(S.String),
+          html: S.optional(__S(193, __c6, 1)),
+          servingRestrictions: S.optional(__S(204, __c6, 12)),
+          detectedSensitiveCategories: S.optional(__S(160, __c5, 0)),
+          clickThroughUrls: S.optional(__S(2080, __c65, 0)),
+          native: S.optional(__S(206, __c6, 14)),
+          detectedDomains: S.optional(__S(2080, __c65, 0)),
+          restrictedCategories: S.optional(__S(2112, __c66, 0)),
+          version: S.optional(S.Number),
+          declaredClickThroughUrls: S.optional(__S(2080, __c65, 0)),
+          attributes: S.optional(__S(2112, __c66, 0)),
+          agencyId: S.optional(S.String),
+          vendorIds: S.optional(__S(160, __c5, 0)),
+          dealsStatus: S.optional(S.String),
+          apiUpdateTime: S.optional(S.String),
+          adTechnologyProviders: S.optional(__S(207, __c6, 15)),
+          detectedLanguages: S.optional(__S(2080, __c65, 0)),
+          corrections: S.optional(__S(209, __c6, 17)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6426,14 +6744,31 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateAccountsCreativesRequest" });
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           proposalId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2232, __c69, 24).pipe(T.HttpBody())),
+          isSetupComplete: S.optional(S.Boolean),
+          proposalRevision: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deals: S.optional(__S(2230, __c69, 22)),
+          proposalState: S.optional(S.String),
+          termsAndConditions: S.optional(S.String),
+          originatorRole: S.optional(S.String),
+          buyerContacts: S.optional(__S(2177, __c68, 1)),
+          billedBuyer: S.optional(__S(2189, __c68, 13)),
+          buyer: S.optional(__S(2189, __c68, 13)),
+          isRenegotiating: S.optional(S.Boolean),
+          lastUpdaterOrCommentorRole: S.optional(S.String),
+          privateAuctionId: S.optional(S.String),
+          buyerPrivateData: S.optional(__S(2208, __c69, 0)),
+          notes: S.optional(__S(2231, __c69, 23)),
+          seller: S.optional(__S(2144, __c67, 0)),
+          displayName: S.optional(S.String),
+          sellerContacts: S.optional(__S(2177, __c68, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6444,20 +6779,14 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateAccountsProposalsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          topic: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WatchCreativeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           accountId: S.String.pipe(T.Label()),
           creativeId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3456, __c108, 0).pipe(T.HttpBody())),
+          topic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6468,14 +6797,14 @@ function __c108(j: number): any {
       ).annotate({ identifier: "WatchAccountsCreativesRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           proposalId: S.String.pipe(T.Label()),
           accountId: S.String.pipe(T.Label()),
-          body: S.optional(__S(3520, __c110, 0).pipe(T.HttpBody())),
+          externalDealIds: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6484,16 +6813,6 @@ function __c109(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CompleteSetupAccountsProposalsRequest" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          externalDealIds: S.optional(__S(2080, __c65, 0)),
-        }),
-      ).annotate({ identifier: "CompleteSetupRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

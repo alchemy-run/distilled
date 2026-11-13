@@ -83,16 +83,11 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Request message for AddPublicKey. */
-export interface AddPublicKeyRequest {
-  /** Key that should be added to the environment. Supported formats are `ssh-dss` (see RFC4253), `ssh-rsa` (see RFC4253), `ecdsa-sha2-nistp256` (see RFC5656), `ecdsa-sha2-nistp384` (see RFC5656) and `ecdsa-sha2-nistp521` (see RFC5656). It should be structured as <format> <content>, where <content> part is encoded with Base64. */
-  key?: string | undefined;
-}
 export interface AddPublicKeyUsersEnvironmentsRequest {
   /** Environment this key should be added to, e.g. `users/me/environments/default`. */
   environment: string;
-  /** Request body */
-  body?: AddPublicKeyRequest | undefined;
+  /** Key that should be added to the environment. Supported formats are `ssh-dss` (see RFC4253), `ssh-rsa` (see RFC4253), `ecdsa-sha2-nistp256` (see RFC5656), `ecdsa-sha2-nistp384` (see RFC5656) and `ecdsa-sha2-nistp521` (see RFC5656). It should be structured as <format> <content>, where <content> part is encoded with Base64. */
+  key?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -118,20 +113,15 @@ export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
-/** Request message for AuthorizeEnvironment. */
-export interface AuthorizeEnvironmentRequest {
+export interface AuthorizeUsersEnvironmentsRequest {
+  /** Name of the resource that should receive the credentials, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
+  name: string;
   /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
   expireTime?: string | undefined;
   /** The OAuth access token that should be sent to the environment. */
   accessToken?: string | undefined;
   /** The OAuth ID token that should be sent to the environment. */
   idToken?: string | undefined;
-}
-export interface AuthorizeUsersEnvironmentsRequest {
-  /** Name of the resource that should receive the credentials, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
-  name: string;
-  /** Request body */
-  body?: AuthorizeEnvironmentRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -218,29 +208,19 @@ export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
 }
-/** Request message for RemovePublicKey. */
-export interface RemovePublicKeyRequest {
-  /** Key that should be removed from the environment. */
-  key?: string | undefined;
-}
 export interface RemovePublicKeyUsersEnvironmentsRequest {
   /** Environment this key should be removed from, e.g. `users/me/environments/default`. */
   environment: string;
-  /** Request body */
-  body?: RemovePublicKeyRequest | undefined;
-}
-/** Request message for StartEnvironment. */
-export interface StartEnvironmentRequest {
-  /** Public keys that should be added to the environment before it is started. */
-  publicKeys?: StringList | undefined;
-  /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
-  accessToken?: string | undefined;
+  /** Key that should be removed from the environment. */
+  key?: string | undefined;
 }
 export interface StartUsersEnvironmentsRequest {
   /** Name of the resource that should be started, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
-  /** Request body */
-  body?: StartEnvironmentRequest | undefined;
+  /** Public keys that should be added to the environment before it is started. */
+  publicKeys?: StringList | undefined;
+  /** The initial access token passed to the environment. If this is present and valid, the environment will be pre-authenticated with gcloud so that the user can run gcloud commands in Cloud Shell without having to log in. This code can be updated later by calling AuthorizeEnvironment. */
+  accessToken?: string | undefined;
 }
 export type AddPublicKeyUsersEnvironmentsError =
   | NotFound
@@ -256,7 +236,7 @@ export const addPublicKeyUsersEnvironments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<AddPublicKeyUsersEnvironmentsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<Operation>,
+  output: __S(27, __c6, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -277,8 +257,8 @@ export const authorizeUsersEnvironments: API.OperationMethod<
   AuthorizeUsersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c8, 1) as any as S.Schema<AuthorizeUsersEnvironmentsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<Operation>,
+  input: __S(28, __c7, 0) as any as S.Schema<AuthorizeUsersEnvironmentsRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -294,8 +274,8 @@ export const cancelOperations: API.OperationMethod<
   CancelOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<CancelOperationsRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<Empty>,
+  input: __S(32, __c8, 0) as any as S.Schema<CancelOperationsRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -311,8 +291,8 @@ export const deleteOperations: API.OperationMethod<
   DeleteOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<DeleteOperationsRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<Empty>,
+  input: __S(40, __c10, 0) as any as S.Schema<DeleteOperationsRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -328,8 +308,8 @@ export const generateAccessTokenUsersEnvironments: API.OperationMethod<
   GenerateAccessTokenUsersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GenerateAccessTokenUsersEnvironmentsRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<GenerateAccessTokenResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GenerateAccessTokenUsersEnvironmentsRequest>,
+  output: __S(45, __c11, 1) as any as S.Schema<GenerateAccessTokenResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -345,8 +325,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<Operation>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -404,7 +384,7 @@ export const removePublicKeyUsersEnvironments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<RemovePublicKeyUsersEnvironmentsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<Operation>,
+  output: __S(27, __c6, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -420,8 +400,8 @@ export const startUsersEnvironments: API.OperationMethod<
   StartUsersEnvironmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c4, 1) as any as S.Schema<StartUsersEnvironmentsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<Operation>,
+  input: __S(16, __c4, 0) as any as S.Schema<StartUsersEnvironmentsRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -485,7 +465,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
     case 1:
-      return S.Array(__S(31, __c7, 3));
+      return S.Array(__S(27, __c6, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -502,7 +482,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           environment: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
+          key: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -518,15 +498,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           publicKeys: S.optional(__S(4, __c1, 0)),
           accessToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StartEnvironmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -543,7 +517,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           environment: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
+          key: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -557,54 +531,38 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AddPublicKeyRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(28, __c7, 0));
+      return S.Array(__S(24, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(29, __c7, 1)),
+          details: S.optional(__S(25, __c6, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(28, __c7, 0)),
-          error: S.optional(__S(30, __c7, 2)),
+          metadata: S.optional(__S(24, __c6, 0)),
+          error: S.optional(__S(26, __c6, 2)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(28, __c7, 0)),
+          response: S.optional(__S(24, __c6, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           expireTime: S.optional(S.String),
           accessToken: S.optional(S.String),
           idToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizeEnvironmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -615,13 +573,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AuthorizeUsersEnvironmentsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c10, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -632,13 +590,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CancelOperationsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -654,7 +612,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -678,7 +636,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GenerateAccessTokenResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

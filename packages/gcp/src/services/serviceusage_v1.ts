@@ -84,16 +84,11 @@ export class NotFound
   ) {}
 
 export type StringList = Array<string>;
-/** Request message for the `BatchEnableServices` method. */
-export interface BatchEnableServicesRequest {
-  /** The identifiers of the services to enable on the project. A valid identifier would be: serviceusage.googleapis.com Enabling services requires that each service is public or is shared with the user enabling the service. A single request can enable a maximum of 20 services at a time. If more than 20 services are specified, the request will fail, and no state changes will occur. */
-  serviceIds?: StringList | undefined;
-}
 export interface BatchEnableServicesRequest_ {
   /** Parent to enable services on. An example name would be: `projects/123` where `123` is the project number. The `BatchEnableServices` method currently only supports projects. */
   parent: string;
-  /** Request body */
-  body?: BatchEnableServicesRequest | undefined;
+  /** The identifiers of the services to enable on the project. A valid identifier would be: serviceusage.googleapis.com Enabling services requires that each service is public or is shared with the user enabling the service. A single request can enable a maximum of 20 services at a time. If more than 20 services are specified, the request will fail, and no state changes will occur. */
+  serviceIds?: StringList | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -480,8 +475,9 @@ export type DisableServiceRequestCheckIfServiceHasUsageEnum =
   | "CHECK_IF_SERVICE_HAS_USAGE_UNSPECIFIED"
   | "SKIP"
   | "CHECK";
-/** Request message for the `DisableService` method. */
-export interface DisableServiceRequest {
+export interface DisableServicesRequest {
+  /** Name of the consumer and service to disable the service on. The enable and disable methods currently only support projects. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. */
+  name: string;
   /** Defines the behavior for checking service usage when disabling a service. */
   checkIfServiceHasUsage?:
     | DisableServiceRequestCheckIfServiceHasUsageEnum
@@ -489,12 +485,6 @@ export interface DisableServiceRequest {
     | undefined;
   /** Indicates if services that are enabled and which depend on this service should also be disabled. If not set, an error will be generated if any enabled services depend on the service to be disabled. When set, the service, and any enabled services that depend on it, will be disabled together. */
   disableDependentServices?: boolean | undefined;
-}
-export interface DisableServicesRequest {
-  /** Name of the consumer and service to disable the service on. The enable and disable methods currently only support projects. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. */
-  name: string;
-  /** Request body */
-  body?: DisableServiceRequest | undefined;
 }
 /** Request message for the `EnableService` method. */
 export type EnableServiceRequest = CancelOperationRequest;
@@ -559,7 +549,7 @@ export const batchEnableServices: API.OperationMethod<
   BatchEnableServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c4, 1) as any as S.Schema<BatchEnableServicesRequest_>,
+  input: __S(128, __c4, 0) as any as S.Schema<BatchEnableServicesRequest_>,
   output: __S(226, __c7, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -627,7 +617,7 @@ export const disableServices: API.OperationMethod<
   DisableServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(481, __c15, 1) as any as S.Schema<DisableServicesRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<DisableServicesRequest>,
   output: __S(226, __c7, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -819,14 +809,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serviceIds: S.optional(__S(160, __c5, 0)),
-        }),
-      ).annotate({ identifier: "BatchEnableServicesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
+          serviceIds: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1229,15 +1213,9 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           checkIfServiceHasUsage: S.optional(S.String),
           disableDependentServices: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DisableServiceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

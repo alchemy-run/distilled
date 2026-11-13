@@ -141,8 +141,22 @@ export interface DataTransfer {
   applicationDataTransfers?: ApplicationDataTransferList | undefined;
 }
 export interface InsertTransfersRequest {
-  /** Request body */
-  body?: DataTransfer | undefined;
+  /** Identifies the resource as a DataTransfer request. */
+  kind?: string | undefined;
+  /** Read-only. Overall transfer status. */
+  overallTransferStatusCode?: string | undefined;
+  /** ID of the user to whom the data is being transferred. */
+  newOwnerUserId?: string | undefined;
+  /** Read-only. The transfer's ID. */
+  id?: string | undefined;
+  /** Read-only. The time at which the data transfer was requested. */
+  requestTime?: string | undefined;
+  /** ID of the user whose data is being transferred. */
+  oldOwnerUserId?: string | undefined;
+  /** ETag of the resource. */
+  etag?: string | undefined;
+  /** The list of per-application data transfer resources. It contains details of the applications associated with this transfer resource, and also specifies the applications for which data transfer has to be done at the time of the transfer resource creation. */
+  applicationDataTransfers?: ApplicationDataTransferList | undefined;
 }
 export interface ListApplicationsRequest {
   /** Immutable ID of the Google Workspace account. */
@@ -378,7 +392,14 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(18, __c4, 2).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          overallTransferStatusCode: S.optional(S.String),
+          newOwnerUserId: S.optional(S.String),
+          id: S.optional(S.String),
+          requestTime: S.optional(S.String),
+          oldOwnerUserId: S.optional(S.String),
+          etag: S.optional(S.String),
+          applicationDataTransfers: S.optional(__S(17, __c4, 1)),
         }).pipe(
           T.Http({
             method: "POST",

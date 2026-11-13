@@ -97,16 +97,11 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Request message for AcknowledgeUserDataCollection RPC. */
-export interface GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest {
-  /** Required. An acknowledgement that the caller of this method understands the terms of user data collection. This field must contain the exact value: "I acknowledge that I have the necessary privacy disclosures and rights from my end users for the collection and processing of their data, including the association of such data with the visitation information Google Analytics collects from my site and/or app property." */
-  acknowledgement?: string | undefined;
-}
 export interface AcknowledgeUserDataCollectionPropertiesRequest {
   /** Required. The property for which to acknowledge user data collection. */
   property: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest | undefined;
+  /** Required. An acknowledgement that the caller of this method understands the terms of user data collection. This field must contain the exact value: "I acknowledge that I have the necessary privacy disclosures and rights from my end users for the collection and processing of their data, including the association of such data with the visitation information Google Analytics collects from my site and/or app property." */
+  acknowledgement?: string | undefined;
 }
 /** Response message for AcknowledgeUserDataCollection RPC. */
 export interface GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionResponse {}
@@ -166,8 +161,7 @@ export type GoogleAnalyticsAdminV1betaPropertyServiceLevelEnum =
   | "SERVICE_LEVEL_UNSPECIFIED"
   | "GOOGLE_ANALYTICS_STANDARD"
   | "GOOGLE_ANALYTICS_360";
-/** A resource message representing a Google Analytics property. */
-export interface GoogleAnalyticsAdminV1betaProperty {
+export interface CreatePropertiesRequest {
   /** Required. Reporting Time Zone, used as the day boundary for reports, regardless of where the data originates. If the time zone honors DST, Analytics will automatically adjust for the changes. NOTE: Changing the time zone only affects data going forward, and is not applied retroactively. Format: https://www.iana.org/time-zones Example: "America/Los_Angeles" */
   timeZone?: string | undefined;
   /** The currency type used in reports involving monetary values. Format: https://en.wikipedia.org/wiki/ISO_4217 Examples: "USD", "EUR", "JPY" */
@@ -198,9 +192,34 @@ export interface GoogleAnalyticsAdminV1betaProperty {
   /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name?: string | undefined;
 }
-export interface CreatePropertiesRequest {
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaProperty | undefined;
+/** A resource message representing a Google Analytics property. */
+export interface GoogleAnalyticsAdminV1betaProperty {
+  /** Required. Reporting Time Zone, used as the day boundary for reports, regardless of where the data originates. If the time zone honors DST, Analytics will automatically adjust for the changes. NOTE: Changing the time zone only affects data going forward, and is not applied retroactively. Format: https://www.iana.org/time-zones Example: "America/Los_Angeles" */
+  timeZone?: string | undefined;
+  /** The currency type used in reports involving monetary values. Format: https://en.wikipedia.org/wiki/ISO_4217 Examples: "USD", "EUR", "JPY" */
+  currencyCode?: string | undefined;
+  /** Immutable. Resource name of this property's logical parent. Note: The Property-Moving UI can be used to change the parent. Format: accounts/{account}, properties/{property} Example: "accounts/100", "properties/101" */
+  parent?: string | undefined;
+  /** Required. Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units. */
+  displayName?: string | undefined;
+  /** Industry associated with this property Example: AUTOMOTIVE, FOOD_AND_DRINK */
+  industryCategory?: GoogleAnalyticsAdminV1betaPropertyIndustryCategoryEnum | undefined;
+  /** Output only. If set, the time at which this property was trashed. If not set, then this property is not currently in the trash can. */
+  deleteTime?: string | undefined;
+  /** Immutable. The property type for this Property resource. When creating a property, if the type is "PROPERTY_TYPE_UNSPECIFIED", then "ORDINARY_PROPERTY" will be implied. */
+  propertyType?: GoogleAnalyticsAdminV1betaPropertyPropertyTypeEnum | undefined;
+  /** Output only. Time when the entity was originally created. */
+  createTime?: string | undefined;
+  /** Output only. Time when entity payload fields were last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The Google Analytics service level that applies to this property. */
+  serviceLevel?: GoogleAnalyticsAdminV1betaPropertyServiceLevelEnum | undefined;
+  /** Immutable. The resource name of the parent account Format: accounts/{account_id} Example: "accounts/123" */
+  account?: string | undefined;
+  /** Output only. If set, the time at which this trashed property will be permanently deleted. If not set, then this property is not currently in the trash can and is not slated to be deleted. */
+  expireTime?: string | undefined;
+  /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
+  name?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1betaConversionEventCountingMethodEnum =
   | "CONVERSION_COUNTING_METHOD_UNSPECIFIED"
@@ -213,8 +232,9 @@ export interface GoogleAnalyticsAdminV1betaConversionEventDefaultConversionValue
   /** When a conversion event for this event_name has no set currency, this currency will be applied as the default. Must be in ISO 4217 currency code format. See https://en.wikipedia.org/wiki/ISO_4217 for more information. */
   currencyCode?: string | undefined;
 }
-/** A conversion event in a Google Analytics property. */
-export interface GoogleAnalyticsAdminV1betaConversionEvent {
+export interface CreatePropertiesConversionEventsRequest {
+  /** Required. The resource name of the parent property where this conversion event will be created. Format: properties/123 */
+  parent: string;
   /** Output only. If set to true, this conversion event refers to a custom event. If set to false, this conversion event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom conversion events that may be created per property. */
   custom?: boolean | undefined;
   /** Immutable. The event name for this conversion event. Examples: 'click', 'purchase' */
@@ -235,19 +255,33 @@ export interface GoogleAnalyticsAdminV1betaConversionEvent {
   /** Output only. Time when this conversion event was created in the property. */
   createTime?: string | undefined;
 }
-export interface CreatePropertiesConversionEventsRequest {
-  /** Required. The resource name of the parent property where this conversion event will be created. Format: properties/123 */
-  parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaConversionEvent | undefined;
+/** A conversion event in a Google Analytics property. */
+export interface GoogleAnalyticsAdminV1betaConversionEvent {
+  /** Output only. If set to true, this conversion event refers to a custom event. If set to false, this conversion event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom conversion events that may be created per property. */
+  custom?: boolean | undefined;
+  /** Immutable. The event name for this conversion event. Examples: 'click', 'purchase' */
+  eventName?: string | undefined;
+  /** Output only. If set, this event can currently be deleted with DeleteConversionEvent. */
+  deletable?: boolean | undefined;
+  /** Optional. The method by which conversions will be counted across multiple events within a session. If this value is not provided, it will be set to `ONCE_PER_EVENT`. */
+  countingMethod?: GoogleAnalyticsAdminV1betaConversionEventCountingMethodEnum | undefined;
+  /** Optional. Defines a default value/currency for a conversion event. */
+  defaultConversionValue?:
+    | GoogleAnalyticsAdminV1betaConversionEventDefaultConversionValue
+    | undefined;
+  /** Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
+  name?: string | undefined;
+  /** Output only. Time when this conversion event was created in the property. */
+  createTime?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1betaCustomDimensionScopeEnum =
   | "DIMENSION_SCOPE_UNSPECIFIED"
   | "EVENT"
   | "USER"
   | "ITEM";
-/** A definition for a CustomDimension. */
-export interface GoogleAnalyticsAdminV1betaCustomDimension {
+export interface CreatePropertiesCustomDimensionsRequest {
+  /** Required. Example format: properties/1234 */
+  parent: string;
   /** Required. Immutable. Tagging parameter name for this custom dimension. If this is a user-scoped dimension, then this is the user property name. If this is an event-scoped dimension, then this is the event parameter name. If this is an item-scoped dimension, then this is the parameter name found in the eCommerce items array. May only contain alphanumeric and underscore characters, starting with a letter. Max length of 24 characters for user-scoped dimensions, 40 characters for event-scoped dimensions. */
   parameterName?: string | undefined;
   /** Required. Immutable. The scope of this dimension. */
@@ -261,11 +295,20 @@ export interface GoogleAnalyticsAdminV1betaCustomDimension {
   /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name?: string | undefined;
 }
-export interface CreatePropertiesCustomDimensionsRequest {
-  /** Required. Example format: properties/1234 */
-  parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomDimension | undefined;
+/** A definition for a CustomDimension. */
+export interface GoogleAnalyticsAdminV1betaCustomDimension {
+  /** Required. Immutable. Tagging parameter name for this custom dimension. If this is a user-scoped dimension, then this is the user property name. If this is an event-scoped dimension, then this is the event parameter name. If this is an item-scoped dimension, then this is the parameter name found in the eCommerce items array. May only contain alphanumeric and underscore characters, starting with a letter. Max length of 24 characters for user-scoped dimensions, 40 characters for event-scoped dimensions. */
+  parameterName?: string | undefined;
+  /** Required. Immutable. The scope of this dimension. */
+  scope?: GoogleAnalyticsAdminV1betaCustomDimensionScopeEnum | undefined;
+  /** Optional. Description for this custom dimension. Max length of 150 characters. */
+  description?: string | undefined;
+  /** Required. Display name for this custom dimension as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
+  displayName?: string | undefined;
+  /** Optional. If set to true, sets this dimension as NPA and excludes it from ads personalization. This is currently only supported by user-scoped custom dimensions. */
+  disallowAdsPersonalization?: boolean | undefined;
+  /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
+  name?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1betaCustomMetricMeasurementUnitEnum =
   | "MEASUREMENT_UNIT_UNSPECIFIED"
@@ -287,8 +330,9 @@ export type GoogleAnalyticsAdminV1betaCustomMetricRestrictedMetricTypeItemEnumLi
   GoogleAnalyticsAdminV1betaCustomMetricRestrictedMetricTypeItemEnum | (string & {})
 >;
 export type GoogleAnalyticsAdminV1betaCustomMetricScopeEnum = "METRIC_SCOPE_UNSPECIFIED" | "EVENT";
-/** A definition for a custom metric. */
-export interface GoogleAnalyticsAdminV1betaCustomMetric {
+export interface CreatePropertiesCustomMetricsRequest {
+  /** Required. Example format: properties/1234 */
+  parent: string;
   /** Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
   name?: string | undefined;
   /** Required. The type for the custom metric's value. */
@@ -309,11 +353,24 @@ export interface GoogleAnalyticsAdminV1betaCustomMetric {
   /** Required. Immutable. Tagging name for this custom metric. If this is an event-scoped metric, then this is the event parameter name. May only contain alphanumeric and underscore charactes, starting with a letter. Max length of 40 characters for event-scoped metrics. */
   parameterName?: string | undefined;
 }
-export interface CreatePropertiesCustomMetricsRequest {
-  /** Required. Example format: properties/1234 */
-  parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomMetric | undefined;
+/** A definition for a custom metric. */
+export interface GoogleAnalyticsAdminV1betaCustomMetric {
+  /** Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
+  name?: string | undefined;
+  /** Required. The type for the custom metric's value. */
+  measurementUnit?: GoogleAnalyticsAdminV1betaCustomMetricMeasurementUnitEnum | undefined;
+  /** Optional. Types of restricted data that this metric may contain. Required for metrics with CURRENCY measurement unit. Must be empty for metrics with a non-CURRENCY measurement unit. */
+  restrictedMetricType?:
+    | GoogleAnalyticsAdminV1betaCustomMetricRestrictedMetricTypeItemEnumList
+    | undefined;
+  /** Required. Immutable. The scope of this custom metric. */
+  scope?: GoogleAnalyticsAdminV1betaCustomMetricScopeEnum | undefined;
+  /** Optional. Description for this custom dimension. Max length of 150 characters. */
+  description?: string | undefined;
+  /** Required. Display name for this custom metric as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
+  displayName?: string | undefined;
+  /** Required. Immutable. Tagging name for this custom metric. If this is an event-scoped metric, then this is the event parameter name. May only contain alphanumeric and underscore charactes, starting with a letter. Max length of 40 characters for event-scoped metrics. */
+  parameterName?: string | undefined;
 }
 /** Data specific to web streams. */
 export interface GoogleAnalyticsAdminV1betaDataStreamWebStreamData {
@@ -343,8 +400,9 @@ export type GoogleAnalyticsAdminV1betaDataStreamTypeEnum =
   | "WEB_DATA_STREAM"
   | "ANDROID_APP_DATA_STREAM"
   | "IOS_APP_DATA_STREAM";
-/** A resource message representing a data stream. */
-export interface GoogleAnalyticsAdminV1betaDataStream {
+export interface CreatePropertiesDataStreamsRequest {
+  /** Required. Example format: properties/1234 */
+  parent: string;
   /** Data specific to web streams. Must be populated if type is WEB_DATA_STREAM. */
   webStreamData?: GoogleAnalyticsAdminV1betaDataStreamWebStreamData | undefined;
   /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
@@ -362,11 +420,34 @@ export interface GoogleAnalyticsAdminV1betaDataStream {
   /** Required. Immutable. The type of this DataStream resource. */
   type?: GoogleAnalyticsAdminV1betaDataStreamTypeEnum | (string & {}) | undefined;
 }
-export interface CreatePropertiesDataStreamsRequest {
-  /** Required. Example format: properties/1234 */
+/** A resource message representing a data stream. */
+export interface GoogleAnalyticsAdminV1betaDataStream {
+  /** Data specific to web streams. Must be populated if type is WEB_DATA_STREAM. */
+  webStreamData?: GoogleAnalyticsAdminV1betaDataStreamWebStreamData | undefined;
+  /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
+  name?: string | undefined;
+  /** Output only. Time when this stream was originally created. */
+  createTime?: string | undefined;
+  /** Data specific to Android app streams. Must be populated if type is ANDROID_APP_DATA_STREAM. */
+  androidAppStreamData?: GoogleAnalyticsAdminV1betaDataStreamAndroidAppStreamData | undefined;
+  /** Output only. Time when stream payload fields were last updated. */
+  updateTime?: string | undefined;
+  /** Human-readable display name for the Data Stream. Required for web data streams. The max allowed display name length is 255 UTF-16 code units. */
+  displayName?: string | undefined;
+  /** Data specific to iOS app streams. Must be populated if type is IOS_APP_DATA_STREAM. */
+  iosAppStreamData?: GoogleAnalyticsAdminV1betaDataStreamIosAppStreamData | undefined;
+  /** Required. Immutable. The type of this DataStream resource. */
+  type?: GoogleAnalyticsAdminV1betaDataStreamTypeEnum | undefined;
+}
+export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest {
+  /** Required. The parent resource where this secret will be created. Format: properties/{property}/dataStreams/{dataStream} */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaDataStream | undefined;
+  /** Output only. The measurement protocol secret value. Pass this value to the api_secret field of the Measurement Protocol API when sending hits to this secret's parent property. */
+  secretValue?: string | undefined;
+  /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
+  name?: string | undefined;
+  /** Required. Human-readable display name for this secret. */
+  displayName?: string | undefined;
 }
 /** A secret value used for sending hits to Measurement Protocol. */
 export interface GoogleAnalyticsAdminV1betaMeasurementProtocolSecret {
@@ -377,11 +458,15 @@ export interface GoogleAnalyticsAdminV1betaMeasurementProtocolSecret {
   /** Required. Human-readable display name for this secret. */
   displayName?: string | undefined;
 }
-export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest {
-  /** Required. The parent resource where this secret will be created. Format: properties/{property}/dataStreams/{dataStream} */
+export interface CreatePropertiesFirebaseLinksRequest {
+  /** Required. Format: properties/{property_id} Example: `properties/1234` */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret | undefined;
+  /** Immutable. Firebase project resource name. When creating a FirebaseLink, you may provide this resource name using either a project number or project ID. Once this resource has been created, returned FirebaseLinks will always have a project_name that contains a project number. Format: 'projects/{project number}' Example: 'projects/1234' */
+  project?: string | undefined;
+  /** Output only. Time when this FirebaseLink was originally created. */
+  createTime?: string | undefined;
+  /** Identifier. Example format: properties/1234/firebaseLinks/5678 */
+  name?: string | undefined;
 }
 /** A link between a Google Analytics property and a Firebase project. */
 export interface GoogleAnalyticsAdminV1betaFirebaseLink {
@@ -392,11 +477,23 @@ export interface GoogleAnalyticsAdminV1betaFirebaseLink {
   /** Identifier. Example format: properties/1234/firebaseLinks/5678 */
   name?: string | undefined;
 }
-export interface CreatePropertiesFirebaseLinksRequest {
-  /** Required. Format: properties/{property_id} Example: `properties/1234` */
+export interface CreatePropertiesGoogleAdsLinksRequest {
+  /** Required. Example format: properties/1234 */
   parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaFirebaseLink | undefined;
+  /** Output only. Time when this link was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Email address of the user that created the link. An empty string will be returned if the email address can't be retrieved. */
+  creatorEmailAddress?: string | undefined;
+  /** Output only. Time when this link was originally created. */
+  createTime?: string | undefined;
+  /** Enable personalized advertising features with this integration. Automatically publish my Google Analytics audience lists and Google Analytics remarketing events/parameters to the linked Google Ads account. If this field is not set on create/update, it will be defaulted to true. */
+  adsPersonalizationEnabled?: boolean | undefined;
+  /** Immutable. Google Ads customer ID. */
+  customerId?: string | undefined;
+  /** Output only. If true, this link is for a Google Ads manager account. */
+  canManageClients?: boolean | undefined;
+  /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
+  name?: string | undefined;
 }
 /** A link between a Google Analytics property and a Google Ads account. */
 export interface GoogleAnalyticsAdminV1betaGoogleAdsLink {
@@ -415,12 +512,6 @@ export interface GoogleAnalyticsAdminV1betaGoogleAdsLink {
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name?: string | undefined;
 }
-export interface CreatePropertiesGoogleAdsLinksRequest {
-  /** Required. Example format: properties/1234 */
-  parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaGoogleAdsLink | undefined;
-}
 /** Defines a default value/currency for a key event. */
 export interface GoogleAnalyticsAdminV1betaKeyEventDefaultValue {
   /** Required. This will be used to populate the "value" parameter for all occurrences of this Key Event (specified by event_name) where that parameter is unset. */
@@ -432,8 +523,9 @@ export type GoogleAnalyticsAdminV1betaKeyEventCountingMethodEnum =
   | "COUNTING_METHOD_UNSPECIFIED"
   | "ONCE_PER_EVENT"
   | "ONCE_PER_SESSION";
-/** A key event in a Google Analytics property. */
-export interface GoogleAnalyticsAdminV1betaKeyEvent {
+export interface CreatePropertiesKeyEventsRequest {
+  /** Required. The resource name of the parent property where this Key Event will be created. Format: properties/123 */
+  parent: string;
   /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
   name?: string | undefined;
   /** Output only. If set to true, this key event refers to a custom event. If set to false, this key event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom key events that may be created per property. */
@@ -449,11 +541,22 @@ export interface GoogleAnalyticsAdminV1betaKeyEvent {
   /** Required. The method by which Key Events will be counted across multiple events within a session. */
   countingMethod?: GoogleAnalyticsAdminV1betaKeyEventCountingMethodEnum | (string & {}) | undefined;
 }
-export interface CreatePropertiesKeyEventsRequest {
-  /** Required. The resource name of the parent property where this Key Event will be created. Format: properties/123 */
-  parent: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaKeyEvent | undefined;
+/** A key event in a Google Analytics property. */
+export interface GoogleAnalyticsAdminV1betaKeyEvent {
+  /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
+  name?: string | undefined;
+  /** Output only. If set to true, this key event refers to a custom event. If set to false, this key event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom key events that may be created per property. */
+  custom?: boolean | undefined;
+  /** Optional. Defines a default value/currency for a key event. */
+  defaultValue?: GoogleAnalyticsAdminV1betaKeyEventDefaultValue | undefined;
+  /** Output only. Time when this key event was created in the property. */
+  createTime?: string | undefined;
+  /** Immutable. The event name for this key event. Examples: 'click', 'purchase' */
+  eventName?: string | undefined;
+  /** Output only. If set to true, this event can be deleted. */
+  deletable?: boolean | undefined;
+  /** Required. The method by which Key Events will be counted across multiple events within a session. */
+  countingMethod?: GoogleAnalyticsAdminV1betaKeyEventCountingMethodEnum | undefined;
 }
 export interface DeleteAccountsRequest {
   /** Required. The name of the Account to soft-delete. Format: accounts/{account} Example: "accounts/100" */
@@ -535,12 +638,10 @@ export interface GoogleAnalyticsAdminV1betaDataRetentionSettings {
   /** Required. The length of time that event-level data is retained. */
   eventDataRetention?:
     | GoogleAnalyticsAdminV1betaDataRetentionSettingsEventDataRetentionEnum
-    | (string & {})
     | undefined;
   /** Required. The length of time that user-level data is retained. */
   userDataRetention?:
     | GoogleAnalyticsAdminV1betaDataRetentionSettingsUserDataRetentionEnum
-    | (string & {})
     | undefined;
 }
 export interface GetDataSharingSettingsAccountsRequest {
@@ -809,83 +910,185 @@ export interface PatchAccountsRequest {
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaAccount | undefined;
+  /** Country of business. Must be a Unicode CLDR region code. */
+  regionCode?: string | undefined;
+  /** Output only. Indicates whether this Account is soft-deleted or not. Deleted accounts are excluded from List results unless specifically requested. */
+  deleted?: boolean | undefined;
+  /** Output only. Time when this account was originally created. */
+  createTime?: string | undefined;
+  /** Output only. Time when account payload fields were last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The URI for a Google Marketing Platform organization resource. Only set when this account is connected to a GMP organization. Format: marketingplatformadmin.googleapis.com/organizations/{org_id} */
+  gmpOrganization?: string | undefined;
+  /** Required. Human-readable display name for this account. */
+  displayName?: string | undefined;
 }
 export interface PatchPropertiesRequest {
   /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaProperty | undefined;
+  /** Required. Reporting Time Zone, used as the day boundary for reports, regardless of where the data originates. If the time zone honors DST, Analytics will automatically adjust for the changes. NOTE: Changing the time zone only affects data going forward, and is not applied retroactively. Format: https://www.iana.org/time-zones Example: "America/Los_Angeles" */
+  timeZone?: string | undefined;
+  /** The currency type used in reports involving monetary values. Format: https://en.wikipedia.org/wiki/ISO_4217 Examples: "USD", "EUR", "JPY" */
+  currencyCode?: string | undefined;
+  /** Immutable. Resource name of this property's logical parent. Note: The Property-Moving UI can be used to change the parent. Format: accounts/{account}, properties/{property} Example: "accounts/100", "properties/101" */
+  parent?: string | undefined;
+  /** Required. Human-readable display name for this property. The max allowed display name length is 100 UTF-16 code units. */
+  displayName?: string | undefined;
+  /** Industry associated with this property Example: AUTOMOTIVE, FOOD_AND_DRINK */
+  industryCategory?:
+    | GoogleAnalyticsAdminV1betaPropertyIndustryCategoryEnum
+    | (string & {})
+    | undefined;
+  /** Output only. If set, the time at which this property was trashed. If not set, then this property is not currently in the trash can. */
+  deleteTime?: string | undefined;
+  /** Immutable. The property type for this Property resource. When creating a property, if the type is "PROPERTY_TYPE_UNSPECIFIED", then "ORDINARY_PROPERTY" will be implied. */
+  propertyType?: GoogleAnalyticsAdminV1betaPropertyPropertyTypeEnum | (string & {}) | undefined;
+  /** Output only. Time when the entity was originally created. */
+  createTime?: string | undefined;
+  /** Output only. Time when entity payload fields were last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The Google Analytics service level that applies to this property. */
+  serviceLevel?: GoogleAnalyticsAdminV1betaPropertyServiceLevelEnum | (string & {}) | undefined;
+  /** Immutable. The resource name of the parent account Format: accounts/{account_id} Example: "accounts/123" */
+  account?: string | undefined;
+  /** Output only. If set, the time at which this trashed property will be permanently deleted. If not set, then this property is not currently in the trash can and is not slated to be deleted. */
+  expireTime?: string | undefined;
 }
 export interface PatchPropertiesConversionEventsRequest {
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
   name: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaConversionEvent | undefined;
+  /** Output only. If set to true, this conversion event refers to a custom event. If set to false, this conversion event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom conversion events that may be created per property. */
+  custom?: boolean | undefined;
+  /** Immutable. The event name for this conversion event. Examples: 'click', 'purchase' */
+  eventName?: string | undefined;
+  /** Output only. If set, this event can currently be deleted with DeleteConversionEvent. */
+  deletable?: boolean | undefined;
+  /** Optional. The method by which conversions will be counted across multiple events within a session. If this value is not provided, it will be set to `ONCE_PER_EVENT`. */
+  countingMethod?:
+    | GoogleAnalyticsAdminV1betaConversionEventCountingMethodEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Defines a default value/currency for a conversion event. */
+  defaultConversionValue?:
+    | GoogleAnalyticsAdminV1betaConversionEventDefaultConversionValue
+    | undefined;
+  /** Output only. Time when this conversion event was created in the property. */
+  createTime?: string | undefined;
 }
 export interface PatchPropertiesCustomDimensionsRequest {
   /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomDimension | undefined;
+  /** Required. Immutable. Tagging parameter name for this custom dimension. If this is a user-scoped dimension, then this is the user property name. If this is an event-scoped dimension, then this is the event parameter name. If this is an item-scoped dimension, then this is the parameter name found in the eCommerce items array. May only contain alphanumeric and underscore characters, starting with a letter. Max length of 24 characters for user-scoped dimensions, 40 characters for event-scoped dimensions. */
+  parameterName?: string | undefined;
+  /** Required. Immutable. The scope of this dimension. */
+  scope?: GoogleAnalyticsAdminV1betaCustomDimensionScopeEnum | (string & {}) | undefined;
+  /** Optional. Description for this custom dimension. Max length of 150 characters. */
+  description?: string | undefined;
+  /** Required. Display name for this custom dimension as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
+  displayName?: string | undefined;
+  /** Optional. If set to true, sets this dimension as NPA and excludes it from ads personalization. This is currently only supported by user-scoped custom dimensions. */
+  disallowAdsPersonalization?: boolean | undefined;
 }
 export interface PatchPropertiesCustomMetricsRequest {
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
   /** Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
   name: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaCustomMetric | undefined;
+  /** Required. The type for the custom metric's value. */
+  measurementUnit?:
+    | GoogleAnalyticsAdminV1betaCustomMetricMeasurementUnitEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Types of restricted data that this metric may contain. Required for metrics with CURRENCY measurement unit. Must be empty for metrics with a non-CURRENCY measurement unit. */
+  restrictedMetricType?:
+    | GoogleAnalyticsAdminV1betaCustomMetricRestrictedMetricTypeItemEnumList
+    | undefined;
+  /** Required. Immutable. The scope of this custom metric. */
+  scope?: GoogleAnalyticsAdminV1betaCustomMetricScopeEnum | (string & {}) | undefined;
+  /** Optional. Description for this custom dimension. Max length of 150 characters. */
+  description?: string | undefined;
+  /** Required. Display name for this custom metric as shown in the Analytics UI. Max length of 82 characters, alphanumeric plus space and underscore starting with a letter. Legacy system-generated display names may contain square brackets, but updates to this field will never permit square brackets. */
+  displayName?: string | undefined;
+  /** Required. Immutable. Tagging name for this custom metric. If this is an event-scoped metric, then this is the event parameter name. May only contain alphanumeric and underscore charactes, starting with a letter. Max length of 40 characters for event-scoped metrics. */
+  parameterName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsRequest {
   /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaDataStream | undefined;
+  /** Data specific to web streams. Must be populated if type is WEB_DATA_STREAM. */
+  webStreamData?: GoogleAnalyticsAdminV1betaDataStreamWebStreamData | undefined;
+  /** Output only. Time when this stream was originally created. */
+  createTime?: string | undefined;
+  /** Data specific to Android app streams. Must be populated if type is ANDROID_APP_DATA_STREAM. */
+  androidAppStreamData?: GoogleAnalyticsAdminV1betaDataStreamAndroidAppStreamData | undefined;
+  /** Output only. Time when stream payload fields were last updated. */
+  updateTime?: string | undefined;
+  /** Human-readable display name for the Data Stream. Required for web data streams. The max allowed display name length is 255 UTF-16 code units. */
+  displayName?: string | undefined;
+  /** Data specific to iOS app streams. Must be populated if type is IOS_APP_DATA_STREAM. */
+  iosAppStreamData?: GoogleAnalyticsAdminV1betaDataStreamIosAppStreamData | undefined;
+  /** Required. Immutable. The type of this DataStream resource. */
+  type?: GoogleAnalyticsAdminV1betaDataStreamTypeEnum | (string & {}) | undefined;
 }
 export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest {
   /** Required. The list of fields to be updated. Omitted fields will not be updated. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaMeasurementProtocolSecret | undefined;
+  /** Output only. The measurement protocol secret value. Pass this value to the api_secret field of the Measurement Protocol API when sending hits to this secret's parent property. */
+  secretValue?: string | undefined;
+  /** Required. Human-readable display name for this secret. */
+  displayName?: string | undefined;
 }
 export interface PatchPropertiesGoogleAdsLinksRequest {
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaGoogleAdsLink | undefined;
+  /** Output only. Time when this link was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Email address of the user that created the link. An empty string will be returned if the email address can't be retrieved. */
+  creatorEmailAddress?: string | undefined;
+  /** Output only. Time when this link was originally created. */
+  createTime?: string | undefined;
+  /** Enable personalized advertising features with this integration. Automatically publish my Google Analytics audience lists and Google Analytics remarketing events/parameters to the linked Google Ads account. If this field is not set on create/update, it will be defaulted to true. */
+  adsPersonalizationEnabled?: boolean | undefined;
+  /** Immutable. Google Ads customer ID. */
+  customerId?: string | undefined;
+  /** Output only. If true, this link is for a Google Ads manager account. */
+  canManageClients?: boolean | undefined;
 }
 export interface PatchPropertiesKeyEventsRequest {
   /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaKeyEvent | undefined;
+  /** Output only. If set to true, this key event refers to a custom event. If set to false, this key event refers to a default event in GA. Default events typically have special meaning in GA. Default events are usually created for you by the GA system, but in some cases can be created by property admins. Custom events count towards the maximum number of custom key events that may be created per property. */
+  custom?: boolean | undefined;
+  /** Optional. Defines a default value/currency for a key event. */
+  defaultValue?: GoogleAnalyticsAdminV1betaKeyEventDefaultValue | undefined;
+  /** Output only. Time when this key event was created in the property. */
+  createTime?: string | undefined;
+  /** Immutable. The event name for this key event. Examples: 'click', 'purchase' */
+  eventName?: string | undefined;
+  /** Output only. If set to true, this event can be deleted. */
+  deletable?: boolean | undefined;
+  /** Required. The method by which Key Events will be counted across multiple events within a session. */
+  countingMethod?: GoogleAnalyticsAdminV1betaKeyEventCountingMethodEnum | (string & {}) | undefined;
 }
-/** Request message for ProvisionAccountTicket RPC. */
-export interface GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest {
+export interface ProvisionAccountTicketAccountsRequest {
   /** The account to create. */
   account?: GoogleAnalyticsAdminV1betaAccount | undefined;
   /** Redirect URI where the user will be sent after accepting Terms of Service. */
   redirectUri?: string | undefined;
-}
-export interface ProvisionAccountTicketAccountsRequest {
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest | undefined;
 }
 /** Response message for ProvisionAccountTicket RPC. */
 export interface GoogleAnalyticsAdminV1betaProvisionAccountTicketResponse {
@@ -1033,8 +1236,9 @@ export interface GoogleAnalyticsAdminV1betaAccessDimension {
 }
 export type GoogleAnalyticsAdminV1betaAccessDimensionList =
   Array<GoogleAnalyticsAdminV1betaAccessDimension>;
-/** The request for a Data Access Record Report. */
-export interface GoogleAnalyticsAdminV1betaRunAccessReportRequest {
+export interface RunAccessReportAccountsRequest {
+  /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
+  entity: string;
   /** Date ranges of access records to read. If multiple date ranges are requested, each response row will contain a zero based date range index. If two date ranges overlap, the access records for the overlapping days is included in the response rows for both date ranges. Requests are allowed up to 2 date ranges. */
   dateRanges?: GoogleAnalyticsAdminV1betaAccessDateRangeList | undefined;
   /** This request's time zone if specified. If unspecified, the property's time zone is used. The request's time zone is used to interpret the start & end dates of the report. Formatted as strings from the IANA Time Zone database (https://www.iana.org/time-zones); for example "America/New_York" or "Asia/Tokyo". */
@@ -1059,12 +1263,6 @@ export interface GoogleAnalyticsAdminV1betaRunAccessReportRequest {
   dimensions?: GoogleAnalyticsAdminV1betaAccessDimensionList | undefined;
   /** Toggles whether to return the current state of this Analytics Property's quota. Quota is returned in [AccessQuota](#AccessQuota). For account-level requests, this field must be false. */
   returnEntityQuota?: boolean | undefined;
-}
-export interface RunAccessReportAccountsRequest {
-  /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
-  entity: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaRunAccessReportRequest | undefined;
 }
 /** Describes a dimension column in the report. Dimensions requested in a report produce column entries within rows and DimensionHeaders. However, dimensions used exclusively within filters or expressions do not produce columns in a report; correspondingly, those dimensions do not produce headers. */
 export interface GoogleAnalyticsAdminV1betaAccessDimensionHeader {
@@ -1138,8 +1336,30 @@ export interface GoogleAnalyticsAdminV1betaRunAccessReportResponse {
 export interface RunAccessReportPropertiesRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
   entity: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaRunAccessReportRequest | undefined;
+  /** Date ranges of access records to read. If multiple date ranges are requested, each response row will contain a zero based date range index. If two date ranges overlap, the access records for the overlapping days is included in the response rows for both date ranges. Requests are allowed up to 2 date ranges. */
+  dateRanges?: GoogleAnalyticsAdminV1betaAccessDateRangeList | undefined;
+  /** This request's time zone if specified. If unspecified, the property's time zone is used. The request's time zone is used to interpret the start & end dates of the report. Formatted as strings from the IANA Time Zone database (https://www.iana.org/time-zones); for example "America/New_York" or "Asia/Tokyo". */
+  timeZone?: string | undefined;
+  /** The row count of the start row. The first row is counted as row 0. If offset is unspecified, it is treated as 0. If offset is zero, then this method will return the first page of results with `limit` entries. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
+  offset?: string | undefined;
+  /** Optional. Decides whether to return the users within user groups. This field works only when include_all_users is set to true. If true, it will return all users with access to the specified property or account. If false, only the users with direct access will be returned. */
+  expandGroups?: boolean | undefined;
+  /** Specifies how rows are ordered in the response. */
+  orderBys?: GoogleAnalyticsAdminV1betaAccessOrderByList | undefined;
+  /** The number of rows to return. If unspecified, 10,000 rows are returned. The API returns a maximum of 100,000 rows per request, no matter how many you ask for. `limit` must be positive. The API may return fewer rows than the requested `limit`, if there aren't as many remaining rows as the `limit`. For instance, there are fewer than 300 possible values for the dimension `country`, so when reporting on only `country`, you can't get more than 300 rows, even if you set `limit` to a higher value. To learn more about this pagination parameter, see [Pagination](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#pagination). */
+  limit?: string | undefined;
+  /** Dimension filters let you restrict report response to specific dimension values which match the filter. For example, filtering on access records of a single user. To learn more, see [Fundamentals of Dimension Filters](https://developers.google.com/analytics/devguides/reporting/data/v1/basics#dimension_filters) for examples. Metrics cannot be used in this filter. */
+  dimensionFilter?: GoogleAnalyticsAdminV1betaAccessFilterExpression | undefined;
+  /** The metrics requested and displayed in the response. Requests are allowed up to 10 metrics. */
+  metrics?: GoogleAnalyticsAdminV1betaAccessMetricList | undefined;
+  /** Optional. Determines whether to include users who have never made an API call in the response. If true, all users with access to the specified property or account are included in the response, regardless of whether they have made an API call or not. If false, only the users who have made an API call will be included. */
+  includeAllUsers?: boolean | undefined;
+  /** Metric filters allow you to restrict report response to specific metric values which match the filter. Metric filters are applied after aggregating the report's rows, similar to SQL having-clause. Dimensions cannot be used in this filter. */
+  metricFilter?: GoogleAnalyticsAdminV1betaAccessFilterExpression | undefined;
+  /** The dimensions requested and displayed in the response. Requests are allowed up to 9 dimensions. */
+  dimensions?: GoogleAnalyticsAdminV1betaAccessDimensionList | undefined;
+  /** Toggles whether to return the current state of this Analytics Property's quota. Quota is returned in [AccessQuota](#AccessQuota). For account-level requests, this field must be false. */
+  returnEntityQuota?: boolean | undefined;
 }
 export type GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestResourceTypeItemEnum =
   | "CHANGE_HISTORY_RESOURCE_TYPE_UNSPECIFIED"
@@ -1169,8 +1389,9 @@ export type GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestActionItem
 export type GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestActionItemEnumList = Array<
   GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestActionItemEnum | (string & {})
 >;
-/** Request message for SearchChangeHistoryEvents RPC. */
-export interface GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest {
+export interface SearchChangeHistoryEventsAccountsRequest {
+  /** Required. The account resource for which to return change history resources. Format: accounts/{account} Example: `accounts/100` */
+  account: string;
   /** Optional. If set, only return changes if they are for a resource that matches at least one of these types. */
   resourceType?:
     | GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestResourceTypeItemEnumList
@@ -1189,12 +1410,6 @@ export interface GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest {
   action?: GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequestActionItemEnumList | undefined;
   /** Optional. A page token, received from a previous `SearchChangeHistoryEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchChangeHistoryEvents` must match the call that provided the page token. */
   pageToken?: string | undefined;
-}
-export interface SearchChangeHistoryEventsAccountsRequest {
-  /** Required. The account resource for which to return change history resources. Format: accounts/{account} Example: `accounts/100` */
-  account: string;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest | undefined;
 }
 export type GoogleAnalyticsAdminV1betaChangeHistoryEventActorTypeEnum =
   | "ACTOR_TYPE_UNSPECIFIED"
@@ -1271,8 +1486,18 @@ export interface UpdateDataRetentionSettingsPropertiesRequest {
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleAnalyticsAdminV1betaDataRetentionSettings | undefined;
+  /** If true, reset the retention period for the user identifier with every event from that user. */
+  resetUserDataOnNewActivity?: boolean | undefined;
+  /** Required. The length of time that event-level data is retained. */
+  eventDataRetention?:
+    | GoogleAnalyticsAdminV1betaDataRetentionSettingsEventDataRetentionEnum
+    | (string & {})
+    | undefined;
+  /** Required. The length of time that user-level data is retained. */
+  userDataRetention?:
+    | GoogleAnalyticsAdminV1betaDataRetentionSettingsUserDataRetentionEnum
+    | (string & {})
+    | undefined;
 }
 export type AcknowledgeUserDataCollectionPropertiesError =
   | NotFound
@@ -1288,7 +1513,7 @@ export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
   AcknowledgeUserDataCollectionPropertiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1601, __c50, 1) as any as S.Schema<AcknowledgeUserDataCollectionPropertiesRequest>,
+  input: __S(1600, __c50, 0) as any as S.Schema<AcknowledgeUserDataCollectionPropertiesRequest>,
   output: __S(
     1632,
     __c51,
@@ -2434,11 +2659,11 @@ export const provisionAccountTicketAccounts: API.OperationMethod<
   ProvisionAccountTicketAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1825, __c57, 1) as any as S.Schema<ProvisionAccountTicketAccountsRequest>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ProvisionAccountTicketAccountsRequest>,
   output: __S(
-    1826,
+    1825,
     __c57,
-    2,
+    1,
   ) as any as S.Schema<GoogleAnalyticsAdminV1betaProvisionAccountTicketResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2463,9 +2688,9 @@ export const runAccessReportAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<RunAccessReportAccountsRequest>,
   output: __S(
-    1913,
+    1912,
     __c59,
-    25,
+    24,
   ) as any as S.Schema<GoogleAnalyticsAdminV1betaRunAccessReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2490,9 +2715,9 @@ export const runAccessReportProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<RunAccessReportPropertiesRequest>,
   output: __S(
-    1913,
+    1912,
     __c59,
-    25,
+    24,
   ) as any as S.Schema<GoogleAnalyticsAdminV1betaRunAccessReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2515,11 +2740,11 @@ export const searchChangeHistoryEventsAccounts: API.OperationMethod<
   SearchChangeHistoryEventsAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c62, 1) as any as S.Schema<SearchChangeHistoryEventsAccountsRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<SearchChangeHistoryEventsAccountsRequest>,
   output: __S(
-    1991,
+    1990,
     __c62,
-    7,
+    6,
   ) as any as S.Schema<GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2558,7 +2783,12 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          parameterName: S.optional(S.String),
+          scope: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          disallowAdsPersonalization: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2590,7 +2820,13 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          measurementUnit: S.optional(S.String),
+          restrictedMetricType: S.optional(__S(128, __c4, 0)),
+          scope: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          parameterName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2629,7 +2865,14 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
+          webStreamData: S.optional(__S(192, __c6, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          androidAppStreamData: S.optional(__S(193, __c6, 1)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          iosAppStreamData: S.optional(__S(194, __c6, 2)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2685,7 +2928,9 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
+          secretValue: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2714,7 +2959,9 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
+          project: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2743,7 +2990,13 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          creatorEmailAddress: S.optional(S.String),
+          createTime: S.optional(S.String),
+          adsPersonalizationEnabled: S.optional(S.Boolean),
+          customerId: S.optional(S.String),
+          canManageClients: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2776,7 +3029,13 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          custom: S.optional(S.Boolean),
+          defaultValue: S.optional(__S(448, __c14, 0)),
+          createTime: S.optional(S.String),
+          eventName: S.optional(S.String),
+          deletable: S.optional(S.Boolean),
+          countingMethod: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3465,7 +3724,12 @@ function __c46(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          regionCode: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          gmpOrganization: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3483,7 +3747,18 @@ function __c47(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
+          timeZone: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          parent: S.optional(S.String),
+          displayName: S.optional(S.String),
+          industryCategory: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          propertyType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          serviceLevel: S.optional(S.String),
+          account: S.optional(S.String),
+          expireTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3501,7 +3776,12 @@ function __c48(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2209, __c69, 1).pipe(T.HttpBody())),
+          custom: S.optional(S.Boolean),
+          eventName: S.optional(S.String),
+          deletable: S.optional(S.Boolean),
+          countingMethod: S.optional(S.String),
+          defaultConversionValue: S.optional(__S(2208, __c69, 0)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3519,7 +3799,11 @@ function __c49(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          parameterName: S.optional(S.String),
+          scope: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          disallowAdsPersonalization: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3535,14 +3819,8 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acknowledgement: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           property: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
+          acknowledgement: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3568,7 +3846,12 @@ function __c52(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          measurementUnit: S.optional(S.String),
+          restrictedMetricType: S.optional(__S(128, __c4, 0)),
+          scope: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          parameterName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3586,7 +3869,13 @@ function __c53(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
+          webStreamData: S.optional(__S(192, __c6, 0)),
+          createTime: S.optional(S.String),
+          androidAppStreamData: S.optional(__S(193, __c6, 1)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          iosAppStreamData: S.optional(__S(194, __c6, 2)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3604,7 +3893,8 @@ function __c54(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
+          secretValue: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3622,7 +3912,12 @@ function __c55(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(384, __c12, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          creatorEmailAddress: S.optional(S.String),
+          createTime: S.optional(S.String),
+          adsPersonalizationEnabled: S.optional(S.Boolean),
+          customerId: S.optional(S.String),
+          canManageClients: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3640,7 +3935,12 @@ function __c56(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(449, __c14, 1).pipe(T.HttpBody())),
+          custom: S.optional(S.Boolean),
+          defaultValue: S.optional(__S(448, __c14, 0)),
+          createTime: S.optional(S.String),
+          eventName: S.optional(S.String),
+          deletable: S.optional(S.Boolean),
+          countingMethod: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3658,12 +3958,6 @@ function __c57(j: number): any {
         S.Struct({
           account: S.optional(__S(768, __c24, 0)),
           redirectUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3672,7 +3966,7 @@ function __c57(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ProvisionAccountTicketAccountsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           accountTicketId: S.optional(S.String),
@@ -3686,7 +3980,18 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entity: S.String.pipe(T.Label()),
-          body: S.optional(__S(1906, __c59, 18).pipe(T.HttpBody())),
+          dateRanges: S.optional(__S(1889, __c59, 1)),
+          timeZone: S.optional(S.String),
+          offset: S.optional(S.String),
+          expandGroups: S.optional(S.Boolean),
+          orderBys: S.optional(__S(1893, __c59, 5)),
+          limit: S.optional(S.String),
+          dimensionFilter: S.optional(__S(1902, __c59, 14)),
+          metrics: S.optional(__S(1903, __c59, 15)),
+          includeAllUsers: S.optional(S.Boolean),
+          metricFilter: S.optional(__S(1902, __c59, 14)),
+          dimensions: S.optional(__S(1905, __c59, 17)),
+          returnEntityQuota: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3807,60 +4112,43 @@ function __c59(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          dateRanges: S.optional(__S(1889, __c59, 1)),
-          timeZone: S.optional(S.String),
-          offset: S.optional(S.String),
-          expandGroups: S.optional(S.Boolean),
-          orderBys: S.optional(__S(1893, __c59, 5)),
-          limit: S.optional(S.String),
-          dimensionFilter: S.optional(__S(1902, __c59, 14)),
-          metrics: S.optional(__S(1903, __c59, 15)),
-          includeAllUsers: S.optional(S.Boolean),
-          metricFilter: S.optional(__S(1902, __c59, 14)),
-          dimensions: S.optional(__S(1905, __c59, 17)),
-          returnEntityQuota: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1betaRunAccessReportRequest" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAccessMetricValue" });
+    case 19:
+      return S.Array(__S(1906, __c59, 18));
     case 20:
-      return S.Array(__S(1907, __c59, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
-          metricValues: S.optional(__S(1908, __c59, 20)),
-          dimensionValues: S.optional(__S(1908, __c59, 20)),
+          metricValues: S.optional(__S(1907, __c59, 19)),
+          dimensionValues: S.optional(__S(1907, __c59, 19)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAccessRow" });
+    case 21:
+      return S.Array(__S(1908, __c59, 20));
     case 22:
-      return S.Array(__S(1909, __c59, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
           remaining: S.optional(S.Number),
           consumed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAccessQuotaStatus" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          concurrentRequests: S.optional(__S(1910, __c59, 22)),
+          serverErrorsPerProjectPerHour: S.optional(__S(1910, __c59, 22)),
+          tokensPerProjectPerHour: S.optional(__S(1910, __c59, 22)),
+          tokensPerHour: S.optional(__S(1910, __c59, 22)),
+          tokensPerDay: S.optional(__S(1910, __c59, 22)),
+        }),
+      ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAccessQuota" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          concurrentRequests: S.optional(__S(1911, __c59, 23)),
-          serverErrorsPerProjectPerHour: S.optional(__S(1911, __c59, 23)),
-          tokensPerProjectPerHour: S.optional(__S(1911, __c59, 23)),
-          tokensPerHour: S.optional(__S(1911, __c59, 23)),
-          tokensPerDay: S.optional(__S(1911, __c59, 23)),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1betaAccessQuota" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
           dimensionHeaders: S.optional(__S(1905, __c59, 17)),
-          rows: S.optional(__S(1910, __c59, 22)),
-          quota: S.optional(__S(1912, __c59, 24)),
+          rows: S.optional(__S(1909, __c59, 21)),
+          quota: S.optional(__S(1911, __c59, 23)),
           metricHeaders: S.optional(__S(1903, __c59, 15)),
           rowCount: S.optional(S.Number),
         }),
@@ -3879,7 +4167,18 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entity: S.String.pipe(T.Label()),
-          body: S.optional(__S(1906, __c59, 18).pipe(T.HttpBody())),
+          dateRanges: S.optional(__S(1889, __c59, 1)),
+          timeZone: S.optional(S.String),
+          offset: S.optional(S.String),
+          expandGroups: S.optional(S.Boolean),
+          orderBys: S.optional(__S(1893, __c59, 5)),
+          limit: S.optional(S.String),
+          dimensionFilter: S.optional(__S(1902, __c59, 14)),
+          metrics: S.optional(__S(1903, __c59, 15)),
+          includeAllUsers: S.optional(S.Boolean),
+          metricFilter: S.optional(__S(1902, __c59, 14)),
+          dimensions: S.optional(__S(1905, __c59, 17)),
+          returnEntityQuota: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3895,6 +4194,7 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          account: S.String.pipe(T.Label()),
           resourceType: S.optional(__S(128, __c4, 0)),
           latestChangeTime: S.optional(S.String),
           pageSize: S.optional(S.Number),
@@ -3903,13 +4203,6 @@ function __c62(j: number): any {
           property: S.optional(S.String),
           action: S.optional(__S(128, __c4, 0)),
           pageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          account: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3918,7 +4211,7 @@ function __c62(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchChangeHistoryEventsAccountsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           dataRetentionSettings: S.optional(__S(832, __c26, 0)),
@@ -3933,35 +4226,35 @@ function __c62(j: number): any {
       ).annotate({
         identifier: "GoogleAnalyticsAdminV1betaChangeHistoryChangeChangeHistoryResource",
       });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          resourceBeforeChange: S.optional(__S(1986, __c62, 2)),
+          resourceBeforeChange: S.optional(__S(1985, __c62, 1)),
           resource: S.optional(S.String),
           action: S.optional(S.String),
-          resourceAfterChange: S.optional(__S(1986, __c62, 2)),
+          resourceAfterChange: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaChangeHistoryChange" });
+    case 3:
+      return S.Array(__S(1986, __c62, 2));
     case 4:
-      return S.Array(__S(1987, __c62, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           actorType: S.optional(S.String),
           changeTime: S.optional(S.String),
           changesFiltered: S.optional(S.Boolean),
-          changes: S.optional(__S(1988, __c62, 4)),
+          changes: S.optional(__S(1987, __c62, 3)),
           userActorEmail: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaChangeHistoryEvent" });
+    case 5:
+      return S.Array(__S(1988, __c62, 4));
     case 6:
-      return S.Array(__S(1989, __c62, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          changeHistoryEvents: S.optional(__S(1990, __c62, 6)),
+          changeHistoryEvents: S.optional(__S(1989, __c62, 5)),
         }),
       ).annotate({ identifier: "GoogleAnalyticsAdminV1betaSearchChangeHistoryEventsResponse" });
   }
@@ -3973,7 +4266,9 @@ function __c63(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
+          resetUserDataOnNewActivity: S.optional(S.Boolean),
+          eventDataRetention: S.optional(S.String),
+          userDataRetention: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4023,7 +4318,19 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(2144, __c67, 0).pipe(T.HttpBody())),
+          timeZone: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          parent: S.optional(S.String),
+          displayName: S.optional(S.String),
+          industryCategory: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          propertyType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          serviceLevel: S.optional(S.String),
+          account: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4062,7 +4369,13 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2209, __c69, 1).pipe(T.HttpBody())),
+          custom: S.optional(S.Boolean),
+          eventName: S.optional(S.String),
+          deletable: S.optional(S.Boolean),
+          countingMethod: S.optional(S.String),
+          defaultConversionValue: S.optional(__S(2208, __c69, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

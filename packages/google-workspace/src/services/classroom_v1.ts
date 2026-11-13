@@ -195,8 +195,7 @@ export type CourseCourseStateEnum =
   | "PROVISIONED"
   | "DECLINED"
   | "SUSPENDED";
-/** A Course in Classroom. */
-export interface Course {
+export interface CreateCoursesRequest {
   /** Optional. Levels for the course. Examples: "9th grade", "Middle school", "4th - 5th", "K-2", "3000". If set, this field must be a valid UTF-8 string and fewer than 1000 characters. This field can only be cleared using the `PatchCourse` method. */
   levels?: string | undefined;
   /** Time of the most recent update to this course. Specifying this field in a course update mask results in an error. Read-only. */
@@ -240,20 +239,61 @@ export interface Course {
   /** State of the course. If unspecified, the default state is `PROVISIONED`. */
   courseState?: CourseCourseStateEnum | (string & {}) | undefined;
 }
-export interface CreateCoursesRequest {
-  /** Request body */
-  body?: Course | undefined;
+/** A Course in Classroom. */
+export interface Course {
+  /** Optional. Levels for the course. Examples: "9th grade", "Middle school", "4th - 5th", "K-2", "3000". If set, this field must be a valid UTF-8 string and fewer than 1000 characters. This field can only be cleared using the `PatchCourse` method. */
+  levels?: string | undefined;
+  /** Time of the most recent update to this course. Specifying this field in a course update mask results in an error. Read-only. */
+  updateTime?: string | undefined;
+  /** Enrollment code to use when joining this course. Specifying this field in a course update mask results in an error. Read-only. */
+  enrollmentCode?: string | undefined;
+  /** The email address of a Google group containing all teachers of the course. This group does not accept email and can only be used for permissions. Read-only. */
+  teacherGroupEmail?: string | undefined;
+  /** Sets of materials that appear on the "about" page of this course. Read-only. */
+  courseMaterialSets?: CourseMaterialSetList | undefined;
+  /** Optional heading for the description. For example, "Welcome to 10th Grade Biology." If set, this field must be a valid UTF-8 string and no longer than 3600 characters. */
+  descriptionHeading?: string | undefined;
+  /** Whether or not guardian notifications are enabled for this course. Read-only. */
+  guardiansEnabled?: boolean | undefined;
+  /** Section of the course. For example, "Period 2". If set, this field must be a valid UTF-8 string and no longer than 2800 characters. */
+  section?: string | undefined;
+  /** The identifier of the owner of a course. When specified as a parameter of a create course request, this field is required. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user This must be set in a create request. Admins can also specify this field in a patch course request to transfer ownership. In other contexts, it is read-only. */
+  ownerId?: string | undefined;
+  /** The Calendar ID for a calendar that all course members can see, to which Classroom adds events for course work and announcements in the course. The Calendar for a course is created asynchronously when the course is set to `CourseState.ACTIVE` for the first time (at creation time or when it is updated to `ACTIVE` through the UI or the API). The Calendar ID will not be populated until the creation process is completed. Read-only. */
+  calendarId?: string | undefined;
+  /** Identifier for this course assigned by Classroom. When creating a course, you may optionally set this identifier to an alias string in the request to create a corresponding alias. The `id` is still assigned by Classroom and cannot be updated after the course is created. Specifying this field in a course update mask results in an error. */
+  id?: string | undefined;
+  /** Absolute link to this course in the Classroom web UI. Read-only. */
+  alternateLink?: string | undefined;
+  /** Optional description. For example, "We'll be learning about the structure of living creatures from a combination of textbooks, guest lectures, and lab work. Expect to be excited!" If set, this field must be a valid UTF-8 string and no longer than 30,000 characters. */
+  description?: string | undefined;
+  /** Name of the course. For example, "10th Grade Biology". The name is required. It must be between 1 and 750 characters and a valid UTF-8 string. */
+  name?: string | undefined;
+  /** Information about a Drive Folder that is shared with all teachers of the course. This field will only be set for teachers of the course and domain administrators. Read-only. */
+  teacherFolder?: DriveFolder | undefined;
+  /** Optional room location. For example, "301". If set, this field must be a valid UTF-8 string and no longer than 650 characters. */
+  room?: string | undefined;
+  /** The gradebook settings that specify how a student's overall grade for the course will be calculated and who it will be displayed to. Read-only. */
+  gradebookSettings?: GradebookSettings | undefined;
+  /** Optional. The subject of the course. */
+  subject?: string | undefined;
+  /** The email address of a Google group containing all members of the course. This group does not accept email and can only be used for permissions. Read-only. */
+  courseGroupEmail?: string | undefined;
+  /** Creation time of the course. Specifying this field in a course update mask results in an error. Read-only. */
+  creationTime?: string | undefined;
+  /** State of the course. If unspecified, the default state is `PROVISIONED`. */
+  courseState?: CourseCourseStateEnum | undefined;
+}
+export interface CreateCoursesAliasesRequest {
+  /** Identifier of the course to alias. This identifier can be either the Classroom-assigned identifier or an alias. */
+  courseId: string;
+  /** Alias string. The format of the string indicates the desired alias scoping. * `d:` indicates a domain-scoped alias. Example: `d:math_101` * `p:` indicates a project-scoped alias. Example: `p:abc123` This field has a maximum length of 256 characters. */
+  alias?: string | undefined;
 }
 /** Alternative identifier for a course. An alias uniquely identifies a course. It must be unique within one of the following scopes: * domain: A domain-scoped alias is visible to all users within the alias creator's domain and can be created only by a domain admin. A domain-scoped alias is often used when a course has an identifier external to Classroom. * project: A project-scoped alias is visible to any request from an application using the Developer Console project ID that created the alias and can be created by any project. A project-scoped alias is often used when an application has alternative identifiers. A random value can also be used to avoid duplicate courses in the event of transmission failures, as retrying a request will return `ALREADY_EXISTS` if a previous one has succeeded. */
 export interface CourseAlias {
   /** Alias string. The format of the string indicates the desired alias scoping. * `d:` indicates a domain-scoped alias. Example: `d:math_101` * `p:` indicates a project-scoped alias. Example: `p:abc123` This field has a maximum length of 256 characters. */
   alias?: string | undefined;
-}
-export interface CreateCoursesAliasesRequest {
-  /** Identifier of the course to alias. This identifier can be either the Classroom-assigned identifier or an alias. */
-  courseId: string;
-  /** Request body */
-  body?: CourseAlias | undefined;
 }
 export type AnnouncementStateEnum =
   | "ANNOUNCEMENT_STATE_UNSPECIFIED"
@@ -312,8 +352,9 @@ export interface IndividualStudentsOptions {
   /** Identifiers for the students that have access to the coursework/announcement. */
   studentIds?: StringList | undefined;
 }
-/** Announcement created by a teacher for students of the course */
-export interface Announcement {
+export interface CreateCoursesAnnouncementsRequest {
+  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
+  courseId: string;
   /** Status of this announcement. If unspecified, the default state is `DRAFT`. */
   state?: AnnouncementStateEnum | (string & {}) | undefined;
   /** Description of this announcement. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
@@ -322,8 +363,6 @@ export interface Announcement {
   creationTime?: string | undefined;
   /** Classroom-assigned identifier of this announcement, unique per course. Read-only. */
   id?: string | undefined;
-  /** Identifier of the course. Read-only. */
-  courseId?: string | undefined;
   /** Assignee mode of the announcement. If unspecified, the default value is `ALL_STUDENTS`. */
   assigneeMode?: AnnouncementAssigneeModeEnum | (string & {}) | undefined;
   /** Additional materials. Announcements must have no more than 20 material items. */
@@ -339,11 +378,32 @@ export interface Announcement {
   /** Optional timestamp when this announcement is scheduled to be published. */
   scheduledTime?: string | undefined;
 }
-export interface CreateCoursesAnnouncementsRequest {
-  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
-  courseId: string;
-  /** Request body */
-  body?: Announcement | undefined;
+/** Announcement created by a teacher for students of the course */
+export interface Announcement {
+  /** Status of this announcement. If unspecified, the default state is `DRAFT`. */
+  state?: AnnouncementStateEnum | undefined;
+  /** Description of this announcement. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
+  text?: string | undefined;
+  /** Timestamp when this announcement was created. Read-only. */
+  creationTime?: string | undefined;
+  /** Classroom-assigned identifier of this announcement, unique per course. Read-only. */
+  id?: string | undefined;
+  /** Identifier of the course. Read-only. */
+  courseId?: string | undefined;
+  /** Assignee mode of the announcement. If unspecified, the default value is `ALL_STUDENTS`. */
+  assigneeMode?: AnnouncementAssigneeModeEnum | undefined;
+  /** Additional materials. Announcements must have no more than 20 material items. */
+  materials?: MaterialList | undefined;
+  /** Absolute link to this announcement in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
+  alternateLink?: string | undefined;
+  /** Identifier for the user that created the announcement. Read-only. */
+  creatorUserId?: string | undefined;
+  /** Identifiers of students with access to the announcement. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the announcement. */
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
+  /** Timestamp of the most recent change to this announcement. Read-only. */
+  updateTime?: string | undefined;
+  /** Optional timestamp when this announcement is scheduled to be published. */
+  scheduledTime?: string | undefined;
 }
 /** Identifier of a previous copy of a given attachment. */
 export interface CopyHistory {
@@ -382,6 +442,36 @@ export interface Classroom_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
 }
+export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
+  /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
+  itemId: string;
+  /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
+  addOnToken?: string | undefined;
+  /** Required. Identifier of the course. */
+  courseId: string;
+  /** Optional. Deprecated, use `item_id` instead. */
+  postId?: string | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
+}
 /** An add-on attachment on a post. */
 export interface AddOnAttachment {
   /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
@@ -411,18 +501,6 @@ export interface AddOnAttachment {
   /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
   studentViewUri?: EmbedUri | undefined;
 }
-export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
-  /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId: string;
-  /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
-  addOnToken?: string | undefined;
-  /** Required. Identifier of the course. */
-  courseId: string;
-  /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
-}
 export type CourseWorkAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
   | "ALL_STUDENTS"
@@ -451,8 +529,9 @@ export interface Assignment {
   /** Drive folder where attachments from student submissions are placed. This is only populated for course teachers and administrators. */
   studentWorkFolder?: DriveFolder | undefined;
 }
-/** Course work created by a teacher for students of the course. */
-export interface CourseWork {
+export interface CreateCoursesCourseWorkRequest {
+  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
+  courseId: string;
   /** Additional materials. CourseWork must have no more than 20 material items. */
   materials?: MaterialList | undefined;
   /** Timestamp of the most recent change to this course work. Read-only. */
@@ -491,6 +570,55 @@ export interface CourseWork {
   creationTime?: string | undefined;
   /** Classroom-assigned identifier of this course work, unique per course. Read-only. */
   id?: string | undefined;
+  /** Optional description of this course work. If set, the description must be a valid UTF-8 string containing no more than 30,000 characters. */
+  description?: string | undefined;
+  /** Assignment details. This is populated only when `work_type` is `ASSIGNMENT`. Read-only. */
+  assignment?: Assignment | undefined;
+  /** Identifier of the grading period associated with the coursework. * At creation, if unspecified, the grading period ID will be set based on the `dueDate` (or `scheduledTime` if no `dueDate` is set). * To indicate no association to any grading period, set this field to an empty string (""). * If specified, it must match an existing grading period ID in the course. */
+  gradingPeriodId?: string | undefined;
+  /** The category that this coursework's grade contributes to. Present only when a category has been chosen for the coursework. May be used in calculating the overall grade. Read-only. */
+  gradeCategory?: GradeCategory | undefined;
+}
+/** Course work created by a teacher for students of the course. */
+export interface CourseWork {
+  /** Additional materials. CourseWork must have no more than 20 material items. */
+  materials?: MaterialList | undefined;
+  /** Timestamp of the most recent change to this course work. Read-only. */
+  updateTime?: string | undefined;
+  /** Absolute link to this course work in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
+  alternateLink?: string | undefined;
+  /** Identifier for the user that created the coursework. Read-only. */
+  creatorUserId?: string | undefined;
+  /** Assignee mode of the coursework. If unspecified, the default value is `ALL_STUDENTS`. */
+  assigneeMode?: CourseWorkAssigneeModeEnum | undefined;
+  /** Identifiers of students with access to the coursework. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field are assigned the coursework. */
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
+  /** Optional timestamp when this course work is scheduled to be published. */
+  scheduledTime?: string | undefined;
+  /** Status of this course work. If unspecified, the default state is `DRAFT`. */
+  state?: CourseWorkStateEnum | undefined;
+  /** Whether this course work item is associated with the Developer Console project making the request. See CreateCourseWork for more details. Read-only. */
+  associatedWithDeveloper?: boolean | undefined;
+  /** Maximum grade for this course work. If zero or unspecified, this assignment is considered ungraded. This must be a non-negative integer value. */
+  maxPoints?: number | undefined;
+  /** Optional date, in UTC, that submissions for this course work are due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Multiple choice question details. For read operations, this field is populated only when `work_type` is `MULTIPLE_CHOICE_QUESTION`. For write operations, this field must be specified when creating course work with a `work_type` of `MULTIPLE_CHOICE_QUESTION`, and it must not be set otherwise. */
+  multipleChoiceQuestion?: MultipleChoiceQuestion | undefined;
+  /** Optional time of day, in UTC, that submissions for this course work are due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Identifier for the topic that this coursework is associated with. Must match an existing topic in the course. */
+  topicId?: string | undefined;
+  /** Setting to determine when students are allowed to modify submissions. If unspecified, the default value is `MODIFIABLE_UNTIL_TURNED_IN`. */
+  submissionModificationMode?: CourseWorkSubmissionModificationModeEnum | undefined;
+  /** Type of this course work. The type is set when the course work is created and cannot be changed. */
+  workType?: CourseWorkWorkTypeEnum | undefined;
+  /** Title of this course work. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
+  title?: string | undefined;
+  /** Timestamp when this course work was created. Read-only. */
+  creationTime?: string | undefined;
+  /** Classroom-assigned identifier of this course work, unique per course. Read-only. */
+  id?: string | undefined;
   /** Identifier of the course. Read-only. */
   courseId?: string | undefined;
   /** Optional description of this course work. If set, the description must be a valid UTF-8 string containing no more than 30,000 characters. */
@@ -502,12 +630,6 @@ export interface CourseWork {
   /** The category that this coursework's grade contributes to. Present only when a category has been chosen for the coursework. May be used in calculating the overall grade. Read-only. */
   gradeCategory?: GradeCategory | undefined;
 }
-export interface CreateCoursesCourseWorkRequest {
-  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
-  courseId: string;
-  /** Request body */
-  body?: CourseWork | undefined;
-}
 export interface CreateCoursesCourseWorkAddOnAttachmentsRequest {
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
   addOnToken?: string | undefined;
@@ -517,8 +639,26 @@ export interface CreateCoursesCourseWorkAddOnAttachmentsRequest {
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
 }
 export type CourseWorkMaterialAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -529,14 +669,13 @@ export type CourseWorkMaterialStateEnum =
   | "PUBLISHED"
   | "DRAFT"
   | "DELETED";
-/** Course work material created by a teacher for students of the course */
-export interface CourseWorkMaterial {
+export interface CreateCoursesCourseWorkMaterialsRequest {
+  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
+  courseId: string;
   /** Additional materials. A course work material must have no more than 20 material items. */
   materials?: MaterialList | undefined;
   /** Identifier for the topic that this course work material is associated with. Must match an existing topic in the course. */
   topicId?: string | undefined;
-  /** Identifier of the course. Read-only. */
-  courseId?: string | undefined;
   /** Title of this course work material. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
   title?: string | undefined;
   /** Assignee mode of the course work material. If unspecified, the default value is `ALL_STUDENTS`. */
@@ -560,11 +699,36 @@ export interface CourseWorkMaterial {
   /** Identifiers of students with access to the course work material. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the course work material. */
   individualStudentsOptions?: IndividualStudentsOptions | undefined;
 }
-export interface CreateCoursesCourseWorkMaterialsRequest {
-  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
-  courseId: string;
-  /** Request body */
-  body?: CourseWorkMaterial | undefined;
+/** Course work material created by a teacher for students of the course */
+export interface CourseWorkMaterial {
+  /** Additional materials. A course work material must have no more than 20 material items. */
+  materials?: MaterialList | undefined;
+  /** Identifier for the topic that this course work material is associated with. Must match an existing topic in the course. */
+  topicId?: string | undefined;
+  /** Identifier of the course. Read-only. */
+  courseId?: string | undefined;
+  /** Title of this course work material. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
+  title?: string | undefined;
+  /** Assignee mode of the course work material. If unspecified, the default value is `ALL_STUDENTS`. */
+  assigneeMode?: CourseWorkMaterialAssigneeModeEnum | undefined;
+  /** Status of this course work material. If unspecified, the default state is `DRAFT`. */
+  state?: CourseWorkMaterialStateEnum | undefined;
+  /** Optional description of this course work material. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
+  description?: string | undefined;
+  /** Optional timestamp when this course work material is scheduled to be published. */
+  scheduledTime?: string | undefined;
+  /** Classroom-assigned identifier of this course work material, unique per course. Read-only. */
+  id?: string | undefined;
+  /** Timestamp when this course work material was created. Read-only. */
+  creationTime?: string | undefined;
+  /** Timestamp of the most recent change to this course work material. Read-only. */
+  updateTime?: string | undefined;
+  /** Absolute link to this course work material in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
+  alternateLink?: string | undefined;
+  /** Identifier for the user that created the course work material. Read-only. */
+  creatorUserId?: string | undefined;
+  /** Identifiers of students with access to the course work material. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the course work material. */
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
 }
 export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
@@ -575,8 +739,26 @@ export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   itemId: string;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
   addOnToken?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
 }
 /** A level of the criterion. */
 export interface Level {
@@ -602,6 +784,22 @@ export interface Criterion {
   id?: string | undefined;
 }
 export type CriterionList = Array<Criterion>;
+export interface CreateCoursesCourseWorkRubricsRequest {
+  /** Required. Identifier of the course work. */
+  courseWorkId: string;
+  /** Required. Identifier of the course. */
+  courseId: string;
+  /** Output only. Timestamp when this rubric was created. Read-only. */
+  creationTime?: string | undefined;
+  /** List of criteria. Each criterion is a dimension on which performance is rated. */
+  criteria?: CriterionList | undefined;
+  /** Input only. Immutable. Google Sheets ID of the spreadsheet. This spreadsheet must contain formatted rubric settings. See [Create or reuse a rubric for an assignment](https://support.google.com/edu/classroom/answer/9335069). Use of this field requires the `https://www.googleapis.com/auth/spreadsheets.readonly` or `https://www.googleapis.com/auth/spreadsheets` scope. */
+  sourceSpreadsheetId?: string | undefined;
+  /** Classroom-assigned identifier for the rubric. This is unique among rubrics for the relevant course work. Read-only. */
+  id?: string | undefined;
+  /** Output only. Timestamp of the most recent change to this rubric. Read-only. */
+  updateTime?: string | undefined;
+}
 /** The rubric of the course work. A rubric is a scoring guide used to evaluate student work and give feedback. For further details, see [Rubrics structure and known limitations](/classroom/rubrics/limitations). */
 export interface Rubric {
   /** Identifier of the course. Read-only. */
@@ -619,14 +817,6 @@ export interface Rubric {
   /** Output only. Timestamp of the most recent change to this rubric. Read-only. */
   updateTime?: string | undefined;
 }
-export interface CreateCoursesCourseWorkRubricsRequest {
-  /** Required. Identifier of the course work. */
-  courseWorkId: string;
-  /** Required. Identifier of the course. */
-  courseId: string;
-  /** Request body */
-  body?: Rubric | undefined;
-}
 export interface CreateCoursesPostsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
@@ -636,8 +826,34 @@ export interface CreateCoursesPostsAddOnAttachmentsRequest {
   itemId?: string | undefined;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
   addOnToken?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
+}
+export interface CreateCoursesStudentGroupsRequest {
+  /** Required. The identifier of the course. */
+  courseId: string;
+  /** The title of the student group. */
+  title?: string | undefined;
+  /** The identifier of the student group. */
+  id?: string | undefined;
 }
 /** A student group in a course. */
 export interface StudentGroup {
@@ -648,11 +864,13 @@ export interface StudentGroup {
   /** The identifier of the student group. */
   id?: string | undefined;
 }
-export interface CreateCoursesStudentGroupsRequest {
+export interface CreateCoursesStudentGroupsStudentGroupMembersRequest {
   /** Required. The identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: StudentGroup | undefined;
+  /** Required. The identifier of the student group. */
+  studentGroupId: string;
+  /** Identifier of the student. */
+  userId?: string | undefined;
 }
 /** A student member in a student group. */
 export interface StudentGroupMember {
@@ -662,14 +880,6 @@ export interface StudentGroupMember {
   userId?: string | undefined;
   /** The identifier of the student group. */
   studentGroupId?: string | undefined;
-}
-export interface CreateCoursesStudentGroupsStudentGroupMembersRequest {
-  /** Required. The identifier of the course. */
-  courseId: string;
-  /** Required. The identifier of the student group. */
-  studentGroupId: string;
-  /** Request body */
-  body?: StudentGroupMember | undefined;
 }
 /** Details of the user's name. */
 export interface Name {
@@ -702,6 +912,18 @@ export interface UserProfile {
   /** URL of user's profile photo. Must request `https://www.googleapis.com/auth/classroom.profile.photos` scope for this field to be populated in a response body. Read-only. */
   photoUrl?: string | undefined;
 }
+export interface CreateCoursesStudentsRequest {
+  /** Identifier of the course to create the student in. This identifier can be either the Classroom-assigned identifier or an alias. */
+  courseId: string;
+  /** Enrollment code of the course to create the student in. This code is required if userId corresponds to the requesting user; it may be omitted if the requesting user has administrative permissions to create students for any user. */
+  enrollmentCode?: string | undefined;
+  /** Information about a Drive Folder for this student's work in this course. Only visible to the student and domain administrators. Read-only. */
+  studentWorkFolder?: DriveFolder | undefined;
+  /** Global user information for the student. Read-only. */
+  profile?: UserProfile | undefined;
+  /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
+  userId?: string | undefined;
+}
 /** Student in a course. */
 export interface Student {
   /** Identifier of the course. Read-only. */
@@ -713,13 +935,13 @@ export interface Student {
   /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
   userId?: string | undefined;
 }
-export interface CreateCoursesStudentsRequest {
-  /** Identifier of the course to create the student in. This identifier can be either the Classroom-assigned identifier or an alias. */
+export interface CreateCoursesTeachersRequest {
+  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Enrollment code of the course to create the student in. This code is required if userId corresponds to the requesting user; it may be omitted if the requesting user has administrative permissions to create students for any user. */
-  enrollmentCode?: string | undefined;
-  /** Request body */
-  body?: Student | undefined;
+  /** Global user information for the teacher. Read-only. */
+  profile?: UserProfile | undefined;
+  /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
+  userId?: string | undefined;
 }
 /** Teacher of a course. */
 export interface Teacher {
@@ -730,11 +952,15 @@ export interface Teacher {
   /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
   userId?: string | undefined;
 }
-export interface CreateCoursesTeachersRequest {
+export interface CreateCoursesTopicsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: Teacher | undefined;
+  /** The time the topic was last updated by the system. Read-only. */
+  updateTime?: string | undefined;
+  /** Unique identifier for the topic. Read-only. */
+  topicId?: string | undefined;
+  /** The name of the topic, generated by the user. Leading and trailing whitespaces, if any, are trimmed. Also, multiple consecutive whitespaces are collapsed into one inside the name. The result must be a non-empty string. Topic names are case sensitive, and must be no longer than 100 characters. */
+  name?: string | undefined;
 }
 /** Topic created by a teacher for the course */
 export interface Topic {
@@ -747,15 +973,8 @@ export interface Topic {
   /** Identifier of the course. Read-only. */
   courseId?: string | undefined;
 }
-export interface CreateCoursesTopicsRequest {
-  /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
-  courseId: string;
-  /** Request body */
-  body?: Topic | undefined;
-}
 export type InvitationRoleEnum = "COURSE_ROLE_UNSPECIFIED" | "STUDENT" | "TEACHER" | "OWNER";
-/** An invitation to join a course. */
-export interface Invitation {
+export interface CreateInvitationsRequest {
   /** Role to invite the user to have. Must not be `COURSE_ROLE_UNSPECIFIED`. */
   role?: InvitationRoleEnum | (string & {}) | undefined;
   /** Identifier assigned by Classroom. Read-only. */
@@ -765,9 +984,16 @@ export interface Invitation {
   /** Identifier of the course to invite the user to. */
   courseId?: string | undefined;
 }
-export interface CreateInvitationsRequest {
-  /** Request body */
-  body?: Invitation | undefined;
+/** An invitation to join a course. */
+export interface Invitation {
+  /** Role to invite the user to have. Must not be `COURSE_ROLE_UNSPECIFIED`. */
+  role?: InvitationRoleEnum | undefined;
+  /** Identifier assigned by Classroom. Read-only. */
+  id?: string | undefined;
+  /** Identifier of the invited user. When specified as a parameter of a request, this identifier can be set to one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
+  userId?: string | undefined;
+  /** Identifier of the course to invite the user to. */
+  courseId?: string | undefined;
 }
 /** A reference to a Cloud Pub/Sub topic. To register for notifications, the owner of the topic must grant `classroom-notifications@system.gserviceaccount.com` the `projects.topics.publish` permission. */
 export interface CloudPubsubTopic {
@@ -798,6 +1024,16 @@ export interface Feed {
   /** Information about a `Feed` with a `feed_type` of `COURSE_WORK_CHANGES`. This field must be specified if `feed_type` is `COURSE_WORK_CHANGES`. */
   courseWorkChangesInfo?: CourseWorkChangesInfo | undefined;
 }
+export interface CreateRegistrationsRequest {
+  /** The Cloud Pub/Sub topic that notifications are to be sent to. */
+  cloudPubsubTopic?: CloudPubsubTopic | undefined;
+  /** A server-generated unique identifier for this `Registration`. Read-only. */
+  registrationId?: string | undefined;
+  /** Specification for the class of notifications that Classroom should deliver to the destination. */
+  feed?: Feed | undefined;
+  /** The time until which the `Registration` is effective. This is a read-only field assigned by the server. */
+  expiryTime?: string | undefined;
+}
 /** An instruction to Classroom to send notifications from the `feed` to the provided destination. */
 export interface Registration {
   /** The Cloud Pub/Sub topic that notifications are to be sent to. */
@@ -809,20 +1045,15 @@ export interface Registration {
   /** The time until which the `Registration` is effective. This is a read-only field assigned by the server. */
   expiryTime?: string | undefined;
 }
-export interface CreateRegistrationsRequest {
-  /** Request body */
-  body?: Registration | undefined;
-}
 export type GuardianInvitationStateEnum =
   | "GUARDIAN_INVITATION_STATE_UNSPECIFIED"
   | "PENDING"
   | "COMPLETE";
-/** An invitation to become the guardian of a specified user, sent to a specified email address. */
-export interface GuardianInvitation {
+export interface CreateUserProfilesGuardianInvitationsRequest {
+  /** ID of the student (in standard format) */
+  studentId: string;
   /** Email address that the invitation was sent to. This field is only visible to domain administrators. */
   invitedEmailAddress?: string | undefined;
-  /** ID of the student (in standard format) */
-  studentId?: string | undefined;
   /** The state that this invitation is in. */
   state?: GuardianInvitationStateEnum | (string & {}) | undefined;
   /** Unique identifier for this invitation. Read-only. */
@@ -830,11 +1061,18 @@ export interface GuardianInvitation {
   /** The time that this invitation was created. Read-only. */
   creationTime?: string | undefined;
 }
-export interface CreateUserProfilesGuardianInvitationsRequest {
+/** An invitation to become the guardian of a specified user, sent to a specified email address. */
+export interface GuardianInvitation {
+  /** Email address that the invitation was sent to. This field is only visible to domain administrators. */
+  invitedEmailAddress?: string | undefined;
   /** ID of the student (in standard format) */
-  studentId: string;
-  /** Request body */
-  body?: GuardianInvitation | undefined;
+  studentId?: string | undefined;
+  /** The state that this invitation is in. */
+  state?: GuardianInvitationStateEnum | undefined;
+  /** Unique identifier for this invitation. Read-only. */
+  invitationId?: string | undefined;
+  /** The time that this invitation was created. Read-only. */
+  creationTime?: string | undefined;
 }
 export interface DeleteCoursesRequest {
   /** Identifier of the course to delete. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -1094,10 +1332,7 @@ export interface AddOnAttachmentStudentSubmission {
   /** Identifier for the student that owns this submission. Requires the user to be a teacher in the course and have permission to read student submissions. See [`courseWork.studentSubmissions.get`](/workspace/classroom/reference/rest/v1/courses.courseWork.studentSubmissions/get#authorization-scopes) for the list of acceptable OAuth scopes for this field. Read-only. */
   userId?: string | undefined;
   /** Submission state of add-on attachment's parent post (i.e. assignment). */
-  postSubmissionState?:
-    | AddOnAttachmentStudentSubmissionPostSubmissionStateEnum
-    | (string & {})
-    | undefined;
+  postSubmissionState?: AddOnAttachmentStudentSubmissionPostSubmissionStateEnum | undefined;
 }
 export interface GetCoursesCourseWorkMaterialsRequest {
   /** Identifier of the course work material. */
@@ -1235,7 +1470,7 @@ export interface StudentSubmission {
   /** Assigned rubric grades based on the rubric's Criteria. This map is empty if there is no rubric attached to this course work or if a rubric is attached, but no grades have been set on any Criteria. Entries are only populated for grades that have been set. Key: The rubric's criterion ID. Read-only. */
   assignedRubricGrades?: RubricGradeMap | undefined;
   /** Type of course work this submission is for. Read-only. */
-  courseWorkType?: StudentSubmissionCourseWorkTypeEnum | (string & {}) | undefined;
+  courseWorkType?: StudentSubmissionCourseWorkTypeEnum | undefined;
   /** Classroom-assigned Identifier for the student submission. This is unique among submissions for the relevant course work. Read-only. */
   id?: string | undefined;
   /** Absolute link to the submission in the Classroom web UI. Read-only. */
@@ -1259,7 +1494,7 @@ export interface StudentSubmission {
   /** Submission content when course_work_type is ASSIGNMENT. Students can modify this content using ModifyAttachments. */
   assignmentSubmission?: AssignmentSubmission | undefined;
   /** State of this submission. Read-only. */
-  state?: StudentSubmissionStateEnum | (string & {}) | undefined;
+  state?: StudentSubmissionStateEnum | undefined;
   /** Last update time of this submission. This may be unset if the student has not accessed this item. Read-only. */
   updateTime?: string | undefined;
 }
@@ -1779,44 +2014,29 @@ export type ModifyAnnouncementAssigneesRequestAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
   | "ALL_STUDENTS"
   | "INDIVIDUAL_STUDENTS";
-/** Request to modify assignee mode and options of an announcement. */
-export interface ModifyAnnouncementAssigneesRequest {
-  /** Set which students can view or cannot view the announcement. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
-  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
-  /** Mode of the announcement describing whether it is accessible by all students or specified individual students. */
-  assigneeMode?: ModifyAnnouncementAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
-}
 export interface ModifyAssigneesCoursesAnnouncementsRequest {
   /** Identifier of the announcement. */
   id: string;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: ModifyAnnouncementAssigneesRequest | undefined;
+  /** Set which students can view or cannot view the announcement. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
+  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
+  /** Mode of the announcement describing whether it is accessible by all students or specified individual students. */
+  assigneeMode?: ModifyAnnouncementAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
 }
 export type ModifyCourseWorkAssigneesRequestAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
   | "ALL_STUDENTS"
   | "INDIVIDUAL_STUDENTS";
-/** Request to modify assignee mode and options of a coursework. */
-export interface ModifyCourseWorkAssigneesRequest {
-  /** Mode of the coursework describing whether it will be assigned to all students or specified individual students. */
-  assigneeMode?: ModifyCourseWorkAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
-  /** Set which students are assigned or not assigned to the coursework. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
-  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
-}
 export interface ModifyAssigneesCoursesCourseWorkRequest {
   /** Identifier of the coursework. */
   id: string;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
-  /** Request body */
-  body?: ModifyCourseWorkAssigneesRequest | undefined;
-}
-/** Request to modify the attachments of a student submission. */
-export interface ModifyAttachmentsRequest {
-  /** Attachments to add. A student submission may not have more than 20 attachments. Form attachments are not supported. */
-  addAttachments?: AttachmentList | undefined;
+  /** Mode of the coursework describing whether it will be assigned to all students or specified individual students. */
+  assigneeMode?: ModifyCourseWorkAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
+  /** Set which students are assigned or not assigned to the coursework. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
+  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
 }
 export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the course work. */
@@ -1825,16 +2045,54 @@ export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest {
   courseId: string;
   /** Identifier of the student submission. */
   id: string;
-  /** Request body */
-  body?: ModifyAttachmentsRequest | undefined;
+  /** Attachments to add. A student submission may not have more than 20 attachments. Form attachments are not supported. */
+  addAttachments?: AttachmentList | undefined;
 }
 export interface PatchCoursesRequest {
   /** Mask that identifies which fields on the course to update. This field is required to do an update. The update will fail if invalid fields are specified. The following fields are valid: * `courseState` * `description` * `descriptionHeading` * `name` * `ownerId` * `room` * `section` * `subject` * `learningStandardSettings` * `levels` Note: patches to ownerId are treated as being effective immediately, but in practice it may take some time for the ownership transfer of all affected resources to complete. When set in a query parameter, this field should be specified as `updateMask=,,...` */
   updateMask?: string | undefined;
   /** Identifier of the course to update. This identifier can be either the Classroom-assigned identifier or an alias. */
   id: string;
-  /** Request body */
-  body?: Course | undefined;
+  /** Optional. Levels for the course. Examples: "9th grade", "Middle school", "4th - 5th", "K-2", "3000". If set, this field must be a valid UTF-8 string and fewer than 1000 characters. This field can only be cleared using the `PatchCourse` method. */
+  levels?: string | undefined;
+  /** Time of the most recent update to this course. Specifying this field in a course update mask results in an error. Read-only. */
+  updateTime?: string | undefined;
+  /** Enrollment code to use when joining this course. Specifying this field in a course update mask results in an error. Read-only. */
+  enrollmentCode?: string | undefined;
+  /** The email address of a Google group containing all teachers of the course. This group does not accept email and can only be used for permissions. Read-only. */
+  teacherGroupEmail?: string | undefined;
+  /** Sets of materials that appear on the "about" page of this course. Read-only. */
+  courseMaterialSets?: CourseMaterialSetList | undefined;
+  /** Optional heading for the description. For example, "Welcome to 10th Grade Biology." If set, this field must be a valid UTF-8 string and no longer than 3600 characters. */
+  descriptionHeading?: string | undefined;
+  /** Whether or not guardian notifications are enabled for this course. Read-only. */
+  guardiansEnabled?: boolean | undefined;
+  /** Section of the course. For example, "Period 2". If set, this field must be a valid UTF-8 string and no longer than 2800 characters. */
+  section?: string | undefined;
+  /** The identifier of the owner of a course. When specified as a parameter of a create course request, this field is required. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user This must be set in a create request. Admins can also specify this field in a patch course request to transfer ownership. In other contexts, it is read-only. */
+  ownerId?: string | undefined;
+  /** The Calendar ID for a calendar that all course members can see, to which Classroom adds events for course work and announcements in the course. The Calendar for a course is created asynchronously when the course is set to `CourseState.ACTIVE` for the first time (at creation time or when it is updated to `ACTIVE` through the UI or the API). The Calendar ID will not be populated until the creation process is completed. Read-only. */
+  calendarId?: string | undefined;
+  /** Absolute link to this course in the Classroom web UI. Read-only. */
+  alternateLink?: string | undefined;
+  /** Optional description. For example, "We'll be learning about the structure of living creatures from a combination of textbooks, guest lectures, and lab work. Expect to be excited!" If set, this field must be a valid UTF-8 string and no longer than 30,000 characters. */
+  description?: string | undefined;
+  /** Name of the course. For example, "10th Grade Biology". The name is required. It must be between 1 and 750 characters and a valid UTF-8 string. */
+  name?: string | undefined;
+  /** Information about a Drive Folder that is shared with all teachers of the course. This field will only be set for teachers of the course and domain administrators. Read-only. */
+  teacherFolder?: DriveFolder | undefined;
+  /** Optional room location. For example, "301". If set, this field must be a valid UTF-8 string and no longer than 650 characters. */
+  room?: string | undefined;
+  /** The gradebook settings that specify how a student's overall grade for the course will be calculated and who it will be displayed to. Read-only. */
+  gradebookSettings?: GradebookSettings | undefined;
+  /** Optional. The subject of the course. */
+  subject?: string | undefined;
+  /** The email address of a Google group containing all members of the course. This group does not accept email and can only be used for permissions. Read-only. */
+  courseGroupEmail?: string | undefined;
+  /** Creation time of the course. Specifying this field in a course update mask results in an error. Read-only. */
+  creationTime?: string | undefined;
+  /** State of the course. If unspecified, the default state is `PROVISIONED`. */
+  courseState?: CourseCourseStateEnum | (string & {}) | undefined;
 }
 export interface PatchCoursesAnnouncementsRequest {
   /** Mask that identifies which fields on the announcement to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the Announcement object. If a field that does not support empty values is included in the update mask and not set in the Announcement object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `text` * `state` * `scheduled_time` */
@@ -1843,8 +2101,26 @@ export interface PatchCoursesAnnouncementsRequest {
   courseId: string;
   /** Identifier of the announcement. */
   id: string;
-  /** Request body */
-  body?: Announcement | undefined;
+  /** Status of this announcement. If unspecified, the default state is `DRAFT`. */
+  state?: AnnouncementStateEnum | (string & {}) | undefined;
+  /** Description of this announcement. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
+  text?: string | undefined;
+  /** Timestamp when this announcement was created. Read-only. */
+  creationTime?: string | undefined;
+  /** Assignee mode of the announcement. If unspecified, the default value is `ALL_STUDENTS`. */
+  assigneeMode?: AnnouncementAssigneeModeEnum | (string & {}) | undefined;
+  /** Additional materials. Announcements must have no more than 20 material items. */
+  materials?: MaterialList | undefined;
+  /** Absolute link to this announcement in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
+  alternateLink?: string | undefined;
+  /** Identifier for the user that created the announcement. Read-only. */
+  creatorUserId?: string | undefined;
+  /** Identifiers of students with access to the announcement. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the announcement. */
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
+  /** Timestamp of the most recent change to this announcement. Read-only. */
+  updateTime?: string | undefined;
+  /** Optional timestamp when this announcement is scheduled to be published. */
+  scheduledTime?: string | undefined;
 }
 export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Required. Identifier of the post under which the attachment is attached. */
@@ -1857,8 +2133,26 @@ export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest {
   courseId: string;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
 }
 export interface PatchCoursesCourseWorkRequest {
   /** Mask that identifies which fields on the course work to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `CourseWork` object. If a field that does not support empty values is included in the update mask and not set in the `CourseWork` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `description` * `state` * `due_date` * `due_time` * `max_points` * `scheduled_time` * `submission_modification_mode` * `topic_id` * `grading_period_id` * `learning_goals` */
@@ -1867,8 +2161,50 @@ export interface PatchCoursesCourseWorkRequest {
   courseId: string;
   /** Identifier of the course work. */
   id: string;
-  /** Request body */
-  body?: CourseWork | undefined;
+  /** Additional materials. CourseWork must have no more than 20 material items. */
+  materials?: MaterialList | undefined;
+  /** Timestamp of the most recent change to this course work. Read-only. */
+  updateTime?: string | undefined;
+  /** Absolute link to this course work in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
+  alternateLink?: string | undefined;
+  /** Identifier for the user that created the coursework. Read-only. */
+  creatorUserId?: string | undefined;
+  /** Assignee mode of the coursework. If unspecified, the default value is `ALL_STUDENTS`. */
+  assigneeMode?: CourseWorkAssigneeModeEnum | (string & {}) | undefined;
+  /** Identifiers of students with access to the coursework. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field are assigned the coursework. */
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
+  /** Optional timestamp when this course work is scheduled to be published. */
+  scheduledTime?: string | undefined;
+  /** Status of this course work. If unspecified, the default state is `DRAFT`. */
+  state?: CourseWorkStateEnum | (string & {}) | undefined;
+  /** Whether this course work item is associated with the Developer Console project making the request. See CreateCourseWork for more details. Read-only. */
+  associatedWithDeveloper?: boolean | undefined;
+  /** Maximum grade for this course work. If zero or unspecified, this assignment is considered ungraded. This must be a non-negative integer value. */
+  maxPoints?: number | undefined;
+  /** Optional date, in UTC, that submissions for this course work are due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Multiple choice question details. For read operations, this field is populated only when `work_type` is `MULTIPLE_CHOICE_QUESTION`. For write operations, this field must be specified when creating course work with a `work_type` of `MULTIPLE_CHOICE_QUESTION`, and it must not be set otherwise. */
+  multipleChoiceQuestion?: MultipleChoiceQuestion | undefined;
+  /** Optional time of day, in UTC, that submissions for this course work are due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Identifier for the topic that this coursework is associated with. Must match an existing topic in the course. */
+  topicId?: string | undefined;
+  /** Setting to determine when students are allowed to modify submissions. If unspecified, the default value is `MODIFIABLE_UNTIL_TURNED_IN`. */
+  submissionModificationMode?: CourseWorkSubmissionModificationModeEnum | (string & {}) | undefined;
+  /** Type of this course work. The type is set when the course work is created and cannot be changed. */
+  workType?: CourseWorkWorkTypeEnum | (string & {}) | undefined;
+  /** Title of this course work. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
+  title?: string | undefined;
+  /** Timestamp when this course work was created. Read-only. */
+  creationTime?: string | undefined;
+  /** Optional description of this course work. If set, the description must be a valid UTF-8 string containing no more than 30,000 characters. */
+  description?: string | undefined;
+  /** Assignment details. This is populated only when `work_type` is `ASSIGNMENT`. Read-only. */
+  assignment?: Assignment | undefined;
+  /** Identifier of the grading period associated with the coursework. * At creation, if unspecified, the grading period ID will be set based on the `dueDate` (or `scheduledTime` if no `dueDate` is set). * To indicate no association to any grading period, set this field to an empty string (""). * If specified, it must match an existing grading period ID in the course. */
+  gradingPeriodId?: string | undefined;
+  /** The category that this coursework's grade contributes to. Present only when a category has been chosen for the coursework. May be used in calculating the overall grade. Read-only. */
+  gradeCategory?: GradeCategory | undefined;
 }
 export interface PatchCoursesCourseWorkAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
@@ -1881,8 +2217,26 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsRequest {
   courseId: string;
   /** Required. Identifier of the post under which the attachment is attached. */
   postId?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
 }
 export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest {
   /** Optional. Deprecated, use `item_id` instead. */
@@ -1897,8 +2251,19 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest
   updateMask?: string | undefined;
   /** Required. Identifier of the student's submission. */
   submissionId: string;
-  /** Request body */
-  body?: AddOnAttachmentStudentSubmission | undefined;
+  /** Student grade on this attachment. If unset, no grade was set. */
+  pointsEarned?: number | undefined;
+  /** Output only. Identifier of the course work submission under which this attachment submission was made. */
+  courseWorkSubmissionId?: string | undefined;
+  /** Output only. Classroom-assigned identifier for this student submission. This is unique among submissions for the relevant course work and add-on attachment combination. */
+  id?: string | undefined;
+  /** Identifier for the student that owns this submission. Requires the user to be a teacher in the course and have permission to read student submissions. See [`courseWork.studentSubmissions.get`](/workspace/classroom/reference/rest/v1/courses.courseWork.studentSubmissions/get#authorization-scopes) for the list of acceptable OAuth scopes for this field. Read-only. */
+  userId?: string | undefined;
+  /** Submission state of add-on attachment's parent post (i.e. assignment). */
+  postSubmissionState?:
+    | AddOnAttachmentStudentSubmissionPostSubmissionStateEnum
+    | (string & {})
+    | undefined;
 }
 export interface PatchCoursesCourseWorkMaterialsRequest {
   /** Mask that identifies which fields on the course work material to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the course work material object. If a field that does not support empty values is included in the update mask and not set in the course work material object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `description` * `state` * `scheduled_time` * `topic_id` * `learning_goals` */
@@ -1907,8 +2272,30 @@ export interface PatchCoursesCourseWorkMaterialsRequest {
   courseId: string;
   /** Identifier of the course work material. */
   id: string;
-  /** Request body */
-  body?: CourseWorkMaterial | undefined;
+  /** Additional materials. A course work material must have no more than 20 material items. */
+  materials?: MaterialList | undefined;
+  /** Identifier for the topic that this course work material is associated with. Must match an existing topic in the course. */
+  topicId?: string | undefined;
+  /** Title of this course work material. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
+  title?: string | undefined;
+  /** Assignee mode of the course work material. If unspecified, the default value is `ALL_STUDENTS`. */
+  assigneeMode?: CourseWorkMaterialAssigneeModeEnum | (string & {}) | undefined;
+  /** Status of this course work material. If unspecified, the default state is `DRAFT`. */
+  state?: CourseWorkMaterialStateEnum | (string & {}) | undefined;
+  /** Optional description of this course work material. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
+  description?: string | undefined;
+  /** Optional timestamp when this course work material is scheduled to be published. */
+  scheduledTime?: string | undefined;
+  /** Timestamp when this course work material was created. Read-only. */
+  creationTime?: string | undefined;
+  /** Timestamp of the most recent change to this course work material. Read-only. */
+  updateTime?: string | undefined;
+  /** Absolute link to this course work material in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
+  alternateLink?: string | undefined;
+  /** Identifier for the user that created the course work material. Read-only. */
+  creatorUserId?: string | undefined;
+  /** Identifiers of students with access to the course work material. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the course work material. */
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
 }
 export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
@@ -1921,8 +2308,26 @@ export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   postId?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
   itemId: string;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
 }
 export interface PatchCoursesCourseWorkRubricsRequest {
   /** Required. Identifier of the course work. */
@@ -1933,8 +2338,14 @@ export interface PatchCoursesCourseWorkRubricsRequest {
   id: string;
   /** Required. Identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: Rubric | undefined;
+  /** Output only. Timestamp when this rubric was created. Read-only. */
+  creationTime?: string | undefined;
+  /** List of criteria. Each criterion is a dimension on which performance is rated. */
+  criteria?: CriterionList | undefined;
+  /** Input only. Immutable. Google Sheets ID of the spreadsheet. This spreadsheet must contain formatted rubric settings. See [Create or reuse a rubric for an assignment](https://support.google.com/edu/classroom/answer/9335069). Use of this field requires the `https://www.googleapis.com/auth/spreadsheets.readonly` or `https://www.googleapis.com/auth/spreadsheets` scope. */
+  sourceSpreadsheetId?: string | undefined;
+  /** Output only. Timestamp of the most recent change to this rubric. Read-only. */
+  updateTime?: string | undefined;
 }
 export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -1945,8 +2356,38 @@ export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
   courseWorkId: string;
   /** Identifier of the student submission. */
   id: string;
-  /** Request body */
-  body?: StudentSubmission | undefined;
+  /** Pending rubric grades based on the rubric's criteria. This map is empty if there is no rubric attached to this course work or if a rubric is attached, but no grades have been set on any criteria. Entries are only populated for grades that have been set. Key: The rubric's criterion ID. Read-only. */
+  draftRubricGrades?: RubricGradeMap | undefined;
+  /** Identifier for the student that owns this submission. Read-only. */
+  userId?: string | undefined;
+  /** Optional pending grade. If unset, no grade was set. This value must be non-negative. Decimal (that is, non-integer) values are allowed, but are rounded to two decimal places. This is only visible to and modifiable by course teachers. */
+  draftGrade?: number | undefined;
+  /** Assigned rubric grades based on the rubric's Criteria. This map is empty if there is no rubric attached to this course work or if a rubric is attached, but no grades have been set on any Criteria. Entries are only populated for grades that have been set. Key: The rubric's criterion ID. Read-only. */
+  assignedRubricGrades?: RubricGradeMap | undefined;
+  /** Type of course work this submission is for. Read-only. */
+  courseWorkType?: StudentSubmissionCourseWorkTypeEnum | (string & {}) | undefined;
+  /** Absolute link to the submission in the Classroom web UI. Read-only. */
+  alternateLink?: string | undefined;
+  /** Creation time of this submission. This may be unset if the student has not accessed this item. Read-only. */
+  creationTime?: string | undefined;
+  /** Submission content when course_work_type is SHORT_ANSWER_QUESTION. */
+  shortAnswerSubmission?: ShortAnswerSubmission | undefined;
+  /** The history of the submission (includes state and grade histories). Read-only. */
+  submissionHistory?: SubmissionHistoryList | undefined;
+  /** Whether this student submission is associated with the Developer Console project making the request. See CreateCourseWork for more details. Read-only. */
+  associatedWithDeveloper?: boolean | undefined;
+  /** Submission content when course_work_type is MULTIPLE_CHOICE_QUESTION. */
+  multipleChoiceSubmission?: MultipleChoiceSubmission | undefined;
+  /** Optional grade. If unset, no grade was set. This value must be non-negative. Decimal (that is, non-integer) values are allowed, but are rounded to two decimal places. This may be modified only by course teachers. */
+  assignedGrade?: number | undefined;
+  /** Whether this submission is late. Read-only. */
+  late?: boolean | undefined;
+  /** Submission content when course_work_type is ASSIGNMENT. Students can modify this content using ModifyAttachments. */
+  assignmentSubmission?: AssignmentSubmission | undefined;
+  /** State of this submission. Read-only. */
+  state?: StudentSubmissionStateEnum | (string & {}) | undefined;
+  /** Last update time of this submission. This may be unset if the student has not accessed this item. Read-only. */
+  updateTime?: string | undefined;
 }
 export interface PatchCoursesPostsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
@@ -1959,8 +2400,26 @@ export interface PatchCoursesPostsAddOnAttachmentsRequest {
   attachmentId: string;
   /** Identifier of the post under which the attachment is attached. */
   itemId?: string | undefined;
-  /** Request body */
-  body?: AddOnAttachment | undefined;
+  /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
+  copyHistory?: CopyHistoryList | undefined;
+  /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
+  gradeSyncEnabled?: boolean | undefined;
+  /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
+  dueTime?: TimeOfDay | undefined;
+  /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
+  maxPoints?: number | undefined;
+  /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
+  id?: string | undefined;
+  /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
+  studentWorkReviewUri?: EmbedUri | undefined;
+  /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  teacherViewUri?: EmbedUri | undefined;
+  /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
+  title?: string | undefined;
+  /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
+  dueDate?: Classroom_Date | undefined;
+  /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
+  studentViewUri?: EmbedUri | undefined;
 }
 export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
@@ -1975,8 +2434,19 @@ export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
   updateMask?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: AddOnAttachmentStudentSubmission | undefined;
+  /** Student grade on this attachment. If unset, no grade was set. */
+  pointsEarned?: number | undefined;
+  /** Output only. Identifier of the course work submission under which this attachment submission was made. */
+  courseWorkSubmissionId?: string | undefined;
+  /** Output only. Classroom-assigned identifier for this student submission. This is unique among submissions for the relevant course work and add-on attachment combination. */
+  id?: string | undefined;
+  /** Identifier for the student that owns this submission. Requires the user to be a teacher in the course and have permission to read student submissions. See [`courseWork.studentSubmissions.get`](/workspace/classroom/reference/rest/v1/courses.courseWork.studentSubmissions/get#authorization-scopes) for the list of acceptable OAuth scopes for this field. Read-only. */
+  userId?: string | undefined;
+  /** Submission state of add-on attachment's parent post (i.e. assignment). */
+  postSubmissionState?:
+    | AddOnAttachmentStudentSubmissionPostSubmissionStateEnum
+    | (string & {})
+    | undefined;
 }
 export interface PatchCoursesStudentGroupsRequest {
   /** Required. Identifier of the course. */
@@ -1985,8 +2455,8 @@ export interface PatchCoursesStudentGroupsRequest {
   updateMask?: string | undefined;
   /** Required. Identifier of the student group. */
   id: string;
-  /** Request body */
-  body?: StudentGroup | undefined;
+  /** The title of the student group. */
+  title?: string | undefined;
 }
 export interface PatchCoursesTopicsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -1995,8 +2465,12 @@ export interface PatchCoursesTopicsRequest {
   updateMask?: string | undefined;
   /** Identifier of the topic. */
   id: string;
-  /** Request body */
-  body?: Topic | undefined;
+  /** The time the topic was last updated by the system. Read-only. */
+  updateTime?: string | undefined;
+  /** Unique identifier for the topic. Read-only. */
+  topicId?: string | undefined;
+  /** The name of the topic, generated by the user. Leading and trailing whitespaces, if any, are trimmed. Also, multiple consecutive whitespaces are collapsed into one inside the name. The result must be a non-empty string. Topic names are case sensitive, and must be no longer than 100 characters. */
+  name?: string | undefined;
 }
 export interface PatchUserProfilesGuardianInvitationsRequest {
   /** The `id` field of the `GuardianInvitation` to be modified. */
@@ -2005,8 +2479,12 @@ export interface PatchUserProfilesGuardianInvitationsRequest {
   studentId: string;
   /** Mask that identifies which fields on the course to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields are valid: * `state` When set in a query parameter, this field should be specified as `updateMask=,,...` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GuardianInvitation | undefined;
+  /** Email address that the invitation was sent to. This field is only visible to domain administrators. */
+  invitedEmailAddress?: string | undefined;
+  /** The state that this invitation is in. */
+  state?: GuardianInvitationStateEnum | (string & {}) | undefined;
+  /** The time that this invitation was created. Read-only. */
+  creationTime?: string | undefined;
 }
 /** Request to reclaim a student submission. */
 export type ReclaimStudentSubmissionRequest = TeacherContext;
@@ -2047,16 +2525,56 @@ export interface TurnInCoursesCourseWorkStudentSubmissionsRequest {
 export interface UpdateCoursesRequest {
   /** Identifier of the course to update. This identifier can be either the Classroom-assigned identifier or an alias. */
   id: string;
-  /** Request body */
-  body?: Course | undefined;
+  /** Optional. Levels for the course. Examples: "9th grade", "Middle school", "4th - 5th", "K-2", "3000". If set, this field must be a valid UTF-8 string and fewer than 1000 characters. This field can only be cleared using the `PatchCourse` method. */
+  levels?: string | undefined;
+  /** Time of the most recent update to this course. Specifying this field in a course update mask results in an error. Read-only. */
+  updateTime?: string | undefined;
+  /** Enrollment code to use when joining this course. Specifying this field in a course update mask results in an error. Read-only. */
+  enrollmentCode?: string | undefined;
+  /** The email address of a Google group containing all teachers of the course. This group does not accept email and can only be used for permissions. Read-only. */
+  teacherGroupEmail?: string | undefined;
+  /** Sets of materials that appear on the "about" page of this course. Read-only. */
+  courseMaterialSets?: CourseMaterialSetList | undefined;
+  /** Optional heading for the description. For example, "Welcome to 10th Grade Biology." If set, this field must be a valid UTF-8 string and no longer than 3600 characters. */
+  descriptionHeading?: string | undefined;
+  /** Whether or not guardian notifications are enabled for this course. Read-only. */
+  guardiansEnabled?: boolean | undefined;
+  /** Section of the course. For example, "Period 2". If set, this field must be a valid UTF-8 string and no longer than 2800 characters. */
+  section?: string | undefined;
+  /** The identifier of the owner of a course. When specified as a parameter of a create course request, this field is required. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user This must be set in a create request. Admins can also specify this field in a patch course request to transfer ownership. In other contexts, it is read-only. */
+  ownerId?: string | undefined;
+  /** The Calendar ID for a calendar that all course members can see, to which Classroom adds events for course work and announcements in the course. The Calendar for a course is created asynchronously when the course is set to `CourseState.ACTIVE` for the first time (at creation time or when it is updated to `ACTIVE` through the UI or the API). The Calendar ID will not be populated until the creation process is completed. Read-only. */
+  calendarId?: string | undefined;
+  /** Absolute link to this course in the Classroom web UI. Read-only. */
+  alternateLink?: string | undefined;
+  /** Optional description. For example, "We'll be learning about the structure of living creatures from a combination of textbooks, guest lectures, and lab work. Expect to be excited!" If set, this field must be a valid UTF-8 string and no longer than 30,000 characters. */
+  description?: string | undefined;
+  /** Name of the course. For example, "10th Grade Biology". The name is required. It must be between 1 and 750 characters and a valid UTF-8 string. */
+  name?: string | undefined;
+  /** Information about a Drive Folder that is shared with all teachers of the course. This field will only be set for teachers of the course and domain administrators. Read-only. */
+  teacherFolder?: DriveFolder | undefined;
+  /** Optional room location. For example, "301". If set, this field must be a valid UTF-8 string and no longer than 650 characters. */
+  room?: string | undefined;
+  /** The gradebook settings that specify how a student's overall grade for the course will be calculated and who it will be displayed to. Read-only. */
+  gradebookSettings?: GradebookSettings | undefined;
+  /** Optional. The subject of the course. */
+  subject?: string | undefined;
+  /** The email address of a Google group containing all members of the course. This group does not accept email and can only be used for permissions. Read-only. */
+  courseGroupEmail?: string | undefined;
+  /** Creation time of the course. Specifying this field in a course update mask results in an error. Read-only. */
+  creationTime?: string | undefined;
+  /** State of the course. If unspecified, the default state is `PROVISIONED`. */
+  courseState?: CourseCourseStateEnum | (string & {}) | undefined;
 }
 export interface UpdateGradingPeriodSettingsCoursesRequest {
   /** Mask that identifies which fields in the GradingPeriodSettings to update. The GradingPeriodSettings `grading_periods` list will be fully replaced by the grading periods specified in the update request. For example: * Grading periods included in the list without an ID are considered additions, and a new ID will be assigned when the request is made. * Grading periods that currently exist, but are missing from the request will be considered deletions. * Grading periods with an existing ID and modified data are considered edits. Unmodified data will be left as is. * Grading periods included with an unknown ID will result in an error. The following fields may be specified: * `grading_periods` * `apply_to_existing_coursework` */
   updateMask?: string | undefined;
   /** Required. The identifier of the course. */
   courseId: string;
-  /** Request body */
-  body?: GradingPeriodSettings | undefined;
+  /** The list of grading periods in a specific course. Grading periods must not have overlapping date ranges and must be listed in chronological order. Each grading period must have a unique title within a course. */
+  gradingPeriods?: GradingPeriodList | undefined;
+  /** Supports toggling the application of grading periods on existing stream items. Once set, this value is persisted meaning that it does not need to be set in every request to update `GradingPeriodSettings`. If not previously set, the default is False. */
+  applyToExistingCoursework?: boolean | undefined;
 }
 export interface UpdateRubricCoursesCourseWorkRequest {
   /** Optional. Mask that identifies which fields on the rubric to update. This field is required to do an update. The update fails if invalid fields are specified. There are multiple options to define the criteria of a rubric: the `source_spreadsheet_id` and the `criteria` list. Only one of these can be used at a time to define a rubric. The rubric `criteria` list is fully replaced by the rubric criteria specified in the update request. For example, if a criterion or level is missing from the request, it is deleted. New criteria and levels are added and an ID is assigned. Existing criteria and levels retain the previously assigned ID if the ID is specified in the request. The following fields can be specified by teachers: * `criteria` * `source_spreadsheet_id` */
@@ -2067,8 +2585,14 @@ export interface UpdateRubricCoursesCourseWorkRequest {
   courseId: string;
   /** Required. Identifier of the course work. */
   courseWorkId: string;
-  /** Request body */
-  body?: Rubric | undefined;
+  /** Output only. Timestamp when this rubric was created. Read-only. */
+  creationTime?: string | undefined;
+  /** List of criteria. Each criterion is a dimension on which performance is rated. */
+  criteria?: CriterionList | undefined;
+  /** Input only. Immutable. Google Sheets ID of the spreadsheet. This spreadsheet must contain formatted rubric settings. See [Create or reuse a rubric for an assignment](https://support.google.com/edu/classroom/answer/9335069). Use of this field requires the `https://www.googleapis.com/auth/spreadsheets.readonly` or `https://www.googleapis.com/auth/spreadsheets` scope. */
+  sourceSpreadsheetId?: string | undefined;
+  /** Output only. Timestamp of the most recent change to this rubric. Read-only. */
+  updateTime?: string | undefined;
 }
 export type AcceptInvitationsError =
   | NotFound
@@ -2465,8 +2989,8 @@ export const createRegistrations: API.OperationMethod<
   CreateRegistrationsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(468, __c29, 4) as any as S.Schema<CreateRegistrationsRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<Registration>,
+  input: __S(467, __c29, 3) as any as S.Schema<CreateRegistrationsRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<Registration>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3770,7 +4294,7 @@ export const modifyAssigneesCoursesAnnouncements: API.OperationMethod<
   ModifyAssigneesCoursesAnnouncementsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1873, __c117, 1) as any as S.Schema<ModifyAssigneesCoursesAnnouncementsRequest>,
+  input: __S(1872, __c117, 0) as any as S.Schema<ModifyAssigneesCoursesAnnouncementsRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<Announcement>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3792,7 +4316,7 @@ export const modifyAssigneesCoursesCourseWork: API.OperationMethod<
   ModifyAssigneesCoursesCourseWorkError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1905, __c119, 1) as any as S.Schema<ModifyAssigneesCoursesCourseWorkRequest>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ModifyAssigneesCoursesCourseWorkRequest>,
   output: __S(1986, __c124, 2) as any as S.Schema<CourseWork>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3815,9 +4339,9 @@ export const modifyAttachmentsCoursesCourseWorkStudentSubmissions: API.Operation
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1921,
+    1920,
     __c120,
-    1,
+    0,
   ) as any as S.Schema<ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest>,
   output: __S(1178, __c73, 10) as any as S.Schema<StudentSubmission>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
@@ -4311,7 +4835,16 @@ function __c0(j: number): any {
           postId: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4330,7 +4863,7 @@ function __c1(j: number): any {
           courseId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
+          title: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4349,7 +4882,9 @@ function __c2(j: number): any {
           courseId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          topicId: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4368,7 +4903,9 @@ function __c3(j: number): any {
           invitationId: S.String.pipe(T.Label()),
           studentId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
+          invitedEmailAddress: S.optional(S.String),
+          state: S.optional(S.String),
+          creationTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4442,7 +4979,26 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1014, __c63, 6).pipe(T.HttpBody())),
+          levels: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          enrollmentCode: S.optional(S.String),
+          teacherGroupEmail: S.optional(S.String),
+          courseMaterialSets: S.optional(__S(1011, __c63, 3)),
+          descriptionHeading: S.optional(S.String),
+          guardiansEnabled: S.optional(S.Boolean),
+          section: S.optional(S.String),
+          ownerId: S.optional(S.String),
+          calendarId: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          teacherFolder: S.optional(__S(1040, __c65, 0)),
+          room: S.optional(S.String),
+          gradebookSettings: S.optional(__S(1013, __c63, 5)),
+          subject: S.optional(S.String),
+          courseGroupEmail: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          courseState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4460,7 +5016,8 @@ function __c8(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1314, __c82, 2).pipe(T.HttpBody())),
+          gradingPeriods: S.optional(__S(1313, __c82, 1)),
+          applyToExistingCoursework: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4480,7 +5037,10 @@ function __c9(j: number): any {
           id: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           courseWorkId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
+          creationTime: S.optional(S.String),
+          criteria: S.optional(__S(227, __c14, 3)),
+          sourceSpreadsheetId: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4497,7 +5057,19 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          materials: S.optional(__S(1556, __c97, 4)),
+          topicId: S.optional(S.String),
+          title: S.optional(S.String),
+          assigneeMode: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          scheduledTime: S.optional(S.String),
+          id: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          creatorUserId: S.optional(S.String),
+          individualStudentsOptions: S.optional(__S(1558, __c97, 6)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4540,7 +5112,16 @@ function __c12(j: number): any {
           postId: S.optional(S.String.pipe(T.Query())),
           itemId: S.String.pipe(T.Label()),
           addOnToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4558,7 +5139,11 @@ function __c13(j: number): any {
         S.Struct({
           courseWorkId: S.String.pipe(T.Label()),
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
+          creationTime: S.optional(S.String),
+          criteria: S.optional(__S(227, __c14, 3)),
+          sourceSpreadsheetId: S.optional(S.String),
+          id: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4616,7 +5201,16 @@ function __c15(j: number): any {
           postId: S.String.pipe(T.Label()),
           itemId: S.optional(S.String.pipe(T.Query())),
           addOnToken: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4633,7 +5227,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
+          title: S.optional(S.String),
+          id: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4663,7 +5258,7 @@ function __c18(j: number): any {
         S.Struct({
           courseId: S.String.pipe(T.Label()),
           studentGroupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
+          userId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4693,7 +5288,9 @@ function __c20(j: number): any {
         S.Struct({
           courseId: S.String.pipe(T.Label()),
           enrollmentCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(352, __c22, 0).pipe(T.HttpBody())),
+          studentWorkFolder: S.optional(__S(1040, __c65, 0)),
+          profile: S.optional(__S(339, __c21, 3)),
+          userId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4754,7 +5351,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c24, 0).pipe(T.HttpBody())),
+          profile: S.optional(__S(339, __c21, 3)),
+          userId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4783,7 +5381,9 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c26, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          topicId: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4812,7 +5412,10 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(448, __c28, 0).pipe(T.HttpBody())),
+          role: S.optional(S.String),
+          id: S.optional(S.String),
+          userId: S.optional(S.String),
+          courseId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4865,12 +5468,6 @@ function __c29(j: number): any {
           registrationId: S.optional(S.String),
           feed: S.optional(__S(466, __c29, 2)),
           expiryTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Registration" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(467, __c29, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4879,6 +5476,15 @@ function __c29(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateRegistrationsRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          cloudPubsubTopic: S.optional(__S(464, __c29, 0)),
+          registrationId: S.optional(S.String),
+          feed: S.optional(__S(466, __c29, 2)),
+          expiryTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Registration" });
   }
 }
 function __c30(j: number): any {
@@ -4887,7 +5493,10 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           studentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
+          invitedEmailAddress: S.optional(S.String),
+          state: S.optional(S.String),
+          invitationId: S.optional(S.String),
+          creationTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5441,7 +6050,27 @@ function __c62(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(1014, __c63, 6).pipe(T.HttpBody())),
+          levels: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          enrollmentCode: S.optional(S.String),
+          teacherGroupEmail: S.optional(S.String),
+          courseMaterialSets: S.optional(__S(1011, __c63, 3)),
+          descriptionHeading: S.optional(S.String),
+          guardiansEnabled: S.optional(S.Boolean),
+          section: S.optional(S.String),
+          ownerId: S.optional(S.String),
+          calendarId: S.optional(S.String),
+          id: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          teacherFolder: S.optional(__S(1040, __c65, 0)),
+          room: S.optional(S.String),
+          gradebookSettings: S.optional(__S(1013, __c63, 5)),
+          subject: S.optional(S.String),
+          courseGroupEmail: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          courseState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5866,7 +6495,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c80, 0).pipe(T.HttpBody())),
+          alias: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6163,7 +6792,17 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c96, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          text: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          id: S.optional(S.String),
+          assigneeMode: S.optional(S.String),
+          materials: S.optional(__S(1556, __c97, 4)),
+          alternateLink: S.optional(S.String),
+          creatorUserId: S.optional(S.String),
+          individualStudentsOptions: S.optional(__S(1558, __c97, 6)),
+          updateTime: S.optional(S.String),
+          scheduledTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6513,7 +7152,16 @@ function __c108(j: number): any {
           addOnToken: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           postId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6732,16 +7380,10 @@ function __c117(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          modifyIndividualStudentsOptions: S.optional(__S(1888, __c118, 0)),
-          assigneeMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ModifyAnnouncementAssigneesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String.pipe(T.Label()),
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1872, __c117, 0).pipe(T.HttpBody())),
+          modifyIndividualStudentsOptions: S.optional(__S(1888, __c118, 0)),
+          assigneeMode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6768,16 +7410,10 @@ function __c119(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          assigneeMode: S.optional(S.String),
-          modifyIndividualStudentsOptions: S.optional(__S(1888, __c118, 0)),
-        }),
-      ).annotate({ identifier: "ModifyCourseWorkAssigneesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String.pipe(T.Label()),
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1904, __c119, 0).pipe(T.HttpBody())),
+          assigneeMode: S.optional(S.String),
+          modifyIndividualStudentsOptions: S.optional(__S(1888, __c118, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6793,16 +7429,10 @@ function __c120(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addAttachments: S.optional(__S(1176, __c73, 8)),
-        }),
-      ).annotate({ identifier: "ModifyAttachmentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           courseWorkId: S.String.pipe(T.Label()),
           courseId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c120, 0).pipe(T.HttpBody())),
+          addAttachments: S.optional(__S(1176, __c73, 8)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6820,7 +7450,26 @@ function __c121(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1014, __c63, 6).pipe(T.HttpBody())),
+          levels: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          enrollmentCode: S.optional(S.String),
+          teacherGroupEmail: S.optional(S.String),
+          courseMaterialSets: S.optional(__S(1011, __c63, 3)),
+          descriptionHeading: S.optional(S.String),
+          guardiansEnabled: S.optional(S.Boolean),
+          section: S.optional(S.String),
+          ownerId: S.optional(S.String),
+          calendarId: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          teacherFolder: S.optional(__S(1040, __c65, 0)),
+          room: S.optional(S.String),
+          gradebookSettings: S.optional(__S(1013, __c63, 5)),
+          subject: S.optional(S.String),
+          courseGroupEmail: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          courseState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6839,7 +7488,16 @@ function __c122(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c96, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          text: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          assigneeMode: S.optional(S.String),
+          materials: S.optional(__S(1556, __c97, 4)),
+          alternateLink: S.optional(S.String),
+          creatorUserId: S.optional(S.String),
+          individualStudentsOptions: S.optional(__S(1558, __c97, 6)),
+          updateTime: S.optional(S.String),
+          scheduledTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6856,7 +7514,29 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1986, __c124, 2).pipe(T.HttpBody())),
+          materials: S.optional(__S(1556, __c97, 4)),
+          updateTime: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          creatorUserId: S.optional(S.String),
+          assigneeMode: S.optional(S.String),
+          individualStudentsOptions: S.optional(__S(1558, __c97, 6)),
+          scheduledTime: S.optional(S.String),
+          state: S.optional(S.String),
+          associatedWithDeveloper: S.optional(S.Boolean),
+          maxPoints: S.optional(S.Number),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          multipleChoiceQuestion: S.optional(__S(1984, __c124, 0)),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          topicId: S.optional(S.String),
+          submissionModificationMode: S.optional(S.String),
+          workType: S.optional(S.String),
+          title: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          id: S.optional(S.String),
+          description: S.optional(S.String),
+          assignment: S.optional(__S(1985, __c124, 1)),
+          gradingPeriodId: S.optional(S.String),
+          gradeCategory: S.optional(__S(1056, __c66, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6922,7 +7602,16 @@ function __c125(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           attachmentId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6941,7 +7630,28 @@ function __c126(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1986, __c124, 2).pipe(T.HttpBody())),
+          materials: S.optional(__S(1556, __c97, 4)),
+          updateTime: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          creatorUserId: S.optional(S.String),
+          assigneeMode: S.optional(S.String),
+          individualStudentsOptions: S.optional(__S(1558, __c97, 6)),
+          scheduledTime: S.optional(S.String),
+          state: S.optional(S.String),
+          associatedWithDeveloper: S.optional(S.Boolean),
+          maxPoints: S.optional(S.Number),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          multipleChoiceQuestion: S.optional(__S(1984, __c124, 0)),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          topicId: S.optional(S.String),
+          submissionModificationMode: S.optional(S.String),
+          workType: S.optional(S.String),
+          title: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          description: S.optional(S.String),
+          assignment: S.optional(__S(1985, __c124, 1)),
+          gradingPeriodId: S.optional(S.String),
+          gradeCategory: S.optional(__S(1056, __c66, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6962,7 +7672,16 @@ function __c127(j: number): any {
           itemId: S.String.pipe(T.Label()),
           courseId: S.String.pipe(T.Label()),
           postId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6984,7 +7703,11 @@ function __c128(j: number): any {
           itemId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           submissionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
+          pointsEarned: S.optional(S.Number),
+          courseWorkSubmissionId: S.optional(S.String),
+          id: S.optional(S.String),
+          userId: S.optional(S.String),
+          postSubmissionState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7003,7 +7726,18 @@ function __c129(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
+          materials: S.optional(__S(1556, __c97, 4)),
+          topicId: S.optional(S.String),
+          title: S.optional(S.String),
+          assigneeMode: S.optional(S.String),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          scheduledTime: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          creatorUserId: S.optional(S.String),
+          individualStudentsOptions: S.optional(__S(1558, __c97, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7024,7 +7758,16 @@ function __c130(j: number): any {
           attachmentId: S.String.pipe(T.Label()),
           postId: S.optional(S.String.pipe(T.Query())),
           itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7044,7 +7787,10 @@ function __c131(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           id: S.String.pipe(T.Label()),
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
+          creationTime: S.optional(S.String),
+          criteria: S.optional(__S(227, __c14, 3)),
+          sourceSpreadsheetId: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7064,7 +7810,22 @@ function __c132(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseWorkId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(1178, __c73, 10).pipe(T.HttpBody())),
+          draftRubricGrades: S.optional(__S(1169, __c73, 1)),
+          userId: S.optional(S.String),
+          draftGrade: S.optional(S.Number),
+          assignedRubricGrades: S.optional(__S(1169, __c73, 1)),
+          courseWorkType: S.optional(S.String),
+          alternateLink: S.optional(S.String),
+          creationTime: S.optional(S.String),
+          shortAnswerSubmission: S.optional(__S(1170, __c73, 2)),
+          submissionHistory: S.optional(__S(1174, __c73, 6)),
+          associatedWithDeveloper: S.optional(S.Boolean),
+          multipleChoiceSubmission: S.optional(__S(1170, __c73, 2)),
+          assignedGrade: S.optional(S.Number),
+          late: S.optional(S.Boolean),
+          assignmentSubmission: S.optional(__S(1177, __c73, 9)),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7085,7 +7846,16 @@ function __c133(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           attachmentId: S.String.pipe(T.Label()),
           itemId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1747, __c109, 3).pipe(T.HttpBody())),
+          copyHistory: S.optional(__S(1745, __c109, 1)),
+          gradeSyncEnabled: S.optional(S.Boolean),
+          dueTime: S.optional(__S(1776, __c111, 0)),
+          maxPoints: S.optional(S.Number),
+          id: S.optional(S.String),
+          studentWorkReviewUri: S.optional(__S(1746, __c109, 2)),
+          teacherViewUri: S.optional(__S(1746, __c109, 2)),
+          title: S.optional(S.String),
+          dueDate: S.optional(__S(1760, __c110, 0)),
+          studentViewUri: S.optional(__S(1746, __c109, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7107,7 +7877,11 @@ function __c134(j: number): any {
           attachmentId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           courseId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
+          pointsEarned: S.optional(S.Number),
+          courseWorkSubmissionId: S.optional(S.String),
+          id: S.optional(S.String),
+          userId: S.optional(S.String),
+          postSubmissionState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",

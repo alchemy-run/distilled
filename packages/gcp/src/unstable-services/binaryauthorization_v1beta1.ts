@@ -132,6 +132,22 @@ export interface UserOwnedDrydockNote {
   /** Optional. Public keys that verify attestations signed by this attestor. This field may be updated. If this field is non-empty, one of the specified public keys must verify that an attestation was signed by this attestor for the image specified in the admission request. If this field is empty, this attestor always returns that no valid attestations exist. */
   publicKeys?: AttestorPublicKeyList | undefined;
 }
+export interface CreateProjectsAttestorsRequest {
+  /** Required. The parent of this attestor. */
+  parent: string;
+  /** Required. The attestors ID. */
+  attestorId?: string | undefined;
+  /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the attestor has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
+  etag?: string | undefined;
+  /** Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
+  name?: string | undefined;
+  /** Optional. A descriptive comment. This field may be updated. The field may be displayed in chooser dialogs. */
+  description?: string | undefined;
+  /** A Drydock ATTESTATION_AUTHORITY Note, created by the user. */
+  userOwnedDrydockNote?: UserOwnedDrydockNote | undefined;
+  /** Output only. Time when the attestor was last updated. */
+  updateTime?: string | undefined;
+}
 /** An attestor that attests to container image artifacts. An existing attestor cannot be modified except where indicated. */
 export interface Attestor {
   /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the attestor has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
@@ -144,14 +160,6 @@ export interface Attestor {
   userOwnedDrydockNote?: UserOwnedDrydockNote | undefined;
   /** Output only. Time when the attestor was last updated. */
   updateTime?: string | undefined;
-}
-export interface CreateProjectsAttestorsRequest {
-  /** Required. The parent of this attestor. */
-  parent: string;
-  /** Required. The attestors ID. */
-  attestorId?: string | undefined;
-  /** Request body */
-  body?: Attestor | undefined;
 }
 export interface DeleteProjectsAttestorsRequest {
   /** Required. The name of the attestors to delete, in the format `projects/*\/attestors/*`. */
@@ -248,7 +256,7 @@ export interface Policy {
   /** Optional. A valid Policy has only one of the following rule maps non-empty, i.e. only one of cluster_admission_rules, kubernetes_service_account_admission_rules or istio_service_identity_admission_rules can be non-empty. Per-cluster admission rules. Cluster spec format: `location.clusterId`. There can be at most one admission rule per cluster spec. A `location` is either a compute zone (e.g. us-central1-a) or a region (e.g. us-central1). For `clusterId` syntax restrictions see https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters. */
   clusterAdmissionRules?: AdmissionRuleMap | undefined;
   /** Optional. Controls the evaluation of a Google-maintained global admission policy for common system-level images. Images not covered by the global policy will be subject to the project admission policy. This setting has no effect when specified inside a global admission policy. */
-  globalPolicyEvaluationMode?: PolicyGlobalPolicyEvaluationModeEnum | (string & {}) | undefined;
+  globalPolicyEvaluationMode?: PolicyGlobalPolicyEvaluationModeEnum | undefined;
   /** Required. Default admission rule for a cluster without a per-cluster, per- kubernetes-service-account, or per-istio-service-identity admission rule. */
   defaultAdmissionRule?: AdmissionRule | undefined;
   /** Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
@@ -284,33 +292,23 @@ export interface ListAttestorsResponse {
   /** A token to retrieve the next page of results. Pass this value in the ListAttestorsRequest.page_token field in the subsequent call to the `ListAttestors` method to retrieve the next page of results. */
   nextPageToken?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: IamPolicy | undefined;
-}
 export interface SetIamPolicyProjectsAttestorsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: IamPolicy | undefined;
 }
 export interface SetIamPolicyProjectsPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: IamPolicy | undefined;
 }
 export interface TestIamPermissionsProjectsAttestorsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -320,20 +318,44 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsPolicyRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface UpdatePolicyProjectsRequest {
   /** Output only. The resource name, in the format `projects/*\/policy`. There is at most one policy per project. */
   name: string;
-  /** Request body */
-  body?: Policy | undefined;
+  /** Optional. Admission policy allowlisting. A matching admission request will always be permitted. This feature is typically used to exclude Google or third-party infrastructure images from Binary Authorization policies. */
+  admissionWhitelistPatterns?: AdmissionWhitelistPatternList | undefined;
+  /** Optional. Per-istio-service-identity admission rules. Istio service identity spec format: `spiffe:///ns//sa/` or `/ns//sa/` e.g. `spiffe://example.com/ns/test-ns/sa/default` */
+  istioServiceIdentityAdmissionRules?: AdmissionRuleMap | undefined;
+  /** Optional. Per-kubernetes-service-account admission rules. Service account spec format: `namespace:serviceaccount`. e.g. `test-ns:default` */
+  kubernetesServiceAccountAdmissionRules?: AdmissionRuleMap | undefined;
+  /** Optional. A descriptive comment. */
+  description?: string | undefined;
+  /** Optional. A valid Policy has only one of the following rule maps non-empty, i.e. only one of cluster_admission_rules, kubernetes_service_account_admission_rules or istio_service_identity_admission_rules can be non-empty. Per-cluster admission rules. Cluster spec format: `location.clusterId`. There can be at most one admission rule per cluster spec. A `location` is either a compute zone (e.g. us-central1-a) or a region (e.g. us-central1). For `clusterId` syntax restrictions see https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters. */
+  clusterAdmissionRules?: AdmissionRuleMap | undefined;
+  /** Optional. Controls the evaluation of a Google-maintained global admission policy for common system-level images. Images not covered by the global policy will be subject to the project admission policy. This setting has no effect when specified inside a global admission policy. */
+  globalPolicyEvaluationMode?: PolicyGlobalPolicyEvaluationModeEnum | (string & {}) | undefined;
+  /** Required. Default admission rule for a cluster without a per-cluster, per- kubernetes-service-account, or per-istio-service-identity admission rule. */
+  defaultAdmissionRule?: AdmissionRule | undefined;
+  /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the policy has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
+  etag?: string | undefined;
+  /** Optional. Per-kubernetes-namespace admission rules. K8s namespace spec format: `[a-z.-]+`, e.g. `some-namespace` */
+  kubernetesNamespaceAdmissionRules?: AdmissionRuleMap | undefined;
+  /** Output only. Time when the policy was last updated. */
+  updateTime?: string | undefined;
 }
 export interface UpdateProjectsAttestorsRequest {
   /** Required. The resource name, in the format: `projects/*\/attestors/*`. This field may not be updated. */
   name: string;
-  /** Request body */
-  body?: Attestor | undefined;
+  /** Optional. A checksum, returned by the server, that can be sent on update requests to ensure the attestor has an up-to-date value before attempting to update it. See https://google.aip.dev/154. */
+  etag?: string | undefined;
+  /** Optional. A descriptive comment. This field may be updated. The field may be displayed in chooser dialogs. */
+  description?: string | undefined;
+  /** A Drydock ATTESTATION_AUTHORITY Note, created by the user. */
+  userOwnedDrydockNote?: UserOwnedDrydockNote | undefined;
+  /** Output only. Time when the attestor was last updated. */
+  updateTime?: string | undefined;
 }
 export interface Jwt {
   /** The compact encoding of a JWS, which is always three base64 encoded strings joined by periods. For details, see: https://tools.ietf.org/html/rfc7515.html#section-3.1 */
@@ -357,20 +379,15 @@ export interface AttestationOccurrence {
   /** One or more signatures over `serialized_payload`. Verifier implementations should consider this attestation message verified if at least one `signature` verifies `serialized_payload`. See `Signature` in common.proto for more details on signature structure and verification. */
   signatures?: SignatureList | undefined;
 }
-/** Request message for ValidationHelperV1.ValidateAttestationOccurrence. */
-export interface ValidateAttestationOccurrenceRequest {
+export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
+  /** Required. The resource name of the Attestor of the occurrence, in the format `projects/*\/attestors/*`. */
+  attestor: string;
   /** Required. The URI of the artifact (e.g. container image) that is the subject of the containing Occurrence. */
   occurrenceResourceUri?: string | undefined;
   /** Required. The resource name of the Note to which the containing Occurrence is associated. */
   occurrenceNote?: string | undefined;
   /** Required. An AttestationOccurrence to be checked that it can be verified by the `Attestor`. It does not have to be an existing entity in Container Analysis. It must otherwise be a valid `AttestationOccurrence`. */
   attestation?: AttestationOccurrence | undefined;
-}
-export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
-  /** Required. The resource name of the Attestor of the occurrence, in the format `projects/*\/attestors/*`. */
-  attestor: string;
-  /** Request body */
-  body?: ValidateAttestationOccurrenceRequest | undefined;
 }
 export type ValidateAttestationOccurrenceResponseResultEnum =
   | "RESULT_UNSPECIFIED"
@@ -396,8 +413,8 @@ export const createProjectsAttestors: API.OperationMethod<
   CreateProjectsAttestorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateProjectsAttestorsRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<Attestor>,
+  input: __S(80, __c10, 0) as any as S.Schema<CreateProjectsAttestorsRequest>,
+  output: __S(92, __c11, 4) as any as S.Schema<Attestor>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -418,8 +435,8 @@ export const deleteProjectsAttestors: API.OperationMethod<
   DeleteProjectsAttestorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteProjectsAttestorsRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<Empty>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteProjectsAttestorsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -435,8 +452,8 @@ export const getIamPolicyProjectsAttestors: API.OperationMethod<
   GetIamPolicyProjectsAttestorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetIamPolicyProjectsAttestorsRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<IamPolicy>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetIamPolicyProjectsAttestorsRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<IamPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -452,8 +469,8 @@ export const getIamPolicyProjectsPolicy: API.OperationMethod<
   GetIamPolicyProjectsPolicyError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetIamPolicyProjectsPolicyRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<IamPolicy>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetIamPolicyProjectsPolicyRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<IamPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -469,8 +486,8 @@ export const getPolicyProjects: API.OperationMethod<
   GetPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetPolicyProjectsRequest>,
-  output: __S(156, __c19, 4) as any as S.Schema<Policy>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetPolicyProjectsRequest>,
+  output: __S(148, __c18, 4) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -486,8 +503,8 @@ export const getPolicySystempolicy: API.OperationMethod<
   GetPolicySystempolicyError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetPolicySystempolicyRequest>,
-  output: __S(156, __c19, 4) as any as S.Schema<Policy>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetPolicySystempolicyRequest>,
+  output: __S(148, __c18, 4) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -504,7 +521,7 @@ export const getProjectsAttestors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsAttestorsRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<Attestor>,
+  output: __S(92, __c11, 4) as any as S.Schema<Attestor>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -545,7 +562,7 @@ export const setIamPolicyProjectsAttestors: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<SetIamPolicyProjectsAttestorsRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<IamPolicy>,
+  output: __S(115, __c14, 3) as any as S.Schema<IamPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -566,8 +583,8 @@ export const setIamPolicyProjectsPolicy: API.OperationMethod<
   SetIamPolicyProjectsPolicyError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<SetIamPolicyProjectsPolicyRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<IamPolicy>,
+  input: __S(24, __c3, 0) as any as S.Schema<SetIamPolicyProjectsPolicyRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<IamPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -588,8 +605,8 @@ export const testIamPermissionsProjectsAttestors: API.OperationMethod<
   TestIamPermissionsProjectsAttestorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<TestIamPermissionsProjectsAttestorsRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<TestIamPermissionsProjectsAttestorsRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -610,8 +627,8 @@ export const testIamPermissionsProjectsPolicy: API.OperationMethod<
   TestIamPermissionsProjectsPolicyError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<TestIamPermissionsProjectsPolicyRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<TestIamPermissionsProjectsPolicyRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -627,8 +644,8 @@ export const updatePolicyProjects: API.OperationMethod<
   UpdatePolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdatePolicyProjectsRequest>,
-  output: __S(156, __c19, 4) as any as S.Schema<Policy>,
+  input: __S(56, __c7, 0) as any as S.Schema<UpdatePolicyProjectsRequest>,
+  output: __S(148, __c18, 4) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -649,8 +666,8 @@ export const updateProjectsAttestors: API.OperationMethod<
   UpdateProjectsAttestorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateProjectsAttestorsRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<Attestor>,
+  input: __S(64, __c8, 0) as any as S.Schema<UpdateProjectsAttestorsRequest>,
+  output: __S(92, __c11, 4) as any as S.Schema<Attestor>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -671,12 +688,8 @@ export const validateAttestationOccurrenceProjectsAttestors: API.OperationMethod
   ValidateAttestationOccurrenceProjectsAttestorsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    86,
-    __c10,
-    6,
-  ) as any as S.Schema<ValidateAttestationOccurrenceProjectsAttestorsRequest>,
-  output: __S(87, __c10, 7) as any as S.Schema<ValidateAttestationOccurrenceResponse>,
+  input: __S(77, __c9, 5) as any as S.Schema<ValidateAttestationOccurrenceProjectsAttestorsRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ValidateAttestationOccurrenceResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -718,7 +731,7 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsAttestorsRequest" });
     case 1:
-      return S.Array(__S(100, __c12, 4));
+      return S.Array(__S(92, __c11, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -734,7 +747,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(115, __c14, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -750,18 +763,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(123, __c15, 3)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(115, __c14, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -772,13 +775,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsPolicyRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c6, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(120, __c15, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -789,23 +792,23 @@ function __c5(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsAttestorsRequest" });
   }
 }
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(120, __c15, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
 function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(128, __c16, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c6, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(120, __c15, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -816,13 +819,22 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsPolicyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(156, __c19, 4).pipe(T.HttpBody())),
+          admissionWhitelistPatterns: S.optional(__S(145, __c18, 1)),
+          istioServiceIdentityAdmissionRules: S.optional(__S(147, __c18, 3)),
+          kubernetesServiceAccountAdmissionRules: S.optional(__S(147, __c18, 3)),
+          description: S.optional(S.String),
+          clusterAdmissionRules: S.optional(__S(147, __c18, 3)),
+          globalPolicyEvaluationMode: S.optional(S.String),
+          defaultAdmissionRule: S.optional(__S(146, __c18, 2)),
+          etag: S.optional(S.String),
+          kubernetesNamespaceAdmissionRules: S.optional(__S(147, __c18, 3)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -833,13 +845,16 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdatePolicyProjectsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(100, __c12, 4).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          userOwnedDrydockNote: S.optional(__S(91, __c11, 3)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -850,7 +865,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateProjectsAttestorsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -859,7 +874,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "Jwt" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(72, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -868,28 +883,22 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "Signature" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(74, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          jwts: S.optional(__S(81, __c10, 1)),
+          jwts: S.optional(__S(73, __c9, 1)),
           serializedPayload: S.optional(S.String),
-          signatures: S.optional(__S(83, __c10, 3)),
+          signatures: S.optional(__S(75, __c9, 3)),
         }),
       ).annotate({ identifier: "AttestationOccurrence" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          attestor: S.String.pipe(T.Label()),
           occurrenceResourceUri: S.optional(S.String),
           occurrenceNote: S.optional(S.String),
-          attestation: S.optional(__S(84, __c10, 4)),
-        }),
-      ).annotate({ identifier: "ValidateAttestationOccurrenceRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          attestor: S.String.pipe(T.Label()),
-          body: S.optional(__S(85, __c10, 5).pipe(T.HttpBody())),
+          attestation: S.optional(__S(76, __c9, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -898,7 +907,7 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ValidateAttestationOccurrenceProjectsAttestorsRequest" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(S.String),
@@ -907,14 +916,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ValidateAttestationOccurrenceResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           attestorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(100, __c12, 4).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          userOwnedDrydockNote: S.optional(__S(91, __c11, 3)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -925,7 +938,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateProjectsAttestorsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -937,20 +950,20 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pkixPublicKey: S.optional(__S(96, __c12, 0)),
+          pkixPublicKey: S.optional(__S(88, __c11, 0)),
           asciiArmoredPgpPublicKey: S.optional(S.String),
           comment: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttestorPublicKey" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           delegationServiceAccountEmail: S.optional(S.String),
           noteReference: S.optional(S.String),
-          publicKeys: S.optional(__S(98, __c12, 2)),
+          publicKeys: S.optional(__S(90, __c11, 2)),
         }),
       ).annotate({ identifier: "UserOwnedDrydockNote" });
     case 4:
@@ -959,13 +972,13 @@ function __c12(j: number): any {
           etag: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          userOwnedDrydockNote: S.optional(__S(99, __c12, 3)),
+          userOwnedDrydockNote: S.optional(__S(91, __c11, 3)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Attestor" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -983,7 +996,7 @@ function __c13(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1000,7 +1013,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsAttestorsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1014,30 +1027,30 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(128, __c16, 0)),
-          condition: S.optional(__S(120, __c15, 0)),
+          members: S.optional(__S(120, __c15, 0)),
+          condition: S.optional(__S(112, __c14, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(122, __c15, 2)),
+          bindings: S.optional(__S(114, __c14, 2)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "IamPolicy" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1054,7 +1067,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsPolicyRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1070,7 +1083,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetPolicyProjectsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1079,36 +1092,36 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "AdmissionWhitelistPattern" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           enforcementMode: S.optional(S.String),
-          requireAttestationsBy: S.optional(__S(128, __c16, 0)),
+          requireAttestationsBy: S.optional(__S(120, __c15, 0)),
           evaluationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdmissionRule" });
     case 3:
-      return S.Record(S.String, __S(154, __c19, 2));
+      return S.Record(S.String, __S(146, __c18, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          admissionWhitelistPatterns: S.optional(__S(153, __c19, 1)),
-          istioServiceIdentityAdmissionRules: S.optional(__S(155, __c19, 3)),
-          kubernetesServiceAccountAdmissionRules: S.optional(__S(155, __c19, 3)),
+          admissionWhitelistPatterns: S.optional(__S(145, __c18, 1)),
+          istioServiceIdentityAdmissionRules: S.optional(__S(147, __c18, 3)),
+          kubernetesServiceAccountAdmissionRules: S.optional(__S(147, __c18, 3)),
           description: S.optional(S.String),
-          clusterAdmissionRules: S.optional(__S(155, __c19, 3)),
+          clusterAdmissionRules: S.optional(__S(147, __c18, 3)),
           globalPolicyEvaluationMode: S.optional(S.String),
-          defaultAdmissionRule: S.optional(__S(154, __c19, 2)),
+          defaultAdmissionRule: S.optional(__S(146, __c18, 2)),
           name: S.optional(S.String),
           etag: S.optional(S.String),
-          kubernetesNamespaceAdmissionRules: S.optional(__S(155, __c19, 3)),
+          kubernetesNamespaceAdmissionRules: S.optional(__S(147, __c18, 3)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

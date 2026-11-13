@@ -142,6 +142,22 @@ export interface GroupItemResource {
   /** The channel, video, playlist, or asset ID that YouTube uses to uniquely identify the item that is being added to the group. */
   id?: string | undefined;
 }
+export interface InsertGroupItemsRequest {
+  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** Apiary error details */
+  errors?: Errors | undefined;
+  /** The Etag of this resource. */
+  etag?: string | undefined;
+  /** The `resource` object contains information that identifies the item being added to the group. */
+  resource?: GroupItemResource | undefined;
+  /** The ID that YouTube uses to uniquely identify the `channel`, `video`, `playlist`, or `asset` resource that is included in the group. Note that this ID refers specifically to the inclusion of that resource in a particular group and is different than the channel ID, video ID, playlist ID, or asset ID that uniquely identifies the resource itself. The `resource.id` property's value specifies the unique channel, video, playlist, or asset ID. */
+  id?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the group that contains the item. */
+  groupId?: string | undefined;
+  /** Identifies the API resource's type. The value will be `youtube#groupItem`. */
+  kind?: string | undefined;
+}
 /** A group item. */
 export interface GroupItem {
   /** Apiary error details */
@@ -157,12 +173,6 @@ export interface GroupItem {
   /** Identifies the API resource's type. The value will be `youtube#groupItem`. */
   kind?: string | undefined;
 }
-export interface InsertGroupItemsRequest {
-  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: GroupItem | undefined;
-}
 /** A group snippet. */
 export interface GroupSnippet {
   /** The group name. The value must be a non-empty string. */
@@ -176,6 +186,22 @@ export interface GroupContentDetails {
   itemCount?: string | undefined;
   /** The type of resources that the group contains. Valid values for this property are: * `youtube#channel` * `youtube#playlist` * `youtube#video` * `youtubePartner#asset` */
   itemType?: string | undefined;
+}
+export interface InsertGroupsRequest {
+  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The Etag of this resource. */
+  etag?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the group. */
+  id?: string | undefined;
+  /** Apiary error details */
+  errors?: Errors | undefined;
+  /** Identifies the API resource's type. The value will be `youtube#group`. */
+  kind?: string | undefined;
+  /** The `snippet` object contains basic information about the group, including its creation date and name. */
+  snippet?: GroupSnippet | undefined;
+  /** The `contentDetails` object contains additional information about the group, such as the number and type of items that it contains. */
+  contentDetails?: GroupContentDetails | undefined;
 }
 /** A group. */
 export interface Group {
@@ -191,12 +217,6 @@ export interface Group {
   snippet?: GroupSnippet | undefined;
   /** The `contentDetails` object contains additional information about the group, such as the number and type of items that it contains. */
   contentDetails?: GroupContentDetails | undefined;
-}
-export interface InsertGroupsRequest {
-  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 export interface ListGroupItemsRequest {
   /** The `groupId` parameter specifies the unique ID of the group for which you want to retrieve group items. */
@@ -290,8 +310,18 @@ export interface QueryResponse {
 export interface UpdateGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
+  /** The Etag of this resource. */
+  etag?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the group. */
+  id?: string | undefined;
+  /** Apiary error details */
+  errors?: Errors | undefined;
+  /** Identifies the API resource's type. The value will be `youtube#group`. */
+  kind?: string | undefined;
+  /** The `snippet` object contains basic information about the group, including its creation date and name. */
+  snippet?: GroupSnippet | undefined;
+  /** The `contentDetails` object contains additional information about the group, such as the number and type of items that it contains. */
+  contentDetails?: GroupContentDetails | undefined;
 }
 export type DeleteGroupItemsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Removes an item from a group. */
@@ -487,7 +517,12 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(74, __c9, 2).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          id: S.optional(S.String),
+          errors: S.optional(__S(35, __c4, 3)),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(72, __c9, 0)),
+          contentDetails: S.optional(__S(73, __c9, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -576,7 +611,12 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(57, __c7, 1).pipe(T.HttpBody())),
+          errors: S.optional(__S(35, __c4, 3)),
+          etag: S.optional(S.String),
+          resource: S.optional(__S(56, __c7, 0)),
+          id: S.optional(S.String),
+          groupId: S.optional(S.String),
+          kind: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -615,7 +655,12 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(74, __c9, 2).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          id: S.optional(S.String),
+          errors: S.optional(__S(35, __c4, 3)),
+          kind: S.optional(S.String),
+          snippet: S.optional(__S(72, __c9, 0)),
+          contentDetails: S.optional(__S(73, __c9, 1)),
         }).pipe(
           T.Http({
             method: "POST",

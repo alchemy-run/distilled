@@ -243,6 +243,18 @@ export interface CustomEmojiPayload {
   /** Required. Input only. The image file name. Supported file extensions: `.png`, `.jpg`, `.gif`. */
   filename?: string | undefined;
 }
+export interface CreateCustomEmojisRequest {
+  /** Output only. A temporary image URL for the custom emoji, valid for at least 10 minutes. Note that this is not populated in the response when the custom emoji is created. */
+  temporaryImageUri?: string | undefined;
+  /** Optional. Input only. Payload data. Required when the custom emoji is created. */
+  payload?: CustomEmojiPayload | undefined;
+  /** Optional. Immutable. User-provided name for the custom emoji, which is unique within the organization. Required when the custom emoji is created, output only otherwise. Emoji names must start and end with colons, must be lowercase and can only contain alphanumeric characters, hyphens, and underscores. Hyphens and underscores should be used to separate words and cannot be used consecutively. Example: `:valid-emoji-name:` */
+  emojiName?: string | undefined;
+  /** Output only. Unique key for the custom emoji resource. */
+  uid?: string | undefined;
+  /** Identifier. The resource name of the custom emoji, assigned by the server. Format: `customEmojis/{customEmoji}` */
+  name?: string | undefined;
+}
 /** Represents a [custom emoji](https://support.google.com/chat/answer/12800149). */
 export interface CustomEmoji {
   /** Output only. A temporary image URL for the custom emoji, valid for at least 10 minutes. Note that this is not populated in the response when the custom emoji is created. */
@@ -256,15 +268,51 @@ export interface CustomEmoji {
   /** Identifier. The resource name of the custom emoji, assigned by the server. Format: `customEmojis/{customEmoji}` */
   name?: string | undefined;
 }
-export interface CreateCustomEmojisRequest {
-  /** Request body */
-  body?: CustomEmoji | undefined;
-}
 export interface CreateSpacesRequest {
   /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single space being created. Subsequent requests with the same request ID return the existing space and do not update the space, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a space was already created with the provided request ID, the request returns that space. Note that the returned space might not be fully populated; the API echoes the space in your request with the system-assigned resource name populated. To retrieve the latest metadata for the space, call `GetSpace`. - Reusing an existing request ID with a different authenticated user results in an error. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Space | undefined;
+  /** Output only. The URI for a user to access the space. */
+  spaceUri?: string | undefined;
+  /** Optional. The type of space. Required when creating a space or updating the space type of a space. Output only for other usage. */
+  spaceType?: SpaceSpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. Input only. Predefined space permission settings, input only when creating a space. If the field is not set, a collaboration space is created. After you create the space, settings are populated in the `PermissionSettings` field. Setting predefined permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` or `chat.app.spaces.create` scopes. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  predefinedPermissionSettings?: SpacePredefinedPermissionSettingsEnum | (string & {}) | undefined;
+  /** Output only. For direct message (DM) spaces with a Chat app, whether the space was created by a Google Workspace administrator. Administrators can install and set up a direct message with a Chat app on behalf of users in their organization. To support admin install, your Chat app must feature direct messaging. */
+  adminInstalled?: boolean | undefined;
+  /** Optional. Immutable. Whether this space permits any Google Chat user as a member. Input when creating a space in a Google Workspace organization. Omit this field when creating spaces in the following conditions: * The authenticated user uses a consumer account (unmanaged user account). By default, a space created by a consumer account permits any Google Chat user. For existing spaces, this field is output only. */
+  externalUserAllowed?: boolean | undefined;
+  /** Optional. The message history state for messages and threads in this space. */
+  spaceHistoryState?: SpaceSpaceHistoryStateEnum | (string & {}) | undefined;
+  /** Optional. Whether the space is a DM between a Chat app and a single human. */
+  singleUserBotDm?: boolean | undefined;
+  /** Output only. The count of joined memberships grouped by member type. Populated when the `space_type` is `SPACE`, `DIRECT_MESSAGE` or `GROUP_CHAT`. */
+  membershipCount?: MembershipCount | undefined;
+  /** Optional. Details about the space including description and rules. */
+  spaceDetails?: SpaceDetails | undefined;
+  /** Optional. Whether this space is created in `Import Mode` as part of a data migration into Google Workspace. While spaces are being imported, they aren't visible to users until the import is complete. Creating a space in `Import Mode`requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  importMode?: boolean | undefined;
+  /** Optional. Immutable. The customer id of the domain of the space. Required only when creating a space with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and `SpaceType` is `SPACE`, otherwise should not be set. In the format `customers/{customer}`, where `customer` is the `id` from the [Admin SDK customer resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). Private apps can also use the `customers/my_customer` alias to create the space in the same Google Workspace organization as the app. This field isn't populated for direct messages (DMs) or when the space is created by non-Google Workspace users. */
+  customer?: string | undefined;
+  /** Output only. Deprecated: Use `spaceThreadingState` instead. Whether messages are threaded in this space. */
+  threaded?: boolean | undefined;
+  /** Output only. Timestamp of the last message in the space. */
+  lastActiveTime?: string | undefined;
+  /** Optional. The space's display name. Required when [creating a space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/create) with a `spaceType` of `SPACE`. If you receive the error message `ALREADY_EXISTS` when creating a space or updating the `displayName`, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. For direct messages, this field might be empty. Supports up to 128 characters. */
+  displayName?: string | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time the space was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the space was created in the source in order to preserve the original creation time. Only populated in the output when `spaceType` is `GROUP_CHAT` or `SPACE`. */
+  createTime?: string | undefined;
+  /** Output only. The threading state in the Chat space. */
+  spaceThreadingState?: SpaceSpaceThreadingStateEnum | (string & {}) | undefined;
+  /** Optional. Space permission settings for existing spaces. Input for updating exact space permission settings, where existing permission settings are replaced. Output lists current permission settings. Reading and updating permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` scope. Only populated and settable when the Chat app created the space. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  permissionSettings?: PermissionSettings | undefined;
+  /** Identifier. Resource name of the space. Format: `spaces/{space}` Where `{space}` represents the system-assigned ID for the space. You can obtain the space ID by calling the [`spaces.list()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/list) method or from the space URL. For example, if the space URL is `https://mail.google.com/mail/u/0/#chat/space/AAAAAAAAA`, the space ID is `AAAAAAAAA`. */
+  name?: string | undefined;
+  /** Output only. Deprecated: Use `space_type` instead. The type of a space. */
+  type?: SpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. Specifies the [access setting](https://support.google.com/chat/answer/11971020) of the space. Only populated when the `space_type` is `SPACE`. */
+  accessSettings?: AccessSettings | undefined;
+  /** Output only. The time when the space will be automatically deleted by the system if it remains in import mode. Each space created in import mode must exit this mode before this expire time using `spaces.completeImport`. This field is only populated for spaces that were created with import mode. */
+  importModeExpireTime?: string | undefined;
 }
 export type MembershipStateEnum =
   | "MEMBERSHIP_STATE_UNSPECIFIED"
@@ -304,6 +352,28 @@ export interface User {
   /** Output only. The user's email address. When calling the Messages and Memberships APIs with [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), this field is populated for both internal and external users for the `sender` of a message, users within `annotations` (such as user mentions), and within `Membership` resources, provided the user is a member of the space or has prior affinity with the calling user. */
   email?: string | undefined;
 }
+export interface CreateSpacesMembersRequest {
+  /** Required. The resource name of the space for which to create the membership. Format: spaces/{space} */
+  parent: string;
+  /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). Creating app memberships or creating memberships for users outside the administrator's Google Workspace organization isn't supported using admin access. */
+  useAdminAccess?: boolean | undefined;
+  /** Output only. State of the membership. */
+  state?: MembershipStateEnum | (string & {}) | undefined;
+  /** Output only. A user's relationship to the Workspace organization that owns the space. In spaces owned by consumer accounts, the affiliation of all members is `EXTERNAL`. */
+  affiliation?: MembershipAffiliationEnum | (string & {}) | undefined;
+  /** Optional. User's role within a Chat space, which determines their permitted actions in the space. This field can only be used as input in `UpdateMembership`. */
+  role?: MembershipRoleEnum | (string & {}) | undefined;
+  /** Optional. Immutable. The deletion time of the membership, such as when a member left or was removed from a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  deleteTime?: string | undefined;
+  /** Optional. The Google Group the membership corresponds to. Reading or mutating memberships for Google Groups requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  groupMember?: Group | undefined;
+  /** Identifier. Resource name of the membership, assigned by the server. Format: `spaces/{space}/members/{member}` */
+  name?: string | undefined;
+  /** Optional. The Google Chat user or app the membership corresponds to. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  member?: User | undefined;
+  /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  createTime?: string | undefined;
+}
 /** Represents a membership relation in Google Chat, such as whether a user or Chat app is invited to, part of, or absent from a space. */
 export interface Membership {
   /** Output only. State of the membership. */
@@ -323,13 +393,13 @@ export interface Membership {
   /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
   createTime?: string | undefined;
 }
-export interface CreateSpacesMembersRequest {
-  /** Required. The resource name of the space for which to create the membership. Format: spaces/{space} */
+export interface CreateSpacesMessagePinsRequest {
+  /** Required. The parent space in which to create the message pin. Format: spaces/{space} */
   parent: string;
-  /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). Creating app memberships or creating memberships for users outside the administrator's Google Workspace organization isn't supported using admin access. */
-  useAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: Membership | undefined;
+  /** Identifier. The resource name of the message pin. Format: `spaces/{space}/messagePins/{message_pin}` The resource ID component matches the resource ID component of the message. For example, a message with `spaces/AAA/messages/bbb.ccc` corresponds to the message pin with the resource name `spaces/AAA/messagePins/bbb.ccc`. */
+  name?: string | undefined;
+  /** Required. Immutable. The resource name of the message that is pinned. Format: `spaces/{space}/messages/{message}` */
+  message?: string | undefined;
 }
 /** A pin on a Chat message. For more information see [Pin a message](https://support.google.com/chat?p=chat-board-hc). */
 export interface MessagePin {
@@ -337,12 +407,6 @@ export interface MessagePin {
   name?: string | undefined;
   /** Required. Immutable. The resource name of the message that is pinned. Format: `spaces/{space}/messages/{message}` */
   message?: string | undefined;
-}
-export interface CreateSpacesMessagePinsRequest {
-  /** Required. The parent space in which to create the message pin. Format: spaces/{space} */
-  parent: string;
-  /** Request body */
-  body?: MessagePin | undefined;
 }
 export type CreateSpacesMessagesMessageReplyOptionEnum =
   | "MESSAGE_REPLY_OPTION_UNSPECIFIED"
@@ -1640,8 +1704,22 @@ export interface Card {
   cardActions?: CardActionList | undefined;
 }
 export type CardList = Array<Card>;
-/** A message in a Google Chat space. */
-export interface Message {
+export interface CreateSpacesMessagesRequest {
+  /** Optional. A custom ID for a message. Lets Chat apps get, update, or delete a message without needing to store the system-assigned ID in the message's resource name (represented in the message `name` field). The value for this field must meet the following requirements: * Begins with `client-`. For example, `client-custom-name` is a valid custom ID, but `custom-name` is not. * Contains up to 63 characters and only lowercase letters, numbers, and hyphens. * Is unique within a space. A Chat app can't use the same custom ID for different messages. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  messageId?: string | undefined;
+  /** Required. The resource name of the space in which to create a message. Format: `spaces/{space}` */
+  parent: string;
+  /** Optional. Specifies whether a message starts a thread or replies to one. Only supported in named spaces. When [responding to user interactions](https://developers.google.com/workspace/chat/receive-respond-interactions), this field is ignored. For interactions within a thread, the reply is created in the same thread. Otherwise, the reply is created as a new thread. */
+  messageReplyOption?: CreateSpacesMessagesMessageReplyOptionEnum | (string & {}) | undefined;
+  /** The notification type for the message. */
+  "createMessageNotificationOptions.notificationType"?:
+    | CreateSpacesMessagesCreateMessageNotificationOptions_notificationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Deprecated: Use thread.thread_key instead. ID for the thread. Supports up to 4000 characters. To start or add to a thread, create a message and specify a `threadKey` or the thread.name. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  threadKey?: string | undefined;
+  /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single message being created. Subsequent requests with the same request ID return the existing message and do not update the message, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a message was already created with the provided request ID, the request returns that message. Note that the returned message might not be fully populated; the API echoes the message in your request with the system-assigned resource names populated. To retrieve the latest metadata for the message, call `GetMessage`. - Reusing an existing request ID with a different authenticated user results in an error. */
+  requestId?: string | undefined;
   /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
   argumentText?: string | undefined;
   /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
@@ -1701,24 +1779,76 @@ export interface Message {
   /** Optional. User-uploaded attachment. */
   attachment?: AttachmentList | undefined;
 }
-export interface CreateSpacesMessagesRequest {
-  /** Optional. A custom ID for a message. Lets Chat apps get, update, or delete a message without needing to store the system-assigned ID in the message's resource name (represented in the message `name` field). The value for this field must meet the following requirements: * Begins with `client-`. For example, `client-custom-name` is a valid custom ID, but `custom-name` is not. * Contains up to 63 characters and only lowercase letters, numbers, and hyphens. * Is unique within a space. A Chat app can't use the same custom ID for different messages. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
-  messageId?: string | undefined;
-  /** Required. The resource name of the space in which to create a message. Format: `spaces/{space}` */
+/** A message in a Google Chat space. */
+export interface Message {
+  /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
+  argumentText?: string | undefined;
+  /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
+  privateMessageViewer?: User | undefined;
+  /** Output only. The time at which the message was last edited by a user. If the message has never been edited, this field is empty. */
+  lastUpdateTime?: string | undefined;
+  /** Output only. GIF images that are attached to the message. */
+  attachedGifs?: AttachedGifList | undefined;
+  /** Optional. A plain-text description of the message's cards, used when the actual cards can't be displayed--for example, mobile notifications. */
+  fallbackText?: string | undefined;
+  /** Optional. Plain-text body of the message. The first link to an image, video, or web page generates a [preview chip](https://developers.google.com/workspace/chat/preview-links). You can also [@mention a Google Chat user](https://developers.google.com/workspace/chat/format-messages#messages-@mention), or everyone in the space. To learn about creating text messages, see [Send a message](https://developers.google.com/workspace/chat/create-messages). */
+  text?: string | undefined;
+  /** Output only. A URL in the Chat message `text` field that matches a link preview pattern. For more information, see [Preview links](https://developers.google.com/workspace/chat/preview-links). */
+  matchedUrl?: MatchedUrl | undefined;
+  /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
+  threadReply?: boolean | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time at which the message was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the message was created in the source in order to preserve the original creation time. */
+  createTime?: string | undefined;
+  /** Output only. The time at which the message was deleted in Google Chat. If the message is never deleted, this field is empty. */
+  deleteTime?: string | undefined;
+  /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
+  silent?: boolean | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards). Chat apps can create cards with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). As part of the [Developer Preview Program](https://developers.google.com/workspace/preview), if your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), it can create card messages. If your Chat app is not part of Developer Preview Program, it can't create cards with user authentication. To learn how to create a message that contains cards, see [Send a message](https://developers.google.com/workspace/chat/create-messages). [Card builder](https://addons.gsuite.google.com/uikit/builder) */
+  cardsV2?: CardWithIdList | undefined;
+  /** Output only. Information about a deleted message. A message is deleted when `delete_time` is set. */
+  deletionMetadata?: DeletionMetadata | undefined;
+  /** Output only. The list of emoji reaction summaries on the message. */
+  emojiReactionSummaries?: EmojiReactionSummaryList | undefined;
+  /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
+  markupSyntax?: MessageMarkupSyntaxEnum | undefined;
+  /** The thread the message belongs to. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  thread?: Thread | undefined;
+  /** Optional. One or more interactive widgets that appear at the bottom of a message. You can add accessory widgets to messages that contain text, cards, or both text and cards. Not supported for messages that contain dialogs. For details, see [Add interactive widgets at the bottom of a message](https://developers.google.com/workspace/chat/create-messages#add-accessory-widgets). Creating a message with accessory widgets requires [app authentication] (https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). */
+  accessoryWidgets?: AccessoryWidgetList | undefined;
+  /** Output only. Contains the message `text` with markups added to communicate formatting. This field might not capture all formatting visible in the UI, but includes the following: * [Markup syntax](https://developers.google.com/workspace/chat/format-messages) for bold, italic, strikethrough, monospace, monospace block, bulleted list, and block quote. * [User mentions](https://developers.google.com/workspace/chat/format-messages#messages-@mention) using the format ``. * Custom hyperlinks using the format `<{url}|{rendered_text}>` where the first string is the URL and the second is the rendered text--for example, ``. * Custom emoji using the format `:{emoji_name}:`--for example, `:smile:`. This doesn't apply to Unicode emoji, such as `U+1F600` for a grinning face emoji. * Bullet list items using asterisks (`*`)--for example, `* item`. For more information, see [View text formatting sent in a message](https://developers.google.com/workspace/chat/format-messages#view_text_formatting_sent_in_a_message) */
+  formattedText?: string | undefined;
+  /** Optional. Information about a message that another message quotes. When you create a message, you can quote messages within the same thread, or quote a root message to create a new root message. However, you can't quote a message reply from a different thread. When you update a message, you can't add or replace the `quotedMessageMetadata` field, but you can remove it. For example usage, see [Quote another message](https://developers.google.com/workspace/chat/create-messages#quote-a-message). */
+  quotedMessageMetadata?: QuotedMessageMetadata | undefined;
+  /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
+  elements?: Elements | undefined;
+  /** Output only. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces) `name`. */
+  space?: Space | undefined;
+  /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  name?: string | undefined;
+  /** Optional. A custom ID for the message. You can use field to identify a message, or to get, delete, or update a message. To set a custom ID, specify the [`messageId`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/create#body.QUERY_PARAMETERS.message_id) field when you create the message. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  clientAssignedMessageId?: string | undefined;
+  /** Output only. Annotations can be associated with the plain-text body of the message or with chips that link to Google Workspace resources like Google Docs or Sheets with `start_index` and `length` of 0. */
+  annotations?: AnnotationList | undefined;
+  /** Output only. Slash command information, if applicable. */
+  slashCommand?: SlashCommand | undefined;
+  /** Input only. Parameters that a Chat app can use to configure how its response is posted. */
+  actionResponse?: ActionResponse | undefined;
+  /** Output only. The user who created the message. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  sender?: User | undefined;
+  /** Deprecated: Use `cards_v2` instead. Rich, formatted, and interactive cards that you can use to display UI elements such as: formatted texts, buttons, and clickable images. Cards are normally displayed below the plain-text body of the message. `cards` and `cards_v2` can have a maximum size of 32 KB. */
+  cards?: CardList | undefined;
+  /** Optional. User-uploaded attachment. */
+  attachment?: AttachmentList | undefined;
+}
+export interface CreateSpacesMessagesReactionsRequest {
+  /** Required. The message where the reaction is created. Format: `spaces/{space}/messages/{message}` */
   parent: string;
-  /** Optional. Specifies whether a message starts a thread or replies to one. Only supported in named spaces. When [responding to user interactions](https://developers.google.com/workspace/chat/receive-respond-interactions), this field is ignored. For interactions within a thread, the reply is created in the same thread. Otherwise, the reply is created as a new thread. */
-  messageReplyOption?: CreateSpacesMessagesMessageReplyOptionEnum | (string & {}) | undefined;
-  /** The notification type for the message. */
-  "createMessageNotificationOptions.notificationType"?:
-    | CreateSpacesMessagesCreateMessageNotificationOptions_notificationTypeEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Deprecated: Use thread.thread_key instead. ID for the thread. Supports up to 4000 characters. To start or add to a thread, create a message and specify a `threadKey` or the thread.name. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
-  threadKey?: string | undefined;
-  /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single message being created. Subsequent requests with the same request ID return the existing message and do not update the message, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a message was already created with the provided request ID, the request returns that message. Note that the returned message might not be fully populated; the API echoes the message in your request with the system-assigned resource names populated. To retrieve the latest metadata for the message, call `GetMessage`. - Reusing an existing request ID with a different authenticated user results in an error. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Message | undefined;
+  /** Identifier. The resource name of the reaction. Format: `spaces/{space}/messages/{message}/reactions/{reaction}` */
+  name?: string | undefined;
+  /** Output only. The user who created the reaction. */
+  user?: User | undefined;
+  /** Required. The emoji used in the reaction. */
+  emoji?: Emoji | undefined;
 }
 /** A reaction to a message. */
 export interface Reaction {
@@ -1729,20 +1859,15 @@ export interface Reaction {
   /** Required. The emoji used in the reaction. */
   emoji?: Emoji | undefined;
 }
-export interface CreateSpacesMessagesReactionsRequest {
-  /** Required. The message where the reaction is created. Format: `spaces/{space}/messages/{message}` */
-  parent: string;
-  /** Request body */
-  body?: Reaction | undefined;
-}
 export type GoogleChatV1SectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
   | "CUSTOM_SECTION"
   | "DEFAULT_DIRECT_MESSAGES"
   | "DEFAULT_SPACES"
   | "DEFAULT_APPS";
-/** Represents a [section](https://support.google.com/chat/answer/16059854) in Google Chat. Sections help users organize their spaces. There are two types of sections: 1. **System Sections:** These are predefined sections managed by Google Chat. Their resource names are fixed, and they cannot be created, deleted, or have their `display_name` modified. Examples include: * `users/{user}/sections/default-direct-messages` * `users/{user}/sections/default-spaces` * `users/{user}/sections/default-apps` 2. **Custom Sections:** These are sections created and managed by the user. Creating a custom section using `CreateSection` **requires** a `display_name`. Custom sections can be updated using `UpdateSection` and deleted using `DeleteSection`. */
-export interface GoogleChatV1Section {
+export interface CreateUsersSectionsRequest {
+  /** Required. The parent resource name where the section is created. Format: `users/{user}` */
+  parent: string;
   /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
   name?: string | undefined;
   /** Required. The type of the section. */
@@ -1752,11 +1877,16 @@ export interface GoogleChatV1Section {
   /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
   sortOrder?: number | undefined;
 }
-export interface CreateUsersSectionsRequest {
-  /** Required. The parent resource name where the section is created. Format: `users/{user}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleChatV1Section | undefined;
+/** Represents a [section](https://support.google.com/chat/answer/16059854) in Google Chat. Sections help users organize their spaces. There are two types of sections: 1. **System Sections:** These are predefined sections managed by Google Chat. Their resource names are fixed, and they cannot be created, deleted, or have their `display_name` modified. Examples include: * `users/{user}/sections/default-direct-messages` * `users/{user}/sections/default-spaces` * `users/{user}/sections/default-apps` 2. **Custom Sections:** These are sections created and managed by the user. Creating a custom section using `CreateSection` **requires** a `display_name`. Custom sections can be updated using `UpdateSection` and deleted using `DeleteSection`. */
+export interface GoogleChatV1Section {
+  /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
+  name?: string | undefined;
+  /** Required. The type of the section. */
+  type?: GoogleChatV1SectionTypeEnum | undefined;
+  /** Optional. The section's display name. Only populated for sections of type `CUSTOM_SECTION`. Supports up to 80 characters. Required when creating a `CUSTOM_SECTION`. */
+  displayName?: string | undefined;
+  /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
+  sortOrder?: number | undefined;
 }
 export interface DeleteCustomEmojisRequest {
   /** Required. Resource name of the custom emoji to delete. Format: `customEmojis/{customEmoji}` You can use the emoji name as an alias for `{customEmoji}`. For example, `customEmojis/:example-emoji:` where `:example-emoji:` is the emoji name for a custom emoji. */
@@ -2060,7 +2190,7 @@ export interface Availability {
   /** Output only. Metadata if the user state is set to DO_NOT_DISTURB. */
   doNotDisturbMetadata?: DoNotDisturbMetadata | undefined;
   /** Output only. The user's current availability state. */
-  state?: AvailabilityStateEnum | (string & {}) | undefined;
+  state?: AvailabilityStateEnum | undefined;
   /** Identifier. Resource name of the user's availability. Format: `users/{user}/availability` `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name?: string | undefined;
   /** Optional. The user's custom status. */
@@ -2085,9 +2215,9 @@ export interface SpaceNotificationSetting {
   /** Identifier. The resource name of the space notification setting. Format: `users/{user}/spaces/{space}/spaceNotificationSetting`. */
   name?: string | undefined;
   /** The space notification mute setting. */
-  muteSetting?: SpaceNotificationSettingMuteSettingEnum | (string & {}) | undefined;
+  muteSetting?: SpaceNotificationSettingMuteSettingEnum | undefined;
   /** The notification setting. */
-  notificationSetting?: SpaceNotificationSettingNotificationSettingEnum | (string & {}) | undefined;
+  notificationSetting?: SpaceNotificationSettingNotificationSettingEnum | undefined;
 }
 export interface ListCustomEmojisRequest {
   /** Optional. (If resuming from a previous query.) A page token received from a previous list custom emoji call. Provide this to retrieve the subsequent page. When paginating, the filter value should match the call that provided the page token. Passing a different value might lead to unexpected results. */
@@ -2265,18 +2395,13 @@ export interface ListSectionItemsResponse {
   /** The section items from the specified section. */
   sectionItems?: SectionItemList | undefined;
 }
-/** Request message for the `MarkAsActive` method. */
-export interface MarkAsActiveRequest {
+export interface MarkAsActiveUsersAvailabilityRequest {
+  /** Required. The resource name of the availability to mark as active. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
+  name: string;
   /** The duration from the current time until the ACTIVE state expires. Using a short TTL can effectively reset the user's state to be based on activity after this brief duration. */
   ttl?: string | undefined;
   /** The absolute timestamp when the ACTIVE state expires. */
   expireTime?: string | undefined;
-}
-export interface MarkAsActiveUsersAvailabilityRequest {
-  /** Required. The resource name of the availability to mark as active. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
-  name: string;
-  /** Request body */
-  body?: MarkAsActiveRequest | undefined;
 }
 /** Request message for the `MarkAsAway` method. */
 export type MarkAsAwayRequest = CompleteImportSpaceRequest;
@@ -2286,29 +2411,19 @@ export interface MarkAsAwayUsersAvailabilityRequest {
   /** Request body */
   body?: CompleteImportSpaceRequest | undefined;
 }
-/** Request message for the `MarkAsDoNotDisturb` method. */
-export interface MarkAsDoNotDisturbRequest {
+export interface MarkAsDoNotDisturbUsersAvailabilityRequest {
+  /** Required. The resource name of the availability to mark as Do Not Disturb. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
+  name: string;
   /** The duration from the current time until the DND state expires. */
   ttl?: string | undefined;
   /** The absolute timestamp when the DND state expires. */
   expireTime?: string | undefined;
 }
-export interface MarkAsDoNotDisturbUsersAvailabilityRequest {
-  /** Required. The resource name of the availability to mark as Do Not Disturb. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
-  name: string;
-  /** Request body */
-  body?: MarkAsDoNotDisturbRequest | undefined;
-}
-/** Request message for moving a section item across sections. */
-export interface MoveSectionItemRequest {
-  /** Required. The resource name of the section to move the section item to. Format: `users/{user}/sections/{section}` */
-  targetSection?: string | undefined;
-}
 export interface MoveUsersSectionsItemsRequest {
   /** Required. The resource name of the section item to move. Format: `users/{user}/sections/{section}/items/{item}` */
   name: string;
-  /** Request body */
-  body?: MoveSectionItemRequest | undefined;
+  /** Required. The resource name of the section to move the section item to. Format: `users/{user}/sections/{section}` */
+  targetSection?: string | undefined;
 }
 /** Response message for moving a section item. */
 export interface MoveSectionItemResponse {
@@ -2322,8 +2437,46 @@ export interface PatchSpacesRequest {
   useAdminAccess?: boolean | undefined;
   /** Identifier. Resource name of the space. Format: `spaces/{space}` Where `{space}` represents the system-assigned ID for the space. You can obtain the space ID by calling the [`spaces.list()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/list) method or from the space URL. For example, if the space URL is `https://mail.google.com/mail/u/0/#chat/space/AAAAAAAAA`, the space ID is `AAAAAAAAA`. */
   name: string;
-  /** Request body */
-  body?: Space | undefined;
+  /** Output only. The URI for a user to access the space. */
+  spaceUri?: string | undefined;
+  /** Optional. The type of space. Required when creating a space or updating the space type of a space. Output only for other usage. */
+  spaceType?: SpaceSpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. Input only. Predefined space permission settings, input only when creating a space. If the field is not set, a collaboration space is created. After you create the space, settings are populated in the `PermissionSettings` field. Setting predefined permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` or `chat.app.spaces.create` scopes. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  predefinedPermissionSettings?: SpacePredefinedPermissionSettingsEnum | (string & {}) | undefined;
+  /** Output only. For direct message (DM) spaces with a Chat app, whether the space was created by a Google Workspace administrator. Administrators can install and set up a direct message with a Chat app on behalf of users in their organization. To support admin install, your Chat app must feature direct messaging. */
+  adminInstalled?: boolean | undefined;
+  /** Optional. Immutable. Whether this space permits any Google Chat user as a member. Input when creating a space in a Google Workspace organization. Omit this field when creating spaces in the following conditions: * The authenticated user uses a consumer account (unmanaged user account). By default, a space created by a consumer account permits any Google Chat user. For existing spaces, this field is output only. */
+  externalUserAllowed?: boolean | undefined;
+  /** Optional. The message history state for messages and threads in this space. */
+  spaceHistoryState?: SpaceSpaceHistoryStateEnum | (string & {}) | undefined;
+  /** Optional. Whether the space is a DM between a Chat app and a single human. */
+  singleUserBotDm?: boolean | undefined;
+  /** Output only. The count of joined memberships grouped by member type. Populated when the `space_type` is `SPACE`, `DIRECT_MESSAGE` or `GROUP_CHAT`. */
+  membershipCount?: MembershipCount | undefined;
+  /** Optional. Details about the space including description and rules. */
+  spaceDetails?: SpaceDetails | undefined;
+  /** Optional. Whether this space is created in `Import Mode` as part of a data migration into Google Workspace. While spaces are being imported, they aren't visible to users until the import is complete. Creating a space in `Import Mode`requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  importMode?: boolean | undefined;
+  /** Optional. Immutable. The customer id of the domain of the space. Required only when creating a space with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and `SpaceType` is `SPACE`, otherwise should not be set. In the format `customers/{customer}`, where `customer` is the `id` from the [Admin SDK customer resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). Private apps can also use the `customers/my_customer` alias to create the space in the same Google Workspace organization as the app. This field isn't populated for direct messages (DMs) or when the space is created by non-Google Workspace users. */
+  customer?: string | undefined;
+  /** Output only. Deprecated: Use `spaceThreadingState` instead. Whether messages are threaded in this space. */
+  threaded?: boolean | undefined;
+  /** Output only. Timestamp of the last message in the space. */
+  lastActiveTime?: string | undefined;
+  /** Optional. The space's display name. Required when [creating a space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/create) with a `spaceType` of `SPACE`. If you receive the error message `ALREADY_EXISTS` when creating a space or updating the `displayName`, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. For direct messages, this field might be empty. Supports up to 128 characters. */
+  displayName?: string | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time the space was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the space was created in the source in order to preserve the original creation time. Only populated in the output when `spaceType` is `GROUP_CHAT` or `SPACE`. */
+  createTime?: string | undefined;
+  /** Output only. The threading state in the Chat space. */
+  spaceThreadingState?: SpaceSpaceThreadingStateEnum | (string & {}) | undefined;
+  /** Optional. Space permission settings for existing spaces. Input for updating exact space permission settings, where existing permission settings are replaced. Output lists current permission settings. Reading and updating permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` scope. Only populated and settable when the Chat app created the space. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  permissionSettings?: PermissionSettings | undefined;
+  /** Output only. Deprecated: Use `space_type` instead. The type of a space. */
+  type?: SpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. Specifies the [access setting](https://support.google.com/chat/answer/11971020) of the space. Only populated when the `space_type` is `SPACE`. */
+  accessSettings?: AccessSettings | undefined;
+  /** Output only. The time when the space will be automatically deleted by the system if it remains in import mode. Each space created in import mode must exit this mode before this expire time using `spaces.completeImport`. This field is only populated for spaces that were created with import mode. */
+  importModeExpireTime?: string | undefined;
 }
 export interface PatchSpacesMembersRequest {
   /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). */
@@ -2332,8 +2485,20 @@ export interface PatchSpacesMembersRequest {
   name: string;
   /** Required. The field paths to update. Separate multiple values with commas or use `*` to update all field paths. Currently supported field paths: - `role` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Membership | undefined;
+  /** Output only. State of the membership. */
+  state?: MembershipStateEnum | (string & {}) | undefined;
+  /** Output only. A user's relationship to the Workspace organization that owns the space. In spaces owned by consumer accounts, the affiliation of all members is `EXTERNAL`. */
+  affiliation?: MembershipAffiliationEnum | (string & {}) | undefined;
+  /** Optional. User's role within a Chat space, which determines their permitted actions in the space. This field can only be used as input in `UpdateMembership`. */
+  role?: MembershipRoleEnum | (string & {}) | undefined;
+  /** Optional. Immutable. The deletion time of the membership, such as when a member left or was removed from a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  deleteTime?: string | undefined;
+  /** Optional. The Google Group the membership corresponds to. Reading or mutating memberships for Google Groups requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  groupMember?: Group | undefined;
+  /** Optional. The Google Chat user or app the membership corresponds to. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  member?: User | undefined;
+  /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  createTime?: string | undefined;
 }
 export interface PatchSpacesMessagesRequest {
   /** Optional. If `true` and the message isn't found, a new message is created and `updateMask` is ignored. The specified message ID must be [client-assigned](https://developers.google.com/workspace/chat/create-messages#name_a_created_message) or the request fails. */
@@ -2342,62 +2507,116 @@ export interface PatchSpacesMessagesRequest {
   updateMask?: string | undefined;
   /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
   name: string;
-  /** Request body */
-  body?: Message | undefined;
+  /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
+  argumentText?: string | undefined;
+  /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
+  privateMessageViewer?: User | undefined;
+  /** Output only. The time at which the message was last edited by a user. If the message has never been edited, this field is empty. */
+  lastUpdateTime?: string | undefined;
+  /** Output only. GIF images that are attached to the message. */
+  attachedGifs?: AttachedGifList | undefined;
+  /** Optional. A plain-text description of the message's cards, used when the actual cards can't be displayed--for example, mobile notifications. */
+  fallbackText?: string | undefined;
+  /** Optional. Plain-text body of the message. The first link to an image, video, or web page generates a [preview chip](https://developers.google.com/workspace/chat/preview-links). You can also [@mention a Google Chat user](https://developers.google.com/workspace/chat/format-messages#messages-@mention), or everyone in the space. To learn about creating text messages, see [Send a message](https://developers.google.com/workspace/chat/create-messages). */
+  text?: string | undefined;
+  /** Output only. A URL in the Chat message `text` field that matches a link preview pattern. For more information, see [Preview links](https://developers.google.com/workspace/chat/preview-links). */
+  matchedUrl?: MatchedUrl | undefined;
+  /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
+  threadReply?: boolean | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time at which the message was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the message was created in the source in order to preserve the original creation time. */
+  createTime?: string | undefined;
+  /** Output only. The time at which the message was deleted in Google Chat. If the message is never deleted, this field is empty. */
+  deleteTime?: string | undefined;
+  /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
+  silent?: boolean | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards). Chat apps can create cards with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). As part of the [Developer Preview Program](https://developers.google.com/workspace/preview), if your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), it can create card messages. If your Chat app is not part of Developer Preview Program, it can't create cards with user authentication. To learn how to create a message that contains cards, see [Send a message](https://developers.google.com/workspace/chat/create-messages). [Card builder](https://addons.gsuite.google.com/uikit/builder) */
+  cardsV2?: CardWithIdList | undefined;
+  /** Output only. Information about a deleted message. A message is deleted when `delete_time` is set. */
+  deletionMetadata?: DeletionMetadata | undefined;
+  /** Output only. The list of emoji reaction summaries on the message. */
+  emojiReactionSummaries?: EmojiReactionSummaryList | undefined;
+  /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
+  markupSyntax?: MessageMarkupSyntaxEnum | (string & {}) | undefined;
+  /** The thread the message belongs to. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  thread?: Thread | undefined;
+  /** Optional. One or more interactive widgets that appear at the bottom of a message. You can add accessory widgets to messages that contain text, cards, or both text and cards. Not supported for messages that contain dialogs. For details, see [Add interactive widgets at the bottom of a message](https://developers.google.com/workspace/chat/create-messages#add-accessory-widgets). Creating a message with accessory widgets requires [app authentication] (https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). */
+  accessoryWidgets?: AccessoryWidgetList | undefined;
+  /** Output only. Contains the message `text` with markups added to communicate formatting. This field might not capture all formatting visible in the UI, but includes the following: * [Markup syntax](https://developers.google.com/workspace/chat/format-messages) for bold, italic, strikethrough, monospace, monospace block, bulleted list, and block quote. * [User mentions](https://developers.google.com/workspace/chat/format-messages#messages-@mention) using the format ``. * Custom hyperlinks using the format `<{url}|{rendered_text}>` where the first string is the URL and the second is the rendered text--for example, ``. * Custom emoji using the format `:{emoji_name}:`--for example, `:smile:`. This doesn't apply to Unicode emoji, such as `U+1F600` for a grinning face emoji. * Bullet list items using asterisks (`*`)--for example, `* item`. For more information, see [View text formatting sent in a message](https://developers.google.com/workspace/chat/format-messages#view_text_formatting_sent_in_a_message) */
+  formattedText?: string | undefined;
+  /** Optional. Information about a message that another message quotes. When you create a message, you can quote messages within the same thread, or quote a root message to create a new root message. However, you can't quote a message reply from a different thread. When you update a message, you can't add or replace the `quotedMessageMetadata` field, but you can remove it. For example usage, see [Quote another message](https://developers.google.com/workspace/chat/create-messages#quote-a-message). */
+  quotedMessageMetadata?: QuotedMessageMetadata | undefined;
+  /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
+  elements?: Elements | undefined;
+  /** Output only. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces) `name`. */
+  space?: Space | undefined;
+  /** Optional. A custom ID for the message. You can use field to identify a message, or to get, delete, or update a message. To set a custom ID, specify the [`messageId`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/create#body.QUERY_PARAMETERS.message_id) field when you create the message. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  clientAssignedMessageId?: string | undefined;
+  /** Output only. Annotations can be associated with the plain-text body of the message or with chips that link to Google Workspace resources like Google Docs or Sheets with `start_index` and `length` of 0. */
+  annotations?: AnnotationList | undefined;
+  /** Output only. Slash command information, if applicable. */
+  slashCommand?: SlashCommand | undefined;
+  /** Input only. Parameters that a Chat app can use to configure how its response is posted. */
+  actionResponse?: ActionResponse | undefined;
+  /** Output only. The user who created the message. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  sender?: User | undefined;
+  /** Deprecated: Use `cards_v2` instead. Rich, formatted, and interactive cards that you can use to display UI elements such as: formatted texts, buttons, and clickable images. Cards are normally displayed below the plain-text body of the message. `cards` and `cards_v2` can have a maximum size of 32 KB. */
+  cards?: CardList | undefined;
+  /** Optional. User-uploaded attachment. */
+  attachment?: AttachmentList | undefined;
 }
 export interface PatchUsersAvailabilityRequest {
   /** Required. The list of fields to update. The only field that can be updated is `custom_status`. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the user's availability. Format: `users/{user}/availability` `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name: string;
-  /** Request body */
-  body?: Availability | undefined;
+  /** Output only. Metadata if the user state is set to DO_NOT_DISTURB. */
+  doNotDisturbMetadata?: DoNotDisturbMetadata | undefined;
+  /** Output only. The user's current availability state. */
+  state?: AvailabilityStateEnum | (string & {}) | undefined;
+  /** Optional. The user's custom status. */
+  customStatus?: CustomStatus | undefined;
 }
 export interface PatchUsersSectionsRequest {
   /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
   name: string;
   /** Required. The mask to specify which fields to update. Currently supported field paths: - `display_name` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleChatV1Section | undefined;
+  /** Required. The type of the section. */
+  type?: GoogleChatV1SectionTypeEnum | (string & {}) | undefined;
+  /** Optional. The section's display name. Only populated for sections of type `CUSTOM_SECTION`. Supports up to 80 characters. Required when creating a `CUSTOM_SECTION`. */
+  displayName?: string | undefined;
+  /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
+  sortOrder?: number | undefined;
 }
 export interface PatchUsersSpacesSpaceNotificationSettingRequest {
   /** Required. Supported field paths: - `notification_setting` - `mute_setting` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the space notification setting. Format: `users/{user}/spaces/{space}/spaceNotificationSetting`. */
   name: string;
-  /** Request body */
-  body?: SpaceNotificationSetting | undefined;
+  /** The space notification mute setting. */
+  muteSetting?: SpaceNotificationSettingMuteSettingEnum | (string & {}) | undefined;
+  /** The notification setting. */
+  notificationSetting?: SpaceNotificationSettingNotificationSettingEnum | (string & {}) | undefined;
 }
 export type PositionSectionRequestRelativePositionEnum = "POSITION_UNSPECIFIED" | "START" | "END";
-/** Request message for positioning a section. */
-export interface PositionSectionRequest {
+export interface PositionUsersSectionsRequest {
+  /** Required. The resource name of the section to position. Format: `users/{user}/sections/{section}` */
+  name: string;
   /** Optional. The absolute position of the section in the list of sections. The position must be greater than 0. If the position is greater than the number of sections, the section will be appended to the end of the list. This operation inserts the section at the given position and shifts the original section at that position, and those below it, to the next position. */
   sortOrder?: number | undefined;
   /** Optional. The relative position of the section in the list of sections. */
   relativePosition?: PositionSectionRequestRelativePositionEnum | (string & {}) | undefined;
-}
-export interface PositionUsersSectionsRequest {
-  /** Required. The resource name of the section to position. Format: `users/{user}/sections/{section}` */
-  name: string;
-  /** Request body */
-  body?: PositionSectionRequest | undefined;
 }
 /** Response message for positioning a section. */
 export interface PositionSectionResponse {
   /** The updated section. */
   section?: GoogleChatV1Section | undefined;
 }
-/** Request message for ReplaceMessageCards API method. */
-export interface ReplaceMessageCardsRequest {
-  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards) to be included in the message. These cards will replace the existing cards of the message. If empty, the original cards included in the message will be cleared. */
-  cardsV2?: CardWithIdList | undefined;
-}
 export interface ReplaceCardsSpacesMessagesRequest {
   /** Required. The resource name of the message. Format: `spaces/{space}/messages/{message}` */
   name: string;
-  /** Request body */
-  body?: ReplaceMessageCardsRequest | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards) to be included in the message. These cards will replace the existing cards of the message. If empty, the original cards included in the message will be cleared. */
+  cardsV2?: CardWithIdList | undefined;
 }
 /** Response message for ReplaceMessageCards API. */
 export interface ReplaceMessageCardsResponse {}
@@ -2438,8 +2657,9 @@ export type SearchMessagesRequestMarkupSyntaxEnum =
   | "MARKUP_SYNTAX_UNSPECIFIED"
   | "MARKUP_SYNTAX_CHAT"
   | "MARKUP_SYNTAX_MARKDOWN";
-/** Request message for searching messages. */
-export interface SearchMessagesRequest {
+export interface SearchSpacesMessagesRequest {
+  /** Required. The resource name of the space to search within. To search across all spaces the user has access to, set this field to `spaces/-`. Using any other value for `parent` results in an `INVALID_ARGUMENT` error. To limit the search to one or more spaces, use `space.name` or `space.display_name` in the `filter`. */
+  parent: string;
   /** Optional. How the results list is ordered. Supported attributes to order by are: - `create_time`: Sorts the results by the time of the message creation. Default value. - `relevance`: Sorts the results by relevance. [Developer Preview](https://developers.google.com/workspace/preview). The default ordering is `create_time desc`. Only a single order per query (`create_time` or `relevance`) is supported. Only descending order (`desc`) is supported, and it must be specified after the order attribute. */
   orderBy?: string | undefined;
   /** Optional. A token, received from the previous search messages call. Provide this parameter to retrieve the subsequent page. When paginating, all other parameters provided should match the call that provided the page token. Passing different values to the other parameters might lead to unexpected results. */
@@ -2452,12 +2672,6 @@ export interface SearchMessagesRequest {
   view?: SearchMessagesRequestViewEnum | (string & {}) | undefined;
   /** Optional. Specifies the desired output syntax for the Chat message `formatted_text` field. */
   markupSyntax?: SearchMessagesRequestMarkupSyntaxEnum | (string & {}) | undefined;
-}
-export interface SearchSpacesMessagesRequest {
-  /** Required. The resource name of the space to search within. To search across all spaces the user has access to, set this field to `spaces/-`. Using any other value for `parent` results in an `INVALID_ARGUMENT` error. To limit the search to one or more spaces, use `space.name` or `space.display_name` in the `filter`. */
-  parent: string;
-  /** Request body */
-  body?: SearchMessagesRequest | undefined;
 }
 export type SearchMessageResultSpaceMuteSettingEnum =
   | "MUTE_SETTING_UNSPECIFIED"
@@ -2480,8 +2694,7 @@ export interface SearchMessagesResponse {
   /** A token that can be used to retrieve the next page. If this field is empty, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-/** Request to create a space and add specified users to it. */
-export interface SetUpSpaceRequest {
+export interface SetupSpacesRequest {
   /** Optional. The Google Chat users or groups to invite to join the space. Omit the calling user, as they are added automatically. The set currently allows up to 49 memberships (in addition to the caller). For human membership, the `Membership.member` field must contain a `user` with `name` populated (format: `users/{user}`) and `type` set to `User.Type.HUMAN`. You can only add human users when setting up a space (adding Chat apps is only supported for direct message setup with the calling app). You can also add members using the user's email as an alias for {user}. For example, the `user.name` can be `users/example@gmail.com`. To invite Gmail users or users from external Google Workspace domains, user's email must be used for `{user}`. For Google group membership, the `Membership.group_member` field must contain a `group` with `name` populated (format `groups/{group}`). You can only add Google groups when setting `Space.spaceType` to `SPACE`. Optional when setting `Space.spaceType` to `SPACE`. Required when setting `Space.spaceType` to `GROUP_CHAT`, along with at least two memberships. Required when setting `Space.spaceType` to `DIRECT_MESSAGE` with a human user, along with exactly one membership. Must be empty when creating a 1:1 conversation between a human and the calling Chat app (when setting `Space.spaceType` to `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`). */
   memberships?: MembershipList | undefined;
   /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single space being created. Subsequent requests with the same request ID return the existing space and do not update the space, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a space was already created with the provided request ID, the request returns that space. Note that the returned space might not be fully populated; the API echoes the space in your request with the system-assigned resource name populated. To retrieve the latest metadata for the space, call `GetSpace`. - Reusing an existing request ID with a different authenticated user results in an error. */
@@ -2489,17 +2702,13 @@ export interface SetUpSpaceRequest {
   /** Required. The `Space.spaceType` field is required. To create a space, set `Space.spaceType` to `SPACE` and set `Space.displayName`. If you receive the error message `ALREADY_EXISTS` when setting up a space, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. To create a group chat, set `Space.spaceType` to `GROUP_CHAT`. Don't set `Space.displayName`. To create a 1:1 conversation between humans, set `Space.spaceType` to `DIRECT_MESSAGE` and set `Space.singleUserBotDm` to `false`. Don't set `Space.displayName` or `Space.spaceDetails`. To create an 1:1 conversation between a human and the calling Chat app, set `Space.spaceType` to `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`. Don't set `Space.displayName` or `Space.spaceDetails`. If a `DIRECT_MESSAGE` space already exists, that space is returned instead of creating a new space. */
   space?: Space | undefined;
 }
-export interface SetupSpacesRequest {
-  /** Request body */
-  body?: SetUpSpaceRequest | undefined;
-}
 export interface UpdateSpaceReadStateUsersSpacesRequest {
   /** Resource name of the space read state. Format: `users/{user}/spaces/{space}/spaceReadState` */
   name: string;
   /** Required. The field paths to update. Currently supported field paths: - `last_read_time` When the `last_read_time` is before the latest message create time, the space appears as unread in the UI. To mark the space as read, set `last_read_time` to any value later (larger) than the latest message create time. The `last_read_time` is coerced to match the latest message create time. Note that the space read state only affects the read state of messages that are visible in the space's top-level conversation. Replies in threads are unaffected by this timestamp, and instead rely on the thread read state. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SpaceReadState | undefined;
+  /** Optional. The time when the user's space read state was updated. Usually this corresponds with either the timestamp of the last read message, or a timestamp specified by the user to mark the last read position in a space. */
+  lastReadTime?: string | undefined;
 }
 export interface UpdateSpacesMessagesRequest {
   /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
@@ -2508,19 +2717,68 @@ export interface UpdateSpacesMessagesRequest {
   updateMask?: string | undefined;
   /** Optional. If `true` and the message isn't found, a new message is created and `updateMask` is ignored. The specified message ID must be [client-assigned](https://developers.google.com/workspace/chat/create-messages#name_a_created_message) or the request fails. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: Message | undefined;
-}
-/** Request to upload an attachment. */
-export interface UploadAttachmentRequest {
-  /** Required. The filename of the attachment, including the file extension. */
-  filename?: string | undefined;
+  /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
+  argumentText?: string | undefined;
+  /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
+  privateMessageViewer?: User | undefined;
+  /** Output only. The time at which the message was last edited by a user. If the message has never been edited, this field is empty. */
+  lastUpdateTime?: string | undefined;
+  /** Output only. GIF images that are attached to the message. */
+  attachedGifs?: AttachedGifList | undefined;
+  /** Optional. A plain-text description of the message's cards, used when the actual cards can't be displayed--for example, mobile notifications. */
+  fallbackText?: string | undefined;
+  /** Optional. Plain-text body of the message. The first link to an image, video, or web page generates a [preview chip](https://developers.google.com/workspace/chat/preview-links). You can also [@mention a Google Chat user](https://developers.google.com/workspace/chat/format-messages#messages-@mention), or everyone in the space. To learn about creating text messages, see [Send a message](https://developers.google.com/workspace/chat/create-messages). */
+  text?: string | undefined;
+  /** Output only. A URL in the Chat message `text` field that matches a link preview pattern. For more information, see [Preview links](https://developers.google.com/workspace/chat/preview-links). */
+  matchedUrl?: MatchedUrl | undefined;
+  /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
+  threadReply?: boolean | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time at which the message was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the message was created in the source in order to preserve the original creation time. */
+  createTime?: string | undefined;
+  /** Output only. The time at which the message was deleted in Google Chat. If the message is never deleted, this field is empty. */
+  deleteTime?: string | undefined;
+  /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
+  silent?: boolean | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards). Chat apps can create cards with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). As part of the [Developer Preview Program](https://developers.google.com/workspace/preview), if your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), it can create card messages. If your Chat app is not part of Developer Preview Program, it can't create cards with user authentication. To learn how to create a message that contains cards, see [Send a message](https://developers.google.com/workspace/chat/create-messages). [Card builder](https://addons.gsuite.google.com/uikit/builder) */
+  cardsV2?: CardWithIdList | undefined;
+  /** Output only. Information about a deleted message. A message is deleted when `delete_time` is set. */
+  deletionMetadata?: DeletionMetadata | undefined;
+  /** Output only. The list of emoji reaction summaries on the message. */
+  emojiReactionSummaries?: EmojiReactionSummaryList | undefined;
+  /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
+  markupSyntax?: MessageMarkupSyntaxEnum | (string & {}) | undefined;
+  /** The thread the message belongs to. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  thread?: Thread | undefined;
+  /** Optional. One or more interactive widgets that appear at the bottom of a message. You can add accessory widgets to messages that contain text, cards, or both text and cards. Not supported for messages that contain dialogs. For details, see [Add interactive widgets at the bottom of a message](https://developers.google.com/workspace/chat/create-messages#add-accessory-widgets). Creating a message with accessory widgets requires [app authentication] (https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). */
+  accessoryWidgets?: AccessoryWidgetList | undefined;
+  /** Output only. Contains the message `text` with markups added to communicate formatting. This field might not capture all formatting visible in the UI, but includes the following: * [Markup syntax](https://developers.google.com/workspace/chat/format-messages) for bold, italic, strikethrough, monospace, monospace block, bulleted list, and block quote. * [User mentions](https://developers.google.com/workspace/chat/format-messages#messages-@mention) using the format ``. * Custom hyperlinks using the format `<{url}|{rendered_text}>` where the first string is the URL and the second is the rendered text--for example, ``. * Custom emoji using the format `:{emoji_name}:`--for example, `:smile:`. This doesn't apply to Unicode emoji, such as `U+1F600` for a grinning face emoji. * Bullet list items using asterisks (`*`)--for example, `* item`. For more information, see [View text formatting sent in a message](https://developers.google.com/workspace/chat/format-messages#view_text_formatting_sent_in_a_message) */
+  formattedText?: string | undefined;
+  /** Optional. Information about a message that another message quotes. When you create a message, you can quote messages within the same thread, or quote a root message to create a new root message. However, you can't quote a message reply from a different thread. When you update a message, you can't add or replace the `quotedMessageMetadata` field, but you can remove it. For example usage, see [Quote another message](https://developers.google.com/workspace/chat/create-messages#quote-a-message). */
+  quotedMessageMetadata?: QuotedMessageMetadata | undefined;
+  /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
+  elements?: Elements | undefined;
+  /** Output only. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces) `name`. */
+  space?: Space | undefined;
+  /** Optional. A custom ID for the message. You can use field to identify a message, or to get, delete, or update a message. To set a custom ID, specify the [`messageId`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/create#body.QUERY_PARAMETERS.message_id) field when you create the message. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  clientAssignedMessageId?: string | undefined;
+  /** Output only. Annotations can be associated with the plain-text body of the message or with chips that link to Google Workspace resources like Google Docs or Sheets with `start_index` and `length` of 0. */
+  annotations?: AnnotationList | undefined;
+  /** Output only. Slash command information, if applicable. */
+  slashCommand?: SlashCommand | undefined;
+  /** Input only. Parameters that a Chat app can use to configure how its response is posted. */
+  actionResponse?: ActionResponse | undefined;
+  /** Output only. The user who created the message. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  sender?: User | undefined;
+  /** Deprecated: Use `cards_v2` instead. Rich, formatted, and interactive cards that you can use to display UI elements such as: formatted texts, buttons, and clickable images. Cards are normally displayed below the plain-text body of the message. `cards` and `cards_v2` can have a maximum size of 32 KB. */
+  cards?: CardList | undefined;
+  /** Optional. User-uploaded attachment. */
+  attachment?: AttachmentList | undefined;
 }
 export interface UploadMediaRequest {
   /** Required. Resource name of the Chat space in which the attachment is uploaded. Format "spaces/{space}". */
   parent: string;
-  /** Request body */
-  body?: UploadAttachmentRequest | undefined;
+  /** Required. The filename of the attachment, including the file extension. */
+  filename?: string | undefined;
 }
 /** Response of uploading an attachment. */
 export interface UploadAttachmentResponse {
@@ -2552,8 +2810,8 @@ export const createCustomEmojis: API.OperationMethod<
   CreateCustomEmojisError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateCustomEmojisRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<CustomEmoji>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateCustomEmojisRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<CustomEmoji>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2569,7 +2827,7 @@ export const createSpaces: API.OperationMethod<
   CreateSpacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<CreateSpacesRequest>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreateSpacesRequest>,
   output: __S(1353, __c42, 9) as any as S.Schema<Space>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2586,8 +2844,8 @@ export const createSpacesMembers: API.OperationMethod<
   CreateSpacesMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateSpacesMembersRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<Membership>,
+  input: __S(2144, __c67, 0) as any as S.Schema<CreateSpacesMembersRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2608,8 +2866,8 @@ export const createSpacesMessagePins: API.OperationMethod<
   CreateSpacesMessagePinsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateSpacesMessagePinsRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<MessagePin>,
+  input: __S(2240, __c70, 0) as any as S.Schema<CreateSpacesMessagePinsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<MessagePin>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2625,8 +2883,8 @@ export const createSpacesMessages: API.OperationMethod<
   CreateSpacesMessagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<CreateSpacesMessagesRequest>,
-  output: __S(2646, __c82, 22) as any as S.Schema<Message>,
+  input: __S(2304, __c72, 0) as any as S.Schema<CreateSpacesMessagesRequest>,
+  output: __S(2614, __c81, 22) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2716,7 +2974,7 @@ export const deleteSpacesMembers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteSpacesMembersRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<Membership>,
+  output: __S(2176, __c68, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2864,7 +3122,7 @@ export const getCustomEmojis: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetCustomEmojisRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<CustomEmoji>,
+  output: __S(1793, __c56, 1) as any as S.Schema<CustomEmoji>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2911,7 +3169,7 @@ export const getSpacesMembers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetSpacesMembersRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<Membership>,
+  output: __S(2176, __c68, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2928,7 +3186,7 @@ export const getSpacesMessages: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetSpacesMessagesRequest>,
-  output: __S(2646, __c82, 22) as any as S.Schema<Message>,
+  output: __S(2614, __c81, 22) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2945,7 +3203,7 @@ export const getSpacesMessagesAttachments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetSpacesMessagesAttachmentsRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<Attachment>,
+  output: __S(2401, __c75, 1) as any as S.Schema<Attachment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3227,7 +3485,7 @@ export const markAsAwayUsersAvailability: API.OperationMethod<
   MarkAsAwayUsersAvailabilityError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<MarkAsAwayUsersAvailabilityRequest>,
+  input: __S(1504, __c47, 0) as any as S.Schema<MarkAsAwayUsersAvailabilityRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Availability>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3249,7 +3507,7 @@ export const markAsDoNotDisturbUsersAvailability: API.OperationMethod<
   MarkAsDoNotDisturbUsersAvailabilityError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<MarkAsDoNotDisturbUsersAvailabilityRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<MarkAsDoNotDisturbUsersAvailabilityRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Availability>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3266,8 +3524,8 @@ export const moveUsersSectionsItems: API.OperationMethod<
   MoveUsersSectionsItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1601, __c50, 1) as any as S.Schema<MoveUsersSectionsItemsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<MoveSectionItemResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<MoveUsersSectionsItemsRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<MoveSectionItemResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3283,7 +3541,7 @@ export const patchSpaces: API.OperationMethod<
   PatchSpacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<PatchSpacesRequest>,
+  input: __S(1600, __c50, 0) as any as S.Schema<PatchSpacesRequest>,
   output: __S(1353, __c42, 9) as any as S.Schema<Space>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3300,8 +3558,8 @@ export const patchSpacesMembers: API.OperationMethod<
   PatchSpacesMembersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<PatchSpacesMembersRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<Membership>,
+  input: __S(1632, __c51, 0) as any as S.Schema<PatchSpacesMembersRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3317,8 +3575,8 @@ export const patchSpacesMessages: API.OperationMethod<
   PatchSpacesMessagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<PatchSpacesMessagesRequest>,
-  output: __S(2646, __c82, 22) as any as S.Schema<Message>,
+  input: __S(1664, __c52, 0) as any as S.Schema<PatchSpacesMessagesRequest>,
+  output: __S(2614, __c81, 22) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3334,7 +3592,7 @@ export const patchUsersAvailability: API.OperationMethod<
   PatchUsersAvailabilityError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<PatchUsersAvailabilityRequest>,
+  input: __S(1696, __c53, 0) as any as S.Schema<PatchUsersAvailabilityRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Availability>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3351,7 +3609,7 @@ export const patchUsersSections: API.OperationMethod<
   PatchUsersSectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<PatchUsersSectionsRequest>,
+  input: __S(1728, __c54, 0) as any as S.Schema<PatchUsersSectionsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GoogleChatV1Section>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3373,7 +3631,7 @@ export const patchUsersSpacesSpaceNotificationSetting: API.OperationMethod<
   PatchUsersSpacesSpaceNotificationSettingError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<PatchUsersSpacesSpaceNotificationSettingRequest>,
+  input: __S(1824, __c57, 0) as any as S.Schema<PatchUsersSpacesSpaceNotificationSettingRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<SpaceNotificationSetting>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3390,8 +3648,8 @@ export const positionUsersSections: API.OperationMethod<
   PositionUsersSectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c59, 1) as any as S.Schema<PositionUsersSectionsRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<PositionSectionResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<PositionUsersSectionsRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<PositionSectionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3412,7 +3670,7 @@ export const replaceCardsSpacesMessages: API.OperationMethod<
   ReplaceCardsSpacesMessagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1921, __c60, 1) as any as S.Schema<ReplaceCardsSpacesMessagesRequest>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ReplaceCardsSpacesMessagesRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<ReplaceMessageCardsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3430,8 +3688,8 @@ export const searchSpaces: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchSpacesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<SearchSpacesRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<SearchSpacesResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<SearchSpacesRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<SearchSpacesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3448,8 +3706,8 @@ export const searchSpacesMessages: API.OperationMethod<
   SearchSpacesMessagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c62, 1) as any as S.Schema<SearchSpacesMessagesRequest>,
-  output: __S(1988, __c62, 4) as any as S.Schema<SearchMessagesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<SearchSpacesMessagesRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<SearchMessagesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3465,7 +3723,7 @@ export const setupSpaces: API.OperationMethod<
   SetupSpacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2017, __c63, 1) as any as S.Schema<SetupSpacesRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<SetupSpacesRequest>,
   output: __S(1353, __c42, 9) as any as S.Schema<Space>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3487,7 +3745,7 @@ export const updateSpaceReadStateUsersSpaces: API.OperationMethod<
   UpdateSpaceReadStateUsersSpacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<UpdateSpaceReadStateUsersSpacesRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<UpdateSpaceReadStateUsersSpacesRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<SpaceReadState>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3504,8 +3762,8 @@ export const updateSpacesMessages: API.OperationMethod<
   UpdateSpacesMessagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<UpdateSpacesMessagesRequest>,
-  output: __S(2646, __c82, 22) as any as S.Schema<Message>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UpdateSpacesMessagesRequest>,
+  output: __S(2614, __c81, 22) as any as S.Schema<Message>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3521,8 +3779,8 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2113, __c66, 1) as any as S.Schema<UploadMediaRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<UploadAttachmentResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UploadMediaRequest>,
+  output: __S(2081, __c65, 1) as any as S.Schema<UploadAttachmentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3537,7 +3795,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          user: S.optional(__S(2208, __c69, 0)),
+          emoji: S.optional(__S(2336, __c73, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3554,8 +3814,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          user: S.optional(__S(2240, __c70, 0)),
-          emoji: S.optional(__S(2368, __c74, 0)),
+          user: S.optional(__S(2208, __c69, 0)),
+          emoji: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "Reaction" });
   }
@@ -3566,7 +3826,10 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          sortOrder: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3722,7 +3985,7 @@ function __c13(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          users: S.optional(__S(2400, __c75, 0).pipe(T.Query())),
+          users: S.optional(__S(2368, __c74, 0).pipe(T.Query())),
           spaceView: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3850,7 +4113,7 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          membership: S.optional(__S(2208, __c69, 0)),
+          membership: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "MembershipUpdatedEventData" });
     case 1:
@@ -3884,7 +4147,7 @@ function __c23(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(2646, __c82, 22)),
+          message: S.optional(__S(2614, __c81, 22)),
         }),
       ).annotate({ identifier: "MessageUpdatedEventData" });
     case 8:
@@ -3965,7 +4228,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          emoji: S.optional(__S(2368, __c74, 0)),
+          emoji: S.optional(__S(2336, __c73, 0)),
           expireTime: S.optional(S.String),
           ttl: S.optional(S.String),
         }),
@@ -4022,7 +4285,7 @@ function __c30(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomEmojisRequest" });
     case 1:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(1793, __c56, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4085,7 +4348,7 @@ function __c32(j: number): any {
 function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2176, __c68, 0));
   }
 }
 function __c34(j: number): any {
@@ -4105,7 +4368,7 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListSpacesMessagePinsRequest" });
     case 1:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4136,7 +4399,7 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListSpacesMessagesRequest" });
     case 1:
-      return S.Array(__S(2646, __c82, 22));
+      return S.Array(__S(2614, __c81, 22));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4413,7 +4676,8 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          ttl: S.optional(S.String),
+          expireTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4425,17 +4689,6 @@ function __c46(j: number): any {
   }
 }
 function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ttl: S.optional(S.String),
-          expireTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MarkAsActiveRequest" });
-  }
-}
-function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4452,13 +4705,14 @@ function __c48(j: number): any {
       ).annotate({ identifier: "MarkAsAwayUsersAvailabilityRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          ttl: S.optional(S.String),
+          expireTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4469,19 +4723,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "MarkAsDoNotDisturbUsersAvailabilityRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetSection: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MoveSectionItemRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
+          targetSection: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4490,7 +4738,7 @@ function __c50(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MoveUsersSectionsItemsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           sectionItem: S.optional(__S(1440, __c45, 0)),
@@ -4498,7 +4746,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "MoveSectionItemResponse" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4506,11 +4754,51 @@ function __c51(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1353, __c42, 9).pipe(T.HttpBody())),
+          spaceUri: S.optional(S.String),
+          spaceType: S.optional(S.String),
+          predefinedPermissionSettings: S.optional(S.String),
+          adminInstalled: S.optional(S.Boolean),
+          externalUserAllowed: S.optional(S.Boolean),
+          spaceHistoryState: S.optional(S.String),
+          singleUserBotDm: S.optional(S.Boolean),
+          membershipCount: S.optional(__S(1344, __c42, 0)),
+          spaceDetails: S.optional(__S(1345, __c42, 1)),
+          importMode: S.optional(S.Boolean),
+          customer: S.optional(S.String),
+          threaded: S.optional(S.Boolean),
+          lastActiveTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          spaceThreadingState: S.optional(S.String),
+          permissionSettings: S.optional(__S(1347, __c42, 3)),
+          type: S.optional(S.String),
+          accessSettings: S.optional(__S(1352, __c42, 8)),
+          importModeExpireTime: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchSpacesRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String),
+          affiliation: S.optional(S.String),
+          role: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          groupMember: S.optional(__S(1312, __c41, 0)),
+          member: S.optional(__S(2208, __c69, 0)),
+          createTime: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "PatchSpacesMembersRequest" });
   }
 }
 function __c52(j: number): any {
@@ -4518,14 +4806,41 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          argumentText: S.optional(S.String),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
+          lastUpdateTime: S.optional(S.String),
+          attachedGifs: S.optional(__S(2561, __c80, 1)),
+          fallbackText: S.optional(S.String),
+          text: S.optional(S.String),
+          matchedUrl: S.optional(__S(2562, __c80, 2)),
+          threadReply: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          silent: S.optional(S.Boolean),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          deletionMetadata: S.optional(__S(2563, __c80, 3)),
+          emojiReactionSummaries: S.optional(__S(2565, __c80, 5)),
+          markupSyntax: S.optional(S.String),
+          thread: S.optional(__S(2566, __c80, 6)),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
+          formattedText: S.optional(S.String),
+          quotedMessageMetadata: S.optional(__S(2582, __c80, 22)),
+          elements: S.optional(__S(2589, __c80, 29)),
+          space: S.optional(__S(1353, __c42, 9)),
+          clientAssignedMessageId: S.optional(S.String),
+          annotations: S.optional(__S(2579, __c80, 19)),
+          slashCommand: S.optional(__S(2590, __c80, 30)),
+          actionResponse: S.optional(__S(2596, __c81, 4)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2613, __c81, 21)),
+          attachment: S.optional(__S(2580, __c80, 20)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "PatchSpacesMembersRequest" });
+      ).annotate({ identifier: "PatchSpacesMessagesRequest" });
   }
 }
 function __c53(j: number): any {
@@ -4533,14 +4848,15 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2646, __c82, 22).pipe(T.HttpBody())),
+          doNotDisturbMetadata: S.optional(__S(864, __c27, 0)),
+          state: S.optional(S.String),
+          customStatus: S.optional(__S(865, __c27, 1)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "PatchSpacesMessagesRequest" });
+      ).annotate({ identifier: "PatchUsersAvailabilityRequest" });
   }
 }
 function __c54(j: number): any {
@@ -4548,13 +4864,15 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(866, __c27, 2).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          sortOrder: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "PatchUsersAvailabilityRequest" });
+      ).annotate({ identifier: "PatchUsersSectionsRequest" });
   }
 }
 function __c55(j: number): any {
@@ -4562,21 +4880,11 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "PatchUsersSectionsRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1825, __c57, 1).pipe(T.HttpBody())),
+          temporaryImageUri: S.optional(S.String),
+          payload: S.optional(__S(1792, __c56, 0)),
+          emojiName: S.optional(S.String),
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4587,7 +4895,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateCustomEmojisRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4600,7 +4908,7 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           temporaryImageUri: S.optional(S.String),
-          payload: S.optional(__S(1824, __c57, 0)),
+          payload: S.optional(__S(1792, __c56, 0)),
           emojiName: S.optional(S.String),
           uid: S.optional(S.String),
           name: S.optional(S.String),
@@ -4608,34 +4916,29 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CustomEmoji" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
+          muteSetting: S.optional(S.String),
+          notificationSetting: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
       ).annotate({ identifier: "PatchUsersSpacesSpaceNotificationSettingRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           sortOrder: S.optional(S.Number),
           relativePosition: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PositionSectionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4644,7 +4947,7 @@ function __c59(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PositionUsersSectionsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           section: S.optional(__S(96, __c3, 0)),
@@ -4652,19 +4955,13 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PositionSectionResponse" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cardsV2: S.optional(__S(2571, __c80, 11)),
-        }),
-      ).annotate({ identifier: "ReplaceMessageCardsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1920, __c60, 0).pipe(T.HttpBody())),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4675,7 +4972,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ReplaceCardsSpacesMessagesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4704,24 +5001,18 @@ function __c61(j: number): any {
       ).annotate({ identifier: "SearchSpacesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
           filter: S.optional(S.String),
           view: S.optional(S.String),
           markupSyntax: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchMessagesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4730,26 +5021,26 @@ function __c62(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchSpacesMessagesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           spaceMuteSetting: S.optional(S.String),
           read: S.optional(S.Boolean),
-          message: S.optional(__S(2646, __c82, 22)),
+          message: S.optional(__S(2614, __c81, 22)),
         }),
       ).annotate({ identifier: "SearchMessageResult" });
+    case 2:
+      return S.Array(__S(1953, __c61, 1));
     case 3:
-      return S.Array(__S(1986, __c62, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(1987, __c62, 3)),
+          results: S.optional(__S(1954, __c61, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchMessagesResponse" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4757,12 +5048,6 @@ function __c63(j: number): any {
           memberships: S.optional(__S(1056, __c33, 0)),
           requestId: S.optional(S.String),
           space: S.optional(__S(1353, __c42, 9)),
-        }),
-      ).annotate({ identifier: "SetUpSpaceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4773,6 +5058,20 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetupSpacesRequest" });
   }
 }
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          lastReadTime: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "UpdateSpaceReadStateUsersSpacesRequest" });
+  }
+}
 function __c64(j: number): any {
   switch (j) {
     case 0:
@@ -4780,11 +5079,39 @@ function __c64(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          argumentText: S.optional(S.String),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
+          lastUpdateTime: S.optional(S.String),
+          attachedGifs: S.optional(__S(2561, __c80, 1)),
+          fallbackText: S.optional(S.String),
+          text: S.optional(S.String),
+          matchedUrl: S.optional(__S(2562, __c80, 2)),
+          threadReply: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          silent: S.optional(S.Boolean),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          deletionMetadata: S.optional(__S(2563, __c80, 3)),
+          emojiReactionSummaries: S.optional(__S(2565, __c80, 5)),
+          markupSyntax: S.optional(S.String),
+          thread: S.optional(__S(2566, __c80, 6)),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
+          formattedText: S.optional(S.String),
+          quotedMessageMetadata: S.optional(__S(2582, __c80, 22)),
+          elements: S.optional(__S(2589, __c80, 29)),
+          space: S.optional(__S(1353, __c42, 9)),
+          clientAssignedMessageId: S.optional(S.String),
+          annotations: S.optional(__S(2579, __c80, 19)),
+          slashCommand: S.optional(__S(2590, __c80, 30)),
+          actionResponse: S.optional(__S(2596, __c81, 4)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2613, __c81, 21)),
+          attachment: S.optional(__S(2580, __c80, 20)),
         }).pipe(
-          T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
+          T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "UpdateSpaceReadStateUsersSpacesRequest" });
+      ).annotate({ identifier: "UpdateSpacesMessagesRequest" });
   }
 }
 function __c65(j: number): any {
@@ -4792,29 +5119,8 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2646, __c82, 22).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "UpdateSpacesMessagesRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          filename: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UploadAttachmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          filename: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4823,12 +5129,45 @@ function __c66(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UploadMediaRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          attachmentDataRef: S.optional(__S(2464, __c77, 0)),
+          attachmentDataRef: S.optional(__S(2432, __c76, 0)),
         }),
       ).annotate({ identifier: "UploadAttachmentResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requestId: S.optional(S.String.pipe(T.Query())),
+          spaceUri: S.optional(S.String),
+          spaceType: S.optional(S.String),
+          predefinedPermissionSettings: S.optional(S.String),
+          adminInstalled: S.optional(S.Boolean),
+          externalUserAllowed: S.optional(S.Boolean),
+          spaceHistoryState: S.optional(S.String),
+          singleUserBotDm: S.optional(S.Boolean),
+          membershipCount: S.optional(__S(1344, __c42, 0)),
+          spaceDetails: S.optional(__S(1345, __c42, 1)),
+          importMode: S.optional(S.Boolean),
+          customer: S.optional(S.String),
+          threaded: S.optional(S.Boolean),
+          lastActiveTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          spaceThreadingState: S.optional(S.String),
+          permissionSettings: S.optional(__S(1347, __c42, 3)),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          accessSettings: S.optional(__S(1352, __c42, 8)),
+          importModeExpireTime: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "v1/spaces", baseUrl: "https://chat.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "CreateSpacesRequest" });
   }
 }
 function __c67(j: number): any {
@@ -4836,22 +5175,16 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1353, __c42, 9).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "v1/spaces", baseUrl: "https://chat.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "CreateSpacesRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
           useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          affiliation: S.optional(S.String),
+          role: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          groupMember: S.optional(__S(1312, __c41, 0)),
+          name: S.optional(S.String),
+          member: S.optional(__S(2208, __c69, 0)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4862,7 +5195,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateSpacesMembersRequest" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4873,13 +5206,13 @@ function __c69(j: number): any {
           deleteTime: S.optional(S.String),
           groupMember: S.optional(__S(1312, __c41, 0)),
           name: S.optional(S.String),
-          member: S.optional(__S(2240, __c70, 0)),
+          member: S.optional(__S(2208, __c69, 0)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Membership" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4895,13 +5228,14 @@ function __c70(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2304, __c72, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          message: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4912,7 +5246,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateSpacesMessagePinsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4923,7 +5257,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "MessagePin" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4934,7 +5268,35 @@ function __c73(j: number): any {
           "createMessageNotificationOptions.notificationType": S.optional(S.String.pipe(T.Query())),
           threadKey: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2646, __c82, 22).pipe(T.HttpBody())),
+          argumentText: S.optional(S.String),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
+          lastUpdateTime: S.optional(S.String),
+          attachedGifs: S.optional(__S(2561, __c80, 1)),
+          fallbackText: S.optional(S.String),
+          text: S.optional(S.String),
+          matchedUrl: S.optional(__S(2562, __c80, 2)),
+          threadReply: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          silent: S.optional(S.Boolean),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          deletionMetadata: S.optional(__S(2563, __c80, 3)),
+          emojiReactionSummaries: S.optional(__S(2565, __c80, 5)),
+          markupSyntax: S.optional(S.String),
+          thread: S.optional(__S(2566, __c80, 6)),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
+          formattedText: S.optional(S.String),
+          quotedMessageMetadata: S.optional(__S(2582, __c80, 22)),
+          elements: S.optional(__S(2589, __c80, 29)),
+          space: S.optional(__S(1353, __c42, 9)),
+          name: S.optional(S.String),
+          clientAssignedMessageId: S.optional(S.String),
+          annotations: S.optional(__S(2579, __c80, 19)),
+          slashCommand: S.optional(__S(2590, __c80, 30)),
+          actionResponse: S.optional(__S(2596, __c81, 4)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2613, __c81, 21)),
+          attachment: S.optional(__S(2580, __c80, 20)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4945,24 +5307,24 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateSpacesMessagesRequest" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           unicode: S.optional(S.String),
-          customEmoji: S.optional(__S(1825, __c57, 1)),
+          customEmoji: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "Emoji" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4973,19 +5335,19 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          driveDataRef: S.optional(__S(2432, __c76, 0)),
+          driveDataRef: S.optional(__S(2400, __c75, 0)),
           contentName: S.optional(S.String),
           downloadUri: S.optional(S.String),
           contentType: S.optional(S.String),
           thumbnailUri: S.optional(S.String),
           source: S.optional(S.String),
           name: S.optional(S.String),
-          attachmentDataRef: S.optional(__S(2464, __c77, 0)),
+          attachmentDataRef: S.optional(__S(2432, __c76, 0)),
         }),
       ).annotate({ identifier: "Attachment" });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4996,7 +5358,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "AttachmentDataRef" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5007,12 +5369,12 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          expressionDataCondition: S.optional(__S(2496, __c78, 0)),
+          expressionDataCondition: S.optional(__S(2464, __c77, 0)),
           actionRuleId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Condition" });
     case 2:
-      return S.Array(__S(2497, __c78, 1));
+      return S.Array(__S(2465, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5022,7 +5384,7 @@ function __c78(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          updateVisibilityAction: S.optional(__S(2499, __c78, 3)),
+          updateVisibilityAction: S.optional(__S(2467, __c77, 3)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1CommonWidgetAction" });
     case 5:
@@ -5032,28 +5394,28 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Trigger" });
     case 6:
-      return S.Array(__S(2501, __c78, 5));
+      return S.Array(__S(2469, __c77, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          commonWidgetAction: S.optional(__S(2500, __c78, 4)),
+          commonWidgetAction: S.optional(__S(2468, __c77, 4)),
           actionRuleId: S.optional(S.String),
-          postEventTriggers: S.optional(__S(2502, __c78, 6)),
+          postEventTriggers: S.optional(__S(2470, __c77, 6)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1EventAction" });
     case 8:
-      return S.Array(__S(2503, __c78, 7));
+      return S.Array(__S(2471, __c77, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(2498, __c78, 2)),
+          conditions: S.optional(__S(2466, __c77, 2)),
           expression: S.optional(S.String),
           id: S.optional(S.String),
-          eventActions: S.optional(__S(2504, __c78, 8)),
+          eventActions: S.optional(__S(2472, __c77, 8)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1ExpressionData" });
     case 10:
-      return S.Array(__S(2505, __c78, 9));
+      return S.Array(__S(2473, __c77, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -5072,14 +5434,14 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "GoogleAppsCardV1ActionParameter" });
     case 13:
-      return S.Array(__S(2508, __c78, 12));
+      return S.Array(__S(2476, __c77, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           loadIndicator: S.optional(S.String),
           interaction: S.optional(S.String),
-          parameters: S.optional(__S(2509, __c78, 13)),
-          requiredWidgets: S.optional(__S(2400, __c75, 0)),
+          parameters: S.optional(__S(2477, __c77, 13)),
+          requiredWidgets: S.optional(__S(2368, __c74, 0)),
           persistValues: S.optional(S.Boolean),
           allWidgetsAreRequired: S.optional(S.Boolean),
           function: S.optional(S.String),
@@ -5107,7 +5469,7 @@ function __c78(j: number): any {
         S.Struct({
           imageType: S.optional(S.String),
           iconUrl: S.optional(S.String),
-          materialIcon: S.optional(__S(2512, __c78, 16)),
+          materialIcon: S.optional(__S(2480, __c77, 16)),
           knownIcon: S.optional(S.String),
           altText: S.optional(S.String),
         }),
@@ -5117,37 +5479,37 @@ function __c78(j: number): any {
         S.Struct({
           text: S.optional(S.String),
           disabled: S.optional(S.Boolean),
-          onClick: S.optional(S.suspend(() => __S(2517, __c78, 21))),
-          startIcon: S.optional(__S(2513, __c78, 17)),
+          onClick: S.optional(S.suspend(() => __S(2485, __c77, 21))),
+          startIcon: S.optional(__S(2481, __c77, 17)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1OverflowMenuItem" });
     case 19:
-      return S.Array(__S(2514, __c78, 18));
+      return S.Array(__S(2482, __c77, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2515, __c78, 19)),
+          items: S.optional(__S(2483, __c77, 19)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1OverflowMenu" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(S.suspend(() => __S(2569, __c80, 9))),
-          openDynamicLinkAction: S.optional(__S(2510, __c78, 14)),
-          openLink: S.optional(__S(2511, __c78, 15)),
-          overflowMenu: S.optional(__S(2516, __c78, 20)),
-          action: S.optional(__S(2510, __c78, 14)),
+          card: S.optional(S.suspend(() => __S(2537, __c79, 9))),
+          openDynamicLinkAction: S.optional(__S(2478, __c77, 14)),
+          openLink: S.optional(__S(2479, __c77, 15)),
+          overflowMenu: S.optional(__S(2484, __c77, 20)),
+          action: S.optional(__S(2478, __c77, 14)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1OnClick" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           actionLabel: S.optional(S.String),
-          onClick: S.optional(__S(2517, __c78, 21)),
+          onClick: S.optional(__S(2485, __c77, 21)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1CardAction" });
     case 23:
-      return S.Array(__S(2518, __c78, 22));
+      return S.Array(__S(2486, __c77, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -5162,10 +5524,10 @@ function __c78(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           disabled: S.optional(S.Boolean),
-          icon: S.optional(__S(2513, __c78, 17)),
-          onClick: S.optional(__S(2517, __c78, 21)),
+          icon: S.optional(__S(2481, __c77, 17)),
+          onClick: S.optional(__S(2485, __c77, 21)),
           altText: S.optional(S.String),
-          color: S.optional(__S(2520, __c78, 24)),
+          color: S.optional(__S(2488, __c77, 24)),
           text: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Button" });
@@ -5173,8 +5535,8 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           horizontalAlignment: S.optional(S.String),
-          collapseButton: S.optional(__S(2521, __c78, 25)),
-          expandButton: S.optional(__S(2521, __c78, 25)),
+          collapseButton: S.optional(__S(2489, __c77, 25)),
+          expandButton: S.optional(__S(2489, __c77, 25)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1CollapseControl" });
     case 27:
@@ -5186,7 +5548,7 @@ function __c78(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          spaceDataSource: S.optional(__S(2523, __c78, 27)),
+          spaceDataSource: S.optional(__S(2491, __c77, 27)),
         }),
       ).annotate({ identifier: "ChatClientDataSourceMarkup" });
     case 29:
@@ -5199,8 +5561,8 @@ function __c78(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          chatDataSource: S.optional(__S(2524, __c78, 28)),
-          workflowDataSource: S.optional(__S(2525, __c78, 29)),
+          chatDataSource: S.optional(__S(2492, __c77, 28)),
+          workflowDataSource: S.optional(__S(2493, __c77, 29)),
         }),
       ).annotate({ identifier: "HostAppDataSourceMarkup" });
     case 31:
@@ -5211,14 +5573,14 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GoogleAppsCardV1SuggestionItem" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2527, __c78, 31));
+      return S.Array(__S(2495, __c77, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2528, __c79, 0)),
+          items: S.optional(__S(2496, __c78, 0)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Suggestions" });
     case 2:
@@ -5232,14 +5594,14 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          hostAppDataSource: S.optional(__S(2526, __c78, 30)),
+          hostAppDataSource: S.optional(__S(2494, __c77, 30)),
           placeholderText: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          initialSuggestions: S.optional(__S(2529, __c79, 1)),
-          validation: S.optional(__S(2530, __c79, 2)),
-          autoCompleteAction: S.optional(__S(2510, __c78, 14)),
-          onChangeAction: S.optional(__S(2510, __c78, 14)),
+          initialSuggestions: S.optional(__S(2497, __c78, 1)),
+          validation: S.optional(__S(2498, __c78, 2)),
+          autoCompleteAction: S.optional(__S(2478, __c77, 14)),
+          onChangeAction: S.optional(__S(2478, __c77, 14)),
           value: S.optional(S.String),
           hintText: S.optional(S.String),
         }),
@@ -5248,20 +5610,20 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          icon: S.optional(__S(2513, __c78, 17)),
+          icon: S.optional(__S(2481, __c77, 17)),
           enabled: S.optional(S.Boolean),
           disabled: S.optional(S.Boolean),
-          onClick: S.optional(__S(2517, __c78, 21)),
+          onClick: S.optional(__S(2485, __c77, 21)),
           altText: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Chip" });
     case 5:
-      return S.Array(__S(2532, __c79, 4));
+      return S.Array(__S(2500, __c78, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           layout: S.optional(S.String),
-          chips: S.optional(__S(2533, __c79, 5)),
+          chips: S.optional(__S(2501, __c78, 5)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1ChipList" });
     case 7:
@@ -5271,7 +5633,7 @@ function __c79(j: number): any {
           value: S.optional(S.String),
           controlType: S.optional(S.String),
           selected: S.optional(S.Boolean),
-          onChangeAction: S.optional(__S(2510, __c78, 14)),
+          onChangeAction: S.optional(__S(2478, __c77, 14)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1SwitchControl" });
     case 8:
@@ -5286,27 +5648,27 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           startIconVerticalAlignment: S.optional(S.String),
-          button: S.optional(__S(2521, __c78, 25)),
-          switchControl: S.optional(__S(2535, __c79, 7)),
-          icon: S.optional(__S(2513, __c78, 17)),
-          onClick: S.optional(__S(2517, __c78, 21)),
+          button: S.optional(__S(2489, __c77, 25)),
+          switchControl: S.optional(__S(2503, __c78, 7)),
+          icon: S.optional(__S(2481, __c77, 17)),
+          onClick: S.optional(__S(2485, __c77, 21)),
           topLabel: S.optional(S.String),
-          startIcon: S.optional(__S(2513, __c78, 17)),
+          startIcon: S.optional(__S(2481, __c77, 17)),
           wrapText: S.optional(S.Boolean),
-          topLabelText: S.optional(__S(2536, __c79, 8)),
+          topLabelText: S.optional(__S(2504, __c78, 8)),
           bottomLabel: S.optional(S.String),
-          endIcon: S.optional(__S(2513, __c78, 17)),
-          contentText: S.optional(__S(2536, __c79, 8)),
+          endIcon: S.optional(__S(2481, __c77, 17)),
+          contentText: S.optional(__S(2504, __c78, 8)),
           text: S.optional(S.String),
-          bottomLabelText: S.optional(__S(2536, __c79, 8)),
+          bottomLabelText: S.optional(__S(2504, __c78, 8)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1DecoratedText" });
     case 10:
-      return S.Array(__S(2521, __c78, 25));
+      return S.Array(__S(2489, __c77, 25));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          buttons: S.optional(__S(2538, __c79, 10)),
+          buttons: S.optional(__S(2506, __c78, 10)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1ButtonList" });
     case 12:
@@ -5320,45 +5682,45 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "GoogleAppsCardV1SelectionItem" });
     case 13:
-      return S.Array(__S(2540, __c79, 12));
+      return S.Array(__S(2508, __c78, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           commonDataSource: S.optional(S.String),
-          hostAppDataSource: S.optional(__S(2526, __c78, 30)),
+          hostAppDataSource: S.optional(__S(2494, __c77, 30)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1PlatformDataSource" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           minCharactersTrigger: S.optional(S.Number),
-          platformDataSource: S.optional(__S(2542, __c79, 14)),
-          remoteDataSource: S.optional(__S(2510, __c78, 14)),
+          platformDataSource: S.optional(__S(2510, __c78, 14)),
+          remoteDataSource: S.optional(__S(2478, __c77, 14)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1DataSourceConfig" });
     case 16:
-      return S.Array(__S(2543, __c79, 15));
+      return S.Array(__S(2511, __c78, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2541, __c79, 13)),
+          items: S.optional(__S(2509, __c78, 13)),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          onChangeAction: S.optional(__S(2510, __c78, 14)),
-          dataSourceConfigs: S.optional(__S(2544, __c79, 16)),
+          onChangeAction: S.optional(__S(2478, __c77, 14)),
+          dataSourceConfigs: S.optional(__S(2512, __c78, 16)),
           multiSelectMinQueryLength: S.optional(S.Number),
           hintText: S.optional(S.String),
           label: S.optional(S.String),
-          externalDataSource: S.optional(__S(2510, __c78, 14)),
+          externalDataSource: S.optional(__S(2478, __c77, 14)),
           multiSelectMaxSelectedItems: S.optional(S.Number),
-          platformDataSource: S.optional(__S(2542, __c79, 14)),
+          platformDataSource: S.optional(__S(2510, __c78, 14)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1SelectionInput" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           imageUrl: S.optional(S.String),
-          onClick: S.optional(__S(2517, __c78, 21)),
+          onClick: S.optional(__S(2485, __c77, 21)),
           altText: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Image" });
@@ -5367,8 +5729,8 @@ function __c79(j: number): any {
         S.Struct({
           label: S.optional(S.String),
           timezoneOffsetDate: S.optional(S.Number),
-          onChangeAction: S.optional(__S(2510, __c78, 14)),
-          hostAppDataSource: S.optional(__S(2526, __c78, 30)),
+          onChangeAction: S.optional(__S(2478, __c77, 14)),
+          hostAppDataSource: S.optional(__S(2494, __c77, 30)),
           valueMsEpoch: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
@@ -5377,64 +5739,64 @@ function __c79(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(2546, __c79, 18)),
-          textParagraph: S.optional(__S(2536, __c79, 8)),
-          dateTimePicker: S.optional(__S(2547, __c79, 19)),
-          chipList: S.optional(__S(2534, __c79, 6)),
-          buttonList: S.optional(__S(2539, __c79, 11)),
-          decoratedText: S.optional(__S(2537, __c79, 9)),
-          textInput: S.optional(__S(2531, __c79, 3)),
-          selectionInput: S.optional(__S(2545, __c79, 17)),
+          image: S.optional(__S(2514, __c78, 18)),
+          textParagraph: S.optional(__S(2504, __c78, 8)),
+          dateTimePicker: S.optional(__S(2515, __c78, 19)),
+          chipList: S.optional(__S(2502, __c78, 6)),
+          buttonList: S.optional(__S(2507, __c78, 11)),
+          decoratedText: S.optional(__S(2505, __c78, 9)),
+          textInput: S.optional(__S(2499, __c78, 3)),
+          selectionInput: S.optional(__S(2513, __c78, 17)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Widgets" });
     case 21:
-      return S.Array(__S(2548, __c79, 20));
+      return S.Array(__S(2516, __c78, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           verticalAlignment: S.optional(S.String),
           horizontalSizeStyle: S.optional(S.String),
           horizontalAlignment: S.optional(S.String),
-          widgets: S.optional(__S(2549, __c79, 21)),
+          widgets: S.optional(__S(2517, __c78, 21)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Column" });
     case 23:
-      return S.Array(__S(2550, __c79, 22));
+      return S.Array(__S(2518, __c78, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          columnItems: S.optional(__S(2551, __c79, 23)),
+          columnItems: S.optional(__S(2519, __c78, 23)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Columns" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(2546, __c79, 18)),
-          buttonList: S.optional(__S(2539, __c79, 11)),
-          textParagraph: S.optional(__S(2536, __c79, 8)),
+          image: S.optional(__S(2514, __c78, 18)),
+          buttonList: S.optional(__S(2507, __c78, 11)),
+          textParagraph: S.optional(__S(2504, __c78, 8)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1NestedWidget" });
     case 26:
-      return S.Array(__S(2553, __c79, 25));
+      return S.Array(__S(2521, __c78, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          widgets: S.optional(__S(2554, __c79, 26)),
-          footerWidgets: S.optional(__S(2554, __c79, 26)),
+          widgets: S.optional(__S(2522, __c78, 26)),
+          footerWidgets: S.optional(__S(2522, __c78, 26)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1CarouselCard" });
     case 28:
-      return S.Array(__S(2555, __c79, 27));
+      return S.Array(__S(2523, __c78, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          carouselCards: S.optional(__S(2556, __c79, 28)),
+          carouselCards: S.optional(__S(2524, __c78, 28)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Carousel" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          strokeColor: S.optional(__S(2520, __c78, 24)),
+          strokeColor: S.optional(__S(2488, __c77, 24)),
           type: S.optional(S.String),
           cornerRadius: S.optional(S.Number),
         }),
@@ -5448,109 +5810,109 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GoogleAppsCardV1ImageCropStyle" });
   }
 }
-function __c80(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cropStyle: S.optional(__S(2559, __c79, 31)),
+          cropStyle: S.optional(__S(2527, __c78, 31)),
           imageUri: S.optional(S.String),
           altText: S.optional(S.String),
-          borderStyle: S.optional(__S(2558, __c79, 30)),
+          borderStyle: S.optional(__S(2526, __c78, 30)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1ImageComponent" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           layout: S.optional(S.String),
-          image: S.optional(__S(2560, __c80, 0)),
+          image: S.optional(__S(2528, __c79, 0)),
           id: S.optional(S.String),
           subtitle: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1GridItem" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          borderStyle: S.optional(__S(2558, __c79, 30)),
+          borderStyle: S.optional(__S(2526, __c78, 30)),
           columnCount: S.optional(S.Number),
           title: S.optional(S.String),
-          items: S.optional(__S(2562, __c80, 2)),
-          onClick: S.optional(__S(2517, __c78, 21)),
+          items: S.optional(__S(2530, __c79, 2)),
+          onClick: S.optional(__S(2485, __c77, 21)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Grid" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          textInput: S.optional(__S(2531, __c79, 3)),
-          chipList: S.optional(__S(2534, __c79, 6)),
+          textInput: S.optional(__S(2499, __c78, 3)),
+          chipList: S.optional(__S(2502, __c78, 6)),
           divider: S.optional(__S(1376, __c43, 0)),
-          eventActions: S.optional(__S(2504, __c78, 8)),
-          decoratedText: S.optional(__S(2537, __c79, 9)),
-          buttonList: S.optional(__S(2539, __c79, 11)),
-          selectionInput: S.optional(__S(2545, __c79, 17)),
+          eventActions: S.optional(__S(2472, __c77, 8)),
+          decoratedText: S.optional(__S(2505, __c78, 9)),
+          buttonList: S.optional(__S(2507, __c78, 11)),
+          selectionInput: S.optional(__S(2513, __c78, 17)),
           horizontalAlignment: S.optional(S.String),
-          image: S.optional(__S(2546, __c79, 18)),
+          image: S.optional(__S(2514, __c78, 18)),
           visibility: S.optional(S.String),
-          dateTimePicker: S.optional(__S(2547, __c79, 19)),
-          columns: S.optional(__S(2552, __c79, 24)),
+          dateTimePicker: S.optional(__S(2515, __c78, 19)),
+          columns: S.optional(__S(2520, __c78, 24)),
           id: S.optional(S.String),
-          textParagraph: S.optional(__S(2536, __c79, 8)),
-          carousel: S.optional(__S(2557, __c79, 29)),
-          grid: S.optional(__S(2563, __c80, 3)),
+          textParagraph: S.optional(__S(2504, __c78, 8)),
+          carousel: S.optional(__S(2525, __c78, 29)),
+          grid: S.optional(__S(2531, __c79, 3)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Widget" });
     case 5:
-      return S.Array(__S(2564, __c80, 4));
+      return S.Array(__S(2532, __c79, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           header: S.optional(S.String),
           id: S.optional(S.String),
-          collapseControl: S.optional(__S(2522, __c78, 26)),
-          widgets: S.optional(__S(2565, __c80, 5)),
+          collapseControl: S.optional(__S(2490, __c77, 26)),
+          widgets: S.optional(__S(2533, __c79, 5)),
           uncollapsibleWidgetsCount: S.optional(S.Number),
           collapsible: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Section" });
     case 7:
-      return S.Array(__S(2566, __c80, 6));
+      return S.Array(__S(2534, __c79, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          primaryButton: S.optional(__S(2521, __c78, 25)),
-          secondaryButton: S.optional(__S(2521, __c78, 25)),
+          primaryButton: S.optional(__S(2489, __c77, 25)),
+          secondaryButton: S.optional(__S(2489, __c77, 25)),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1CardFixedFooter" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          expressionData: S.optional(__S(2506, __c78, 10)),
-          peekCardHeader: S.optional(__S(2507, __c78, 11)),
+          expressionData: S.optional(__S(2474, __c77, 10)),
+          peekCardHeader: S.optional(__S(2475, __c77, 11)),
           sectionDividerStyle: S.optional(S.String),
           displayStyle: S.optional(S.String),
-          cardActions: S.optional(__S(2519, __c78, 23)),
-          header: S.optional(__S(2507, __c78, 11)),
-          sections: S.optional(__S(2567, __c80, 7)),
-          fixedFooter: S.optional(__S(2568, __c80, 8)),
+          cardActions: S.optional(__S(2487, __c77, 23)),
+          header: S.optional(__S(2475, __c77, 11)),
+          sections: S.optional(__S(2535, __c79, 7)),
+          fixedFooter: S.optional(__S(2536, __c79, 8)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsCardV1Card" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(2569, __c80, 9)),
-          ownerUser: S.optional(__S(2240, __c70, 0)),
+          card: S.optional(__S(2537, __c79, 9)),
+          ownerUser: S.optional(__S(2208, __c69, 0)),
           cardId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardWithId" });
     case 11:
-      return S.Array(__S(2570, __c80, 10));
+      return S.Array(__S(2538, __c79, 10));
   }
 }
-function __c81(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5559,7 +5921,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "AttachedGif" });
     case 1:
-      return S.Array(__S(2592, __c81, 0));
+      return S.Array(__S(2560, __c80, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5576,11 +5938,11 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reactionCount: S.optional(S.Number),
-          emoji: S.optional(__S(2368, __c74, 0)),
+          emoji: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "EmojiReactionSummary" });
     case 5:
-      return S.Array(__S(2596, __c81, 4));
+      return S.Array(__S(2564, __c80, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5591,11 +5953,11 @@ function __c81(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          buttonList: S.optional(__S(2539, __c79, 11)),
+          buttonList: S.optional(__S(2507, __c78, 11)),
         }),
       ).annotate({ identifier: "AccessoryWidget" });
     case 8:
-      return S.Array(__S(2599, __c81, 7));
+      return S.Array(__S(2567, __c80, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -5606,13 +5968,13 @@ function __c81(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          customEmoji: S.optional(__S(1825, __c57, 1)),
+          customEmoji: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "CustomEmojiMetadata" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(2240, __c70, 0)),
+          user: S.optional(__S(2208, __c69, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserMentionMetadata" });
@@ -5622,7 +5984,7 @@ function __c81(j: number): any {
           commandName: S.optional(S.String),
           commandId: S.optional(S.String),
           triggersDialog: S.optional(S.Boolean),
-          bot: S.optional(__S(2240, __c70, 0)),
+          bot: S.optional(__S(2208, __c69, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SlashCommandMetadata" });
@@ -5652,42 +6014,42 @@ function __c81(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          driveDataRef: S.optional(__S(2432, __c76, 0)),
+          driveDataRef: S.optional(__S(2400, __c75, 0)),
           mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DriveLinkData" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          calendarEventLinkData: S.optional(__S(2605, __c81, 13)),
+          calendarEventLinkData: S.optional(__S(2573, __c80, 13)),
           richLinkType: S.optional(S.String),
-          chatSpaceLinkData: S.optional(__S(2606, __c81, 14)),
-          meetSpaceLinkData: S.optional(__S(2607, __c81, 15)),
-          driveLinkData: S.optional(__S(2608, __c81, 16)),
+          chatSpaceLinkData: S.optional(__S(2574, __c80, 14)),
+          meetSpaceLinkData: S.optional(__S(2575, __c80, 15)),
+          driveLinkData: S.optional(__S(2576, __c80, 16)),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "RichLinkMetadata" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          customEmojiMetadata: S.optional(__S(2602, __c81, 10)),
-          userMention: S.optional(__S(2603, __c81, 11)),
-          slashCommand: S.optional(__S(2604, __c81, 12)),
+          customEmojiMetadata: S.optional(__S(2570, __c80, 10)),
+          userMention: S.optional(__S(2571, __c80, 11)),
+          slashCommand: S.optional(__S(2572, __c80, 12)),
           type: S.optional(S.String),
-          richLinkMetadata: S.optional(__S(2609, __c81, 17)),
+          richLinkMetadata: S.optional(__S(2577, __c80, 17)),
           length: S.optional(S.Number),
           startIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Annotation" });
     case 19:
-      return S.Array(__S(2610, __c81, 18));
+      return S.Array(__S(2578, __c80, 18));
     case 20:
-      return S.Array(__S(2433, __c76, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(2611, __c81, 19)),
-          attachments: S.optional(__S(2612, __c81, 20)),
+          annotations: S.optional(__S(2579, __c80, 19)),
+          attachments: S.optional(__S(2580, __c80, 20)),
           formattedText: S.optional(S.String),
           sender: S.optional(S.String),
           text: S.optional(S.String),
@@ -5697,8 +6059,8 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           lastUpdateTime: S.optional(S.String),
-          forwardedMetadata: S.optional(__S(2601, __c81, 9)),
-          quotedMessageSnapshot: S.optional(__S(2613, __c81, 21)),
+          forwardedMetadata: S.optional(__S(2569, __c80, 9)),
+          quotedMessageSnapshot: S.optional(__S(2581, __c80, 21)),
           quoteType: S.optional(S.String),
           name: S.optional(S.String),
         }),
@@ -5713,34 +6075,34 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          imagePreview: S.optional(__S(2615, __c81, 23)),
+          imagePreview: S.optional(__S(2583, __c80, 23)),
         }),
       ).annotate({ identifier: "Snippet" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          snippet: S.optional(__S(2616, __c81, 24)),
+          snippet: S.optional(__S(2584, __c80, 24)),
           title: S.optional(S.String),
-          footer: S.optional(__S(2527, __c78, 31)),
+          footer: S.optional(__S(2495, __c77, 31)),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "CitedSource" });
     case 26:
-      return S.Array(__S(2617, __c81, 25));
+      return S.Array(__S(2585, __c80, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          citedSources: S.optional(__S(2618, __c81, 26)),
+          citedSources: S.optional(__S(2586, __c80, 26)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Citation" });
     case 28:
-      return S.Array(__S(2619, __c81, 27));
+      return S.Array(__S(2587, __c80, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          citations: S.optional(__S(2620, __c81, 28)),
-          citedSources: S.optional(__S(2618, __c81, 26)),
+          citations: S.optional(__S(2588, __c80, 28)),
+          citedSources: S.optional(__S(2586, __c80, 26)),
         }),
       ).annotate({ identifier: "Elements" });
     case 30:
@@ -5752,12 +6114,12 @@ function __c81(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(2569, __c80, 9)),
+          body: S.optional(__S(2537, __c79, 9)),
         }),
       ).annotate({ identifier: "Dialog" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5769,21 +6131,21 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dialog: S.optional(__S(2623, __c81, 31)),
-          actionStatus: S.optional(__S(2624, __c82, 0)),
+          dialog: S.optional(__S(2591, __c80, 31)),
+          actionStatus: S.optional(__S(2592, __c81, 0)),
         }),
       ).annotate({ identifier: "DialogAction" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2541, __c79, 13)),
+          items: S.optional(__S(2509, __c78, 13)),
         }),
       ).annotate({ identifier: "SelectionItems" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           widget: S.optional(S.String),
-          suggestions: S.optional(__S(2626, __c82, 2)),
+          suggestions: S.optional(__S(2594, __c81, 2)),
         }),
       ).annotate({ identifier: "UpdatedWidget" });
     case 4:
@@ -5791,8 +6153,8 @@ function __c82(j: number): any {
         S.Struct({
           url: S.optional(S.String),
           type: S.optional(S.String),
-          dialogAction: S.optional(__S(2625, __c82, 1)),
-          updatedWidget: S.optional(__S(2627, __c82, 3)),
+          dialogAction: S.optional(__S(2593, __c81, 1)),
+          updatedWidget: S.optional(__S(2595, __c81, 3)),
         }),
       ).annotate({ identifier: "ActionResponse" });
     case 5:
@@ -5808,14 +6170,14 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actionMethodName: S.optional(S.String),
-          parameters: S.optional(__S(2509, __c78, 13)),
+          parameters: S.optional(__S(2477, __c77, 13)),
         }),
       ).annotate({ identifier: "FormAction" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(2630, __c82, 6)),
-          openLink: S.optional(__S(2594, __c81, 2)),
+          action: S.optional(__S(2598, __c81, 6)),
+          openLink: S.optional(__S(2562, __c80, 2)),
         }),
       ).annotate({ identifier: "OnClick" });
     case 8:
@@ -5823,14 +6185,14 @@ function __c82(j: number): any {
         S.Struct({
           aspectRatio: S.optional(S.Number),
           imageUrl: S.optional(S.String),
-          onClick: S.optional(__S(2631, __c82, 7)),
+          onClick: S.optional(__S(2599, __c81, 7)),
         }),
       ).annotate({ identifier: "Image" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          onClick: S.optional(__S(2631, __c82, 7)),
+          onClick: S.optional(__S(2599, __c81, 7)),
         }),
       ).annotate({ identifier: "TextButton" });
     case 10:
@@ -5838,28 +6200,28 @@ function __c82(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           iconUrl: S.optional(S.String),
-          onClick: S.optional(__S(2631, __c82, 7)),
+          onClick: S.optional(__S(2599, __c81, 7)),
           icon: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageButton" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          textButton: S.optional(__S(2633, __c82, 9)),
-          imageButton: S.optional(__S(2634, __c82, 10)),
+          textButton: S.optional(__S(2601, __c81, 9)),
+          imageButton: S.optional(__S(2602, __c81, 10)),
         }),
       ).annotate({ identifier: "Button" });
     case 12:
-      return S.Array(__S(2635, __c82, 11));
+      return S.Array(__S(2603, __c81, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           icon: S.optional(S.String),
-          onClick: S.optional(__S(2631, __c82, 7)),
+          onClick: S.optional(__S(2599, __c81, 7)),
           bottomLabel: S.optional(S.String),
           content: S.optional(S.String),
           topLabel: S.optional(S.String),
-          button: S.optional(__S(2635, __c82, 11)),
+          button: S.optional(__S(2603, __c81, 11)),
           contentMultiline: S.optional(S.Boolean),
           iconUrl: S.optional(S.String),
         }),
@@ -5867,75 +6229,75 @@ function __c82(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(2632, __c82, 8)),
-          buttons: S.optional(__S(2636, __c82, 12)),
-          textParagraph: S.optional(__S(2527, __c78, 31)),
-          keyValue: S.optional(__S(2637, __c82, 13)),
+          image: S.optional(__S(2600, __c81, 8)),
+          buttons: S.optional(__S(2604, __c81, 12)),
+          textParagraph: S.optional(__S(2495, __c77, 31)),
+          keyValue: S.optional(__S(2605, __c81, 13)),
         }),
       ).annotate({ identifier: "WidgetMarkup" });
     case 15:
-      return S.Array(__S(2638, __c82, 14));
+      return S.Array(__S(2606, __c81, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           header: S.optional(S.String),
-          widgets: S.optional(__S(2639, __c82, 15)),
+          widgets: S.optional(__S(2607, __c81, 15)),
         }),
       ).annotate({ identifier: "Section" });
     case 17:
-      return S.Array(__S(2640, __c82, 16));
+      return S.Array(__S(2608, __c81, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           actionLabel: S.optional(S.String),
-          onClick: S.optional(__S(2631, __c82, 7)),
+          onClick: S.optional(__S(2599, __c81, 7)),
         }),
       ).annotate({ identifier: "CardAction" });
     case 19:
-      return S.Array(__S(2642, __c82, 18));
+      return S.Array(__S(2610, __c81, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(2629, __c82, 5)),
-          sections: S.optional(__S(2641, __c82, 17)),
+          header: S.optional(__S(2597, __c81, 5)),
+          sections: S.optional(__S(2609, __c81, 17)),
           name: S.optional(S.String),
-          cardActions: S.optional(__S(2643, __c82, 19)),
+          cardActions: S.optional(__S(2611, __c81, 19)),
         }),
       ).annotate({ identifier: "Card" });
     case 21:
-      return S.Array(__S(2644, __c82, 20));
+      return S.Array(__S(2612, __c81, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           argumentText: S.optional(S.String),
-          privateMessageViewer: S.optional(__S(2240, __c70, 0)),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
           lastUpdateTime: S.optional(S.String),
-          attachedGifs: S.optional(__S(2593, __c81, 1)),
+          attachedGifs: S.optional(__S(2561, __c80, 1)),
           fallbackText: S.optional(S.String),
           text: S.optional(S.String),
-          matchedUrl: S.optional(__S(2594, __c81, 2)),
+          matchedUrl: S.optional(__S(2562, __c80, 2)),
           threadReply: S.optional(S.Boolean),
           createTime: S.optional(S.String),
           deleteTime: S.optional(S.String),
           silent: S.optional(S.Boolean),
-          cardsV2: S.optional(__S(2571, __c80, 11)),
-          deletionMetadata: S.optional(__S(2595, __c81, 3)),
-          emojiReactionSummaries: S.optional(__S(2597, __c81, 5)),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          deletionMetadata: S.optional(__S(2563, __c80, 3)),
+          emojiReactionSummaries: S.optional(__S(2565, __c80, 5)),
           markupSyntax: S.optional(S.String),
-          thread: S.optional(__S(2598, __c81, 6)),
-          accessoryWidgets: S.optional(__S(2600, __c81, 8)),
+          thread: S.optional(__S(2566, __c80, 6)),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
           formattedText: S.optional(S.String),
-          quotedMessageMetadata: S.optional(__S(2614, __c81, 22)),
-          elements: S.optional(__S(2621, __c81, 29)),
+          quotedMessageMetadata: S.optional(__S(2582, __c80, 22)),
+          elements: S.optional(__S(2589, __c80, 29)),
           space: S.optional(__S(1353, __c42, 9)),
           name: S.optional(S.String),
           clientAssignedMessageId: S.optional(S.String),
-          annotations: S.optional(__S(2611, __c81, 19)),
-          slashCommand: S.optional(__S(2622, __c81, 30)),
-          actionResponse: S.optional(__S(2628, __c82, 4)),
-          sender: S.optional(__S(2240, __c70, 0)),
-          cards: S.optional(__S(2645, __c82, 21)),
-          attachment: S.optional(__S(2612, __c81, 20)),
+          annotations: S.optional(__S(2579, __c80, 19)),
+          slashCommand: S.optional(__S(2590, __c80, 30)),
+          actionResponse: S.optional(__S(2596, __c81, 4)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2613, __c81, 21)),
+          attachment: S.optional(__S(2580, __c80, 20)),
         }),
       ).annotate({ identifier: "Message" });
   }

@@ -2060,18 +2060,13 @@ export interface Request {
   addCommentReply?: AddCommentReplyRequest | undefined;
 }
 export type RequestList = Array<Request>;
-/** Request message for PresentationsService.BatchUpdatePresentation. */
-export interface BatchUpdatePresentationRequest {
+export interface BatchUpdatePresentationsRequest {
+  /** The presentation to apply the updates to. */
+  presentationId: string;
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl | undefined;
   /** A list of updates to apply to the presentation. */
   requests?: RequestList | undefined;
-}
-export interface BatchUpdatePresentationsRequest {
-  /** The presentation to apply the updates to. */
-  presentationId: string;
-  /** Request body */
-  body?: BatchUpdatePresentationRequest | undefined;
 }
 export type BatchUpdatePresentationResponseCommentUpdateStateEnum =
   | "COMMENT_UPDATE_STATE_UNSPECIFIED"
@@ -2197,8 +2192,7 @@ export type PresentationCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
   | "COMMENTS_VIEW_MODE_OMITTED"
   | "COMMENTS_VIEW_MODE_INCLUDED";
-/** A Google Slides presentation. */
-export interface Presentation {
+export interface CreatePresentationsRequest {
   /** The notes master in the presentation. It serves three purposes: - Placeholder shapes on a notes master contain the default text styles and shape properties of all placeholder shapes on notes pages. Specifically, a `SLIDE_IMAGE` placeholder shape contains the slide thumbnail, and a `BODY` placeholder shape contains the speaker notes. - The notes master page properties define the common page properties inherited by all notes pages. - Any other shapes on the notes master appear on all notes pages. The notes master is read-only. */
   notesMaster?: Page | undefined;
   /** The size of pages in the presentation. */
@@ -2222,9 +2216,30 @@ export interface Presentation {
   /** Output only. The comments view mode applied to the presentation. */
   commentsViewMode?: PresentationCommentsViewModeEnum | (string & {}) | undefined;
 }
-export interface CreatePresentationsRequest {
-  /** Request body */
-  body?: Presentation | undefined;
+/** A Google Slides presentation. */
+export interface Presentation {
+  /** The notes master in the presentation. It serves three purposes: - Placeholder shapes on a notes master contain the default text styles and shape properties of all placeholder shapes on notes pages. Specifically, a `SLIDE_IMAGE` placeholder shape contains the slide thumbnail, and a `BODY` placeholder shape contains the speaker notes. - The notes master page properties define the common page properties inherited by all notes pages. - Any other shapes on the notes master appear on all notes pages. The notes master is read-only. */
+  notesMaster?: Page | undefined;
+  /** The size of pages in the presentation. */
+  pageSize?: Size | undefined;
+  /** The slide masters in the presentation. A slide master contains all common page elements and the common properties for a set of layouts. They serve three purposes: - Placeholder shapes on a master contain the default text styles and shape properties of all placeholder shapes on pages that use that master. - The master page properties define the common page properties inherited by its layouts. - Any other shapes on the master slide appear on all slides using that master, regardless of their layout. */
+  masters?: PageList | undefined;
+  /** The layouts in the presentation. A layout is a template that determines how content is arranged and styled on the slides that inherit from that layout. */
+  layouts?: PageList | undefined;
+  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but a nebulous string. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
+  revisionId?: string | undefined;
+  /** Output only. The comment threads associated with the presentation. */
+  comments?: CommentThreadList | undefined;
+  /** The locale of the presentation, as an IETF BCP 47 language tag. */
+  locale?: string | undefined;
+  /** The slides in the presentation. A slide inherits properties from a slide layout. */
+  slides?: PageList | undefined;
+  /** The ID of the presentation. */
+  presentationId?: string | undefined;
+  /** The title of the presentation. */
+  title?: string | undefined;
+  /** Output only. The comments view mode applied to the presentation. */
+  commentsViewMode?: PresentationCommentsViewModeEnum | undefined;
 }
 export type GetPresentationsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_UNSPECIFIED"
@@ -2295,8 +2310,8 @@ export const batchUpdatePresentations: API.OperationMethod<
   BatchUpdatePresentationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(61, __c1, 29) as any as S.Schema<BatchUpdatePresentationsRequest>,
-  output: __S(67, __c2, 3) as any as S.Schema<BatchUpdatePresentationResponse>,
+  input: __S(60, __c1, 28) as any as S.Schema<BatchUpdatePresentationsRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<BatchUpdatePresentationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2884,15 +2899,9 @@ function __c1(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
+          presentationId: S.String.pipe(T.Label()),
           writeControl: S.optional(__S(0, __c0, 0)),
           requests: S.optional(__S(59, __c1, 27)),
-        }),
-      ).annotate({ identifier: "BatchUpdatePresentationRequest" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          presentationId: S.String.pipe(T.Label()),
-          body: S.optional(__S(60, __c1, 28).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2901,18 +2910,24 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdatePresentationsRequest" });
-    case 30:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           occurrencesChanged: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReplaceAllTextResponse" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           post: S.optional(__S(175, __c5, 15)),
         }),
       ).annotate({ identifier: "AddCommentReplyResponse" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          commentThread: S.optional(__S(177, __c5, 17)),
+        }),
+      ).annotate({ identifier: "InsertCommentResponse" });
   }
 }
 function __c2(j: number): any {
@@ -2920,37 +2935,31 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          commentThread: S.optional(__S(177, __c5, 17)),
-        }),
-      ).annotate({ identifier: "InsertCommentResponse" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           createTable: S.optional(__S(2, __c0, 2)),
           createLine: S.optional(__S(2, __c0, 2)),
           duplicateObject: S.optional(__S(2, __c0, 2)),
           createShape: S.optional(__S(2, __c0, 2)),
           createSlide: S.optional(__S(2, __c0, 2)),
-          replaceAllText: S.optional(__S(62, __c1, 30)),
+          replaceAllText: S.optional(__S(61, __c1, 29)),
           createImage: S.optional(__S(2, __c0, 2)),
           groupObjects: S.optional(__S(2, __c0, 2)),
           createVideo: S.optional(__S(2, __c0, 2)),
           createSheetsChart: S.optional(__S(2, __c0, 2)),
-          addCommentReply: S.optional(__S(63, __c1, 31)),
-          replaceAllShapesWithImage: S.optional(__S(62, __c1, 30)),
-          insertComment: S.optional(__S(64, __c2, 0)),
-          replaceAllShapesWithSheetsChart: S.optional(__S(62, __c1, 30)),
+          addCommentReply: S.optional(__S(62, __c1, 30)),
+          replaceAllShapesWithImage: S.optional(__S(61, __c1, 29)),
+          insertComment: S.optional(__S(63, __c1, 31)),
+          replaceAllShapesWithSheetsChart: S.optional(__S(61, __c1, 29)),
         }),
       ).annotate({ identifier: "Response" });
+    case 1:
+      return S.Array(__S(64, __c2, 0));
     case 2:
-      return S.Array(__S(65, __c2, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           commentUpdateState: S.optional(S.String),
           writeControl: S.optional(__S(0, __c0, 0)),
           presentationId: S.optional(S.String),
-          replies: S.optional(__S(66, __c2, 2)),
+          replies: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "BatchUpdatePresentationResponse" });
   }
@@ -3633,7 +3642,17 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
+          notesMaster: S.optional(__S(185, __c5, 25)),
+          pageSize: S.optional(__S(112, __c3, 16)),
+          masters: S.optional(__S(224, __c7, 0)),
+          layouts: S.optional(__S(224, __c7, 0)),
+          revisionId: S.optional(S.String),
+          comments: S.optional(__S(178, __c5, 18)),
+          locale: S.optional(S.String),
+          slides: S.optional(__S(224, __c7, 0)),
+          presentationId: S.optional(S.String),
+          title: S.optional(S.String),
+          commentsViewMode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

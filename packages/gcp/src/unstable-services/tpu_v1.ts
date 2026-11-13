@@ -150,8 +150,11 @@ export interface SchedulingConfig {
   /** Whether the node is created under a reservation. */
   reserved?: boolean | undefined;
 }
-/** A TPU instance. */
-export interface Node {
+export interface CreateProjectsLocationsNodesRequest {
+  /** Required. The parent resource name. */
+  parent: string;
+  /** The unqualified resource name. */
+  nodeId?: string | undefined;
   /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
   healthDescription?: string | undefined;
   /** Output only. The Symptoms that have occurred to the TPU Node. */
@@ -190,14 +193,6 @@ export interface Node {
   schedulingConfig?: SchedulingConfig | undefined;
   /** Output only. DEPRECATED! Use network_endpoints instead. The network address for the TPU Node as visible to Compute Engine instances. */
   ipAddress?: string | undefined;
-}
-export interface CreateProjectsLocationsNodesRequest {
-  /** Required. The parent resource name. */
-  parent: string;
-  /** The unqualified resource name. */
-  nodeId?: string | undefined;
-  /** Request body */
-  body?: Node | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -262,6 +257,47 @@ export interface AcceleratorType {
 export interface GetProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
+}
+/** A TPU instance. */
+export interface Node {
+  /** Output only. If this field is populated, it contains a description of why the TPU Node is unhealthy. */
+  healthDescription?: string | undefined;
+  /** Output only. The Symptoms that have occurred to the TPU Node. */
+  symptoms?: SymptomList | undefined;
+  /** Output only. The API version that created this Node. */
+  apiVersion?: NodeApiVersionEnum | undefined;
+  /** Output only. The service account used to run the tensor flow services within the node. To share resources, including Google Cloud Storage data, with the Tensorflow job running in the Node, this account must have permissions to that data. */
+  serviceAccount?: string | undefined;
+  /** Required. The type of hardware accelerators associated with this node. */
+  acceleratorType?: string | undefined;
+  /** Output only. DEPRECATED! Use network_endpoints instead. The network port for the TPU Node as visible to Compute Engine instances. */
+  port?: string | undefined;
+  /** Whether the VPC peering for the node is set up through Service Networking API. The VPC Peering should be set up before provisioning the node. If this field is set, cidr_block field should not be specified. If the network, that you want to peer the TPU Node to, is Shared VPC networks, the node must be created with this this field enabled. */
+  useServiceNetworking?: boolean | undefined;
+  /** Output only. The network endpoints where TPU workers can be accessed and sent work. It is recommended that Tensorflow clients of the node reach out to the 0th entry in this map first. */
+  networkEndpoints?: NetworkEndpointList | undefined;
+  /** Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** The name of a network they wish to peer the TPU node to. It must be a preexisting Compute Engine network inside of the project on which this API has been activated. If none is provided, "default" will be used. */
+  network?: string | undefined;
+  /** Output only. The time when the node was created. */
+  createTime?: string | undefined;
+  /** Output only. The current state for the TPU Node. */
+  state?: NodeStateEnum | undefined;
+  /** The CIDR block that the TPU node will use when selecting an IP address. This CIDR block must be a /29 block; the Compute Engine networks API forbids a smaller block, and using a larger block would be wasteful (a node can only consume one IP address). Errors will occur if the CIDR block has already been used for a currently existing TPU node, the CIDR block conflicts with any subnetworks in the user's provided network, or the provided network is peered with another network that is using that CIDR block. */
+  cidrBlock?: string | undefined;
+  /** The user-supplied description of the TPU. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** The health status of the TPU node. */
+  health?: NodeHealthEnum | undefined;
+  /** Required. The version of Tensorflow running in the Node. */
+  tensorflowVersion?: string | undefined;
+  /** Output only. Immutable. The name of the TPU */
+  name?: string | undefined;
+  /** The scheduling options for this node. */
+  schedulingConfig?: SchedulingConfig | undefined;
+  /** Output only. DEPRECATED! Use network_endpoints instead. The network address for the TPU Node as visible to Compute Engine instances. */
+  ipAddress?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -383,16 +419,11 @@ export interface ListTensorFlowVersionsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
-/** Request for ReimageNode. */
-export interface ReimageNodeRequest {
-  /** The version for reimage to create. */
-  tensorflowVersion?: string | undefined;
-}
 export interface ReimageProjectsLocationsNodesRequest {
   /** The resource name. */
   name: string;
-  /** Request body */
-  body?: ReimageNodeRequest | undefined;
+  /** The version for reimage to create. */
+  tensorflowVersion?: string | undefined;
 }
 /** Request for StartNode. */
 export interface StartNodeRequest {}
@@ -423,8 +454,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<Empty>,
+  input: __S(112, __c14, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -445,8 +476,8 @@ export const createProjectsLocationsNodes: API.OperationMethod<
   CreateProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateProjectsLocationsNodesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<Operation>,
+  input: __S(128, __c16, 0) as any as S.Schema<CreateProjectsLocationsNodesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -467,8 +498,8 @@ export const deleteProjectsLocationsNodes: API.OperationMethod<
   DeleteProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteProjectsLocationsNodesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<Operation>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteProjectsLocationsNodesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -489,8 +520,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<Empty>,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -506,8 +537,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(184, __c23, 0) as any as S.Schema<Location>,
+  input: __S(184, __c23, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -523,8 +554,8 @@ export const getProjectsLocationsAcceleratorTypes: API.OperationMethod<
   GetProjectsLocationsAcceleratorTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetProjectsLocationsAcceleratorTypesRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<AcceleratorType>,
+  input: __S(200, __c25, 0) as any as S.Schema<GetProjectsLocationsAcceleratorTypesRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<AcceleratorType>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -541,7 +572,7 @@ export const getProjectsLocationsNodes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsLocationsNodesRequest>,
-  output: __S(133, __c16, 5) as any as S.Schema<Node>,
+  output: __S(8, __c1, 0) as any as S.Schema<Node>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -557,8 +588,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<Operation>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -574,8 +605,8 @@ export const getProjectsLocationsTensorflowVersions: API.OperationMethod<
   GetProjectsLocationsTensorflowVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetProjectsLocationsTensorflowVersionsRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<TensorFlowVersion>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetProjectsLocationsTensorflowVersionsRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<TensorFlowVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -592,8 +623,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -611,8 +642,8 @@ export const listProjectsLocationsAcceleratorTypes: API.PaginatedOperationMethod
   GcpOpContext,
   ListAcceleratorTypesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListProjectsLocationsAcceleratorTypesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ListAcceleratorTypesResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListProjectsLocationsAcceleratorTypesRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ListAcceleratorTypesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -630,8 +661,8 @@ export const listProjectsLocationsNodes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNodesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListProjectsLocationsNodesRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<ListNodesResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListProjectsLocationsNodesRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ListNodesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -649,8 +680,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -668,8 +699,8 @@ export const listProjectsLocationsTensorflowVersions: API.PaginatedOperationMeth
   GcpOpContext,
   ListTensorFlowVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListProjectsLocationsTensorflowVersionsRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<ListTensorFlowVersionsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListProjectsLocationsTensorflowVersionsRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<ListTensorFlowVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -691,8 +722,8 @@ export const reimageProjectsLocationsNodes: API.OperationMethod<
   ReimageProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<ReimageProjectsLocationsNodesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<Operation>,
+  input: __S(88, __c11, 0) as any as S.Schema<ReimageProjectsLocationsNodesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -713,8 +744,8 @@ export const startProjectsLocationsNodes: API.OperationMethod<
   StartProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<StartProjectsLocationsNodesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<Operation>,
+  input: __S(96, __c12, 0) as any as S.Schema<StartProjectsLocationsNodesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -735,8 +766,8 @@ export const stopProjectsLocationsNodes: API.OperationMethod<
   StopProjectsLocationsNodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<StopProjectsLocationsNodesRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<Operation>,
+  input: __S(104, __c13, 0) as any as S.Schema<StopProjectsLocationsNodesRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -762,11 +793,27 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+          healthDescription: S.optional(S.String),
+          symptoms: S.optional(__S(137, __c17, 1)),
+          apiVersion: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
+          port: S.optional(S.String),
+          useServiceNetworking: S.optional(S.Boolean),
+          networkEndpoints: S.optional(__S(139, __c17, 3)),
+          labels: S.optional(__S(160, __c20, 0)),
+          network: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          cidrBlock: S.optional(S.String),
+          description: S.optional(S.String),
+          health: S.optional(S.String),
+          tensorflowVersion: S.optional(S.String),
+          name: S.optional(S.String),
+          schedulingConfig: S.optional(__S(140, __c17, 4)),
+          ipAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Node" });
   }
 }
 function __c2(j: number): any {
@@ -778,10 +825,22 @@ function __c2(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTensorflowVersionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTensorflowVersionsRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -792,14 +851,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TensorFlowVersion" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(40, __c5, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(48, __c6, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -811,23 +870,23 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(184, __c23, 0));
+      return S.Array(__S(192, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(33, __c4, 1)),
+          locations: S.optional(__S(41, __c5, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -846,18 +905,18 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAcceleratorTypesRequest" });
     case 1:
-      return S.Array(__S(200, __c25, 0));
+      return S.Array(__S(208, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acceleratorTypes: S.optional(__S(49, __c6, 1)),
+          acceleratorTypes: S.optional(__S(57, __c7, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(40, __c5, 0)),
+          unreachable: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "ListAcceleratorTypesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -874,18 +933,18 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNodesRequest" });
     case 1:
-      return S.Array(__S(133, __c16, 5));
+      return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(40, __c5, 0)),
-          nodes: S.optional(__S(57, __c7, 1)),
+          unreachable: S.optional(__S(48, __c6, 0)),
+          nodes: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "ListNodesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -904,18 +963,18 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(138, __c17, 2));
+      return S.Array(__S(146, __c18, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(65, __c8, 1)),
+          operations: S.optional(__S(73, __c9, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(40, __c5, 0)),
+          unreachable: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -934,30 +993,24 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTensorflowVersionsRequest" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          tensorflowVersions: S.optional(__S(73, __c9, 1)),
-          unreachable: S.optional(__S(40, __c5, 0)),
+          tensorflowVersions: S.optional(__S(81, __c10, 1)),
+          unreachable: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "ListTensorFlowVersionsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tensorflowVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReimageNodeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c10, 0).pipe(T.HttpBody())),
+          tensorflowVersion: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -968,13 +1021,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ReimageProjectsLocationsNodesRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -985,13 +1038,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsNodesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c14, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(120, __c15, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1002,7 +1055,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsNodesRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1018,20 +1071,38 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           nodeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(133, __c16, 5).pipe(T.HttpBody())),
+          healthDescription: S.optional(S.String),
+          symptoms: S.optional(__S(137, __c17, 1)),
+          apiVersion: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          acceleratorType: S.optional(S.String),
+          port: S.optional(S.String),
+          useServiceNetworking: S.optional(S.Boolean),
+          networkEndpoints: S.optional(__S(139, __c17, 3)),
+          labels: S.optional(__S(160, __c20, 0)),
+          network: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          cidrBlock: S.optional(S.String),
+          description: S.optional(S.String),
+          health: S.optional(S.String),
+          tensorflowVersion: S.optional(S.String),
+          name: S.optional(S.String),
+          schedulingConfig: S.optional(__S(140, __c17, 4)),
+          ipAddress: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1042,7 +1113,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNodesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1054,7 +1125,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Symptom" });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(136, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1063,7 +1134,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "NetworkEndpoint" });
     case 3:
-      return S.Array(__S(130, __c16, 2));
+      return S.Array(__S(138, __c17, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1071,41 +1142,17 @@ function __c16(j: number): any {
           reserved: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SchedulingConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          healthDescription: S.optional(S.String),
-          symptoms: S.optional(__S(129, __c16, 1)),
-          apiVersion: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          acceleratorType: S.optional(S.String),
-          port: S.optional(S.String),
-          useServiceNetworking: S.optional(S.Boolean),
-          networkEndpoints: S.optional(__S(131, __c16, 3)),
-          labels: S.optional(__S(152, __c19, 0)),
-          network: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          cidrBlock: S.optional(S.String),
-          description: S.optional(S.String),
-          health: S.optional(S.String),
-          tensorflowVersion: S.optional(S.String),
-          name: S.optional(S.String),
-          schedulingConfig: S.optional(__S(132, __c16, 4)),
-          ipAddress: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Node" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(152, __c19, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(136, __c17, 0)),
+          details: S.optional(__S(144, __c18, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
@@ -1113,36 +1160,24 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          metadata: S.optional(__S(144, __c18, 0)),
+          metadata: S.optional(__S(152, __c19, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(137, __c17, 1)),
-          response: S.optional(__S(144, __c18, 0)),
+          error: S.optional(__S(145, __c18, 1)),
+          response: S.optional(__S(152, __c19, 0)),
         }),
       ).annotate({ identifier: "Operation" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsNodesRequest" });
+      return S.Record(S.String, S.String);
   }
 }
 function __c21(j: number): any {
@@ -1154,10 +1189,22 @@ function __c21(j: number): any {
         }).pipe(
           T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsNodesRequest" });
   }
 }
 function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://tpu.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1169,21 +1216,21 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(152, __c19, 0)),
+          labels: S.optional(__S(160, __c20, 0)),
           displayName: S.optional(S.String),
-          metadata: S.optional(__S(144, __c18, 0)),
+          metadata: S.optional(__S(152, __c19, 0)),
           locationId: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1195,7 +1242,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAcceleratorTypesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

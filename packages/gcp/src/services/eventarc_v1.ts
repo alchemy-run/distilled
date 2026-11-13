@@ -94,8 +94,11 @@ export interface CancelProjectsLocationsOperationsRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export type StringMap = { [key: string]: string | undefined };
-/** A representation of the ChannelConnection resource. A ChannelConnection is a resource which event providers create during the activation process to establish a connection between the provider and the subscriber channel. */
-export interface ChannelConnection {
+export interface CreateProjectsLocationsChannelConnectionsRequest {
+  /** Required. The user-provided ID to be assigned to the channel connection. */
+  channelConnectionId?: string | undefined;
+  /** Required. The parent collection in which to add this channel connection. */
+  parent: string;
   /** Output only. The creation time. */
   createTime?: string | undefined;
   /** Input only. Activation token for the channel. The token will be used during the creation of ChannelConnection to bind the channel with the provider project. This field will not be stored in the provider resource. */
@@ -110,14 +113,6 @@ export interface ChannelConnection {
   labels?: StringMap | undefined;
   /** Output only. The last-modified time. */
   updateTime?: string | undefined;
-}
-export interface CreateProjectsLocationsChannelConnectionsRequest {
-  /** Required. The user-provided ID to be assigned to the channel connection. */
-  channelConnectionId?: string | undefined;
-  /** Required. The parent collection in which to add this channel connection. */
-  parent: string;
-  /** Request body */
-  body?: ChannelConnection | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -144,8 +139,13 @@ export interface GoogleLongrunningOperation {
   done?: boolean | undefined;
 }
 export type ChannelStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "ACTIVE" | "INACTIVE";
-/** Represents a subscriber's intent to receive events from an event provider. Published events are delivered using the transport associated with the Channel resource. A channel is associated with exactly one event provider. */
-export interface Channel {
+export interface CreateProjectsLocationsChannelsRequest {
+  /** Optional. If set, validate the request and preview the review, but do not post it. */
+  validateOnly?: boolean | undefined;
+  /** Required. The parent collection in which to add this channel. */
+  parent: string;
+  /** Required. The user-provided ID to be assigned to the channel. */
+  channelId?: string | undefined;
   /** Output only. The activation token for the channel. The token must be used by the provider to register the channel for publishing. */
   activationToken?: string | undefined;
   /** The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: `projects/{project}/locations/{location}/providers/{provider_id}`. */
@@ -169,18 +169,13 @@ export interface Channel {
   /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsChannelsRequest {
+export interface CreateProjectsLocationsEnrollmentsRequest {
+  /** Required. The parent collection in which to add this enrollment. */
+  parent: string;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
-  /** Required. The parent collection in which to add this channel. */
-  parent: string;
-  /** Required. The user-provided ID to be assigned to the channel. */
-  channelId?: string | undefined;
-  /** Request body */
-  body?: Channel | undefined;
-}
-/** An enrollment represents a subscription for messages on a particular message bus. It defines a matching criteria for messages on the bus and the subscriber endpoint where matched messages should be delivered. */
-export interface Enrollment {
+  /** Required. The user-provided ID to be assigned to the Enrollment. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  enrollmentId?: string | undefined;
   /** Required. A CEL expression identifying which messages this enrollment applies to. */
   celMatch?: string | undefined;
   /** Required. Destination is the Pipeline that the Enrollment is delivering to. It must point to the full resource name of a Pipeline. Format: "projects/{PROJECT_ID}/locations/{region}/pipelines/{PIPELINE_ID)" */
@@ -203,16 +198,6 @@ export interface Enrollment {
   name?: string | undefined;
   /** Optional. Resource labels. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsEnrollmentsRequest {
-  /** Required. The parent collection in which to add this enrollment. */
-  parent: string;
-  /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean | undefined;
-  /** Required. The user-provided ID to be assigned to the Enrollment. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  enrollmentId?: string | undefined;
-  /** Request body */
-  body?: Enrollment | undefined;
 }
 export type StringList = Array<string>;
 /** Config to enable subscribing to all events from a list of projects. */
@@ -241,8 +226,13 @@ export interface OrganizationSubscription {
   /** Required. Enable org level subscription. */
   enabled?: boolean | undefined;
 }
-/** Represents a subscription to first-party events for a MessageBus resource. A GoogleApiSource resource lets you configure the delivery of events from Google API sources to a designated bus. */
-export interface GoogleApiSource {
+export interface CreateProjectsLocationsGoogleApiSourcesRequest {
+  /** Required. The user-provided ID to be assigned to the GoogleApiSource. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  googleApiSourceId?: string | undefined;
+  /** Optional. If set, validate the request and preview the review, but do not post it. */
+  validateOnly?: boolean | undefined;
+  /** Required. The parent collection in which to add this google api source. */
+  parent: string;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/googleApiSources/{google_api_source} */
   name?: string | undefined;
   /** Optional. Config to enable subscribing to all events from a list of projects. All the projects must be in the same org as the GoogleApiSource. */
@@ -270,18 +260,13 @@ export interface GoogleApiSource {
   /** Output only. The last-modified time. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsGoogleApiSourcesRequest {
-  /** Required. The user-provided ID to be assigned to the GoogleApiSource. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  googleApiSourceId?: string | undefined;
+export interface CreateProjectsLocationsMessageBusesRequest {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
-  /** Required. The parent collection in which to add this google api source. */
+  /** Required. The user-provided ID to be assigned to the MessageBus. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  messageBusId?: string | undefined;
+  /** Required. The parent collection in which to add this message bus. */
   parent: string;
-  /** Request body */
-  body?: GoogleApiSource | undefined;
-}
-/** MessageBus for the messages flowing through the system. The admin has visibility and control over the messages being published and consumed and can restrict publishers and subscribers to only a subset of data available in the system by defining authorization policies. */
-export interface MessageBus {
   /** Output only. The creation time. */
   createTime?: string | undefined;
   /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
@@ -302,16 +287,6 @@ export interface MessageBus {
   cryptoKeyName?: string | undefined;
   /** Optional. Config to control Platform logging for the Message Bus. This log configuration is applied to the Message Bus itself, and all the Enrollments attached to it. */
   loggingConfig?: LoggingConfig | undefined;
-}
-export interface CreateProjectsLocationsMessageBusesRequest {
-  /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean | undefined;
-  /** Required. The user-provided ID to be assigned to the MessageBus. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  messageBusId?: string | undefined;
-  /** Required. The parent collection in which to add this message bus. */
-  parent: string;
-  /** Request body */
-  body?: MessageBus | undefined;
 }
 /** The format of a Protobuf message payload. */
 export interface GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat {
@@ -406,8 +381,13 @@ export interface GoogleCloudEventarcV1PipelineMediation {
 }
 export type GoogleCloudEventarcV1PipelineMediationList =
   Array<GoogleCloudEventarcV1PipelineMediation>;
-/** A representation of the Pipeline resource. */
-export interface Pipeline {
+export interface CreateProjectsLocationsPipelinesRequest {
+  /** Required. The user-provided ID to be assigned to the Pipeline. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
+  pipelineId?: string | undefined;
+  /** Optional. If set, validate the request and preview the review, but do not post it. */
+  validateOnly?: boolean | undefined;
+  /** Required. The parent collection in which to add this pipeline. */
+  parent: string;
   /** Required. List of destinations to which messages will be forwarded. Currently, exactly one destination is supported per Pipeline. */
   destinations?: GoogleCloudEventarcV1PipelineDestinationList | undefined;
   /** Output only. Whether or not this Pipeline satisfies the requirements of physical zone separation */
@@ -438,16 +418,6 @@ export interface Pipeline {
   etag?: string | undefined;
   /** Optional. List of mediation operations to be performed on the message. Currently, only one Transformation operation is allowed in each Pipeline. */
   mediations?: GoogleCloudEventarcV1PipelineMediationList | undefined;
-}
-export interface CreateProjectsLocationsPipelinesRequest {
-  /** Required. The user-provided ID to be assigned to the Pipeline. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  pipelineId?: string | undefined;
-  /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean | undefined;
-  /** Required. The parent collection in which to add this pipeline. */
-  parent: string;
-  /** Request body */
-  body?: Pipeline | undefined;
 }
 /** Represents a Pub/Sub transport. */
 export interface Pubsub {
@@ -549,8 +519,13 @@ export interface StateCondition {
   message?: string | undefined;
 }
 export type StateConditionMap = { [key: string]: StateCondition | undefined };
-/** A representation of the trigger resource. */
-export interface Trigger {
+export interface CreateProjectsLocationsTriggersRequest {
+  /** Optional. If set, validate the request and preview the review, but do not post it. */
+  validateOnly?: boolean | undefined;
+  /** Required. The user-provided ID to be assigned to the trigger. */
+  triggerId?: string | undefined;
+  /** Required. The parent collection in which to add this trigger. */
+  parent: string;
   /** Optional. To deliver messages, Eventarc might use other Google Cloud products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes. */
   transport?: Transport | undefined;
   /** Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to `application/json` if the value is not defined. */
@@ -581,16 +556,6 @@ export interface Trigger {
   conditions?: StateConditionMap | undefined;
   /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
   channel?: string | undefined;
-}
-export interface CreateProjectsLocationsTriggersRequest {
-  /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean | undefined;
-  /** Required. The user-provided ID to be assigned to the trigger. */
-  triggerId?: string | undefined;
-  /** Required. The parent collection in which to add this trigger. */
-  parent: string;
-  /** Request body */
-  body?: Trigger | undefined;
 }
 export interface DeleteProjectsLocationsChannelConnectionsRequest {
   /** Required. The name of the channel connection to delete. */
@@ -787,21 +752,140 @@ export interface GetProjectsLocationsChannelConnectionsRequest {
   /** Required. The name of the channel connection to get. */
   name: string;
 }
+/** A representation of the ChannelConnection resource. A ChannelConnection is a resource which event providers create during the activation process to establish a connection between the provider and the subscriber channel. */
+export interface ChannelConnection {
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Input only. Activation token for the channel. The token will be used during the creation of ChannelConnection to bind the channel with the provider project. This field will not be stored in the provider resource. */
+  activationToken?: string | undefined;
+  /** Output only. Server assigned ID of the resource. The server guarantees uniqueness and immutability until deleted. */
+  uid?: string | undefined;
+  /** Required. The name of the connection. */
+  name?: string | undefined;
+  /** Required. The name of the connected subscriber Channel. This is a weak reference to avoid cross project and cross accounts references. This must be in `projects/{project}/location/{location}/channels/{channel_id}` format. */
+  channel?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+}
 export interface GetProjectsLocationsChannelsRequest {
   /** Required. The name of the channel to get. */
   name: string;
+}
+/** Represents a subscriber's intent to receive events from an event provider. Published events are delivered using the transport associated with the Channel resource. A channel is associated with exactly one event provider. */
+export interface Channel {
+  /** Output only. The activation token for the channel. The token must be used by the provider to register the channel for publishing. */
+  activationToken?: string | undefined;
+  /** The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: `projects/{project}/locations/{location}/providers/{provider_id}`. */
+  provider?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Output only. The state of a Channel. */
+  state?: ChannelStateEnum | undefined;
+  /** Output only. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: `projects/{project}/topics/{topic_id}`. */
+  pubsubTopic?: string | undefined;
+  /** Output only. Whether or not this Channel satisfies the requirements of physical zone separation */
+  satisfiesPzs?: boolean | undefined;
+  /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsEnrollmentsRequest {
   /** Required. The name of the Enrollment to get. */
   name: string;
 }
+/** An enrollment represents a subscription for messages on a particular message bus. It defines a matching criteria for messages on the bus and the subscriber endpoint where matched messages should be delivered. */
+export interface Enrollment {
+  /** Required. A CEL expression identifying which messages this enrollment applies to. */
+  celMatch?: string | undefined;
+  /** Required. Destination is the Pipeline that the Enrollment is delivering to. It must point to the full resource name of a Pipeline. Format: "projects/{PROJECT_ID}/locations/{region}/pipelines/{PIPELINE_ID)" */
+  destination?: string | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Required. Immutable. Resource name of the message bus identifying the source of the messages. It matches the form projects/{project}/locations/{location}/messageBuses/{messageBus}. */
+  messageBus?: string | undefined;
+  /** Optional. Resource annotations. */
+  annotations?: StringMap | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource display name. */
+  displayName?: string | undefined;
+  /** Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment} */
+  name?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+}
 export interface GetProjectsLocationsGoogleApiSourcesRequest {
   /** Required. The name of the google api source to get. */
   name: string;
 }
+/** Represents a subscription to first-party events for a MessageBus resource. A GoogleApiSource resource lets you configure the delivery of events from Google API sources to a designated bus. */
+export interface GoogleApiSource {
+  /** Identifier. Resource name of the form projects/{project}/locations/{location}/googleApiSources/{google_api_source} */
+  name?: string | undefined;
+  /** Optional. Config to enable subscribing to all events from a list of projects. All the projects must be in the same org as the GoogleApiSource. */
+  projectSubscriptions?: ProjectSubscriptions | undefined;
+  /** Optional. Resource display name. */
+  displayName?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
+  /** Optional. Config to control Platform logging for the GoogleApiSource. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. Resource annotations. */
+  annotations?: StringMap | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Required. Destination is the message bus that the GoogleApiSource is delivering to. It must be point to the full resource name of a MessageBus. Format: "projects/{PROJECT_ID}/locations/{region}/messagesBuses/{MESSAGE_BUS_ID) */
+  destination?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Optional. Config to enable subscribing to events from all projects in the GoogleApiSource's org. */
+  organizationSubscription?: OrganizationSubscription | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+}
 export interface GetProjectsLocationsMessageBusesRequest {
   /** Required. The name of the message bus to get. */
   name: string;
+}
+/** MessageBus for the messages flowing through the system. The admin has visibility and control over the messages being published and consumed and can restrict publishers and subscribers to only a subset of data available in the system by defining authorization policies. */
+export interface MessageBus {
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Optional. Resource annotations. */
+  annotations?: StringMap | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
+  name?: string | undefined;
+  /** Optional. Resource display name. */
+  displayName?: string | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
+  /** Optional. Config to control Platform logging for the Message Bus. This log configuration is applied to the Message Bus itself, and all the Enrollments attached to it. */
+  loggingConfig?: LoggingConfig | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -810,6 +894,39 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface GetProjectsLocationsPipelinesRequest {
   /** Required. The name of the pipeline to get. */
   name: string;
+}
+/** A representation of the Pipeline resource. */
+export interface Pipeline {
+  /** Required. List of destinations to which messages will be forwarded. Currently, exactly one destination is supported per Pipeline. */
+  destinations?: GoogleCloudEventarcV1PipelineDestinationList | undefined;
+  /** Output only. Whether or not this Pipeline satisfies the requirements of physical zone separation */
+  satisfiesPzs?: boolean | undefined;
+  /** Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
+  name?: string | undefined;
+  /** Output only. The creation time. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
+  createTime?: string | undefined;
+  /** Output only. Server-assigned unique identifier for the Pipeline. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Output only. The last-modified time. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
+  updateTime?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt the event data. If not set, an internal Google-owned key will be used to encrypt messages. It must match the pattern "projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}". */
+  cryptoKeyName?: string | undefined;
+  /** Optional. Config to control Platform Logging for Pipelines. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. User labels attached to the Pipeline that can be used to group resources. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
+  labels?: StringMap | undefined;
+  /** Optional. The retry policy to use in the pipeline. */
+  retryPolicy?: GoogleCloudEventarcV1PipelineRetryPolicy | undefined;
+  /** Optional. User-defined annotations. See https://google.aip.dev/128#annotations. */
+  annotations?: StringMap | undefined;
+  /** Optional. The payload format expected for the messages received by the Pipeline. If input_payload_format is set then any messages not matching this format will be treated as persistent errors. If input_payload_format is not set, then the message data will be treated as an opaque binary and no output format can be set on the Pipeline through the Pipeline.Destination.output_payload_format field. Any Mediations on the Pipeline that involve access to the data field will fail as persistent errors. */
+  inputPayloadFormat?: GoogleCloudEventarcV1PipelineMessagePayloadFormat | undefined;
+  /** Optional. Display name of resource. */
+  displayName?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. List of mediation operations to be performed on the message. Currently, only one Transformation operation is allowed in each Pipeline. */
+  mediations?: GoogleCloudEventarcV1PipelineMediationList | undefined;
 }
 export interface GetProjectsLocationsProvidersRequest {
   /** Required. The name of the provider to get. */
@@ -851,6 +968,39 @@ export interface Provider {
 export interface GetProjectsLocationsTriggersRequest {
   /** Required. The name of the trigger to get. */
   name: string;
+}
+/** A representation of the trigger resource. */
+export interface Trigger {
+  /** Optional. To deliver messages, Eventarc might use other Google Cloud products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes. */
+  transport?: Transport | undefined;
+  /** Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to `application/json` if the value is not defined. */
+  eventDataContentType?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Output only. Server-assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The `iam.serviceAccounts.actAs` permission must be granted on the service account to allow a principal to impersonate the service account. For more information, see the [Roles and permissions](/eventarc/docs/all-roles-permissions) page specific to the trigger destination. */
+  serviceAccount?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Required. Destination specifies where the events should be sent to. */
+  destination?: Destination | undefined;
+  /** Optional. The retry policy to use in the Trigger. If unset, event delivery will be retried for up to 24 hours by default: https://cloud.google.com/eventarc/docs/retry-events */
+  retryPolicy?: RetryPolicy | undefined;
+  /** Optional. Unordered list. The list of filters that applies to event attributes. Only events that match all the provided filters are sent to the destination. */
+  eventFilters?: EventFilterList | undefined;
+  /** Optional. User labels attached to the triggers that can be used to group resources. */
+  labels?: StringMap | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format. */
+  name?: string | undefined;
+  /** Output only. Whether or not this Trigger satisfies the requirements of physical zone separation */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The reason(s) why a trigger is in FAILED state. */
+  conditions?: StateConditionMap | undefined;
+  /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
+  channel?: string | undefined;
 }
 export interface ListEnrollmentsProjectsLocationsMessageBusesRequest {
   /** Optional. The page token; provide the value from the `next_page_token` field in a previous call to retrieve the subsequent page. When paginating, all other parameters provided must match the previous call that provided the page token. */
@@ -1088,8 +1238,26 @@ export interface PatchProjectsLocationsChannelsRequest {
   updateMask?: string | undefined;
   /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
   name: string;
-  /** Request body */
-  body?: Channel | undefined;
+  /** Output only. The activation token for the channel. The token must be used by the provider to register the channel for publishing. */
+  activationToken?: string | undefined;
+  /** The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: `projects/{project}/locations/{location}/providers/{provider_id}`. */
+  provider?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Output only. The state of a Channel. */
+  state?: ChannelStateEnum | (string & {}) | undefined;
+  /** Output only. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: `projects/{project}/topics/{topic_id}`. */
+  pubsubTopic?: string | undefined;
+  /** Output only. Whether or not this Channel satisfies the requirements of physical zone separation */
+  satisfiesPzs?: boolean | undefined;
 }
 export interface PatchProjectsLocationsEnrollmentsRequest {
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
@@ -1100,8 +1268,26 @@ export interface PatchProjectsLocationsEnrollmentsRequest {
   validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment} */
   name: string;
-  /** Request body */
-  body?: Enrollment | undefined;
+  /** Required. A CEL expression identifying which messages this enrollment applies to. */
+  celMatch?: string | undefined;
+  /** Required. Destination is the Pipeline that the Enrollment is delivering to. It must point to the full resource name of a Pipeline. Format: "projects/{PROJECT_ID}/locations/{region}/pipelines/{PIPELINE_ID)" */
+  destination?: string | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Required. Immutable. Resource name of the message bus identifying the source of the messages. It matches the form projects/{project}/locations/{location}/messageBuses/{messageBus}. */
+  messageBus?: string | undefined;
+  /** Optional. Resource annotations. */
+  annotations?: StringMap | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource display name. */
+  displayName?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsGoogleApiSourcesRequest {
   /** Optional. If set to true, and the GoogleApiSource is not found, a new GoogleApiSource will be created. In this situation, `update_mask` is ignored. */
@@ -1112,8 +1298,30 @@ export interface PatchProjectsLocationsGoogleApiSourcesRequest {
   name: string;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleApiSource | undefined;
+  /** Optional. Config to enable subscribing to all events from a list of projects. All the projects must be in the same org as the GoogleApiSource. */
+  projectSubscriptions?: ProjectSubscriptions | undefined;
+  /** Optional. Resource display name. */
+  displayName?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
+  /** Optional. Config to control Platform logging for the GoogleApiSource. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. Resource annotations. */
+  annotations?: StringMap | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Required. Destination is the message bus that the GoogleApiSource is delivering to. It must be point to the full resource name of a MessageBus. Format: "projects/{PROJECT_ID}/locations/{region}/messagesBuses/{MESSAGE_BUS_ID) */
+  destination?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Optional. Config to enable subscribing to events from all projects in the GoogleApiSource's org. */
+  organizationSubscription?: OrganizationSubscription | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
 }
 export interface PatchProjectsLocationsMessageBusesRequest {
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
@@ -1124,8 +1332,24 @@ export interface PatchProjectsLocationsMessageBusesRequest {
   validateOnly?: boolean | undefined;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: MessageBus | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Optional. Resource annotations. */
+  annotations?: StringMap | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Optional. Resource display name. */
+  displayName?: string | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
+  /** Optional. Config to control Platform logging for the Message Bus. This log configuration is applied to the Message Bus itself, and all the Enrollments attached to it. */
+  loggingConfig?: LoggingConfig | undefined;
 }
 export interface PatchProjectsLocationsPipelinesRequest {
   /** Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
@@ -1136,8 +1360,34 @@ export interface PatchProjectsLocationsPipelinesRequest {
   allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Pipeline | undefined;
+  /** Required. List of destinations to which messages will be forwarded. Currently, exactly one destination is supported per Pipeline. */
+  destinations?: GoogleCloudEventarcV1PipelineDestinationList | undefined;
+  /** Output only. Whether or not this Pipeline satisfies the requirements of physical zone separation */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The creation time. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
+  createTime?: string | undefined;
+  /** Output only. Server-assigned unique identifier for the Pipeline. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Output only. The last-modified time. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
+  updateTime?: string | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt the event data. If not set, an internal Google-owned key will be used to encrypt messages. It must match the pattern "projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}". */
+  cryptoKeyName?: string | undefined;
+  /** Optional. Config to control Platform Logging for Pipelines. */
+  loggingConfig?: LoggingConfig | undefined;
+  /** Optional. User labels attached to the Pipeline that can be used to group resources. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
+  labels?: StringMap | undefined;
+  /** Optional. The retry policy to use in the pipeline. */
+  retryPolicy?: GoogleCloudEventarcV1PipelineRetryPolicy | undefined;
+  /** Optional. User-defined annotations. See https://google.aip.dev/128#annotations. */
+  annotations?: StringMap | undefined;
+  /** Optional. The payload format expected for the messages received by the Pipeline. If input_payload_format is set then any messages not matching this format will be treated as persistent errors. If input_payload_format is not set, then the message data will be treated as an opaque binary and no output format can be set on the Pipeline through the Pipeline.Destination.output_payload_format field. Any Mediations on the Pipeline that involve access to the data field will fail as persistent errors. */
+  inputPayloadFormat?: GoogleCloudEventarcV1PipelineMessagePayloadFormat | undefined;
+  /** Optional. Display name of resource. */
+  displayName?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. List of mediation operations to be performed on the message. Currently, only one Transformation operation is allowed in each Pipeline. */
+  mediations?: GoogleCloudEventarcV1PipelineMediationList | undefined;
 }
 export interface PatchProjectsLocationsTriggersRequest {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
@@ -1148,68 +1398,96 @@ export interface PatchProjectsLocationsTriggersRequest {
   validateOnly?: boolean | undefined;
   /** Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format. */
   name: string;
-  /** Request body */
-  body?: Trigger | undefined;
+  /** Optional. To deliver messages, Eventarc might use other Google Cloud products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes. */
+  transport?: Transport | undefined;
+  /** Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to `application/json` if the value is not defined. */
+  eventDataContentType?: string | undefined;
+  /** Output only. The creation time. */
+  createTime?: string | undefined;
+  /** Output only. Server-assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
+  uid?: string | undefined;
+  /** Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The `iam.serviceAccounts.actAs` permission must be granted on the service account to allow a principal to impersonate the service account. For more information, see the [Roles and permissions](/eventarc/docs/all-roles-permissions) page specific to the trigger destination. */
+  serviceAccount?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Required. Destination specifies where the events should be sent to. */
+  destination?: Destination | undefined;
+  /** Optional. The retry policy to use in the Trigger. If unset, event delivery will be retried for up to 24 hours by default: https://cloud.google.com/eventarc/docs/retry-events */
+  retryPolicy?: RetryPolicy | undefined;
+  /** Optional. Unordered list. The list of filters that applies to event attributes. Only events that match all the provided filters are sent to the destination. */
+  eventFilters?: EventFilterList | undefined;
+  /** Optional. User labels attached to the triggers that can be used to group resources. */
+  labels?: StringMap | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Output only. Whether or not this Trigger satisfies the requirements of physical zone separation */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. The reason(s) why a trigger is in FAILED state. */
+  conditions?: StateConditionMap | undefined;
+  /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
+  channel?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsChannelConnectionsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsChannelConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsChannelsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsEnrollmentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGoogleApiSourcesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsMessageBusesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsPipelinesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTriggersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsChannelConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1219,46 +1497,50 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsChannelsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEnrollmentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGoogleApiSourcesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsMessageBusesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsPipelinesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTriggersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface UpdateGoogleChannelConfigProjectsLocationsRequest {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
   /** Required. The resource name of the config. Must be in the format of, `projects/{project}/locations/{location}/googleChannelConfig`. In API responses, the config name always includes the projectID, regardless of whether the projectID or projectNumber was provided. */
   name: string;
-  /** Request body */
-  body?: GoogleChannelConfig | undefined;
+  /** Output only. The last-modified time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource labels. */
+  labels?: StringMap | undefined;
+  /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  cryptoKeyName?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1273,8 +1555,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(704, __c44, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1295,8 +1577,8 @@ export const createProjectsLocationsChannelConnections: API.OperationMethod<
   CreateProjectsLocationsChannelConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateProjectsLocationsChannelConnectionsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateProjectsLocationsChannelConnectionsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1317,8 +1599,8 @@ export const createProjectsLocationsChannels: API.OperationMethod<
   CreateProjectsLocationsChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateProjectsLocationsChannelsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateProjectsLocationsChannelsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1339,8 +1621,8 @@ export const createProjectsLocationsEnrollments: API.OperationMethod<
   CreateProjectsLocationsEnrollmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<CreateProjectsLocationsEnrollmentsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1312, __c82, 0) as any as S.Schema<CreateProjectsLocationsEnrollmentsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1361,8 +1643,8 @@ export const createProjectsLocationsGoogleApiSources: API.OperationMethod<
   CreateProjectsLocationsGoogleApiSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<CreateProjectsLocationsGoogleApiSourcesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateProjectsLocationsGoogleApiSourcesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1383,8 +1665,8 @@ export const createProjectsLocationsMessageBuses: API.OperationMethod<
   CreateProjectsLocationsMessageBusesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<CreateProjectsLocationsMessageBusesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1392, __c87, 0) as any as S.Schema<CreateProjectsLocationsMessageBusesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1406,7 +1688,7 @@ export const createProjectsLocationsPipelines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsPipelinesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1428,7 +1710,7 @@ export const createProjectsLocationsTriggers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateProjectsLocationsTriggersRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1450,7 +1732,7 @@ export const deleteProjectsLocationsChannelConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteProjectsLocationsChannelConnectionsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1472,7 +1754,7 @@ export const deleteProjectsLocationsChannels: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteProjectsLocationsChannelsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1494,7 +1776,7 @@ export const deleteProjectsLocationsEnrollments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteProjectsLocationsEnrollmentsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1516,7 +1798,7 @@ export const deleteProjectsLocationsGoogleApiSources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteProjectsLocationsGoogleApiSourcesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1538,7 +1820,7 @@ export const deleteProjectsLocationsMessageBuses: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteProjectsLocationsMessageBusesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1560,7 +1842,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1582,7 +1864,7 @@ export const deleteProjectsLocationsPipelines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteProjectsLocationsPipelinesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1604,7 +1886,7 @@ export const deleteProjectsLocationsTriggers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteProjectsLocationsTriggersRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1785,7 +2067,7 @@ export const getProjectsLocationsChannelConnections: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetProjectsLocationsChannelConnectionsRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<ChannelConnection>,
+  output: __S(416, __c26, 0) as any as S.Schema<ChannelConnection>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1801,8 +2083,8 @@ export const getProjectsLocationsChannels: API.OperationMethod<
   GetProjectsLocationsChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetProjectsLocationsChannelsRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<Channel>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsLocationsChannelsRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1818,8 +2100,8 @@ export const getProjectsLocationsEnrollments: API.OperationMethod<
   GetProjectsLocationsEnrollmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsLocationsEnrollmentsRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<Enrollment>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsLocationsEnrollmentsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<Enrollment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1835,8 +2117,8 @@ export const getProjectsLocationsGoogleApiSources: API.OperationMethod<
   GetProjectsLocationsGoogleApiSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetProjectsLocationsGoogleApiSourcesRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<GoogleApiSource>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetProjectsLocationsGoogleApiSourcesRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<GoogleApiSource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1852,8 +2134,8 @@ export const getProjectsLocationsMessageBuses: API.OperationMethod<
   GetProjectsLocationsMessageBusesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsLocationsMessageBusesRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<MessageBus>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetProjectsLocationsMessageBusesRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<MessageBus>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1869,8 +2151,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1886,8 +2168,8 @@ export const getProjectsLocationsPipelines: API.OperationMethod<
   GetProjectsLocationsPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetProjectsLocationsPipelinesRequest>,
-  output: __S(44, __c2, 12) as any as S.Schema<Pipeline>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetProjectsLocationsPipelinesRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<Pipeline>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1903,8 +2185,8 @@ export const getProjectsLocationsProviders: API.OperationMethod<
   GetProjectsLocationsProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetProjectsLocationsProvidersRequest>,
-  output: __S(532, __c33, 4) as any as S.Schema<Provider>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetProjectsLocationsProvidersRequest>,
+  output: __S(628, __c39, 4) as any as S.Schema<Provider>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1920,8 +2202,8 @@ export const getProjectsLocationsTriggers: API.OperationMethod<
   GetProjectsLocationsTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetProjectsLocationsTriggersRequest>,
-  output: __S(75, __c4, 11) as any as S.Schema<Trigger>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetProjectsLocationsTriggersRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<Trigger>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1938,8 +2220,8 @@ export const listEnrollmentsProjectsLocationsMessageBuses: API.PaginatedOperatio
   GcpOpContext,
   ListMessageBusEnrollmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListEnrollmentsProjectsLocationsMessageBusesRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<ListMessageBusEnrollmentsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListEnrollmentsProjectsLocationsMessageBusesRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListMessageBusEnrollmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1957,8 +2239,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1976,8 +2258,8 @@ export const listProjectsLocationsChannelConnections: API.PaginatedOperationMeth
   GcpOpContext,
   ListChannelConnectionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListProjectsLocationsChannelConnectionsRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<ListChannelConnectionsResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsLocationsChannelConnectionsRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<ListChannelConnectionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1995,8 +2277,8 @@ export const listProjectsLocationsChannels: API.PaginatedOperationMethod<
   GcpOpContext,
   ListChannelsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListProjectsLocationsChannelsRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<ListChannelsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListProjectsLocationsChannelsRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListChannelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2014,8 +2296,8 @@ export const listProjectsLocationsEnrollments: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEnrollmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListProjectsLocationsEnrollmentsRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<ListEnrollmentsResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListProjectsLocationsEnrollmentsRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<ListEnrollmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2033,8 +2315,8 @@ export const listProjectsLocationsGoogleApiSources: API.PaginatedOperationMethod
   GcpOpContext,
   ListGoogleApiSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListProjectsLocationsGoogleApiSourcesRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<ListGoogleApiSourcesResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListProjectsLocationsGoogleApiSourcesRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<ListGoogleApiSourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2052,8 +2334,8 @@ export const listProjectsLocationsMessageBuses: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMessageBusesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsMessageBusesRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<ListMessageBusesResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<ListProjectsLocationsMessageBusesRequest>,
+  output: __S(802, __c50, 2) as any as S.Schema<ListMessageBusesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2071,8 +2353,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(706, __c44, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2090,8 +2372,8 @@ export const listProjectsLocationsPipelines: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPipelinesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListProjectsLocationsPipelinesRequest>,
-  output: __S(722, __c45, 2) as any as S.Schema<ListPipelinesResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListProjectsLocationsPipelinesRequest>,
+  output: __S(834, __c52, 2) as any as S.Schema<ListPipelinesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2109,8 +2391,8 @@ export const listProjectsLocationsProviders: API.PaginatedOperationMethod<
   GcpOpContext,
   ListProvidersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsLocationsProvidersRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<ListProvidersResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListProjectsLocationsProvidersRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<ListProvidersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2128,8 +2410,8 @@ export const listProjectsLocationsTriggers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTriggersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListProjectsLocationsTriggersRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<ListTriggersResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListProjectsLocationsTriggersRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<ListTriggersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2151,8 +2433,8 @@ export const patchProjectsLocationsChannels: API.OperationMethod<
   PatchProjectsLocationsChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<PatchProjectsLocationsChannelsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(880, __c55, 0) as any as S.Schema<PatchProjectsLocationsChannelsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2173,8 +2455,8 @@ export const patchProjectsLocationsEnrollments: API.OperationMethod<
   PatchProjectsLocationsEnrollmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<PatchProjectsLocationsEnrollmentsRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(960, __c60, 0) as any as S.Schema<PatchProjectsLocationsEnrollmentsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2195,8 +2477,8 @@ export const patchProjectsLocationsGoogleApiSources: API.OperationMethod<
   PatchProjectsLocationsGoogleApiSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<PatchProjectsLocationsGoogleApiSourcesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(976, __c61, 0) as any as S.Schema<PatchProjectsLocationsGoogleApiSourcesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2217,8 +2499,8 @@ export const patchProjectsLocationsMessageBuses: API.OperationMethod<
   PatchProjectsLocationsMessageBusesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<PatchProjectsLocationsMessageBusesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(992, __c62, 0) as any as S.Schema<PatchProjectsLocationsMessageBusesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2239,8 +2521,8 @@ export const patchProjectsLocationsPipelines: API.OperationMethod<
   PatchProjectsLocationsPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<PatchProjectsLocationsPipelinesRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1008, __c63, 0) as any as S.Schema<PatchProjectsLocationsPipelinesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2261,8 +2543,8 @@ export const patchProjectsLocationsTriggers: API.OperationMethod<
   PatchProjectsLocationsTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<PatchProjectsLocationsTriggersRequest>,
-  output: __S(834, __c52, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1024, __c64, 0) as any as S.Schema<PatchProjectsLocationsTriggersRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2284,8 +2566,8 @@ export const setIamPolicyProjectsLocationsChannelConnections: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    944,
-    __c59,
+    1040,
+    __c65,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsChannelConnectionsRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
@@ -2309,7 +2591,7 @@ export const setIamPolicyProjectsLocationsChannels: API.OperationMethod<
   SetIamPolicyProjectsLocationsChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<SetIamPolicyProjectsLocationsChannelsRequest>,
+  input: __S(1056, __c66, 0) as any as S.Schema<SetIamPolicyProjectsLocationsChannelsRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2331,7 +2613,7 @@ export const setIamPolicyProjectsLocationsEnrollments: API.OperationMethod<
   SetIamPolicyProjectsLocationsEnrollmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<SetIamPolicyProjectsLocationsEnrollmentsRequest>,
+  input: __S(1072, __c67, 0) as any as S.Schema<SetIamPolicyProjectsLocationsEnrollmentsRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2354,8 +2636,8 @@ export const setIamPolicyProjectsLocationsGoogleApiSources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1008,
-    __c63,
+    1088,
+    __c68,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsGoogleApiSourcesRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
@@ -2379,7 +2661,7 @@ export const setIamPolicyProjectsLocationsMessageBuses: API.OperationMethod<
   SetIamPolicyProjectsLocationsMessageBusesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMessageBusesRequest>,
+  input: __S(1104, __c69, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMessageBusesRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2401,7 +2683,7 @@ export const setIamPolicyProjectsLocationsPipelines: API.OperationMethod<
   SetIamPolicyProjectsLocationsPipelinesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<SetIamPolicyProjectsLocationsPipelinesRequest>,
+  input: __S(1136, __c71, 0) as any as S.Schema<SetIamPolicyProjectsLocationsPipelinesRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2423,7 +2705,7 @@ export const setIamPolicyProjectsLocationsTriggers: API.OperationMethod<
   SetIamPolicyProjectsLocationsTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTriggersRequest>,
+  input: __S(1152, __c72, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTriggersRequest>,
   output: __S(263, __c16, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2446,11 +2728,11 @@ export const testIamPermissionsProjectsLocationsChannelConnections: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1104,
-    __c69,
+    1168,
+    __c73,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsChannelConnectionsRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2471,8 +2753,8 @@ export const testIamPermissionsProjectsLocationsChannels: API.OperationMethod<
   TestIamPermissionsProjectsLocationsChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsChannelsRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsChannelsRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2494,11 +2776,11 @@ export const testIamPermissionsProjectsLocationsEnrollments: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c72,
+    1216,
+    __c76,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsEnrollmentsRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2520,11 +2802,11 @@ export const testIamPermissionsProjectsLocationsGoogleApiSources: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1168,
-    __c73,
+    1232,
+    __c77,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGoogleApiSourcesRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2546,11 +2828,11 @@ export const testIamPermissionsProjectsLocationsMessageBuses: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c74,
+    1248,
+    __c78,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsMessageBusesRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2572,11 +2854,11 @@ export const testIamPermissionsProjectsLocationsPipelines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1200,
-    __c75,
+    1264,
+    __c79,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsPipelinesRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2597,8 +2879,8 @@ export const testIamPermissionsProjectsLocationsTriggers: API.OperationMethod<
   TestIamPermissionsProjectsLocationsTriggersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsTriggersRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsTriggersRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2619,7 +2901,7 @@ export const updateGoogleChannelConfigProjectsLocations: API.OperationMethod<
   UpdateGoogleChannelConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateGoogleChannelConfigProjectsLocationsRequest>,
+  input: __S(1296, __c81, 0) as any as S.Schema<UpdateGoogleChannelConfigProjectsLocationsRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<GoogleChannelConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2637,7 +2919,21 @@ function __c0(j: number): any {
           pipelineId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
+          destinations: S.optional(__S(39, __c2, 7)),
+          satisfiesPzs: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+          labels: S.optional(__S(944, __c59, 0)),
+          retryPolicy: S.optional(__S(40, __c2, 8)),
+          annotations: S.optional(__S(944, __c59, 0)),
+          inputPayloadFormat: S.optional(__S(33, __c2, 1)),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+          mediations: S.optional(__S(43, __c2, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2670,7 +2966,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           protobuf: S.optional(__S(32, __c2, 0)),
-          json: S.optional(__S(608, __c38, 0)),
+          json: S.optional(__S(720, __c45, 0)),
           avro: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudEventarcV1PipelineMessagePayloadFormat" });
@@ -2742,26 +3038,6 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GoogleCloudEventarcV1PipelineMediation" });
     case 11:
       return S.Array(__S(42, __c2, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          destinations: S.optional(__S(39, __c2, 7)),
-          satisfiesPzs: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          loggingConfig: S.optional(__S(1328, __c83, 0)),
-          labels: S.optional(__S(848, __c53, 0)),
-          retryPolicy: S.optional(__S(40, __c2, 8)),
-          annotations: S.optional(__S(848, __c53, 0)),
-          inputPayloadFormat: S.optional(__S(33, __c2, 1)),
-          displayName: S.optional(S.String),
-          etag: S.optional(S.String),
-          mediations: S.optional(__S(43, __c2, 11)),
-        }),
-      ).annotate({ identifier: "Pipeline" });
   }
 }
 function __c3(j: number): any {
@@ -2772,7 +3048,21 @@ function __c3(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           triggerId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(75, __c4, 11).pipe(T.HttpBody())),
+          transport: S.optional(__S(65, __c4, 1)),
+          eventDataContentType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          etag: S.optional(S.String),
+          destination: S.optional(__S(69, __c4, 5)),
+          retryPolicy: S.optional(__S(70, __c4, 6)),
+          eventFilters: S.optional(__S(72, __c4, 8)),
+          labels: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          conditions: S.optional(__S(74, __c4, 10)),
+          channel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2858,26 +3148,6 @@ function __c4(j: number): any {
       ).annotate({ identifier: "StateCondition" });
     case 10:
       return S.Record(S.String, __S(73, __c4, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          transport: S.optional(__S(65, __c4, 1)),
-          eventDataContentType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-          etag: S.optional(S.String),
-          destination: S.optional(__S(69, __c4, 5)),
-          retryPolicy: S.optional(__S(70, __c4, 6)),
-          eventFilters: S.optional(__S(72, __c4, 8)),
-          labels: S.optional(__S(848, __c53, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          conditions: S.optional(__S(74, __c4, 10)),
-          channel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Trigger" });
   }
 }
 function __c5(j: number): any {
@@ -3042,7 +3312,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
+          labels: S.optional(__S(944, __c59, 0)),
           cryptoKeyName: S.optional(S.String),
           name: S.optional(S.String),
         }),
@@ -3081,7 +3351,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(256, __c16, 0)),
-          members: S.optional(__S(1296, __c81, 0)),
+          members: S.optional(__S(1344, __c84, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
@@ -3090,7 +3360,7 @@ function __c16(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(1296, __c81, 0)),
+          exemptedMembers: S.optional(__S(1344, __c84, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
@@ -3235,11 +3505,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(816, __c51, 0)),
+          metadata: S.optional(__S(912, __c57, 0)),
           locationId: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
+          labels: S.optional(__S(944, __c59, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -3261,11 +3531,15 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsChannelsRequest" });
+          createTime: S.optional(S.String),
+          activationToken: S.optional(S.String),
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
+          channel: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ChannelConnection" });
   }
 }
 function __c27(j: number): any {
@@ -3277,7 +3551,7 @@ function __c27(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsEnrollmentsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsChannelsRequest" });
   }
 }
 function __c28(j: number): any {
@@ -3285,11 +3559,19 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsGoogleApiSourcesRequest" });
+          activationToken: S.optional(S.String),
+          provider: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          uid: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Channel" });
   }
 }
 function __c29(j: number): any {
@@ -3301,7 +3583,7 @@ function __c29(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsMessageBusesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsEnrollmentsRequest" });
   }
 }
 function __c30(j: number): any {
@@ -3309,11 +3591,19 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+          celMatch: S.optional(S.String),
+          destination: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          messageBus: S.optional(S.String),
+          annotations: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+        }),
+      ).annotate({ identifier: "Enrollment" });
   }
 }
 function __c31(j: number): any {
@@ -3325,10 +3615,111 @@ function __c31(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsPipelinesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsGoogleApiSourcesRequest" });
   }
 }
 function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          projectSubscriptions: S.optional(__S(1360, __c85, 0)),
+          displayName: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+          annotations: S.optional(__S(944, __c59, 0)),
+          uid: S.optional(S.String),
+          destination: S.optional(S.String),
+          createTime: S.optional(S.String),
+          organizationSubscription: S.optional(__S(1361, __c85, 1)),
+          labels: S.optional(__S(944, __c59, 0)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleApiSource" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsMessageBusesRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          annotations: S.optional(__S(944, __c59, 0)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+        }),
+      ).annotate({ identifier: "MessageBus" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://eventarc.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsPipelinesRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          destinations: S.optional(__S(39, __c2, 7)),
+          satisfiesPzs: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+          labels: S.optional(__S(944, __c59, 0)),
+          retryPolicy: S.optional(__S(40, __c2, 8)),
+          annotations: S.optional(__S(944, __c59, 0)),
+          inputPayloadFormat: S.optional(__S(33, __c2, 1)),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+          mediations: S.optional(__S(43, __c2, 11)),
+        }),
+      ).annotate({ identifier: "Pipeline" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3340,7 +3731,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsProvidersRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3352,29 +3743,29 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FilteringAttribute" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           eventSchemaUri: S.optional(S.String),
-          filteringAttributes: S.optional(__S(529, __c33, 1)),
+          filteringAttributes: S.optional(__S(625, __c39, 1)),
           type: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventType" });
     case 3:
-      return S.Array(__S(530, __c33, 2));
+      return S.Array(__S(626, __c39, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
           name: S.optional(S.String),
-          eventTypes: S.optional(__S(531, __c33, 3)),
+          eventTypes: S.optional(__S(627, __c39, 3)),
         }),
       ).annotate({ identifier: "Provider" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3386,7 +3777,31 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTriggersRequest" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transport: S.optional(__S(65, __c4, 1)),
+          eventDataContentType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          etag: S.optional(S.String),
+          destination: S.optional(__S(69, __c4, 5)),
+          retryPolicy: S.optional(__S(70, __c4, 6)),
+          eventFilters: S.optional(__S(72, __c4, 8)),
+          labels: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          conditions: S.optional(__S(74, __c4, 10)),
+          channel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Trigger" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3406,20 +3821,20 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          enrollments: S.optional(__S(1296, __c81, 0)),
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          enrollments: S.optional(__S(1344, __c84, 0)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
         }),
       ).annotate({ identifier: "ListMessageBusEnrollmentsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1296, __c81, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1344, __c84, 0).pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -3435,19 +3850,19 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(577, __c36, 1)),
+          locations: S.optional(__S(689, __c43, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3458,7 +3873,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -3466,7 +3881,7 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3483,18 +3898,18 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsChannelConnectionsRequest" });
     case 1:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1296, __c81, 0)),
-          channelConnections: S.optional(__S(625, __c39, 1)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
+          channelConnections: S.optional(__S(737, __c46, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListChannelConnectionsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3512,18 +3927,18 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsChannelsRequest" });
     case 1:
-      return S.Array(__S(1056, __c66, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          channels: S.optional(__S(641, __c40, 1)),
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          channels: S.optional(__S(753, __c47, 1)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
         }),
       ).annotate({ identifier: "ListChannelsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3542,18 +3957,18 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEnrollmentsRequest" });
     case 1:
-      return S.Array(__S(1264, __c79, 0));
+      return S.Array(__S(480, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
           nextPageToken: S.optional(S.String),
-          enrollments: S.optional(__S(657, __c41, 1)),
+          enrollments: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "ListEnrollmentsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3572,18 +3987,18 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGoogleApiSourcesRequest" });
     case 1:
-      return S.Array(__S(1314, __c82, 2));
+      return S.Array(__S(512, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
           nextPageToken: S.optional(S.String),
-          googleApiSources: S.optional(__S(673, __c42, 1)),
+          googleApiSources: S.optional(__S(785, __c49, 1)),
         }),
       ).annotate({ identifier: "ListGoogleApiSourcesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3602,18 +4017,18 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMessageBusesRequest" });
     case 1:
-      return S.Array(__S(1360, __c85, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          messageBuses: S.optional(__S(689, __c43, 1)),
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          messageBuses: S.optional(__S(801, __c50, 1)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
         }),
       ).annotate({ identifier: "ListMessageBusesResponse" });
   }
 }
-function __c44(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3632,18 +4047,18 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(834, __c52, 2));
+      return S.Array(__S(930, __c58, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(705, __c44, 1)),
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          operations: S.optional(__S(817, __c51, 1)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c45(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3662,18 +4077,18 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPipelinesRequest" });
     case 1:
-      return S.Array(__S(44, __c2, 12));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1296, __c81, 0)),
-          pipelines: S.optional(__S(721, __c45, 1)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
+          pipelines: S.optional(__S(833, __c52, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPipelinesResponse" });
   }
 }
-function __c46(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3692,18 +4107,18 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsProvidersRequest" });
     case 1:
-      return S.Array(__S(532, __c33, 4));
+      return S.Array(__S(628, __c39, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
           nextPageToken: S.optional(S.String),
-          providers: S.optional(__S(737, __c46, 1)),
+          providers: S.optional(__S(849, __c53, 1)),
         }),
       ).annotate({ identifier: "ListProvidersResponse" });
   }
 }
-function __c47(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3722,18 +4137,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTriggersRequest" });
     case 1:
-      return S.Array(__S(75, __c4, 11));
+      return S.Array(__S(656, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(753, __c47, 1)),
-          unreachable: S.optional(__S(1296, __c81, 0)),
+          triggers: S.optional(__S(865, __c54, 1)),
+          unreachable: S.optional(__S(1344, __c84, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTriggersResponse" });
   }
 }
-function __c48(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3741,7 +4156,16 @@ function __c48(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
+          activationToken: S.optional(S.String),
+          provider: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          uid: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3752,14 +4176,20 @@ function __c48(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsChannelsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           channelConnectionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          activationToken: S.optional(S.String),
+          uid: S.optional(S.String),
+          name: S.optional(S.String),
+          channel: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3770,59 +4200,43 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsChannelConnectionsRequest" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          activationToken: S.optional(S.String),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
-          channel: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ChannelConnection" });
-  }
-}
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(912, __c57, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(832, __c52, 0)),
+          details: S.optional(__S(928, __c58, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(833, __c52, 1)),
-          metadata: S.optional(__S(816, __c51, 0)),
-          response: S.optional(__S(816, __c51, 0)),
+          error: S.optional(__S(929, __c58, 1)),
+          metadata: S.optional(__S(912, __c57, 0)),
+          response: S.optional(__S(912, __c57, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3831,7 +4245,16 @@ function __c54(j: number): any {
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
+          celMatch: S.optional(S.String),
+          destination: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          messageBus: S.optional(S.String),
+          annotations: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3842,7 +4265,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsEnrollmentsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3851,7 +4274,18 @@ function __c55(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1314, __c82, 2).pipe(T.HttpBody())),
+          projectSubscriptions: S.optional(__S(1360, __c85, 0)),
+          displayName: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+          annotations: S.optional(__S(944, __c59, 0)),
+          uid: S.optional(S.String),
+          destination: S.optional(S.String),
+          createTime: S.optional(S.String),
+          organizationSubscription: S.optional(__S(1361, __c85, 1)),
+          labels: S.optional(__S(944, __c59, 0)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3862,7 +4296,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGoogleApiSourcesRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3871,7 +4305,15 @@ function __c56(j: number): any {
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          annotations: S.optional(__S(944, __c59, 0)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3882,7 +4324,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsMessageBusesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,7 +4333,20 @@ function __c57(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
+          destinations: S.optional(__S(39, __c2, 7)),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+          labels: S.optional(__S(944, __c59, 0)),
+          retryPolicy: S.optional(__S(40, __c2, 8)),
+          annotations: S.optional(__S(944, __c59, 0)),
+          inputPayloadFormat: S.optional(__S(33, __c2, 1)),
+          displayName: S.optional(S.String),
+          etag: S.optional(S.String),
+          mediations: S.optional(__S(43, __c2, 11)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3902,7 +4357,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPipelinesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3911,7 +4366,20 @@ function __c58(j: number): any {
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(75, __c4, 11).pipe(T.HttpBody())),
+          transport: S.optional(__S(65, __c4, 1)),
+          eventDataContentType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          etag: S.optional(S.String),
+          destination: S.optional(__S(69, __c4, 5)),
+          retryPolicy: S.optional(__S(70, __c4, 6)),
+          eventFilters: S.optional(__S(72, __c4, 8)),
+          labels: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          conditions: S.optional(__S(74, __c4, 10)),
+          channel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3922,13 +4390,14 @@ function __c58(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsTriggersRequest" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3939,24 +4408,14 @@ function __c59(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsChannelConnectionsRequest" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(263, __c16, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3967,13 +4426,14 @@ function __c61(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsChannelsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3984,13 +4444,14 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsEnrollmentsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4001,13 +4462,14 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGoogleApiSourcesRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4018,7 +4480,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsMessageBusesRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4026,7 +4488,17 @@ function __c65(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           channelId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c66, 0).pipe(T.HttpBody())),
+          activationToken: S.optional(S.String),
+          provider: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          uid: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4037,33 +4509,14 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsChannelsRequest" });
   }
 }
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          activationToken: S.optional(S.String),
-          provider: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
-          uid: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          pubsubTopic: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Channel" });
-  }
-}
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4074,13 +4527,14 @@ function __c67(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsPipelinesRequest" });
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c60, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(263, __c16, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4091,13 +4545,13 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsTriggersRequest" });
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4108,23 +4562,23 @@ function __c69(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsChannelConnectionsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(1296, __c81, 0)),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4135,13 +4589,13 @@ function __c71(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsChannelsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4152,13 +4606,13 @@ function __c72(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsEnrollmentsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4169,13 +4623,13 @@ function __c73(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGoogleApiSourcesRequest" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4186,13 +4640,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsMessageBusesRequest" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4203,13 +4657,13 @@ function __c75(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsPipelinesRequest" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c84, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4220,14 +4674,16 @@ function __c76(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsTriggersRequest" });
   }
 }
-function __c77(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c14, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          cryptoKeyName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4238,7 +4694,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateGoogleChannelConfigProjectsLocationsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4246,7 +4702,17 @@ function __c78(j: number): any {
           parent: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           enrollmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1264, __c79, 0).pipe(T.HttpBody())),
+          celMatch: S.optional(S.String),
+          destination: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          messageBus: S.optional(S.String),
+          annotations: S.optional(__S(944, __c59, 0)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4257,27 +4723,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEnrollmentsRequest" });
   }
 }
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          celMatch: S.optional(S.String),
-          destination: S.optional(S.String),
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          messageBus: S.optional(S.String),
-          annotations: S.optional(__S(848, __c53, 0)),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
-        }),
-      ).annotate({ identifier: "Enrollment" });
-  }
-}
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4285,7 +4731,19 @@ function __c80(j: number): any {
           googleApiSourceId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1314, __c82, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          projectSubscriptions: S.optional(__S(1360, __c85, 0)),
+          displayName: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
+          annotations: S.optional(__S(944, __c59, 0)),
+          uid: S.optional(S.String),
+          destination: S.optional(S.String),
+          createTime: S.optional(S.String),
+          organizationSubscription: S.optional(__S(1361, __c85, 1)),
+          labels: S.optional(__S(944, __c59, 0)),
+          etag: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4296,18 +4754,18 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGoogleApiSourcesRequest" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          list: S.optional(__S(1296, __c81, 0)),
+          list: S.optional(__S(1344, __c84, 0)),
         }),
       ).annotate({ identifier: "ProjectSubscriptions" });
     case 1:
@@ -4316,27 +4774,9 @@ function __c82(j: number): any {
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OrganizationSubscription" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          projectSubscriptions: S.optional(__S(1312, __c82, 0)),
-          displayName: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          loggingConfig: S.optional(__S(1328, __c83, 0)),
-          annotations: S.optional(__S(848, __c53, 0)),
-          uid: S.optional(S.String),
-          destination: S.optional(S.String),
-          createTime: S.optional(S.String),
-          organizationSubscription: S.optional(__S(1313, __c82, 1)),
-          labels: S.optional(__S(848, __c53, 0)),
-          etag: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleApiSource" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4346,7 +4786,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "LoggingConfig" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4354,7 +4794,16 @@ function __c84(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           messageBusId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1360, __c85, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          annotations: S.optional(__S(944, __c59, 0)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(944, __c59, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          cryptoKeyName: S.optional(S.String),
+          loggingConfig: S.optional(__S(1376, __c86, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4363,25 +4812,6 @@ function __c84(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsMessageBusesRequest" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          annotations: S.optional(__S(848, __c53, 0)),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(848, __c53, 0)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          cryptoKeyName: S.optional(S.String),
-          loggingConfig: S.optional(__S(1328, __c83, 0)),
-        }),
-      ).annotate({ identifier: "MessageBus" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

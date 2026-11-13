@@ -183,16 +183,6 @@ export type RenderIssuesRequestPayloadUserInputActionOptionEnum =
 export type RenderIssuesRequestPayloadContentOptionEnum =
   | "CONTENT_OPTION_UNSPECIFIED"
   | "PRE_RENDERED_HTML";
-/** The payload for configuring how the content should be rendered. */
-export interface RenderIssuesRequestPayload {
-  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
-  userInputActionOption?:
-    | RenderIssuesRequestPayloadUserInputActionOptionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
-  contentOption?: RenderIssuesRequestPayloadContentOptionEnum | (string & {}) | undefined;
-}
 export interface RenderaccountissuesIssueresolutionRequest {
   /** Required. The account to fetch issues for. Format: `accounts/{account}` */
   name: string;
@@ -200,8 +190,13 @@ export interface RenderaccountissuesIssueresolutionRequest {
   timeZone?: string | undefined;
   /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize issue resolution content. If not set, the result will be in default language `en-US`. */
   languageCode?: string | undefined;
-  /** Request body */
-  body?: RenderIssuesRequestPayload | undefined;
+  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
+  userInputActionOption?:
+    | RenderIssuesRequestPayloadUserInputActionOptionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
+  contentOption?: RenderIssuesRequestPayloadContentOptionEnum | (string & {}) | undefined;
 }
 /** A single reason why the action is not available. */
 export interface Reason {
@@ -417,8 +412,13 @@ export interface RenderproductissuesIssueresolutionRequest {
   name: string;
   /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize an issue resolution content. If not set, the result will be in default language `en-US`. */
   languageCode?: string | undefined;
-  /** Request body */
-  body?: RenderIssuesRequestPayload | undefined;
+  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
+  userInputActionOption?:
+    | RenderIssuesRequestPayloadUserInputActionOptionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
+  contentOption?: RenderIssuesRequestPayloadContentOptionEnum | (string & {}) | undefined;
 }
 /** Response containing an issue resolution content and actions for listed product issues. */
 export interface RenderProductIssuesResponse {
@@ -459,20 +459,15 @@ export interface ActionInput {
   /** Required. Values for input fields. */
   inputValues?: InputValueList | undefined;
 }
-/** The payload for the triggered action. */
-export interface TriggerActionPayload {
-  /** Required. Input provided by the business. */
-  actionInput?: ActionInput | undefined;
-  /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
-  actionContext?: string | undefined;
-}
 export interface TriggeractionIssueresolutionRequest {
   /** Optional. Language code [IETF BCP 47 syntax](https://tools.ietf.org/html/bcp47) used to localize the response. If not set, the result will be in default language `en-US`. */
   languageCode?: string | undefined;
   /** Required. The business's account that is triggering the action. Format: `accounts/{account}` */
   name: string;
-  /** Request body */
-  body?: TriggerActionPayload | undefined;
+  /** Required. Input provided by the business. */
+  actionInput?: ActionInput | undefined;
+  /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
+  actionContext?: string | undefined;
 }
 /** Response informing about the started action. */
 export interface TriggerActionResponse {
@@ -512,7 +507,7 @@ export const renderaccountissuesIssueresolution: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<RenderaccountissuesIssueresolutionRequest>,
-  output: __S(92, __c2, 28) as any as S.Schema<RenderAccountIssuesResponse>,
+  output: __S(91, __c2, 27) as any as S.Schema<RenderAccountIssuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -534,7 +529,7 @@ export const renderproductissuesIssueresolution: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<RenderproductissuesIssueresolutionRequest>,
-  output: __S(92, __c2, 28) as any as S.Schema<RenderProductIssuesResponse>,
+  output: __S(91, __c2, 27) as any as S.Schema<RenderProductIssuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -555,8 +550,8 @@ export const triggeractionIssueresolution: API.OperationMethod<
   TriggeractionIssueresolutionError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(135, __c4, 7) as any as S.Schema<TriggeractionIssueresolutionRequest>,
-  output: __S(136, __c4, 8) as any as S.Schema<TriggerActionResponse>,
+  input: __S(134, __c4, 6) as any as S.Schema<TriggeractionIssueresolutionRequest>,
+  output: __S(135, __c4, 7) as any as S.Schema<TriggerActionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -635,7 +630,8 @@ function __c1(j: number): any {
           name: S.String.pipe(T.Label()),
           timeZone: S.optional(S.String.pipe(T.Query())),
           languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
+          userInputActionOption: S.optional(S.String),
+          contentOption: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -651,38 +647,31 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userInputActionOption: S.optional(S.String),
-          contentOption: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RenderIssuesRequestPayload" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.suspend(() => __S(83, __c2, 19))),
+          action: S.optional(S.suspend(() => __S(82, __c2, 18))),
           message: S.optional(S.String),
           detail: S.optional(S.String),
         }),
       ).annotate({ identifier: "Reason" });
+    case 1:
+      return S.Array(__S(64, __c2, 0));
     case 2:
-      return S.Array(__S(65, __c2, 1));
-    case 3:
       return S.Array(S.String);
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          paragraphs: S.optional(__S(67, __c2, 3)),
+          paragraphs: S.optional(__S(66, __c2, 2)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdditionalContent" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           attributeCode: S.optional(S.String),
-          additionalContent: S.optional(__S(68, __c2, 4)),
+          additionalContent: S.optional(__S(67, __c2, 3)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuiltInSimpleAction" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           simpleTooltipValue: S.optional(S.String),
@@ -690,136 +679,136 @@ function __c2(j: number): any {
           simpleValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextWithTooltip" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          additionalInput: S.optional(S.suspend(() => __S(76, __c2, 12))),
-          label: S.optional(__S(70, __c2, 6)),
+          additionalInput: S.optional(S.suspend(() => __S(75, __c2, 11))),
+          label: S.optional(__S(69, __c2, 5)),
         }),
       ).annotate({ identifier: "ChoiceInputOption" });
+    case 7:
+      return S.Array(__S(70, __c2, 6));
     case 8:
-      return S.Array(__S(71, __c2, 7));
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(71, __c2, 7)),
+        }),
+      ).annotate({ identifier: "ChoiceInput" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(72, __c2, 8)),
-        }),
-      ).annotate({ identifier: "ChoiceInput" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
           ariaLabel: S.optional(S.String),
-          additionalInfo: S.optional(__S(70, __c2, 6)),
+          additionalInfo: S.optional(__S(69, __c2, 5)),
           type: S.optional(S.String),
           formatInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextInput" });
-    case 11:
+    case 10:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CheckboxInput" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(__S(70, __c2, 6)),
-          choiceInput: S.optional(__S(73, __c2, 9)),
-          textInput: S.optional(__S(74, __c2, 10)),
+          label: S.optional(__S(69, __c2, 5)),
+          choiceInput: S.optional(__S(72, __c2, 8)),
+          textInput: S.optional(__S(73, __c2, 9)),
           required: S.optional(S.Boolean),
-          checkboxInput: S.optional(__S(75, __c2, 11)),
+          checkboxInput: S.optional(__S(74, __c2, 10)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "InputField" });
+    case 12:
+      return S.Array(__S(75, __c2, 11));
     case 13:
-      return S.Array(__S(76, __c2, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           styleHint: S.optional(S.String),
-          fullMessage: S.optional(__S(70, __c2, 6)),
+          fullMessage: S.optional(__S(69, __c2, 5)),
         }),
       ).annotate({ identifier: "Callout" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          dialogMessage: S.optional(__S(70, __c2, 6)),
-          inputs: S.optional(__S(77, __c2, 13)),
-          dialogCallout: S.optional(__S(78, __c2, 14)),
+          dialogMessage: S.optional(__S(69, __c2, 5)),
+          inputs: S.optional(__S(76, __c2, 12)),
+          dialogCallout: S.optional(__S(77, __c2, 13)),
           dialogTitle: S.optional(S.String),
           id: S.optional(S.String),
           dialogButtonLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionFlow" });
+    case 15:
+      return S.Array(__S(78, __c2, 14));
     case 16:
-      return S.Array(__S(79, __c2, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
-          flows: S.optional(__S(80, __c2, 16)),
+          flows: S.optional(__S(79, __c2, 15)),
           actionContext: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuiltInUserInputAction" });
-    case 18:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExternalAction" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           buttonLabel: S.optional(S.String),
-          reasons: S.optional(__S(66, __c2, 2)),
-          builtinSimpleAction: S.optional(__S(69, __c2, 5)),
-          builtinUserInputAction: S.optional(__S(81, __c2, 17)),
+          reasons: S.optional(__S(65, __c2, 1)),
+          builtinSimpleAction: S.optional(__S(68, __c2, 4)),
+          builtinUserInputAction: S.optional(__S(80, __c2, 16)),
           isAvailable: S.optional(S.Boolean),
-          externalAction: S.optional(__S(82, __c2, 18)),
+          externalAction: S.optional(__S(81, __c2, 17)),
         }),
       ).annotate({ identifier: "Action" });
+    case 19:
+      return S.Array(__S(82, __c2, 18));
     case 20:
-      return S.Array(__S(83, __c2, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Region" });
+    case 21:
+      return S.Array(__S(84, __c2, 20));
     case 22:
-      return S.Array(__S(85, __c2, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(67, __c2, 3)),
-          regions: S.optional(__S(86, __c2, 22)),
+          details: S.optional(__S(66, __c2, 2)),
+          regions: S.optional(__S(85, __c2, 21)),
         }),
       ).annotate({ identifier: "Breakdown" });
+    case 23:
+      return S.Array(__S(86, __c2, 22));
     case 24:
-      return S.Array(__S(87, __c2, 23));
-    case 25:
       return S.suspend(() =>
         S.Struct({
           severity: S.optional(S.String),
-          breakdowns: S.optional(__S(88, __c2, 24)),
+          breakdowns: S.optional(__S(87, __c2, 23)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Impact" });
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
           prerenderedContent: S.optional(S.String),
-          actions: S.optional(__S(84, __c2, 20)),
+          actions: S.optional(__S(83, __c2, 19)),
           title: S.optional(S.String),
-          impact: S.optional(__S(89, __c2, 25)),
+          impact: S.optional(__S(88, __c2, 24)),
         }),
       ).annotate({ identifier: "RenderedIssue" });
+    case 26:
+      return S.Array(__S(89, __c2, 25));
     case 27:
-      return S.Array(__S(90, __c2, 26));
-    case 28:
       return S.suspend(() =>
         S.Struct({
-          renderedIssues: S.optional(__S(91, __c2, 27)),
+          renderedIssues: S.optional(__S(90, __c2, 26)),
         }),
       ).annotate({ identifier: "RenderAccountIssuesResponse" });
   }
@@ -832,7 +821,8 @@ function __c3(j: number): any {
           timeZone: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           languageCode: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
+          userInputActionOption: S.optional(S.String),
+          contentOption: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -884,16 +874,10 @@ function __c4(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          actionInput: S.optional(__S(133, __c4, 5)),
-          actionContext: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TriggerActionPayload" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
           languageCode: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(134, __c4, 6).pipe(T.HttpBody())),
+          actionInput: S.optional(__S(133, __c4, 5)),
+          actionContext: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -902,7 +886,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TriggeractionIssueresolutionRequest" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),

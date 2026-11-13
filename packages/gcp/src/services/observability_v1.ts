@@ -114,8 +114,11 @@ export interface CmekSettings {
   /** Optional. The resource name for the configured Cloud KMS key. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY] For example: projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key */
   kmsKey?: string | undefined;
 }
-/** Bucket configuration for storing observability data. */
-export interface Bucket {
+export interface CreateProjectsLocationsBucketsRequest {
+  /** Required. Name of the project and location for the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
+  parent: string;
+  /** Required. Id of the bucket to create. */
+  bucketId?: string | undefined;
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name?: string | undefined;
   /** Output only. Delete timestamp. */
@@ -132,14 +135,6 @@ export interface Bucket {
   createTime?: string | undefined;
   /** Optional. User friendly display name. */
   displayName?: string | undefined;
-}
-export interface CreateProjectsLocationsBucketsRequest {
-  /** Required. Name of the project and location for the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
-  parent: string;
-  /** Required. Id of the bucket to create. */
-  bucketId?: string | undefined;
-  /** Request body */
-  body?: Bucket | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -165,8 +160,11 @@ export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
-/** A link lets a dataset be accessible to BigQuery via usage of linked datasets. */
-export interface Link {
+export interface CreateProjectsLocationsBucketsDatasetsLinksRequest {
+  /** Required. Name of the containing dataset for this link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
+  parent: string;
+  /** Required. Id of the link to create. */
+  linkId?: string | undefined;
   /** Optional. A user friendly display name. */
   displayName?: string | undefined;
   /** Optional. Description of the link. */
@@ -176,15 +174,23 @@ export interface Link {
   /** Output only. Create timestamp. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsBucketsDatasetsLinksRequest {
-  /** Required. Name of the containing dataset for this link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
-  parent: string;
-  /** Required. Id of the link to create. */
-  linkId?: string | undefined;
-  /** Request body */
-  body?: Link | undefined;
-}
 export type StringList = Array<string>;
+export interface CreateProjectsLocationsTraceScopesRequest {
+  /** Required. The full resource name of the location where the trace scope should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
+  parent: string;
+  /** Required. A client-assigned identifier for the trace scope. */
+  traceScopeId?: string | undefined;
+  /** Output only. The last update timestamp of the trace scope. */
+  updateTime?: string | undefined;
+  /** Output only. The creation timestamp of the trace scope. */
+  createTime?: string | undefined;
+  /** Optional. Describes this trace scope. The maximum length of the description is 8000 characters. */
+  description?: string | undefined;
+  /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
+  name?: string | undefined;
+  /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
+  resourceNames?: StringList | undefined;
+}
 /** A trace scope is a collection of resources whose traces are queried together. */
 export interface TraceScope {
   /** Output only. The last update timestamp of the trace scope. */
@@ -197,14 +203,6 @@ export interface TraceScope {
   name?: string | undefined;
   /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
   resourceNames?: StringList | undefined;
-}
-export interface CreateProjectsLocationsTraceScopesRequest {
-  /** Required. The full resource name of the location where the trace scope should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
-  parent: string;
-  /** Required. A client-assigned identifier for the trace scope. */
-  traceScopeId?: string | undefined;
-  /** Request body */
-  body?: TraceScope | undefined;
 }
 export interface DeleteFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -264,6 +262,25 @@ export interface GetProjectsLocationsBucketsRequest {
   /** Required. Name of the bucket to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name: string;
 }
+/** Bucket configuration for storing observability data. */
+export interface Bucket {
+  /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
+  name?: string | undefined;
+  /** Output only. Delete timestamp. */
+  deleteTime?: string | undefined;
+  /** Output only. Timestamp when the bucket in soft-deleted state is purged. */
+  purgeTime?: string | undefined;
+  /** Optional. Description of the bucket. */
+  description?: string | undefined;
+  /** Optional. Settings for configuring CMEK on a bucket. */
+  cmekSettings?: CmekSettings | undefined;
+  /** Output only. Update timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
+  /** Optional. User friendly display name. */
+  displayName?: string | undefined;
+}
 export interface GetProjectsLocationsBucketsDatasetsRequest {
   /** Required. Name of the dataset to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   name: string;
@@ -286,6 +303,17 @@ export interface Dataset {
 export interface GetProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. Name of the link to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
+}
+/** A link lets a dataset be accessible to BigQuery via usage of linked datasets. */
+export interface Link {
+  /** Optional. A user friendly display name. */
+  displayName?: string | undefined;
+  /** Optional. Description of the link. */
+  description?: string | undefined;
+  /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
+  name?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsBucketsDatasetsViewsRequest {
   /** Required. Name of the view to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/views/[VIEW_ID] */
@@ -529,32 +557,58 @@ export interface PatchProjectsLocationsBucketsRequest {
   updateMask?: string | undefined;
   /** Identifier. Name of the bucket. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name: string;
-  /** Request body */
-  body?: Bucket | undefined;
+  /** Output only. Delete timestamp. */
+  deleteTime?: string | undefined;
+  /** Output only. Timestamp when the bucket in soft-deleted state is purged. */
+  purgeTime?: string | undefined;
+  /** Optional. Description of the bucket. */
+  description?: string | undefined;
+  /** Optional. Settings for configuring CMEK on a bucket. */
+  cmekSettings?: CmekSettings | undefined;
+  /** Output only. Update timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
+  /** Optional. User friendly display name. */
+  displayName?: string | undefined;
 }
 export interface PatchProjectsLocationsBucketsDatasetsLinksRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
-  /** Request body */
-  body?: Link | undefined;
+  /** Optional. A user friendly display name. */
+  displayName?: string | undefined;
+  /** Optional. Description of the link. */
+  description?: string | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsScopesRequest {
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Scope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field is overwritten when it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Scope | undefined;
+  /** Required. The full resource name of the `logging.googleapis.com/LogScope`. For example: //logging.googleapis.com/projects/myproject/locations/global/logScopes/my-log-scope */
+  logScope?: string | undefined;
+  /** Output only. Update timestamp. Note: The Update timestamp for the default scope is initially unset. */
+  updateTime?: string | undefined;
+  /** Required. The unqualified resource name of the `cloudtrace.googleapis.com/TraceScope`. For example: projects/myproject/locations/global/traceScopes/my-trace-scope */
+  traceScope?: string | undefined;
 }
 export interface PatchProjectsLocationsTraceScopesRequest {
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TraceScope | undefined;
+  /** Output only. The last update timestamp of the trace scope. */
+  updateTime?: string | undefined;
+  /** Output only. The creation timestamp of the trace scope. */
+  createTime?: string | undefined;
+  /** Optional. Describes this trace scope. The maximum length of the description is 8000 characters. */
+  description?: string | undefined;
+  /** Required. Names of the projects that are included in this trace scope. * `projects/[PROJECT_ID]` A trace scope can include a maximum of 20 projects. */
+  resourceNames?: StringList | undefined;
 }
 /** Request for reprovisioning a bucket, replaces configuration with that of the configured Observability settings. */
 export type ReprovisionBucketRequest = CancelOperationRequest;
@@ -569,24 +623,36 @@ export interface UpdateSettingsFoldersLocationsRequest {
   updateMask?: string | undefined;
   /** Identifier. The resource name of the settings. */
   name: string;
-  /** Request body */
-  body?: Settings | undefined;
+  /** Optional. The location which should be used when any regional resources are provisioned by Google Cloud. */
+  defaultStorageLocation?: string | undefined;
+  /** Output only. The service account for the given resource container, such as project or folder. This will be used by Cloud Observability to perform actions in the container's project like access KMS keys or create Links. Always the same service account per resource container regardless of region. */
+  serviceAccountId?: string | undefined;
+  /** Optional. The resource name for the configured Cloud KMS key. KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example: `"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"` */
+  kmsKeyName?: string | undefined;
 }
 export interface UpdateSettingsOrganizationsLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
+  /** Optional. The location which should be used when any regional resources are provisioned by Google Cloud. */
+  defaultStorageLocation?: string | undefined;
+  /** Output only. The service account for the given resource container, such as project or folder. This will be used by Cloud Observability to perform actions in the container's project like access KMS keys or create Links. Always the same service account per resource container regardless of region. */
+  serviceAccountId?: string | undefined;
+  /** Optional. The resource name for the configured Cloud KMS key. KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example: `"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"` */
+  kmsKeyName?: string | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
   /** Optional. The field mask specifying which fields of the settings are to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Settings | undefined;
+  /** Optional. The location which should be used when any regional resources are provisioned by Google Cloud. */
+  defaultStorageLocation?: string | undefined;
+  /** Output only. The service account for the given resource container, such as project or folder. This will be used by Cloud Observability to perform actions in the container's project like access KMS keys or create Links. Always the same service account per resource container regardless of region. */
+  serviceAccountId?: string | undefined;
+  /** Optional. The resource name for the configured Cloud KMS key. KMS key name format: "projects/[PROJECT_ID]/locations/[LOCATION]/keyRings/[KEYRING]/cryptoKeys/[KEY]" For example: `"projects/my-project/locations/us-central1/keyRings/my-ring/cryptoKeys/my-key"` */
+  kmsKeyName?: string | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound
@@ -601,8 +667,8 @@ export const cancelFoldersLocationsOperations: API.OperationMethod<
   CancelFoldersLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<CancelFoldersLocationsOperationsRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(156, __c39, 0) as any as S.Schema<CancelFoldersLocationsOperationsRequest>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -623,8 +689,8 @@ export const cancelOrganizationsLocationsOperations: API.OperationMethod<
   CancelOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c48, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(200, __c50, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -645,8 +711,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c49, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(204, __c51, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -667,8 +733,8 @@ export const createProjectsLocationsBuckets: API.OperationMethod<
   CreateProjectsLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c50, 0) as any as S.Schema<CreateProjectsLocationsBucketsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(208, __c52, 0) as any as S.Schema<CreateProjectsLocationsBucketsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -689,8 +755,8 @@ export const createProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   CreateProjectsLocationsBucketsDatasetsLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c54, 0) as any as S.Schema<CreateProjectsLocationsBucketsDatasetsLinksRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(224, __c56, 0) as any as S.Schema<CreateProjectsLocationsBucketsDatasetsLinksRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -711,8 +777,8 @@ export const createProjectsLocationsTraceScopes: API.OperationMethod<
   CreateProjectsLocationsTraceScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c56, 0) as any as S.Schema<CreateProjectsLocationsTraceScopesRequest>,
-  output: __S(232, __c58, 0) as any as S.Schema<TraceScope>,
+  input: __S(228, __c57, 0) as any as S.Schema<CreateProjectsLocationsTraceScopesRequest>,
+  output: __S(236, __c59, 0) as any as S.Schema<TraceScope>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -734,7 +800,7 @@ export const deleteFoldersLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteFoldersLocationsOperationsRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -756,7 +822,7 @@ export const deleteOrganizationsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -778,7 +844,7 @@ export const deleteProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteProjectsLocationsBucketsDatasetsLinksRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -800,7 +866,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -822,7 +888,7 @@ export const deleteProjectsLocationsTraceScopes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteProjectsLocationsTraceScopesRequest>,
-  output: __S(152, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(160, __c40, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -856,7 +922,7 @@ export const getFoldersLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetFoldersLocationsOperationsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -890,7 +956,7 @@ export const getOrganizationsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -924,7 +990,7 @@ export const getProjectsLocationsBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetProjectsLocationsBucketsRequest>,
-  output: __S(205, __c51, 1) as any as S.Schema<Bucket>,
+  output: __S(48, __c12, 0) as any as S.Schema<Bucket>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -940,8 +1006,8 @@ export const getProjectsLocationsBucketsDatasets: API.OperationMethod<
   GetProjectsLocationsBucketsDatasetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetProjectsLocationsBucketsDatasetsRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<Dataset>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetProjectsLocationsBucketsDatasetsRequest>,
+  output: __S(56, __c14, 0) as any as S.Schema<Dataset>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -957,8 +1023,8 @@ export const getProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   GetProjectsLocationsBucketsDatasetsLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetProjectsLocationsBucketsDatasetsLinksRequest>,
-  output: __S(220, __c55, 0) as any as S.Schema<Link>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetProjectsLocationsBucketsDatasetsLinksRequest>,
+  output: __S(64, __c16, 0) as any as S.Schema<Link>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -974,8 +1040,8 @@ export const getProjectsLocationsBucketsDatasetsViews: API.OperationMethod<
   GetProjectsLocationsBucketsDatasetsViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetProjectsLocationsBucketsDatasetsViewsRequest>,
-  output: __S(64, __c16, 0) as any as S.Schema<View>,
+  input: __S(68, __c17, 0) as any as S.Schema<GetProjectsLocationsBucketsDatasetsViewsRequest>,
+  output: __S(72, __c18, 0) as any as S.Schema<View>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -991,8 +1057,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1008,8 +1074,8 @@ export const getProjectsLocationsScopes: API.OperationMethod<
   GetProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetProjectsLocationsScopesRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<Scope>,
+  input: __S(80, __c20, 0) as any as S.Schema<GetProjectsLocationsScopesRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<Scope>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1025,8 +1091,8 @@ export const getProjectsLocationsTraceScopes: API.OperationMethod<
   GetProjectsLocationsTraceScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<GetProjectsLocationsTraceScopesRequest>,
-  output: __S(232, __c58, 0) as any as S.Schema<TraceScope>,
+  input: __S(88, __c22, 0) as any as S.Schema<GetProjectsLocationsTraceScopesRequest>,
+  output: __S(236, __c59, 0) as any as S.Schema<TraceScope>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1042,8 +1108,8 @@ export const getSettingsFoldersLocations: API.OperationMethod<
   GetSettingsFoldersLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<GetSettingsFoldersLocationsRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Settings>,
+  input: __S(92, __c23, 0) as any as S.Schema<GetSettingsFoldersLocationsRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1059,8 +1125,8 @@ export const getSettingsOrganizationsLocations: API.OperationMethod<
   GetSettingsOrganizationsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<GetSettingsOrganizationsLocationsRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Settings>,
+  input: __S(100, __c25, 0) as any as S.Schema<GetSettingsOrganizationsLocationsRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1076,8 +1142,8 @@ export const getSettingsProjectsLocations: API.OperationMethod<
   GetSettingsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<GetSettingsProjectsLocationsRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Settings>,
+  input: __S(104, __c26, 0) as any as S.Schema<GetSettingsProjectsLocationsRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1094,8 +1160,8 @@ export const listFoldersLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<ListFoldersLocationsRequest>,
-  output: __S(105, __c26, 1) as any as S.Schema<ListLocationsResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<ListFoldersLocationsRequest>,
+  output: __S(113, __c28, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1113,8 +1179,8 @@ export const listFoldersLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<ListFoldersLocationsOperationsRequest>,
-  output: __S(113, __c28, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<ListFoldersLocationsOperationsRequest>,
+  output: __S(121, __c30, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1132,8 +1198,8 @@ export const listOrganizationsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<ListOrganizationsLocationsRequest>,
-  output: __S(105, __c26, 1) as any as S.Schema<ListLocationsResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<ListOrganizationsLocationsRequest>,
+  output: __S(113, __c28, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1151,8 +1217,8 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
-  output: __S(113, __c28, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(128, __c32, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
+  output: __S(121, __c30, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1170,8 +1236,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(105, __c26, 1) as any as S.Schema<ListLocationsResponse>,
+  input: __S(132, __c33, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(113, __c28, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1189,8 +1255,8 @@ export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBucketsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<ListProjectsLocationsBucketsRequest>,
-  output: __S(130, __c32, 2) as any as S.Schema<ListBucketsResponse>,
+  input: __S(136, __c34, 0) as any as S.Schema<ListProjectsLocationsBucketsRequest>,
+  output: __S(138, __c34, 2) as any as S.Schema<ListBucketsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1208,8 +1274,8 @@ export const listProjectsLocationsBucketsDatasets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDatasetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<ListProjectsLocationsBucketsDatasetsRequest>,
-  output: __S(134, __c33, 2) as any as S.Schema<ListDatasetsResponse>,
+  input: __S(140, __c35, 0) as any as S.Schema<ListProjectsLocationsBucketsDatasetsRequest>,
+  output: __S(142, __c35, 2) as any as S.Schema<ListDatasetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1227,8 +1293,8 @@ export const listProjectsLocationsBucketsDatasetsLinks: API.PaginatedOperationMe
   GcpOpContext,
   ListLinksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<ListProjectsLocationsBucketsDatasetsLinksRequest>,
-  output: __S(138, __c34, 2) as any as S.Schema<ListLinksResponse>,
+  input: __S(144, __c36, 0) as any as S.Schema<ListProjectsLocationsBucketsDatasetsLinksRequest>,
+  output: __S(146, __c36, 2) as any as S.Schema<ListLinksResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1246,8 +1312,8 @@ export const listProjectsLocationsBucketsDatasetsViews: API.PaginatedOperationMe
   GcpOpContext,
   ListViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<ListProjectsLocationsBucketsDatasetsViewsRequest>,
-  output: __S(142, __c35, 2) as any as S.Schema<ListViewsResponse>,
+  input: __S(148, __c37, 0) as any as S.Schema<ListProjectsLocationsBucketsDatasetsViewsRequest>,
+  output: __S(150, __c37, 2) as any as S.Schema<ListViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1265,8 +1331,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c36, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(113, __c28, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(152, __c38, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(121, __c30, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1284,8 +1350,8 @@ export const listProjectsLocationsTraceScopes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTraceScopesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(156, __c39, 0) as any as S.Schema<ListProjectsLocationsTraceScopesRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<ListTraceScopesResponse>,
+  input: __S(164, __c41, 0) as any as S.Schema<ListProjectsLocationsTraceScopesRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<ListTraceScopesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1307,8 +1373,8 @@ export const patchProjectsLocationsBuckets: API.OperationMethod<
   PatchProjectsLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c40, 0) as any as S.Schema<PatchProjectsLocationsBucketsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(168, __c42, 0) as any as S.Schema<PatchProjectsLocationsBucketsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1329,8 +1395,8 @@ export const patchProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   PatchProjectsLocationsBucketsDatasetsLinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<PatchProjectsLocationsBucketsDatasetsLinksRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(172, __c43, 0) as any as S.Schema<PatchProjectsLocationsBucketsDatasetsLinksRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1351,8 +1417,8 @@ export const patchProjectsLocationsScopes: API.OperationMethod<
   PatchProjectsLocationsScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c42, 0) as any as S.Schema<PatchProjectsLocationsScopesRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<Scope>,
+  input: __S(176, __c44, 0) as any as S.Schema<PatchProjectsLocationsScopesRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<Scope>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1373,8 +1439,8 @@ export const patchProjectsLocationsTraceScopes: API.OperationMethod<
   PatchProjectsLocationsTraceScopesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(172, __c43, 0) as any as S.Schema<PatchProjectsLocationsTraceScopesRequest>,
-  output: __S(232, __c58, 0) as any as S.Schema<TraceScope>,
+  input: __S(180, __c45, 0) as any as S.Schema<PatchProjectsLocationsTraceScopesRequest>,
+  output: __S(236, __c59, 0) as any as S.Schema<TraceScope>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1395,8 +1461,8 @@ export const reprovisionProjectsLocationsBuckets: API.OperationMethod<
   ReprovisionProjectsLocationsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<ReprovisionProjectsLocationsBucketsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(184, __c46, 0) as any as S.Schema<ReprovisionProjectsLocationsBucketsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1417,8 +1483,8 @@ export const updateSettingsFoldersLocations: API.OperationMethod<
   UpdateSettingsFoldersLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(180, __c45, 0) as any as S.Schema<UpdateSettingsFoldersLocationsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(188, __c47, 0) as any as S.Schema<UpdateSettingsFoldersLocationsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1439,8 +1505,8 @@ export const updateSettingsOrganizationsLocations: API.OperationMethod<
   UpdateSettingsOrganizationsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c46, 0) as any as S.Schema<UpdateSettingsOrganizationsLocationsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(192, __c48, 0) as any as S.Schema<UpdateSettingsOrganizationsLocationsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1461,8 +1527,8 @@ export const updateSettingsProjectsLocations: API.OperationMethod<
   UpdateSettingsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(188, __c47, 0) as any as S.Schema<UpdateSettingsProjectsLocationsRequest>,
-  output: __S(214, __c53, 2) as any as S.Schema<Operation>,
+  input: __S(196, __c49, 0) as any as S.Schema<UpdateSettingsProjectsLocationsRequest>,
+  output: __S(222, __c55, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1578,7 +1644,7 @@ function __c6(j: number): any {
           name: S.optional(S.String),
           labels: S.optional(__S(24, __c6, 0)),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(208, __c52, 0)),
+          metadata: S.optional(__S(216, __c54, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1668,6 +1734,23 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          purgeTime: S.optional(S.String),
+          description: S.optional(S.String),
+          cmekSettings: S.optional(__S(212, __c53, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Bucket" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1679,7 +1762,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsBucketsDatasetsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1692,22 +1775,6 @@ function __c13(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dataset" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://observability.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsBucketsDatasetsLinksRequest" });
   }
 }
 function __c15(j: number): any {
@@ -1723,7 +1790,7 @@ function __c15(j: number): any {
             baseUrl: "https://observability.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsBucketsDatasetsViewsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsBucketsDatasetsLinksRequest" });
   }
 }
 function __c16(j: number): any {
@@ -1732,12 +1799,11 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
           description: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "View" });
+      ).annotate({ identifier: "Link" });
   }
 }
 function __c17(j: number): any {
@@ -1753,10 +1819,24 @@ function __c17(j: number): any {
             baseUrl: "https://observability.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsBucketsDatasetsViewsRequest" });
   }
 }
 function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "View" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1769,20 +1849,7 @@ function __c18(j: number): any {
             baseUrl: "https://observability.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsScopesRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          logScope: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          traceScope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Scope" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c20(j: number): any {
@@ -1798,10 +1865,23 @@ function __c20(j: number): any {
             baseUrl: "https://observability.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTraceScopesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsScopesRequest" });
   }
 }
 function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          logScope: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          traceScope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Scope" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1814,20 +1894,7 @@ function __c21(j: number): any {
             baseUrl: "https://observability.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetSettingsFoldersLocationsRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          defaultStorageLocation: S.optional(S.String),
-          serviceAccountId: S.optional(S.String),
-          kmsKeyName: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Settings" });
+      ).annotate({ identifier: "GetProjectsLocationsTraceScopesRequest" });
   }
 }
 function __c23(j: number): any {
@@ -1843,10 +1910,39 @@ function __c23(j: number): any {
             baseUrl: "https://observability.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetSettingsOrganizationsLocationsRequest" });
+      ).annotate({ identifier: "GetSettingsFoldersLocationsRequest" });
   }
 }
 function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          defaultStorageLocation: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Settings" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://observability.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetSettingsOrganizationsLocationsRequest" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1862,12 +1958,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetSettingsProjectsLocationsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(228, __c57, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(232, __c58, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
@@ -1882,20 +1978,20 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(25, __c6, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(104, __c26, 0)),
+          locations: S.optional(__S(112, __c28, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1915,27 +2011,27 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsOperationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(214, __c53, 2));
+      return S.Array(__S(222, __c55, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(228, __c57, 0)),
+          unreachable: S.optional(__S(232, __c58, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(112, __c28, 0)),
+          operations: S.optional(__S(120, __c30, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(228, __c57, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(232, __c58, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -1949,7 +2045,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1969,13 +2065,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(228, __c57, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(232, __c58, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -1989,7 +2085,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2007,17 +2103,17 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBucketsRequest" });
     case 1:
-      return S.Array(__S(205, __c51, 1));
+      return S.Array(__S(48, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          buckets: S.optional(__S(129, __c32, 1)),
+          buckets: S.optional(__S(137, __c34, 1)),
         }),
       ).annotate({ identifier: "ListBucketsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2035,17 +2131,17 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBucketsDatasetsRequest" });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(56, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasets: S.optional(__S(133, __c33, 1)),
+          datasets: S.optional(__S(141, __c35, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatasetsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2062,17 +2158,17 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBucketsDatasetsLinksRequest" });
     case 1:
-      return S.Array(__S(220, __c55, 0));
+      return S.Array(__S(64, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(137, __c34, 1)),
+          links: S.optional(__S(145, __c36, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLinksResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2089,17 +2185,17 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBucketsDatasetsViewsRequest" });
     case 1:
-      return S.Array(__S(64, __c16, 0));
+      return S.Array(__S(72, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          views: S.optional(__S(141, __c35, 1)),
+          views: S.optional(__S(149, __c37, 1)),
         }),
       ).annotate({ identifier: "ListViewsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2119,13 +2215,13 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(160, __c40, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2136,13 +2232,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CancelFoldersLocationsOperationsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2159,24 +2255,30 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTraceScopesRequest" });
     case 1:
-      return S.Array(__S(232, __c58, 0));
+      return S.Array(__S(236, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          traceScopes: S.optional(__S(157, __c39, 1)),
+          traceScopes: S.optional(__S(165, __c41, 1)),
         }),
       ).annotate({ identifier: "ListTraceScopesResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(205, __c51, 1).pipe(T.HttpBody())),
+          deleteTime: S.optional(S.String),
+          purgeTime: S.optional(S.String),
+          description: S.optional(S.String),
+          cmekSettings: S.optional(__S(212, __c53, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2187,14 +2289,16 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBucketsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(220, __c55, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2205,14 +2309,16 @@ function __c41(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBucketsDatasetsLinksRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(76, __c19, 0).pipe(T.HttpBody())),
+          logScope: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          traceScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2223,14 +2329,17 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsScopesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          resourceNames: S.optional(__S(232, __c58, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2241,13 +2350,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsTraceScopesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(160, __c40, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2258,14 +2367,16 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ReprovisionProjectsLocationsBucketsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
+          defaultStorageLocation: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2276,14 +2387,16 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateSettingsFoldersLocationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
+          defaultStorageLocation: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2294,14 +2407,16 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateSettingsOrganizationsLocationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
+          defaultStorageLocation: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2312,13 +2427,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateSettingsProjectsLocationsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(160, __c40, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2329,13 +2444,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CancelOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(152, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(160, __c40, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2346,14 +2461,21 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           bucketId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(205, __c51, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          purgeTime: S.optional(S.String),
+          description: S.optional(S.String),
+          cmekSettings: S.optional(__S(212, __c53, 0)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2364,7 +2486,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBucketsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2374,35 +2496,22 @@ function __c51(j: number): any {
           kmsKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CmekSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          purgeTime: S.optional(S.String),
-          description: S.optional(S.String),
-          cmekSettings: S.optional(__S(204, __c51, 0)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Bucket" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(208, __c52, 0));
+      return S.Array(__S(216, __c54, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(212, __c53, 0)),
+          details: S.optional(__S(220, __c55, 0)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
@@ -2411,22 +2520,25 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(208, __c52, 0)),
-          error: S.optional(__S(213, __c53, 1)),
+          metadata: S.optional(__S(216, __c54, 0)),
+          error: S.optional(__S(221, __c55, 1)),
           name: S.optional(S.String),
-          response: S.optional(__S(208, __c52, 0)),
+          response: S.optional(__S(216, __c54, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           linkId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(220, __c55, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2437,27 +2549,18 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBucketsDatasetsLinksRequest" });
   }
 }
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Link" });
-  }
-}
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           traceScopeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          resourceNames: S.optional(__S(232, __c58, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2468,13 +2571,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTraceScopesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2483,7 +2586,7 @@ function __c58(j: number): any {
           createTime: S.optional(S.String),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          resourceNames: S.optional(__S(228, __c57, 0)),
+          resourceNames: S.optional(__S(232, __c58, 0)),
         }),
       ).annotate({ identifier: "TraceScope" });
   }

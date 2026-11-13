@@ -420,8 +420,7 @@ export interface Databasecenter_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
 }
-/** AggregateIssueStatsRequest represents the input to the AggregateIssueStats method. */
-export interface AggregateIssueStatsRequest {
+export interface AggregateIssueStatsV1betaRequest {
   /** Optional. Lists of signal types that are issues. */
   signalTypeGroups?: SignalTypeGroupList | undefined;
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
@@ -430,10 +429,6 @@ export interface AggregateIssueStatsRequest {
   filter?: string | undefined;
   /** Optional. The baseline date w.r.t. which the delta counts are calculated. If not set, delta counts are not included in the response and the response indicates the current state of the fleet. */
   baselineDate?: Databasecenter_Date | undefined;
-}
-export interface AggregateIssueStatsV1betaRequest {
-  /** Request body */
-  body?: AggregateIssueStatsRequest | undefined;
 }
 export type IssueStatsSignalTypeEnum =
   | "SIGNAL_TYPE_UNSPECIFIED"
@@ -590,8 +585,9 @@ export interface AggregateIssueStatsResponse {
   /** List of issue group stats where each group contains stats for resources having a particular combination of relevant issues. */
   issueGroupStats?: IssueGroupStatsList | undefined;
 }
-/** AggregateQueryStatsRequest represents the input to the AggregateQueryStats method. */
-export interface AggregateQueryStatsRequest {
+export interface AggregateQueryStatsFoldersRequest {
+  /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
+  parent: string;
   /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
   orderBy?: string | undefined;
   /** Optional. If unspecified, at most 100 query stats will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
@@ -600,12 +596,6 @@ export interface AggregateQueryStatsRequest {
   filter?: string | undefined;
   /** Optional. A page token, received from a previous `AggregateQueryStatsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page token. */
   pageToken?: string | undefined;
-}
-export interface AggregateQueryStatsFoldersRequest {
-  /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
-  parent: string;
-  /** Request body */
-  body?: AggregateQueryStatsRequest | undefined;
 }
 /** ResourceId contains the identifier for a database resource, including the full resource name, resource type, and product. */
 export interface ResourceId {
@@ -684,14 +674,26 @@ export interface AggregateQueryStatsResponse {
 export interface AggregateQueryStatsOrganizationsRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent: string;
-  /** Request body */
-  body?: AggregateQueryStatsRequest | undefined;
+  /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
+  orderBy?: string | undefined;
+  /** Optional. If unspecified, at most 100 query stats will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info,'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` Additional specific fields for query stats are: `metric_window`, `query_hash`, `normalized_query`. Example: `metric_window="LAST_ONE_DAY"` (Possible values for `metric_window` are: `LAST_ONE_DAY`, `LAST_ONE_WEEK`, `LAST_TWO_WEEKS`) Example: `query_hash="12345678"` Example: `normalized_query="SELECT * FROM table"` */
+  filter?: string | undefined;
+  /** Optional. A page token, received from a previous `AggregateQueryStatsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export interface AggregateQueryStatsProjectsRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `parent`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent: string;
-  /** Request body */
-  body?: AggregateQueryStatsRequest | undefined;
+  /** Optional. The expression to order the results by. Example: `order_by="execution_count"` Example: `order_by="execution_count desc"` Supported order by fields are `execution_count`, `rows_processed`, `total_cpu_time`, `avg_cpu_time`. */
+  orderBy?: string | undefined;
+  /** Optional. If unspecified, at most 100 query stats will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Optional. The expression to filter resources. Supported fields are: `full_resource_name`, `resource_type`, `container`, `product.type`, `product.engine`, `product.version`, `location`, `labels`, `issues`, fields of availability_info, data_protection_info,'resource_name', etc. The expression is a list of zero or more restrictions combined via logical operators `AND` and `OR`. When `AND` and `OR` are both used in the expression, parentheses must be appropriately used to group the combinations. Example: `location="us-east1"` Example: `container="projects/123" OR container="projects/456"` Example: `(container="projects/123" OR container="projects/456") AND location="us-east1"` Additional specific fields for query stats are: `metric_window`, `query_hash`, `normalized_query`. Example: `metric_window="LAST_ONE_DAY"` (Possible values for `metric_window` are: `LAST_ONE_DAY`, `LAST_ONE_WEEK`, `LAST_TWO_WEEKS`) Example: `query_hash="12345678"` Example: `normalized_query="SELECT * FROM table"` */
+  filter?: string | undefined;
+  /** Optional. A page token, received from a previous `AggregateQueryStatsRequest` call. Provide this to retrieve the subsequent page. All parameters except page_token should match the parameters in the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type SignalFilterSignalStatusEnum =
   | "SIGNAL_STATUS_UNSPECIFIED"
@@ -934,8 +936,7 @@ export interface SignalProductsFilters {
   products?: ProductList | undefined;
 }
 export type SignalProductsFiltersList = Array<SignalProductsFilters>;
-/** QueryDatabaseResourceGroupsRequest is the request to get a list of database groups. */
-export interface QueryDatabaseResourceGroupsRequest {
+export interface QueryDatabaseResourceGroupsV1betaRequest {
   /** Required. Parent can be a project, a folder, or an organization. The search is limited to the resources within the `scope`. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   parent?: string | undefined;
   /** Optional. A field that specifies the sort order of the results. The following fields are sortable: * full_resource_name * product.type * product.engine * product.version * container * issue_count * machine_config.vcpu_count * machine_config.memory_size_bytes * machine_config.shard_count * resource_name * issue_severity * signal_type * location * resource_type * instance_type * edition * modes * metrics.p99_cpu_utilization * metrics.p95_cpu_utilization * metrics.current_storage_used_bytes * metrics.node_count * metrics.processing_unit_count * metrics.current_memory_used_bytes * metrics.peak_storage_utilization * metrics.peak_number_connections * metrics.peak_memory_utilization The default order is ascending. Add "DESC" after the field name to indicate descending order. Add "ASC" after the field name to indicate ascending order. It only supports a single field at a time. For example: `order_by = "full_resource_name"` sorts response in ascending order `order_by = "full_resource_name DESC"` sorts response in descending order `order_by = "issue_count DESC"` sorts response in descending order of count of all issues associated with a resource. More explicitly, `order_by = "full_resource_name, product"` is not supported. */
@@ -952,10 +953,6 @@ export interface QueryDatabaseResourceGroupsRequest {
   signalProductsFilters?: SignalProductsFiltersList | undefined;
   /** Optional. Groups of signal types that are requested. */
   signalTypeGroups?: SignalTypeGroupList | undefined;
-}
-export interface QueryDatabaseResourceGroupsV1betaRequest {
-  /** Request body */
-  body?: QueryDatabaseResourceGroupsRequest | undefined;
 }
 /** BackupDRConfig to capture the backup and disaster recovery details of database resource. */
 export interface BackupDRConfig {
@@ -1638,8 +1635,7 @@ export interface QueryDatabaseResourceGroupsResponse {
   /** List of database resource groups that pass the filter. */
   resourceGroups?: DatabaseResourceGroupList | undefined;
 }
-/** QueryIssuesRequest is the request to get a list of issues. */
-export interface QueryIssuesRequest {
+export interface QueryIssuesV1betaRequest {
   /** Optional. A page token, received from a previous `QueryIssues` call. Provide this to retrieve the subsequent page. All parameters except page size should match the parameters used in the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. Parent can be a project, a folder, or an organization. The list is limited to the one attached to resources within the `scope` that a user has access to. The allowed values are: * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") * folders/{FOLDER_NUMBER} (e.g., "folders/1234567") * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
@@ -1652,10 +1648,6 @@ export interface QueryIssuesRequest {
   signalProductsFilters?: SignalProductsFiltersList | undefined;
   /** Optional. Supported fields are: 'product', `location`, `issue_severity`, 'tags', 'labels', */
   filter?: string | undefined;
-}
-export interface QueryIssuesV1betaRequest {
-  /** Request body */
-  body?: QueryIssuesRequest | undefined;
 }
 /** DatabaseResource and Issue associated with it. */
 export interface DatabaseResourceIssue {
@@ -1723,8 +1715,8 @@ export const aggregateIssueStatsV1beta: API.OperationMethod<
   AggregateIssueStatsV1betaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(161, __c5, 1) as any as S.Schema<AggregateIssueStatsV1betaRequest>,
-  output: __S(166, __c5, 6) as any as S.Schema<AggregateIssueStatsResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<AggregateIssueStatsV1betaRequest>,
+  output: __S(165, __c5, 5) as any as S.Schema<AggregateIssueStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1746,7 +1738,7 @@ export const aggregateQueryStatsFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<AggregateQueryStatsFoldersRequest>,
-  output: __S(296, __c9, 8) as any as S.Schema<AggregateQueryStatsResponse>,
+  output: __S(295, __c9, 7) as any as S.Schema<AggregateQueryStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1768,7 +1760,7 @@ export const aggregateQueryStatsOrganizations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<AggregateQueryStatsOrganizationsRequest>,
-  output: __S(296, __c9, 8) as any as S.Schema<AggregateQueryStatsResponse>,
+  output: __S(295, __c9, 7) as any as S.Schema<AggregateQueryStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1790,7 +1782,7 @@ export const aggregateQueryStatsProjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<AggregateQueryStatsProjectsRequest>,
-  output: __S(296, __c9, 8) as any as S.Schema<AggregateQueryStatsResponse>,
+  output: __S(295, __c9, 7) as any as S.Schema<AggregateQueryStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1811,8 +1803,8 @@ export const queryDatabaseResourceGroupsV1beta: API.OperationMethod<
   QueryDatabaseResourceGroupsV1betaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(419, __c13, 3) as any as S.Schema<QueryDatabaseResourceGroupsV1betaRequest>,
-  output: __S(424, __c13, 8) as any as S.Schema<QueryDatabaseResourceGroupsResponse>,
+  input: __S(418, __c13, 2) as any as S.Schema<QueryDatabaseResourceGroupsV1betaRequest>,
+  output: __S(423, __c13, 7) as any as S.Schema<QueryDatabaseResourceGroupsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1828,8 +1820,8 @@ export const queryIssuesV1beta: API.OperationMethod<
   QueryIssuesV1betaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<QueryIssuesV1betaRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<QueryIssuesResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<QueryIssuesV1betaRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<QueryIssuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1868,12 +1860,6 @@ function __c0(j: number): any {
           orderBy: S.optional(S.String),
           signalProductsFilters: S.optional(__S(449, __c14, 1)),
           filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QueryIssuesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1882,19 +1868,19 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryIssuesV1betaRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           signal: S.optional(__S(484, __c15, 4)),
           resource: S.optional(__S(488, __c15, 8)),
         }),
       ).annotate({ identifier: "DatabaseResourceIssue" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
     case 3:
-      return S.Array(__S(2, __c0, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          resourceIssues: S.optional(__S(3, __c0, 3)),
+          resourceIssues: S.optional(__S(2, __c0, 2)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(128, __c4, 0)),
         }),
@@ -2045,12 +2031,6 @@ function __c5(j: number): any {
           parent: S.optional(S.String),
           filter: S.optional(S.String),
           baselineDate: S.optional(__S(225, __c7, 1)),
-        }),
-      ).annotate({ identifier: "AggregateIssueStatsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2059,7 +2039,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AggregateIssueStatsV1betaRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           deltaDetails: S.optional(__S(98, __c3, 2)),
@@ -2068,12 +2048,12 @@ function __c5(j: number): any {
           issueSeverity: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueStats" });
+    case 2:
+      return S.Array(__S(161, __c5, 1));
     case 3:
-      return S.Array(__S(162, __c5, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          issueStats: S.optional(__S(163, __c5, 3)),
+          issueStats: S.optional(__S(162, __c5, 2)),
           healthyResourceGroupsCount: S.optional(S.Number),
           resourcesCount: S.optional(S.Number),
           healthyResourcesCount: S.optional(S.Number),
@@ -2081,15 +2061,15 @@ function __c5(j: number): any {
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueGroupStats" });
+    case 4:
+      return S.Array(__S(163, __c5, 3));
     case 5:
-      return S.Array(__S(164, __c5, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(128, __c4, 0)),
           totalResourceGroupsCount: S.optional(S.Number),
           totalResourcesCount: S.optional(S.Number),
-          issueGroupStats: S.optional(__S(165, __c5, 5)),
+          issueGroupStats: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "AggregateIssueStatsResponse" });
   }
@@ -2127,7 +2107,10 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
+          orderBy: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          filter: S.optional(S.String),
+          pageToken: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2143,23 +2126,14 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String),
-          pageSize: S.optional(S.Number),
-          filter: S.optional(S.String),
-          pageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AggregateQueryStatsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           product: S.optional(__S(129, __c4, 1)),
           resourceType: S.optional(S.String),
           fullResourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceId" });
+    case 1:
+      return S.Array(__S(288, __c9, 0));
     case 2:
-      return S.Array(__S(289, __c9, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           avgCpuTime: S.optional(S.String),
@@ -2169,34 +2143,34 @@ function __c9(j: number): any {
           metricsWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryMetrics" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
           queryHash: S.optional(S.String),
-          resourceIds: S.optional(__S(290, __c9, 2)),
-          queryMetrics: S.optional(__S(291, __c9, 3)),
+          resourceIds: S.optional(__S(289, __c9, 1)),
+          queryMetrics: S.optional(__S(290, __c9, 2)),
           inefficientQueryInfo: S.optional(__S(320, __c10, 0)),
           normalizedQuery: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryStats" });
+    case 4:
+      return S.Array(__S(291, __c9, 3));
     case 5:
-      return S.Array(__S(292, __c9, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          aggregatedQueryStats: S.optional(__S(292, __c9, 4)),
-          queryStats: S.optional(__S(293, __c9, 5)),
+          aggregatedQueryStats: S.optional(__S(291, __c9, 3)),
+          queryStats: S.optional(__S(292, __c9, 4)),
         }),
       ).annotate({ identifier: "QueryStatsInfo" });
+    case 6:
+      return S.Array(__S(293, __c9, 5));
     case 7:
-      return S.Array(__S(294, __c9, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(128, __c4, 0)),
           nextPageToken: S.optional(S.String),
-          queryStats: S.optional(__S(295, __c9, 7)),
+          queryStats: S.optional(__S(294, __c9, 6)),
         }),
       ).annotate({ identifier: "AggregateQueryStatsResponse" });
   }
@@ -2221,7 +2195,10 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
+          orderBy: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          filter: S.optional(S.String),
+          pageToken: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2238,7 +2215,10 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
+          orderBy: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          filter: S.optional(S.String),
+          pageToken: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2271,12 +2251,6 @@ function __c13(j: number): any {
           pageToken: S.optional(S.String),
           signalProductsFilters: S.optional(__S(449, __c14, 1)),
           signalTypeGroups: S.optional(__S(193, __c6, 1)),
-        }),
-      ).annotate({ identifier: "QueryDatabaseResourceGroupsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(418, __c13, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2285,31 +2259,31 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryDatabaseResourceGroupsV1betaRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           issueCount: S.optional(S.Number),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueCount" });
+    case 4:
+      return S.Array(__S(419, __c13, 3));
     case 5:
-      return S.Array(__S(420, __c13, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           rootResources: S.optional(__S(489, __c15, 9)),
-          signalGroups: S.optional(__S(421, __c13, 5)),
+          signalGroups: S.optional(__S(420, __c13, 4)),
         }),
       ).annotate({ identifier: "DatabaseResourceGroup" });
+    case 6:
+      return S.Array(__S(421, __c13, 5));
     case 7:
-      return S.Array(__S(422, __c13, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.String),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(128, __c4, 0)),
-          resourceGroups: S.optional(__S(423, __c13, 7)),
+          resourceGroups: S.optional(__S(422, __c13, 6)),
         }),
       ).annotate({ identifier: "QueryDatabaseResourceGroupsResponse" });
   }

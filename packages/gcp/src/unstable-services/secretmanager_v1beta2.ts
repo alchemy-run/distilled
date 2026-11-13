@@ -105,16 +105,11 @@ export interface AccessProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. `projects/*\/secrets/*\/versions/latest` or `projects/*\/locations/*\/secrets/*\/versions/latest` is an alias to the most recently created SecretVersion. */
   name: string;
 }
-/** Request message for SecretManagerService.AddSecretVersion. */
-export interface AddSecretVersionRequest {
-  /** Required. The secret payload of the SecretVersion. */
-  payload?: SecretPayload | undefined;
-}
 export interface AddVersionProjectsLocationsSecretsRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*` or `projects/*\/locations/*\/secrets/*`. */
   parent: string;
-  /** Request body */
-  body?: AddSecretVersionRequest | undefined;
+  /** Required. The secret payload of the SecretVersion. */
+  payload?: SecretPayload | undefined;
 }
 /** Describes the status of customer-managed encryption. */
 export interface CustomerManagedEncryptionStatus {
@@ -171,8 +166,8 @@ export interface SecretVersion {
 export interface AddVersionProjectsSecretsRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/*\/secrets/*` or `projects/*\/locations/*\/secrets/*`. */
   parent: string;
-  /** Request body */
-  body?: AddSecretVersionRequest | undefined;
+  /** Required. The secret payload of the SecretVersion. */
+  payload?: SecretPayload | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** The rotation time and period for a Secret. At next_rotation_time, Secret Manager will send a Pub/Sub notification to the topics configured on the Secret. Secret.topics must be set to configure rotation. */
@@ -218,6 +213,40 @@ export interface Topic {
   name?: string | undefined;
 }
 export type TopicList = Array<Topic>;
+export interface CreateProjectsLocationsSecretsRequest {
+  /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
+  secretId?: string | undefined;
+  /** Optional. Mapping from version alias to version name. A version alias is a string with a maximum length of 63 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore ('_') characters. An alias string must start with a letter and cannot be the string 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret. Version-Alias pairs will be viewable via GetSecret and modifiable via UpdateSecret. Access by alias is only supported for GetSecretVersion and AccessSecretVersion. */
+  versionAliases?: StringMap | undefined;
+  /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
+  tags?: StringMap | undefined;
+  /** Optional. Secret Version TTL after destruction request This is a part of the Delayed secret version destroy feature. For secret with TTL>0, version destruction doesn't happen immediately on calling destroy instead the version goes to a disabled state and destruction happens after the TTL expires. */
+  versionDestroyTtl?: string | undefined;
+  /** Optional. Etag of the currently stored Secret. */
+  etag?: string | undefined;
+  /** Optional. Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input. */
+  expireTime?: string | undefined;
+  /** Optional. Rotation policy attached to the Secret. May be excluded if there is no rotation policy. */
+  rotation?: Rotation | undefined;
+  /** Input only. The TTL for the Secret. */
+  ttl?: string | undefined;
+  /** Optional. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
+  replication?: Replication | undefined;
+  /** Optional. Custom metadata about the secret. Annotations are distinct from various forms of labels. Annotations exist to allow client tools to store their own state information without requiring a database. Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may have dashes (-), underscores (_), dots (.), and alphanumerics in between these symbols. The total size of annotation keys and values must be less than 16KiB. */
+  annotations?: StringMap | undefined;
+  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
+  name?: string | undefined;
+  /** Output only. The time at which the Secret was created. */
+  createTime?: string | undefined;
+  /** Optional. The customer-managed encryption configuration of the Regionalised Secrets. If no configuration is provided, Google-managed default encryption is used. Updates to the Secret encryption configuration only apply to SecretVersions added afterwards. They do not apply retroactively to existing SecretVersions. */
+  customerManagedEncryption?: CustomerManagedEncryption | undefined;
+  /** Optional. A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions. */
+  topics?: TopicList | undefined;
+}
 /** A Secret is a logical secret whose value and versions can be accessed. A Secret is made up of zero or more SecretVersions that represent the secret data. */
 export interface Secret {
   /** Optional. Mapping from version alias to version name. A version alias is a string with a maximum length of 63 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore ('_') characters. An alias string must start with a letter and cannot be the string 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret. Version-Alias pairs will be viewable via GetSecret and modifiable via UpdateSecret. Access by alias is only supported for GetSecretVersion and AccessSecretVersion. */
@@ -249,21 +278,39 @@ export interface Secret {
   /** Optional. A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions. */
   topics?: TopicList | undefined;
 }
-export interface CreateProjectsLocationsSecretsRequest {
-  /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
-  secretId?: string | undefined;
-  /** Request body */
-  body?: Secret | undefined;
-}
 export interface CreateProjectsSecretsRequest {
   /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/*\/locations/*`. */
   parent: string;
   /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
   secretId?: string | undefined;
-  /** Request body */
-  body?: Secret | undefined;
+  /** Optional. Mapping from version alias to version name. A version alias is a string with a maximum length of 63 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore ('_') characters. An alias string must start with a letter and cannot be the string 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret. Version-Alias pairs will be viewable via GetSecret and modifiable via UpdateSecret. Access by alias is only supported for GetSecretVersion and AccessSecretVersion. */
+  versionAliases?: StringMap | undefined;
+  /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
+  tags?: StringMap | undefined;
+  /** Optional. Secret Version TTL after destruction request This is a part of the Delayed secret version destroy feature. For secret with TTL>0, version destruction doesn't happen immediately on calling destroy instead the version goes to a disabled state and destruction happens after the TTL expires. */
+  versionDestroyTtl?: string | undefined;
+  /** Optional. Etag of the currently stored Secret. */
+  etag?: string | undefined;
+  /** Optional. Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input. */
+  expireTime?: string | undefined;
+  /** Optional. Rotation policy attached to the Secret. May be excluded if there is no rotation policy. */
+  rotation?: Rotation | undefined;
+  /** Input only. The TTL for the Secret. */
+  ttl?: string | undefined;
+  /** Optional. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
+  replication?: Replication | undefined;
+  /** Optional. Custom metadata about the secret. Annotations are distinct from various forms of labels. Annotations exist to allow client tools to store their own state information without requiring a database. Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may have dashes (-), underscores (_), dots (.), and alphanumerics in between these symbols. The total size of annotation keys and values must be less than 16KiB. */
+  annotations?: StringMap | undefined;
+  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
+  name?: string | undefined;
+  /** Output only. The time at which the Secret was created. */
+  createTime?: string | undefined;
+  /** Optional. The customer-managed encryption configuration of the Regionalised Secrets. If no configuration is provided, Google-managed default encryption is used. Updates to the Secret encryption configuration only apply to SecretVersions added afterwards. They do not apply retroactively to existing SecretVersions. */
+  customerManagedEncryption?: CustomerManagedEncryption | undefined;
+  /** Optional. A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions. */
+  topics?: TopicList | undefined;
 }
 export interface DeleteProjectsLocationsSecretsRequest {
   /** Required. The resource name of the Secret to delete in the format `projects/*\/secrets/*`. */
@@ -279,50 +326,41 @@ export interface DeleteProjectsSecretsRequest {
   /** Optional. Etag of the Secret. The request succeeds if it matches the etag of the currently stored secret object. If the etag is omitted, the request succeeds. */
   etag?: string | undefined;
 }
-/** Request message for SecretManagerService.DestroySecretVersion. */
-export interface DestroySecretVersionRequest {
-  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
-  etag?: string | undefined;
-}
 export interface DestroyProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to destroy in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
+  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
+  etag?: string | undefined;
 }
 export interface DestroyProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to destroy in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
+  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
+  etag?: string | undefined;
 }
-/** Request message for SecretManagerService.DisableSecretVersion. */
-export type DisableSecretVersionRequest = DestroySecretVersionRequest;
 export interface DisableProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
+  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
+  etag?: string | undefined;
 }
 export interface DisableProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
+  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
+  etag?: string | undefined;
 }
-/** Request message for SecretManagerService.EnableSecretVersion. */
-export type EnableSecretVersionRequest = DestroySecretVersionRequest;
 export interface EnableProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
+  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
+  etag?: string | undefined;
 }
 export interface EnableProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*`. */
   name: string;
-  /** Request body */
-  body?: DestroySecretVersionRequest | undefined;
+  /** Optional. Etag of the SecretVersion. The request succeeds if it matches the etag of the currently stored secret version object. If the etag is omitted, the request succeeds. */
+  etag?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -509,46 +547,86 @@ export interface PatchProjectsLocationsSecretsRequest {
   updateMask?: string | undefined;
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
-  /** Request body */
-  body?: Secret | undefined;
+  /** Optional. Mapping from version alias to version name. A version alias is a string with a maximum length of 63 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore ('_') characters. An alias string must start with a letter and cannot be the string 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret. Version-Alias pairs will be viewable via GetSecret and modifiable via UpdateSecret. Access by alias is only supported for GetSecretVersion and AccessSecretVersion. */
+  versionAliases?: StringMap | undefined;
+  /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
+  tags?: StringMap | undefined;
+  /** Optional. Secret Version TTL after destruction request This is a part of the Delayed secret version destroy feature. For secret with TTL>0, version destruction doesn't happen immediately on calling destroy instead the version goes to a disabled state and destruction happens after the TTL expires. */
+  versionDestroyTtl?: string | undefined;
+  /** Optional. Etag of the currently stored Secret. */
+  etag?: string | undefined;
+  /** Optional. Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input. */
+  expireTime?: string | undefined;
+  /** Optional. Rotation policy attached to the Secret. May be excluded if there is no rotation policy. */
+  rotation?: Rotation | undefined;
+  /** Input only. The TTL for the Secret. */
+  ttl?: string | undefined;
+  /** Optional. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
+  replication?: Replication | undefined;
+  /** Optional. Custom metadata about the secret. Annotations are distinct from various forms of labels. Annotations exist to allow client tools to store their own state information without requiring a database. Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may have dashes (-), underscores (_), dots (.), and alphanumerics in between these symbols. The total size of annotation keys and values must be less than 16KiB. */
+  annotations?: StringMap | undefined;
+  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which the Secret was created. */
+  createTime?: string | undefined;
+  /** Optional. The customer-managed encryption configuration of the Regionalised Secrets. If no configuration is provided, Google-managed default encryption is used. Updates to the Secret encryption configuration only apply to SecretVersions added afterwards. They do not apply retroactively to existing SecretVersions. */
+  customerManagedEncryption?: CustomerManagedEncryption | undefined;
+  /** Optional. A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions. */
+  topics?: TopicList | undefined;
 }
 export interface PatchProjectsSecretsRequest {
   /** Required. Specifies the fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
-  /** Request body */
-  body?: Secret | undefined;
+  /** Optional. Mapping from version alias to version name. A version alias is a string with a maximum length of 63 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore ('_') characters. An alias string must start with a letter and cannot be the string 'latest' or 'NEW'. No more than 50 aliases can be assigned to a given secret. Version-Alias pairs will be viewable via GetSecret and modifiable via UpdateSecret. Access by alias is only supported for GetSecretVersion and AccessSecretVersion. */
+  versionAliases?: StringMap | undefined;
+  /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
+  tags?: StringMap | undefined;
+  /** Optional. Secret Version TTL after destruction request This is a part of the Delayed secret version destroy feature. For secret with TTL>0, version destruction doesn't happen immediately on calling destroy instead the version goes to a disabled state and destruction happens after the TTL expires. */
+  versionDestroyTtl?: string | undefined;
+  /** Optional. Etag of the currently stored Secret. */
+  etag?: string | undefined;
+  /** Optional. Timestamp in UTC when the Secret is scheduled to expire. This is always provided on output, regardless of what was sent on input. */
+  expireTime?: string | undefined;
+  /** Optional. Rotation policy attached to the Secret. May be excluded if there is no rotation policy. */
+  rotation?: Rotation | undefined;
+  /** Input only. The TTL for the Secret. */
+  ttl?: string | undefined;
+  /** Optional. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
+  replication?: Replication | undefined;
+  /** Optional. Custom metadata about the secret. Annotations are distinct from various forms of labels. Annotations exist to allow client tools to store their own state information without requiring a database. Annotation keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may have dashes (-), underscores (_), dots (.), and alphanumerics in between these symbols. The total size of annotation keys and values must be less than 16KiB. */
+  annotations?: StringMap | undefined;
+  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The time at which the Secret was created. */
+  createTime?: string | undefined;
+  /** Optional. The customer-managed encryption configuration of the Regionalised Secrets. If no configuration is provided, Google-managed default encryption is used. Updates to the Secret encryption configuration only apply to SecretVersions added afterwards. They do not apply retroactively to existing SecretVersions. */
+  customerManagedEncryption?: CustomerManagedEncryption | undefined;
+  /** Optional. A list of up to 10 Pub/Sub topics to which messages are published when control plane operations are called on the secret or its versions. */
+  topics?: TopicList | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsSecretsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsSecretsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsSecretsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -558,8 +636,8 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsSecretsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type AccessProjectsLocationsSecretsVersionsError = NotFound | Forbidden | GcpOpError;
 /** Accesses a SecretVersion. This call returns the secret data. `projects/*\/secrets/*\/versions/latest` is an alias to the most recently created SecretVersion. */
@@ -569,8 +647,8 @@ export const accessProjectsLocationsSecretsVersions: API.OperationMethod<
   AccessProjectsLocationsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<AccessProjectsLocationsSecretsVersionsRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<AccessSecretVersionResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<AccessProjectsLocationsSecretsVersionsRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<AccessSecretVersionResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -586,8 +664,8 @@ export const accessProjectsSecretsVersions: API.OperationMethod<
   AccessProjectsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<AccessProjectsSecretsVersionsRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<AccessSecretVersionResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<AccessProjectsSecretsVersionsRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<AccessSecretVersionResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -608,8 +686,8 @@ export const addVersionProjectsLocationsSecrets: API.OperationMethod<
   AddVersionProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<AddVersionProjectsLocationsSecretsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(592, __c37, 0) as any as S.Schema<AddVersionProjectsLocationsSecretsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -630,8 +708,8 @@ export const addVersionProjectsSecrets: API.OperationMethod<
   AddVersionProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<AddVersionProjectsSecretsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(624, __c39, 0) as any as S.Schema<AddVersionProjectsSecretsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -652,8 +730,8 @@ export const createProjectsLocationsSecrets: API.OperationMethod<
   CreateProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<CreateProjectsLocationsSecretsRequest>,
-  output: __S(729, __c45, 9) as any as S.Schema<Secret>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateProjectsLocationsSecretsRequest>,
+  output: __S(681, __c42, 9) as any as S.Schema<Secret>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -669,8 +747,8 @@ export const createProjectsSecrets: API.OperationMethod<
   CreateProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<CreateProjectsSecretsRequest>,
-  output: __S(729, __c45, 9) as any as S.Schema<Secret>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateProjectsSecretsRequest>,
+  output: __S(681, __c42, 9) as any as S.Schema<Secret>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -731,7 +809,7 @@ export const destroyProjectsLocationsSecretsVersions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DestroyProjectsLocationsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -752,8 +830,8 @@ export const destroyProjectsSecretsVersions: API.OperationMethod<
   DestroyProjectsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DestroyProjectsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(64, __c4, 0) as any as S.Schema<DestroyProjectsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -774,8 +852,8 @@ export const disableProjectsLocationsSecretsVersions: API.OperationMethod<
   DisableProjectsLocationsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DisableProjectsLocationsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(80, __c5, 0) as any as S.Schema<DisableProjectsLocationsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -796,8 +874,8 @@ export const disableProjectsSecretsVersions: API.OperationMethod<
   DisableProjectsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DisableProjectsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(96, __c6, 0) as any as S.Schema<DisableProjectsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -818,8 +896,8 @@ export const enableProjectsLocationsSecretsVersions: API.OperationMethod<
   EnableProjectsLocationsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<EnableProjectsLocationsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(112, __c7, 0) as any as S.Schema<EnableProjectsLocationsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -840,8 +918,8 @@ export const enableProjectsSecretsVersions: API.OperationMethod<
   EnableProjectsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<EnableProjectsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(128, __c8, 0) as any as S.Schema<EnableProjectsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -857,8 +935,8 @@ export const getIamPolicyProjectsLocationsSecrets: API.OperationMethod<
   GetIamPolicyProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetIamPolicyProjectsLocationsSecretsRequest>,
-  output: __S(199, __c12, 7) as any as S.Schema<Policy>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetIamPolicyProjectsLocationsSecretsRequest>,
+  output: __S(183, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -874,8 +952,8 @@ export const getIamPolicyProjectsSecrets: API.OperationMethod<
   GetIamPolicyProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetIamPolicyProjectsSecretsRequest>,
-  output: __S(199, __c12, 7) as any as S.Schema<Policy>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetIamPolicyProjectsSecretsRequest>,
+  output: __S(183, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -891,8 +969,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<Location>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -908,8 +986,8 @@ export const getProjectsLocationsSecrets: API.OperationMethod<
   GetProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetProjectsLocationsSecretsRequest>,
-  output: __S(729, __c45, 9) as any as S.Schema<Secret>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsLocationsSecretsRequest>,
+  output: __S(681, __c42, 9) as any as S.Schema<Secret>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -925,8 +1003,8 @@ export const getProjectsLocationsSecretsVersions: API.OperationMethod<
   GetProjectsLocationsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetProjectsLocationsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetProjectsLocationsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -942,8 +1020,8 @@ export const getProjectsSecrets: API.OperationMethod<
   GetProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetProjectsSecretsRequest>,
-  output: __S(729, __c45, 9) as any as S.Schema<Secret>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetProjectsSecretsRequest>,
+  output: __S(681, __c42, 9) as any as S.Schema<Secret>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -959,8 +1037,8 @@ export const getProjectsSecretsVersions: API.OperationMethod<
   GetProjectsSecretsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetProjectsSecretsVersionsRequest>,
-  output: __S(662, __c41, 6) as any as S.Schema<SecretVersion>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetProjectsSecretsVersionsRequest>,
+  output: __S(614, __c38, 6) as any as S.Schema<SecretVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -977,8 +1055,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -996,8 +1074,8 @@ export const listProjectsLocationsSecrets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSecretsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsSecretsRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ListSecretsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsSecretsRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<ListSecretsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1015,8 +1093,8 @@ export const listProjectsLocationsSecretsVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSecretVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsSecretsVersionsRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ListSecretVersionsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsSecretsVersionsRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<ListSecretVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1034,8 +1112,8 @@ export const listProjectsSecrets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSecretsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<ListProjectsSecretsRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ListSecretsResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListProjectsSecretsRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<ListSecretsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1053,8 +1131,8 @@ export const listProjectsSecretsVersions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSecretVersionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListProjectsSecretsVersionsRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ListSecretVersionsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListProjectsSecretsVersionsRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<ListSecretVersionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1076,8 +1154,8 @@ export const patchProjectsLocationsSecrets: API.OperationMethod<
   PatchProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<PatchProjectsLocationsSecretsRequest>,
-  output: __S(729, __c45, 9) as any as S.Schema<Secret>,
+  input: __S(416, __c26, 0) as any as S.Schema<PatchProjectsLocationsSecretsRequest>,
+  output: __S(681, __c42, 9) as any as S.Schema<Secret>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1093,8 +1171,8 @@ export const patchProjectsSecrets: API.OperationMethod<
   PatchProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<PatchProjectsSecretsRequest>,
-  output: __S(729, __c45, 9) as any as S.Schema<Secret>,
+  input: __S(432, __c27, 0) as any as S.Schema<PatchProjectsSecretsRequest>,
+  output: __S(681, __c42, 9) as any as S.Schema<Secret>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1115,8 +1193,8 @@ export const setIamPolicyProjectsLocationsSecrets: API.OperationMethod<
   SetIamPolicyProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSecretsRequest>,
-  output: __S(199, __c12, 7) as any as S.Schema<Policy>,
+  input: __S(448, __c28, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSecretsRequest>,
+  output: __S(183, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1137,8 +1215,8 @@ export const setIamPolicyProjectsSecrets: API.OperationMethod<
   SetIamPolicyProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<SetIamPolicyProjectsSecretsRequest>,
-  output: __S(199, __c12, 7) as any as S.Schema<Policy>,
+  input: __S(464, __c29, 0) as any as S.Schema<SetIamPolicyProjectsSecretsRequest>,
+  output: __S(183, __c11, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1159,8 +1237,8 @@ export const testIamPermissionsProjectsLocationsSecrets: API.OperationMethod<
   TestIamPermissionsProjectsLocationsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsSecretsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsSecretsRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1181,8 +1259,8 @@ export const testIamPermissionsProjectsSecrets: API.OperationMethod<
   TestIamPermissionsProjectsSecretsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<TestIamPermissionsProjectsSecretsRequest>,
-  output: __S(528, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<TestIamPermissionsProjectsSecretsRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1237,7 +1315,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1253,18 +1331,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DestroySecretVersionRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1275,13 +1343,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DestroyProjectsSecretsVersionsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1292,13 +1360,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DisableProjectsLocationsSecretsVersionsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1309,13 +1377,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DisableProjectsSecretsVersionsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1326,13 +1394,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EnableProjectsLocationsSecretsVersionsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1343,7 +1411,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EnableProjectsSecretsVersionsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1360,13 +1428,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsSecretsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1381,42 +1449,42 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          condition: S.optional(__S(192, __c12, 0)),
-          members: S.optional(__S(176, __c11, 0)),
+          condition: S.optional(__S(176, __c11, 0)),
+          members: S.optional(__S(160, __c10, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(177, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(176, __c11, 0)),
+          exemptedMembers: S.optional(__S(160, __c10, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(195, __c12, 3));
+      return S.Array(__S(179, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(196, __c12, 4)),
+          auditLogConfigs: S.optional(__S(180, __c11, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(197, __c12, 5));
+      return S.Array(__S(181, __c11, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(194, __c12, 2)),
-          auditConfigs: S.optional(__S(198, __c12, 6)),
+          bindings: S.optional(__S(178, __c11, 2)),
+          auditConfigs: S.optional(__S(182, __c11, 6)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1433,7 +1501,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsSecretsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1449,7 +1517,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -1457,15 +1525,15 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(704, __c44, 0)),
+          labels: S.optional(__S(656, __c41, 0)),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(240, __c15, 0)),
+          metadata: S.optional(__S(224, __c14, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1481,7 +1549,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSecretsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1497,7 +1565,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSecretsVersionsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1513,7 +1581,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetProjectsSecretsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1529,13 +1597,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetProjectsSecretsVersionsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(176, __c11, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(160, __c10, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
@@ -1548,17 +1616,17 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(225, __c14, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(321, __c20, 1)),
+          locations: S.optional(__S(305, __c19, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1577,21 +1645,21 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSecretsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(729, __c45, 9));
+      return S.Array(__S(681, __c42, 9));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secrets: S.optional(__S(352, __c22, 0)),
+          secrets: S.optional(__S(336, __c21, 0)),
           totalSize: S.optional(S.Number),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecretsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1610,21 +1678,21 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSecretsVersionsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(662, __c41, 6));
+      return S.Array(__S(614, __c38, 6));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(384, __c24, 0)),
+          versions: S.optional(__S(368, __c23, 0)),
           totalSize: S.optional(S.Number),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecretVersionsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1643,7 +1711,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ListProjectsSecretsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1662,14 +1730,26 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListProjectsSecretsVersionsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(729, __c45, 9).pipe(T.HttpBody())),
+          versionAliases: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
+          versionDestroyTtl: S.optional(S.String),
+          etag: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          rotation: S.optional(__S(672, __c42, 0)),
+          ttl: S.optional(S.String),
+          replication: S.optional(__S(678, __c42, 6)),
+          annotations: S.optional(__S(656, __c41, 0)),
+          labels: S.optional(__S(656, __c41, 0)),
+          createTime: S.optional(S.String),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
+          topics: S.optional(__S(680, __c42, 8)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1680,14 +1760,26 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSecretsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(729, __c45, 9).pipe(T.HttpBody())),
+          versionAliases: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
+          versionDestroyTtl: S.optional(S.String),
+          etag: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          rotation: S.optional(__S(672, __c42, 0)),
+          ttl: S.optional(S.String),
+          replication: S.optional(__S(678, __c42, 6)),
+          annotations: S.optional(__S(656, __c41, 0)),
+          labels: S.optional(__S(656, __c41, 0)),
+          createTime: S.optional(S.String),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
+          topics: S.optional(__S(680, __c42, 8)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1698,13 +1790,14 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsSecretsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(183, __c11, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1715,24 +1808,14 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsSecretsRequest" });
   }
 }
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(199, __c12, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(183, __c11, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1743,13 +1826,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsSecretsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(160, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1760,23 +1843,23 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsSecretsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(176, __c11, 0)),
+          permissions: S.optional(__S(160, __c10, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(160, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1787,7 +1870,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsSecretsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1803,18 +1886,18 @@ function __c35(j: number): any {
       ).annotate({ identifier: "AccessProjectsLocationsSecretsVersionsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(__S(592, __c37, 0)),
+          payload: S.optional(__S(560, __c35, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessSecretVersionResponse" });
   }
 }
-function __c37(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1825,7 +1908,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "SecretPayload" });
   }
 }
-function __c38(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1841,13 +1924,13 @@ function __c38(j: number): any {
       ).annotate({ identifier: "AccessProjectsSecretsVersionsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
+          payload: S.optional(__S(560, __c35, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1858,17 +1941,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "AddVersionProjectsLocationsSecretsRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          payload: S.optional(__S(592, __c37, 0)),
-        }),
-      ).annotate({ identifier: "AddSecretVersionRequest" });
-  }
-}
-function __c41(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1879,38 +1952,38 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customerManagedEncryption: S.optional(__S(656, __c41, 0)),
+          customerManagedEncryption: S.optional(__S(608, __c38, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicaStatus" });
     case 2:
-      return S.Array(__S(657, __c41, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          replicas: S.optional(__S(658, __c41, 2)),
+          replicas: S.optional(__S(610, __c38, 2)),
         }),
       ).annotate({ identifier: "UserManagedStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          customerManagedEncryption: S.optional(__S(656, __c41, 0)),
+          customerManagedEncryption: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "AutomaticStatus" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          userManaged: S.optional(__S(659, __c41, 3)),
-          automatic: S.optional(__S(660, __c41, 4)),
+          userManaged: S.optional(__S(611, __c38, 3)),
+          automatic: S.optional(__S(612, __c38, 4)),
         }),
       ).annotate({ identifier: "ReplicationStatus" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          customerManagedEncryption: S.optional(__S(656, __c41, 0)),
+          customerManagedEncryption: S.optional(__S(608, __c38, 0)),
           etag: S.optional(S.String),
-          replicationStatus: S.optional(__S(661, __c41, 5)),
+          replicationStatus: S.optional(__S(613, __c38, 5)),
           createTime: S.optional(S.String),
           state: S.optional(S.String),
           destroyTime: S.optional(S.String),
@@ -1920,13 +1993,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SecretVersion" });
   }
 }
-function __c42(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
+          payload: S.optional(__S(560, __c35, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1937,14 +2010,27 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AddVersionProjectsSecretsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           secretId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(729, __c45, 9).pipe(T.HttpBody())),
+          versionAliases: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
+          versionDestroyTtl: S.optional(S.String),
+          etag: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          rotation: S.optional(__S(672, __c42, 0)),
+          ttl: S.optional(S.String),
+          replication: S.optional(__S(678, __c42, 6)),
+          annotations: S.optional(__S(656, __c41, 0)),
+          labels: S.optional(__S(656, __c41, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
+          topics: S.optional(__S(680, __c42, 8)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1955,13 +2041,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSecretsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c45(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1979,29 +2065,29 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customerManagedEncryption: S.optional(__S(721, __c45, 1)),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
         }),
       ).annotate({ identifier: "Automatic" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          customerManagedEncryption: S.optional(__S(721, __c45, 1)),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
         }),
       ).annotate({ identifier: "Replica" });
     case 4:
-      return S.Array(__S(723, __c45, 3));
+      return S.Array(__S(675, __c42, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          replicas: S.optional(__S(724, __c45, 4)),
+          replicas: S.optional(__S(676, __c42, 4)),
         }),
       ).annotate({ identifier: "UserManaged" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          automatic: S.optional(__S(722, __c45, 2)),
-          userManaged: S.optional(__S(725, __c45, 5)),
+          automatic: S.optional(__S(674, __c42, 2)),
+          userManaged: S.optional(__S(677, __c42, 5)),
         }),
       ).annotate({ identifier: "Replication" });
     case 7:
@@ -2011,36 +2097,49 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "Topic" });
     case 8:
-      return S.Array(__S(727, __c45, 7));
+      return S.Array(__S(679, __c42, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          versionAliases: S.optional(__S(704, __c44, 0)),
-          tags: S.optional(__S(704, __c44, 0)),
+          versionAliases: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
           versionDestroyTtl: S.optional(S.String),
           etag: S.optional(S.String),
           expireTime: S.optional(S.String),
-          rotation: S.optional(__S(720, __c45, 0)),
+          rotation: S.optional(__S(672, __c42, 0)),
           ttl: S.optional(S.String),
-          replication: S.optional(__S(726, __c45, 6)),
-          annotations: S.optional(__S(704, __c44, 0)),
-          labels: S.optional(__S(704, __c44, 0)),
+          replication: S.optional(__S(678, __c42, 6)),
+          annotations: S.optional(__S(656, __c41, 0)),
+          labels: S.optional(__S(656, __c41, 0)),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          customerManagedEncryption: S.optional(__S(721, __c45, 1)),
-          topics: S.optional(__S(728, __c45, 8)),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
+          topics: S.optional(__S(680, __c42, 8)),
         }),
       ).annotate({ identifier: "Secret" });
   }
 }
-function __c46(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           secretId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(729, __c45, 9).pipe(T.HttpBody())),
+          versionAliases: S.optional(__S(656, __c41, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
+          versionDestroyTtl: S.optional(S.String),
+          etag: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          rotation: S.optional(__S(672, __c42, 0)),
+          ttl: S.optional(S.String),
+          replication: S.optional(__S(678, __c42, 6)),
+          annotations: S.optional(__S(656, __c41, 0)),
+          labels: S.optional(__S(656, __c41, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          customerManagedEncryption: S.optional(__S(673, __c42, 1)),
+          topics: S.optional(__S(680, __c42, 8)),
         }).pipe(
           T.Http({
             method: "POST",

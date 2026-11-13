@@ -122,16 +122,11 @@ export interface GoogleChromeManagementVersionsV1CheckEnablementStatusResponse {
     | GoogleChromeManagementVersionsV1CheckEnablementStatusResponseInsightsStateEnum
     | undefined;
 }
-/** Request message for claiming a certificate provisioning process. */
-export interface GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest {
-  /** Required. The instance id of the caller. */
-  callerInstanceId?: string | undefined;
-}
 export interface ClaimCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to claim. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest | undefined;
+  /** Required. The instance id of the caller. */
+  callerInstanceId?: string | undefined;
 }
 /** Response message for claiming a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessResponse {}
@@ -890,8 +885,11 @@ export interface GoogleChromeManagementVersionsV1ConnectorConfigDetails {
   /** MIP label connector config. */
   mipLabelConfig?: GoogleChromeManagementVersionsV1MipLabelConfig | undefined;
 }
-/** A representation of a connector config. */
-export interface GoogleChromeManagementVersionsV1ConnectorConfig {
+export interface CreateCustomersConnectorConfigsRequest {
+  /** Required. Format: customers/{customer} */
+  parent: string;
+  /** Optional. ID to use for the connector config, which becomes the final component of the connector config's resource name. If provided, the ID must be 1-36 characters long, and contain only lowercase letters, digits, and hyphens. It must start with a letter, and end with a letter or number. If not provided, the connector config will be assigned a random UUID. */
+  connectorConfigId?: string | undefined;
   /** Output only. The status of the connector config. */
   status?: GoogleChromeManagementVersionsV1ConnectorConfigStatus | undefined;
   /** Required. The type of the connector. */
@@ -903,13 +901,18 @@ export interface GoogleChromeManagementVersionsV1ConnectorConfig {
   /** Identifier. Format: customers/{customer}/connectorConfigs/{connector_config} */
   name?: string | undefined;
 }
-export interface CreateCustomersConnectorConfigsRequest {
-  /** Required. Format: customers/{customer} */
-  parent: string;
-  /** Optional. ID to use for the connector config, which becomes the final component of the connector config's resource name. If provided, the ID must be 1-36 characters long, and contain only lowercase letters, digits, and hyphens. It must start with a letter, and end with a letter or number. If not provided, the connector config will be assigned a random UUID. */
-  connectorConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1ConnectorConfig | undefined;
+/** A representation of a connector config. */
+export interface GoogleChromeManagementVersionsV1ConnectorConfig {
+  /** Output only. The status of the connector config. */
+  status?: GoogleChromeManagementVersionsV1ConnectorConfigStatus | undefined;
+  /** Required. The type of the connector. */
+  type?: GoogleChromeManagementVersionsV1ConnectorConfigTypeEnum | undefined;
+  /** Required. The display name of the config. Must be at most 100 characters. */
+  displayName?: string | undefined;
+  /** Required. The details of the connector config. */
+  details?: GoogleChromeManagementVersionsV1ConnectorConfigDetails | undefined;
+  /** Identifier. Format: customers/{customer}/connectorConfigs/{connector_config} */
+  name?: string | undefined;
 }
 export type GoogleChromeManagementVersionsV1EnrollmentTokenStateEnum =
   | "ENROLLMENT_TOKEN_STATE_UNSPECIFIED"
@@ -919,8 +922,11 @@ export type GoogleChromeManagementVersionsV1EnrollmentTokenStateEnum =
 export type GoogleChromeManagementVersionsV1EnrollmentTokenTokenTypeEnum =
   | "ENROLLMENT_TOKEN_TYPE_UNSPECIFIED"
   | "ENROLLMENT_TOKEN_TYPE_CHROME_BROWSER";
-/** Enrollment token for a chrome device. */
-export interface GoogleChromeManagementVersionsV1EnrollmentToken {
+export interface CreateCustomersEnrollmentTokensRequest {
+  /** Optional. The ID to use for the enrollment token, which will become the final component of the enrollment token's resource name. This value must be local-unique under the customer and is optional. If not provided, it will be auto-generated. If provided, it must be 1-63 characters long and match the regular expression `[a-zA-Z0-9._-]+`. */
+  enrollmentTokenId?: string | undefined;
+  /** Required. The parent resource where this enrollment token will be created. Format: customers/{customer} */
+  parent: string;
   /** Output only. The creation time of the token. */
   createTime?: string | undefined;
   /** Optional. Obfuscated ID of the organization unit this token is associated with. If not set, the token is created for the root organization unit. */
@@ -947,13 +953,30 @@ export interface GoogleChromeManagementVersionsV1EnrollmentToken {
   /** Output only. The obfuscated ID of the customer to whom this token is associated. */
   customerId?: string | undefined;
 }
-export interface CreateCustomersEnrollmentTokensRequest {
-  /** Optional. The ID to use for the enrollment token, which will become the final component of the enrollment token's resource name. This value must be local-unique under the customer and is optional. If not provided, it will be auto-generated. If provided, it must be 1-63 characters long and match the regular expression `[a-zA-Z0-9._-]+`. */
-  enrollmentTokenId?: string | undefined;
-  /** Required. The parent resource where this enrollment token will be created. Format: customers/{customer} */
-  parent: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1EnrollmentToken | undefined;
+/** Enrollment token for a chrome device. */
+export interface GoogleChromeManagementVersionsV1EnrollmentToken {
+  /** Output only. The creation time of the token. */
+  createTime?: string | undefined;
+  /** Optional. Obfuscated ID of the organization unit this token is associated with. If not set, the token is created for the root organization unit. */
+  orgUnitId?: string | undefined;
+  /** Output only. The id of the user who created the token. */
+  creatorId?: string | undefined;
+  /** Output only. The id of the user who revoked the token, null if the token is not revoked. */
+  revokerId?: string | undefined;
+  /** Output only. The value of the token stored on the device and used to identify it to the management service handling the enrollment request. */
+  token?: string | undefined;
+  /** Output only. The revocation time of the token, null if the token is not revoked. */
+  revokeTime?: string | undefined;
+  /** Identifier. The resource name of the enrollment token. Format: customers/{customer}/enrollmentTokens/{token_permanent_id} */
+  name?: string | undefined;
+  /** Output only. The state of the token. */
+  state?: GoogleChromeManagementVersionsV1EnrollmentTokenStateEnum | undefined;
+  /** Output only. Unique identifier of the enrollment token used to access information on tokens. */
+  tokenPermanentId?: string | undefined;
+  /** Optional. The device type this token is used for. If not set, defaults to `ENROLLMENT_TOKEN_TYPE_CHROME_BROWSER`. */
+  tokenType?: GoogleChromeManagementVersionsV1EnrollmentTokenTokenTypeEnum | undefined;
+  /** Output only. The obfuscated ID of the customer to whom this token is associated. */
+  customerId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandStateEnum =
@@ -978,8 +1001,9 @@ export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandComm
     | (string & {})
     | undefined;
 }
-/** A representation of a remote command for a Chrome browser profile. */
-export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand {
+export interface CreateCustomersProfilesCommandsRequest {
+  /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
+  parent: string;
   /** Required. Payload of the remote command. The payload for "clearBrowsingData" command supports: - fields "clearCache" and "clearCookies" - values of boolean type. The payload for "extensionUpdateCheck" should be empty. */
   payload?: DocumentMap | undefined;
   /** Output only. State of the remote command. */
@@ -1000,11 +1024,26 @@ export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand {
   /** Required. Type of the remote command. Supported commands: "clearBrowsingData" and "extensionUpdateCheck". */
   commandType?: string | undefined;
 }
-export interface CreateCustomersProfilesCommandsRequest {
-  /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
-  parent: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand | undefined;
+/** A representation of a remote command for a Chrome browser profile. */
+export interface GoogleChromeManagementVersionsV1ChromeBrowserProfileCommand {
+  /** Required. Payload of the remote command. The payload for "clearBrowsingData" command supports: - fields "clearCache" and "clearCookies" - values of boolean type. The payload for "extensionUpdateCheck" should be empty. */
+  payload?: DocumentMap | undefined;
+  /** Output only. State of the remote command. */
+  commandState?:
+    | GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandStateEnum
+    | undefined;
+  /** Output only. Valid duration of the remote command. */
+  validDuration?: string | undefined;
+  /** Output only. Result of the remote command. */
+  commandResult?:
+    | GoogleChromeManagementVersionsV1ChromeBrowserProfileCommandCommandResult
+    | undefined;
+  /** Identifier. Format: customers/{customer_id}/profiles/{profile_permanent_id}/commands/{command_id} */
+  name?: string | undefined;
+  /** Output only. Timestamp of the issurance of the remote command. */
+  issueTime?: string | undefined;
+  /** Required. Type of the remote command. Supported commands: "clearBrowsingData" and "extensionUpdateCheck". */
+  commandType?: string | undefined;
 }
 export type GoogleChromeManagementV1TelemetryEventNotificationFilterEventTypesItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -1047,6 +1086,18 @@ export interface GoogleChromeManagementV1TelemetryNotificationFilter {
   /** If set, only sends notifications for telemetry data coming from devices owned by users in this org unit. */
   userOrgUnitId?: string | undefined;
 }
+export interface CreateCustomersTelemetryNotificationConfigsRequest {
+  /** Required. The parent resource where this notification config will be created. Format: `customers/{customer}` */
+  parent: string;
+  /** Output only. Google Workspace customer that owns the resource. */
+  customer?: string | undefined;
+  /** The pubsub topic to which notifications are published to. */
+  googleCloudPubsubTopic?: string | undefined;
+  /** Only send notifications for telemetry data matching this filter. */
+  filter?: GoogleChromeManagementV1TelemetryNotificationFilter | undefined;
+  /** Output only. Resource name of the notification configuration. */
+  name?: string | undefined;
+}
 /** Configuration to receive notifications of telemetry data. */
 export interface GoogleChromeManagementV1TelemetryNotificationConfig {
   /** Output only. Google Workspace customer that owns the resource. */
@@ -1057,12 +1108,6 @@ export interface GoogleChromeManagementV1TelemetryNotificationConfig {
   filter?: GoogleChromeManagementV1TelemetryNotificationFilter | undefined;
   /** Output only. Resource name of the notification configuration. */
   name?: string | undefined;
-}
-export interface CreateCustomersTelemetryNotificationConfigsRequest {
-  /** Required. The parent resource where this notification config will be created. Format: `customers/{customer}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleChromeManagementV1TelemetryNotificationConfig | undefined;
 }
 export interface DeleteCustomersChromeBrowsersRequest {
   /** Required. Format: customers/{customer_id}/chromeBrowsers/{browser_permanent_id} */
@@ -1104,16 +1149,11 @@ export interface GoogleChromeManagementVersionsV1DisableInsightsResponse {
     | GoogleChromeManagementVersionsV1DisableInsightsResponseInsightsStateEnum
     | undefined;
 }
-/** Request to enable insights for the customer. */
-export interface GoogleChromeManagementVersionsV1EnableInsightsRequest {
-  /** Optional. The Organizational Units to set up required connectors for. Organizational Units are provided as paths relative to root. If this field is not set, connectors will be set up at root OU (as if it were set to ["/"]). Example: ["/corp/sales", "/eng"] */
-  targetOus?: StringList | undefined;
-}
 export interface EnableCustomersEnterpriseSecurityInsightsRequest {
   /** Required. The customer to enable insights for. Format: customers/{customer} */
   customer: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1EnableInsightsRequest | undefined;
+  /** Optional. The Organizational Units to set up required connectors for. Organizational Units are provided as paths relative to root. If this field is not set, connectors will be set up at root OU (as if it were set to ["/"]). Example: ["/corp/sales", "/eng"] */
+  targetOus?: StringList | undefined;
 }
 export type GoogleChromeManagementVersionsV1EnableInsightsResponseInsightsStateEnum =
   | "INSIGHTS_ENABLEMENT_STATE_UNSPECIFIED"
@@ -3500,31 +3540,21 @@ export interface GoogleLongrunningListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
 }
-/** Request to MoveChromeBrowsers method. */
-export interface GoogleChromeManagementVersionsV1MoveChromeBrowsersRequest {
+export interface MoveCustomersChromeBrowsersRequest {
+  /** Required. Format: customers/{customer_id} */
+  parent: string;
   /** Required. ID of the destination organizational unit. */
   destinationOrgUnitId?: string | undefined;
   /** Required. List of resource IDs of Chrome Browser Devices to move. A maximum of 600 browsers may be moved per request. */
   resourceIds?: StringList | undefined;
 }
-export interface MoveCustomersChromeBrowsersRequest {
-  /** Required. Format: customers/{customer_id} */
-  parent: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1MoveChromeBrowsersRequest | undefined;
-}
 /** Response to MoveChromeBrowsers method. */
 export interface GoogleChromeManagementVersionsV1MoveChromeBrowsersResponse {}
-/** Request to MoveThirdPartyProfileUser method. */
-export interface GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest {
-  /** Required. Destination organizational unit where the third party chrome profile user will be moved to. */
-  destinationOrgUnit?: string | undefined;
-}
 export interface MoveCustomersThirdPartyProfileUsersRequest {
   /** Required. Format: customers/{customer_id}/thirdPartyProfileUsers/{third_party_profile_user_id} */
   name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest | undefined;
+  /** Required. Destination organizational unit where the third party chrome profile user will be moved to. */
+  destinationOrgUnit?: string | undefined;
 }
 /** A representation of non-Google (third party) user that is associated with a managed Chrome profile. */
 export interface GoogleChromeManagementVersionsV1ThirdPartyProfileUser {
@@ -3543,16 +3573,76 @@ export interface PatchCustomersChromeBrowsersRequest {
   updateMask?: string | undefined;
   /** Identifier. Format: customers/{customer_id}/chromeBrowsers/{browser_permanent_id} */
   name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1ChromeBrowser | undefined;
+  /** Output only. The time the device last tried to register. */
+  lastRegistrationTime?: string | undefined;
+  /** Output only. The time the device last sent a status report. */
+  lastStatusReportTime?: string | undefined;
+  /** Output only. Device CPU architecture. */
+  osArchitecture?: string | undefined;
+  /** Output only. Device Os platform and version combined. */
+  osPlatformVersion?: string | undefined;
+  /** Output only. The device's serial number. */
+  serialNumber?: string | undefined;
+  /** Output only. The number of distinct extensions installed on all the Chrome browsers of this device. */
+  extensionCount?: string | undefined;
+  /** Output only. Device Os platform. */
+  osPlatform?: string | undefined;
+  /** Optional. User of the device as annotated by the administrator. */
+  annotatedUser?: string | undefined;
+  /** Output only. List of Chrome browsers installed on this device. */
+  browsers?: GoogleChromeManagementVersionsV1BrowserList | undefined;
+  /** Output only. The attestation credential used for Device Trust Connector. */
+  attestationCredential?: GoogleChromeManagementVersionsV1AttestationCredential | undefined;
+  /** Optional. Asset identifier as annotated by the administrator or specified during enrollment. */
+  annotatedAssetId?: string | undefined;
+  /** Output only. Device Os Version. */
+  osVersion?: string | undefined;
+  /** Output only. Machine name. */
+  machineName?: string | undefined;
+  /** Output only. The last user who logged into a Chrome browser on this device. */
+  lastDeviceUser?: string | undefined;
+  /** Output only. The initial device id sent by the first Chrome browser that enrolled this device. */
+  virtualDeviceId?: string | undefined;
+  /** Output only. The time the last policy fetch succeeded on this device. */
+  lastPolicyFetchTime?: string | undefined;
+  /** Optional. Notes about this device as annotated by the administrator. */
+  annotatedNotes?: string | undefined;
+  /** Optional. Address or location of the device as annotated by the administrator. */
+  annotatedLocation?: string | undefined;
+  /** Output only. The list of all device level policies set for Chrome browsers on this device. */
+  machinePolicies?: GoogleChromeManagementVersionsV1PolicyList | undefined;
+  /** Output only. The list of all device level policies set for extensions installed in Chrome on this device. */
+  machineExtensionPolicies?: GoogleChromeManagementVersionsV1ExtensionPolicyList | undefined;
+  /** Output only. The obfuscated organizational unit ID of the browser. */
+  orgUnitId?: string | undefined;
+  /** Output only. Unique identifier of Chrome Browser. */
+  browserPermanentId?: string | undefined;
+  /** Output only. The history of identifiers reported to this device. */
+  deviceIdentifiersHistory?: GoogleChromeManagementVersionsV1DeviceIdentifiersHistory | undefined;
+  /** Output only. List of recent browser users, in descending order by last report time. */
+  lastDeviceUsers?: GoogleChromeManagementVersionsV1BrowserUserList | undefined;
+  /** Output only. List of all browser versions installed on this device. */
+  browserVersions?: StringList | undefined;
+  /** Output only. The time of the last activity on the device device either from reporting, policy fetching or registration. */
+  lastActivityTime?: string | undefined;
+  /** Output only. The number of distinct policies set on all the Chrome browsers of this device. */
+  policyCount?: string | undefined;
+  /** Output only. Recent policy fetch activity by Omaha. Not necessarily the last fetch since this field is only updated daily. */
+  omahaRecentFetchTime?: string | undefined;
 }
 export interface PatchCustomersConnectorConfigsRequest {
   /** Optional. The update mask that can be used to specify which fields to update. */
   updateMask?: string | undefined;
   /** Identifier. Format: customers/{customer}/connectorConfigs/{connector_config} */
   name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1ConnectorConfig | undefined;
+  /** Output only. The status of the connector config. */
+  status?: GoogleChromeManagementVersionsV1ConnectorConfigStatus | undefined;
+  /** Required. The type of the connector. */
+  type?: GoogleChromeManagementVersionsV1ConnectorConfigTypeEnum | (string & {}) | undefined;
+  /** Required. The display name of the config. Must be at most 100 characters. */
+  displayName?: string | undefined;
+  /** Required. The details of the connector config. */
+  details?: GoogleChromeManagementVersionsV1ConnectorConfigDetails | undefined;
 }
 export type QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsightsFixedTimeRangeEnum =
   | "FIXED_TIME_RANGE_UNSPECIFIED"
@@ -3746,16 +3836,11 @@ export interface RevokeCustomersEnrollmentTokensRequest {
   /** Request body */
   body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
-/** Request message for marking a certificate provisioning process as failed. */
-export interface GoogleChromeManagementVersionsV1SetFailureRequest {
-  /** Required. A message describing the failure details. It is displayed on the ChromeOS client device. */
-  errorMessage?: string | undefined;
-}
 export interface SetFailureCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1SetFailureRequest | undefined;
+  /** Required. A message describing the failure details. It is displayed on the ChromeOS client device. */
+  errorMessage?: string | undefined;
 }
 /** Response message for publishing a failure for a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1SetFailureResponse {}
@@ -3763,8 +3848,9 @@ export type GoogleChromeManagementVersionsV1SignDataRequestSignatureAlgorithmEnu
   | "SIGNATURE_ALGORITHM_UNSPECIFIED"
   | "SIGNATURE_ALGORITHM_RSA_PKCS1_V1_5_SHA256"
   | "SIGNATURE_ALGORITHM_ECDSA_SHA256";
-/** Request message for requesting a signature from the client that initated a certificate provisioning process. */
-export interface GoogleChromeManagementVersionsV1SignDataRequest {
+export interface SignDataCustomersCertificateProvisioningProcessesRequest {
+  /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
+  name: string;
   /** Required. The data that the client was asked to sign. */
   signData?: string | undefined;
   /** Required. The signature algorithm that the adapter expects the client and backend components to use when processing `sign_data`. */
@@ -3773,22 +3859,11 @@ export interface GoogleChromeManagementVersionsV1SignDataRequest {
     | (string & {})
     | undefined;
 }
-export interface SignDataCustomersCertificateProvisioningProcessesRequest {
-  /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
-  name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1SignDataRequest | undefined;
-}
-/** Request message for uploading an issued certificate for a certificate provisioning process. */
-export interface GoogleChromeManagementVersionsV1UploadCertificateRequest {
-  /** Required. The issued certificate in PEM format. */
-  certificatePem?: string | undefined;
-}
 export interface UploadCertificateCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
-  /** Request body */
-  body?: GoogleChromeManagementVersionsV1UploadCertificateRequest | undefined;
+  /** Required. The issued certificate in PEM format. */
+  certificatePem?: string | undefined;
 }
 /** Response message for publishing an issued certificate for a certificate provisioning process. */
 export interface GoogleChromeManagementVersionsV1UploadCertificateResponse {}
@@ -3859,9 +3934,9 @@ export const claimCustomersCertificateProvisioningProcesses: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2817,
+    2816,
     __c88,
-    1,
+    0,
   ) as any as S.Schema<ClaimCustomersCertificateProvisioningProcessesRequest>,
   output: __S(
     1824,
@@ -4503,7 +4578,7 @@ export const enableCustomersEnterpriseSecurityInsights: API.OperationMethod<
   EnableCustomersEnterpriseSecurityInsightsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c32, 1) as any as S.Schema<EnableCustomersEnterpriseSecurityInsightsRequest>,
+  input: __S(1024, __c32, 0) as any as S.Schema<EnableCustomersEnterpriseSecurityInsightsRequest>,
   output: __S(
     2400,
     __c75,
@@ -5235,7 +5310,7 @@ export const moveCustomersChromeBrowsers: API.OperationMethod<
   MoveCustomersChromeBrowsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2529, __c79, 1) as any as S.Schema<MoveCustomersChromeBrowsersRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<MoveCustomersChromeBrowsersRequest>,
   output: __S(
     1824,
     __c57,
@@ -5262,11 +5337,11 @@ export const moveCustomersThirdPartyProfileUsers: API.OperationMethod<
   MoveCustomersThirdPartyProfileUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2561, __c80, 1) as any as S.Schema<MoveCustomersThirdPartyProfileUsersRequest>,
+  input: __S(2560, __c80, 0) as any as S.Schema<MoveCustomersThirdPartyProfileUsersRequest>,
   output: __S(
-    2563,
+    2562,
     __c80,
-    3,
+    2,
   ) as any as S.Schema<GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
@@ -5477,9 +5552,9 @@ export const setFailureCustomersCertificateProvisioningProcesses: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2913,
+    2912,
     __c91,
-    1,
+    0,
   ) as any as S.Schema<SetFailureCustomersCertificateProvisioningProcessesRequest>,
   output: __S(
     1824,
@@ -5508,9 +5583,9 @@ export const signDataCustomersCertificateProvisioningProcesses: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2945,
+    2944,
     __c92,
-    1,
+    0,
   ) as any as S.Schema<SignDataCustomersCertificateProvisioningProcessesRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
@@ -5535,9 +5610,9 @@ export const uploadCertificateCustomersCertificateProvisioningProcesses: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2977,
+    2976,
     __c93,
-    1,
+    0,
   ) as any as S.Schema<UploadCertificateCustomersCertificateProvisioningProcessesRequest>,
   output: __S(
     1824,
@@ -6040,7 +6115,11 @@ function __c16(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           connectorConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(590, __c18, 14).pipe(T.HttpBody())),
+          status: S.optional(__S(576, __c18, 0)),
+          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          details: S.optional(__S(589, __c18, 13)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6196,7 +6275,17 @@ function __c19(j: number): any {
         S.Struct({
           enrollmentTokenId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(640, __c20, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          orgUnitId: S.optional(S.String),
+          creatorId: S.optional(S.String),
+          revokerId: S.optional(S.String),
+          token: S.optional(S.String),
+          revokeTime: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          tokenPermanentId: S.optional(S.String),
+          tokenType: S.optional(S.String),
+          customerId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6233,7 +6322,13 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(737, __c23, 1).pipe(T.HttpBody())),
+          payload: S.optional(__S(704, __c22, 0)),
+          commandState: S.optional(S.String),
+          validDuration: S.optional(S.String),
+          commandResult: S.optional(__S(736, __c23, 0)),
+          name: S.optional(S.String),
+          issueTime: S.optional(S.String),
+          commandType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6282,7 +6377,10 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(802, __c25, 2).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
+          googleCloudPubsubTopic: S.optional(S.String),
+          filter: S.optional(__S(801, __c25, 1)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6424,14 +6522,8 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetOus: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "GoogleChromeManagementVersionsV1EnableInsightsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           customer: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          targetOus: S.optional(__S(384, __c12, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8415,15 +8507,9 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           destinationOrgUnitId: S.optional(S.String),
           resourceIds: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "GoogleChromeManagementVersionsV1MoveChromeBrowsersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8439,16 +8525,8 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationOrgUnit: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserRequest",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
+          destinationOrgUnit: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8457,17 +8535,17 @@ function __c80(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MoveCustomersThirdPartyProfileUsersRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           orgUnitId: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChromeManagementVersionsV1ThirdPartyProfileUser" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          thirdPartyProfileUser: S.optional(__S(2562, __c80, 2)),
+          thirdPartyProfileUser: S.optional(__S(2561, __c80, 1)),
         }),
       ).annotate({
         identifier: "GoogleChromeManagementVersionsV1MoveThirdPartyProfileUserResponse",
@@ -8481,7 +8559,34 @@ function __c81(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1652, __c51, 20).pipe(T.HttpBody())),
+          lastRegistrationTime: S.optional(S.String),
+          lastStatusReportTime: S.optional(S.String),
+          osArchitecture: S.optional(S.String),
+          osPlatformVersion: S.optional(S.String),
+          serialNumber: S.optional(S.String),
+          extensionCount: S.optional(S.String),
+          osPlatform: S.optional(S.String),
+          annotatedUser: S.optional(S.String),
+          browsers: S.optional(__S(1645, __c51, 13)),
+          attestationCredential: S.optional(__S(1600, __c50, 0)),
+          annotatedAssetId: S.optional(S.String),
+          osVersion: S.optional(S.String),
+          machineName: S.optional(S.String),
+          lastDeviceUser: S.optional(S.String),
+          virtualDeviceId: S.optional(S.String),
+          lastPolicyFetchTime: S.optional(S.String),
+          annotatedNotes: S.optional(S.String),
+          annotatedLocation: S.optional(S.String),
+          machinePolicies: S.optional(__S(1633, __c51, 1)),
+          machineExtensionPolicies: S.optional(__S(1639, __c51, 7)),
+          orgUnitId: S.optional(S.String),
+          browserPermanentId: S.optional(S.String),
+          deviceIdentifiersHistory: S.optional(__S(1649, __c51, 17)),
+          lastDeviceUsers: S.optional(__S(1651, __c51, 19)),
+          browserVersions: S.optional(__S(384, __c12, 0)),
+          lastActivityTime: S.optional(S.String),
+          policyCount: S.optional(S.String),
+          omahaRecentFetchTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8499,7 +8604,10 @@ function __c82(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(590, __c18, 14).pipe(T.HttpBody())),
+          status: S.optional(__S(576, __c18, 0)),
+          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          details: S.optional(__S(589, __c18, 13)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8649,16 +8757,8 @@ function __c88(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          callerInstanceId: S.optional(S.String),
-        }),
-      ).annotate({
-        identifier: "GoogleChromeManagementVersionsV1ClaimCertificateProvisioningProcessRequest",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
+          callerInstanceId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8716,14 +8816,8 @@ function __c91(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChromeManagementVersionsV1SetFailureRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2912, __c91, 0).pipe(T.HttpBody())),
+          errorMessage: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8739,15 +8833,9 @@ function __c92(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           signData: S.optional(S.String),
           signatureAlgorithm: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChromeManagementVersionsV1SignDataRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8763,14 +8851,8 @@ function __c93(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          certificatePem: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleChromeManagementVersionsV1UploadCertificateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
+          certificatePem: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

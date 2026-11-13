@@ -102,8 +102,13 @@ export type HubStateEnum =
   | "UPDATING"
   | "FAILED";
 export type StringList = Array<string>;
-/** Network Connectivity Center is a hub-and-spoke abstraction for network connectivity management in Google Cloud. It reduces operational complexity through a simple, centralized connectivity management model. Following is the resource message of a hub. */
-export interface Hub {
+export interface CreateProjectsLocationsGlobalHubsRequest {
+  /** Optional. Unique id for the Hub to create. */
+  hubId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource's name of the Hub. */
+  parent: string;
   /** Output only. Google-generated UUID for this resource. This is unique across all Hub resources. If a Hub resource is deleted and another with the same name is created, it gets a different unique_id. */
   uniqueId?: string | undefined;
   /** User-defined labels. */
@@ -120,16 +125,6 @@ export interface Hub {
   name?: string | undefined;
   /** Time when the Hub was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsGlobalHubsRequest {
-  /** Optional. Unique id for the Hub to create. */
-  hubId?: string | undefined;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource's name of the Hub. */
-  parent: string;
-  /** Request body */
-  body?: Hub | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -199,8 +194,13 @@ export type InternalRangePeeringEnum =
   | "FOR_SELF"
   | "FOR_PEER"
   | "NOT_SHARED";
-/** The internal range resource for IPAM operations within a VPC network. Used to represent a private address range along with behavioral characteristics of that range (its usage and peering behavior). Networking resources can link to this range if they are created as belonging to it. */
-export interface InternalRange {
+export interface CreateProjectsLocationsInternalRangesRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource's name of the InternalRange. */
+  parent: string;
+  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/internalRanges/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
+  internalRangeId?: string | undefined;
   /** Optional. The type of usage set for this internal range. */
   usage?: InternalRangeUsageEnum | (string & {}) | undefined;
   /** Optional. A description of this resource. */
@@ -240,16 +240,6 @@ export interface InternalRange {
   /** Optional. The type of peering set for this internal range. */
   peering?: InternalRangePeeringEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsInternalRangesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource's name of the InternalRange. */
-  parent: string;
-  /** Optional. Resource ID (i.e. 'foo' in '[...]/projects/p/locations/l/internalRanges/foo') See https://google.aip.dev/122#resource-id-segments Unique per location. */
-  internalRangeId?: string | undefined;
-  /** Request body */
-  body?: InternalRange | undefined;
-}
 export type SpokeStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -266,8 +256,13 @@ export interface RouterApplianceInstance {
   networkInterface?: string | undefined;
 }
 export type RouterApplianceInstanceList = Array<RouterApplianceInstance>;
-/** A Spoke is an abstraction of a network attachment being attached to a Hub. A Spoke can be underlying a VPN tunnel, a VLAN (interconnect) attachment, a Router appliance, etc. */
-export interface Spoke {
+export interface CreateProjectsLocationsSpokesRequest {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Unique id for the Spoke to create. */
+  spokeId?: string | undefined;
+  /** Required. The parent's resource name of the Spoke. */
+  parent: string;
   /** User-defined labels. */
   labels?: StringMap | undefined;
   /** The URIs of linked interconnect attachment resources */
@@ -290,16 +285,6 @@ export interface Spoke {
   name?: string | undefined;
   /** The URIs of linked Router appliance resources */
   linkedRouterApplianceInstances?: RouterApplianceInstanceList | undefined;
-}
-export interface CreateProjectsLocationsSpokesRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. Unique id for the Spoke to create. */
-  spokeId?: string | undefined;
-  /** Required. The parent's resource name of the Spoke. */
-  parent: string;
-  /** Request body */
-  body?: Spoke | undefined;
 }
 export interface DeleteProjectsLocationsGlobalHubsRequest {
   /** Required. The name of the Hub to delete. */
@@ -415,9 +400,69 @@ export interface GetProjectsLocationsGlobalHubsRequest {
   /** Required. Name of the Hub resource to get. */
   name: string;
 }
+/** Network Connectivity Center is a hub-and-spoke abstraction for network connectivity management in Google Cloud. It reduces operational complexity through a simple, centralized connectivity management model. Following is the resource message of a hub. */
+export interface Hub {
+  /** Output only. Google-generated UUID for this resource. This is unique across all Hub resources. If a Hub resource is deleted and another with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Short description of the hub resource. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this Hub. */
+  state?: HubStateEnum | undefined;
+  /** Time when the Hub was updated. */
+  updateTime?: string | undefined;
+  /** Output only. A list of the URIs of all attached spokes. This field is deprecated and will not be included in future API versions. Call ListSpokes on each region instead. */
+  spokes?: StringList | undefined;
+  /** Immutable. The name of a Hub resource. */
+  name?: string | undefined;
+  /** Time when the Hub was created. */
+  createTime?: string | undefined;
+}
 export interface GetProjectsLocationsInternalRangesRequest {
   /** Required. Name of the InternalRange to get. */
   name: string;
+}
+/** The internal range resource for IPAM operations within a VPC network. Used to represent a private address range along with behavioral characteristics of that range (its usage and peering behavior). Networking resources can link to this range if they are created as belonging to it. */
+export interface InternalRange {
+  /** Optional. The type of usage set for this internal range. */
+  usage?: InternalRangeUsageEnum | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Output only. Time when the internal range was created. */
+  createTime?: string | undefined;
+  /** Optional. An alternative to ip_cidr_range. Can be set when trying to create an IPv4 reservation that automatically finds a free range of the given size. If both ip_cidr_range and prefix_length are set, there is an error if the range sizes do not match. Can also be used during updates to change the range size. NOTE: For IPv6 this field only works if ip_cidr_range is set as well, and both fields must match. In other words, with IPv6 this field only works as a redundant parameter. */
+  prefixLength?: number | undefined;
+  /** Optional. Must be present if usage is set to FOR_MIGRATION. */
+  migration?: Migration | undefined;
+  /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
+  name?: string | undefined;
+  /** Optional. Range auto-allocation options, may be set only when auto-allocation is selected by not setting ip_cidr_range (and setting prefix_length). */
+  allocationOptions?: AllocationOptions | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. Can be set to narrow down or pick a different address space while searching for a free range. If not set, defaults to the ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] address space (for auto-mode networks, the "10.0.0.0/9" range is used instead of "10.0.0.0/8"). This can be used to target the search in other rfc-1918 address spaces like "172.16.0.0/12" and "192.168.0.0/16" or non-rfc-1918 address spaces used in the VPC. */
+  targetCidrRange?: StringList | undefined;
+  /** Output only. The list of resources that refer to this internal range. Resources that use the internal range for their range allocation are referred to as users of the range. Other resources mark themselves as users while doing so by creating a reference to this internal range. Having a user, based on this reference, prevents deletion of the internal range that is referred to. Can be empty. */
+  users?: StringList | undefined;
+  /** Optional. IP range that this internal range defines. NOTE: IPv6 ranges are limited to usage=EXTERNAL_TO_VPC and peering=FOR_SELF. NOTE: For IPv6 Ranges this field is compulsory, i.e. the address range must be specified explicitly. */
+  ipCidrRange?: string | undefined;
+  /** Optional. ExcludeCidrRanges flag. Specifies a set of CIDR blocks that allows exclusion of particular CIDR ranges from the auto-allocation process, without having to reserve these blocks */
+  excludeCidrRanges?: StringList | undefined;
+  /** Output only. Time when the internal range was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Immutable ranges cannot have their fields modified, except for labels and description. */
+  immutable?: boolean | undefined;
+  /** Optional. The URL or resource ID of the network in which to reserve the internal range. The network cannot be deleted if there are any reserved internal ranges referring to it. Legacy networks are not supported. For example: https://www.googleapis.com/compute/v1/projects/{project}/locations/global/networks/{network} projects/{project}/locations/global/networks/{network} {network} */
+  network?: string | undefined;
+  /** Output only. Status of the Internal Range. */
+  rangeStatus?: InternalRangeRangeStatusEnum | undefined;
+  /** Optional. The purpose of this internal range. Defines the intended use of the range and any restrictions associated with it. If not specified, it defaults to VPC_SUBNET. */
+  purpose?: InternalRangePurposeEnum | undefined;
+  /** Optional. Types of resources that are allowed to overlap with the current internal range. */
+  overlaps?: InternalRangeOverlapsItemEnumList | undefined;
+  /** Optional. The type of peering set for this internal range. */
+  peering?: InternalRangePeeringEnum | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -426,6 +471,31 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface GetProjectsLocationsSpokesRequest {
   /** Required. The name of Spoke resource. */
   name: string;
+}
+/** A Spoke is an abstraction of a network attachment being attached to a Hub. A Spoke can be underlying a VPN tunnel, a VLAN (interconnect) attachment, a Router appliance, etc. */
+export interface Spoke {
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** The URIs of linked interconnect attachment resources */
+  linkedInterconnectAttachments?: StringList | undefined;
+  /** The resource URL of the hub resource that the spoke is attached to */
+  hub?: string | undefined;
+  /** Output only. The current lifecycle state of this Hub. */
+  state?: SpokeStateEnum | undefined;
+  /** The time when the Spoke was created. */
+  createTime?: string | undefined;
+  /** Short description of the spoke resource */
+  description?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Spoke resources. If a Spoke resource is deleted and another with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** The time when the Spoke was updated. */
+  updateTime?: string | undefined;
+  /** The URIs of linked VPN tunnel resources */
+  linkedVpnTunnels?: StringList | undefined;
+  /** Immutable. The name of a Spoke resource. */
+  name?: string | undefined;
+  /** The URIs of linked Router appliance resources */
+  linkedRouterApplianceInstances?: RouterApplianceInstanceList | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -542,8 +612,20 @@ export interface PatchProjectsLocationsGlobalHubsRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Hub resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Hub | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Hub resources. If a Hub resource is deleted and another with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Short description of the hub resource. */
+  description?: string | undefined;
+  /** Output only. The current lifecycle state of this Hub. */
+  state?: HubStateEnum | (string & {}) | undefined;
+  /** Time when the Hub was updated. */
+  updateTime?: string | undefined;
+  /** Output only. A list of the URIs of all attached spokes. This field is deprecated and will not be included in future API versions. Call ListSpokes on each region instead. */
+  spokes?: StringList | undefined;
+  /** Time when the Hub was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsInternalRangesRequest {
   /** Identifier. The name of an internal range. Format: projects/{project}/locations/{location}/internalRanges/{internal_range} See: https://google.aip.dev/122#fields-representing-resource-names */
@@ -552,8 +634,42 @@ export interface PatchProjectsLocationsInternalRangesRequest {
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the internal range resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InternalRange | undefined;
+  /** Optional. The type of usage set for this internal range. */
+  usage?: InternalRangeUsageEnum | (string & {}) | undefined;
+  /** Optional. A description of this resource. */
+  description?: string | undefined;
+  /** Output only. Time when the internal range was created. */
+  createTime?: string | undefined;
+  /** Optional. An alternative to ip_cidr_range. Can be set when trying to create an IPv4 reservation that automatically finds a free range of the given size. If both ip_cidr_range and prefix_length are set, there is an error if the range sizes do not match. Can also be used during updates to change the range size. NOTE: For IPv6 this field only works if ip_cidr_range is set as well, and both fields must match. In other words, with IPv6 this field only works as a redundant parameter. */
+  prefixLength?: number | undefined;
+  /** Optional. Must be present if usage is set to FOR_MIGRATION. */
+  migration?: Migration | undefined;
+  /** Optional. Range auto-allocation options, may be set only when auto-allocation is selected by not setting ip_cidr_range (and setting prefix_length). */
+  allocationOptions?: AllocationOptions | undefined;
+  /** Optional. User-defined labels. */
+  labels?: StringMap | undefined;
+  /** Optional. Can be set to narrow down or pick a different address space while searching for a free range. If not set, defaults to the ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] address space (for auto-mode networks, the "10.0.0.0/9" range is used instead of "10.0.0.0/8"). This can be used to target the search in other rfc-1918 address spaces like "172.16.0.0/12" and "192.168.0.0/16" or non-rfc-1918 address spaces used in the VPC. */
+  targetCidrRange?: StringList | undefined;
+  /** Output only. The list of resources that refer to this internal range. Resources that use the internal range for their range allocation are referred to as users of the range. Other resources mark themselves as users while doing so by creating a reference to this internal range. Having a user, based on this reference, prevents deletion of the internal range that is referred to. Can be empty. */
+  users?: StringList | undefined;
+  /** Optional. IP range that this internal range defines. NOTE: IPv6 ranges are limited to usage=EXTERNAL_TO_VPC and peering=FOR_SELF. NOTE: For IPv6 Ranges this field is compulsory, i.e. the address range must be specified explicitly. */
+  ipCidrRange?: string | undefined;
+  /** Optional. ExcludeCidrRanges flag. Specifies a set of CIDR blocks that allows exclusion of particular CIDR ranges from the auto-allocation process, without having to reserve these blocks */
+  excludeCidrRanges?: StringList | undefined;
+  /** Output only. Time when the internal range was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Immutable ranges cannot have their fields modified, except for labels and description. */
+  immutable?: boolean | undefined;
+  /** Optional. The URL or resource ID of the network in which to reserve the internal range. The network cannot be deleted if there are any reserved internal ranges referring to it. Legacy networks are not supported. For example: https://www.googleapis.com/compute/v1/projects/{project}/locations/global/networks/{network} projects/{project}/locations/global/networks/{network} {network} */
+  network?: string | undefined;
+  /** Output only. Status of the Internal Range. */
+  rangeStatus?: InternalRangeRangeStatusEnum | (string & {}) | undefined;
+  /** Optional. The purpose of this internal range. Defines the intended use of the range and any restrictions associated with it. If not specified, it defaults to VPC_SUBNET. */
+  purpose?: InternalRangePurposeEnum | (string & {}) | undefined;
+  /** Optional. Types of resources that are allowed to overlap with the current internal range. */
+  overlaps?: InternalRangeOverlapsItemEnumList | undefined;
+  /** Optional. The type of peering set for this internal range. */
+  peering?: InternalRangePeeringEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsSpokesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -562,44 +678,56 @@ export interface PatchProjectsLocationsSpokesRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Spoke resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Spoke | undefined;
+  /** User-defined labels. */
+  labels?: StringMap | undefined;
+  /** The URIs of linked interconnect attachment resources */
+  linkedInterconnectAttachments?: StringList | undefined;
+  /** The resource URL of the hub resource that the spoke is attached to */
+  hub?: string | undefined;
+  /** Output only. The current lifecycle state of this Hub. */
+  state?: SpokeStateEnum | (string & {}) | undefined;
+  /** The time when the Spoke was created. */
+  createTime?: string | undefined;
+  /** Short description of the spoke resource */
+  description?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Spoke resources. If a Spoke resource is deleted and another with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** The time when the Spoke was updated. */
+  updateTime?: string | undefined;
+  /** The URIs of linked VPN tunnel resources */
+  linkedVpnTunnels?: StringList | undefined;
+  /** The URIs of linked Router appliance resources */
+  linkedRouterApplianceInstances?: RouterApplianceInstanceList | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsGlobalHubsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalHubsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsInternalRangesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsSpokesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalHubsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -609,14 +737,14 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsInternalRangesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsSpokesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -631,8 +759,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<Empty>,
+  input: __S(240, __c30, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -653,8 +781,8 @@ export const createProjectsLocationsGlobalHubs: API.OperationMethod<
   CreateProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<CreateProjectsLocationsGlobalHubsRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(256, __c32, 0) as any as S.Schema<CreateProjectsLocationsGlobalHubsRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -675,8 +803,8 @@ export const createProjectsLocationsInternalRanges: API.OperationMethod<
   CreateProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<CreateProjectsLocationsInternalRangesRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(296, __c37, 0) as any as S.Schema<CreateProjectsLocationsInternalRangesRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -697,8 +825,8 @@ export const createProjectsLocationsSpokes: API.OperationMethod<
   CreateProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<CreateProjectsLocationsSpokesRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(312, __c39, 0) as any as S.Schema<CreateProjectsLocationsSpokesRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -719,8 +847,8 @@ export const deleteProjectsLocationsGlobalHubs: API.OperationMethod<
   DeleteProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeleteProjectsLocationsGlobalHubsRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(328, __c41, 0) as any as S.Schema<DeleteProjectsLocationsGlobalHubsRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -741,8 +869,8 @@ export const deleteProjectsLocationsInternalRanges: API.OperationMethod<
   DeleteProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DeleteProjectsLocationsInternalRangesRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(336, __c42, 0) as any as S.Schema<DeleteProjectsLocationsInternalRangesRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -764,7 +892,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<Empty>,
+  output: __S(248, __c31, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -786,7 +914,7 @@ export const deleteProjectsLocationsSpokes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteProjectsLocationsSpokesRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -871,7 +999,7 @@ export const getProjectsLocationsGlobalHubs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetProjectsLocationsGlobalHubsRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<Hub>,
+  output: __S(72, __c9, 0) as any as S.Schema<Hub>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -887,8 +1015,8 @@ export const getProjectsLocationsInternalRanges: API.OperationMethod<
   GetProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetProjectsLocationsInternalRangesRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<InternalRange>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetProjectsLocationsInternalRangesRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<InternalRange>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -904,8 +1032,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -921,8 +1049,8 @@ export const getProjectsLocationsSpokes: API.OperationMethod<
   GetProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetProjectsLocationsSpokesRequest>,
-  output: __S(314, __c39, 2) as any as S.Schema<Spoke>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetProjectsLocationsSpokesRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<Spoke>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -939,8 +1067,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -958,8 +1086,8 @@ export const listProjectsLocationsGlobalHubs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListHubsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsRequest>,
-  output: __S(106, __c13, 2) as any as S.Schema<ListHubsResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListProjectsLocationsGlobalHubsRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<ListHubsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -977,8 +1105,8 @@ export const listProjectsLocationsInternalRanges: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInternalRangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListProjectsLocationsInternalRangesRequest>,
-  output: __S(114, __c14, 2) as any as S.Schema<ListInternalRangesResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListProjectsLocationsInternalRangesRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListInternalRangesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -996,8 +1124,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1015,8 +1143,8 @@ export const listProjectsLocationsSpokes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSpokesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListProjectsLocationsSpokesRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<ListSpokesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListProjectsLocationsSpokesRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListSpokesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1038,8 +1166,8 @@ export const patchProjectsLocationsGlobalHubs: API.OperationMethod<
   PatchProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<PatchProjectsLocationsGlobalHubsRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(160, __c20, 0) as any as S.Schema<PatchProjectsLocationsGlobalHubsRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1060,8 +1188,8 @@ export const patchProjectsLocationsInternalRanges: API.OperationMethod<
   PatchProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<PatchProjectsLocationsInternalRangesRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(168, __c21, 0) as any as S.Schema<PatchProjectsLocationsInternalRangesRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1082,8 +1210,8 @@ export const patchProjectsLocationsSpokes: API.OperationMethod<
   PatchProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<PatchProjectsLocationsSpokesRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(176, __c22, 0) as any as S.Schema<PatchProjectsLocationsSpokesRequest>,
+  output: __S(290, __c36, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1104,7 +1232,7 @@ export const setIamPolicyProjectsLocationsGlobalHubs: API.OperationMethod<
   SetIamPolicyProjectsLocationsGlobalHubsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalHubsRequest>,
+  input: __S(184, __c23, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalHubsRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1126,7 +1254,7 @@ export const setIamPolicyProjectsLocationsInternalRanges: API.OperationMethod<
   SetIamPolicyProjectsLocationsInternalRangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInternalRangesRequest>,
+  input: __S(192, __c24, 0) as any as S.Schema<SetIamPolicyProjectsLocationsInternalRangesRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1148,7 +1276,7 @@ export const setIamPolicyProjectsLocationsSpokes: API.OperationMethod<
   SetIamPolicyProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSpokesRequest>,
+  input: __S(200, __c25, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSpokesRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1171,11 +1299,11 @@ export const testIamPermissionsProjectsLocationsGlobalHubs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c24,
+    208,
+    __c26,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalHubsRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(216, __c27, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1197,11 +1325,11 @@ export const testIamPermissionsProjectsLocationsInternalRanges: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c26,
+    224,
+    __c28,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsInternalRangesRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(216, __c27, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1222,8 +1350,8 @@ export const testIamPermissionsProjectsLocationsSpokes: API.OperationMethod<
   TestIamPermissionsProjectsLocationsSpokesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsSpokesRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsSpokesRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1296,7 +1424,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(256, __c32, 0)),
+          members: S.optional(__S(264, __c33, 0)),
           role: S.optional(S.String),
           condition: S.optional(__S(24, __c3, 0)),
         }),
@@ -1307,7 +1435,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(256, __c32, 0)),
+          exemptedMembers: S.optional(__S(264, __c33, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
@@ -1387,10 +1515,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(264, __c33, 0)),
+          labels: S.optional(__S(272, __c34, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(272, __c34, 0)),
+          metadata: S.optional(__S(280, __c35, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -1417,15 +1545,16 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1alpha1/{+name}",
-            baseUrl: "https://networkconnectivity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsInternalRangesRequest" });
+          uniqueId: S.optional(S.String),
+          labels: S.optional(__S(272, __c34, 0)),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          spokes: S.optional(__S(264, __c33, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Hub" });
   }
 }
 function __c10(j: number): any {
@@ -1441,10 +1570,54 @@ function __c10(j: number): any {
             baseUrl: "https://networkconnectivity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsInternalRangesRequest" });
   }
 }
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          usage: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          migration: S.optional(__S(304, __c38, 0)),
+          name: S.optional(S.String),
+          allocationOptions: S.optional(__S(305, __c38, 1)),
+          labels: S.optional(__S(272, __c34, 0)),
+          targetCidrRange: S.optional(__S(264, __c33, 0)),
+          users: S.optional(__S(264, __c33, 0)),
+          ipCidrRange: S.optional(S.String),
+          excludeCidrRanges: S.optional(__S(264, __c33, 0)),
+          updateTime: S.optional(S.String),
+          immutable: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          rangeStatus: S.optional(S.String),
+          purpose: S.optional(S.String),
+          overlaps: S.optional(__S(306, __c38, 2)),
+          peering: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InternalRange" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1alpha1/{+name}",
+            baseUrl: "https://networkconnectivity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1460,14 +1633,34 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSpokesRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(272, __c34, 0)),
+          linkedInterconnectAttachments: S.optional(__S(264, __c33, 0)),
+          hub: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(264, __c33, 0)),
+          name: S.optional(S.String),
+          linkedRouterApplianceInstances: S.optional(__S(321, __c40, 1)),
+        }),
+      ).annotate({ identifier: "Spoke" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(256, __c32, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(264, __c33, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1484,12 +1677,12 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(97, __c12, 1)),
+          locations: S.optional(__S(121, __c15, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1508,18 +1701,18 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalHubsRequest" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(72, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(256, __c32, 0)),
-          hubs: S.optional(__S(105, __c13, 1)),
+          unreachable: S.optional(__S(264, __c33, 0)),
+          hubs: S.optional(__S(129, __c16, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListHubsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1538,18 +1731,18 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInternalRangesRequest" });
     case 1:
-      return S.Array(__S(299, __c37, 3));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(256, __c32, 0)),
-          internalRanges: S.optional(__S(113, __c14, 1)),
+          unreachable: S.optional(__S(264, __c33, 0)),
+          internalRanges: S.optional(__S(137, __c17, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInternalRangesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1568,18 +1761,18 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(282, __c35, 2));
+      return S.Array(__S(290, __c36, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(256, __c32, 0)),
+          unreachable: S.optional(__S(264, __c33, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(121, __c15, 1)),
+          operations: S.optional(__S(145, __c18, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1598,18 +1791,18 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSpokesRequest" });
     case 1:
-      return S.Array(__S(314, __c39, 2));
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(256, __c32, 0)),
-          spokes: S.optional(__S(129, __c16, 1)),
+          unreachable: S.optional(__S(264, __c33, 0)),
+          spokes: S.optional(__S(153, __c19, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSpokesResponse" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1617,7 +1810,13 @@ function __c17(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
+          uniqueId: S.optional(S.String),
+          labels: S.optional(__S(272, __c34, 0)),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          spokes: S.optional(__S(264, __c33, 0)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1628,7 +1827,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1636,7 +1835,24 @@ function __c18(j: number): any {
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(299, __c37, 3).pipe(T.HttpBody())),
+          usage: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          migration: S.optional(__S(304, __c38, 0)),
+          allocationOptions: S.optional(__S(305, __c38, 1)),
+          labels: S.optional(__S(272, __c34, 0)),
+          targetCidrRange: S.optional(__S(264, __c33, 0)),
+          users: S.optional(__S(264, __c33, 0)),
+          ipCidrRange: S.optional(S.String),
+          excludeCidrRanges: S.optional(__S(264, __c33, 0)),
+          updateTime: S.optional(S.String),
+          immutable: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          rangeStatus: S.optional(S.String),
+          purpose: S.optional(S.String),
+          overlaps: S.optional(__S(306, __c38, 2)),
+          peering: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1647,7 +1863,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1655,7 +1871,16 @@ function __c19(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(314, __c39, 2).pipe(T.HttpBody())),
+          labels: S.optional(__S(272, __c34, 0)),
+          linkedInterconnectAttachments: S.optional(__S(264, __c33, 0)),
+          hub: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(264, __c33, 0)),
+          linkedRouterApplianceInstances: S.optional(__S(321, __c40, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1666,13 +1891,14 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSpokesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(31, __c3, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1683,24 +1909,14 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(31, __c3, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(31, __c3, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1711,13 +1927,14 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(31, __c3, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1728,13 +1945,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsSpokesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(264, __c33, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1745,23 +1962,23 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(256, __c32, 0)),
+          permissions: S.optional(__S(264, __c33, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(264, __c33, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1772,13 +1989,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(264, __c33, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1789,13 +2006,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsSpokesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(232, __c29, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1806,7 +2023,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1814,7 +2031,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1822,7 +2039,14 @@ function __c30(j: number): any {
           hubId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
+          uniqueId: S.optional(S.String),
+          labels: S.optional(__S(272, __c34, 0)),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          spokes: S.optional(__S(264, __c33, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1833,66 +2057,49 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uniqueId: S.optional(S.String),
-          labels: S.optional(__S(264, __c33, 0)),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          spokes: S.optional(__S(256, __c32, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Hub" });
-  }
-}
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(272, __c34, 0));
+      return S.Array(__S(280, __c35, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(280, __c35, 0)),
+          details: S.optional(__S(288, __c36, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(272, __c34, 0)),
+          response: S.optional(__S(280, __c35, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(272, __c34, 0)),
-          error: S.optional(__S(281, __c35, 1)),
+          metadata: S.optional(__S(280, __c35, 0)),
+          error: S.optional(__S(289, __c36, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1900,7 +2107,25 @@ function __c36(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           internalRangeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(299, __c37, 3).pipe(T.HttpBody())),
+          usage: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          prefixLength: S.optional(S.Number),
+          migration: S.optional(__S(304, __c38, 0)),
+          name: S.optional(S.String),
+          allocationOptions: S.optional(__S(305, __c38, 1)),
+          labels: S.optional(__S(272, __c34, 0)),
+          targetCidrRange: S.optional(__S(264, __c33, 0)),
+          users: S.optional(__S(264, __c33, 0)),
+          ipCidrRange: S.optional(S.String),
+          excludeCidrRanges: S.optional(__S(264, __c33, 0)),
+          updateTime: S.optional(S.String),
+          immutable: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          rangeStatus: S.optional(S.String),
+          purpose: S.optional(S.String),
+          overlaps: S.optional(__S(306, __c38, 2)),
+          peering: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1911,7 +2136,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInternalRangesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1929,33 +2154,9 @@ function __c37(j: number): any {
       ).annotate({ identifier: "AllocationOptions" });
     case 2:
       return S.Array(S.String);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          usage: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          prefixLength: S.optional(S.Number),
-          migration: S.optional(__S(296, __c37, 0)),
-          name: S.optional(S.String),
-          allocationOptions: S.optional(__S(297, __c37, 1)),
-          labels: S.optional(__S(264, __c33, 0)),
-          targetCidrRange: S.optional(__S(256, __c32, 0)),
-          users: S.optional(__S(256, __c32, 0)),
-          ipCidrRange: S.optional(S.String),
-          excludeCidrRanges: S.optional(__S(256, __c32, 0)),
-          updateTime: S.optional(S.String),
-          immutable: S.optional(S.Boolean),
-          network: S.optional(S.String),
-          rangeStatus: S.optional(S.String),
-          purpose: S.optional(S.String),
-          overlaps: S.optional(__S(298, __c37, 2)),
-          peering: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InternalRange" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1963,7 +2164,17 @@ function __c38(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           spokeId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(314, __c39, 2).pipe(T.HttpBody())),
+          labels: S.optional(__S(272, __c34, 0)),
+          linkedInterconnectAttachments: S.optional(__S(264, __c33, 0)),
+          hub: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          linkedVpnTunnels: S.optional(__S(264, __c33, 0)),
+          name: S.optional(S.String),
+          linkedRouterApplianceInstances: S.optional(__S(321, __c40, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1974,7 +2185,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSpokesRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1985,26 +2196,10 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "RouterApplianceInstance" });
     case 1:
-      return S.Array(__S(312, __c39, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(264, __c33, 0)),
-          linkedInterconnectAttachments: S.optional(__S(256, __c32, 0)),
-          hub: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          uniqueId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          linkedVpnTunnels: S.optional(__S(256, __c32, 0)),
-          name: S.optional(S.String),
-          linkedRouterApplianceInstances: S.optional(__S(313, __c39, 1)),
-        }),
-      ).annotate({ identifier: "Spoke" });
+      return S.Array(__S(320, __c40, 0));
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2021,7 +2216,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGlobalHubsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

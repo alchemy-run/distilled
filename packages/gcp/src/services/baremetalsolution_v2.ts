@@ -129,8 +129,9 @@ export interface AllowedClient {
 export type AllowedClientList = Array<AllowedClient>;
 export type NfsShareStorageTypeEnum = "STORAGE_TYPE_UNSPECIFIED" | "SSD" | "HDD";
 export type StringMap = { [key: string]: string | undefined };
-/** An NFS share. */
-export interface NfsShare {
+export interface CreateProjectsLocationsNfsSharesRequest {
+  /** Required. The parent project and location. */
+  parent: string;
   /** The requested size, in GiB. */
   requestedSizeGib?: string | undefined;
   /** Immutable. The name of the NFS share. */
@@ -151,12 +152,6 @@ export interface NfsShare {
   id?: string | undefined;
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsNfsSharesRequest {
-  /** Required. The parent project and location. */
-  parent: string;
-  /** Request body */
-  body?: NfsShare | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -375,6 +370,40 @@ export interface InstanceConfig {
   id?: string | undefined;
 }
 export type InstanceConfigList = Array<InstanceConfig>;
+export interface CreateProjectsLocationsProvisioningConfigsRequest {
+  /** Required. The parent project and location containing the ProvisioningConfig. */
+  parent: string;
+  /** Optional. Email provided to send a confirmation with provisioning config to. */
+  email?: string | undefined;
+  /** Output only. Last update timestamp. */
+  updateTime?: string | undefined;
+  /** A generated ticket id to track provisioning request. */
+  ticketId?: string | undefined;
+  /** Output only. URI to Cloud Console UI view of this provisioning config. */
+  cloudConsoleUri?: string | undefined;
+  /** Output only. State of ProvisioningConfig. */
+  state?: ProvisioningConfigStateEnum | (string & {}) | undefined;
+  /** Optional status messages associated with the FAILED state. */
+  statusMessage?: string | undefined;
+  /** Optional. The user-defined identifier of the provisioning config. */
+  customId?: string | undefined;
+  /** Networks to be created. */
+  networks?: NetworkConfigList | undefined;
+  /** Optional. Location name of this ProvisioningConfig. It is optional only for Intake UI transition period. */
+  location?: string | undefined;
+  /** A service account to enable customers to access instance credentials upon handover. */
+  handoverServiceAccount?: string | undefined;
+  /** Output only. The system-generated name of the provisioning config. This follows the UUID format. */
+  name?: string | undefined;
+  /** Optional. Pod name. Pod is an independent part of infrastructure. Instance can be connected to the assets (networks, volumes, nfsshares) allocated in the same pod only. */
+  pod?: string | undefined;
+  /** Volumes to be created. */
+  volumes?: VolumeConfigList | undefined;
+  /** If true, VPC SC is enabled for the cluster. */
+  vpcScEnabled?: boolean | undefined;
+  /** Instances to be created. */
+  instances?: InstanceConfigList | undefined;
+}
 /** A provisioning configuration. */
 export interface ProvisioningConfig {
   /** Output only. Last update timestamp. */
@@ -408,13 +437,15 @@ export interface ProvisioningConfig {
   /** Instances to be created. */
   instances?: InstanceConfigList | undefined;
 }
-export interface CreateProjectsLocationsProvisioningConfigsRequest {
-  /** Required. The parent project and location containing the ProvisioningConfig. */
+export interface CreateProjectsLocationsSshKeysRequest {
+  /** Required. The ID to use for the key, which will become the final component of the key's resource name. This value must match the regex: [a-zA-Z0-9@.\-_]{1,64} */
+  sshKeyId?: string | undefined;
+  /** Required. The parent containing the SSH keys. */
   parent: string;
-  /** Optional. Email provided to send a confirmation with provisioning config to. */
-  email?: string | undefined;
-  /** Request body */
-  body?: ProvisioningConfig | undefined;
+  /** The public SSH key. This must be in OpenSSH .authorized_keys format. */
+  publicKey?: string | undefined;
+  /** Output only. The name of this SSH key. Currently, the only valid value for the location is "global". */
+  name?: string | undefined;
 }
 /** An SSH key, used for authorizing with the interactive serial console feature. */
 export interface SSHKey {
@@ -423,17 +454,10 @@ export interface SSHKey {
   /** Output only. The name of this SSH key. Currently, the only valid value for the location is "global". */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsSshKeysRequest {
-  /** Required. The ID to use for the key, which will become the final component of the key's resource name. This value must match the regex: [a-zA-Z0-9@.\-_]{1,64} */
-  sshKeyId?: string | undefined;
-  /** Required. The parent containing the SSH keys. */
-  parent: string;
-  /** Request body */
-  body?: SSHKey | undefined;
-}
 export type VolumeSnapshotTypeEnum = "SNAPSHOT_TYPE_UNSPECIFIED" | "AD_HOC" | "SCHEDULED";
-/** A snapshot of a volume. Only boot volumes can have snapshots. */
-export interface VolumeSnapshot {
+export interface CreateProjectsLocationsVolumesSnapshotsRequest {
+  /** Required. The volume to snapshot. */
+  parent: string;
   /** Output only. The name of the volume which this snapshot belongs to. */
   storageVolume?: string | undefined;
   /** The name of the snapshot. */
@@ -447,11 +471,20 @@ export interface VolumeSnapshot {
   /** Output only. The type of the snapshot which indicates whether it was scheduled or manual/ad-hoc. */
   type?: VolumeSnapshotTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsVolumesSnapshotsRequest {
-  /** Required. The volume to snapshot. */
-  parent: string;
-  /** Request body */
-  body?: VolumeSnapshot | undefined;
+/** A snapshot of a volume. Only boot volumes can have snapshots. */
+export interface VolumeSnapshot {
+  /** Output only. The name of the volume which this snapshot belongs to. */
+  storageVolume?: string | undefined;
+  /** The name of the snapshot. */
+  name?: string | undefined;
+  /** The description of the snapshot. */
+  description?: string | undefined;
+  /** Output only. An identifier for the snapshot, generated by the backend. */
+  id?: string | undefined;
+  /** Output only. The creation time of the snapshot. */
+  createTime?: string | undefined;
+  /** Output only. The type of the snapshot which indicates whether it was scheduled or manual/ad-hoc. */
+  type?: VolumeSnapshotTypeEnum | undefined;
 }
 export interface DeleteProjectsLocationsNfsSharesRequest {
   /** Required. The name of the NFS share to delete. */
@@ -467,18 +500,13 @@ export interface DeleteProjectsLocationsVolumesSnapshotsRequest {
   /** Required. The name of the snapshot to delete. */
   name: string;
 }
-/** Message for detach specific LUN from an Instance. */
-export interface DetachLunRequest {
+export interface DetachLunProjectsLocationsInstancesRequest {
+  /** Required. Name of the instance. */
+  instance: string;
   /** Required. Name of the Lun to detach. */
   lun?: string | undefined;
   /** If true, performs lun unmapping without instance reboot. */
   skipReboot?: boolean | undefined;
-}
-export interface DetachLunProjectsLocationsInstancesRequest {
-  /** Required. Name of the instance. */
-  instance: string;
-  /** Request body */
-  body?: DetachLunRequest | undefined;
 }
 /** Message requesting to perform disable hyperthreading operation on a server. */
 export interface DisableHyperthreadingRequest {}
@@ -806,7 +834,7 @@ export interface Instance {
   /** Instance network template name. For eg, bondaa-bondaa, bondab-nic, etc. Generally, the template name follows the syntax of "bond" or "nic". */
   networkTemplate?: string | undefined;
   /** Output only. The state of the server. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
+  state?: InstanceStateEnum | undefined;
   /** Output only. Update a time stamp. */
   updateTime?: string | undefined;
   /** Optional. Name of the KMS crypto key version used to encrypt the initial passwords. The key has to have ASYMMETRIC_DECRYPT purpose. Format is `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}`. */
@@ -816,7 +844,7 @@ export interface Instance {
   /** Output only. Create a time stamp. */
   createTime?: string | undefined;
   /** The workload profile for the instance. */
-  workloadProfile?: InstanceWorkloadProfileEnum | (string & {}) | undefined;
+  workloadProfile?: InstanceWorkloadProfileEnum | undefined;
   /** Output only. An identifier for the `Instance`, generated by the backend. */
   id?: string | undefined;
   /** Immutable. List of LUNs associated with this server. */
@@ -837,6 +865,29 @@ export interface GetProjectsLocationsNetworksRequest {
 export interface GetProjectsLocationsNfsSharesRequest {
   /** Required. Name of the resource. */
   name: string;
+}
+/** An NFS share. */
+export interface NfsShare {
+  /** The requested size, in GiB. */
+  requestedSizeGib?: string | undefined;
+  /** Immutable. The name of the NFS share. */
+  name?: string | undefined;
+  /** Output only. The state of the NFS share. */
+  state?: NfsShareStateEnum | undefined;
+  /** Immutable. Pod name. Pod is an independent part of infrastructure. NFSShare can only be connected to the assets (networks, instances) allocated in the same pod. */
+  pod?: string | undefined;
+  /** List of allowed access points. */
+  allowedClients?: AllowedClientList | undefined;
+  /** Output only. The underlying volume of the share. Created automatically during provisioning. */
+  volume?: string | undefined;
+  /** Immutable. The storage type of the underlying volume. */
+  storageType?: NfsShareStorageTypeEnum | undefined;
+  /** Output only. An identifier for the NFS share, generated by the backend. This field will be deprecated in the future, use `id` instead. */
+  nfsShareId?: string | undefined;
+  /** Output only. An identifier for the NFS share, generated by the backend. This is the same value as nfs_share_id and will replace it in the future. */
+  id?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1136,24 +1187,108 @@ export interface PatchProjectsLocationsInstancesRequest {
   name: string;
   /** The list of fields to update. The currently supported fields are: `labels` `hyperthreading_enabled` `os_image` `ssh_keys` `kms_key_version` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
+  /** List of logical interfaces for the instance. The number of logical interfaces will be the same as number of hardware bond/nic on the chosen network template. For the non-multivlan configurations (for eg, existing servers) that use existing default network template (bondaa-bondaa), both the Instance.networks field and the Instance.logical_interfaces fields will be filled to ensure backward compatibility. For the others, only Instance.logical_interfaces will be filled. */
+  logicalInterfaces?: GoogleCloudBaremetalsolutionV2LogicalInterfaceList | undefined;
+  /** Input only. List of Volumes to attach to this Instance on creation. This field won't be populated in Get/List responses. */
+  volumes?: VolumeList | undefined;
+  /** The OS image currently installed on the server. */
+  osImage?: string | undefined;
+  /** Immutable. Pod name. Pod is an independent part of infrastructure. Instance can only be connected to the assets (networks, volumes) allocated in the same pod. */
+  pod?: string | undefined;
+  /** Output only. The firmware version for the instance. */
+  firmwareVersion?: string | undefined;
+  /** Output only. List of networks associated with this server. */
+  networks?: NetworkList | undefined;
+  /** Output only. True if the interactive serial console feature is enabled for the instance, false otherwise. The default value is false. */
+  interactiveSerialConsoleEnabled?: boolean | undefined;
+  /** Instance network template name. For eg, bondaa-bondaa, bondab-nic, etc. Generally, the template name follows the syntax of "bond" or "nic". */
+  networkTemplate?: string | undefined;
+  /** Output only. The state of the server. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Output only. Update a time stamp. */
+  updateTime?: string | undefined;
+  /** Optional. Name of the KMS crypto key version used to encrypt the initial passwords. The key has to have ASYMMETRIC_DECRYPT purpose. Format is `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}`. */
+  kmsKeyVersion?: string | undefined;
+  /** True if you enable hyperthreading for the server, otherwise false. The default value is false. */
+  hyperthreadingEnabled?: boolean | undefined;
+  /** Output only. Create a time stamp. */
+  createTime?: string | undefined;
+  /** The workload profile for the instance. */
+  workloadProfile?: InstanceWorkloadProfileEnum | (string & {}) | undefined;
+  /** Output only. An identifier for the `Instance`, generated by the backend. */
+  id?: string | undefined;
+  /** Immutable. List of LUNs associated with this server. */
+  luns?: LunList | undefined;
+  /** Output only. Text field about info for logging in. */
+  loginInfo?: string | undefined;
+  /** Optional. List of SSH Keys used during instance provisioning. */
+  sshKeys?: StringList | undefined;
+  /** Immutable. The server type. [Available server types](https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations) */
+  machineType?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsNetworksRequest {
   /** The list of fields to update. The only currently supported fields are: `labels`, `reservations`, `vrf.vlan_attachments` */
   updateMask?: string | undefined;
   /** Output only. The resource name of this `Network`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/networks/{network}` */
   name: string;
-  /** Request body */
-  body?: Network | undefined;
+  /** Immutable. Pod name. Pod is an independent part of infrastructure. Network can only be connected to the assets (instances, nfsshares) allocated in the same pod. */
+  pod?: string | undefined;
+  /** Output only. Gateway ip address. */
+  gatewayIp?: string | undefined;
+  /** The Network state. */
+  state?: NetworkStateEnum | (string & {}) | undefined;
+  /** List of physical interfaces. */
+  macAddress?: StringList | undefined;
+  /** An identifier for the `Network`, generated by the backend. */
+  id?: string | undefined;
+  /** The type of this network. */
+  type?: NetworkTypeEnum | (string & {}) | undefined;
+  /** The Vrf for the Network. Use this only if a new Vrf needs to be created. */
+  vrf?: VRF | undefined;
+  /** The vlan id of the Network. */
+  vlanId?: string | undefined;
+  /** Optional. The name of a pre-existing Vrf that the network should be attached to. Format is `vrfs/{vrf}`. */
+  vrfAttachment?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** The cidr of the Network. */
+  cidr?: string | undefined;
+  /** List of IP address reservations in this network. When updating this field, an error will be generated if a reservation conflicts with an IP address already allocated to a physical server. */
+  reservations?: NetworkAddressReservationList | undefined;
+  /** Input only. List of mount points to attach the network to. */
+  mountPoints?: NetworkMountPointList | undefined;
+  /** IP range for reserved for services (e.g. NFS). */
+  servicesCidr?: string | undefined;
+  /** Whether network uses standard frames or jumbo ones. */
+  jumboFramesEnabled?: boolean | undefined;
+  /** IP address configured. */
+  ipAddress?: string | undefined;
 }
 export interface PatchProjectsLocationsNfsSharesRequest {
   /** Immutable. The name of the NFS share. */
   name: string;
   /** The list of fields to update. The only currently supported fields are: `labels` `allowed_clients` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: NfsShare | undefined;
+  /** The requested size, in GiB. */
+  requestedSizeGib?: string | undefined;
+  /** Output only. The state of the NFS share. */
+  state?: NfsShareStateEnum | (string & {}) | undefined;
+  /** Immutable. Pod name. Pod is an independent part of infrastructure. NFSShare can only be connected to the assets (networks, instances) allocated in the same pod. */
+  pod?: string | undefined;
+  /** List of allowed access points. */
+  allowedClients?: AllowedClientList | undefined;
+  /** Output only. The underlying volume of the share. Created automatically during provisioning. */
+  volume?: string | undefined;
+  /** Immutable. The storage type of the underlying volume. */
+  storageType?: NfsShareStorageTypeEnum | (string & {}) | undefined;
+  /** Output only. An identifier for the NFS share, generated by the backend. This field will be deprecated in the future, use `id` instead. */
+  nfsShareId?: string | undefined;
+  /** Output only. An identifier for the NFS share, generated by the backend. This is the same value as nfs_share_id and will replace it in the future. */
+  id?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsProvisioningConfigsRequest {
   /** Required. The list of fields to update. */
@@ -1162,19 +1297,88 @@ export interface PatchProjectsLocationsProvisioningConfigsRequest {
   email?: string | undefined;
   /** Output only. The system-generated name of the provisioning config. This follows the UUID format. */
   name: string;
-  /** Request body */
-  body?: ProvisioningConfig | undefined;
+  /** Output only. Last update timestamp. */
+  updateTime?: string | undefined;
+  /** A generated ticket id to track provisioning request. */
+  ticketId?: string | undefined;
+  /** Output only. URI to Cloud Console UI view of this provisioning config. */
+  cloudConsoleUri?: string | undefined;
+  /** Output only. State of ProvisioningConfig. */
+  state?: ProvisioningConfigStateEnum | (string & {}) | undefined;
+  /** Optional status messages associated with the FAILED state. */
+  statusMessage?: string | undefined;
+  /** Optional. The user-defined identifier of the provisioning config. */
+  customId?: string | undefined;
+  /** Networks to be created. */
+  networks?: NetworkConfigList | undefined;
+  /** Optional. Location name of this ProvisioningConfig. It is optional only for Intake UI transition period. */
+  location?: string | undefined;
+  /** A service account to enable customers to access instance credentials upon handover. */
+  handoverServiceAccount?: string | undefined;
+  /** Optional. Pod name. Pod is an independent part of infrastructure. Instance can be connected to the assets (networks, volumes, nfsshares) allocated in the same pod only. */
+  pod?: string | undefined;
+  /** Volumes to be created. */
+  volumes?: VolumeConfigList | undefined;
+  /** If true, VPC SC is enabled for the cluster. */
+  vpcScEnabled?: boolean | undefined;
+  /** Instances to be created. */
+  instances?: InstanceConfigList | undefined;
 }
 export interface PatchProjectsLocationsVolumesRequest {
   /** Output only. The resource name of this `Volume`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/volumes/{volume}` */
   name: string;
   /** The list of fields to update. The only currently supported fields are: 'labels' */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Volume | undefined;
+  /** Output only. Storage protocol for the Volume. */
+  protocol?: VolumeProtocolEnum | (string & {}) | undefined;
+  /** Output only. Whether this volume is a boot volume. A boot volume is one which contains a boot LUN. */
+  bootVolume?: boolean | undefined;
+  /** An identifier for the `Volume`, generated by the backend. */
+  id?: string | undefined;
+  /** The current size of this storage volume, in GiB, including space reserved for snapshots. This size might be different than the requested size if the storage volume has been configured with auto grow or auto shrink. */
+  currentSizeGib?: string | undefined;
+  /** Immutable. Pod name. Pod is an independent part of infrastructure. Volume can only be connected to the instances allocated in the same pod. */
+  pod?: string | undefined;
+  /** Immutable. Performance tier of the Volume. Default is SHARED. */
+  performanceTier?: VolumePerformanceTierEnum | (string & {}) | undefined;
+  /** The size, in GiB, that this storage volume has expanded as a result of an auto grow policy. In the absence of auto-grow, the value is 0. */
+  autoGrownSizeGib?: string | undefined;
+  /** Whether snapshots are enabled. */
+  snapshotEnabled?: boolean | undefined;
+  /** The behavior to use when snapshot reserved space is full. */
+  snapshotAutoDeleteBehavior?: VolumeSnapshotAutoDeleteBehaviorEnum | (string & {}) | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Details about snapshot space reservation and usage on the storage volume. */
+  snapshotReservationDetail?: SnapshotReservationDetail | undefined;
+  /** Additional emergency size that was requested for this Volume, in GiB. current_size_gib includes this value. */
+  emergencySizeGib?: string | undefined;
+  /** The workload profile for the volume. */
+  workloadProfile?: VolumeWorkloadProfileEnum | (string & {}) | undefined;
+  /** Output only. Time after which volume will be fully deleted. It is filled only for volumes in COOLOFF state. */
+  expireTime?: string | undefined;
+  /** Originally requested size, in GiB. */
+  originallyRequestedSizeGib?: string | undefined;
+  /** Input only. User-specified notes for new Volume. Used to provision Volumes that require manual intervention. */
+  notes?: string | undefined;
+  /** Output only. Is the Volume attached at at least one instance. This field is a lightweight counterpart of `instances` field. It is filled in List responses as well. */
+  attached?: boolean | undefined;
+  /** The space remaining in the storage volume for new LUNs, in GiB, excluding space reserved for snapshots. */
+  remainingSpaceGib?: string | undefined;
+  /** Output only. Instances this Volume is attached to. This field is set only in Get requests. */
+  instances?: StringList | undefined;
+  /** Maximum size volume can be expanded to in case of evergency, in GiB. */
+  maxSizeGib?: string | undefined;
+  /** The storage type for this volume. */
+  storageType?: VolumeStorageTypeEnum | (string & {}) | undefined;
+  /** The requested size of this storage volume, in GiB. */
+  requestedSizeGib?: string | undefined;
+  /** The state of this storage volume. */
+  state?: VolumeStateEnum | (string & {}) | undefined;
 }
-/** Message requesting to perform reimage operation on a server. */
-export interface ReimageInstanceRequest {
+export interface ReimageProjectsLocationsInstancesRequest {
+  /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
+  name: string;
   /** Optional. Name of the KMS crypto key version used to encrypt the initial passwords. The key has to have ASYMMETRIC_DECRYPT purpose. Format is `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}/cryptoKeyVersions/{version}`. */
   kmsKeyVersion?: string | undefined;
   /** Required. The OS image code of the image which will be used in the reimage operation. */
@@ -1182,55 +1386,29 @@ export interface ReimageInstanceRequest {
   /** Optional. List of SSH Keys used during reimaging an instance. */
   sshKeys?: StringList | undefined;
 }
-export interface ReimageProjectsLocationsInstancesRequest {
-  /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
-  name: string;
-  /** Request body */
-  body?: ReimageInstanceRequest | undefined;
-}
-/** Message requesting rename of a server. */
-export interface RenameInstanceRequest {
-  /** Required. The new `id` of the instance. */
-  newInstanceId?: string | undefined;
-}
 export interface RenameProjectsLocationsInstancesRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
-  /** Request body */
-  body?: RenameInstanceRequest | undefined;
-}
-/** Message requesting rename of a server. */
-export interface RenameNetworkRequest {
-  /** Required. The new `id` of the network. */
-  newNetworkId?: string | undefined;
+  /** Required. The new `id` of the instance. */
+  newInstanceId?: string | undefined;
 }
 export interface RenameProjectsLocationsNetworksRequest {
   /** Required. The `name` field is used to identify the network. Format: projects/{project}/locations/{location}/networks/{network} */
   name: string;
-  /** Request body */
-  body?: RenameNetworkRequest | undefined;
-}
-/** Message requesting rename of a server. */
-export interface RenameNfsShareRequest {
-  /** Required. The new `id` of the nfsshare. */
-  newNfsshareId?: string | undefined;
+  /** Required. The new `id` of the network. */
+  newNetworkId?: string | undefined;
 }
 export interface RenameProjectsLocationsNfsSharesRequest {
   /** Required. The `name` field is used to identify the nfsshare. Format: projects/{project}/locations/{location}/nfsshares/{nfsshare} */
   name: string;
-  /** Request body */
-  body?: RenameNfsShareRequest | undefined;
-}
-/** Message requesting rename of a server. */
-export interface RenameVolumeRequest {
-  /** Required. The new `id` of the volume. */
-  newVolumeId?: string | undefined;
+  /** Required. The new `id` of the nfsshare. */
+  newNfsshareId?: string | undefined;
 }
 export interface RenameProjectsLocationsVolumesRequest {
   /** Required. The `name` field is used to identify the volume. Format: projects/{project}/locations/{location}/volumes/{volume} */
   name: string;
-  /** Request body */
-  body?: RenameVolumeRequest | undefined;
+  /** Required. The new `id` of the volume. */
+  newVolumeId?: string | undefined;
 }
 /** Message requesting to reset a server. */
 export type ResetInstanceRequest = DisableHyperthreadingRequest;
@@ -1240,16 +1418,11 @@ export interface ResetProjectsLocationsInstancesRequest {
   /** Request body */
   body?: DisableHyperthreadingRequest | undefined;
 }
-/** Request for emergency resize Volume. */
-export interface ResizeVolumeRequest {
-  /** New Volume size, in GiB. */
-  sizeGib?: string | undefined;
-}
 export interface ResizeProjectsLocationsVolumesRequest {
   /** Required. Volume to resize. */
   volume: string;
-  /** Request body */
-  body?: ResizeVolumeRequest | undefined;
+  /** New Volume size, in GiB. */
+  sizeGib?: string | undefined;
 }
 /** Message for restoring a volume snapshot. */
 export type RestoreVolumeSnapshotRequest = DisableHyperthreadingRequest;
@@ -1275,18 +1448,13 @@ export interface StopProjectsLocationsInstancesRequest {
   /** Request body */
   body?: DisableHyperthreadingRequest | undefined;
 }
-/** Request for SubmitProvisioningConfig. */
-export interface SubmitProvisioningConfigRequest {
+export interface SubmitProjectsLocationsProvisioningConfigsRequest {
+  /** Required. The parent project and location containing the ProvisioningConfig. */
+  parent: string;
   /** Required. The ProvisioningConfig to create. */
   provisioningConfig?: ProvisioningConfig | undefined;
   /** Optional. Email provided to send a confirmation with provisioning config to. */
   email?: string | undefined;
-}
-export interface SubmitProjectsLocationsProvisioningConfigsRequest {
-  /** Required. The parent project and location containing the ProvisioningConfig. */
-  parent: string;
-  /** Request body */
-  body?: SubmitProvisioningConfigRequest | undefined;
 }
 /** Response for SubmitProvisioningConfig. */
 export interface SubmitProvisioningConfigResponse {
@@ -1307,8 +1475,8 @@ export const createProjectsLocationsNfsShares: API.OperationMethod<
   CreateProjectsLocationsNfsSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateProjectsLocationsNfsSharesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreateProjectsLocationsNfsSharesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1330,8 +1498,8 @@ export const createProjectsLocationsProvisioningConfigs: API.OperationMethod<
   CreateProjectsLocationsProvisioningConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateProjectsLocationsProvisioningConfigsRequest>,
-  output: __S(1069, __c66, 13) as any as S.Schema<ProvisioningConfig>,
+  input: __S(1056, __c66, 0) as any as S.Schema<CreateProjectsLocationsProvisioningConfigsRequest>,
+  output: __S(1117, __c69, 13) as any as S.Schema<ProvisioningConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1353,8 +1521,8 @@ export const createProjectsLocationsSshKeys: API.OperationMethod<
   CreateProjectsLocationsSshKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateProjectsLocationsSshKeysRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<SSHKey>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateProjectsLocationsSshKeysRequest>,
+  output: __S(1136, __c71, 0) as any as S.Schema<SSHKey>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1376,8 +1544,8 @@ export const createProjectsLocationsVolumesSnapshots: API.OperationMethod<
   CreateProjectsLocationsVolumesSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<CreateProjectsLocationsVolumesSnapshotsRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<VolumeSnapshot>,
+  input: __S(1152, __c72, 0) as any as S.Schema<CreateProjectsLocationsVolumesSnapshotsRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<VolumeSnapshot>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1399,8 +1567,8 @@ export const deleteProjectsLocationsNfsShares: API.OperationMethod<
   DeleteProjectsLocationsNfsSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DeleteProjectsLocationsNfsSharesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1184, __c74, 0) as any as S.Schema<DeleteProjectsLocationsNfsSharesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1468,8 +1636,8 @@ export const detachLunProjectsLocationsInstances: API.OperationMethod<
   DetachLunProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<DetachLunProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(48, __c3, 0) as any as S.Schema<DetachLunProjectsLocationsInstancesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1496,7 +1664,7 @@ export const disableHyperthreadingProjectsLocationsInstances: API.OperationMetho
     __c4,
     0,
   ) as any as S.Schema<DisableHyperthreadingProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1523,7 +1691,7 @@ export const disableInteractiveSerialConsoleProjectsLocationsInstances: API.Oper
     __c5,
     0,
   ) as any as S.Schema<DisableInteractiveSerialConsoleProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1546,7 +1714,7 @@ export const enableHyperthreadingProjectsLocationsInstances: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<EnableHyperthreadingProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1573,7 +1741,7 @@ export const enableInteractiveSerialConsoleProjectsLocationsInstances: API.Opera
     __c7,
     0,
   ) as any as S.Schema<EnableInteractiveSerialConsoleProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1596,7 +1764,7 @@ export const evictProjectsLocationsVolumes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<EvictProjectsLocationsVolumesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1619,7 +1787,7 @@ export const evictProjectsLocationsVolumesLuns: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<EvictProjectsLocationsVolumesLunsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1657,7 +1825,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsInstancesRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<Instance>,
+  output: __S(336, __c21, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1673,8 +1841,8 @@ export const getProjectsLocationsNetworks: API.OperationMethod<
   GetProjectsLocationsNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetProjectsLocationsNetworksRequest>,
-  output: __S(216, __c13, 8) as any as S.Schema<Network>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetProjectsLocationsNetworksRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<Network>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1694,8 +1862,8 @@ export const getProjectsLocationsNfsShares: API.OperationMethod<
   GetProjectsLocationsNfsSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetProjectsLocationsNfsSharesRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<NfsShare>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetProjectsLocationsNfsSharesRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<NfsShare>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1715,8 +1883,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1732,8 +1900,8 @@ export const getProjectsLocationsOsImages: API.OperationMethod<
   GetProjectsLocationsOsImagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetProjectsLocationsOsImagesRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<OSImage>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetProjectsLocationsOsImagesRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<OSImage>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1753,8 +1921,8 @@ export const getProjectsLocationsProvisioningConfigs: API.OperationMethod<
   GetProjectsLocationsProvisioningConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetProjectsLocationsProvisioningConfigsRequest>,
-  output: __S(1069, __c66, 13) as any as S.Schema<ProvisioningConfig>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetProjectsLocationsProvisioningConfigsRequest>,
+  output: __S(1117, __c69, 13) as any as S.Schema<ProvisioningConfig>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1770,8 +1938,8 @@ export const getProjectsLocationsVolumes: API.OperationMethod<
   GetProjectsLocationsVolumesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetProjectsLocationsVolumesRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<Volume>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetProjectsLocationsVolumesRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Volume>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1791,8 +1959,8 @@ export const getProjectsLocationsVolumesLuns: API.OperationMethod<
   GetProjectsLocationsVolumesLunsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetProjectsLocationsVolumesLunsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<Lun>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetProjectsLocationsVolumesLunsRequest>,
+  output: __S(272, __c17, 0) as any as S.Schema<Lun>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1812,8 +1980,8 @@ export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
   GetProjectsLocationsVolumesSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetProjectsLocationsVolumesSnapshotsRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<VolumeSnapshot>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetProjectsLocationsVolumesSnapshotsRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<VolumeSnapshot>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1833,8 +2001,8 @@ export const listNetworkUsageProjectsLocationsNetworks: API.OperationMethod<
   ListNetworkUsageProjectsLocationsNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListNetworkUsageProjectsLocationsNetworksRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<ListNetworkUsageResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListNetworkUsageProjectsLocationsNetworksRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<ListNetworkUsageResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1851,8 +2019,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(482, __c30, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1874,8 +2042,8 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListProjectsLocationsInstancesRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1897,8 +2065,8 @@ export const listProjectsLocationsNetworks: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNetworksResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListProjectsLocationsNetworksRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<ListNetworksResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListProjectsLocationsNetworksRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<ListNetworksResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1920,8 +2088,8 @@ export const listProjectsLocationsNfsShares: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNfsSharesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListProjectsLocationsNfsSharesRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<ListNfsSharesResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListProjectsLocationsNfsSharesRequest>,
+  output: __S(578, __c36, 2) as any as S.Schema<ListNfsSharesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1943,8 +2111,8 @@ export const listProjectsLocationsOsImages: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOSImagesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListProjectsLocationsOsImagesRequest>,
-  output: __S(546, __c34, 2) as any as S.Schema<ListOSImagesResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListProjectsLocationsOsImagesRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<ListOSImagesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1966,8 +2134,8 @@ export const listProjectsLocationsProvisioningQuotas: API.PaginatedOperationMeth
   GcpOpContext,
   ListProvisioningQuotasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListProjectsLocationsProvisioningQuotasRequest>,
-  output: __S(564, __c35, 4) as any as S.Schema<ListProvisioningQuotasResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListProjectsLocationsProvisioningQuotasRequest>,
+  output: __S(612, __c38, 4) as any as S.Schema<ListProvisioningQuotasResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1985,8 +2153,8 @@ export const listProjectsLocationsSshKeys: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSSHKeysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListProjectsLocationsSshKeysRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<ListSSHKeysResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListProjectsLocationsSshKeysRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<ListSSHKeysResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2004,8 +2172,8 @@ export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVolumesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListProjectsLocationsVolumesRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ListVolumesResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListProjectsLocationsVolumesRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<ListVolumesResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2027,8 +2195,8 @@ export const listProjectsLocationsVolumesLuns: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListProjectsLocationsVolumesLunsRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<ListLunsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListProjectsLocationsVolumesLunsRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListLunsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2050,8 +2218,8 @@ export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod
   GcpOpContext,
   ListVolumeSnapshotsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListProjectsLocationsVolumesSnapshotsRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<ListVolumeSnapshotsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsVolumesSnapshotsRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<ListVolumeSnapshotsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2072,8 +2240,8 @@ export const loadAuthInfoProjectsLocationsInstances: API.OperationMethod<
   LoadAuthInfoProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<LoadAuthInfoProjectsLocationsInstancesRequest>,
-  output: __S(659, __c41, 3) as any as S.Schema<LoadInstanceAuthInfoResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<LoadAuthInfoProjectsLocationsInstancesRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<LoadInstanceAuthInfoResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2095,8 +2263,8 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   PatchProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(720, __c45, 0) as any as S.Schema<PatchProjectsLocationsInstancesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2118,8 +2286,8 @@ export const patchProjectsLocationsNetworks: API.OperationMethod<
   PatchProjectsLocationsNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<PatchProjectsLocationsNetworksRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(736, __c46, 0) as any as S.Schema<PatchProjectsLocationsNetworksRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2141,8 +2309,8 @@ export const patchProjectsLocationsNfsShares: API.OperationMethod<
   PatchProjectsLocationsNfsSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<PatchProjectsLocationsNfsSharesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(752, __c47, 0) as any as S.Schema<PatchProjectsLocationsNfsSharesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2164,8 +2332,8 @@ export const patchProjectsLocationsProvisioningConfigs: API.OperationMethod<
   PatchProjectsLocationsProvisioningConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<PatchProjectsLocationsProvisioningConfigsRequest>,
-  output: __S(1069, __c66, 13) as any as S.Schema<ProvisioningConfig>,
+  input: __S(768, __c48, 0) as any as S.Schema<PatchProjectsLocationsProvisioningConfigsRequest>,
+  output: __S(1117, __c69, 13) as any as S.Schema<ProvisioningConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2187,8 +2355,8 @@ export const patchProjectsLocationsVolumes: API.OperationMethod<
   PatchProjectsLocationsVolumesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<PatchProjectsLocationsVolumesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(784, __c49, 0) as any as S.Schema<PatchProjectsLocationsVolumesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2210,8 +2378,8 @@ export const reimageProjectsLocationsInstances: API.OperationMethod<
   ReimageProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(753, __c47, 1) as any as S.Schema<ReimageProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(800, __c50, 0) as any as S.Schema<ReimageProjectsLocationsInstancesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2233,8 +2401,8 @@ export const renameProjectsLocationsInstances: API.OperationMethod<
   RenameProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(769, __c48, 1) as any as S.Schema<RenameProjectsLocationsInstancesRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<Instance>,
+  input: __S(816, __c51, 0) as any as S.Schema<RenameProjectsLocationsInstancesRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2256,8 +2424,8 @@ export const renameProjectsLocationsNetworks: API.OperationMethod<
   RenameProjectsLocationsNetworksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(785, __c49, 1) as any as S.Schema<RenameProjectsLocationsNetworksRequest>,
-  output: __S(216, __c13, 8) as any as S.Schema<Network>,
+  input: __S(832, __c52, 0) as any as S.Schema<RenameProjectsLocationsNetworksRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<Network>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2279,8 +2447,8 @@ export const renameProjectsLocationsNfsShares: API.OperationMethod<
   RenameProjectsLocationsNfsSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(801, __c50, 1) as any as S.Schema<RenameProjectsLocationsNfsSharesRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<NfsShare>,
+  input: __S(848, __c53, 0) as any as S.Schema<RenameProjectsLocationsNfsSharesRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<NfsShare>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2302,8 +2470,8 @@ export const renameProjectsLocationsVolumes: API.OperationMethod<
   RenameProjectsLocationsVolumesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c56, 1) as any as S.Schema<RenameProjectsLocationsVolumesRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<Volume>,
+  input: __S(944, __c59, 0) as any as S.Schema<RenameProjectsLocationsVolumesRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Volume>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2325,8 +2493,8 @@ export const resetProjectsLocationsInstances: API.OperationMethod<
   ResetProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ResetProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(960, __c60, 0) as any as S.Schema<ResetProjectsLocationsInstancesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2348,8 +2516,8 @@ export const resizeProjectsLocationsVolumes: API.OperationMethod<
   ResizeProjectsLocationsVolumesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<ResizeProjectsLocationsVolumesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(976, __c61, 0) as any as S.Schema<ResizeProjectsLocationsVolumesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2372,11 +2540,11 @@ export const restoreVolumeSnapshotProjectsLocationsVolumesSnapshots: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    944,
-    __c59,
+    992,
+    __c62,
     0,
   ) as any as S.Schema<RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2398,8 +2566,8 @@ export const startProjectsLocationsInstances: API.OperationMethod<
   StartProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<StartProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1008, __c63, 0) as any as S.Schema<StartProjectsLocationsInstancesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2421,8 +2589,8 @@ export const stopProjectsLocationsInstances: API.OperationMethod<
   StopProjectsLocationsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<StopProjectsLocationsInstancesRequest>,
-  output: __S(882, __c55, 2) as any as S.Schema<Operation>,
+  input: __S(1024, __c64, 0) as any as S.Schema<StopProjectsLocationsInstancesRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2444,8 +2612,8 @@ export const submitProjectsLocationsProvisioningConfigs: API.OperationMethod<
   SubmitProjectsLocationsProvisioningConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(993, __c62, 1) as any as S.Schema<SubmitProjectsLocationsProvisioningConfigsRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<SubmitProvisioningConfigResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<SubmitProjectsLocationsProvisioningConfigsRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<SubmitProvisioningConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2497,15 +2665,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instance: S.String.pipe(T.Label()),
           lun: S.optional(S.String),
           skipReboot: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DetachLunRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2641,10 +2803,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(864, __c54, 0)),
+          metadata: S.optional(__S(912, __c57, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(832, __c52, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -2718,19 +2880,23 @@ function __c13(j: number): any {
       ).annotate({ identifier: "NetworkMountPoint" });
     case 7:
       return S.Array(__S(214, __c13, 6));
-    case 8:
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           pod: S.optional(S.String),
           gatewayIp: S.optional(S.String),
           state: S.optional(S.String),
-          macAddress: S.optional(__S(1024, __c64, 0)),
+          macAddress: S.optional(__S(1072, __c67, 0)),
           id: S.optional(S.String),
           type: S.optional(S.String),
           vrf: S.optional(__S(211, __c13, 3)),
           vlanId: S.optional(S.String),
           vrfAttachment: S.optional(S.String),
-          labels: S.optional(__S(832, __c52, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
           cidr: S.optional(S.String),
           reservations: S.optional(__S(213, __c13, 5)),
           mountPoints: S.optional(__S(215, __c13, 7)),
@@ -2742,7 +2908,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "Network" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2753,7 +2919,11 @@ function __c14(j: number): any {
           reservedSpaceGib: S.optional(S.String),
         }),
       ).annotate({ identifier: "SnapshotReservationDetail" });
-    case 1:
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           protocol: S.optional(S.String),
@@ -2765,8 +2935,8 @@ function __c14(j: number): any {
           autoGrownSizeGib: S.optional(S.String),
           snapshotEnabled: S.optional(S.Boolean),
           snapshotAutoDeleteBehavior: S.optional(S.String),
-          labels: S.optional(__S(832, __c52, 0)),
-          snapshotReservationDetail: S.optional(__S(224, __c14, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
+          snapshotReservationDetail: S.optional(__S(240, __c15, 0)),
           emergencySizeGib: S.optional(S.String),
           workloadProfile: S.optional(S.String),
           expireTime: S.optional(S.String),
@@ -2774,7 +2944,7 @@ function __c14(j: number): any {
           notes: S.optional(S.String),
           attached: S.optional(S.Boolean),
           remainingSpaceGib: S.optional(S.String),
-          instances: S.optional(__S(1024, __c64, 0)),
+          instances: S.optional(__S(1072, __c67, 0)),
           name: S.optional(S.String),
           maxSizeGib: S.optional(S.String),
           storageType: S.optional(S.String),
@@ -2784,7 +2954,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Volume" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2794,7 +2964,7 @@ function __c15(j: number): any {
           id: S.optional(S.String),
           multiprotocolType: S.optional(S.String),
           expireTime: S.optional(S.String),
-          instances: S.optional(__S(1024, __c64, 0)),
+          instances: S.optional(__S(1072, __c67, 0)),
           shareable: S.optional(S.Boolean),
           storageVolume: S.optional(S.String),
           storageType: S.optional(S.String),
@@ -2805,36 +2975,36 @@ function __c15(j: number): any {
       ).annotate({ identifier: "Lun" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(216, __c13, 8));
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(225, __c14, 1));
-  }
-}
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(240, __c15, 0));
+      return S.Array(__S(224, __c14, 0));
   }
 }
 function __c19(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(256, __c16, 0));
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(272, __c17, 0));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          logicalInterfaces: S.optional(__S(1043, __c65, 3)),
-          volumes: S.optional(__S(272, __c17, 0)),
+          logicalInterfaces: S.optional(__S(1091, __c68, 3)),
+          volumes: S.optional(__S(304, __c19, 0)),
           osImage: S.optional(S.String),
           name: S.optional(S.String),
           pod: S.optional(S.String),
           firmwareVersion: S.optional(S.String),
-          networks: S.optional(__S(256, __c16, 0)),
+          networks: S.optional(__S(288, __c18, 0)),
           interactiveSerialConsoleEnabled: S.optional(S.Boolean),
           networkTemplate: S.optional(S.String),
           state: S.optional(S.String),
@@ -2844,45 +3014,13 @@ function __c19(j: number): any {
           createTime: S.optional(S.String),
           workloadProfile: S.optional(S.String),
           id: S.optional(S.String),
-          luns: S.optional(__S(288, __c18, 0)),
+          luns: S.optional(__S(320, __c20, 0)),
           loginInfo: S.optional(S.String),
-          sshKeys: S.optional(__S(1024, __c64, 0)),
+          sshKeys: S.optional(__S(1072, __c67, 0)),
           machineType: S.optional(S.String),
-          labels: S.optional(__S(832, __c52, 0)),
+          labels: S.optional(__S(880, __c55, 0)),
         }),
       ).annotate({ identifier: "Instance" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://baremetalsolution.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsNetworksRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://baremetalsolution.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsNfsSharesRequest" });
   }
 }
 function __c22(j: number): any {
@@ -2898,7 +3036,7 @@ function __c22(j: number): any {
             baseUrl: "https://baremetalsolution.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsNetworksRequest" });
   }
 }
 function __c23(j: number): any {
@@ -2914,7 +3052,7 @@ function __c23(j: number): any {
             baseUrl: "https://baremetalsolution.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOsImagesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsNfsSharesRequest" });
   }
 }
 function __c24(j: number): any {
@@ -2922,13 +3060,18 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          supportedNetworkTemplates: S.optional(__S(1024, __c64, 0)),
-          code: S.optional(S.String),
-          description: S.optional(S.String),
+          requestedSizeGib: S.optional(S.String),
           name: S.optional(S.String),
-          applicableInstanceTypes: S.optional(__S(1024, __c64, 0)),
+          state: S.optional(S.String),
+          pod: S.optional(S.String),
+          allowedClients: S.optional(__S(897, __c56, 1)),
+          volume: S.optional(S.String),
+          storageType: S.optional(S.String),
+          nfsShareId: S.optional(S.String),
+          id: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
         }),
-      ).annotate({ identifier: "OSImage" });
+      ).annotate({ identifier: "NfsShare" });
   }
 }
 function __c25(j: number): any {
@@ -2944,7 +3087,7 @@ function __c25(j: number): any {
             baseUrl: "https://baremetalsolution.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProvisioningConfigsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c26(j: number): any {
@@ -2960,7 +3103,7 @@ function __c26(j: number): any {
             baseUrl: "https://baremetalsolution.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsVolumesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOsImagesRequest" });
   }
 }
 function __c27(j: number): any {
@@ -2968,15 +3111,13 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://baremetalsolution.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsVolumesLunsRequest" });
+          supportedNetworkTemplates: S.optional(__S(1072, __c67, 0)),
+          code: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          applicableInstanceTypes: S.optional(__S(1072, __c67, 0)),
+        }),
+      ).annotate({ identifier: "OSImage" });
   }
 }
 function __c28(j: number): any {
@@ -2992,10 +3133,58 @@ function __c28(j: number): any {
             baseUrl: "https://baremetalsolution.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsVolumesSnapshotsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProvisioningConfigsRequest" });
   }
 }
 function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://baremetalsolution.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsVolumesRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://baremetalsolution.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsVolumesLunsRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://baremetalsolution.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsVolumesSnapshotsRequest" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3012,21 +3201,21 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          network: S.optional(__S(216, __c13, 8)),
-          usedIps: S.optional(__S(1024, __c64, 0)),
+          network: S.optional(__S(224, __c14, 0)),
+          usedIps: S.optional(__S(1072, __c67, 0)),
         }),
       ).annotate({ identifier: "NetworkUsage" });
     case 2:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          networks: S.optional(__S(466, __c29, 2)),
+          networks: S.optional(__S(514, __c32, 2)),
         }),
       ).annotate({ identifier: "ListNetworkUsageResponse" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3035,7 +3224,7 @@ function __c30(j: number): any {
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1024, __c64, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1072, __c67, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3050,12 +3239,12 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(481, __c30, 1)),
+          locations: S.optional(__S(529, __c33, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3073,18 +3262,18 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInstancesRequest" });
     case 1:
-      return S.Array(__S(304, __c19, 0));
+      return S.Array(__S(336, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: S.optional(__S(497, __c31, 1)),
-          unreachable: S.optional(__S(1024, __c64, 0)),
+          instances: S.optional(__S(545, __c34, 1)),
+          unreachable: S.optional(__S(1072, __c67, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3105,13 +3294,13 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1024, __c64, 0)),
-          networks: S.optional(__S(256, __c16, 0)),
+          unreachable: S.optional(__S(1072, __c67, 0)),
+          networks: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "ListNetworksResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3129,18 +3318,18 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNfsSharesRequest" });
     case 1:
-      return S.Array(__S(850, __c53, 2));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nfsShares: S.optional(__S(529, __c33, 1)),
+          nfsShares: S.optional(__S(577, __c36, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1024, __c64, 0)),
+          unreachable: S.optional(__S(1072, __c67, 0)),
         }),
       ).annotate({ identifier: "ListNfsSharesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3157,17 +3346,17 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOsImagesRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(432, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          osImages: S.optional(__S(545, __c34, 1)),
+          osImages: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "ListOSImagesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3199,7 +3388,7 @@ function __c35(j: number): any {
           name: S.optional(S.String),
           networkBandwidth: S.optional(S.String),
           location: S.optional(S.String),
-          instanceQuota: S.optional(__S(561, __c35, 1)),
+          instanceQuota: S.optional(__S(609, __c38, 1)),
           storageGib: S.optional(S.String),
           serverCount: S.optional(S.String),
           availableCount: S.optional(S.Number),
@@ -3208,17 +3397,17 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "ProvisioningQuota" });
     case 3:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(610, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          provisioningQuotas: S.optional(__S(563, __c35, 3)),
+          provisioningQuotas: S.optional(__S(611, __c38, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProvisioningQuotasResponse" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3237,19 +3426,19 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sshKeys: S.optional(__S(592, __c37, 0)),
+          sshKeys: S.optional(__S(640, __c40, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSSHKeysResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1088, __c68, 0));
+      return S.Array(__S(1136, __c71, 0));
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3269,14 +3458,14 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1024, __c64, 0)),
-          volumes: S.optional(__S(272, __c17, 0)),
+          unreachable: S.optional(__S(1072, __c67, 0)),
+          volumes: S.optional(__S(304, __c19, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVolumesResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3295,14 +3484,14 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          luns: S.optional(__S(288, __c18, 0)),
+          luns: S.optional(__S(320, __c20, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1024, __c64, 0)),
+          unreachable: S.optional(__S(1072, __c67, 0)),
         }),
       ).annotate({ identifier: "ListLunsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3319,18 +3508,18 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsVolumesSnapshotsRequest" });
     case 1:
-      return S.Array(__S(1120, __c70, 0));
+      return S.Array(__S(1168, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1024, __c64, 0)),
-          volumeSnapshots: S.optional(__S(641, __c40, 1)),
+          unreachable: S.optional(__S(1072, __c67, 0)),
+          volumeSnapshots: S.optional(__S(689, __c43, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVolumeSnapshotsResponse" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3352,24 +3541,43 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "UserAccount" });
     case 2:
-      return S.Record(S.String, __S(657, __c41, 1));
+      return S.Record(S.String, __S(705, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userAccounts: S.optional(__S(658, __c41, 2)),
-          sshKeys: S.optional(__S(592, __c37, 0)),
+          userAccounts: S.optional(__S(706, __c44, 2)),
+          sshKeys: S.optional(__S(640, __c40, 0)),
         }),
       ).annotate({ identifier: "LoadInstanceAuthInfoResponse" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
+          logicalInterfaces: S.optional(__S(1091, __c68, 3)),
+          volumes: S.optional(__S(304, __c19, 0)),
+          osImage: S.optional(S.String),
+          pod: S.optional(S.String),
+          firmwareVersion: S.optional(S.String),
+          networks: S.optional(__S(288, __c18, 0)),
+          interactiveSerialConsoleEnabled: S.optional(S.Boolean),
+          networkTemplate: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          kmsKeyVersion: S.optional(S.String),
+          hyperthreadingEnabled: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          workloadProfile: S.optional(S.String),
+          id: S.optional(S.String),
+          luns: S.optional(__S(320, __c20, 0)),
+          loginInfo: S.optional(S.String),
+          sshKeys: S.optional(__S(1072, __c67, 0)),
+          machineType: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3380,14 +3588,29 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsInstancesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c13, 8).pipe(T.HttpBody())),
+          pod: S.optional(S.String),
+          gatewayIp: S.optional(S.String),
+          state: S.optional(S.String),
+          macAddress: S.optional(__S(1072, __c67, 0)),
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          vrf: S.optional(__S(211, __c13, 3)),
+          vlanId: S.optional(S.String),
+          vrfAttachment: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          cidr: S.optional(S.String),
+          reservations: S.optional(__S(213, __c13, 5)),
+          mountPoints: S.optional(__S(215, __c13, 7)),
+          servicesCidr: S.optional(S.String),
+          jumboFramesEnabled: S.optional(S.Boolean),
+          ipAddress: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3398,14 +3621,22 @@ function __c43(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsNetworksRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
+          requestedSizeGib: S.optional(S.String),
+          state: S.optional(S.String),
+          pod: S.optional(S.String),
+          allowedClients: S.optional(__S(897, __c56, 1)),
+          volume: S.optional(S.String),
+          storageType: S.optional(S.String),
+          nfsShareId: S.optional(S.String),
+          id: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3416,7 +3647,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsNfsSharesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3424,7 +3655,19 @@ function __c45(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           email: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1069, __c66, 13).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          ticketId: S.optional(S.String),
+          cloudConsoleUri: S.optional(S.String),
+          state: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          customId: S.optional(S.String),
+          networks: S.optional(__S(1107, __c69, 3)),
+          location: S.optional(S.String),
+          handoverServiceAccount: S.optional(S.String),
+          pod: S.optional(S.String),
+          volumes: S.optional(__S(1113, __c69, 9)),
+          vpcScEnabled: S.optional(S.Boolean),
+          instances: S.optional(__S(1116, __c69, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3435,14 +3678,36 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsProvisioningConfigsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
+          protocol: S.optional(S.String),
+          bootVolume: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          currentSizeGib: S.optional(S.String),
+          pod: S.optional(S.String),
+          performanceTier: S.optional(S.String),
+          autoGrownSizeGib: S.optional(S.String),
+          snapshotEnabled: S.optional(S.Boolean),
+          snapshotAutoDeleteBehavior: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
+          snapshotReservationDetail: S.optional(__S(240, __c15, 0)),
+          emergencySizeGib: S.optional(S.String),
+          workloadProfile: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          originallyRequestedSizeGib: S.optional(S.String),
+          notes: S.optional(S.String),
+          attached: S.optional(S.Boolean),
+          remainingSpaceGib: S.optional(S.String),
+          instances: S.optional(__S(1072, __c67, 0)),
+          maxSizeGib: S.optional(S.String),
+          storageType: S.optional(S.String),
+          requestedSizeGib: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3453,21 +3718,15 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsVolumesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           kmsKeyVersion: S.optional(S.String),
           osImage: S.optional(S.String),
-          sshKeys: S.optional(__S(1024, __c64, 0)),
-        }),
-      ).annotate({ identifier: "ReimageInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(752, __c47, 0).pipe(T.HttpBody())),
+          sshKeys: S.optional(__S(1072, __c67, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3478,19 +3737,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ReimageProjectsLocationsInstancesRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newInstanceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RenameInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c48, 0).pipe(T.HttpBody())),
+          newInstanceId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3501,19 +3754,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "RenameProjectsLocationsInstancesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newNetworkId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RenameNetworkRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(784, __c49, 0).pipe(T.HttpBody())),
+          newNetworkId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3524,19 +3771,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RenameProjectsLocationsNetworksRequest" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newNfsshareId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RenameNfsShareRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c50, 0).pipe(T.HttpBody())),
+          newNfsshareId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3547,13 +3788,22 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RenameProjectsLocationsNfsSharesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(850, __c53, 2).pipe(T.HttpBody())),
+          requestedSizeGib: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          pod: S.optional(S.String),
+          allowedClients: S.optional(__S(897, __c56, 1)),
+          volume: S.optional(S.String),
+          storageType: S.optional(S.String),
+          nfsShareId: S.optional(S.String),
+          id: S.optional(S.String),
+          labels: S.optional(__S(880, __c55, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3564,13 +3814,13 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNfsSharesRequest" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3586,38 +3836,23 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "AllowedClient" });
     case 1:
-      return S.Array(__S(848, __c53, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          requestedSizeGib: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          pod: S.optional(S.String),
-          allowedClients: S.optional(__S(849, __c53, 1)),
-          volume: S.optional(S.String),
-          storageType: S.optional(S.String),
-          nfsShareId: S.optional(S.String),
-          id: S.optional(S.String),
-          labels: S.optional(__S(832, __c52, 0)),
-        }),
-      ).annotate({ identifier: "NfsShare" });
+      return S.Array(__S(896, __c56, 0));
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(912, __c57, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(880, __c55, 0)),
+          details: S.optional(__S(928, __c58, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -3625,28 +3860,22 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(864, __c54, 0)),
-          response: S.optional(__S(864, __c54, 0)),
+          metadata: S.optional(__S(912, __c57, 0)),
+          response: S.optional(__S(912, __c57, 0)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
-          error: S.optional(__S(881, __c55, 1)),
+          error: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newVolumeId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RenameVolumeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c56, 0).pipe(T.HttpBody())),
+          newVolumeId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3657,7 +3886,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RenameProjectsLocationsVolumesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3674,19 +3903,13 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ResetProjectsLocationsInstancesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sizeGib: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResizeVolumeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           volume: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c58, 0).pipe(T.HttpBody())),
+          sizeGib: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3697,7 +3920,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "ResizeProjectsLocationsVolumesRequest" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3714,7 +3937,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3731,7 +3954,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StartProjectsLocationsInstancesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3748,20 +3971,14 @@ function __c61(j: number): any {
       ).annotate({ identifier: "StopProjectsLocationsInstancesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          provisioningConfig: S.optional(__S(1069, __c66, 13)),
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SubmitProvisioningConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c62, 0).pipe(T.HttpBody())),
+          provisioningConfig: S.optional(__S(1117, __c69, 13)),
+          email: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3770,22 +3987,35 @@ function __c62(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SubmitProjectsLocationsProvisioningConfigsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          provisioningConfig: S.optional(__S(1069, __c66, 13)),
+          provisioningConfig: S.optional(__S(1117, __c69, 13)),
         }),
       ).annotate({ identifier: "SubmitProvisioningConfigResponse" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           email: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1069, __c66, 13).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          ticketId: S.optional(S.String),
+          cloudConsoleUri: S.optional(S.String),
+          state: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          customId: S.optional(S.String),
+          networks: S.optional(__S(1107, __c69, 3)),
+          location: S.optional(S.String),
+          handoverServiceAccount: S.optional(S.String),
+          name: S.optional(S.String),
+          pod: S.optional(S.String),
+          volumes: S.optional(__S(1113, __c69, 9)),
+          vpcScEnabled: S.optional(S.Boolean),
+          instances: S.optional(__S(1116, __c69, 12)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3796,13 +4026,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProvisioningConfigsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3815,20 +4045,20 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "LogicalNetworkInterface" });
     case 1:
-      return S.Array(__S(1040, __c65, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          logicalNetworkInterfaces: S.optional(__S(1041, __c65, 1)),
+          logicalNetworkInterfaces: S.optional(__S(1089, __c68, 1)),
           interfaceIndex: S.optional(S.Number),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBaremetalsolutionV2LogicalInterface" });
     case 3:
-      return S.Array(__S(1042, __c65, 2));
+      return S.Array(__S(1090, __c68, 2));
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3838,13 +4068,13 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "IntakeVlanAttachment" });
     case 1:
-      return S.Array(__S(1056, __c66, 0));
+      return S.Array(__S(1104, __c69, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           vlanSameProject: S.optional(S.Boolean),
           type: S.optional(S.String),
-          vlanAttachments: S.optional(__S(1057, __c66, 1)),
+          vlanAttachments: S.optional(__S(1105, __c69, 1)),
           name: S.optional(S.String),
           id: S.optional(S.String),
           gcpService: S.optional(S.String),
@@ -3857,7 +4087,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 3:
-      return S.Array(__S(1058, __c66, 2));
+      return S.Array(__S(1106, __c69, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3866,7 +4096,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "LunRange" });
     case 5:
-      return S.Array(__S(1060, __c66, 4));
+      return S.Array(__S(1108, __c69, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3880,26 +4110,26 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "NfsExport" });
     case 7:
-      return S.Array(__S(1062, __c66, 6));
+      return S.Array(__S(1110, __c69, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           gcpService: S.optional(S.String),
           userNote: S.optional(S.String),
-          lunRanges: S.optional(__S(1061, __c66, 5)),
+          lunRanges: S.optional(__S(1109, __c69, 5)),
           sizeGb: S.optional(S.Number),
           id: S.optional(S.String),
           performanceTier: S.optional(S.String),
           snapshotsEnabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          nfsExports: S.optional(__S(1063, __c66, 7)),
+          nfsExports: S.optional(__S(1111, __c69, 7)),
           protocol: S.optional(S.String),
-          machineIds: S.optional(__S(1024, __c64, 0)),
+          machineIds: S.optional(__S(1072, __c67, 0)),
         }),
       ).annotate({ identifier: "VolumeConfig" });
     case 9:
-      return S.Array(__S(1064, __c66, 8));
+      return S.Array(__S(1112, __c69, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -3911,15 +4141,15 @@ function __c66(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          privateNetwork: S.optional(__S(1066, __c66, 10)),
+          privateNetwork: S.optional(__S(1114, __c69, 10)),
           userNote: S.optional(S.String),
           instanceType: S.optional(S.String),
           networkTemplate: S.optional(S.String),
-          sshKeyNames: S.optional(__S(1024, __c64, 0)),
+          sshKeyNames: S.optional(__S(1072, __c67, 0)),
           osImage: S.optional(S.String),
-          logicalInterfaces: S.optional(__S(1043, __c65, 3)),
+          logicalInterfaces: S.optional(__S(1091, __c68, 3)),
           kmsKeyVersion: S.optional(S.String),
-          clientNetwork: S.optional(__S(1066, __c66, 10)),
+          clientNetwork: S.optional(__S(1114, __c69, 10)),
           networkConfig: S.optional(S.String),
           hyperthreading: S.optional(S.Boolean),
           name: S.optional(S.String),
@@ -3928,7 +4158,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "InstanceConfig" });
     case 12:
-      return S.Array(__S(1067, __c66, 11));
+      return S.Array(__S(1115, __c69, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -3939,26 +4169,27 @@ function __c66(j: number): any {
           statusMessage: S.optional(S.String),
           customId: S.optional(S.String),
           email: S.optional(S.String),
-          networks: S.optional(__S(1059, __c66, 3)),
+          networks: S.optional(__S(1107, __c69, 3)),
           location: S.optional(S.String),
           handoverServiceAccount: S.optional(S.String),
           name: S.optional(S.String),
           pod: S.optional(S.String),
-          volumes: S.optional(__S(1065, __c66, 9)),
+          volumes: S.optional(__S(1113, __c69, 9)),
           vpcScEnabled: S.optional(S.Boolean),
-          instances: S.optional(__S(1068, __c66, 12)),
+          instances: S.optional(__S(1116, __c69, 12)),
         }),
       ).annotate({ identifier: "ProvisioningConfig" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sshKeyId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c68, 0).pipe(T.HttpBody())),
+          publicKey: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3969,7 +4200,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSshKeysRequest" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3980,13 +4211,18 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SSHKey" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c70, 0).pipe(T.HttpBody())),
+          storageVolume: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          id: S.optional(S.String),
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3997,7 +4233,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsVolumesSnapshotsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4012,7 +4248,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "VolumeSnapshot" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

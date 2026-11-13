@@ -98,16 +98,11 @@ export class ServiceDisabled
   ) {}
 
 export type StringList = Array<string>;
-/** The Request message for batch adding testers */
-export interface GoogleFirebaseAppdistroV1BatchAddTestersRequest {
-  /** Required. The email addresses of the tester resources to create. A maximum of 999 and a minimum of 1 tester can be created in a batch. */
-  emails?: StringList | undefined;
-}
 export interface BatchAddProjectsTestersRequest {
   /** Required. The name of the project resource. Format: `projects/{project_number}` */
   project: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchAddTestersRequest | undefined;
+  /** Required. The email addresses of the tester resources to create. A maximum of 999 and a minimum of 1 tester can be created in a batch. */
+  emails?: StringList | undefined;
 }
 /** A person that can be invited to test apps in a Firebase project. */
 export interface GoogleFirebaseAppdistroV1Tester {
@@ -126,53 +121,33 @@ export interface GoogleFirebaseAppdistroV1BatchAddTestersResponse {
   /** The testers which are created and/or already exist */
   testers?: GoogleFirebaseAppdistroV1TesterList | undefined;
 }
-/** The request message for `BatchDeleteReleases`. */
-export interface GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest {
-  /** Required. The names of the release resources to delete. Format: `projects/{project_number}/apps/{app}/releases/{release}` A maximum of 100 releases can be deleted per request. */
-  names?: StringList | undefined;
-}
 export interface BatchDeleteProjectsAppsReleasesRequest {
   /** Required. The name of the app resource, which is the parent of the release resources. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest | undefined;
+  /** Required. The names of the release resources to delete. Format: `projects/{project_number}/apps/{app}/releases/{release}` A maximum of 100 releases can be deleted per request. */
+  names?: StringList | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
-/** The request message for `BatchJoinGroup` */
-export interface GoogleFirebaseAppdistroV1BatchJoinGroupRequest {
+export interface BatchJoinProjectsGroupsRequest {
+  /** Required. The name of the group resource to which testers are added. Format: `projects/{project_number}/groups/{group_alias}` */
+  group: string;
   /** Required. The emails of the testers to be added to the group. A maximum of 999 and a minimum of 1 tester can be created in a batch. */
   emails?: StringList | undefined;
   /** Indicates whether to create tester resources based on `emails` if they don't exist yet. */
   createMissingTesters?: boolean | undefined;
 }
-export interface BatchJoinProjectsGroupsRequest {
-  /** Required. The name of the group resource to which testers are added. Format: `projects/{project_number}/groups/{group_alias}` */
-  group: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchJoinGroupRequest | undefined;
-}
-/** Request message for `BatchLeaveGroup` */
-export interface GoogleFirebaseAppdistroV1BatchLeaveGroupRequest {
-  /** Required. The email addresses of the testers to be removed from the group. A maximum of 999 and a minimum of 1 testers can be removed in a batch. */
-  emails?: StringList | undefined;
-}
 export interface BatchLeaveProjectsGroupsRequest {
   /** Required. The name of the group resource from which testers are removed. Format: `projects/{project_number}/groups/{group_alias}` */
   group: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchLeaveGroupRequest | undefined;
-}
-/** The request message for `BatchRemoveTesters`. */
-export interface GoogleFirebaseAppdistroV1BatchRemoveTestersRequest {
-  /** Required. The email addresses of the tester resources to removed. A maximum of 999 and a minimum of 1 testers can be deleted in a batch. */
+  /** Required. The email addresses of the testers to be removed from the group. A maximum of 999 and a minimum of 1 testers can be removed in a batch. */
   emails?: StringList | undefined;
 }
 export interface BatchRemoveProjectsTestersRequest {
   /** Required. The name of the project resource. Format: `projects/{project_number}` */
   project: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1BatchRemoveTestersRequest | undefined;
+  /** Required. The email addresses of the tester resources to removed. A maximum of 999 and a minimum of 1 testers can be deleted in a batch. */
+  emails?: StringList | undefined;
 }
 /** The response message for `BatchRemoveTesters` */
 export interface GoogleFirebaseAppdistroV1BatchRemoveTestersResponse {
@@ -187,6 +162,22 @@ export interface CancelProjectsAppsReleasesOperationsRequest {
   /** Request body */
   body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
+export interface CreateProjectsGroupsRequest {
+  /** Optional. The "alias" to use for the group, which will become the final component of the group's resource name. This value must be unique per project. The field is named `groupId` to comply with AIP guidance for user-specified IDs. This value should be 4-63 characters, and valid characters are `/a-z-/`. If not set, it will be generated based on the display name. */
+  groupId?: string | undefined;
+  /** Required. The name of the project resource, which is the parent of the group resource. Format: `projects/{project_number}` */
+  parent: string;
+  /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
+  name?: string | undefined;
+  /** Required. The display name of the group. */
+  displayName?: string | undefined;
+  /** Output only. The number of releases this group is permitted to access. */
+  releaseCount?: number | undefined;
+  /** Output only. The number of testers who are members of this group. */
+  testerCount?: number | undefined;
+  /** Output only. The number of invite links for this group. */
+  inviteLinkCount?: number | undefined;
+}
 /** A group which can contain testers. A group can be invited to test apps in a Firebase project. */
 export interface GoogleFirebaseAppdistroV1Group {
   /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
@@ -200,14 +191,6 @@ export interface GoogleFirebaseAppdistroV1Group {
   /** Output only. The number of invite links for this group. */
   inviteLinkCount?: number | undefined;
 }
-export interface CreateProjectsGroupsRequest {
-  /** Optional. The "alias" to use for the group, which will become the final component of the group's resource name. This value must be unique per project. The field is named `groupId` to comply with AIP guidance for user-specified IDs. This value should be 4-63 characters, and valid characters are `/a-z-/`. If not set, it will be generated based on the display name. */
-  groupId?: string | undefined;
-  /** Required. The name of the project resource, which is the parent of the group resource. Format: `projects/{project_number}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Group | undefined;
-}
 export interface DeleteProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the feedback report to delete. Format: projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report} */
   name: string;
@@ -220,18 +203,13 @@ export interface DeleteProjectsGroupsRequest {
   /** Required. The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
 }
-/** The request message for `DistributeRelease`. */
-export interface GoogleFirebaseAppdistroV1DistributeReleaseRequest {
+export interface DistributeProjectsAppsReleasesRequest {
+  /** Required. The name of the release resource to distribute. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
+  name: string;
   /** Optional. A list of group aliases (IDs) to be given access to this release. A combined maximum of 999 `testerEmails` and `groupAliases` can be specified in a single request. */
   groupAliases?: StringList | undefined;
   /** Optional. A list of tester email addresses to be given access to this release. A combined maximum of 999 `testerEmails` and `groupAliases` can be specified in a single request. */
   testerEmails?: StringList | undefined;
-}
-export interface DistributeProjectsAppsReleasesRequest {
-  /** Required. The name of the release resource to distribute. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
-  name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1DistributeReleaseRequest | undefined;
 }
 /** The response message for `DistributeRelease`. */
 export interface GoogleFirebaseAppdistroV1DistributeReleaseResponse {}
@@ -302,10 +280,9 @@ export interface GoogleFirebaseAppdistroV1Release {
   /** Output only. Registration state of the Android package (BinaryType.APK). */
   androidPackageRegistrationState?:
     | GoogleFirebaseAppdistroV1ReleaseAndroidPackageRegistrationStateEnum
-    | (string & {})
     | undefined;
   /** Output only. The overall state of tests run on this release */
-  testState?: GoogleFirebaseAppdistroV1ReleaseTestStateEnum | (string & {}) | undefined;
+  testState?: GoogleFirebaseAppdistroV1ReleaseTestStateEnum | undefined;
   /** Output only. A link to the Firebase console displaying a single release. */
   firebaseConsoleUri?: string | undefined;
   /** Output only. The time the release will expire. */
@@ -325,7 +302,7 @@ export interface GoogleFirebaseAppdistroV1Release {
   /** The name of the release resource. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   name?: string | undefined;
   /** Output only. Type of binary. */
-  binaryType?: GoogleFirebaseAppdistroV1ReleaseBinaryTypeEnum | (string & {}) | undefined;
+  binaryType?: GoogleFirebaseAppdistroV1ReleaseBinaryTypeEnum | undefined;
   /** Output only. Display version of the release. For an Android release, the display version is the `versionName`. For an iOS release, the display version is the `CFBundleShortVersionString`. */
   displayVersion?: string | undefined;
   /** Output only. A signed link (which expires in one hour) to directly download the app binary (IPA/APK/AAB) file. */
@@ -485,24 +462,67 @@ export interface PatchProjectsAppsReleasesRequest {
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Release | undefined;
+  /** Output only. Number of testers with accepted invitations. */
+  acceptedInvitationCount?: number | undefined;
+  /** Output only. Registration state of the Android package (BinaryType.APK). */
+  androidPackageRegistrationState?:
+    | GoogleFirebaseAppdistroV1ReleaseAndroidPackageRegistrationStateEnum
+    | (string & {})
+    | undefined;
+  /** Output only. The overall state of tests run on this release */
+  testState?: GoogleFirebaseAppdistroV1ReleaseTestStateEnum | (string & {}) | undefined;
+  /** Output only. A link to the Firebase console displaying a single release. */
+  firebaseConsoleUri?: string | undefined;
+  /** Output only. The time the release will expire. */
+  expireTime?: string | undefined;
+  /** Output only. Number of feedback reports left by testers. */
+  feedbackCount?: number | undefined;
+  /** Output only. Number of testers who were invited (incl. expired invitations), but did not (yet) accept the invitation. */
+  openInvitationCount?: number | undefined;
+  /** Output only. Build version of the release. For an Android release, the build version is the `versionCode`. For an iOS release, the build version is the `CFBundleVersion`. */
+  buildVersion?: string | undefined;
+  /** Notes about the release. */
+  releaseNotes?: GoogleFirebaseAppdistroV1ReleaseNotes | undefined;
+  /** Output only. The time the release was created. */
+  createTime?: string | undefined;
+  /** Output only. The time the release was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Type of binary. */
+  binaryType?: GoogleFirebaseAppdistroV1ReleaseBinaryTypeEnum | (string & {}) | undefined;
+  /** Output only. Display version of the release. For an Android release, the display version is the `versionName`. For an iOS release, the display version is the `CFBundleShortVersionString`. */
+  displayVersion?: string | undefined;
+  /** Output only. A signed link (which expires in one hour) to directly download the app binary (IPA/APK/AAB) file. */
+  binaryDownloadUri?: string | undefined;
+  /** Output only. Number of testers who have downloaded this release. */
+  installationCount?: number | undefined;
+  /** Output only. A link to the release in the tester web clip or Android app that lets testers (which were granted access to the app) view release notes and install the app onto their devices. */
+  testingUri?: string | undefined;
 }
 export interface PatchProjectsGroupsRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Group | undefined;
+  /** Required. The display name of the group. */
+  displayName?: string | undefined;
+  /** Output only. The number of releases this group is permitted to access. */
+  releaseCount?: number | undefined;
+  /** Output only. The number of testers who are members of this group. */
+  testerCount?: number | undefined;
+  /** Output only. The number of invite links for this group. */
+  inviteLinkCount?: number | undefined;
 }
 export interface PatchProjectsTestersRequest {
   /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1Tester | undefined;
+  /** The name of the tester associated with the Google account used to accept the tester invitation. */
+  displayName?: string | undefined;
+  /** The resource names of the groups this tester belongs to. */
+  groups?: StringList | undefined;
+  /** Output only. The time the tester was last active. This is the most recent time the tester installed one of the apps. If they've never installed one or if the release no longer exists, this is the time the tester was added to the project. */
+  lastActivityTime?: string | undefined;
 }
 /** This is a copy of the tech.blob.ObjectId proto, which could not be used directly here due to transitive closure issues with JavaScript support; see http://b/8801763. */
 export interface GdataObjectId {
@@ -706,27 +726,17 @@ export interface GdataMedia {
   /** Describes what the field reference contains. */
   referenceType?: GdataMediaReferenceTypeEnum | (string & {}) | undefined;
 }
-/** Request message for `UploadRelease`. */
-export interface GoogleFirebaseAppdistroV1UploadReleaseRequest {
-  /** Binary to upload */
-  blob?: GdataMedia | undefined;
-}
 export interface UploadMediaRequest {
   /** Required. The name of the app resource. Format: `projects/{project_number}/apps/{app}` */
   app: string;
-  /** Request body */
-  body?: GoogleFirebaseAppdistroV1UploadReleaseRequest | undefined;
-}
-/** The request message for Operations.WaitOperation. */
-export interface GoogleLongrunningWaitOperationRequest {
-  /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
-  timeout?: string | undefined;
+  /** Binary to upload */
+  blob?: GdataMedia | undefined;
 }
 export interface WaitProjectsAppsReleasesOperationsRequest {
   /** The name of the operation resource to wait on. */
   name: string;
-  /** Request body */
-  body?: GoogleLongrunningWaitOperationRequest | undefined;
+  /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
+  timeout?: string | undefined;
 }
 export type BatchAddProjectsTestersError =
   | NotFound
@@ -765,8 +775,8 @@ export const batchDeleteProjectsAppsReleases: API.OperationMethod<
   BatchDeleteProjectsAppsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(481, __c30, 1) as any as S.Schema<BatchDeleteProjectsAppsReleasesRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(464, __c29, 0) as any as S.Schema<BatchDeleteProjectsAppsReleasesRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -788,8 +798,8 @@ export const batchJoinProjectsGroups: API.OperationMethod<
   BatchJoinProjectsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c32, 1) as any as S.Schema<BatchJoinProjectsGroupsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(496, __c31, 0) as any as S.Schema<BatchJoinProjectsGroupsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -811,8 +821,8 @@ export const batchLeaveProjectsGroups: API.OperationMethod<
   BatchLeaveProjectsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<BatchLeaveProjectsGroupsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(512, __c32, 0) as any as S.Schema<BatchLeaveProjectsGroupsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -834,11 +844,11 @@ export const batchRemoveProjectsTesters: API.OperationMethod<
   BatchRemoveProjectsTestersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<BatchRemoveProjectsTestersRequest>,
+  input: __S(528, __c33, 0) as any as S.Schema<BatchRemoveProjectsTestersRequest>,
   output: __S(
-    464,
-    __c29,
-    0,
+    529,
+    __c33,
+    1,
   ) as any as S.Schema<GoogleFirebaseAppdistroV1BatchRemoveTestersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -862,7 +872,7 @@ export const cancelProjectsAppsReleasesOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelProjectsAppsReleasesOperationsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -908,7 +918,7 @@ export const deleteProjectsAppsReleasesFeedbackReports: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteProjectsAppsReleasesFeedbackReportsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -931,7 +941,7 @@ export const deleteProjectsAppsReleasesOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<DeleteProjectsAppsReleasesOperationsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -954,7 +964,7 @@ export const deleteProjectsGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteProjectsGroupsRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -976,8 +986,8 @@ export const distributeProjectsAppsReleases: API.OperationMethod<
   DistributeProjectsAppsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<DistributeProjectsAppsReleasesRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<GoogleFirebaseAppdistroV1DistributeReleaseResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DistributeProjectsAppsReleasesRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleFirebaseAppdistroV1DistributeReleaseResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1268,7 +1278,7 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(381, __c23, 13) as any as S.Schema<UploadMediaRequest>,
+  input: __S(380, __c23, 12) as any as S.Schema<UploadMediaRequest>,
   output: __S(211, __c13, 3) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1291,7 +1301,7 @@ export const waitProjectsAppsReleasesOperations: API.OperationMethod<
   WaitProjectsAppsReleasesOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(385, __c24, 1) as any as S.Schema<WaitProjectsAppsReleasesOperationsRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<WaitProjectsAppsReleasesOperationsRequest>,
   output: __S(211, __c13, 3) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1307,7 +1317,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(496, __c31, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1325,7 +1335,11 @@ function __c1(j: number): any {
         S.Struct({
           groupId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          releaseCount: S.optional(S.Number),
+          testerCount: S.optional(S.Number),
+          inviteLinkCount: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1403,15 +1417,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           groupAliases: S.optional(__S(448, __c28, 0)),
           testerEmails: S.optional(__S(448, __c28, 0)),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1DistributeReleaseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1738,7 +1746,22 @@ function __c20(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(145, __c9, 1).pipe(T.HttpBody())),
+          acceptedInvitationCount: S.optional(S.Number),
+          androidPackageRegistrationState: S.optional(S.String),
+          testState: S.optional(S.String),
+          firebaseConsoleUri: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          feedbackCount: S.optional(S.Number),
+          openInvitationCount: S.optional(S.Number),
+          buildVersion: S.optional(S.String),
+          releaseNotes: S.optional(__S(144, __c9, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          binaryType: S.optional(S.String),
+          displayVersion: S.optional(S.String),
+          binaryDownloadUri: S.optional(S.String),
+          installationCount: S.optional(S.Number),
+          testingUri: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1756,7 +1779,10 @@ function __c21(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          releaseCount: S.optional(S.Number),
+          testerCount: S.optional(S.Number),
+          inviteLinkCount: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1774,7 +1800,9 @@ function __c22(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          groups: S.optional(__S(448, __c28, 0)),
+          lastActivityTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1921,14 +1949,8 @@ function __c23(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          blob: S.optional(__S(379, __c23, 11)),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1UploadReleaseRequest" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
           app: S.String.pipe(T.Label()),
-          body: S.optional(__S(380, __c23, 12).pipe(T.HttpBody())),
+          blob: S.optional(__S(379, __c23, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1944,14 +1966,8 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timeout: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleLongrunningWaitOperationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(384, __c24, 0).pipe(T.HttpBody())),
+          timeout: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1968,7 +1984,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
+          emails: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2015,24 +2031,8 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(448, __c28, 0)),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1BatchAddTestersRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          names: S.optional(__S(448, __c28, 0)),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1BatchDeleteReleasesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c30, 0).pipe(T.HttpBody())),
+          names: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2043,26 +2043,20 @@ function __c30(j: number): any {
       ).annotate({ identifier: "BatchDeleteProjectsAppsReleasesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          group: S.String.pipe(T.Label()),
           emails: S.optional(__S(448, __c28, 0)),
           createMissingTesters: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleFirebaseAppdistroV1BatchJoinGroupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2073,13 +2067,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "BatchJoinProjectsGroupsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           group: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
+          emails: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2090,13 +2084,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "BatchLeaveProjectsGroupsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
+          emails: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2105,6 +2099,12 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchRemoveProjectsTestersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          emails: S.optional(__S(448, __c28, 0)),
+        }),
+      ).annotate({ identifier: "GoogleFirebaseAppdistroV1BatchRemoveTestersResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

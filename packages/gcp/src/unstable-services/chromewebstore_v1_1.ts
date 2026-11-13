@@ -116,14 +116,6 @@ export interface InsertItemsRequest {
   /** The email of the publisher who owns the items. Defaults to the caller's email address. */
   publisherEmail?: string | undefined;
 }
-export interface PublishRequest {
-  /** The target deploy percentage of the item. It's only useful for items with big user base. */
-  deployPercentage?: number | undefined;
-  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean | undefined;
-  /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
-  target?: string | undefined;
-}
 export interface PublishItemsRequest {
   /** The ID of the item to publish. */
   itemId: string;
@@ -133,8 +125,8 @@ export interface PublishItemsRequest {
   deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
   reviewExemption?: boolean | undefined;
-  /** Request body */
-  body?: PublishRequest | undefined;
+  /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
+  target?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface Item2 {
@@ -150,8 +142,18 @@ export interface Item2 {
 export interface UpdateItemsRequest {
   /** The ID of the item to upload. */
   itemId: string;
-  /** Request body */
-  body?: Item | undefined;
+  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
+  kind?: string | undefined;
+  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
+  crxVersion?: string | undefined;
+  /** Unique ID of the item. */
+  id?: string | undefined;
+  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
+  itemError?: ItemErrorList | undefined;
+  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
+  uploadState?: string | undefined;
+  /** Public key of this item. */
+  publicKey?: string | undefined;
 }
 export type GetItemsError = NotFound | Forbidden | GcpOpError;
 /** Gets your own Chrome Web Store item. */
@@ -191,8 +193,8 @@ export const publishItems: API.OperationMethod<
   PublishItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<PublishItemsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<Item2>,
+  input: __S(12, __c3, 0) as any as S.Schema<PublishItemsRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<Item2>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -280,19 +282,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployPercentage: S.optional(S.Number),
-          reviewExemption: S.optional(S.Boolean),
-          target: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PublishRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           itemId: S.String.pipe(T.Label()),
           publishTarget: S.optional(S.String.pipe(T.Query())),
           deployPercentage: S.optional(S.Number.pipe(T.Query())),
           reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
+          target: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -301,14 +295,14 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PublishItemsRequest" });
-    case 2:
+    case 1:
       return S.Array(S.String);
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          status: S.optional(__S(14, __c3, 2)),
-          statusDetail: S.optional(__S(14, __c3, 2)),
+          status: S.optional(__S(13, __c3, 1)),
+          statusDetail: S.optional(__S(13, __c3, 1)),
           item_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item2" });
@@ -320,7 +314,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           itemId: S.String.pipe(T.Label()),
-          body: S.optional(__S(6, __c1, 2).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          crxVersion: S.optional(S.String),
+          id: S.optional(S.String),
+          itemError: S.optional(__S(5, __c1, 1)),
+          uploadState: S.optional(S.String),
+          publicKey: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",

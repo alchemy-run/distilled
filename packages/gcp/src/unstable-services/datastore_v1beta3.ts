@@ -108,16 +108,11 @@ export interface Key {
   partitionId?: PartitionId | undefined;
 }
 export type KeyList = Array<Key>;
-/** The request for Datastore.AllocateIds. */
-export interface AllocateIdsRequest {
-  /** Required. A list of keys with incomplete key paths for which to allocate IDs. No key may be reserved/read-only. */
-  keys?: KeyList | undefined;
-}
 export interface AllocateIdsProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: AllocateIdsRequest | undefined;
+  /** Required. A list of keys with incomplete key paths for which to allocate IDs. No key may be reserved/read-only. */
+  keys?: KeyList | undefined;
 }
 /** The response for Datastore.AllocateIds. */
 export interface AllocateIdsResponse {
@@ -141,16 +136,11 @@ export interface TransactionOptions {
   /** The transaction should only allow reads. */
   readOnly?: ReadOnly | undefined;
 }
-/** The request for Datastore.BeginTransaction. */
-export interface BeginTransactionRequest {
-  /** Options for a new transaction. */
-  transactionOptions?: TransactionOptions | undefined;
-}
 export interface BeginTransactionProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: BeginTransactionRequest | undefined;
+  /** Options for a new transaction. */
+  transactionOptions?: TransactionOptions | undefined;
 }
 /** The response for Datastore.BeginTransaction. */
 export interface BeginTransactionResponse {
@@ -260,20 +250,15 @@ export interface Mutation {
 }
 export type MutationList = Array<Mutation>;
 export type CommitRequestModeEnum = "MODE_UNSPECIFIED" | "TRANSACTIONAL" | "NON_TRANSACTIONAL";
-/** The request for Datastore.Commit. */
-export interface CommitRequest {
+export interface CommitProjectsRequest {
+  /** Required. The ID of the project against which to make the request. */
+  projectId: string;
   /** The mutations to perform. When mode is `TRANSACTIONAL`, mutations affecting a single entity are applied in order. The following sequences of mutations affecting a single entity are not permitted in a single `Commit` request: - `insert` followed by `insert` - `update` followed by `insert` - `upsert` followed by `insert` - `delete` followed by `update` When mode is `NON_TRANSACTIONAL`, no two mutations may affect a single entity. */
   mutations?: MutationList | undefined;
   /** The type of commit to perform. Defaults to `TRANSACTIONAL`. */
   mode?: CommitRequestModeEnum | (string & {}) | undefined;
   /** The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
   transaction?: string | undefined;
-}
-export interface CommitProjectsRequest {
-  /** Required. The ID of the project against which to make the request. */
-  projectId: string;
-  /** Request body */
-  body?: CommitRequest | undefined;
 }
 /** The result of applying a mutation. */
 export interface MutationResult {
@@ -310,20 +295,15 @@ export interface ReadOptions {
   /** The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction. */
   transaction?: string | undefined;
 }
-/** The request for Datastore.Lookup. */
-export interface LookupRequest {
+export interface LookupProjectsRequest {
+  /** Required. The ID of the project against which to make the request. */
+  projectId: string;
   /** The properties to return. Defaults to returning all properties. If this field is set and an entity has a property not referenced in the mask, it will be absent from LookupResponse.found.entity.properties. The entity's key is always returned. */
   propertyMask?: PropertyMask | undefined;
   /** The options for this lookup request. */
   readOptions?: ReadOptions | undefined;
   /** Required. Keys of entities to look up. */
   keys?: KeyList | undefined;
-}
-export interface LookupProjectsRequest {
-  /** Required. The ID of the project against which to make the request. */
-  projectId: string;
-  /** Request body */
-  body?: LookupRequest | undefined;
 }
 /** The result of fetching an entity from Datastore. */
 export interface EntityResult {
@@ -350,31 +330,21 @@ export interface LookupResponse {
   /** The time at which these entities were read or found missing. */
   readTime?: string | undefined;
 }
-/** The request for Datastore.ReserveIds. */
-export interface ReserveIdsRequest {
+export interface ReserveIdsProjectsRequest {
+  /** Required. The ID of the project against which to make the request. */
+  projectId: string;
   /** Required. A list of keys with complete key paths whose numeric IDs should not be auto-allocated. */
   keys?: KeyList | undefined;
   /** The ID of the database against which to make the request. '(default)' is not allowed; please use empty string '' to refer the default database. */
   databaseId?: string | undefined;
 }
-export interface ReserveIdsProjectsRequest {
-  /** Required. The ID of the project against which to make the request. */
-  projectId: string;
-  /** Request body */
-  body?: ReserveIdsRequest | undefined;
-}
 /** The response for Datastore.ReserveIds. */
 export interface ReserveIdsResponse {}
-/** The request for Datastore.Rollback. */
-export interface RollbackRequest {
-  /** Required. The transaction identifier, returned by a call to Datastore.BeginTransaction. */
-  transaction?: string | undefined;
-}
 export interface RollbackProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
-  /** Request body */
-  body?: RollbackRequest | undefined;
+  /** Required. The transaction identifier, returned by a call to Datastore.BeginTransaction. */
+  transaction?: string | undefined;
 }
 /** The response for Datastore.Rollback. (an empty message). */
 export interface RollbackResponse {}
@@ -540,8 +510,9 @@ export interface GqlQuery {
   /** For each non-reserved named binding site in the query string, there must be a named parameter with that name, but not necessarily the inverse. Key must match regex `A-Za-z_$*`, must not match regex `__.*__`, and must not be `""`. */
   namedBindings?: GqlQueryParameterMap | undefined;
 }
-/** The request for Datastore.RunAggregationQuery. */
-export interface RunAggregationQueryRequest {
+export interface RunAggregationQueryProjectsRequest {
+  /** Required. The ID of the project against which to make the request. */
+  projectId: string;
   /** Optional. Explain options for the query. If set, additional query statistics will be returned. If not, only query results will be returned. */
   explainOptions?: ExplainOptions | undefined;
   /** The query to run. */
@@ -552,12 +523,6 @@ export interface RunAggregationQueryRequest {
   gqlQuery?: GqlQuery | undefined;
   /** The options for this query. */
   readOptions?: ReadOptions | undefined;
-}
-export interface RunAggregationQueryProjectsRequest {
-  /** Required. The ID of the project against which to make the request. */
-  projectId: string;
-  /** Request body */
-  body?: RunAggregationQueryRequest | undefined;
 }
 /** The result of a single bucket from a Datastore aggregation query. The keys of `aggregate_properties` are the same for all results in an aggregation query, unlike entity queries which can have different fields present for each result. */
 export interface AggregationResult {
@@ -614,8 +579,9 @@ export interface RunAggregationQueryResponse {
   /** The parsed form of the `GqlQuery` from the request, if it was set. */
   query?: AggregationQuery | undefined;
 }
-/** The request for Datastore.RunQuery. */
-export interface RunQueryRequest {
+export interface RunQueryProjectsRequest {
+  /** Required. The ID of the project against which to make the request. */
+  projectId: string;
   /** Entities are partitioned into subsets, identified by a partition ID. Queries are scoped to a single partition. This partition ID is normalized with the standard default context partition ID. */
   partitionId?: PartitionId | undefined;
   /** The query to run. */
@@ -628,12 +594,6 @@ export interface RunQueryRequest {
   propertyMask?: PropertyMask | undefined;
   /** The options for this query. */
   readOptions?: ReadOptions | undefined;
-}
-export interface RunQueryProjectsRequest {
-  /** Required. The ID of the project against which to make the request. */
-  projectId: string;
-  /** Request body */
-  body?: RunQueryRequest | undefined;
 }
 export type QueryResultBatchMoreResultsEnum =
   | "MORE_RESULTS_TYPE_UNSPECIFIED"
@@ -682,8 +642,8 @@ export const allocateIdsProjects: API.OperationMethod<
   AllocateIdsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c3, 1) as any as S.Schema<AllocateIdsProjectsRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<AllocateIdsResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<AllocateIdsProjectsRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<AllocateIdsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -704,8 +664,8 @@ export const beginTransactionProjects: API.OperationMethod<
   BeginTransactionProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(196, __c6, 4) as any as S.Schema<BeginTransactionProjectsRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<BeginTransactionResponse>,
+  input: __S(195, __c6, 3) as any as S.Schema<BeginTransactionProjectsRequest>,
+  output: __S(196, __c6, 4) as any as S.Schema<BeginTransactionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -721,8 +681,8 @@ export const commitProjects: API.OperationMethod<
   CommitProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(261, __c8, 5) as any as S.Schema<CommitProjectsRequest>,
-  output: __S(264, __c8, 8) as any as S.Schema<CommitResponse>,
+  input: __S(228, __c7, 4) as any as S.Schema<CommitProjectsRequest>,
+  output: __S(231, __c7, 7) as any as S.Schema<CommitResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -738,8 +698,8 @@ export const lookupProjects: API.OperationMethod<
   LookupProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c11, 1) as any as S.Schema<LookupProjectsRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<LookupResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<LookupProjectsRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<LookupResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -755,8 +715,8 @@ export const reserveIdsProjects: API.OperationMethod<
   ReserveIdsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(449, __c14, 1) as any as S.Schema<ReserveIdsProjectsRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<ReserveIdsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ReserveIdsProjectsRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<ReserveIdsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -772,8 +732,8 @@ export const rollbackProjects: API.OperationMethod<
   RollbackProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<RollbackProjectsRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<RollbackResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<RollbackProjectsRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<RollbackResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -794,8 +754,8 @@ export const runAggregationQueryProjects: API.OperationMethod<
   RunAggregationQueryProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c0, 5) as any as S.Schema<RunAggregationQueryProjectsRequest>,
-  output: __S(9, __c0, 9) as any as S.Schema<RunAggregationQueryResponse>,
+  input: __S(4, __c0, 4) as any as S.Schema<RunAggregationQueryProjectsRequest>,
+  output: __S(8, __c0, 8) as any as S.Schema<RunAggregationQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -811,8 +771,8 @@ export const runQueryProjects: API.OperationMethod<
   RunQueryProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c2, 1) as any as S.Schema<RunQueryProjectsRequest>,
-  output: __S(67, __c2, 3) as any as S.Schema<RunQueryResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<RunQueryProjectsRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<RunQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -850,18 +810,12 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.String.pipe(T.Label()),
           explainOptions: S.optional(__S(32, __c1, 0)),
           aggregationQuery: S.optional(__S(3, __c0, 3)),
           partitionId: S.optional(__S(130, __c4, 2)),
           gqlQuery: S.optional(__S(48, __c1, 16)),
-          readOptions: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "RunAggregationQueryRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(4, __c0, 4).pipe(T.HttpBody())),
+          readOptions: S.optional(__S(352, __c11, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -870,26 +824,26 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RunAggregationQueryProjectsRequest" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          aggregateProperties: S.optional(__S(292, __c9, 4)),
+          aggregateProperties: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "AggregationResult" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
     case 7:
-      return S.Array(__S(6, __c0, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           readTime: S.optional(S.String),
-          aggregationResults: S.optional(__S(7, __c0, 7)),
+          aggregationResults: S.optional(__S(6, __c0, 6)),
           moreResults: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregationResultBatch" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          batch: S.optional(__S(8, __c0, 8)),
+          batch: S.optional(__S(7, __c0, 7)),
           explainMetrics: S.optional(__S(53, __c1, 21)),
           query: S.optional(__S(3, __c0, 3)),
         }),
@@ -921,7 +875,7 @@ function __c1(j: number): any {
         S.Struct({
           op: S.optional(S.String),
           property: S.optional(__S(33, __c1, 1)),
-          value: S.optional(__S(291, __c9, 3)),
+          value: S.optional(__S(259, __c8, 3)),
         }),
       ).annotate({ identifier: "PropertyFilter" });
     case 4:
@@ -946,7 +900,7 @@ function __c1(j: number): any {
           vectorProperty: S.optional(__S(33, __c1, 1)),
           distanceResultProperty: S.optional(S.String),
           limit: S.optional(S.Number),
-          queryVector: S.optional(__S(291, __c9, 3)),
+          queryVector: S.optional(__S(259, __c8, 3)),
           distanceThreshold: S.optional(S.Number),
           distanceMeasure: S.optional(S.String),
         }),
@@ -982,7 +936,7 @@ function __c1(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(291, __c9, 3)),
+          value: S.optional(__S(259, __c8, 3)),
           cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "GqlQueryParameter" });
@@ -1032,19 +986,13 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.String.pipe(T.Label()),
           partitionId: S.optional(__S(130, __c4, 2)),
           query: S.optional(__S(44, __c1, 12)),
           gqlQuery: S.optional(__S(48, __c1, 16)),
           explainOptions: S.optional(__S(32, __c1, 0)),
-          propertyMask: S.optional(__S(321, __c10, 1)),
-          readOptions: S.optional(__S(384, __c12, 0)),
-        }),
-      ).annotate({ identifier: "RunQueryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
+          propertyMask: S.optional(__S(289, __c9, 1)),
+          readOptions: S.optional(__S(352, __c11, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1053,7 +1001,7 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RunQueryProjectsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           skippedCursor: S.optional(S.String),
@@ -1063,13 +1011,13 @@ function __c2(j: number): any {
           skippedResults: S.optional(S.Number),
           endCursor: S.optional(S.String),
           entityResultType: S.optional(S.String),
-          entityResults: S.optional(__S(417, __c13, 1)),
+          entityResults: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "QueryResultBatch" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          batch: S.optional(__S(66, __c2, 2)),
+          batch: S.optional(__S(65, __c2, 1)),
           explainMetrics: S.optional(__S(53, __c1, 21)),
           query: S.optional(__S(44, __c1, 12)),
         }),
@@ -1081,14 +1029,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(160, __c5, 0)),
-        }),
-      ).annotate({ identifier: "AllocateIdsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          keys: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1097,6 +1039,12 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AllocateIdsProjectsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          keys: S.optional(__S(160, __c5, 0)),
+        }),
+      ).annotate({ identifier: "AllocateIdsResponse" });
   }
 }
 function __c4(j: number): any {
@@ -1157,14 +1105,8 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          transactionOptions: S.optional(__S(194, __c6, 2)),
-        }),
-      ).annotate({ identifier: "BeginTransactionRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
+          transactionOptions: S.optional(__S(194, __c6, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1173,11 +1115,7 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BeginTransactionProjectsRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           transaction: S.optional(S.String),
@@ -1185,51 +1123,45 @@ function __c7(j: number): any {
       ).annotate({ identifier: "BeginTransactionResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           property: S.optional(S.String),
-          appendMissingElements: S.optional(__S(290, __c9, 2)),
-          maximum: S.optional(__S(291, __c9, 3)),
-          minimum: S.optional(__S(291, __c9, 3)),
-          removeAllFromArray: S.optional(__S(290, __c9, 2)),
-          increment: S.optional(__S(291, __c9, 3)),
+          appendMissingElements: S.optional(__S(258, __c8, 2)),
+          maximum: S.optional(__S(259, __c8, 3)),
+          minimum: S.optional(__S(259, __c8, 3)),
+          removeAllFromArray: S.optional(__S(258, __c8, 2)),
+          increment: S.optional(__S(259, __c8, 3)),
           setToServerValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "PropertyTransform" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          insert: S.optional(__S(293, __c9, 5)),
+          insert: S.optional(__S(261, __c8, 5)),
           delete: S.optional(__S(131, __c4, 3)),
           conflictResolutionStrategy: S.optional(S.String),
-          upsert: S.optional(__S(293, __c9, 5)),
-          update: S.optional(__S(293, __c9, 5)),
+          upsert: S.optional(__S(261, __c8, 5)),
+          update: S.optional(__S(261, __c8, 5)),
           baseVersion: S.optional(S.String),
-          propertyTransforms: S.optional(__S(257, __c8, 1)),
-          propertyMask: S.optional(__S(321, __c10, 1)),
+          propertyTransforms: S.optional(__S(225, __c7, 1)),
+          propertyMask: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "Mutation" });
     case 3:
-      return S.Array(__S(258, __c8, 2));
+      return S.Array(__S(226, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          mutations: S.optional(__S(259, __c8, 3)),
+          projectId: S.String.pipe(T.Label()),
+          mutations: S.optional(__S(227, __c7, 3)),
           mode: S.optional(S.String),
           transaction: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommitRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(260, __c8, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1238,30 +1170,30 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CommitProjectsRequest" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          transformResults: S.optional(__S(289, __c9, 1)),
+          transformResults: S.optional(__S(257, __c8, 1)),
           key: S.optional(__S(131, __c4, 3)),
           conflictDetected: S.optional(S.Boolean),
           version: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "MutationResult" });
+    case 6:
+      return S.Array(__S(229, __c7, 5));
     case 7:
-      return S.Array(__S(262, __c8, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           commitTime: S.optional(S.String),
           indexUpdates: S.optional(S.Number),
-          mutationResults: S.optional(__S(263, __c8, 7)),
+          mutationResults: S.optional(__S(230, __c7, 6)),
         }),
       ).annotate({ identifier: "CommitResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1271,23 +1203,23 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "LatLng" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(291, __c9, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(259, __c8, 3)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(289, __c9, 1)),
+          values: S.optional(__S(257, __c8, 1)),
         }),
       ).annotate({ identifier: "ArrayValue" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           integerValue: S.optional(S.String),
-          geoPointValue: S.optional(__S(288, __c9, 0)),
-          arrayValue: S.optional(__S(290, __c9, 2)),
+          geoPointValue: S.optional(__S(256, __c8, 0)),
+          arrayValue: S.optional(__S(258, __c8, 2)),
           doubleValue: S.optional(S.Number),
           nullValue: S.optional(S.String),
           meaning: S.optional(S.Number),
-          entityValue: S.optional(S.suspend(() => __S(293, __c9, 5))),
+          entityValue: S.optional(S.suspend(() => __S(261, __c8, 5))),
           keyValue: S.optional(__S(131, __c4, 3)),
           blobValue: S.optional(S.String),
           timestampValue: S.optional(S.String),
@@ -1297,43 +1229,37 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "Value" });
     case 4:
-      return S.Record(S.String, __S(291, __c9, 3));
+      return S.Record(S.String, __S(259, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(292, __c9, 4)),
+          properties: S.optional(__S(260, __c8, 4)),
           key: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "Entity" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          paths: S.optional(__S(320, __c10, 0)),
+          paths: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "PropertyMask" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          propertyMask: S.optional(__S(321, __c10, 1)),
-          readOptions: S.optional(__S(384, __c12, 0)),
-          keys: S.optional(__S(160, __c5, 0)),
-        }),
-      ).annotate({ identifier: "LookupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
+          propertyMask: S.optional(__S(289, __c9, 1)),
+          readOptions: S.optional(__S(352, __c11, 0)),
+          keys: S.optional(__S(160, __c5, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1342,18 +1268,18 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "LookupProjectsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          missing: S.optional(__S(417, __c13, 1)),
-          found: S.optional(__S(417, __c13, 1)),
+          missing: S.optional(__S(385, __c12, 1)),
+          found: S.optional(__S(385, __c12, 1)),
           deferred: S.optional(__S(160, __c5, 0)),
           readTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "LookupResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1365,36 +1291,30 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ReadOptions" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
           cursor: S.optional(S.String),
-          entity: S.optional(__S(293, __c9, 5)),
+          entity: S.optional(__S(261, __c8, 5)),
           updateTime: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntityResult" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(384, __c12, 0));
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.String.pipe(T.Label()),
           keys: S.optional(__S(160, __c5, 0)),
           databaseId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReserveIdsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1405,19 +1325,19 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ReserveIdsProjectsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ReserveIdsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
+          transaction: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

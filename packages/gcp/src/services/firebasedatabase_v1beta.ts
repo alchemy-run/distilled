@@ -92,8 +92,13 @@ export type DatabaseInstanceStateEnum =
   | "ACTIVE"
   | "DISABLED"
   | "DELETED";
-/** Representation of a Realtime Database instance. Details on interacting with contents of a DatabaseInstance can be found at: https://firebase.google.com/docs/database/rest/start. */
-export interface DatabaseInstance {
+export interface CreateProjectsLocationsInstancesRequest {
+  /** Required. The parent project for which to create a database instance, in the form: `projects/{project-number}/locations/{location-id}`. */
+  parent: string;
+  /** When set to true, the request will be validated but not submitted. */
+  validateOnly?: boolean | undefined;
+  /** The globally unique identifier of the database instance. */
+  databaseId?: string | undefined;
   /** Immutable. The database instance type. On creation only USER_DATABASE is allowed, which is also the default when omitted. */
   type?: DatabaseInstanceTypeEnum | (string & {}) | undefined;
   /** Output only. The database's lifecycle state. Read-only. */
@@ -105,15 +110,18 @@ export interface DatabaseInstance {
   /** Output only. Output Only. The globally unique hostname of the database. */
   databaseUrl?: string | undefined;
 }
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. The parent project for which to create a database instance, in the form: `projects/{project-number}/locations/{location-id}`. */
-  parent: string;
-  /** When set to true, the request will be validated but not submitted. */
-  validateOnly?: boolean | undefined;
-  /** The globally unique identifier of the database instance. */
-  databaseId?: string | undefined;
-  /** Request body */
-  body?: DatabaseInstance | undefined;
+/** Representation of a Realtime Database instance. Details on interacting with contents of a DatabaseInstance can be found at: https://firebase.google.com/docs/database/rest/start. */
+export interface DatabaseInstance {
+  /** Immutable. The database instance type. On creation only USER_DATABASE is allowed, which is also the default when omitted. */
+  type?: DatabaseInstanceTypeEnum | undefined;
+  /** Output only. The database's lifecycle state. Read-only. */
+  state?: DatabaseInstanceStateEnum | undefined;
+  /** The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. */
+  name?: string | undefined;
+  /** Output only. The resource name of the project this instance belongs to. For example: `projects/{project-number}`. */
+  project?: string | undefined;
+  /** Output only. Output Only. The globally unique hostname of the database. */
+  databaseUrl?: string | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
@@ -337,7 +345,11 @@ function __c1(j: number): any {
           parent: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           databaseId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          project: S.optional(S.String),
+          databaseUrl: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

@@ -83,16 +83,11 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The request for creating an IdpCredential with its associated payload. An InboundSamlSsoProfile can own up to 2 credentials. */
-export interface AddIdpCredentialRequest {
-  /** PEM encoded x509 certificate containing the public key for verifying IdP signatures. */
-  pemData?: string | undefined;
-}
 export interface AddInboundSamlSsoProfilesIdpCredentialsRequest {
   /** Required. The InboundSamlSsoProfile that owns the IdpCredential. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   parent: string;
-  /** Request body */
-  body?: AddIdpCredentialRequest | undefined;
+  /** PEM encoded x509 certificate containing the public key for verifying IdP signatures. */
+  pemData?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -118,24 +113,17 @@ export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
-/** Request message for approving the device to access user data. */
-export interface ApproveDeviceUserRequest {
-  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
-  customer?: string | undefined;
-}
 export interface ApproveDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
+  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
+  customer?: string | undefined;
 }
-/** Request message for blocking account on device. */
-export type BlockDeviceUserRequest = ApproveDeviceUserRequest;
 export interface BlockDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
+  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
+  customer?: string | undefined;
 }
 /** Request to cancel sent invitation for target email in UserInvitation. */
 export interface CancelUserInvitationRequest {}
@@ -145,21 +133,17 @@ export interface CancelCustomersUserinvitationsRequest {
   /** Request body */
   body?: CancelUserInvitationRequest | undefined;
 }
-/** Request message for cancelling an unfinished device wipe. */
-export type CancelWipeDeviceRequest = ApproveDeviceUserRequest;
 export interface CancelWipeDevicesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}`, where device_id is the unique ID assigned to the Device. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
+  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
+  customer?: string | undefined;
 }
-/** Request message for cancelling an unfinished user account wipe. */
-export type CancelWipeDeviceUserRequest = ApproveDeviceUserRequest;
 export interface CancelWipeDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
+  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
+  customer?: string | undefined;
 }
 export interface CheckTransitiveMembershipGroupsMembershipsRequest {
   /** Required. A CEL expression that MUST include member specification. This is a `required` field. Certain groups are uniquely identified by both a 'member_key_id' and a 'member_key_namespace', which requires an additional query input: 'member_key_namespace'. Example query: `member_key_id == 'member_key_id_value'` */
@@ -172,16 +156,11 @@ export interface CheckTransitiveMembershipResponse {
   /** Response does not include the possible roles of a member since the behavior of this rpc is not all-or-nothing unlike the other rpcs. So, it may not be possible to list all the roles definitively, due to possible lack of authorization in some of the paths. */
   hasMembership?: boolean | undefined;
 }
-/** This resource object defines a domain that has been designated as allowlisted. */
-export interface AllowlistedDomain {
+export interface CreateAllowlistedDomainsRequest {
   /** Required. Immutable. Name of the domain that is in the allowlist. e.g. "google.com" */
   domain?: string | undefined;
   /** Output only. Identifier. Resource name of the domain in the allowlist e.g. "allowlistedDomains/0184mhaj1smlusv" */
   name?: string | undefined;
-}
-export interface CreateAllowlistedDomainsRequest {
-  /** Request body */
-  body?: AllowlistedDomain | undefined;
 }
 export type StringList = Array<string>;
 export type DeviceClientTypesItemEnum =
@@ -517,16 +496,11 @@ export interface Device {
   /** Serial Number of device. Example: HT82V1A01076. */
   serialNumber?: string | undefined;
 }
-/** Request message for creating a Company Owned device. */
-export interface CreateDeviceRequest {
+export interface CreateDevicesRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
   /** Required. The device to be created. The name field within this device is ignored in the create method. A new name is created by the method, and returned within the response. Only the fields `device_type`, `serial_number` and `asset_tag` (if present) are used to create the device. All other fields are ignored. The `device_type` and `serial_number` fields are required. */
   device?: Device | undefined;
-}
-export interface CreateDevicesRequest {
-  /** Request body */
-  body?: CreateDeviceRequest | undefined;
 }
 export type CreateGroupsInitialGroupConfigEnum =
   | "INITIAL_GROUP_CONFIG_UNSPECIFIED"
@@ -586,8 +560,9 @@ export interface DynamicGroupMetadata {
   status?: DynamicGroupStatus | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** A group within the Cloud Identity Groups API. A `Group` is a collection of entities, where each entity is either a user, another group, or a service account. */
-export interface Group {
+export interface CreateGroupsRequest {
+  /** Required. The initial configuration option for the `Group`. */
+  initialGroupConfig?: CreateGroupsInitialGroupConfigEnum | (string & {}) | undefined;
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
   name?: string | undefined;
   /** Output only. The time when the `Group` was created. */
@@ -612,12 +587,6 @@ export interface Group {
   displayName?: string | undefined;
   /** Required. One or more label entries that apply to the Group. Labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of `cloudidentity.googleapis.com/groups.discussion_forum` and an empty value. Existing Google Groups can have an additional label with a key of `cloudidentity.googleapis.com/groups.security` and an empty value added to them. **This is an immutable change and the security label cannot be removed once added.** Dynamic groups have a label with a key of `cloudidentity.googleapis.com/groups.dynamic`. Identity-mapped groups for Cloud Search have a label with a key of `system/groups/external` and an empty value. Google Groups can be [locked](https://support.google.com/a?p=locked-groups). To lock a group, add a label with a key of `cloudidentity.googleapis.com/groups.locked` and an empty value. Doing so locks the group. To unlock the group, remove this label. */
   labels?: StringMap | undefined;
-}
-export interface CreateGroupsRequest {
-  /** Required. The initial configuration option for the `Group`. */
-  initialGroupConfig?: CreateGroupsInitialGroupConfigEnum | (string & {}) | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 export type MembershipTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -668,8 +637,9 @@ export type MembershipDeliverySettingEnum =
   | "DAILY"
   | "NONE"
   | "DISABLED";
-/** A membership within the Cloud Identity Groups API. A `Membership` defines a relationship between a `Group` and an entity belonging to that `Group`, referred to as a "member". */
-export interface Membership {
+export interface CreateGroupsMembershipsRequest {
+  /** Required. The parent `Group` resource under which to create the `Membership`. Must be of the form `groups/{group_id}`. */
+  parent: string;
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership`. Shall be of the form `groups/{group_id}/memberships/{membership_id}`. */
   name?: string | undefined;
   /** Output only. The type of the membership. */
@@ -687,12 +657,6 @@ export interface Membership {
   /** Immutable. The `EntityKey` of the member. Either `member_key` or `preferred_member_key` must be set when calling MembershipsService.CreateMembership but not both; both shall be set when returned. */
   memberKey?: EntityKey | undefined;
 }
-export interface CreateGroupsMembershipsRequest {
-  /** Required. The parent `Group` resource under which to create the `Membership`. Must be of the form `groups/{group_id}`. */
-  parent: string;
-  /** Request body */
-  body?: Membership | undefined;
-}
 /** OIDC RP (relying party) configuration. */
 export interface OidcRpConfig {
   /** Input only. OAuth2 client secret for OIDC. */
@@ -709,8 +673,7 @@ export interface OidcIdpConfig {
   /** The **Change Password URL** of the identity provider. Users will be sent to this URL when changing their passwords at `myaccount.google.com`. This takes precedence over the change password URL configured at customer-level. Must use `HTTPS`. */
   changePasswordUri?: string | undefined;
 }
-/** An [OIDC](https://openid.net/developers/how-connect-works/) federation between a Google enterprise customer and an OIDC identity provider. */
-export interface InboundOidcSsoProfile {
+export interface CreateInboundOidcSsoProfilesRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
   name?: string | undefined;
   /** Human-readable name of the OIDC SSO profile. */
@@ -721,10 +684,6 @@ export interface InboundOidcSsoProfile {
   customer?: string | undefined;
   /** OIDC identity provider configuration. */
   idpConfig?: OidcIdpConfig | undefined;
-}
-export interface CreateInboundOidcSsoProfilesRequest {
-  /** Request body */
-  body?: InboundOidcSsoProfile | undefined;
 }
 /** SAML SP (service provider) configuration. */
 export interface SamlSpConfig {
@@ -744,8 +703,7 @@ export interface SamlIdpConfig {
   /** Required. The SAML **Entity ID** of the identity provider. */
   entityId?: string | undefined;
 }
-/** A [SAML 2.0](https://www.oasis-open.org/standards#samlv2.0) federation between a Google enterprise customer and a SAML identity provider. */
-export interface InboundSamlSsoProfile {
+export interface CreateInboundSamlSsoProfilesRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name?: string | undefined;
   /** SAML service provider configuration for this SAML SSO profile. These are the service provider details provided by Google that should be configured on the corresponding identity provider. */
@@ -756,10 +714,6 @@ export interface InboundSamlSsoProfile {
   customer?: string | undefined;
   /** SAML identity provider configuration. */
   idpConfig?: SamlIdpConfig | undefined;
-}
-export interface CreateInboundSamlSsoProfilesRequest {
-  /** Request body */
-  body?: InboundSamlSsoProfile | undefined;
 }
 /** Details that are applicable when `sso_mode` is set to `OIDC_SSO`. */
 export interface OidcSsoInfo {
@@ -783,8 +737,7 @@ export type InboundSsoAssignmentSsoModeEnum =
   | "SAML_SSO"
   | "OIDC_SSO"
   | "DOMAIN_WIDE_SAML_IF_ENABLED";
-/** Targets with "set" SSO assignments and their respective assignments. */
-export interface InboundSsoAssignment {
+export interface CreateInboundSsoAssignmentsRequest {
   /** Immutable. Must be of the form `orgUnits/{org_unit}`. */
   targetOrgUnit?: string | undefined;
   /** OpenID Connect SSO details. Must be set if and only if `sso_mode` is set to `OIDC_SSO`. */
@@ -803,10 +756,6 @@ export interface InboundSsoAssignment {
   rank?: number | undefined;
   /** Immutable. The customer. For example: `customers/C0123abc`. */
   customer?: string | undefined;
-}
-export interface CreateInboundSsoAssignmentsRequest {
-  /** Request body */
-  body?: InboundSsoAssignment | undefined;
 }
 /** Setting */
 export interface Setting {
@@ -827,8 +776,7 @@ export interface PolicyQuery {
   sortOrder?: number | undefined;
 }
 export type PolicyTypeEnum = "POLICY_TYPE_UNSPECIFIED" | "SYSTEM" | "ADMIN";
-/** A Policy resource binds an instance of a single Setting with the scope of a PolicyQuery. The Setting instance will be applied to all entities that satisfy the query. */
-export interface Policy {
+export interface CreatePoliciesRequest {
   /** Immutable. Customer that the Policy belongs to. The value is in the format 'customers/{customerId}'. The `customerId` must begin with "C" To find your customer ID in Admin Console see https://support.google.com/a/answer/10070793. */
   customer?: string | undefined;
   /** Required. The Setting configured by this Policy. */
@@ -839,10 +787,6 @@ export interface Policy {
   type?: PolicyTypeEnum | (string & {}) | undefined;
   /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
   name?: string | undefined;
-}
-export interface CreatePoliciesRequest {
-  /** Request body */
-  body?: Policy | undefined;
 }
 export interface DeleteAllowlistedDomainsRequest {
   /** Required. Specifies the [resource name](https://google.aip.dev/122) of the domain to delete. */
@@ -891,6 +835,13 @@ export interface DeletePoliciesRequest {
 export interface GetAllowlistedDomainsRequest {
   /** Required. Specifies the [resource name](https://google.aip.dev/122) of the domain to retrieve. */
   name: string;
+}
+/** This resource object defines a domain that has been designated as allowlisted. */
+export interface AllowlistedDomain {
+  /** Required. Immutable. Name of the domain that is in the allowlist. e.g. "google.com" */
+  domain?: string | undefined;
+  /** Output only. Identifier. Resource name of the domain in the allowlist e.g. "allowlistedDomains/0184mhaj1smlusv" */
+  name?: string | undefined;
 }
 export interface GetCustomersUserinvitationsRequest {
   /** Required. `UserInvitation` name in the format `customers/{customer}/userinvitations/{user_email_address}` */
@@ -999,7 +950,7 @@ export type ClientStateOwnerTypeEnum =
 /** Represents the state associated with an API client calling the Devices API. Resource representing ClientState and supports updates from API users */
 export interface ClientState {
   /** The Health score of the resource */
-  healthScore?: ClientStateHealthScoreEnum | (string & {}) | undefined;
+  healthScore?: ClientStateHealthScoreEnum | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device_id}/deviceUsers/{device_user_id}/clientState/{partner_id}`, where partner_id corresponds to the partner storing the data. */
   name?: string | undefined;
   /** The map of key-value attributes stored by callers specific to a device. The total serialized length of this map may not exceed 10KB. No limit is placed on the number of attributes in a map. */
@@ -1007,17 +958,17 @@ export interface ClientState {
   /** The token that needs to be passed back for concurrency control in updates. Token needs to be passed back in UpdateRequest */
   etag?: string | undefined;
   /** The management state of the resource as specified by the API client. */
-  managed?: ClientStateManagedEnum | (string & {}) | undefined;
+  managed?: ClientStateManagedEnum | undefined;
   /** A descriptive cause of the health score. */
   scoreReason?: string | undefined;
   /** The compliance state of the resource as specified by the API client. */
-  complianceState?: ClientStateComplianceStateEnum | (string & {}) | undefined;
+  complianceState?: ClientStateComplianceStateEnum | undefined;
   /** Output only. The time the client state data was created. */
   createTime?: string | undefined;
   /** The caller can specify asset tags for this resource */
   assetTags?: StringList | undefined;
   /** Output only. The owner of the ClientState */
-  ownerType?: ClientStateOwnerTypeEnum | (string & {}) | undefined;
+  ownerType?: ClientStateOwnerTypeEnum | undefined;
   /** This field may be used to store a unique identifier for the API resource within which these CustomAttributes are a field. */
   customId?: string | undefined;
   /** Output only. The time the client state data was last updated. */
@@ -1027,17 +978,89 @@ export interface GetGroupsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group` to retrieve. Must be of the form `groups/{group_id}`. */
   name: string;
 }
+/** A group within the Cloud Identity Groups API. A `Group` is a collection of entities, where each entity is either a user, another group, or a service account. */
+export interface Group {
+  /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
+  name?: string | undefined;
+  /** Output only. The time when the `Group` was created. */
+  createTime?: string | undefined;
+  /** Optional. The POSIX groups associated with the `Group`. */
+  posixGroups?: PosixGroupList | undefined;
+  /** Optional. External identifiers associated with the `Group`. Enables external identity providers and directory sync tools to link their native unique identifiers with this group. Currently, the only allowable namespace is `"system/external"`. */
+  externalIds?: ExternalIdList | undefined;
+  /** Required. The `EntityKey` of the `Group`. */
+  groupKey?: EntityKey | undefined;
+  /** Output only. Additional group keys associated with the Group. */
+  additionalGroupKeys?: EntityKeyList | undefined;
+  /** Optional. Dynamic group metadata like queries and status. */
+  dynamicGroupMetadata?: DynamicGroupMetadata | undefined;
+  /** Required. Immutable. The resource name of the entity under which this `Group` resides in the Cloud Identity resource hierarchy. Must be of the form `identitysources/{identity_source}` for external [identity-mapped groups](https://support.google.com/a/answer/9039510) or `customers/{customer_id}` for Google Groups. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) */
+  parent?: string | undefined;
+  /** Output only. The time when the `Group` was last updated. */
+  updateTime?: string | undefined;
+  /** An extended description to help users determine the purpose of a `Group`. Must not be longer than 4,096 characters. */
+  description?: string | undefined;
+  /** The display name of the `Group`. */
+  displayName?: string | undefined;
+  /** Required. One or more label entries that apply to the Group. Labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of `cloudidentity.googleapis.com/groups.discussion_forum` and an empty value. Existing Google Groups can have an additional label with a key of `cloudidentity.googleapis.com/groups.security` and an empty value added to them. **This is an immutable change and the security label cannot be removed once added.** Dynamic groups have a label with a key of `cloudidentity.googleapis.com/groups.dynamic`. Identity-mapped groups for Cloud Search have a label with a key of `system/groups/external` and an empty value. Google Groups can be [locked](https://support.google.com/a?p=locked-groups). To lock a group, add a label with a key of `cloudidentity.googleapis.com/groups.locked` and an empty value. Doing so locks the group. To unlock the group, remove this label. */
+  labels?: StringMap | undefined;
+}
 export interface GetGroupsMembershipsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` to retrieve. Must be of the form `groups/{group_id}/memberships/{membership_id}`. */
   name: string;
+}
+/** A membership within the Cloud Identity Groups API. A `Membership` defines a relationship between a `Group` and an entity belonging to that `Group`, referred to as a "member". */
+export interface Membership {
+  /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership`. Shall be of the form `groups/{group_id}/memberships/{membership_id}`. */
+  name?: string | undefined;
+  /** Output only. The type of the membership. */
+  type?: MembershipTypeEnum | undefined;
+  /** Output only. The time when the `Membership` was created. */
+  createTime?: string | undefined;
+  /** Output only. The time when the `Membership` was last updated. */
+  updateTime?: string | undefined;
+  /** Required. Immutable. The `EntityKey` of the member. Either `member_key` or `preferred_member_key` must be set when calling MembershipsService.CreateMembership but not both; both shall be set when returned. */
+  preferredMemberKey?: EntityKey | undefined;
+  /** The `MembershipRole`s that apply to the `Membership`. If unspecified, defaults to a single `MembershipRole` with `name` `MEMBER`. Must not contain duplicate `MembershipRole`s with the same `name`. */
+  roles?: MembershipRoleList | undefined;
+  /** Output only. Delivery setting associated with the membership. */
+  deliverySetting?: MembershipDeliverySettingEnum | undefined;
+  /** Immutable. The `EntityKey` of the member. Either `member_key` or `preferred_member_key` must be set when calling MembershipsService.CreateMembership but not both; both shall be set when returned. */
+  memberKey?: EntityKey | undefined;
 }
 export interface GetInboundOidcSsoProfilesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundOidcSsoProfile to get. Format: `inboundOidcSsoProfiles/{sso_profile_id}` */
   name: string;
 }
+/** An [OIDC](https://openid.net/developers/how-connect-works/) federation between a Google enterprise customer and an OIDC identity provider. */
+export interface InboundOidcSsoProfile {
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
+  name?: string | undefined;
+  /** Human-readable name of the OIDC SSO profile. */
+  displayName?: string | undefined;
+  /** OIDC relying party (RP) configuration for this OIDC SSO profile. These are the RP details provided by Google that should be configured on the corresponding identity provider. */
+  rpConfig?: OidcRpConfig | undefined;
+  /** Immutable. The customer. For example: `customers/C0123abc`. */
+  customer?: string | undefined;
+  /** OIDC identity provider configuration. */
+  idpConfig?: OidcIdpConfig | undefined;
+}
 export interface GetInboundSamlSsoProfilesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSamlSsoProfile to get. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   name: string;
+}
+/** A [SAML 2.0](https://www.oasis-open.org/standards#samlv2.0) federation between a Google enterprise customer and a SAML identity provider. */
+export interface InboundSamlSsoProfile {
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
+  name?: string | undefined;
+  /** SAML service provider configuration for this SAML SSO profile. These are the service provider details provided by Google that should be configured on the corresponding identity provider. */
+  spConfig?: SamlSpConfig | undefined;
+  /** Human-readable name of the SAML SSO profile. */
+  displayName?: string | undefined;
+  /** Immutable. The customer. For example: `customers/C0123abc`. */
+  customer?: string | undefined;
+  /** SAML identity provider configuration. */
+  idpConfig?: SamlIdpConfig | undefined;
 }
 export interface GetInboundSamlSsoProfilesIdpCredentialsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the IdpCredential to retrieve. Format: `inboundSamlSsoProfiles/{sso_profile_id}/idpCredentials/{idp_credential_id}` */
@@ -1068,6 +1091,27 @@ export interface GetInboundSsoAssignmentsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSsoAssignment to fetch. Format: `inboundSsoAssignments/{assignment}` */
   name: string;
 }
+/** Targets with "set" SSO assignments and their respective assignments. */
+export interface InboundSsoAssignment {
+  /** Immutable. Must be of the form `orgUnits/{org_unit}`. */
+  targetOrgUnit?: string | undefined;
+  /** OpenID Connect SSO details. Must be set if and only if `sso_mode` is set to `OIDC_SSO`. */
+  oidcSsoInfo?: OidcSsoInfo | undefined;
+  /** SAML SSO details. Must be set if and only if `sso_mode` is set to `SAML_SSO`. */
+  samlSsoInfo?: SamlSsoInfo | undefined;
+  /** Assertions about users assigned to an IdP will always be accepted from that IdP. This controls whether/when Google should redirect a user to the IdP. Unset (defaults) is the recommended configuration. */
+  signInBehavior?: SignInBehavior | undefined;
+  /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
+  name?: string | undefined;
+  /** Immutable. Must be of the form `groups/{group}`. */
+  targetGroup?: string | undefined;
+  /** Inbound SSO behavior. */
+  ssoMode?: InboundSsoAssignmentSsoModeEnum | undefined;
+  /** Must be zero (which is the default value so it can be omitted) for assignments with `target_org_unit` set and must be greater-than-or-equal-to one for assignments with `target_group` set. */
+  rank?: number | undefined;
+  /** Immutable. The customer. For example: `customers/C0123abc`. */
+  customer?: string | undefined;
+}
 export interface GetMembershipGraphGroupsMembershipsRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group_id}`, where `group_id` is the unique ID assigned to the Group to which the Membership belongs to. group_id can be a wildcard collection id "-". When `group_id` is specified, the membership graph will be constrained to paths between the member (defined in the query) and the parent. If a wildcard collection is provided, all membership paths connected to the member will be returned. */
   parent: string;
@@ -1077,6 +1121,19 @@ export interface GetMembershipGraphGroupsMembershipsRequest {
 export interface GetPoliciesRequest {
   /** Required. The name of the policy to retrieve. Format: `policies/{policy}`. */
   name: string;
+}
+/** A Policy resource binds an instance of a single Setting with the scope of a PolicyQuery. The Setting instance will be applied to all entities that satisfy the query. */
+export interface Policy {
+  /** Immutable. Customer that the Policy belongs to. The value is in the format 'customers/{customerId}'. The `customerId` must begin with "C" To find your customer ID in Admin Console see https://support.google.com/a/answer/10070793. */
+  customer?: string | undefined;
+  /** Required. The Setting configured by this Policy. */
+  setting?: Setting | undefined;
+  /** Required. The PolicyQuery the Setting applies to. */
+  policyQuery?: PolicyQuery | undefined;
+  /** Output only. The type of the policy. */
+  type?: PolicyTypeEnum | undefined;
+  /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
+  name?: string | undefined;
 }
 export interface GetSecuritySettingsGroupsRequest {
   /** Field-level read mask of which fields to return. "*" returns all fields. If not specified, all fields will be returned. May only contain the following field: `member_restriction`. */
@@ -1411,8 +1468,9 @@ export interface UpdateMembershipRolesParams {
   fieldMask?: string | undefined;
 }
 export type UpdateMembershipRolesParamsList = Array<UpdateMembershipRolesParams>;
-/** The request message for MembershipsService.ModifyMembershipRoles. */
-export interface ModifyMembershipRolesRequest {
+export interface ModifyMembershipRolesGroupsMembershipsRequest {
+  /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` whose roles are to be modified. Must be of the form `groups/{group_id}/memberships/{membership_id}`. */
+  name: string;
   /** The `name`s of the `MembershipRole`s to be removed. Adding or removing roles in the same request as updating roles is not supported. It is not possible to remove the `MEMBER` `MembershipRole`. If you wish to delete a `Membership`, call MembershipsService.DeleteMembership instead. Must not contain `MEMBER`. Must not be set if `update_roles_params` is set. */
   removeRoles?: StringList | undefined;
   /** The `MembershipRole`s to be updated. Updating roles in the same request as adding or removing roles is not supported. Must not be set if either `add_roles` or `remove_roles` is set. */
@@ -1420,29 +1478,18 @@ export interface ModifyMembershipRolesRequest {
   /** The `MembershipRole`s to be added. Adding or removing roles in the same request as updating roles is not supported. Must not be set if `update_roles_params` is set. */
   addRoles?: MembershipRoleList | undefined;
 }
-export interface ModifyMembershipRolesGroupsMembershipsRequest {
-  /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` whose roles are to be modified. Must be of the form `groups/{group_id}/memberships/{membership_id}`. */
-  name: string;
-  /** Request body */
-  body?: ModifyMembershipRolesRequest | undefined;
-}
 /** The response message for MembershipsService.ModifyMembershipRoles. */
 export interface ModifyMembershipRolesResponse {
   /** The `Membership` resource after modifying its `MembershipRole`s. */
   membership?: Membership | undefined;
 }
-/** The request message for OrgMembershipsService.MoveOrgMembership. */
-export interface MoveOrgMembershipRequest {
+export interface MoveOrgUnitsMembershipsRequest {
+  /** Required. Immutable. The [resource name](https://cloud.google.com/apis/design/resource_names) of the OrgMembership. Format: orgUnits/{$orgUnitId}/memberships/{$membership} The `$orgUnitId` is the `orgUnitId` from the [Admin SDK `OrgUnit` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/orgunits). To manage a Membership without specifying source `orgUnitId`, this API also supports the wildcard character '-' for `$orgUnitId` per https://google.aip.dev/159. The `$membership` shall be of the form `{$entityType};{$memberId}`, where `$entityType` is the enum value of OrgMembership.EntityType, and `memberId` is the `id` from [Drive API (V3) `Drive` resource](https://developers.google.com/drive/api/v3/reference/drives#resource) for OrgMembership.EntityType.SHARED_DRIVE. */
+  name: string;
   /** Required. Immutable. OrgUnit where the membership will be moved to. Format: orgUnits/{$orgUnitId} where `$orgUnitId` is the `orgUnitId` from the [Admin SDK `OrgUnit` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/orgunits). */
   destinationOrgUnit?: string | undefined;
   /** Required. Immutable. Customer on whose membership change is made. All authorization will happen on the role assignments of this customer. Format: customers/{$customerId} where `$customerId` is the `id` from the [Admin SDK `Customer` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). You may also use `customers/my_customer` to specify your own organization. */
   customer?: string | undefined;
-}
-export interface MoveOrgUnitsMembershipsRequest {
-  /** Required. Immutable. The [resource name](https://cloud.google.com/apis/design/resource_names) of the OrgMembership. Format: orgUnits/{$orgUnitId}/memberships/{$membership} The `$orgUnitId` is the `orgUnitId` from the [Admin SDK `OrgUnit` resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/orgunits). To manage a Membership without specifying source `orgUnitId`, this API also supports the wildcard character '-' for `$orgUnitId` per https://google.aip.dev/159. The `$membership` shall be of the form `{$entityType};{$memberId}`, where `$entityType` is the enum value of OrgMembership.EntityType, and `memberId` is the `id` from [Drive API (V3) `Drive` resource](https://developers.google.com/drive/api/v3/reference/drives#resource) for OrgMembership.EntityType.SHARED_DRIVE. */
-  name: string;
-  /** Request body */
-  body?: MoveOrgMembershipRequest | undefined;
 }
 export interface PatchDevicesDeviceUsersClientStatesRequest {
   /** Optional. Comma-separated list of fully qualified names of fields to be updated. If not specified, all updatable fields in ClientState are updated. */
@@ -1451,46 +1498,118 @@ export interface PatchDevicesDeviceUsersClientStatesRequest {
   customer?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device_id}/deviceUsers/{device_user_id}/clientState/{partner_id}`, where partner_id corresponds to the partner storing the data. */
   name: string;
-  /** Request body */
-  body?: ClientState | undefined;
+  /** The Health score of the resource */
+  healthScore?: ClientStateHealthScoreEnum | (string & {}) | undefined;
+  /** The map of key-value attributes stored by callers specific to a device. The total serialized length of this map may not exceed 10KB. No limit is placed on the number of attributes in a map. */
+  keyValuePairs?: CustomAttributeValueMap | undefined;
+  /** The token that needs to be passed back for concurrency control in updates. Token needs to be passed back in UpdateRequest */
+  etag?: string | undefined;
+  /** The management state of the resource as specified by the API client. */
+  managed?: ClientStateManagedEnum | (string & {}) | undefined;
+  /** A descriptive cause of the health score. */
+  scoreReason?: string | undefined;
+  /** The compliance state of the resource as specified by the API client. */
+  complianceState?: ClientStateComplianceStateEnum | (string & {}) | undefined;
+  /** Output only. The time the client state data was created. */
+  createTime?: string | undefined;
+  /** The caller can specify asset tags for this resource */
+  assetTags?: StringList | undefined;
+  /** Output only. The owner of the ClientState */
+  ownerType?: ClientStateOwnerTypeEnum | (string & {}) | undefined;
+  /** This field may be used to store a unique identifier for the API resource within which these CustomAttributes are a field. */
+  customId?: string | undefined;
+  /** Output only. The time the client state data was last updated. */
+  lastUpdateTime?: string | undefined;
 }
 export interface PatchGroupsRequest {
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group_id}`. */
   name: string;
   /** Required. The names of fields to update. May only contain the following field names: `display_name`, `description`, `labels`, `dynamic_group_metadata`, `posix_groups`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
+  /** Output only. The time when the `Group` was created. */
+  createTime?: string | undefined;
+  /** Optional. The POSIX groups associated with the `Group`. */
+  posixGroups?: PosixGroupList | undefined;
+  /** Optional. External identifiers associated with the `Group`. Enables external identity providers and directory sync tools to link their native unique identifiers with this group. Currently, the only allowable namespace is `"system/external"`. */
+  externalIds?: ExternalIdList | undefined;
+  /** Required. The `EntityKey` of the `Group`. */
+  groupKey?: EntityKey | undefined;
+  /** Output only. Additional group keys associated with the Group. */
+  additionalGroupKeys?: EntityKeyList | undefined;
+  /** Optional. Dynamic group metadata like queries and status. */
+  dynamicGroupMetadata?: DynamicGroupMetadata | undefined;
+  /** Required. Immutable. The resource name of the entity under which this `Group` resides in the Cloud Identity resource hierarchy. Must be of the form `identitysources/{identity_source}` for external [identity-mapped groups](https://support.google.com/a/answer/9039510) or `customers/{customer_id}` for Google Groups. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) */
+  parent?: string | undefined;
+  /** Output only. The time when the `Group` was last updated. */
+  updateTime?: string | undefined;
+  /** An extended description to help users determine the purpose of a `Group`. Must not be longer than 4,096 characters. */
+  description?: string | undefined;
+  /** The display name of the `Group`. */
+  displayName?: string | undefined;
+  /** Required. One or more label entries that apply to the Group. Labels contain a key with an empty value. Google Groups are the default type of group and have a label with a key of `cloudidentity.googleapis.com/groups.discussion_forum` and an empty value. Existing Google Groups can have an additional label with a key of `cloudidentity.googleapis.com/groups.security` and an empty value added to them. **This is an immutable change and the security label cannot be removed once added.** Dynamic groups have a label with a key of `cloudidentity.googleapis.com/groups.dynamic`. Identity-mapped groups for Cloud Search have a label with a key of `system/groups/external` and an empty value. Google Groups can be [locked](https://support.google.com/a?p=locked-groups). To lock a group, add a label with a key of `cloudidentity.googleapis.com/groups.locked` and an empty value. Doing so locks the group. To unlock the group, remove this label. */
+  labels?: StringMap | undefined;
 }
 export interface PatchInboundOidcSsoProfilesRequest {
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
   name: string;
-  /** Request body */
-  body?: InboundOidcSsoProfile | undefined;
+  /** Human-readable name of the OIDC SSO profile. */
+  displayName?: string | undefined;
+  /** OIDC relying party (RP) configuration for this OIDC SSO profile. These are the RP details provided by Google that should be configured on the corresponding identity provider. */
+  rpConfig?: OidcRpConfig | undefined;
+  /** Immutable. The customer. For example: `customers/C0123abc`. */
+  customer?: string | undefined;
+  /** OIDC identity provider configuration. */
+  idpConfig?: OidcIdpConfig | undefined;
 }
 export interface PatchInboundSamlSsoProfilesRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InboundSamlSsoProfile | undefined;
+  /** SAML service provider configuration for this SAML SSO profile. These are the service provider details provided by Google that should be configured on the corresponding identity provider. */
+  spConfig?: SamlSpConfig | undefined;
+  /** Human-readable name of the SAML SSO profile. */
+  displayName?: string | undefined;
+  /** Immutable. The customer. For example: `customers/C0123abc`. */
+  customer?: string | undefined;
+  /** SAML identity provider configuration. */
+  idpConfig?: SamlIdpConfig | undefined;
 }
 export interface PatchInboundSsoAssignmentsRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
   name: string;
   /** Required. The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: InboundSsoAssignment | undefined;
+  /** Immutable. Must be of the form `orgUnits/{org_unit}`. */
+  targetOrgUnit?: string | undefined;
+  /** OpenID Connect SSO details. Must be set if and only if `sso_mode` is set to `OIDC_SSO`. */
+  oidcSsoInfo?: OidcSsoInfo | undefined;
+  /** SAML SSO details. Must be set if and only if `sso_mode` is set to `SAML_SSO`. */
+  samlSsoInfo?: SamlSsoInfo | undefined;
+  /** Assertions about users assigned to an IdP will always be accepted from that IdP. This controls whether/when Google should redirect a user to the IdP. Unset (defaults) is the recommended configuration. */
+  signInBehavior?: SignInBehavior | undefined;
+  /** Immutable. Must be of the form `groups/{group}`. */
+  targetGroup?: string | undefined;
+  /** Inbound SSO behavior. */
+  ssoMode?: InboundSsoAssignmentSsoModeEnum | (string & {}) | undefined;
+  /** Must be zero (which is the default value so it can be omitted) for assignments with `target_org_unit` set and must be greater-than-or-equal-to one for assignments with `target_group` set. */
+  rank?: number | undefined;
+  /** Immutable. The customer. For example: `customers/C0123abc`. */
+  customer?: string | undefined;
 }
 export interface PatchPoliciesRequest {
   /** Output only. Identifier. The [resource name](https://cloud.google.com/apis/design/resource_names) of the Policy. Format: policies/{policy}. */
   name: string;
-  /** Request body */
-  body?: Policy | undefined;
+  /** Immutable. Customer that the Policy belongs to. The value is in the format 'customers/{customerId}'. The `customerId` must begin with "C" To find your customer ID in Admin Console see https://support.google.com/a/answer/10070793. */
+  customer?: string | undefined;
+  /** Required. The Setting configured by this Policy. */
+  setting?: Setting | undefined;
+  /** Required. The PolicyQuery the Setting applies to. */
+  policyQuery?: PolicyQuery | undefined;
+  /** Output only. The type of the policy. */
+  type?: PolicyTypeEnum | (string & {}) | undefined;
 }
 export interface SearchDirectGroupsGroupsMembershipsRequest {
   /** The default page size is 200 (max 1000). */
@@ -1638,29 +1757,22 @@ export interface UpdateSecuritySettingsGroupsRequest {
   name: string;
   /** Required. The fully-qualified names of fields to update. May only contain the following field: `member_restriction.query`. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecuritySettings | undefined;
+  /** The Member Restriction value */
+  memberRestriction?: MemberRestriction | undefined;
 }
-/** Request message for wiping all data on the device. */
-export interface WipeDeviceRequest {
+export interface WipeDevicesRequest {
+  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
+  name: string;
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
   customer?: string | undefined;
   /** Optional. Specifies if a user is able to factory reset a device after a Device Wipe. On iOS, this is called "Activation Lock", while on Android, this is known as "Factory Reset Protection". If true, this protection will be removed from the device, so that a user can successfully factory reset. If false, the setting is untouched on the device. */
   removeResetLock?: boolean | undefined;
 }
-export interface WipeDevicesRequest {
-  /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
-  name: string;
-  /** Request body */
-  body?: WipeDeviceRequest | undefined;
-}
-/** Request message for starting an account wipe on device. */
-export type WipeDeviceUserRequest = ApproveDeviceUserRequest;
 export interface WipeDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device_id}/deviceUsers/{device_user_id}`, where device_id is the unique ID assigned to the Device, and device_user_id is the unique ID assigned to the User. */
   name: string;
-  /** Request body */
-  body?: ApproveDeviceUserRequest | undefined;
+  /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer_id}`, where customer_id is the customer to whom the device belongs. */
+  customer?: string | undefined;
 }
 export type AddInboundSamlSsoProfilesIdpCredentialsError =
   | NotFound
@@ -1675,8 +1787,8 @@ export const addInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   AddInboundSamlSsoProfilesIdpCredentialsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c48, 1) as any as S.Schema<AddInboundSamlSsoProfilesIdpCredentialsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(1664, __c52, 0) as any as S.Schema<AddInboundSamlSsoProfilesIdpCredentialsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1697,8 +1809,8 @@ export const approveDevicesDeviceUsers: API.OperationMethod<
   ApproveDevicesDeviceUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ApproveDevicesDeviceUsersRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ApproveDevicesDeviceUsersRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1719,8 +1831,8 @@ export const blockDevicesDeviceUsers: API.OperationMethod<
   BlockDevicesDeviceUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<BlockDevicesDeviceUsersRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2560, __c80, 0) as any as S.Schema<BlockDevicesDeviceUsersRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1741,8 +1853,8 @@ export const cancelCustomersUserinvitations: API.OperationMethod<
   CancelCustomersUserinvitationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<CancelCustomersUserinvitationsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CancelCustomersUserinvitationsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1758,8 +1870,8 @@ export const cancelWipeDevices: API.OperationMethod<
   CancelWipeDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<CancelWipeDevicesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CancelWipeDevicesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1780,8 +1892,8 @@ export const cancelWipeDevicesDeviceUsers: API.OperationMethod<
   CancelWipeDevicesDeviceUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CancelWipeDevicesDeviceUsersRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(3200, __c100, 0) as any as S.Schema<CancelWipeDevicesDeviceUsersRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1820,7 +1932,7 @@ export const createAllowlistedDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateAllowlistedDomainsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1836,8 +1948,8 @@ export const createDevices: API.OperationMethod<
   CreateDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c3, 1) as any as S.Schema<CreateDevicesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateDevicesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1853,8 +1965,8 @@ export const createGroups: API.OperationMethod<
   CreateGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateGroupsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(160, __c5, 0) as any as S.Schema<CreateGroupsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1875,8 +1987,8 @@ export const createGroupsMemberships: API.OperationMethod<
   CreateGroupsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateGroupsMembershipsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateGroupsMembershipsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1897,8 +2009,8 @@ export const createInboundOidcSsoProfiles: API.OperationMethod<
   CreateInboundOidcSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateInboundOidcSsoProfilesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateInboundOidcSsoProfilesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1919,8 +2031,8 @@ export const createInboundSamlSsoProfiles: API.OperationMethod<
   CreateInboundSamlSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<CreateInboundSamlSsoProfilesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateInboundSamlSsoProfilesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1941,8 +2053,8 @@ export const createInboundSsoAssignments: API.OperationMethod<
   CreateInboundSsoAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<CreateInboundSsoAssignmentsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateInboundSsoAssignmentsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1958,8 +2070,8 @@ export const createPolicies: API.OperationMethod<
   CreatePoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreatePoliciesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreatePoliciesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1980,8 +2092,8 @@ export const deleteAllowlistedDomains: API.OperationMethod<
   DeleteAllowlistedDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteAllowlistedDomainsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteAllowlistedDomainsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1997,8 +2109,8 @@ export const deleteDevices: API.OperationMethod<
   DeleteDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteDevicesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteDevicesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2019,8 +2131,8 @@ export const deleteDevicesDeviceUsers: API.OperationMethod<
   DeleteDevicesDeviceUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteDevicesDeviceUsersRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteDevicesDeviceUsersRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2036,8 +2148,8 @@ export const deleteGroups: API.OperationMethod<
   DeleteGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteGroupsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteGroupsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2058,8 +2170,8 @@ export const deleteGroupsMemberships: API.OperationMethod<
   DeleteGroupsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteGroupsMembershipsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteGroupsMembershipsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2080,8 +2192,8 @@ export const deleteInboundOidcSsoProfiles: API.OperationMethod<
   DeleteInboundOidcSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteInboundOidcSsoProfilesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteInboundOidcSsoProfilesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2102,8 +2214,8 @@ export const deleteInboundSamlSsoProfiles: API.OperationMethod<
   DeleteInboundSamlSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteInboundSamlSsoProfilesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteInboundSamlSsoProfilesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2124,8 +2236,8 @@ export const deleteInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   DeleteInboundSamlSsoProfilesIdpCredentialsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteInboundSamlSsoProfilesIdpCredentialsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteInboundSamlSsoProfilesIdpCredentialsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2146,8 +2258,8 @@ export const deleteInboundSsoAssignments: API.OperationMethod<
   DeleteInboundSsoAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteInboundSsoAssignmentsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteInboundSsoAssignmentsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2163,8 +2275,8 @@ export const deletePolicies: API.OperationMethod<
   DeletePoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeletePoliciesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeletePoliciesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2180,8 +2292,8 @@ export const getAllowlistedDomains: API.OperationMethod<
   GetAllowlistedDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetAllowlistedDomainsRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<AllowlistedDomain>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetAllowlistedDomainsRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<AllowlistedDomain>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2197,8 +2309,8 @@ export const getCustomersUserinvitations: API.OperationMethod<
   GetCustomersUserinvitationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetCustomersUserinvitationsRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<UserInvitation>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetCustomersUserinvitationsRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<UserInvitation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2214,8 +2326,8 @@ export const getDevices: API.OperationMethod<
   GetDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetDevicesRequest>,
-  output: __S(176, __c5, 16) as any as S.Schema<Device>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetDevicesRequest>,
+  output: __S(144, __c4, 16) as any as S.Schema<Device>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2231,8 +2343,8 @@ export const getDevicesDeviceUsers: API.OperationMethod<
   GetDevicesDeviceUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetDevicesDeviceUsersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeviceUser>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetDevicesDeviceUsersRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<DeviceUser>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2248,8 +2360,8 @@ export const getDevicesDeviceUsersClientStates: API.OperationMethod<
   GetDevicesDeviceUsersClientStatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetDevicesDeviceUsersClientStatesRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<ClientState>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetDevicesDeviceUsersClientStatesRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<ClientState>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2261,8 +2373,8 @@ export type GetGroupsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves a `Group`. */
 export const getGroups: API.OperationMethod<GetGroupsRequest, Group, GetGroupsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1312, __c41, 0) as any as S.Schema<GetGroupsRequest>,
-    output: __S(294, __c9, 6) as any as S.Schema<Group>,
+    input: __S(1280, __c40, 0) as any as S.Schema<GetGroupsRequest>,
+    output: __S(1312, __c41, 0) as any as S.Schema<Group>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -2279,7 +2391,7 @@ export const getGroupsMemberships: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetGroupsMembershipsRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<Membership>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2295,8 +2407,8 @@ export const getInboundOidcSsoProfiles: API.OperationMethod<
   GetInboundOidcSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetInboundOidcSsoProfilesRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<InboundOidcSsoProfile>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetInboundOidcSsoProfilesRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<InboundOidcSsoProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2312,8 +2424,8 @@ export const getInboundSamlSsoProfiles: API.OperationMethod<
   GetInboundSamlSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetInboundSamlSsoProfilesRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<InboundSamlSsoProfile>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetInboundSamlSsoProfilesRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<InboundSamlSsoProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2329,8 +2441,8 @@ export const getInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   GetInboundSamlSsoProfilesIdpCredentialsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetInboundSamlSsoProfilesIdpCredentialsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<IdpCredential>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetInboundSamlSsoProfilesIdpCredentialsRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<IdpCredential>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2346,8 +2458,8 @@ export const getInboundSsoAssignments: API.OperationMethod<
   GetInboundSsoAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetInboundSsoAssignmentsRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<InboundSsoAssignment>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetInboundSsoAssignmentsRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<InboundSsoAssignment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2363,8 +2475,8 @@ export const getMembershipGraphGroupsMemberships: API.OperationMethod<
   GetMembershipGraphGroupsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetMembershipGraphGroupsMembershipsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetMembershipGraphGroupsMembershipsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2380,8 +2492,8 @@ export const getPolicies: API.OperationMethod<
   GetPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetPoliciesRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<Policy>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetPoliciesRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2397,8 +2509,8 @@ export const getSecuritySettingsGroups: API.OperationMethod<
   GetSecuritySettingsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetSecuritySettingsGroupsRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<SecuritySettings>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetSecuritySettingsGroupsRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<SecuritySettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2414,8 +2526,8 @@ export const isInvitableUserCustomersUserinvitations: API.OperationMethod<
   IsInvitableUserCustomersUserinvitationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<IsInvitableUserCustomersUserinvitationsRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<IsInvitableUserResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<IsInvitableUserCustomersUserinvitationsRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<IsInvitableUserResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2432,8 +2544,8 @@ export const listAllowlistedDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAllowlistedDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListAllowlistedDomainsRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<ListAllowlistedDomainsResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListAllowlistedDomainsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListAllowlistedDomainsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2451,8 +2563,8 @@ export const listCustomersUserinvitations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUserInvitationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListCustomersUserinvitationsRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<ListUserInvitationsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListCustomersUserinvitationsRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<ListUserInvitationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2470,8 +2582,8 @@ export const listDevices: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDevicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListDevicesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListDevicesResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ListDevicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2489,8 +2601,8 @@ export const listDevicesDeviceUsers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDeviceUsersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListDevicesDeviceUsersRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<ListDeviceUsersResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListDevicesDeviceUsersRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<ListDeviceUsersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2508,8 +2620,8 @@ export const listGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<ListGroupsResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(2081, __c65, 1) as any as S.Schema<ListGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2527,8 +2639,8 @@ export const listGroupsMemberships: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMembershipsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListGroupsMembershipsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<ListMembershipsResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListGroupsMembershipsRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ListMembershipsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2546,8 +2658,8 @@ export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInboundOidcSsoProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListInboundOidcSsoProfilesRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListInboundOidcSsoProfilesResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListInboundOidcSsoProfilesRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<ListInboundOidcSsoProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2565,8 +2677,8 @@ export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInboundSamlSsoProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListInboundSamlSsoProfilesRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<ListInboundSamlSsoProfilesResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListInboundSamlSsoProfilesRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<ListInboundSamlSsoProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2584,8 +2696,8 @@ export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMet
   GcpOpContext,
   ListIdpCredentialsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListInboundSamlSsoProfilesIdpCredentialsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListIdpCredentialsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListInboundSamlSsoProfilesIdpCredentialsRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<ListIdpCredentialsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2603,8 +2715,8 @@ export const listInboundSsoAssignments: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInboundSsoAssignmentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListInboundSsoAssignmentsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<ListInboundSsoAssignmentsResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListInboundSsoAssignmentsRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<ListInboundSsoAssignmentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2622,8 +2734,8 @@ export const listOrgUnitsMemberships: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOrgMembershipsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListOrgUnitsMembershipsRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<ListOrgMembershipsResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListOrgUnitsMembershipsRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<ListOrgMembershipsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2641,8 +2753,8 @@ export const listPolicies: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListPoliciesResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<ListPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2660,8 +2772,8 @@ export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<
   GcpOpContext,
   LookupSelfDeviceUsersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<LookupDevicesDeviceUsersRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<LookupSelfDeviceUsersResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<LookupDevicesDeviceUsersRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<LookupSelfDeviceUsersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2678,8 +2790,8 @@ export const lookupGroups: API.OperationMethod<
   LookupGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<LookupGroupsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<LookupGroupNameResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<LookupGroupsRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<LookupGroupNameResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2695,8 +2807,8 @@ export const lookupGroupsMemberships: API.OperationMethod<
   LookupGroupsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<LookupGroupsMembershipsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<LookupMembershipNameResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<LookupGroupsMembershipsRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<LookupMembershipNameResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2717,8 +2829,8 @@ export const modifyMembershipRolesGroupsMemberships: API.OperationMethod<
   ModifyMembershipRolesGroupsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2403, __c75, 3) as any as S.Schema<ModifyMembershipRolesGroupsMembershipsRequest>,
-  output: __S(2404, __c75, 4) as any as S.Schema<ModifyMembershipRolesResponse>,
+  input: __S(2530, __c79, 2) as any as S.Schema<ModifyMembershipRolesGroupsMembershipsRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<ModifyMembershipRolesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2739,8 +2851,8 @@ export const moveOrgUnitsMemberships: API.OperationMethod<
   MoveOrgUnitsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2465, __c77, 1) as any as S.Schema<MoveOrgUnitsMembershipsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2592, __c81, 0) as any as S.Schema<MoveOrgUnitsMembershipsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2761,8 +2873,8 @@ export const patchDevicesDeviceUsersClientStates: API.OperationMethod<
   PatchDevicesDeviceUsersClientStatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PatchDevicesDeviceUsersClientStatesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2624, __c82, 0) as any as S.Schema<PatchDevicesDeviceUsersClientStatesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2778,8 +2890,8 @@ export const patchGroups: API.OperationMethod<
   PatchGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PatchGroupsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PatchGroupsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2800,8 +2912,8 @@ export const patchInboundOidcSsoProfiles: API.OperationMethod<
   PatchInboundOidcSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchInboundOidcSsoProfilesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2688, __c84, 0) as any as S.Schema<PatchInboundOidcSsoProfilesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2822,8 +2934,8 @@ export const patchInboundSamlSsoProfiles: API.OperationMethod<
   PatchInboundSamlSsoProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchInboundSamlSsoProfilesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PatchInboundSamlSsoProfilesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2844,8 +2956,8 @@ export const patchInboundSsoAssignments: API.OperationMethod<
   PatchInboundSsoAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<PatchInboundSsoAssignmentsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PatchInboundSsoAssignmentsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2861,8 +2973,8 @@ export const patchPolicies: API.OperationMethod<
   PatchPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<PatchPoliciesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PatchPoliciesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2879,8 +2991,8 @@ export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchDirectGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<SearchDirectGroupsGroupsMembershipsRequest>,
-  output: __S(2691, __c84, 3) as any as S.Schema<SearchDirectGroupsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<SearchDirectGroupsGroupsMembershipsRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<SearchDirectGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2898,8 +3010,8 @@ export const searchGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   SearchGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<SearchGroupsRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<SearchGroupsResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<SearchGroupsRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<SearchGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2917,8 +3029,8 @@ export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMeth
   GcpOpContext,
   SearchTransitiveGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<SearchTransitiveGroupsGroupsMembershipsRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<SearchTransitiveGroupsResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<SearchTransitiveGroupsGroupsMembershipsRequest>,
+  output: __S(2883, __c90, 3) as any as S.Schema<SearchTransitiveGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2937,11 +3049,11 @@ export const searchTransitiveMembershipsGroupsMemberships: API.PaginatedOperatio
   SearchTransitiveMembershipsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2880,
-    __c90,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<SearchTransitiveMembershipsGroupsMembershipsRequest>,
-  output: __S(2883, __c90, 3) as any as S.Schema<SearchTransitiveMembershipsResponse>,
+  output: __S(3011, __c94, 3) as any as S.Schema<SearchTransitiveMembershipsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2963,8 +3075,8 @@ export const sendCustomersUserinvitations: API.OperationMethod<
   SendCustomersUserinvitationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<SendCustomersUserinvitationsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(3040, __c95, 0) as any as S.Schema<SendCustomersUserinvitationsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2985,8 +3097,8 @@ export const updateSecuritySettingsGroups: API.OperationMethod<
   UpdateSecuritySettingsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<UpdateSecuritySettingsGroupsRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(3072, __c96, 0) as any as S.Schema<UpdateSecuritySettingsGroupsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3002,8 +3114,8 @@ export const wipeDevices: API.OperationMethod<
   WipeDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2977, __c93, 1) as any as S.Schema<WipeDevicesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(3104, __c97, 0) as any as S.Schema<WipeDevicesRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3019,8 +3131,8 @@ export const wipeDevicesDeviceUsers: API.OperationMethod<
   WipeDevicesDeviceUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<WipeDevicesDeviceUsersRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<Operation>,
+  input: __S(3136, __c98, 0) as any as S.Schema<WipeDevicesDeviceUsersRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3057,7 +3169,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(64, __c2, 0).pipe(T.HttpBody())),
+          domain: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3073,25 +3186,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AllowlistedDomain" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           customer: S.optional(S.String),
-          device: S.optional(__S(176, __c5, 16)),
-        }),
-      ).annotate({ identifier: "CreateDeviceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          device: S.optional(__S(144, __c4, 16)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3102,13 +3198,13 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateDevicesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -3123,7 +3219,7 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificateTemplate: S.optional(__S(161, __c5, 1)),
+          certificateTemplate: S.optional(__S(129, __c4, 1)),
           validityStartTime: S.optional(S.String),
           thumbprint: S.optional(S.String),
           validationState: S.optional(S.String),
@@ -3135,7 +3231,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "CertificateAttributes" });
     case 3:
-      return S.Array(__S(162, __c5, 2));
+      return S.Array(__S(130, __c4, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3145,7 +3241,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "PolicyConflict" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(132, __c4, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3153,11 +3249,11 @@ function __c5(j: number): any {
           name: S.optional(S.String),
           scope: S.optional(S.String),
           source: S.optional(S.String),
-          conflicts: S.optional(__S(165, __c5, 5)),
+          conflicts: S.optional(__S(133, __c4, 5)),
         }),
       ).annotate({ identifier: "ChromePolicy" });
     case 7:
-      return S.Array(__S(166, __c5, 6));
+      return S.Array(__S(134, __c4, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -3165,7 +3261,7 @@ function __c5(j: number): any {
           isSiteIsolationEnabled: S.optional(S.Boolean),
           isThirdPartyBlockingEnabled: S.optional(S.Boolean),
           isBulkDataEntryAnalysisEnabled: S.optional(S.Boolean),
-          policies: S.optional(__S(167, __c5, 7)),
+          policies: S.optional(__S(135, __c4, 7)),
           isChromeRemoteDesktopAppBlocked: S.optional(S.Boolean),
           isSecurityEventAnalysisEnabled: S.optional(S.Boolean),
           safeBrowsingProtectionLevel: S.optional(S.String),
@@ -3181,19 +3277,19 @@ function __c5(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          chromeBrowserInfo: S.optional(__S(168, __c5, 8)),
+          chromeBrowserInfo: S.optional(__S(136, __c4, 8)),
           lastProfileSyncTime: S.optional(S.String),
           chromeProfileId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BrowserAttributes" });
     case 10:
-      return S.Array(__S(169, __c5, 9));
+      return S.Array(__S(137, __c4, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          certificateAttributes: S.optional(__S(163, __c5, 3)),
-          browserAttributes: S.optional(__S(170, __c5, 10)),
-          additionalSignals: S.optional(__S(1568, __c49, 0)),
+          certificateAttributes: S.optional(__S(131, __c4, 3)),
+          browserAttributes: S.optional(__S(138, __c4, 10)),
+          additionalSignals: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "EndpointVerificationSpecificAttributes" });
     case 12:
@@ -3218,11 +3314,11 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "AntivirusInfo" });
     case 14:
-      return S.Array(__S(173, __c5, 13));
+      return S.Array(__S(141, __c4, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          hotfixes: S.optional(__S(128, __c4, 0)),
+          hotfixes: S.optional(__S(96, __c3, 0)),
           windowsUserDomain: S.optional(S.String),
           secureBootMode: S.optional(S.String),
           windowsMachineDomain: S.optional(S.String),
@@ -3238,32 +3334,32 @@ function __c5(j: number): any {
           imei: S.optional(S.String),
           hostname: S.optional(S.String),
           releaseVersion: S.optional(S.String),
-          wifiMacAddresses: S.optional(__S(128, __c4, 0)),
-          clientTypes: S.optional(__S(160, __c5, 0)),
+          wifiMacAddresses: S.optional(__S(96, __c3, 0)),
+          clientTypes: S.optional(__S(128, __c4, 0)),
           assetTag: S.optional(S.String),
           ownerType: S.optional(S.String),
           managementState: S.optional(S.String),
           deviceType: S.optional(S.String),
-          endpointVerificationSpecificAttributes: S.optional(__S(171, __c5, 11)),
+          endpointVerificationSpecificAttributes: S.optional(__S(139, __c4, 11)),
           osFirewallStatus: S.optional(S.String),
           kernelVersion: S.optional(S.String),
           encryptionState: S.optional(S.String),
           deviceId: S.optional(S.String),
           networkOperator: S.optional(S.String),
           compromisedState: S.optional(S.String),
-          otherAccounts: S.optional(__S(128, __c4, 0)),
+          otherAccounts: S.optional(__S(96, __c3, 0)),
           osVersion: S.optional(S.String),
-          androidSpecificAttributes: S.optional(__S(172, __c5, 12)),
+          androidSpecificAttributes: S.optional(__S(140, __c4, 12)),
           buildNumber: S.optional(S.String),
           createTime: S.optional(S.String),
           bootloaderVersion: S.optional(S.String),
           enabledUsbDebugging: S.optional(S.Boolean),
-          antivirusInfo: S.optional(__S(174, __c5, 14)),
+          antivirusInfo: S.optional(__S(142, __c4, 14)),
           model: S.optional(S.String),
           manufacturer: S.optional(S.String),
-          windowsSpecificDeviceAttributes: S.optional(__S(175, __c5, 15)),
+          windowsSpecificDeviceAttributes: S.optional(__S(143, __c4, 15)),
           brand: S.optional(S.String),
-          browserProfiles: S.optional(__S(170, __c5, 10)),
+          browserProfiles: S.optional(__S(138, __c4, 10)),
           securityPatchTime: S.optional(S.String),
           meid: S.optional(S.String),
           lastSyncTime: S.optional(S.String),
@@ -3272,13 +3368,24 @@ function __c5(j: number): any {
       ).annotate({ identifier: "Device" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           initialGroupConfig: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(294, __c9, 6).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          posixGroups: S.optional(__S(257, __c8, 1)),
+          externalIds: S.optional(__S(288, __c9, 0)),
+          groupKey: S.optional(__S(192, __c6, 0)),
+          additionalGroupKeys: S.optional(__S(288, __c9, 0)),
+          dynamicGroupMetadata: S.optional(__S(261, __c8, 5)),
+          parent: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3289,7 +3396,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateGroupsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3300,13 +3407,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ExternalId" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3317,7 +3424,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "PosixGroup" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3326,7 +3433,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "DynamicGroupQuery" });
     case 3:
-      return S.Array(__S(290, __c9, 2));
+      return S.Array(__S(258, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3337,42 +3444,32 @@ function __c9(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          queries: S.optional(__S(291, __c9, 3)),
-          status: S.optional(__S(292, __c9, 4)),
+          queries: S.optional(__S(259, __c8, 3)),
+          status: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "DynamicGroupMetadata" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          posixGroups: S.optional(__S(289, __c9, 1)),
-          externalIds: S.optional(__S(320, __c10, 0)),
-          groupKey: S.optional(__S(224, __c7, 0)),
-          additionalGroupKeys: S.optional(__S(320, __c10, 0)),
-          dynamicGroupMetadata: S.optional(__S(293, __c9, 5)),
-          parent: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(256, __c8, 0)),
-        }),
-      ).annotate({ identifier: "Group" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(192, __c6, 0));
   }
 }
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c7, 0));
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(416, __c13, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          preferredMemberKey: S.optional(__S(192, __c6, 0)),
+          roles: S.optional(__S(387, __c12, 3)),
+          deliverySetting: S.optional(S.String),
+          memberKey: S.optional(__S(192, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3383,7 +3480,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateGroupsMembershipsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3393,29 +3490,12 @@ function __c12(j: number): any {
       ).annotate({ identifier: "MembershipRoleRestrictionEvaluation" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          preferredMemberKey: S.optional(__S(224, __c7, 0)),
-          roles: S.optional(__S(451, __c14, 3)),
-          deliverySetting: S.optional(S.String),
-          memberKey: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "Membership" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          memberRestrictionEvaluation: S.optional(__S(384, __c12, 0)),
+          memberRestrictionEvaluation: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "RestrictionEvaluations" });
     case 1:
@@ -3427,21 +3507,25 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          restrictionEvaluations: S.optional(__S(448, __c14, 0)),
+          restrictionEvaluations: S.optional(__S(384, __c12, 0)),
           name: S.optional(S.String),
-          expiryDetail: S.optional(__S(449, __c14, 1)),
+          expiryDetail: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "MembershipRole" });
     case 3:
-      return S.Array(__S(450, __c14, 2));
+      return S.Array(__S(386, __c12, 2));
   }
 }
-function __c15(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(514, __c16, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          rpConfig: S.optional(__S(448, __c14, 0)),
+          customer: S.optional(S.String),
+          idpConfig: S.optional(__S(449, __c14, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3452,14 +3536,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateInboundOidcSsoProfilesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientSecret: S.optional(S.String),
           clientId: S.optional(S.String),
-          redirectUris: S.optional(__S(128, __c4, 0)),
+          redirectUris: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "OidcRpConfig" });
     case 1:
@@ -3469,24 +3553,18 @@ function __c16(j: number): any {
           changePasswordUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "OidcIdpConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          rpConfig: S.optional(__S(512, __c16, 0)),
-          customer: S.optional(S.String),
-          idpConfig: S.optional(__S(513, __c16, 1)),
-        }),
-      ).annotate({ identifier: "InboundOidcSsoProfile" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(578, __c18, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          spConfig: S.optional(__S(512, __c16, 0)),
+          displayName: S.optional(S.String),
+          customer: S.optional(S.String),
+          idpConfig: S.optional(__S(513, __c16, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3497,7 +3575,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateInboundSamlSsoProfilesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3515,24 +3593,22 @@ function __c18(j: number): any {
           entityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SamlIdpConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          spConfig: S.optional(__S(576, __c18, 0)),
-          displayName: S.optional(S.String),
-          customer: S.optional(S.String),
-          idpConfig: S.optional(__S(577, __c18, 1)),
-        }),
-      ).annotate({ identifier: "InboundSamlSsoProfile" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(643, __c20, 3).pipe(T.HttpBody())),
+          targetOrgUnit: S.optional(S.String),
+          oidcSsoInfo: S.optional(__S(576, __c18, 0)),
+          samlSsoInfo: S.optional(__S(577, __c18, 1)),
+          signInBehavior: S.optional(__S(578, __c18, 2)),
+          name: S.optional(S.String),
+          targetGroup: S.optional(S.String),
+          ssoMode: S.optional(S.String),
+          rank: S.optional(S.Number),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3543,7 +3619,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateInboundSsoAssignmentsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3563,28 +3639,18 @@ function __c20(j: number): any {
           redirectCondition: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignInBehavior" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          targetOrgUnit: S.optional(S.String),
-          oidcSsoInfo: S.optional(__S(640, __c20, 0)),
-          samlSsoInfo: S.optional(__S(641, __c20, 1)),
-          signInBehavior: S.optional(__S(642, __c20, 2)),
-          name: S.optional(S.String),
-          targetGroup: S.optional(S.String),
-          ssoMode: S.optional(S.String),
-          rank: S.optional(S.Number),
-          customer: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InboundSsoAssignment" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
+          setting: S.optional(__S(640, __c20, 0)),
+          policyQuery: S.optional(__S(641, __c20, 1)),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3595,13 +3661,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreatePoliciesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          value: S.optional(__S(1568, __c49, 0)),
+          value: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "Setting" });
     case 1:
@@ -3613,19 +3679,9 @@ function __c22(j: number): any {
           sortOrder: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PolicyQuery" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          customer: S.optional(S.String),
-          setting: S.optional(__S(704, __c22, 0)),
-          policyQuery: S.optional(__S(705, __c22, 1)),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Policy" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3641,7 +3697,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteAllowlistedDomainsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3658,7 +3714,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteDevicesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3675,7 +3731,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteDevicesDeviceUsersRequest" });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3691,7 +3747,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteGroupsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3707,7 +3763,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteGroupsMembershipsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3723,7 +3779,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteInboundOidcSsoProfilesRequest" });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3739,7 +3795,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteInboundSamlSsoProfilesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3755,7 +3811,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteInboundSamlSsoProfilesIdpCredentialsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3771,7 +3827,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteInboundSsoAssignmentsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3787,7 +3843,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeletePoliciesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3803,7 +3859,18 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetAllowlistedDomainsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AllowlistedDomain" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3819,7 +3886,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetCustomersUserinvitationsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3832,7 +3899,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UserInvitation" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3849,7 +3916,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetDevicesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3866,7 +3933,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetDevicesDeviceUsersRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3885,7 +3952,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeviceUser" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3900,9 +3967,26 @@ function __c39(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDevicesDeviceUsersClientStatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          healthScore: S.optional(S.String),
+          name: S.optional(S.String),
+          keyValuePairs: S.optional(__S(1249, __c39, 1)),
+          etag: S.optional(S.String),
+          managed: S.optional(S.String),
+          scoreReason: S.optional(S.String),
+          complianceState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          assetTags: S.optional(__S(96, __c3, 0)),
+          ownerType: S.optional(S.String),
+          customId: S.optional(S.String),
+          lastUpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClientState" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3913,27 +3997,10 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "CustomAttributeValue" });
     case 1:
-      return S.Record(S.String, __S(1280, __c40, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          healthScore: S.optional(S.String),
-          name: S.optional(S.String),
-          keyValuePairs: S.optional(__S(1281, __c40, 1)),
-          etag: S.optional(S.String),
-          managed: S.optional(S.String),
-          scoreReason: S.optional(S.String),
-          complianceState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          assetTags: S.optional(__S(128, __c4, 0)),
-          ownerType: S.optional(S.String),
-          customId: S.optional(S.String),
-          lastUpdateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClientState" });
+      return S.Record(S.String, __S(1248, __c39, 0));
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3947,6 +4014,27 @@ function __c41(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetGroupsRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          posixGroups: S.optional(__S(257, __c8, 1)),
+          externalIds: S.optional(__S(288, __c9, 0)),
+          groupKey: S.optional(__S(192, __c6, 0)),
+          additionalGroupKeys: S.optional(__S(288, __c9, 0)),
+          dynamicGroupMetadata: S.optional(__S(261, __c8, 5)),
+          parent: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(224, __c7, 0)),
+        }),
+      ).annotate({ identifier: "Group" });
   }
 }
 function __c42(j: number): any {
@@ -3970,15 +4058,16 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://cloudidentity.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetInboundOidcSsoProfilesRequest" });
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          preferredMemberKey: S.optional(__S(192, __c6, 0)),
+          roles: S.optional(__S(387, __c12, 3)),
+          deliverySetting: S.optional(S.String),
+          memberKey: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "Membership" });
   }
 }
 function __c44(j: number): any {
@@ -3994,10 +4083,54 @@ function __c44(j: number): any {
             baseUrl: "https://cloudidentity.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetInboundSamlSsoProfilesRequest" });
+      ).annotate({ identifier: "GetInboundOidcSsoProfilesRequest" });
   }
 }
 function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          rpConfig: S.optional(__S(448, __c14, 0)),
+          customer: S.optional(S.String),
+          idpConfig: S.optional(__S(449, __c14, 1)),
+        }),
+      ).annotate({ identifier: "InboundOidcSsoProfile" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://cloudidentity.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetInboundSamlSsoProfilesRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          spConfig: S.optional(__S(512, __c16, 0)),
+          displayName: S.optional(S.String),
+          customer: S.optional(S.String),
+          idpConfig: S.optional(__S(513, __c16, 1)),
+        }),
+      ).annotate({ identifier: "InboundSamlSsoProfile" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4013,7 +4146,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetInboundSamlSsoProfilesIdpCredentialsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4025,14 +4158,14 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          dsaKeyInfo: S.optional(__S(1472, __c46, 0)),
-          rsaKeyInfo: S.optional(__S(1472, __c46, 0)),
+          dsaKeyInfo: S.optional(__S(1568, __c49, 0)),
+          rsaKeyInfo: S.optional(__S(1568, __c49, 0)),
           updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdpCredential" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4048,19 +4181,31 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetInboundSsoAssignmentsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pemData: S.optional(S.String),
+          targetOrgUnit: S.optional(S.String),
+          oidcSsoInfo: S.optional(__S(576, __c18, 0)),
+          samlSsoInfo: S.optional(__S(577, __c18, 1)),
+          signInBehavior: S.optional(__S(578, __c18, 2)),
+          name: S.optional(S.String),
+          targetGroup: S.optional(S.String),
+          ssoMode: S.optional(S.String),
+          rank: S.optional(S.Number),
+          customer: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AddIdpCredentialRequest" });
-    case 1:
+      ).annotate({ identifier: "InboundSsoAssignment" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
+          pemData: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4071,37 +4216,37 @@ function __c48(j: number): any {
       ).annotate({ identifier: "AddInboundSamlSsoProfilesIdpCredentialsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1696, __c53, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1600, __c50, 0)),
+          details: S.optional(__S(1728, __c54, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1568, __c49, 0)),
+          metadata: S.optional(__S(1696, __c53, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(1601, __c50, 1)),
-          response: S.optional(__S(1568, __c49, 0)),
+          error: S.optional(__S(1729, __c54, 1)),
+          response: S.optional(__S(1696, __c53, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4118,7 +4263,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetMembershipGraphGroupsMembershipsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4134,7 +4279,21 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetPoliciesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customer: S.optional(S.String),
+          setting: S.optional(__S(640, __c20, 0)),
+          policyQuery: S.optional(__S(641, __c20, 1)),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Policy" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4149,27 +4308,27 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetSecuritySettingsGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          memberRestriction: S.optional(__S(1888, __c59, 0)),
+        }),
+      ).annotate({ identifier: "SecuritySettings" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
-          evaluation: S.optional(__S(384, __c12, 0)),
+          evaluation: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "MemberRestriction" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          memberRestriction: S.optional(__S(1728, __c54, 0)),
-        }),
-      ).annotate({ identifier: "SecuritySettings" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4191,7 +4350,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "IsInvitableUserResponse" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4208,17 +4367,17 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListAllowlistedDomainsRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          allowlistedDomains: S.optional(__S(1793, __c56, 1)),
+          allowlistedDomains: S.optional(__S(1953, __c61, 1)),
         }),
       ).annotate({ identifier: "ListAllowlistedDomainsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4237,17 +4396,17 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomersUserinvitationsRequest" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          userInvitations: S.optional(__S(1825, __c57, 1)),
+          userInvitations: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({ identifier: "ListUserInvitationsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4267,17 +4426,17 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListDevicesRequest" });
     case 1:
-      return S.Array(__S(176, __c5, 16));
+      return S.Array(__S(144, __c4, 16));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          devices: S.optional(__S(1857, __c58, 1)),
+          devices: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "ListDevicesResponse" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4297,17 +4456,17 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListDevicesDeviceUsersRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          deviceUsers: S.optional(__S(1889, __c59, 1)),
+          deviceUsers: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "ListDeviceUsersResponse" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4328,18 +4487,18 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          groups: S.optional(__S(1952, __c61, 0)),
+          groups: S.optional(__S(2112, __c66, 0)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(294, __c9, 6));
+      return S.Array(__S(1312, __c41, 0));
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4357,23 +4516,23 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupsMembershipsRequest" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(1376, __c43, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          memberships: S.optional(__S(1985, __c62, 1)),
+          memberships: S.optional(__S(2145, __c67, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMembershipsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4384,17 +4543,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ApproveDevicesDeviceUsersRequest" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customer: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApproveDeviceUserRequest" });
-  }
-}
-function __c65(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4411,17 +4560,17 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListInboundOidcSsoProfilesRequest" });
     case 1:
-      return S.Array(__S(514, __c16, 2));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          inboundOidcSsoProfiles: S.optional(__S(2081, __c65, 1)),
+          inboundOidcSsoProfiles: S.optional(__S(2209, __c69, 1)),
         }),
       ).annotate({ identifier: "ListInboundOidcSsoProfilesResponse" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4438,17 +4587,17 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListInboundSamlSsoProfilesRequest" });
     case 1:
-      return S.Array(__S(578, __c18, 2));
+      return S.Array(__S(1504, __c47, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          inboundSamlSsoProfiles: S.optional(__S(2113, __c66, 1)),
+          inboundSamlSsoProfiles: S.optional(__S(2241, __c70, 1)),
         }),
       ).annotate({ identifier: "ListInboundSamlSsoProfilesResponse" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4465,17 +4614,17 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListInboundSamlSsoProfilesIdpCredentialsRequest" });
     case 1:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(__S(1569, __c49, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          idpCredentials: S.optional(__S(2145, __c67, 1)),
+          idpCredentials: S.optional(__S(2273, __c71, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIdpCredentialsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4492,17 +4641,17 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListInboundSsoAssignmentsRequest" });
     case 1:
-      return S.Array(__S(643, __c20, 3));
+      return S.Array(__S(1632, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inboundSsoAssignments: S.optional(__S(2177, __c68, 1)),
+          inboundSsoAssignments: S.optional(__S(2305, __c72, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInboundSsoAssignmentsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4530,17 +4679,17 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "OrgMembership" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2337, __c73, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          orgMemberships: S.optional(__S(2210, __c69, 2)),
+          orgMemberships: S.optional(__S(2338, __c73, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrgMembershipsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4557,17 +4706,17 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(1824, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          policies: S.optional(__S(2241, __c70, 1)),
+          policies: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "ListPoliciesResponse" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4591,14 +4740,14 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(128, __c4, 0)),
+          names: S.optional(__S(96, __c3, 0)),
           nextPageToken: S.optional(S.String),
           customer: S.optional(S.String),
         }),
       ).annotate({ identifier: "LookupSelfDeviceUsersResponse" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4615,7 +4764,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "LookupGroupsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4625,7 +4774,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "LookupGroupNameResponse" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4643,30 +4792,24 @@ function __c74(j: number): any {
       ).annotate({ identifier: "LookupGroupsMembershipsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          membershipRole: S.optional(__S(450, __c14, 2)),
+          membershipRole: S.optional(__S(386, __c12, 2)),
           fieldMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateMembershipRolesParams" });
     case 1:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(2528, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          removeRoles: S.optional(__S(128, __c4, 0)),
-          updateRolesParams: S.optional(__S(2401, __c75, 1)),
-          addRoles: S.optional(__S(451, __c14, 3)),
-        }),
-      ).annotate({ identifier: "ModifyMembershipRolesRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
+          removeRoles: S.optional(__S(96, __c3, 0)),
+          updateRolesParams: S.optional(__S(2529, __c79, 1)),
+          addRoles: S.optional(__S(387, __c12, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4675,21 +4818,21 @@ function __c75(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ModifyMembershipRolesGroupsMembershipsRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          membership: S.optional(__S(416, __c13, 0)),
+          membership: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "ModifyMembershipRolesResponse" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4700,20 +4843,14 @@ function __c76(j: number): any {
       ).annotate({ identifier: "BlockDevicesDeviceUsersRequest" });
   }
 }
-function __c77(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           destinationOrgUnit: S.optional(S.String),
           customer: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MoveOrgMembershipRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4724,7 +4861,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "MoveOrgUnitsMembershipsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4732,7 +4869,17 @@ function __c78(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           customer: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1282, __c40, 2).pipe(T.HttpBody())),
+          healthScore: S.optional(S.String),
+          keyValuePairs: S.optional(__S(1249, __c39, 1)),
+          etag: S.optional(S.String),
+          managed: S.optional(S.String),
+          scoreReason: S.optional(S.String),
+          complianceState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          assetTags: S.optional(__S(96, __c3, 0)),
+          ownerType: S.optional(S.String),
+          customId: S.optional(S.String),
+          lastUpdateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4743,14 +4890,24 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PatchDevicesDeviceUsersClientStatesRequest" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(294, __c9, 6).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          posixGroups: S.optional(__S(257, __c8, 1)),
+          externalIds: S.optional(__S(288, __c9, 0)),
+          groupKey: S.optional(__S(192, __c6, 0)),
+          additionalGroupKeys: S.optional(__S(288, __c9, 0)),
+          dynamicGroupMetadata: S.optional(__S(261, __c8, 5)),
+          parent: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(224, __c7, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4761,14 +4918,17 @@ function __c79(j: number): any {
       ).annotate({ identifier: "PatchGroupsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(514, __c16, 2).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          rpConfig: S.optional(__S(448, __c14, 0)),
+          customer: S.optional(S.String),
+          idpConfig: S.optional(__S(449, __c14, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4779,14 +4939,17 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PatchInboundOidcSsoProfilesRequest" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(578, __c18, 2).pipe(T.HttpBody())),
+          spConfig: S.optional(__S(512, __c16, 0)),
+          displayName: S.optional(S.String),
+          customer: S.optional(S.String),
+          idpConfig: S.optional(__S(513, __c16, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4797,14 +4960,21 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PatchInboundSamlSsoProfilesRequest" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(643, __c20, 3).pipe(T.HttpBody())),
+          targetOrgUnit: S.optional(S.String),
+          oidcSsoInfo: S.optional(__S(576, __c18, 0)),
+          samlSsoInfo: S.optional(__S(577, __c18, 1)),
+          signInBehavior: S.optional(__S(578, __c18, 2)),
+          targetGroup: S.optional(S.String),
+          ssoMode: S.optional(S.String),
+          rank: S.optional(S.Number),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4815,13 +4985,16 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PatchInboundSsoAssignmentsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(706, __c22, 2).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
+          setting: S.optional(__S(640, __c20, 0)),
+          policyQuery: S.optional(__S(641, __c20, 1)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4832,7 +5005,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PatchPoliciesRequest" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4854,26 +5027,26 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(256, __c8, 0)),
+          labels: S.optional(__S(224, __c7, 0)),
           membership: S.optional(S.String),
-          groupKey: S.optional(__S(224, __c7, 0)),
+          groupKey: S.optional(__S(192, __c6, 0)),
           group: S.optional(S.String),
-          roles: S.optional(__S(451, __c14, 3)),
+          roles: S.optional(__S(387, __c12, 3)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "MembershipRelation" });
     case 2:
-      return S.Array(__S(2689, __c84, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          memberships: S.optional(__S(2690, __c84, 2)),
+          memberships: S.optional(__S(2818, __c88, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchDirectGroupsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4894,13 +5067,13 @@ function __c85(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(1952, __c61, 0)),
+          groups: S.optional(__S(2112, __c66, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchGroupsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4921,25 +5094,25 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
-          groupKey: S.optional(__S(224, __c7, 0)),
+          groupKey: S.optional(__S(192, __c6, 0)),
           relationType: S.optional(S.String),
           displayName: S.optional(S.String),
-          roles: S.optional(__S(2785, __c87, 1)),
-          labels: S.optional(__S(256, __c8, 0)),
+          roles: S.optional(__S(2913, __c91, 1)),
+          labels: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "GroupRelation" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(2881, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          memberships: S.optional(__S(2754, __c86, 2)),
+          memberships: S.optional(__S(2882, __c90, 2)),
         }),
       ).annotate({ identifier: "SearchTransitiveGroupsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4948,16 +5121,16 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "TransitiveMembershipRole" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(2912, __c91, 0));
   }
 }
-function __c88(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4968,13 +5141,13 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CancelCustomersUserinvitationsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelUserInvitationRequest" });
   }
 }
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4993,30 +5166,30 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          preferredMemberKey: S.optional(__S(320, __c10, 0)),
+          preferredMemberKey: S.optional(__S(288, __c9, 0)),
           member: S.optional(S.String),
-          roles: S.optional(__S(2785, __c87, 1)),
+          roles: S.optional(__S(2913, __c91, 1)),
           relationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MemberRelation" });
     case 2:
-      return S.Array(__S(2881, __c90, 1));
+      return S.Array(__S(3009, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          memberships: S.optional(__S(2882, __c90, 2)),
+          memberships: S.optional(__S(3010, __c94, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchTransitiveMembershipsResponse" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2848, __c89, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5027,14 +5200,14 @@ function __c91(j: number): any {
       ).annotate({ identifier: "SendCustomersUserinvitationsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1729, __c54, 1).pipe(T.HttpBody())),
+          memberRestriction: S.optional(__S(1888, __c59, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5045,20 +5218,14 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UpdateSecuritySettingsGroupsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           customer: S.optional(S.String),
           removeResetLock: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "WipeDeviceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5069,13 +5236,13 @@ function __c93(j: number): any {
       ).annotate({ identifier: "WipeDevicesRequest" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5086,13 +5253,13 @@ function __c94(j: number): any {
       ).annotate({ identifier: "WipeDevicesDeviceUsersRequest" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5103,13 +5270,13 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CancelWipeDevicesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2048, __c64, 0).pipe(T.HttpBody())),
+          customer: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

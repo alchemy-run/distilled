@@ -406,8 +406,13 @@ export interface Orchestrator {
   /** Optional. If set, indicates that the cluster should use Slurm as the orchestrator. */
   slurm?: SlurmOrchestrator | undefined;
 }
-/** A collection of virtual machines and connected resources forming a high-performance computing cluster capable of running large-scale, tightly coupled workloads. A cluster combines a set a compute resources that perform computations, storage resources that contain inputs and store outputs, an orchestrator that is responsible for assigning jobs to compute resources, and network resources that connect everything together. */
-export interface Cluster {
+export interface CreateProjectsLocationsClustersRequest {
+  /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
+  requestId?: string | undefined;
+  /** Required. Parent location in which the cluster should be created, in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. The ID of the cluster to create. The cluster ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 10 characters. For example, specify `cluster001`. */
+  clusterId?: string | undefined;
   /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
   name?: string | undefined;
   /** Output only. Time that the cluster was originally created. */
@@ -430,16 +435,6 @@ export interface Cluster {
   description?: string | undefined;
   /** Optional. Orchestrator that is responsible for scheduling and running jobs on the cluster. */
   orchestrator?: Orchestrator | undefined;
-}
-export interface CreateProjectsLocationsClustersRequest {
-  /** Optional. A unique identifier for this request. A random UUID is recommended. This request is idempotent if and only if `request_id` is provided. */
-  requestId?: string | undefined;
-  /** Required. Parent location in which the cluster should be created, in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. The ID of the cluster to create. The cluster ID must start with a lowercase letter (`a`-`z`), use only lowercase letters or numbers, and contain up to 10 characters. For example, specify `cluster001`. */
-  clusterId?: string | undefined;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -495,6 +490,31 @@ export interface Location {
 export interface GetProjectsLocationsClustersRequest {
   /** Required. Name of the cluster to retrieve, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
   name: string;
+}
+/** A collection of virtual machines and connected resources forming a high-performance computing cluster capable of running large-scale, tightly coupled workloads. A cluster combines a set a compute resources that perform computations, storage resources that contain inputs and store outputs, an orchestrator that is responsible for assigning jobs to compute resources, and network resources that connect everything together. */
+export interface Cluster {
+  /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
+  name?: string | undefined;
+  /** Output only. Time that the cluster was originally created. */
+  createTime?: string | undefined;
+  /** Output only. Time that the cluster was most recently updated. */
+  updateTime?: string | undefined;
+  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) applied to the cluster. Labels can be used to organize clusters and to filter them in queries. */
+  labels?: StringMap | undefined;
+  /** Optional. Compute resources available to the cluster. Keys specify the ID of the compute resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  computeResources?: ComputeResourceMap | undefined;
+  /** Optional. Network resources available to the cluster. Must contain exactly one value. Keys specify the ID of the network resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  networkResources?: NetworkResourceMap | undefined;
+  /** Output only. Indicates whether changes to the cluster are currently in flight. If this is `true`, then the current state might not match the cluster's intended state. */
+  reconciling?: boolean | undefined;
+  /** Optional. Storage resources available to the cluster. Keys specify the ID of the storage resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  storageResources?: StorageResourceMap | undefined;
+  /** Output only. The globally unique identifier for this Cluster. */
+  uid?: string | undefined;
+  /** Optional. A description for your cluster. You can use up to 2,048 characters. */
+  description?: string | undefined;
+  /** Optional. Orchestrator that is responsible for scheduling and running jobs on the cluster. */
+  orchestrator?: Orchestrator | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -571,8 +591,26 @@ export interface PatchProjectsLocationsClustersRequest {
   requestId?: string | undefined;
   /** Identifier. [Relative resource name](https://google.aip.dev/122) of the cluster, in the format `projects/{project}/locations/{location}/clusters/{cluster}`. */
   name: string;
-  /** Request body */
-  body?: Cluster | undefined;
+  /** Output only. Time that the cluster was originally created. */
+  createTime?: string | undefined;
+  /** Output only. Time that the cluster was most recently updated. */
+  updateTime?: string | undefined;
+  /** Optional. [Labels](https://cloud.google.com/compute/docs/labeling-resources) applied to the cluster. Labels can be used to organize clusters and to filter them in queries. */
+  labels?: StringMap | undefined;
+  /** Optional. Compute resources available to the cluster. Keys specify the ID of the compute resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  computeResources?: ComputeResourceMap | undefined;
+  /** Optional. Network resources available to the cluster. Must contain exactly one value. Keys specify the ID of the network resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  networkResources?: NetworkResourceMap | undefined;
+  /** Output only. Indicates whether changes to the cluster are currently in flight. If this is `true`, then the current state might not match the cluster's intended state. */
+  reconciling?: boolean | undefined;
+  /** Optional. Storage resources available to the cluster. Keys specify the ID of the storage resource by which it can be referenced elsewhere, and must conform to [RFC-1034](https://datatracker.ietf.org/doc/html/rfc1034) (lower-case, alphanumeric, and at most 63 characters). */
+  storageResources?: StorageResourceMap | undefined;
+  /** Output only. The globally unique identifier for this Cluster. */
+  uid?: string | undefined;
+  /** Optional. A description for your cluster. You can use up to 2,048 characters. */
+  description?: string | undefined;
+  /** Optional. Orchestrator that is responsible for scheduling and running jobs on the cluster. */
+  orchestrator?: Orchestrator | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -688,7 +726,7 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
-  output: __S(423, __c13, 7) as any as S.Schema<Cluster>,
+  output: __S(608, __c19, 0) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -857,7 +895,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersRequest" });
     case 1:
-      return S.Array(__S(423, __c13, 7));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -906,7 +944,16 @@ function __c4(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(423, __c13, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(320, __c10, 0)),
+          computeResources: S.optional(__S(390, __c12, 6)),
+          networkResources: S.optional(__S(396, __c12, 12)),
+          reconciling: S.optional(S.Boolean),
+          storageResources: S.optional(__S(409, __c12, 25)),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestrator: S.optional(__S(422, __c13, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -948,7 +995,17 @@ function __c7(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           clusterId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(423, __c13, 7).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(320, __c10, 0)),
+          computeResources: S.optional(__S(390, __c12, 6)),
+          networkResources: S.optional(__S(396, __c12, 12)),
+          reconciling: S.optional(S.Boolean),
+          storageResources: S.optional(__S(409, __c12, 25)),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestrator: S.optional(__S(422, __c13, 6)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1267,22 +1324,6 @@ function __c13(j: number): any {
           slurm: S.optional(__S(421, __c13, 5)),
         }),
       ).annotate({ identifier: "Orchestrator" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(320, __c10, 0)),
-          computeResources: S.optional(__S(390, __c12, 6)),
-          networkResources: S.optional(__S(396, __c12, 12)),
-          reconciling: S.optional(S.Boolean),
-          storageResources: S.optional(__S(409, __c12, 25)),
-          uid: S.optional(S.String),
-          description: S.optional(S.String),
-          orchestrator: S.optional(__S(422, __c13, 6)),
-        }),
-      ).annotate({ identifier: "Cluster" });
   }
 }
 function __c14(j: number): any {
@@ -1362,6 +1403,26 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsClustersRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(320, __c10, 0)),
+          computeResources: S.optional(__S(390, __c12, 6)),
+          networkResources: S.optional(__S(396, __c12, 12)),
+          reconciling: S.optional(S.Boolean),
+          storageResources: S.optional(__S(409, __c12, 25)),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestrator: S.optional(__S(422, __c13, 6)),
+        }),
+      ).annotate({ identifier: "Cluster" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

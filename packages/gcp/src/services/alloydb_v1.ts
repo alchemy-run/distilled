@@ -142,8 +142,15 @@ export interface EncryptionInfo {
 }
 export type BackupTypeEnum = "TYPE_UNSPECIFIED" | "ON_DEMAND" | "AUTOMATED" | "CONTINUOUS";
 export type BackupStateEnum = "STATE_UNSPECIFIED" | "READY" | "CREATING" | "FAILED" | "DELETING";
-/** Message describing Backup object */
-export interface Backup {
+export interface CreateProjectsLocationsBackupsRequest {
+  /** Required. Value for parent. */
+  parent: string;
+  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the requesting object. */
+  backupId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
   annotations?: StringMap | undefined;
   /** Optional. The encryption config can be specified to encrypt the backup with a customer-managed encryption key (CMEK). When this field is not specified, the backup will then use default encryption scheme to protect the user data. */
@@ -192,18 +199,6 @@ export interface Backup {
   updateTime?: string | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
   tags?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsBackupsRequest {
-  /** Required. Value for parent. */
-  parent: string;
-  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the requesting object. */
-  backupId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -517,8 +512,15 @@ export interface SecondaryConfig {
   /** The name of the primary cluster name with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} */
   primaryClusterName?: string | undefined;
 }
-/** A cluster is a collection of regional AlloyDB resources. It can include a primary instance and one or more read pool instances. All cluster resources share a storage layer, which scales as needed. */
-export interface Cluster {
+export interface CreateProjectsLocationsClustersRequest {
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the requesting object. */
+  clusterId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
+  parent: string;
   /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
   reconciling?: boolean | undefined;
   /** Output only. Continuous backup properties for this cluster. */
@@ -598,18 +600,6 @@ export interface Cluster {
   updateTime?: string | undefined;
   /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
   encryptionConfig?: EncryptionConfig | undefined;
-}
-export interface CreateProjectsLocationsClustersRequest {
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the requesting object. */
-  clusterId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
-  parent: string;
-  /** Request body */
-  body?: Cluster | undefined;
 }
 /** Instance level Query Insights information, which is read-only and available in the output only. */
 export interface QueryInsightsInstanceInfo {
@@ -906,8 +896,15 @@ export interface MachineConfig {
   /** Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type. */
   machineType?: string | undefined;
 }
-/** An Instance is a computing unit that an end customer can connect to. It's the main unit of computing resources in AlloyDB. */
-export interface Instance {
+export interface CreateProjectsLocationsClustersInstancesRequest {
+  /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
+  parent: string;
+  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the requesting object. */
+  instanceId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. Create time stamp */
   createTime?: string | undefined;
   /** User-settable and human-readable display name for the Instance. */
@@ -979,18 +976,6 @@ export interface Instance {
   /** Output only. Maintenance version of the instance, for example: POSTGRES_15.2025_07_15.04_00. Output only. Update this field via the parent cluster's maintenance_version field(s). */
   maintenanceVersionName?: string | undefined;
 }
-export interface CreateProjectsLocationsClustersInstancesRequest {
-  /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
-  parent: string;
-  /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the requesting object. */
-  instanceId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
-}
 export type UserUserTypeEnum =
   | "USER_TYPE_UNSPECIFIED"
   | "ALLOYDB_BUILT_IN"
@@ -998,8 +983,15 @@ export type UserUserTypeEnum =
   | "ALLOYDB_IAM_GROUP"
   | "ALLOYDB_IAM_GROUP_USER"
   | "ALLOYDB_IAM_GROUP_SERVICE_ACCOUNT";
-/** Message describing User object. */
-export interface User {
+export interface CreateProjectsLocationsClustersUsersRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
+  validateOnly?: boolean | undefined;
+  /** Required. ID of the requesting object. */
+  userId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
   /** Output only. Name of the resource in the form of projects/{project}/locations/{location}/cluster/{cluster}/users/{user}. */
   name?: string | undefined;
   /** Optional. Type of this user. */
@@ -1011,17 +1003,18 @@ export interface User {
   /** Input only. If the user already exists and it has additional roles, keep them granted. */
   keepExtraRoles?: boolean | undefined;
 }
-export interface CreateProjectsLocationsClustersUsersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
-  validateOnly?: boolean | undefined;
-  /** Required. ID of the requesting object. */
-  userId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Request body */
-  body?: User | undefined;
+/** Message describing User object. */
+export interface User {
+  /** Output only. Name of the resource in the form of projects/{project}/locations/{location}/cluster/{cluster}/users/{user}. */
+  name?: string | undefined;
+  /** Optional. Type of this user. */
+  userType?: UserUserTypeEnum | undefined;
+  /** Optional. List of database roles this user has. The database role strings are subject to the PostgreSQL naming conventions. */
+  databaseRoles?: StringList | undefined;
+  /** Input only. Password for the user. */
+  password?: string | undefined;
+  /** Input only. If the user already exists and it has additional roles, keep them granted. */
+  keepExtraRoles?: boolean | undefined;
 }
 export interface CreatesecondaryProjectsLocationsClustersRequest {
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
@@ -1032,8 +1025,85 @@ export interface CreatesecondaryProjectsLocationsClustersRequest {
   requestId?: string | undefined;
   /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
   parent: string;
-  /** Request body */
-  body?: Cluster | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** Output only. Continuous backup properties for this cluster. */
+  continuousBackupInfo?: ContinuousBackupInfo | undefined;
+  /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
+  name?: string | undefined;
+  /** Optional. Configuration for Dataplex integration. */
+  dataplexConfig?: DataplexConfig | undefined;
+  /** User-settable and human-readable display name for the Cluster. */
+  displayName?: string | undefined;
+  /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project}/global/networks/{network_id}`. This is required to create a cluster. Deprecated, use network_config.network instead. */
+  network?: string | undefined;
+  /** Optional. The database engine major version. This is an optional field and it is populated at the Cluster creation time. If a database version is not supplied at cluster creation time, then a default database version will be used. */
+  databaseVersion?: ClusterDatabaseVersionEnum | (string & {}) | undefined;
+  /** Output only. Cluster created from a BackupDR backup. */
+  backupdrBackupSource?: BackupDrBackupSource | undefined;
+  /** Optional. Continuous backup configuration for this cluster. */
+  continuousBackupConfig?: ContinuousBackupConfig | undefined;
+  /** Output only. The type of the cluster. This is an output-only field and it's populated at the Cluster creation time or the Cluster promotion time. The cluster type is determined by which RPC was used to create the cluster (i.e. `CreateCluster` vs. `CreateSecondaryCluster` */
+  clusterType?: ClusterClusterTypeEnum | (string & {}) | undefined;
+  /** Output only. Cluster created via DMS migration. */
+  migrationSource?: MigrationSource | undefined;
+  /** Input only. Policy to use to automatically select the maintenance version to which to update the cluster's instances. */
+  maintenanceVersionSelectionPolicy?:
+    | ClusterMaintenanceVersionSelectionPolicyEnum
+    | (string & {})
+    | undefined;
+  /** The automated backup policy for this cluster. If no policy is provided then the default policy will be used. If backups are supported for the cluster, the default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days. For more information on the defaults, consult the documentation for the message type. */
+  automatedBackupPolicy?: AutomatedBackupPolicy | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** SSL configuration for this AlloyDB cluster. */
+  sslConfig?: SslConfig | undefined;
+  /** Optional. The maintenance update policy determines when to allow or deny updates. */
+  maintenanceUpdatePolicy?: MaintenanceUpdatePolicy | undefined;
+  /** Optional. The configuration for Private Service Connect (PSC) for the cluster. */
+  pscConfig?: PscConfig | undefined;
+  /** Output only. Metadata for free trial clusters */
+  trialMetadata?: TrialMetadata | undefined;
+  /** Output only. Cluster created from backup. */
+  backupSource?: BackupSource | undefined;
+  /** Input only. Initial user to setup during cluster creation. Required. If used in `RestoreCluster` this is ignored. */
+  initialUser?: UserPassword | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. The maintenance schedule for the cluster, generated for a specific rollout if a maintenance window is set. */
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  /** Optional. Subscription type of the cluster. */
+  subscriptionType?: ClusterSubscriptionTypeEnum | (string & {}) | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Output only. The encryption information for the cluster. */
+  encryptionInfo?: EncryptionInfo | undefined;
+  /** Output only. The current serving state of the cluster. */
+  state?: ClusterStateEnum | (string & {}) | undefined;
+  /** Output only. Output only information about BackupDR protection for this cluster. */
+  backupdrInfo?: BackupDrInfo | undefined;
+  /** Optional. */
+  networkConfig?: NetworkConfig | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap | undefined;
+  /** Output only. Cross Region replication config specific to PRIMARY cluster. */
+  primaryConfig?: PrimaryConfig | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. Cluster created from CloudSQL snapshot. */
+  cloudsqlBackupRunSource?: CloudSQLBackupRunSource | undefined;
+  /** Cross Region replication config specific to SECONDARY cluster. */
+  secondaryConfig?: SecondaryConfig | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
+  encryptionConfig?: EncryptionConfig | undefined;
 }
 export interface CreatesecondaryProjectsLocationsClustersInstancesRequest {
   /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. */
@@ -1044,8 +1114,76 @@ export interface CreatesecondaryProjectsLocationsClustersInstancesRequest {
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Instance | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** User-settable and human-readable display name for the Instance. */
+  displayName?: string | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Instance does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** Output only. Instance level Query Insights information, which is read-only and available in the output only. Contains the effective query insights settings for this instance, by merging customer's provided `QueryInsightsInstanceConfig` with the Query Insights defaults. */
+  queryInsightsInfo?: QueryInsightsInstanceInfo | undefined;
+  /** Output only. The IP address for the Instance. This is the connection endpoint for an end-user application. */
+  ipAddress?: string | undefined;
+  /** Output only. Instance level observability information, contains the effective values of observability settings for this instance, by merging customer's provided `ObservabilityInstanceConfig` with the Observability defaults. */
+  observabilityInstanceInfo?: ObservabilityInstanceInfo | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** Output only. This is set for the read-write VM of the PRIMARY instance only. */
+  writableNode?: Node | undefined;
+  /** Optional. Client connection specific configurations */
+  clientConnectionConfig?: ClientConnectionConfig | undefined;
+  /** Output only. All outbound public IP addresses configured for the instance. */
+  outboundPublicIpAddresses?: StringList | undefined;
+  /** Output only. The current serving state of the instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Optional. Specifies whether an instance needs to spin up. Once the instance is active, the activation policy can be updated to the `NEVER` to stop the instance. Likewise, the activation policy can be updated to `ALWAYS` to start the instance. There are restrictions around when an instance can/cannot be activated (for example, a read pool instance should be stopped before stopping primary etc.). Please refer to the API documentation for more details. */
+  activationPolicy?: InstanceActivationPolicyEnum | (string & {}) | undefined;
+  /** Output only. The public IP address for the Instance. This is available ONLY when `enable_public_ip` is set or when you have upgraded from an Express Instance that has public DNS enabled. This field is not available for Express Instances. This is the connection endpoint for an end-user application. */
+  publicIpAddress?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Availability type of an Instance. If empty, defaults to REGIONAL for primary instances. For read pools, availability_type is always UNSPECIFIED. Instances in the read pools are evenly distributed across available zones within the region (i.e. read pools with more than one node will have a node in at least two zones). */
+  availabilityType?: InstanceAvailabilityTypeEnum | (string & {}) | undefined;
+  /** Optional. The configuration for Private Service Connect (PSC) for the instance. */
+  pscInstanceConfig?: PscInstanceConfig | undefined;
+  /** Optional. The configuration for Managed Connection Pool (MCP). */
+  connectionPoolConfig?: ConnectionPoolConfig | undefined;
+  /** Read pool instance configuration. This is required if the value of instanceType is READ_POOL. */
+  readPoolConfig?: ReadPoolConfig | undefined;
+  /** The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity. */
+  gceZone?: string | undefined;
+  /** Optional. Instance-level network configuration. */
+  networkConfig?: InstanceNetworkConfig | undefined;
+  /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
+  name?: string | undefined;
+  /** Database flags. Set at the instance level. They are copied from the primary instance on secondary instance creation. Flags that have restrictions default to the value at primary instance on read instances during creation. Read instances can set new flags or override existing flags that are relevant for reads, for example, for enabling columnar cache on a read instance. Flags set on read instance might or might not be present on the primary instance. This is a list of "key": "value" pairs. "key": The name of the flag. These flags are passed at instance setup time, so include both server options and system variables for Postgres. Flags are specified with underscores, not hyphens. "value": The value of the flag. Booleans are set to **on** for true and **off** for false. This field must be omitted if the flag doesn't take a value. */
+  databaseFlags?: StringMap | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Configuration for observability. */
+  observabilityConfig?: ObservabilityInstanceConfig | undefined;
+  /** Optional. Controls whether the Data API is enabled for this instance. When enabled, this allows authorized users to connect to the instance from the public internet using the `executeSql` API, even for private IP instances. If this is not specified, the data API is enabled by default for Google internal services like AlloyDB Studio. Disable it explicitly to disallow Google internal services as well. */
+  dataApiAccess?: InstanceDataApiAccessEnum | (string & {}) | undefined;
+  /** Configuration for query insights. */
+  queryInsightsConfig?: QueryInsightsInstanceConfig | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. List of available read-only VMs in this instance, including the standby for a PRIMARY instance. */
+  nodes?: NodeList | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** Required. The type of the instance. Specified at creation time. */
+  instanceType?: InstanceInstanceTypeEnum | (string & {}) | undefined;
+  /** Output only. Information about the Private Service Connect (PSC) for the instance. */
+  pscInstanceInfo?: PscInstanceInfo | undefined;
+  /** Configurations for the machines that host the underlying database engine. */
+  machineConfig?: MachineConfig | undefined;
+  /** Output only. Maintenance version of the instance, for example: POSTGRES_15.2025_07_15.04_00. Output only. Update this field via the parent cluster's maintenance_version field(s). */
+  maintenanceVersionName?: string | undefined;
 }
 export interface DeleteProjectsLocationsBackupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1091,8 +1229,9 @@ export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
-/** Request for ExecuteSql rpc. */
-export interface ExecuteSqlRequest {
+export interface ExecuteSqlProjectsLocationsClustersInstancesRequest {
+  /** Required. The instance where the SQL will be executed: projects/{project}/locations/{location}/clusters/{cluster}/instances/{instance} */
+  instance: string;
   /** Required. Name of the database where the query will be executed, as `SELECT current_database()` reports it. */
   database?: string | undefined;
   /** Database user to execute the SQL as, as `SELECT current_user` reports it. */
@@ -1103,12 +1242,6 @@ export interface ExecuteSqlRequest {
   sqlStatement?: string | undefined;
   /** Optional. Validate the statement's syntax and semantics without executing it. */
   validateOnly?: boolean | undefined;
-}
-export interface ExecuteSqlProjectsLocationsClustersInstancesRequest {
-  /** Required. The instance where the SQL will be executed: projects/{project}/locations/{location}/clusters/{cluster}/instances/{instance} */
-  instance: string;
-  /** Request body */
-  body?: ExecuteSqlRequest | undefined;
 }
 export interface SqlResultColumn {
   /** Name of the column. */
@@ -1181,8 +1314,9 @@ export interface GcsDestination {
   /** Required. The path to the file in Google Cloud Storage where the export will be stored. The URI is in the form `gs://bucketName/fileName`. */
   uri?: string | undefined;
 }
-/** Export cluster request. */
-export interface ExportClusterRequest {
+export interface ExportProjectsLocationsClustersRequest {
+  /** Required. The resource name of the cluster. */
+  name: string;
   /** Options for exporting data in CSV format. Required field to be set for CSV file type. */
   csvExportOptions?: CsvExportOptions | undefined;
   /** Options for exporting data in SQL format. Required field to be set for SQL file type. */
@@ -1192,24 +1326,13 @@ export interface ExportClusterRequest {
   /** Required. Name of the database where the export command will be executed. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
   database?: string | undefined;
 }
-export interface ExportProjectsLocationsClustersRequest {
-  /** Required. The resource name of the cluster. */
+export interface FailoverProjectsLocationsClustersInstancesRequest {
+  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
-  /** Request body */
-  body?: ExportClusterRequest | undefined;
-}
-/** Message for triggering failover on an Instance */
-export interface FailoverInstanceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
-}
-export interface FailoverProjectsLocationsClustersInstancesRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
-  name: string;
-  /** Request body */
-  body?: FailoverInstanceRequest | undefined;
 }
 export interface GetConnectionInfoProjectsLocationsClustersInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1255,6 +1378,57 @@ export interface GetProjectsLocationsBackupsRequest {
   /** Optional. The view of the backup to return. */
   view?: GetProjectsLocationsBackupsViewEnum | (string & {}) | undefined;
 }
+/** Message describing Backup object */
+export interface Backup {
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Optional. The encryption config can be specified to encrypt the backup with a customer-managed encryption key (CMEK). When this field is not specified, the backup will then use default encryption scheme to protect the user data. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** Output only. The QuantityBasedExpiry of the backup, specified by the backup's retention policy. Once the expiry quantity is over retention, the backup is eligible to be garbage collected. */
+  expiryQuantity?: QuantityBasedExpiry | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. The database engine major version of the cluster this backup was created from. Any restored cluster created from this backup will have the same database version. */
+  databaseVersion?: BackupDatabaseVersionEnum | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} where the cluster and backup ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the backup resource name is the name of the parent resource: * projects/{project}/locations/{region} */
+  name?: string | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** User-settable and human-readable display name for the Backup. */
+  displayName?: string | undefined;
+  /** Required. The full resource name of the backup source cluster (e.g., projects/{project}/locations/{region}/clusters/{cluster_id}). */
+  clusterName?: string | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation), if true, indicates that the service is actively updating the resource. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** User-provided description of the backup. */
+  description?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** Output only. The system-generated UID of the cluster which was used to create this resource. */
+  clusterUid?: string | undefined;
+  /** Output only. The encryption information for the backup. */
+  encryptionInfo?: EncryptionInfo | undefined;
+  /** Output only. The size of the backup in bytes. */
+  sizeBytes?: string | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** The backup type, which suggests the trigger for the backup. */
+  type?: BackupTypeEnum | undefined;
+  /** Output only. The time at which after the backup is eligible to be garbage collected. It is the duration specified by the backup's retention policy, added to the backup's create_time. */
+  expiryTime?: string | undefined;
+  /** Output only. The current state of the backup. */
+  state?: BackupStateEnum | undefined;
+  /** Output only. Timestamp when the resource finished being created. */
+  createCompletionTime?: string | undefined;
+  /** Output only. Update time stamp Users should not infer any meaning from this field. Its value is generally unrelated to the timing of the backup creation operation. */
+  updateTime?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap | undefined;
+}
 export type GetProjectsLocationsClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
   | "CLUSTER_VIEW_BASIC"
@@ -1265,6 +1439,88 @@ export interface GetProjectsLocationsClustersRequest {
   /** Optional. The view of the cluster to return. Returns all default fields if not set. */
   view?: GetProjectsLocationsClustersViewEnum | (string & {}) | undefined;
 }
+/** A cluster is a collection of regional AlloyDB resources. It can include a primary instance and one or more read pool instances. All cluster resources share a storage layer, which scales as needed. */
+export interface Cluster {
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** Output only. Continuous backup properties for this cluster. */
+  continuousBackupInfo?: ContinuousBackupInfo | undefined;
+  /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
+  name?: string | undefined;
+  /** Optional. Configuration for Dataplex integration. */
+  dataplexConfig?: DataplexConfig | undefined;
+  /** User-settable and human-readable display name for the Cluster. */
+  displayName?: string | undefined;
+  /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project}/global/networks/{network_id}`. This is required to create a cluster. Deprecated, use network_config.network instead. */
+  network?: string | undefined;
+  /** Optional. The database engine major version. This is an optional field and it is populated at the Cluster creation time. If a database version is not supplied at cluster creation time, then a default database version will be used. */
+  databaseVersion?: ClusterDatabaseVersionEnum | (string & {}) | undefined;
+  /** Output only. Cluster created from a BackupDR backup. */
+  backupdrBackupSource?: BackupDrBackupSource | undefined;
+  /** Optional. Continuous backup configuration for this cluster. */
+  continuousBackupConfig?: ContinuousBackupConfig | undefined;
+  /** Output only. The type of the cluster. This is an output-only field and it's populated at the Cluster creation time or the Cluster promotion time. The cluster type is determined by which RPC was used to create the cluster (i.e. `CreateCluster` vs. `CreateSecondaryCluster` */
+  clusterType?: ClusterClusterTypeEnum | (string & {}) | undefined;
+  /** Output only. Cluster created via DMS migration. */
+  migrationSource?: MigrationSource | undefined;
+  /** Input only. Policy to use to automatically select the maintenance version to which to update the cluster's instances. */
+  maintenanceVersionSelectionPolicy?:
+    | ClusterMaintenanceVersionSelectionPolicyEnum
+    | (string & {})
+    | undefined;
+  /** The automated backup policy for this cluster. If no policy is provided then the default policy will be used. If backups are supported for the cluster, the default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days. For more information on the defaults, consult the documentation for the message type. */
+  automatedBackupPolicy?: AutomatedBackupPolicy | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** SSL configuration for this AlloyDB cluster. */
+  sslConfig?: SslConfig | undefined;
+  /** Optional. The maintenance update policy determines when to allow or deny updates. */
+  maintenanceUpdatePolicy?: MaintenanceUpdatePolicy | undefined;
+  /** Optional. The configuration for Private Service Connect (PSC) for the cluster. */
+  pscConfig?: PscConfig | undefined;
+  /** Output only. Metadata for free trial clusters */
+  trialMetadata?: TrialMetadata | undefined;
+  /** Output only. Cluster created from backup. */
+  backupSource?: BackupSource | undefined;
+  /** Input only. Initial user to setup during cluster creation. Required. If used in `RestoreCluster` this is ignored. */
+  initialUser?: UserPassword | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. The maintenance schedule for the cluster, generated for a specific rollout if a maintenance window is set. */
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  /** Optional. Subscription type of the cluster. */
+  subscriptionType?: ClusterSubscriptionTypeEnum | (string & {}) | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Output only. The encryption information for the cluster. */
+  encryptionInfo?: EncryptionInfo | undefined;
+  /** Output only. The current serving state of the cluster. */
+  state?: ClusterStateEnum | (string & {}) | undefined;
+  /** Output only. Output only information about BackupDR protection for this cluster. */
+  backupdrInfo?: BackupDrInfo | undefined;
+  /** Optional. */
+  networkConfig?: NetworkConfig | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap | undefined;
+  /** Output only. Cross Region replication config specific to PRIMARY cluster. */
+  primaryConfig?: PrimaryConfig | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. Cluster created from CloudSQL snapshot. */
+  cloudsqlBackupRunSource?: CloudSQLBackupRunSource | undefined;
+  /** Cross Region replication config specific to SECONDARY cluster. */
+  secondaryConfig?: SecondaryConfig | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
+  encryptionConfig?: EncryptionConfig | undefined;
+}
 export type GetProjectsLocationsClustersInstancesViewEnum =
   | "INSTANCE_VIEW_UNSPECIFIED"
   | "INSTANCE_VIEW_BASIC"
@@ -1274,6 +1530,79 @@ export interface GetProjectsLocationsClustersInstancesRequest {
   name: string;
   /** The view of the instance to return. */
   view?: GetProjectsLocationsClustersInstancesViewEnum | (string & {}) | undefined;
+}
+/** An Instance is a computing unit that an end customer can connect to. It's the main unit of computing resources in AlloyDB. */
+export interface Instance {
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** User-settable and human-readable display name for the Instance. */
+  displayName?: string | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Instance does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** Output only. Instance level Query Insights information, which is read-only and available in the output only. Contains the effective query insights settings for this instance, by merging customer's provided `QueryInsightsInstanceConfig` with the Query Insights defaults. */
+  queryInsightsInfo?: QueryInsightsInstanceInfo | undefined;
+  /** Output only. The IP address for the Instance. This is the connection endpoint for an end-user application. */
+  ipAddress?: string | undefined;
+  /** Output only. Instance level observability information, contains the effective values of observability settings for this instance, by merging customer's provided `ObservabilityInstanceConfig` with the Observability defaults. */
+  observabilityInstanceInfo?: ObservabilityInstanceInfo | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** Output only. This is set for the read-write VM of the PRIMARY instance only. */
+  writableNode?: Node | undefined;
+  /** Optional. Client connection specific configurations */
+  clientConnectionConfig?: ClientConnectionConfig | undefined;
+  /** Output only. All outbound public IP addresses configured for the instance. */
+  outboundPublicIpAddresses?: StringList | undefined;
+  /** Output only. The current serving state of the instance. */
+  state?: InstanceStateEnum | undefined;
+  /** Optional. Specifies whether an instance needs to spin up. Once the instance is active, the activation policy can be updated to the `NEVER` to stop the instance. Likewise, the activation policy can be updated to `ALWAYS` to start the instance. There are restrictions around when an instance can/cannot be activated (for example, a read pool instance should be stopped before stopping primary etc.). Please refer to the API documentation for more details. */
+  activationPolicy?: InstanceActivationPolicyEnum | undefined;
+  /** Output only. The public IP address for the Instance. This is available ONLY when `enable_public_ip` is set or when you have upgraded from an Express Instance that has public DNS enabled. This field is not available for Express Instances. This is the connection endpoint for an end-user application. */
+  publicIpAddress?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Availability type of an Instance. If empty, defaults to REGIONAL for primary instances. For read pools, availability_type is always UNSPECIFIED. Instances in the read pools are evenly distributed across available zones within the region (i.e. read pools with more than one node will have a node in at least two zones). */
+  availabilityType?: InstanceAvailabilityTypeEnum | undefined;
+  /** Optional. The configuration for Private Service Connect (PSC) for the instance. */
+  pscInstanceConfig?: PscInstanceConfig | undefined;
+  /** Optional. The configuration for Managed Connection Pool (MCP). */
+  connectionPoolConfig?: ConnectionPoolConfig | undefined;
+  /** Read pool instance configuration. This is required if the value of instanceType is READ_POOL. */
+  readPoolConfig?: ReadPoolConfig | undefined;
+  /** The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity. */
+  gceZone?: string | undefined;
+  /** Optional. Instance-level network configuration. */
+  networkConfig?: InstanceNetworkConfig | undefined;
+  /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
+  name?: string | undefined;
+  /** Database flags. Set at the instance level. They are copied from the primary instance on secondary instance creation. Flags that have restrictions default to the value at primary instance on read instances during creation. Read instances can set new flags or override existing flags that are relevant for reads, for example, for enabling columnar cache on a read instance. Flags set on read instance might or might not be present on the primary instance. This is a list of "key": "value" pairs. "key": The name of the flag. These flags are passed at instance setup time, so include both server options and system variables for Postgres. Flags are specified with underscores, not hyphens. "value": The value of the flag. Booleans are set to **on** for true and **off** for false. This field must be omitted if the flag doesn't take a value. */
+  databaseFlags?: StringMap | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Configuration for observability. */
+  observabilityConfig?: ObservabilityInstanceConfig | undefined;
+  /** Optional. Controls whether the Data API is enabled for this instance. When enabled, this allows authorized users to connect to the instance from the public internet using the `executeSql` API, even for private IP instances. If this is not specified, the data API is enabled by default for Google internal services like AlloyDB Studio. Disable it explicitly to disallow Google internal services as well. */
+  dataApiAccess?: InstanceDataApiAccessEnum | undefined;
+  /** Configuration for query insights. */
+  queryInsightsConfig?: QueryInsightsInstanceConfig | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. List of available read-only VMs in this instance, including the standby for a PRIMARY instance. */
+  nodes?: NodeList | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** Required. The type of the instance. Specified at creation time. */
+  instanceType?: InstanceInstanceTypeEnum | undefined;
+  /** Output only. Information about the Private Service Connect (PSC) for the instance. */
+  pscInstanceInfo?: PscInstanceInfo | undefined;
+  /** Configurations for the machines that host the underlying database engine. */
+  machineConfig?: MachineConfig | undefined;
+  /** Output only. Maintenance version of the instance, for example: POSTGRES_15.2025_07_15.04_00. Output only. Update this field via the parent cluster's maintenance_version field(s). */
+  maintenanceVersionName?: string | undefined;
 }
 export interface GetProjectsLocationsClustersUsersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the User.name field. */
@@ -1298,8 +1627,9 @@ export interface CsvImportOptions {
   /** Optional. Specifies the character that should appear before a data character that needs to be escaped. The default is same as quote character. The value of this argument has to be a character in Hex ASCII Code. */
   escapeCharacter?: string | undefined;
 }
-/** Import cluster request. */
-export interface ImportClusterRequest {
+export interface ImportProjectsLocationsClustersRequest {
+  /** Required. The resource name of the cluster. */
+  name: string;
   /** Required. The path to the file in Google Cloud Storage where the source file for import will be stored. The URI is in the form `gs://bucketName/fileName`. */
   gcsUri?: string | undefined;
   /** Options for importing data in SQL format. */
@@ -1311,27 +1641,16 @@ export interface ImportClusterRequest {
   /** Optional. Name of the database to which the import will be done. For import from SQL file, this is required only if the file does not specify a database. Note - Value provided should be the same as expected from `SELECT current_database();` and NOT as a resource reference. */
   database?: string | undefined;
 }
-export interface ImportProjectsLocationsClustersRequest {
-  /** Required. The resource name of the cluster. */
-  name: string;
-  /** Request body */
-  body?: ImportClusterRequest | undefined;
-}
 export type InjectFaultRequestFaultTypeEnum = "FAULT_TYPE_UNSPECIFIED" | "STOP_VM";
-/** Message for triggering fault injection on an instance */
-export interface InjectFaultRequest {
+export interface InjectFaultProjectsLocationsClustersInstancesRequest {
+  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
+  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
   /** Required. The type of fault to be injected in an instance. */
   faultType?: InjectFaultRequestFaultTypeEnum | (string & {}) | undefined;
-}
-export interface InjectFaultProjectsLocationsClustersInstancesRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
-  name: string;
-  /** Request body */
-  body?: InjectFaultRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
@@ -1557,8 +1876,52 @@ export interface PatchProjectsLocationsBackupsRequest {
   allowMissing?: boolean | undefined;
   /** Output only. The name of the backup resource with the format: * projects/{project}/locations/{region}/backups/{backup_id} where the cluster and backup ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the backup resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
-  /** Request body */
-  body?: Backup | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Optional. The encryption config can be specified to encrypt the backup with a customer-managed encryption key (CMEK). When this field is not specified, the backup will then use default encryption scheme to protect the user data. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** Output only. The QuantityBasedExpiry of the backup, specified by the backup's retention policy. Once the expiry quantity is over retention, the backup is eligible to be garbage collected. */
+  expiryQuantity?: QuantityBasedExpiry | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. The database engine major version of the cluster this backup was created from. Any restored cluster created from this backup will have the same database version. */
+  databaseVersion?: BackupDatabaseVersionEnum | (string & {}) | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** User-settable and human-readable display name for the Backup. */
+  displayName?: string | undefined;
+  /** Required. The full resource name of the backup source cluster (e.g., projects/{project}/locations/{region}/clusters/{cluster_id}). */
+  clusterName?: string | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation), if true, indicates that the service is actively updating the resource. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** User-provided description of the backup. */
+  description?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** Output only. The system-generated UID of the cluster which was used to create this resource. */
+  clusterUid?: string | undefined;
+  /** Output only. The encryption information for the backup. */
+  encryptionInfo?: EncryptionInfo | undefined;
+  /** Output only. The size of the backup in bytes. */
+  sizeBytes?: string | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** The backup type, which suggests the trigger for the backup. */
+  type?: BackupTypeEnum | (string & {}) | undefined;
+  /** Output only. The time at which after the backup is eligible to be garbage collected. It is the duration specified by the backup's retention policy, added to the backup's create_time. */
+  expiryTime?: string | undefined;
+  /** Output only. The current state of the backup. */
+  state?: BackupStateEnum | (string & {}) | undefined;
+  /** Output only. Timestamp when the resource finished being created. */
+  createCompletionTime?: string | undefined;
+  /** Output only. Update time stamp Users should not infer any meaning from this field. Its value is generally unrelated to the timing of the backup creation operation. */
+  updateTime?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsClustersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1571,8 +1934,83 @@ export interface PatchProjectsLocationsClustersRequest {
   allowMissing?: boolean | undefined;
   /** Output only. The name of the cluster resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id} where the cluster ID segment should satisfy the regex expression `[a-z0-9-]+`. For more details see https://google.aip.dev/122. The prefix of the cluster resource name is the name of the parent resource: * projects/{project}/locations/{region} */
   name: string;
-  /** Request body */
-  body?: Cluster | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Cluster does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** Output only. Continuous backup properties for this cluster. */
+  continuousBackupInfo?: ContinuousBackupInfo | undefined;
+  /** Optional. Configuration for Dataplex integration. */
+  dataplexConfig?: DataplexConfig | undefined;
+  /** User-settable and human-readable display name for the Cluster. */
+  displayName?: string | undefined;
+  /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: `projects/{project}/global/networks/{network_id}`. This is required to create a cluster. Deprecated, use network_config.network instead. */
+  network?: string | undefined;
+  /** Optional. The database engine major version. This is an optional field and it is populated at the Cluster creation time. If a database version is not supplied at cluster creation time, then a default database version will be used. */
+  databaseVersion?: ClusterDatabaseVersionEnum | (string & {}) | undefined;
+  /** Output only. Cluster created from a BackupDR backup. */
+  backupdrBackupSource?: BackupDrBackupSource | undefined;
+  /** Optional. Continuous backup configuration for this cluster. */
+  continuousBackupConfig?: ContinuousBackupConfig | undefined;
+  /** Output only. The type of the cluster. This is an output-only field and it's populated at the Cluster creation time or the Cluster promotion time. The cluster type is determined by which RPC was used to create the cluster (i.e. `CreateCluster` vs. `CreateSecondaryCluster` */
+  clusterType?: ClusterClusterTypeEnum | (string & {}) | undefined;
+  /** Output only. Cluster created via DMS migration. */
+  migrationSource?: MigrationSource | undefined;
+  /** Input only. Policy to use to automatically select the maintenance version to which to update the cluster's instances. */
+  maintenanceVersionSelectionPolicy?:
+    | ClusterMaintenanceVersionSelectionPolicyEnum
+    | (string & {})
+    | undefined;
+  /** The automated backup policy for this cluster. If no policy is provided then the default policy will be used. If backups are supported for the cluster, the default policy takes one backup a day, has a backup window of 1 hour, and retains backups for 14 days. For more information on the defaults, consult the documentation for the message type. */
+  automatedBackupPolicy?: AutomatedBackupPolicy | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** SSL configuration for this AlloyDB cluster. */
+  sslConfig?: SslConfig | undefined;
+  /** Optional. The maintenance update policy determines when to allow or deny updates. */
+  maintenanceUpdatePolicy?: MaintenanceUpdatePolicy | undefined;
+  /** Optional. The configuration for Private Service Connect (PSC) for the cluster. */
+  pscConfig?: PscConfig | undefined;
+  /** Output only. Metadata for free trial clusters */
+  trialMetadata?: TrialMetadata | undefined;
+  /** Output only. Cluster created from backup. */
+  backupSource?: BackupSource | undefined;
+  /** Input only. Initial user to setup during cluster creation. Required. If used in `RestoreCluster` this is ignored. */
+  initialUser?: UserPassword | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. The maintenance schedule for the cluster, generated for a specific rollout if a maintenance window is set. */
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  /** Optional. Subscription type of the cluster. */
+  subscriptionType?: ClusterSubscriptionTypeEnum | (string & {}) | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Output only. The encryption information for the cluster. */
+  encryptionInfo?: EncryptionInfo | undefined;
+  /** Output only. The current serving state of the cluster. */
+  state?: ClusterStateEnum | (string & {}) | undefined;
+  /** Output only. Output only information about BackupDR protection for this cluster. */
+  backupdrInfo?: BackupDrInfo | undefined;
+  /** Optional. */
+  networkConfig?: NetworkConfig | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: ``` "123/environment": "production", "123/costCenter": "marketing" ``` */
+  tags?: StringMap | undefined;
+  /** Output only. Cross Region replication config specific to PRIMARY cluster. */
+  primaryConfig?: PrimaryConfig | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. Cluster created from CloudSQL snapshot. */
+  cloudsqlBackupRunSource?: CloudSQLBackupRunSource | undefined;
+  /** Cross Region replication config specific to SECONDARY cluster. */
+  secondaryConfig?: SecondaryConfig | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
+  encryptionConfig?: EncryptionConfig | undefined;
 }
 export interface PatchProjectsLocationsClustersInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1585,8 +2023,74 @@ export interface PatchProjectsLocationsClustersInstancesRequest {
   updateMask?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
-  /** Request body */
-  body?: Instance | undefined;
+  /** Output only. Create time stamp */
+  createTime?: string | undefined;
+  /** User-settable and human-readable display name for the Instance. */
+  displayName?: string | undefined;
+  /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of Instance does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
+  reconciling?: boolean | undefined;
+  /** Output only. Instance level Query Insights information, which is read-only and available in the output only. Contains the effective query insights settings for this instance, by merging customer's provided `QueryInsightsInstanceConfig` with the Query Insights defaults. */
+  queryInsightsInfo?: QueryInsightsInstanceInfo | undefined;
+  /** Output only. The IP address for the Instance. This is the connection endpoint for an end-user application. */
+  ipAddress?: string | undefined;
+  /** Output only. Instance level observability information, contains the effective values of observability settings for this instance, by merging customer's provided `ObservabilityInstanceConfig` with the Observability defaults. */
+  observabilityInstanceInfo?: ObservabilityInstanceInfo | undefined;
+  /** Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. The system-generated UID of the resource. The UID is assigned when the resource is created, and it is retained until it is deleted. */
+  uid?: string | undefined;
+  /** Output only. This is set for the read-write VM of the PRIMARY instance only. */
+  writableNode?: Node | undefined;
+  /** Optional. Client connection specific configurations */
+  clientConnectionConfig?: ClientConnectionConfig | undefined;
+  /** Output only. All outbound public IP addresses configured for the instance. */
+  outboundPublicIpAddresses?: StringList | undefined;
+  /** Output only. The current serving state of the instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Optional. Specifies whether an instance needs to spin up. Once the instance is active, the activation policy can be updated to the `NEVER` to stop the instance. Likewise, the activation policy can be updated to `ALWAYS` to start the instance. There are restrictions around when an instance can/cannot be activated (for example, a read pool instance should be stopped before stopping primary etc.). Please refer to the API documentation for more details. */
+  activationPolicy?: InstanceActivationPolicyEnum | (string & {}) | undefined;
+  /** Output only. The public IP address for the Instance. This is available ONLY when `enable_public_ip` is set or when you have upgraded from an Express Instance that has public DNS enabled. This field is not available for Express Instances. This is the connection endpoint for an end-user application. */
+  publicIpAddress?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Availability type of an Instance. If empty, defaults to REGIONAL for primary instances. For read pools, availability_type is always UNSPECIFIED. Instances in the read pools are evenly distributed across available zones within the region (i.e. read pools with more than one node will have a node in at least two zones). */
+  availabilityType?: InstanceAvailabilityTypeEnum | (string & {}) | undefined;
+  /** Optional. The configuration for Private Service Connect (PSC) for the instance. */
+  pscInstanceConfig?: PscInstanceConfig | undefined;
+  /** Optional. The configuration for Managed Connection Pool (MCP). */
+  connectionPoolConfig?: ConnectionPoolConfig | undefined;
+  /** Read pool instance configuration. This is required if the value of instanceType is READ_POOL. */
+  readPoolConfig?: ReadPoolConfig | undefined;
+  /** The Compute Engine zone that the instance should serve from, per https://cloud.google.com/compute/docs/regions-zones This can ONLY be specified for ZONAL instances. If present for a REGIONAL instance, an error will be thrown. If this is absent for a ZONAL instance, instance is created in a random zone with available capacity. */
+  gceZone?: string | undefined;
+  /** Optional. Instance-level network configuration. */
+  networkConfig?: InstanceNetworkConfig | undefined;
+  /** Database flags. Set at the instance level. They are copied from the primary instance on secondary instance creation. Flags that have restrictions default to the value at primary instance on read instances during creation. Read instances can set new flags or override existing flags that are relevant for reads, for example, for enabling columnar cache on a read instance. Flags set on read instance might or might not be present on the primary instance. This is a list of "key": "value" pairs. "key": The name of the flag. These flags are passed at instance setup time, so include both server options and system variables for Postgres. Flags are specified with underscores, not hyphens. "value": The value of the flag. Booleans are set to **on** for true and **off** for false. This field must be omitted if the flag doesn't take a value. */
+  databaseFlags?: StringMap | undefined;
+  /** Annotations to allow client tools to store small amount of arbitrary data. This is distinct from labels. https://google.aip.dev/128 */
+  annotations?: StringMap | undefined;
+  /** Output only. Update time stamp */
+  updateTime?: string | undefined;
+  /** Configuration for observability. */
+  observabilityConfig?: ObservabilityInstanceConfig | undefined;
+  /** Optional. Controls whether the Data API is enabled for this instance. When enabled, this allows authorized users to connect to the instance from the public internet using the `executeSql` API, even for private IP instances. If this is not specified, the data API is enabled by default for Google internal services like AlloyDB Studio. Disable it explicitly to disallow Google internal services as well. */
+  dataApiAccess?: InstanceDataApiAccessEnum | (string & {}) | undefined;
+  /** Configuration for query insights. */
+  queryInsightsConfig?: QueryInsightsInstanceConfig | undefined;
+  /** Output only. Delete time stamp */
+  deleteTime?: string | undefined;
+  /** Output only. List of available read-only VMs in this instance, including the standby for a PRIMARY instance. */
+  nodes?: NodeList | undefined;
+  /** For Resource freshness validation (https://google.aip.dev/154) */
+  etag?: string | undefined;
+  /** Required. The type of the instance. Specified at creation time. */
+  instanceType?: InstanceInstanceTypeEnum | (string & {}) | undefined;
+  /** Output only. Information about the Private Service Connect (PSC) for the instance. */
+  pscInstanceInfo?: PscInstanceInfo | undefined;
+  /** Configurations for the machines that host the underlying database engine. */
+  machineConfig?: MachineConfig | undefined;
+  /** Output only. Maintenance version of the instance, for example: POSTGRES_15.2025_07_15.04_00. Output only. Update this field via the parent cluster's maintenance_version field(s). */
+  maintenanceVersionName?: string | undefined;
 }
 export interface PatchProjectsLocationsClustersUsersRequest {
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
@@ -1599,11 +2103,18 @@ export interface PatchProjectsLocationsClustersUsersRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: User | undefined;
+  /** Optional. Type of this user. */
+  userType?: UserUserTypeEnum | (string & {}) | undefined;
+  /** Optional. List of database roles this user has. The database role strings are subject to the PostgreSQL naming conventions. */
+  databaseRoles?: StringList | undefined;
+  /** Input only. Password for the user. */
+  password?: string | undefined;
+  /** Input only. If the user already exists and it has additional roles, keep them granted. */
+  keepExtraRoles?: boolean | undefined;
 }
-/** Message for promoting a Cluster */
-export interface PromoteClusterRequest {
+export interface PromoteProjectsLocationsClustersRequest {
+  /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
+  name: string;
   /** Optional. The current etag of the Cluster. If an etag is provided and does not match the current etag of the Cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
@@ -1611,13 +2122,9 @@ export interface PromoteClusterRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface PromoteProjectsLocationsClustersRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
+export interface RestartProjectsLocationsClustersInstancesRequest {
+  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
-  /** Request body */
-  body?: PromoteClusterRequest | undefined;
-}
-export interface RestartInstanceRequest {
   /** Optional. Full name of the nodes as obtained from INSTANCE_VIEW_FULL to restart upon. Applicable only to read instances. */
   nodeIds?: StringList | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
@@ -1625,26 +2132,15 @@ export interface RestartInstanceRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RestartProjectsLocationsClustersInstancesRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
-  name: string;
-  /** Request body */
-  body?: RestartInstanceRequest | undefined;
-}
-/** Message for registering Restoring from CloudSQL resource. */
-export interface RestoreFromCloudSQLRequest {
+export interface RestoreFromCloudSQLProjectsLocationsClustersRequest {
+  /** Required. The location of the new cluster. For the required format, see the comment on Cluster.name field. */
+  parent: string;
   /** Cluster created from CloudSQL backup run. */
   cloudsqlBackupRunSource?: CloudSQLBackupRunSource | undefined;
   /** Required. ID of the requesting object. */
   clusterId?: string | undefined;
   /** Required. The resource being created */
   cluster?: Cluster | undefined;
-}
-export interface RestoreFromCloudSQLProjectsLocationsClustersRequest {
-  /** Required. The location of the new cluster. For the required format, see the comment on Cluster.name field. */
-  parent: string;
-  /** Request body */
-  body?: RestoreFromCloudSQLRequest | undefined;
 }
 /** Message describing a BackupDrPitrSource. */
 export interface BackupDrPitrSource {
@@ -1660,8 +2156,9 @@ export interface ContinuousBackupSource {
   /** Required. The point in time to restore to. */
   pointInTime?: string | undefined;
 }
-/** Message for restoring a Cluster from a backup or another cluster at a given point in time. NEXT_ID: 11 */
-export interface RestoreClusterRequest {
+export interface RestoreProjectsLocationsClustersRequest {
+  /** Required. The name of the parent resource. For the required format, see the comment on the Cluster.name field. */
+  parent: string;
   /** BackupDR source used for point in time recovery. */
   backupdrPitrSource?: BackupDrPitrSource | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1679,24 +2176,13 @@ export interface RestoreClusterRequest {
   /** Required. The resource being created */
   cluster?: Cluster | undefined;
 }
-export interface RestoreProjectsLocationsClustersRequest {
-  /** Required. The name of the parent resource. For the required format, see the comment on the Cluster.name field. */
-  parent: string;
-  /** Request body */
-  body?: RestoreClusterRequest | undefined;
-}
-/** Message for switching over to a cluster */
-export interface SwitchoverClusterRequest {
+export interface SwitchoverProjectsLocationsClustersRequest {
+  /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
+  name: string;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-}
-export interface SwitchoverProjectsLocationsClustersRequest {
-  /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
-  name: string;
-  /** Request body */
-  body?: SwitchoverClusterRequest | undefined;
 }
 export type UpgradeClusterRequestVersionEnum =
   | "DATABASE_VERSION_UNSPECIFIED"
@@ -1706,8 +2192,9 @@ export type UpgradeClusterRequestVersionEnum =
   | "POSTGRES_16"
   | "POSTGRES_17"
   | "POSTGRES_18";
-/** Upgrades a cluster. */
-export interface UpgradeClusterRequest {
+export interface UpgradeProjectsLocationsClustersRequest {
+  /** Required. The resource name of the cluster. */
+  name: string;
   /** Required. The version the cluster is going to be upgraded to. */
   version?: UpgradeClusterRequestVersionEnum | (string & {}) | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -1716,12 +2203,6 @@ export interface UpgradeClusterRequest {
   etag?: string | undefined;
   /** Optional. If set, performs request validation, for example, permission checks and any other type of validation, but does not actually execute the create request. */
   validateOnly?: boolean | undefined;
-}
-export interface UpgradeProjectsLocationsClustersRequest {
-  /** Required. The resource name of the cluster. */
-  name: string;
-  /** Request body */
-  body?: UpgradeClusterRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1736,8 +2217,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Empty>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1759,8 +2240,8 @@ export const createProjectsLocationsBackups: API.OperationMethod<
   CreateProjectsLocationsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsBackupsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateProjectsLocationsBackupsRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ClusterNotReadyForBackup, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1781,8 +2262,8 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   CreateProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1568, __c49, 0) as any as S.Schema<CreateProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1803,8 +2284,8 @@ export const createProjectsLocationsClustersInstances: API.OperationMethod<
   CreateProjectsLocationsClustersInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<CreateProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateProjectsLocationsClustersInstancesRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1825,8 +2306,8 @@ export const createProjectsLocationsClustersUsers: API.OperationMethod<
   CreateProjectsLocationsClustersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateProjectsLocationsClustersUsersRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<User>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateProjectsLocationsClustersUsersRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1848,7 +2329,7 @@ export const createsecondaryProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreatesecondaryProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1874,7 +2355,7 @@ export const createsecondaryProjectsLocationsClustersInstances: API.OperationMet
     __c1,
     0,
   ) as any as S.Schema<CreatesecondaryProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1896,7 +2377,7 @@ export const deleteProjectsLocationsBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsBackupsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1918,7 +2399,7 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1940,7 +2421,7 @@ export const deleteProjectsLocationsClustersInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1962,7 +2443,7 @@ export const deleteProjectsLocationsClustersUsers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteProjectsLocationsClustersUsersRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1984,7 +2465,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<Empty>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2005,8 +2486,8 @@ export const executeSqlProjectsLocationsClustersInstances: API.OperationMethod<
   ExecuteSqlProjectsLocationsClustersInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c7, 1) as any as S.Schema<ExecuteSqlProjectsLocationsClustersInstancesRequest>,
-  output: __S(235, __c7, 11) as any as S.Schema<ExecuteSqlResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ExecuteSqlProjectsLocationsClustersInstancesRequest>,
+  output: __S(234, __c7, 10) as any as S.Schema<ExecuteSqlResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2027,8 +2508,8 @@ export const exportProjectsLocationsClusters: API.OperationMethod<
   ExportProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(260, __c8, 4) as any as S.Schema<ExportProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(259, __c8, 3) as any as S.Schema<ExportProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2049,8 +2530,8 @@ export const failoverProjectsLocationsClustersInstances: API.OperationMethod<
   FailoverProjectsLocationsClustersInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c9, 1) as any as S.Schema<FailoverProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<FailoverProjectsLocationsClustersInstancesRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2108,7 +2589,7 @@ export const getProjectsLocationsBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsBackupsRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<Backup>,
+  output: __S(448, __c14, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2124,8 +2605,8 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   GetProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
-  output: __S(1565, __c48, 29) as any as S.Schema<Cluster>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsClustersRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2141,8 +2622,8 @@ export const getProjectsLocationsClustersInstances: API.OperationMethod<
   GetProjectsLocationsClustersInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsClustersInstancesRequest>,
-  output: __S(1659, __c51, 27) as any as S.Schema<Instance>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsClustersInstancesRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2158,8 +2639,8 @@ export const getProjectsLocationsClustersUsers: API.OperationMethod<
   GetProjectsLocationsClustersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetProjectsLocationsClustersUsersRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<User>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetProjectsLocationsClustersUsersRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2175,8 +2656,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2197,8 +2678,8 @@ export const importProjectsLocationsClusters: API.OperationMethod<
   ImportProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(578, __c18, 2) as any as S.Schema<ImportProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(673, __c21, 1) as any as S.Schema<ImportProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2220,11 +2701,11 @@ export const injectFaultProjectsLocationsClustersInstances: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    609,
-    __c19,
-    1,
+    704,
+    __c22,
+    0,
   ) as any as S.Schema<InjectFaultProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2241,8 +2722,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudLocationListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<GoogleCloudLocationListLocationsResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<GoogleCloudLocationListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2260,8 +2741,8 @@ export const listProjectsLocationsBackups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsBackupsRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsBackupsRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2279,8 +2760,8 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsClustersRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2298,8 +2779,8 @@ export const listProjectsLocationsClustersInstances: API.PaginatedOperationMetho
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListProjectsLocationsClustersInstancesRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListProjectsLocationsClustersInstancesRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2317,8 +2798,8 @@ export const listProjectsLocationsClustersUsers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUsersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsClustersUsersRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<ListUsersResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListProjectsLocationsClustersUsersRequest>,
+  output: __S(866, __c27, 2) as any as S.Schema<ListUsersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2336,8 +2817,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2355,8 +2836,8 @@ export const listProjectsLocationsSupportedDatabaseFlags: API.PaginatedOperation
   GcpOpContext,
   ListSupportedDatabaseFlagsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListProjectsLocationsSupportedDatabaseFlagsRequest>,
-  output: __S(837, __c26, 5) as any as S.Schema<ListSupportedDatabaseFlagsResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListProjectsLocationsSupportedDatabaseFlagsRequest>,
+  output: __S(933, __c29, 5) as any as S.Schema<ListSupportedDatabaseFlagsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2378,8 +2859,8 @@ export const patchProjectsLocationsBackups: API.OperationMethod<
   PatchProjectsLocationsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsBackupsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsBackupsRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2400,8 +2881,8 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   PatchProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(992, __c31, 0) as any as S.Schema<PatchProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2422,8 +2903,8 @@ export const patchProjectsLocationsClustersInstances: API.OperationMethod<
   PatchProjectsLocationsClustersInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<PatchProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1024, __c32, 0) as any as S.Schema<PatchProjectsLocationsClustersInstancesRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2444,8 +2925,8 @@ export const patchProjectsLocationsClustersUsers: API.OperationMethod<
   PatchProjectsLocationsClustersUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsClustersUsersRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<User>,
+  input: __S(1056, __c33, 0) as any as S.Schema<PatchProjectsLocationsClustersUsersRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<User>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2466,8 +2947,8 @@ export const promoteProjectsLocationsClusters: API.OperationMethod<
   PromoteProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(993, __c31, 1) as any as S.Schema<PromoteProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1088, __c34, 0) as any as S.Schema<PromoteProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2488,8 +2969,8 @@ export const restartProjectsLocationsClustersInstances: API.OperationMethod<
   RestartProjectsLocationsClustersInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c32, 1) as any as S.Schema<RestartProjectsLocationsClustersInstancesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1120, __c35, 0) as any as S.Schema<RestartProjectsLocationsClustersInstancesRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2511,11 +2992,11 @@ export const restoreFromCloudSQLProjectsLocationsClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1057,
-    __c33,
-    1,
+    1152,
+    __c36,
+    0,
   ) as any as S.Schema<RestoreFromCloudSQLProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2536,8 +3017,8 @@ export const restoreProjectsLocationsClusters: API.OperationMethod<
   RestoreProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1091, __c34, 3) as any as S.Schema<RestoreProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1186, __c37, 2) as any as S.Schema<RestoreProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2558,8 +3039,8 @@ export const switchoverProjectsLocationsClusters: API.OperationMethod<
   SwitchoverProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c35, 1) as any as S.Schema<SwitchoverProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1216, __c38, 0) as any as S.Schema<SwitchoverProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2580,8 +3061,8 @@ export const upgradeProjectsLocationsClusters: API.OperationMethod<
   UpgradeProjectsLocationsClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1153, __c36, 1) as any as S.Schema<UpgradeProjectsLocationsClustersRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<Operation>,
+  input: __S(1248, __c39, 0) as any as S.Schema<UpgradeProjectsLocationsClustersRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2599,7 +3080,44 @@ function __c0(j: number): any {
           clusterId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1565, __c48, 29).pipe(T.HttpBody())),
+          reconciling: S.optional(S.Boolean),
+          continuousBackupInfo: S.optional(__S(1632, __c51, 0)),
+          name: S.optional(S.String),
+          dataplexConfig: S.optional(__S(1633, __c51, 1)),
+          displayName: S.optional(S.String),
+          network: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          backupdrBackupSource: S.optional(__S(1634, __c51, 2)),
+          continuousBackupConfig: S.optional(__S(1635, __c51, 3)),
+          clusterType: S.optional(S.String),
+          migrationSource: S.optional(__S(1636, __c51, 4)),
+          maintenanceVersionSelectionPolicy: S.optional(S.String),
+          automatedBackupPolicy: S.optional(__S(1642, __c51, 10)),
+          createTime: S.optional(S.String),
+          sslConfig: S.optional(__S(1664, __c52, 0)),
+          maintenanceUpdatePolicy: S.optional(__S(1648, __c51, 16)),
+          pscConfig: S.optional(__S(1649, __c51, 17)),
+          trialMetadata: S.optional(__S(1650, __c51, 18)),
+          backupSource: S.optional(__S(1651, __c51, 19)),
+          initialUser: S.optional(__S(1652, __c51, 20)),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          maintenanceSchedule: S.optional(__S(1653, __c51, 21)),
+          subscriptionType: S.optional(S.String),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          state: S.optional(S.String),
+          backupdrInfo: S.optional(__S(1656, __c51, 24)),
+          networkConfig: S.optional(__S(1657, __c51, 25)),
+          satisfiesPzs: S.optional(S.Boolean),
+          tags: S.optional(__S(1504, __c47, 0)),
+          primaryConfig: S.optional(__S(1658, __c51, 26)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          cloudsqlBackupRunSource: S.optional(__S(1659, __c51, 27)),
+          secondaryConfig: S.optional(__S(1660, __c51, 28)),
+          updateTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2619,7 +3137,41 @@ function __c1(j: number): any {
           instanceId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1659, __c51, 27).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          queryInsightsInfo: S.optional(__S(1728, __c54, 0)),
+          ipAddress: S.optional(S.String),
+          observabilityInstanceInfo: S.optional(__S(1729, __c54, 1)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          uid: S.optional(S.String),
+          writableNode: S.optional(__S(1730, __c54, 2)),
+          clientConnectionConfig: S.optional(__S(1731, __c54, 3)),
+          outboundPublicIpAddresses: S.optional(__S(1536, __c48, 0)),
+          state: S.optional(S.String),
+          activationPolicy: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          availabilityType: S.optional(S.String),
+          pscInstanceConfig: S.optional(__S(1738, __c54, 10)),
+          connectionPoolConfig: S.optional(__S(1739, __c54, 11)),
+          readPoolConfig: S.optional(__S(1746, __c54, 18)),
+          gceZone: S.optional(S.String),
+          networkConfig: S.optional(__S(1749, __c54, 21)),
+          name: S.optional(S.String),
+          databaseFlags: S.optional(__S(1504, __c47, 0)),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          updateTime: S.optional(S.String),
+          observabilityConfig: S.optional(__S(1750, __c54, 22)),
+          dataApiAccess: S.optional(S.String),
+          queryInsightsConfig: S.optional(__S(1751, __c54, 23)),
+          deleteTime: S.optional(S.String),
+          nodes: S.optional(__S(1752, __c54, 24)),
+          etag: S.optional(S.String),
+          instanceType: S.optional(S.String),
+          pscInstanceInfo: S.optional(__S(1753, __c54, 25)),
+          machineConfig: S.optional(__S(1754, __c54, 26)),
+          maintenanceVersionName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2727,18 +3279,12 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          instance: S.String.pipe(T.Label()),
           database: S.optional(S.String),
           user: S.optional(S.String),
           password: S.optional(S.String),
           sqlStatement: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ExecuteSqlRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          instance: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2747,42 +3293,42 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExecuteSqlProjectsLocationsClustersInstancesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SqlResultColumn" });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
     case 3:
-      return S.Array(__S(226, __c7, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           nullValue: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SqlResultValue" });
+    case 4:
+      return S.Array(__S(227, __c7, 3));
     case 5:
-      return S.Array(__S(228, __c7, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(229, __c7, 5)),
+          values: S.optional(__S(228, __c7, 4)),
         }),
       ).annotate({ identifier: "SqlResultRow" });
+    case 6:
+      return S.Array(__S(229, __c7, 5));
     case 7:
-      return S.Array(__S(230, __c7, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(227, __c7, 3)),
-          rows: S.optional(__S(231, __c7, 7)),
+          columns: S.optional(__S(226, __c7, 2)),
+          rows: S.optional(__S(230, __c7, 6)),
         }),
       ).annotate({ identifier: "SqlResult" });
+    case 8:
+      return S.Array(__S(231, __c7, 7));
     case 9:
-      return S.Array(__S(232, __c7, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
@@ -2791,11 +3337,11 @@ function __c7(j: number): any {
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecuteSqlMetadata" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          sqlResults: S.optional(__S(233, __c7, 9)),
-          metadata: S.optional(__S(234, __c7, 10)),
+          sqlResults: S.optional(__S(232, __c7, 8)),
+          metadata: S.optional(__S(233, __c7, 9)),
         }),
       ).annotate({ identifier: "ExecuteSqlResponse" });
   }
@@ -2815,7 +3361,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           schemaOnly: S.optional(S.Boolean),
-          tables: S.optional(__S(1440, __c45, 0)),
+          tables: S.optional(__S(1536, __c48, 0)),
           ifExistTargetObjects: S.optional(S.Boolean),
           cleanTargetObjects: S.optional(S.Boolean),
         }),
@@ -2829,17 +3375,11 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           csvExportOptions: S.optional(__S(256, __c8, 0)),
           sqlExportOptions: S.optional(__S(257, __c8, 1)),
           gcsDestination: S.optional(__S(258, __c8, 2)),
           database: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExportClusterRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(259, __c8, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2855,15 +3395,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FailoverInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c9, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2919,9 +3453,9 @@ function __c12(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(1408, __c44, 0)),
+          labels: S.optional(__S(1504, __c47, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(1344, __c42, 0)),
+          metadata: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudLocationLocation" });
   }
@@ -2944,12 +3478,32 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsClustersRequest" });
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
+          expiryQuantity: S.optional(__S(1376, __c43, 0)),
+          deleteTime: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          labels: S.optional(__S(1504, __c47, 0)),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
+          displayName: S.optional(S.String),
+          clusterName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          clusterUid: S.optional(S.String),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          sizeBytes: S.optional(S.String),
+          etag: S.optional(S.String),
+          type: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          state: S.optional(S.String),
+          createCompletionTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          tags: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "Backup" });
   }
 }
 function __c15(j: number): any {
@@ -2962,10 +3516,114 @@ function __c15(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsClustersInstancesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsClustersRequest" });
   }
 }
 function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reconciling: S.optional(S.Boolean),
+          continuousBackupInfo: S.optional(__S(1632, __c51, 0)),
+          name: S.optional(S.String),
+          dataplexConfig: S.optional(__S(1633, __c51, 1)),
+          displayName: S.optional(S.String),
+          network: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          backupdrBackupSource: S.optional(__S(1634, __c51, 2)),
+          continuousBackupConfig: S.optional(__S(1635, __c51, 3)),
+          clusterType: S.optional(S.String),
+          migrationSource: S.optional(__S(1636, __c51, 4)),
+          maintenanceVersionSelectionPolicy: S.optional(S.String),
+          automatedBackupPolicy: S.optional(__S(1642, __c51, 10)),
+          createTime: S.optional(S.String),
+          sslConfig: S.optional(__S(1664, __c52, 0)),
+          maintenanceUpdatePolicy: S.optional(__S(1648, __c51, 16)),
+          pscConfig: S.optional(__S(1649, __c51, 17)),
+          trialMetadata: S.optional(__S(1650, __c51, 18)),
+          backupSource: S.optional(__S(1651, __c51, 19)),
+          initialUser: S.optional(__S(1652, __c51, 20)),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          maintenanceSchedule: S.optional(__S(1653, __c51, 21)),
+          subscriptionType: S.optional(S.String),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          state: S.optional(S.String),
+          backupdrInfo: S.optional(__S(1656, __c51, 24)),
+          networkConfig: S.optional(__S(1657, __c51, 25)),
+          satisfiesPzs: S.optional(S.Boolean),
+          tags: S.optional(__S(1504, __c47, 0)),
+          primaryConfig: S.optional(__S(1658, __c51, 26)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          cloudsqlBackupRunSource: S.optional(__S(1659, __c51, 27)),
+          secondaryConfig: S.optional(__S(1660, __c51, 28)),
+          updateTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
+        }),
+      ).annotate({ identifier: "Cluster" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://alloydb.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsClustersInstancesRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          queryInsightsInfo: S.optional(__S(1728, __c54, 0)),
+          ipAddress: S.optional(S.String),
+          observabilityInstanceInfo: S.optional(__S(1729, __c54, 1)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          uid: S.optional(S.String),
+          writableNode: S.optional(__S(1730, __c54, 2)),
+          clientConnectionConfig: S.optional(__S(1731, __c54, 3)),
+          outboundPublicIpAddresses: S.optional(__S(1536, __c48, 0)),
+          state: S.optional(S.String),
+          activationPolicy: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          availabilityType: S.optional(S.String),
+          pscInstanceConfig: S.optional(__S(1738, __c54, 10)),
+          connectionPoolConfig: S.optional(__S(1739, __c54, 11)),
+          readPoolConfig: S.optional(__S(1746, __c54, 18)),
+          gceZone: S.optional(S.String),
+          networkConfig: S.optional(__S(1749, __c54, 21)),
+          name: S.optional(S.String),
+          databaseFlags: S.optional(__S(1504, __c47, 0)),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          updateTime: S.optional(S.String),
+          observabilityConfig: S.optional(__S(1750, __c54, 22)),
+          dataApiAccess: S.optional(S.String),
+          queryInsightsConfig: S.optional(__S(1751, __c54, 23)),
+          deleteTime: S.optional(S.String),
+          nodes: S.optional(__S(1752, __c54, 24)),
+          etag: S.optional(S.String),
+          instanceType: S.optional(S.String),
+          pscInstanceInfo: S.optional(__S(1753, __c54, 25)),
+          machineConfig: S.optional(__S(1754, __c54, 26)),
+          maintenanceVersionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Instance" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2977,7 +3635,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsClustersUsersRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2989,7 +3647,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2997,25 +3655,19 @@ function __c18(j: number): any {
           quoteCharacter: S.optional(S.String),
           table: S.optional(S.String),
           fieldDelimiter: S.optional(S.String),
-          columns: S.optional(__S(1440, __c45, 0)),
+          columns: S.optional(__S(1536, __c48, 0)),
           escapeCharacter: S.optional(S.String),
         }),
       ).annotate({ identifier: "CsvImportOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           gcsUri: S.optional(S.String),
-          sqlImportOptions: S.optional(__S(1216, __c38, 0)),
-          csvImportOptions: S.optional(__S(576, __c18, 0)),
+          sqlImportOptions: S.optional(__S(1312, __c41, 0)),
+          csvImportOptions: S.optional(__S(672, __c21, 0)),
           user: S.optional(S.String),
           database: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportClusterRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(577, __c18, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3026,21 +3678,15 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsClustersRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           faultType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InjectFaultRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(608, __c19, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3051,7 +3697,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "InjectFaultProjectsLocationsClustersInstancesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3060,7 +3706,7 @@ function __c20(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1440, __c45, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1536, __c48, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3075,12 +3721,12 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(641, __c20, 1)),
+          locations: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudLocationListLocationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3100,18 +3746,18 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsBackupsRequest" });
     case 1:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1440, __c45, 0)),
-          backups: S.optional(__S(673, __c21, 1)),
+          unreachable: S.optional(__S(1536, __c48, 0)),
+          backups: S.optional(__S(769, __c24, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3130,18 +3776,18 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersRequest" });
     case 1:
-      return S.Array(__S(1565, __c48, 29));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1440, __c45, 0)),
+          unreachable: S.optional(__S(1536, __c48, 0)),
           nextPageToken: S.optional(S.String),
-          clusters: S.optional(__S(705, __c22, 1)),
+          clusters: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3160,18 +3806,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersInstancesRequest" });
     case 1:
-      return S.Array(__S(1659, __c51, 27));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1440, __c45, 0)),
-          instances: S.optional(__S(737, __c23, 1)),
+          unreachable: S.optional(__S(1536, __c48, 0)),
+          instances: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3190,18 +3836,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsClustersUsersRequest" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1792, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          users: S.optional(__S(769, __c24, 1)),
-          unreachable: S.optional(__S(1440, __c45, 0)),
+          users: S.optional(__S(865, __c27, 1)),
+          unreachable: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3220,18 +3866,18 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1378, __c43, 2));
+      return S.Array(__S(1474, __c46, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(801, __c25, 1)),
+          operations: S.optional(__S(897, __c28, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1440, __c45, 0)),
+          unreachable: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3258,7 +3904,7 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowedValues: S.optional(__S(1440, __c45, 0)),
+          allowedValues: S.optional(__S(1536, __c48, 0)),
           caseAgnostic: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StringRestrictions" });
@@ -3266,30 +3912,30 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           valueType: S.optional(S.String),
-          integerRestrictions: S.optional(__S(833, __c26, 1)),
+          integerRestrictions: S.optional(__S(929, __c29, 1)),
           flagName: S.optional(S.String),
           acceptsMultipleValues: S.optional(S.Boolean),
-          stringRestrictions: S.optional(__S(834, __c26, 2)),
+          stringRestrictions: S.optional(__S(930, __c29, 2)),
           scope: S.optional(S.String),
           recommendedIntegerValue: S.optional(S.String),
           recommendedStringValue: S.optional(S.String),
           name: S.optional(S.String),
-          supportedDbVersions: S.optional(__S(1504, __c47, 0)),
+          supportedDbVersions: S.optional(__S(1600, __c50, 0)),
           requiresDbRestart: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SupportedDatabaseFlag" });
     case 4:
-      return S.Array(__S(835, __c26, 3));
+      return S.Array(__S(931, __c29, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          supportedDatabaseFlags: S.optional(__S(836, __c26, 4)),
+          supportedDatabaseFlags: S.optional(__S(932, __c29, 4)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSupportedDatabaseFlagsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3299,7 +3945,29 @@ function __c27(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
+          expiryQuantity: S.optional(__S(1376, __c43, 0)),
+          deleteTime: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          labels: S.optional(__S(1504, __c47, 0)),
+          uid: S.optional(S.String),
+          displayName: S.optional(S.String),
+          clusterName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          clusterUid: S.optional(S.String),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          sizeBytes: S.optional(S.String),
+          etag: S.optional(S.String),
+          type: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          state: S.optional(S.String),
+          createCompletionTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          tags: S.optional(__S(1504, __c47, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3310,7 +3978,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsBackupsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3320,7 +3988,43 @@ function __c28(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1565, __c48, 29).pipe(T.HttpBody())),
+          reconciling: S.optional(S.Boolean),
+          continuousBackupInfo: S.optional(__S(1632, __c51, 0)),
+          dataplexConfig: S.optional(__S(1633, __c51, 1)),
+          displayName: S.optional(S.String),
+          network: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          backupdrBackupSource: S.optional(__S(1634, __c51, 2)),
+          continuousBackupConfig: S.optional(__S(1635, __c51, 3)),
+          clusterType: S.optional(S.String),
+          migrationSource: S.optional(__S(1636, __c51, 4)),
+          maintenanceVersionSelectionPolicy: S.optional(S.String),
+          automatedBackupPolicy: S.optional(__S(1642, __c51, 10)),
+          createTime: S.optional(S.String),
+          sslConfig: S.optional(__S(1664, __c52, 0)),
+          maintenanceUpdatePolicy: S.optional(__S(1648, __c51, 16)),
+          pscConfig: S.optional(__S(1649, __c51, 17)),
+          trialMetadata: S.optional(__S(1650, __c51, 18)),
+          backupSource: S.optional(__S(1651, __c51, 19)),
+          initialUser: S.optional(__S(1652, __c51, 20)),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          maintenanceSchedule: S.optional(__S(1653, __c51, 21)),
+          subscriptionType: S.optional(S.String),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          state: S.optional(S.String),
+          backupdrInfo: S.optional(__S(1656, __c51, 24)),
+          networkConfig: S.optional(__S(1657, __c51, 25)),
+          satisfiesPzs: S.optional(S.Boolean),
+          tags: S.optional(__S(1504, __c47, 0)),
+          primaryConfig: S.optional(__S(1658, __c51, 26)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          cloudsqlBackupRunSource: S.optional(__S(1659, __c51, 27)),
+          secondaryConfig: S.optional(__S(1660, __c51, 28)),
+          updateTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3331,7 +4035,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3341,7 +4045,40 @@ function __c29(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(1659, __c51, 27).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          queryInsightsInfo: S.optional(__S(1728, __c54, 0)),
+          ipAddress: S.optional(S.String),
+          observabilityInstanceInfo: S.optional(__S(1729, __c54, 1)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          uid: S.optional(S.String),
+          writableNode: S.optional(__S(1730, __c54, 2)),
+          clientConnectionConfig: S.optional(__S(1731, __c54, 3)),
+          outboundPublicIpAddresses: S.optional(__S(1536, __c48, 0)),
+          state: S.optional(S.String),
+          activationPolicy: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          availabilityType: S.optional(S.String),
+          pscInstanceConfig: S.optional(__S(1738, __c54, 10)),
+          connectionPoolConfig: S.optional(__S(1739, __c54, 11)),
+          readPoolConfig: S.optional(__S(1746, __c54, 18)),
+          gceZone: S.optional(S.String),
+          networkConfig: S.optional(__S(1749, __c54, 21)),
+          databaseFlags: S.optional(__S(1504, __c47, 0)),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          updateTime: S.optional(S.String),
+          observabilityConfig: S.optional(__S(1750, __c54, 22)),
+          dataApiAccess: S.optional(S.String),
+          queryInsightsConfig: S.optional(__S(1751, __c54, 23)),
+          deleteTime: S.optional(S.String),
+          nodes: S.optional(__S(1752, __c54, 24)),
+          etag: S.optional(S.String),
+          instanceType: S.optional(S.String),
+          pscInstanceInfo: S.optional(__S(1753, __c54, 25)),
+          machineConfig: S.optional(__S(1754, __c54, 26)),
+          maintenanceVersionName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3352,7 +4089,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersInstancesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3362,7 +4099,10 @@ function __c30(j: number): any {
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
+          userType: S.optional(S.String),
+          databaseRoles: S.optional(__S(1536, __c48, 0)),
+          password: S.optional(S.String),
+          keepExtraRoles: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3373,21 +4113,15 @@ function __c30(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsClustersUsersRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PromoteClusterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3398,21 +4132,15 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PromoteProjectsLocationsClustersRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nodeIds: S.optional(__S(1440, __c45, 0)),
+          name: S.String.pipe(T.Label()),
+          nodeIds: S.optional(__S(1536, __c48, 0)),
           validateOnly: S.optional(S.Boolean),
           requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestartInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3423,21 +4151,15 @@ function __c32(j: number): any {
       ).annotate({ identifier: "RestartProjectsLocationsClustersInstancesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cloudsqlBackupRunSource: S.optional(__S(1563, __c48, 27)),
-          clusterId: S.optional(S.String),
-          cluster: S.optional(__S(1565, __c48, 29)),
-        }),
-      ).annotate({ identifier: "RestoreFromCloudSQLRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
+          cloudsqlBackupRunSource: S.optional(__S(1659, __c51, 27)),
+          clusterId: S.optional(S.String),
+          cluster: S.optional(__S(512, __c16, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3448,7 +4170,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "RestoreFromCloudSQLProjectsLocationsClustersRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3467,21 +4189,15 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupdrPitrSource: S.optional(__S(1088, __c34, 0)),
+          parent: S.String.pipe(T.Label()),
+          backupdrPitrSource: S.optional(__S(1184, __c37, 0)),
           requestId: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-          backupSource: S.optional(__S(1555, __c48, 19)),
-          continuousBackupSource: S.optional(__S(1089, __c34, 1)),
+          backupSource: S.optional(__S(1651, __c51, 19)),
+          continuousBackupSource: S.optional(__S(1185, __c37, 1)),
           clusterId: S.optional(S.String),
-          backupdrBackupSource: S.optional(__S(1538, __c48, 2)),
-          cluster: S.optional(__S(1565, __c48, 29)),
-        }),
-      ).annotate({ identifier: "RestoreClusterRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1090, __c34, 2).pipe(T.HttpBody())),
+          backupdrBackupSource: S.optional(__S(1634, __c51, 2)),
+          cluster: S.optional(__S(512, __c16, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3492,20 +4208,14 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsClustersRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean),
           requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SwitchoverClusterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3516,22 +4226,16 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SwitchoverProjectsLocationsClustersRequest" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           version: S.optional(S.String),
           requestId: S.optional(S.String),
           etag: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UpgradeClusterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3542,13 +4246,13 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpgradeProjectsLocationsClustersRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3559,13 +4263,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3574,7 +4278,30 @@ function __c39(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           backupId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1281, __c40, 1).pipe(T.HttpBody())),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
+          expiryQuantity: S.optional(__S(1376, __c43, 0)),
+          deleteTime: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          labels: S.optional(__S(1504, __c47, 0)),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
+          displayName: S.optional(S.String),
+          clusterName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          clusterUid: S.optional(S.String),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          sizeBytes: S.optional(S.String),
+          etag: S.optional(S.String),
+          type: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          state: S.optional(S.String),
+          createCompletionTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          tags: S.optional(__S(1504, __c47, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3585,7 +4312,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsBackupsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3594,38 +4321,9 @@ function __c40(j: number): any {
           retentionCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QuantityBasedExpiry" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          annotations: S.optional(__S(1408, __c44, 0)),
-          encryptionConfig: S.optional(__S(1312, __c41, 0)),
-          expiryQuantity: S.optional(__S(1280, __c40, 0)),
-          deleteTime: S.optional(S.String),
-          databaseVersion: S.optional(S.String),
-          labels: S.optional(__S(1408, __c44, 0)),
-          name: S.optional(S.String),
-          uid: S.optional(S.String),
-          displayName: S.optional(S.String),
-          clusterName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          clusterUid: S.optional(S.String),
-          encryptionInfo: S.optional(__S(1313, __c41, 1)),
-          sizeBytes: S.optional(S.String),
-          etag: S.optional(S.String),
-          type: S.optional(S.String),
-          expiryTime: S.optional(S.String),
-          state: S.optional(S.String),
-          createCompletionTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          tags: S.optional(__S(1408, __c44, 0)),
-        }),
-      ).annotate({ identifier: "Backup" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3637,54 +4335,54 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           encryptionType: S.optional(S.String),
-          kmsKeyVersions: S.optional(__S(1440, __c45, 0)),
+          kmsKeyVersions: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
-          details: S.optional(__S(1376, __c43, 0)),
+          details: S.optional(__S(1472, __c46, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1344, __c42, 0)),
+          metadata: S.optional(__S(1440, __c45, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(1344, __c42, 0)),
-          error: S.optional(__S(1377, __c43, 1)),
+          response: S.optional(__S(1440, __c45, 0)),
+          error: S.optional(__S(1473, __c46, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3693,7 +4391,44 @@ function __c46(j: number): any {
           clusterId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1565, __c48, 29).pipe(T.HttpBody())),
+          reconciling: S.optional(S.Boolean),
+          continuousBackupInfo: S.optional(__S(1632, __c51, 0)),
+          name: S.optional(S.String),
+          dataplexConfig: S.optional(__S(1633, __c51, 1)),
+          displayName: S.optional(S.String),
+          network: S.optional(S.String),
+          databaseVersion: S.optional(S.String),
+          backupdrBackupSource: S.optional(__S(1634, __c51, 2)),
+          continuousBackupConfig: S.optional(__S(1635, __c51, 3)),
+          clusterType: S.optional(S.String),
+          migrationSource: S.optional(__S(1636, __c51, 4)),
+          maintenanceVersionSelectionPolicy: S.optional(S.String),
+          automatedBackupPolicy: S.optional(__S(1642, __c51, 10)),
+          createTime: S.optional(S.String),
+          sslConfig: S.optional(__S(1664, __c52, 0)),
+          maintenanceUpdatePolicy: S.optional(__S(1648, __c51, 16)),
+          pscConfig: S.optional(__S(1649, __c51, 17)),
+          trialMetadata: S.optional(__S(1650, __c51, 18)),
+          backupSource: S.optional(__S(1651, __c51, 19)),
+          initialUser: S.optional(__S(1652, __c51, 20)),
+          etag: S.optional(S.String),
+          uid: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          maintenanceSchedule: S.optional(__S(1653, __c51, 21)),
+          subscriptionType: S.optional(S.String),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
+          state: S.optional(S.String),
+          backupdrInfo: S.optional(__S(1656, __c51, 24)),
+          networkConfig: S.optional(__S(1657, __c51, 25)),
+          satisfiesPzs: S.optional(S.Boolean),
+          tags: S.optional(__S(1504, __c47, 0)),
+          primaryConfig: S.optional(__S(1658, __c51, 26)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          cloudsqlBackupRunSource: S.optional(__S(1659, __c51, 27)),
+          secondaryConfig: S.optional(__S(1660, __c51, 28)),
+          updateTime: S.optional(S.String),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3704,20 +4439,20 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsClustersRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptionInfo: S.optional(__S(1313, __c41, 1)),
+          encryptionInfo: S.optional(__S(1409, __c44, 1)),
           earliestRestorableTime: S.optional(S.String),
-          schedule: S.optional(__S(1504, __c47, 0)),
+          schedule: S.optional(__S(1600, __c50, 0)),
           enabledTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContinuousBackupInfo" });
@@ -3737,7 +4472,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          encryptionConfig: S.optional(__S(1312, __c41, 0)),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
           recoveryWindowDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ContinuousBackupConfig" });
@@ -3765,12 +4500,12 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "GoogleTypeTimeOfDay" });
     case 7:
-      return S.Array(__S(1542, __c48, 6));
+      return S.Array(__S(1638, __c51, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          startTimes: S.optional(__S(1543, __c48, 7)),
-          daysOfWeek: S.optional(__S(1504, __c47, 0)),
+          startTimes: S.optional(__S(1639, __c51, 7)),
+          daysOfWeek: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "WeeklySchedule" });
     case 9:
@@ -3783,24 +4518,24 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           backupWindow: S.optional(S.String),
-          encryptionConfig: S.optional(__S(1312, __c41, 0)),
+          encryptionConfig: S.optional(__S(1408, __c44, 0)),
           enabled: S.optional(S.Boolean),
-          labels: S.optional(__S(1408, __c44, 0)),
+          labels: S.optional(__S(1504, __c47, 0)),
           location: S.optional(S.String),
-          timeBasedRetention: S.optional(__S(1541, __c48, 5)),
-          weeklySchedule: S.optional(__S(1544, __c48, 8)),
-          quantityBasedRetention: S.optional(__S(1545, __c48, 9)),
+          timeBasedRetention: S.optional(__S(1637, __c51, 5)),
+          weeklySchedule: S.optional(__S(1640, __c51, 8)),
+          quantityBasedRetention: S.optional(__S(1641, __c51, 9)),
         }),
       ).annotate({ identifier: "AutomatedBackupPolicy" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(__S(1542, __c48, 6)),
+          startTime: S.optional(__S(1638, __c51, 6)),
           day: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenanceWindow" });
     case 12:
-      return S.Array(__S(1547, __c48, 11));
+      return S.Array(__S(1643, __c51, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -3812,18 +4547,18 @@ function __c48(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          startDate: S.optional(__S(1549, __c48, 13)),
-          endDate: S.optional(__S(1549, __c48, 13)),
-          time: S.optional(__S(1542, __c48, 6)),
+          startDate: S.optional(__S(1645, __c51, 13)),
+          endDate: S.optional(__S(1645, __c51, 13)),
+          time: S.optional(__S(1638, __c51, 6)),
         }),
       ).annotate({ identifier: "DenyMaintenancePeriod" });
     case 15:
-      return S.Array(__S(1550, __c48, 14));
+      return S.Array(__S(1646, __c51, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          maintenanceWindows: S.optional(__S(1548, __c48, 12)),
-          denyMaintenancePeriods: S.optional(__S(1551, __c48, 15)),
+          maintenanceWindows: S.optional(__S(1644, __c51, 12)),
+          denyMaintenancePeriods: S.optional(__S(1647, __c51, 15)),
         }),
       ).annotate({ identifier: "MaintenanceUpdatePolicy" });
     case 17:
@@ -3877,12 +4612,12 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "BackupDrEnabledWindow" });
     case 23:
-      return S.Array(__S(1558, __c48, 22));
+      return S.Array(__S(1654, __c51, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          previousWindows: S.optional(__S(1559, __c48, 23)),
-          currentWindow: S.optional(__S(1558, __c48, 22)),
+          previousWindows: S.optional(__S(1655, __c51, 23)),
+          currentWindow: S.optional(__S(1654, __c51, 22)),
         }),
       ).annotate({ identifier: "BackupDrInfo" });
     case 25:
@@ -3895,7 +4630,7 @@ function __c48(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          secondaryClusterNames: S.optional(__S(1440, __c45, 0)),
+          secondaryClusterNames: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "PrimaryConfig" });
     case 27:
@@ -3912,52 +4647,9 @@ function __c48(j: number): any {
           primaryClusterName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecondaryConfig" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          reconciling: S.optional(S.Boolean),
-          continuousBackupInfo: S.optional(__S(1536, __c48, 0)),
-          name: S.optional(S.String),
-          dataplexConfig: S.optional(__S(1537, __c48, 1)),
-          displayName: S.optional(S.String),
-          network: S.optional(S.String),
-          databaseVersion: S.optional(S.String),
-          backupdrBackupSource: S.optional(__S(1538, __c48, 2)),
-          continuousBackupConfig: S.optional(__S(1539, __c48, 3)),
-          clusterType: S.optional(S.String),
-          migrationSource: S.optional(__S(1540, __c48, 4)),
-          maintenanceVersionSelectionPolicy: S.optional(S.String),
-          automatedBackupPolicy: S.optional(__S(1546, __c48, 10)),
-          createTime: S.optional(S.String),
-          sslConfig: S.optional(__S(1568, __c49, 0)),
-          maintenanceUpdatePolicy: S.optional(__S(1552, __c48, 16)),
-          pscConfig: S.optional(__S(1553, __c48, 17)),
-          trialMetadata: S.optional(__S(1554, __c48, 18)),
-          backupSource: S.optional(__S(1555, __c48, 19)),
-          initialUser: S.optional(__S(1556, __c48, 20)),
-          etag: S.optional(S.String),
-          uid: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          maintenanceSchedule: S.optional(__S(1557, __c48, 21)),
-          subscriptionType: S.optional(S.String),
-          annotations: S.optional(__S(1408, __c44, 0)),
-          encryptionInfo: S.optional(__S(1313, __c41, 1)),
-          state: S.optional(S.String),
-          backupdrInfo: S.optional(__S(1560, __c48, 24)),
-          networkConfig: S.optional(__S(1561, __c48, 25)),
-          satisfiesPzs: S.optional(S.Boolean),
-          tags: S.optional(__S(1408, __c44, 0)),
-          primaryConfig: S.optional(__S(1562, __c48, 26)),
-          labels: S.optional(__S(1408, __c44, 0)),
-          cloudsqlBackupRunSource: S.optional(__S(1563, __c48, 27)),
-          secondaryConfig: S.optional(__S(1564, __c48, 28)),
-          updateTime: S.optional(S.String),
-          encryptionConfig: S.optional(__S(1312, __c41, 0)),
-        }),
-      ).annotate({ identifier: "Cluster" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3968,7 +4660,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SslConfig" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3977,7 +4669,41 @@ function __c50(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           instanceId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1659, __c51, 27).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          queryInsightsInfo: S.optional(__S(1728, __c54, 0)),
+          ipAddress: S.optional(S.String),
+          observabilityInstanceInfo: S.optional(__S(1729, __c54, 1)),
+          labels: S.optional(__S(1504, __c47, 0)),
+          uid: S.optional(S.String),
+          writableNode: S.optional(__S(1730, __c54, 2)),
+          clientConnectionConfig: S.optional(__S(1731, __c54, 3)),
+          outboundPublicIpAddresses: S.optional(__S(1536, __c48, 0)),
+          state: S.optional(S.String),
+          activationPolicy: S.optional(S.String),
+          publicIpAddress: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          availabilityType: S.optional(S.String),
+          pscInstanceConfig: S.optional(__S(1738, __c54, 10)),
+          connectionPoolConfig: S.optional(__S(1739, __c54, 11)),
+          readPoolConfig: S.optional(__S(1746, __c54, 18)),
+          gceZone: S.optional(S.String),
+          networkConfig: S.optional(__S(1749, __c54, 21)),
+          name: S.optional(S.String),
+          databaseFlags: S.optional(__S(1504, __c47, 0)),
+          annotations: S.optional(__S(1504, __c47, 0)),
+          updateTime: S.optional(S.String),
+          observabilityConfig: S.optional(__S(1750, __c54, 22)),
+          dataApiAccess: S.optional(S.String),
+          queryInsightsConfig: S.optional(__S(1751, __c54, 23)),
+          deleteTime: S.optional(S.String),
+          nodes: S.optional(__S(1752, __c54, 24)),
+          etag: S.optional(S.String),
+          instanceType: S.optional(S.String),
+          pscInstanceInfo: S.optional(__S(1753, __c54, 25)),
+          machineConfig: S.optional(__S(1754, __c54, 26)),
+          maintenanceVersionName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3988,7 +4714,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsClustersInstancesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4026,7 +4752,7 @@ function __c51(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sslConfig: S.optional(__S(1568, __c49, 0)),
+          sslConfig: S.optional(__S(1664, __c52, 0)),
           requireConnectors: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ClientConnectionConfig" });
@@ -4038,7 +4764,7 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "DnsAutomationInfo" });
     case 5:
-      return S.Array(__S(1636, __c51, 4));
+      return S.Array(__S(1732, __c54, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -4049,11 +4775,11 @@ function __c51(j: number): any {
           ipAddress: S.optional(S.String),
           serviceConnectionPolicy: S.optional(S.String),
           consumerProject: S.optional(S.String),
-          dnsAutomationInfos: S.optional(__S(1637, __c51, 5)),
+          dnsAutomationInfos: S.optional(__S(1733, __c54, 5)),
         }),
       ).annotate({ identifier: "PscAutoConnectionConfig" });
     case 7:
-      return S.Array(__S(1638, __c51, 6));
+      return S.Array(__S(1734, __c54, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4061,16 +4787,16 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "PscInterfaceConfig" });
     case 9:
-      return S.Array(__S(1640, __c51, 8));
+      return S.Array(__S(1736, __c54, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           serviceAttachmentLink: S.optional(S.String),
           pscDnsName: S.optional(S.String),
-          pscAutoConnections: S.optional(__S(1639, __c51, 7)),
-          allowedConsumerProjects: S.optional(__S(1440, __c45, 0)),
+          pscAutoConnections: S.optional(__S(1735, __c54, 7)),
+          allowedConsumerProjects: S.optional(__S(1536, __c48, 0)),
           pscAutoDnsState: S.optional(S.String),
-          pscInterfaceConfigs: S.optional(__S(1641, __c51, 9)),
+          pscInterfaceConfigs: S.optional(__S(1737, __c54, 9)),
           pscAutoConnectionPolicyState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PscInstanceConfig" });
@@ -4080,7 +4806,7 @@ function __c51(j: number): any {
           authproxyPoolerCount: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
           poolerCount: S.optional(S.Number),
-          flags: S.optional(__S(1408, __c44, 0)),
+          flags: S.optional(__S(1504, __c47, 0)),
           authproxyPoolerScalingType: S.optional(S.String),
           poolerScalingType: S.optional(S.String),
         }),
@@ -4103,8 +4829,8 @@ function __c51(j: number): any {
           enabled: S.optional(S.Boolean),
           maxNodeCount: S.optional(S.String),
           coolDownPeriodSec: S.optional(S.String),
-          cpuUtilization: S.optional(__S(1644, __c51, 12)),
-          connectionsCount: S.optional(__S(1645, __c51, 13)),
+          cpuUtilization: S.optional(__S(1740, __c54, 12)),
+          connectionsCount: S.optional(__S(1741, __c54, 13)),
         }),
       ).annotate({ identifier: "Policy" });
     case 15:
@@ -4120,18 +4846,18 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "Schedule" });
     case 16:
-      return S.Array(__S(1647, __c51, 15));
+      return S.Array(__S(1743, __c54, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(1646, __c51, 14)),
-          schedules: S.optional(__S(1648, __c51, 16)),
+          policy: S.optional(__S(1742, __c54, 14)),
+          schedules: S.optional(__S(1744, __c54, 16)),
         }),
       ).annotate({ identifier: "AutoScalingConfig" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          autoScalingConfig: S.optional(__S(1649, __c51, 17)),
+          autoScalingConfig: S.optional(__S(1745, __c54, 17)),
           nodeCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReadPoolConfig" });
@@ -4142,13 +4868,13 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "AuthorizedNetwork" });
     case 20:
-      return S.Array(__S(1651, __c51, 19));
+      return S.Array(__S(1747, __c54, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           enableOutboundPublicIp: S.optional(S.Boolean),
           allocatedIpRangeOverride: S.optional(S.String),
-          authorizedExternalNetworks: S.optional(__S(1652, __c51, 20)),
+          authorizedExternalNetworks: S.optional(__S(1748, __c54, 20)),
           network: S.optional(S.String),
           enablePublicIp: S.optional(S.Boolean),
         }),
@@ -4176,12 +4902,12 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "QueryInsightsInstanceConfig" });
     case 24:
-      return S.Array(__S(1634, __c51, 2));
+      return S.Array(__S(1730, __c54, 2));
     case 25:
       return S.suspend(() =>
         S.Struct({
           serviceConnectionPolicy: S.optional(S.String),
-          pscAutoDnsNames: S.optional(__S(1440, __c45, 0)),
+          pscAutoDnsNames: S.optional(__S(1536, __c48, 0)),
           effectivePscAutoConnectionPolicy: S.optional(S.Boolean),
           effectivePscAutoDnsEnabled: S.optional(S.Boolean),
         }),
@@ -4193,49 +4919,9 @@ function __c51(j: number): any {
           machineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineConfig" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          queryInsightsInfo: S.optional(__S(1632, __c51, 0)),
-          ipAddress: S.optional(S.String),
-          observabilityInstanceInfo: S.optional(__S(1633, __c51, 1)),
-          labels: S.optional(__S(1408, __c44, 0)),
-          uid: S.optional(S.String),
-          writableNode: S.optional(__S(1634, __c51, 2)),
-          clientConnectionConfig: S.optional(__S(1635, __c51, 3)),
-          outboundPublicIpAddresses: S.optional(__S(1440, __c45, 0)),
-          state: S.optional(S.String),
-          activationPolicy: S.optional(S.String),
-          publicIpAddress: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          availabilityType: S.optional(S.String),
-          pscInstanceConfig: S.optional(__S(1642, __c51, 10)),
-          connectionPoolConfig: S.optional(__S(1643, __c51, 11)),
-          readPoolConfig: S.optional(__S(1650, __c51, 18)),
-          gceZone: S.optional(S.String),
-          networkConfig: S.optional(__S(1653, __c51, 21)),
-          name: S.optional(S.String),
-          databaseFlags: S.optional(__S(1408, __c44, 0)),
-          annotations: S.optional(__S(1408, __c44, 0)),
-          updateTime: S.optional(S.String),
-          observabilityConfig: S.optional(__S(1654, __c51, 22)),
-          dataApiAccess: S.optional(S.String),
-          queryInsightsConfig: S.optional(__S(1655, __c51, 23)),
-          deleteTime: S.optional(S.String),
-          nodes: S.optional(__S(1656, __c51, 24)),
-          etag: S.optional(S.String),
-          instanceType: S.optional(S.String),
-          pscInstanceInfo: S.optional(__S(1657, __c51, 25)),
-          machineConfig: S.optional(__S(1658, __c51, 26)),
-          maintenanceVersionName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Instance" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4244,7 +4930,11 @@ function __c52(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           userId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          userType: S.optional(S.String),
+          databaseRoles: S.optional(__S(1536, __c48, 0)),
+          password: S.optional(S.String),
+          keepExtraRoles: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4255,14 +4945,14 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsClustersUsersRequest" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           userType: S.optional(S.String),
-          databaseRoles: S.optional(__S(1440, __c45, 0)),
+          databaseRoles: S.optional(__S(1536, __c48, 0)),
           password: S.optional(S.String),
           keepExtraRoles: S.optional(S.Boolean),
         }),

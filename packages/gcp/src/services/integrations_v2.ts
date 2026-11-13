@@ -253,18 +253,13 @@ export interface GoogleCloudIntegrationsV2DuetIntegrationBranchRequest {
   /** Optional. The condition for the particular branch which the user selected. */
   branchCondition?: string | undefined;
 }
-/** Request message for generating an integration branch containing tasks. */
-export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest {
+export interface GenerateIntegrationBranchProjectsLocationsIntegrationsRequest {
+  /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
+  parent: string;
   /** Required. User prompt. */
   prompt?: string | undefined;
   /** Required. The integration branch request payload. */
   integrationBranchRequest?: GoogleCloudIntegrationsV2DuetIntegrationBranchRequest | undefined;
-}
-export interface GenerateIntegrationBranchProjectsLocationsIntegrationsRequest {
-  /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest | undefined;
 }
 /** An integration branch skeleton containing basic fields which can be used to create an integration branch on the UI. */
 export interface GoogleCloudIntegrationsV2DuetIntegrationBranch {
@@ -401,34 +396,24 @@ export interface GoogleCloudIntegrationsV2DuetIntegrationDocumentRequest {
   /** Required. The current integrtion on the canvas. */
   integrationVersion?: GoogleCloudIntegrationsV2DuetIntegrationVersion | undefined;
 }
-/** Request message for generating documentation for an integration version. */
-export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest {
-  /** Required. The integration document request payload. */
-  integrationDocumentRequest?: GoogleCloudIntegrationsV2DuetIntegrationDocumentRequest | undefined;
-}
 export interface GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest {
   /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest | undefined;
+  /** Required. The integration document request payload. */
+  integrationDocumentRequest?: GoogleCloudIntegrationsV2DuetIntegrationDocumentRequest | undefined;
 }
 /** Response message containing generated integration documentation text. */
 export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentResponse {
   /** The description of the integration returned by Duet AI. */
   document?: string | undefined;
 }
-/** Request for generating an integration. */
-export interface GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest {
+export interface GenerateIntegrationProjectsLocationsRequest {
+  /** Required. The location in which the integration will be generated. Format: `projects/{project}/locations/{location}` */
+  parent: string;
   /** Required. The natural language prompt based on which the integration will be generated. */
   prompt?: string | undefined;
   /** Optional. Indicates if copilot is enabled. Copilot features may alter the generated integration structure. */
   copilotEnabled?: boolean | undefined;
-}
-export interface GenerateIntegrationProjectsLocationsRequest {
-  /** Required. The location in which the integration will be generated. Format: `projects/{project}/locations/{location}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest | undefined;
 }
 /** An integration skeleton containing basic fields which can be used to create an integration on the UI. */
 export interface GoogleCloudIntegrationsV2DuetIntegrationSkeleton {
@@ -459,18 +444,13 @@ export interface GoogleCloudIntegrationsV2DuetJavascriptRequest {
   /** Required. The integration version which contains all the integration parameters, all triggers and tasks including the Javascript task. */
   integrationVersion?: GoogleCloudIntegrationsV2DuetIntegrationVersion | undefined;
 }
-/** Request message for generating data mapping Javascript. */
-export interface GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest {
+export interface GenerateJavascriptProjectsLocationsIntegrationsRequest {
+  /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
+  parent: string;
   /** Optional. User prompt. */
   prompt?: string | undefined;
   /** Required. The javascript request payload. */
   javascriptRequest?: GoogleCloudIntegrationsV2DuetJavascriptRequest | undefined;
-}
-export interface GenerateJavascriptProjectsLocationsIntegrationsRequest {
-  /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest | undefined;
 }
 /** Individual Javascript recommendation containing the task config with the new code, integration parameters and the explanation. */
 export interface GoogleCloudIntegrationsV2DuetJavascriptRecommendation {
@@ -660,18 +640,13 @@ export interface GoogleCloudIntegrationsV2DuetReplaceTaskRequest {
   /** The list of task types. */
   taskTypes?: GoogleCloudIntegrationsV2DuetReplaceTaskRequestTaskTypesItemEnumList | undefined;
 }
-/** Request message for recommending tasks to replace a selected task. */
-export interface GoogleCloudIntegrationsV2DuetRecommendTasksRequest {
+export interface RecommendTasksProjectsLocationsIntegrationsRequest {
+  /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
+  parent: string;
   /** Optional. User prompt. */
   prompt?: string | undefined;
   /** Required. The current task to replace and options. */
   replaceTaskRequest?: GoogleCloudIntegrationsV2DuetReplaceTaskRequest | undefined;
-}
-export interface RecommendTasksProjectsLocationsIntegrationsRequest {
-  /** Required. Format: `projects/{project}/locations/{location}/integrations/{integration}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudIntegrationsV2DuetRecommendTasksRequest | undefined;
 }
 export type GoogleCloudIntegrationsV2DuetTaskResponseStatusTaskTypeEnum =
   | "TASK_TYPE_UNSPECIFIED"
@@ -758,14 +733,14 @@ export const generateIntegrationBranchProjectsLocationsIntegrations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    114,
+    113,
     __c7,
-    2,
+    1,
   ) as any as S.Schema<GenerateIntegrationBranchProjectsLocationsIntegrationsRequest>,
   output: __S(
-    116,
+    115,
     __c7,
-    4,
+    3,
   ) as any as S.Schema<GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -788,14 +763,14 @@ export const generateIntegrationDocumentProjectsLocationsIntegrations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
+    177,
+    __c11,
+    1,
+  ) as any as S.Schema<GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest>,
+  output: __S(
     178,
     __c11,
     2,
-  ) as any as S.Schema<GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest>,
-  output: __S(
-    179,
-    __c11,
-    3,
   ) as any as S.Schema<GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -817,11 +792,11 @@ export const generateIntegrationProjectsLocations: API.OperationMethod<
   GenerateIntegrationProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c13, 1) as any as S.Schema<GenerateIntegrationProjectsLocationsRequest>,
+  input: __S(208, __c13, 0) as any as S.Schema<GenerateIntegrationProjectsLocationsRequest>,
   output: __S(
-    212,
+    211,
     __c13,
-    4,
+    3,
   ) as any as S.Schema<GoogleCloudIntegrationsV2DuetGenerateIntegrationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -844,14 +819,14 @@ export const generateJavascriptProjectsLocationsIntegrations: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    226,
+    225,
     __c14,
-    2,
+    1,
   ) as any as S.Schema<GenerateJavascriptProjectsLocationsIntegrationsRequest>,
   output: __S(
-    229,
+    228,
     __c14,
-    5,
+    4,
   ) as any as S.Schema<GoogleCloudIntegrationsV2DuetGenerateJavascriptResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -916,8 +891,8 @@ export const recommendTasksProjectsLocationsIntegrations: API.OperationMethod<
   RecommendTasksProjectsLocationsIntegrationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19, __c1, 3) as any as S.Schema<RecommendTasksProjectsLocationsIntegrationsRequest>,
-  output: __S(22, __c1, 6) as any as S.Schema<GoogleCloudIntegrationsV2DuetRecommendTasksResponse>,
+  input: __S(18, __c1, 2) as any as S.Schema<RecommendTasksProjectsLocationsIntegrationsRequest>,
+  output: __S(21, __c1, 5) as any as S.Schema<GoogleCloudIntegrationsV2DuetRecommendTasksResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1057,15 +1032,9 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           prompt: S.optional(S.String),
           replaceTaskRequest: S.optional(__S(17, __c1, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetRecommendTasksRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(18, __c1, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1074,7 +1043,7 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RecommendTasksProjectsLocationsIntegrationsRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
@@ -1082,13 +1051,13 @@ function __c1(j: number): any {
           httpCode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetTaskResponseStatus" });
+    case 4:
+      return S.Array(__S(19, __c1, 3));
     case 5:
-      return S.Array(__S(20, __c1, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           taskConfigs: S.optional(__S(156, __c9, 12)),
-          taskResponseStatuses: S.optional(__S(21, __c1, 5)),
+          taskResponseStatuses: S.optional(__S(20, __c1, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetRecommendTasksResponse" });
   }
@@ -1189,15 +1158,9 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           prompt: S.optional(S.String),
           integrationBranchRequest: S.optional(__S(112, __c7, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1206,7 +1169,7 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateIntegrationBranchProjectsLocationsIntegrationsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           integrationParameters: S.optional(__S(129, __c8, 1)),
@@ -1215,10 +1178,10 @@ function __c7(j: number): any {
           taskConfigs: S.optional(__S(156, __c9, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetIntegrationBranch" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          integrationBranch: S.optional(__S(115, __c7, 3)),
+          integrationBranch: S.optional(__S(114, __c7, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchResponse" });
   }
@@ -1341,14 +1304,8 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          integrationDocumentRequest: S.optional(__S(176, __c11, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(177, __c11, 1).pipe(T.HttpBody())),
+          integrationDocumentRequest: S.optional(__S(176, __c11, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1357,7 +1314,7 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           document: S.optional(S.String),
@@ -1448,15 +1405,9 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           prompt: S.optional(S.String),
           copilotEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c13, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1465,7 +1416,7 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateIntegrationProjectsLocationsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           explanation: S.optional(S.String),
@@ -1474,12 +1425,12 @@ function __c13(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetIntegrationSkeleton" });
+    case 2:
+      return S.Array(__S(209, __c13, 1));
     case 3:
-      return S.Array(__S(210, __c13, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          skeletonIntegrations: S.optional(__S(211, __c13, 3)),
+          skeletonIntegrations: S.optional(__S(210, __c13, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateIntegrationResponse" });
   }
@@ -1498,15 +1449,9 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           prompt: S.optional(S.String),
           javascriptRequest: S.optional(__S(224, __c14, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c14, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1515,7 +1460,7 @@ function __c14(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateJavascriptProjectsLocationsIntegrationsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           explanation: S.optional(S.String),
@@ -1523,12 +1468,12 @@ function __c14(j: number): any {
           integrationParameters: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetJavascriptRecommendation" });
+    case 3:
+      return S.Array(__S(226, __c14, 2));
     case 4:
-      return S.Array(__S(227, __c14, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          recommendations: S.optional(__S(228, __c14, 4)),
+          recommendations: S.optional(__S(227, __c14, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudIntegrationsV2DuetGenerateJavascriptResponse" });
   }

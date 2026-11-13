@@ -93,16 +93,11 @@ export interface Challenge {
   /** Generated challenge, the bytes representation of SignedData. */
   challenge?: string | undefined;
 }
-/** Signed ChallengeResponse. */
-export interface VerifyChallengeResponseRequest {
+export interface VerifyChallengeRequest {
   /** Required. The generated response to the challenge, the bytes representation of SignedData. */
   challengeResponse?: string | undefined;
   /** Optional. Service can optionally provide identity information about the device or user associated with the key. For an EMK, this value is the enrolled domain. For an EUK, this value is the user's email address. If present, this value will be checked against contents of the response, and verification will fail if there is no match. */
   expectedIdentity?: string | undefined;
-}
-export interface VerifyChallengeRequest {
-  /** Request body */
-  body?: VerifyChallengeResponseRequest | undefined;
 }
 export type VerifyChallengeResponseResultKeyTrustLevelEnum =
   | "KEY_TRUST_LEVEL_UNSPECIFIED"
@@ -305,8 +300,8 @@ export const verifyChallenge: API.OperationMethod<
   VerifyChallengeError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<VerifyChallengeRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<VerifyChallengeResponseResult>,
+  input: __S(8, __c1, 0) as any as S.Schema<VerifyChallengeRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<VerifyChallengeResponseResult>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -346,12 +341,6 @@ function __c1(j: number): any {
         S.Struct({
           challengeResponse: S.optional(S.String),
           expectedIdentity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VerifyChallengeResponseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -360,35 +349,35 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VerifyChallengeRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Antivirus" });
-    case 3:
+    case 2:
       return S.Array(S.String);
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           agentId: S.optional(S.String),
           customerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CrowdStrikeAgent" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           safeBrowsingProtectionLevel: S.optional(S.String),
-          antivirus: S.optional(__S(10, __c1, 2)),
+          antivirus: S.optional(__S(9, __c1, 1)),
           thirdPartyBlockingEnabled: S.optional(S.Boolean),
-          profileAffiliationIds: S.optional(__S(11, __c1, 3)),
-          deviceAffiliationIds: S.optional(__S(11, __c1, 3)),
+          profileAffiliationIds: S.optional(__S(10, __c1, 2)),
+          deviceAffiliationIds: S.optional(__S(10, __c1, 2)),
           deviceEnrollmentDomain: S.optional(S.String),
           screenLockSecured: S.optional(S.String),
           osVersion: S.optional(S.String),
           osFirewall: S.optional(S.String),
-          systemDnsServers: S.optional(__S(11, __c1, 3)),
-          meid: S.optional(__S(11, __c1, 3)),
+          systemDnsServers: S.optional(__S(10, __c1, 2)),
+          meid: S.optional(__S(10, __c1, 2)),
           operatingSystem: S.optional(S.String),
           realtimeUrlCheckMode: S.optional(S.String),
           trigger: S.optional(S.String),
@@ -402,18 +391,18 @@ function __c1(j: number): any {
           deviceModel: S.optional(S.String),
           builtInDnsClientEnabled: S.optional(S.Boolean),
           windowsUserDomain: S.optional(S.String),
-          macAddresses: S.optional(__S(11, __c1, 3)),
+          macAddresses: S.optional(__S(10, __c1, 2)),
           allowScreenLock: S.optional(S.Boolean),
           secureBootMode: S.optional(S.String),
           hostname: S.optional(S.String),
           displayName: S.optional(S.String),
           deviceManufacturer: S.optional(S.String),
           browserVersion: S.optional(S.String),
-          crowdStrikeAgent: S.optional(__S(12, __c1, 4)),
-          imei: S.optional(__S(11, __c1, 3)),
+          crowdStrikeAgent: S.optional(__S(11, __c1, 3)),
+          imei: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "DeviceSignals" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           keyTrustLevel: S.optional(S.String),
@@ -424,7 +413,7 @@ function __c1(j: number): any {
           customerId: S.optional(S.String),
           virtualDeviceId: S.optional(S.String),
           profileCustomerId: S.optional(S.String),
-          deviceSignals: S.optional(__S(13, __c1, 5)),
+          deviceSignals: S.optional(__S(12, __c1, 4)),
           attestedDeviceId: S.optional(S.String),
           devicePermanentId: S.optional(S.String),
           signedPublicKeyAndChallenge: S.optional(S.String),

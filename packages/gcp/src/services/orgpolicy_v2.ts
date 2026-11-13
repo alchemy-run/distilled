@@ -140,6 +140,20 @@ export interface GoogleCloudOrgpolicyV2AlternatePolicySpec {
   /** Reference to the launch that will be used while audit logging and to control the launch. Set only in the alternate policy. */
   launch?: string | undefined;
 }
+export interface CreateFoldersPoliciesRequest {
+  /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
+  parent: string;
+  /** Basic information about the organization policy. */
+  spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
+  name?: string | undefined;
+  /** Deprecated. */
+  alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+}
 /** Defines an organization policy that is used to specify constraints for configurations of Google Cloud resources. */
 export interface GoogleCloudOrgpolicyV2Policy {
   /** Basic information about the organization policy. */
@@ -152,12 +166,6 @@ export interface GoogleCloudOrgpolicyV2Policy {
   alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
   /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
   dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
-}
-export interface CreateFoldersPoliciesRequest {
-  /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
 }
 export type GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnum =
   | "METHOD_TYPE_UNSPECIFIED"
@@ -173,8 +181,9 @@ export type GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum =
   | "ACTION_TYPE_UNSPECIFIED"
   | "ALLOW"
   | "DENY";
-/** A custom constraint defined by customers which can *only* be applied to the given resource types and organization. By creating a custom constraint, customers can apply policies of this custom constraint. *Creating a custom constraint itself does NOT apply any policy enforcement*. */
-export interface GoogleCloudOrgpolicyV2CustomConstraint {
+export interface CreateOrganizationsCustomConstraintsRequest {
+  /** Required. Must be in the following form: * `organizations/{organization_id}` */
+  parent: string;
   /** All the operations being applied for this constraint. */
   methodTypes?: GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnumList | undefined;
   /** Immutable. The resource instance type on which this policy applies. Format will be of the form : `/` Example: * `compute.googleapis.com/Instance`. */
@@ -192,23 +201,52 @@ export interface GoogleCloudOrgpolicyV2CustomConstraint {
   /** Detailed information about this custom policy constraint. The max length of the description is 2000 characters. */
   description?: string | undefined;
 }
-export interface CreateOrganizationsCustomConstraintsRequest {
-  /** Required. Must be in the following form: * `organizations/{organization_id}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2CustomConstraint | undefined;
+/** A custom constraint defined by customers which can *only* be applied to the given resource types and organization. By creating a custom constraint, customers can apply policies of this custom constraint. *Creating a custom constraint itself does NOT apply any policy enforcement*. */
+export interface GoogleCloudOrgpolicyV2CustomConstraint {
+  /** All the operations being applied for this constraint. */
+  methodTypes?: GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnumList | undefined;
+  /** Immutable. The resource instance type on which this policy applies. Format will be of the form : `/` Example: * `compute.googleapis.com/Instance`. */
+  resourceTypes?: StringList | undefined;
+  /** Immutable. Name of the constraint. This is unique within the organization. The name must be of the form: * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 71 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/custom.` is not counted. */
+  name?: string | undefined;
+  /** Allow or deny type. */
+  actionType?: GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum | undefined;
+  /** Output only. The last time this custom constraint was updated. This represents the last time that the `CreateCustomConstraint` or `UpdateCustomConstraint` methods were called. */
+  updateTime?: string | undefined;
+  /** One line display name for the UI. The max length of the display_name is 200 characters. */
+  displayName?: string | undefined;
+  /** A Common Expression Language (CEL) condition which is used in the evaluation of the constraint. For example: `resource.instanceName.matches("(production|test)_(.+_)?[\d]+")` or, `resource.management.auto_upgrade == true` The max length of the condition is 1000 characters. */
+  condition?: string | undefined;
+  /** Detailed information about this custom policy constraint. The max length of the description is 2000 characters. */
+  description?: string | undefined;
 }
 export interface CreateOrganizationsPoliciesRequest {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
+  /** Basic information about the organization policy. */
+  spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
+  name?: string | undefined;
+  /** Deprecated. */
+  alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
 export interface CreateProjectsPoliciesRequest {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_number}` * `organizations/{organization_number}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
+  /** Basic information about the organization policy. */
+  spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
+  name?: string | undefined;
+  /** Deprecated. */
+  alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
 export interface DeleteFoldersPoliciesRequest {
   /** Required. Name of the policy to delete. See the policy entry for naming rules. */
@@ -448,30 +486,60 @@ export interface PatchFoldersPoliciesRequest {
   name: string;
   /** Field mask used to specify the fields to be overwritten in the policy. The fields specified in the update_mask are relative to the policy, not the full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
+  /** Basic information about the organization policy. */
+  spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Deprecated. */
+  alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
 export interface PatchOrganizationsCustomConstraintsRequest {
   /** Immutable. Name of the constraint. This is unique within the organization. The name must be of the form: * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 71 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/custom.` is not counted. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2CustomConstraint | undefined;
+  /** All the operations being applied for this constraint. */
+  methodTypes?: GoogleCloudOrgpolicyV2CustomConstraintMethodTypesItemEnumList | undefined;
+  /** Immutable. The resource instance type on which this policy applies. Format will be of the form : `/` Example: * `compute.googleapis.com/Instance`. */
+  resourceTypes?: StringList | undefined;
+  /** Allow or deny type. */
+  actionType?: GoogleCloudOrgpolicyV2CustomConstraintActionTypeEnum | (string & {}) | undefined;
+  /** Output only. The last time this custom constraint was updated. This represents the last time that the `CreateCustomConstraint` or `UpdateCustomConstraint` methods were called. */
+  updateTime?: string | undefined;
+  /** One line display name for the UI. The max length of the display_name is 200 characters. */
+  displayName?: string | undefined;
+  /** A Common Expression Language (CEL) condition which is used in the evaluation of the constraint. For example: `resource.instanceName.matches("(production|test)_(.+_)?[\d]+")` or, `resource.management.auto_upgrade == true` The max length of the condition is 1000 characters. */
+  condition?: string | undefined;
+  /** Detailed information about this custom policy constraint. The max length of the description is 2000 characters. */
+  description?: string | undefined;
 }
 export interface PatchOrganizationsPoliciesRequest {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
   /** Field mask used to specify the fields to be overwritten in the policy. The fields specified in the update_mask are relative to the policy, not the full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
+  /** Basic information about the organization policy. */
+  spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Deprecated. */
+  alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
 export interface PatchProjectsPoliciesRequest {
   /** Field mask used to specify the fields to be overwritten in the policy. The fields specified in the update_mask are relative to the policy, not the full request. */
   updateMask?: string | undefined;
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint that this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_number}/policies/{constraint_name}` * `organizations/{organization_number}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOrgpolicyV2Policy | undefined;
+  /** Basic information about the organization policy. */
+  spec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
+  /** Optional. An opaque tag indicating the current state of the policy, used for concurrency control. This entity tag (ETag) is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Deprecated. */
+  alternate?: GoogleCloudOrgpolicyV2AlternatePolicySpec | undefined;
+  /** Dry-run policy. Audit-only policy, can be used to monitor how the policy would have impacted the existing and future resources if it's enforced. */
+  dryRunSpec?: GoogleCloudOrgpolicyV2PolicySpec | undefined;
 }
 export type CreateFoldersPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
@@ -1337,7 +1405,10 @@ function __c18(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
+          spec: S.optional(__S(389, __c24, 5)),
+          etag: S.optional(S.String),
+          alternate: S.optional(__S(390, __c24, 6)),
+          dryRunSpec: S.optional(__S(389, __c24, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1354,7 +1425,13 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
+          methodTypes: S.optional(__S(416, __c26, 0)),
+          resourceTypes: S.optional(__S(368, __c23, 0)),
+          actionType: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          condition: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1372,7 +1449,10 @@ function __c20(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
+          spec: S.optional(__S(389, __c24, 5)),
+          etag: S.optional(S.String),
+          alternate: S.optional(__S(390, __c24, 6)),
+          dryRunSpec: S.optional(__S(389, __c24, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1390,7 +1470,10 @@ function __c21(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
+          spec: S.optional(__S(389, __c24, 5)),
+          etag: S.optional(S.String),
+          alternate: S.optional(__S(390, __c24, 6)),
+          dryRunSpec: S.optional(__S(389, __c24, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1407,7 +1490,11 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
+          spec: S.optional(__S(389, __c24, 5)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          alternate: S.optional(__S(390, __c24, 6)),
+          dryRunSpec: S.optional(__S(389, __c24, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1492,7 +1579,14 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
+          methodTypes: S.optional(__S(416, __c26, 0)),
+          resourceTypes: S.optional(__S(368, __c23, 0)),
+          name: S.optional(S.String),
+          actionType: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          condition: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1532,7 +1626,11 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
+          spec: S.optional(__S(389, __c24, 5)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          alternate: S.optional(__S(390, __c24, 6)),
+          dryRunSpec: S.optional(__S(389, __c24, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1549,7 +1647,11 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(391, __c24, 7).pipe(T.HttpBody())),
+          spec: S.optional(__S(389, __c24, 5)),
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          alternate: S.optional(__S(390, __c24, 6)),
+          dryRunSpec: S.optional(__S(389, __c24, 5)),
         }).pipe(
           T.Http({
             method: "POST",

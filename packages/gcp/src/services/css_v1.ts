@@ -84,8 +84,9 @@ export class NotFound
   ) {}
 
 export type AccountLabelLabelTypeEnum = "LABEL_TYPE_UNSPECIFIED" | "MANUAL" | "AUTOMATIC";
-/** Label assigned by CSS domain or CSS group to one of its sub-accounts. */
-export interface AccountLabel {
+export interface CreateAccountsLabelsRequest {
+  /** Required. The parent account. Format: accounts/{account} */
+  parent: string;
   /** Output only. The type of this label. */
   labelType?: AccountLabelLabelTypeEnum | (string & {}) | undefined;
   /** The display name of this label. */
@@ -99,11 +100,20 @@ export interface AccountLabel {
   /** Output only. The ID of the label. */
   labelId?: string | undefined;
 }
-export interface CreateAccountsLabelsRequest {
-  /** Required. The parent account. Format: accounts/{account} */
-  parent: string;
-  /** Request body */
-  body?: AccountLabel | undefined;
+/** Label assigned by CSS domain or CSS group to one of its sub-accounts. */
+export interface AccountLabel {
+  /** Output only. The type of this label. */
+  labelType?: AccountLabelLabelTypeEnum | undefined;
+  /** The display name of this label. */
+  displayName?: string | undefined;
+  /** The description of this label. */
+  description?: string | undefined;
+  /** Output only. The ID of account this label belongs to. */
+  accountId?: string | undefined;
+  /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
+  name?: string | undefined;
+  /** Output only. The ID of the label. */
+  labelId?: string | undefined;
 }
 export interface DeleteAccountsCssProductInputsRequest {
   /** The Content API Supplemental Feed ID. The field must not be set if the action applies to a primary feed. If the field is set, then product action applies to a supplemental feed instead of primary Content API feed. */
@@ -405,6 +415,28 @@ export interface CssProduct {
   /** Output only. Your unique raw identifier for the product. */
   rawProvidedId?: string | undefined;
 }
+export interface InsertAccountsCssProductInputsRequest {
+  /** Optional. DEPRECATED. Feed id is not required for CSS Products. The primary or supplemental feed id. If CSS Product already exists and feed id provided is different, then the CSS Product will be moved to a new feed. Note: For now, CSSs do not need to provide feed ids as we create feeds on the fly. We do not have supplemental feed support for CSS Products yet. */
+  feedId?: string | undefined;
+  /** Required. The account where this CSS Product will be inserted. Format: accounts/{account} */
+  parent: string;
+  /** Required. Your unique identifier for the CSS Product. This is the same for the CSS Product input and processed CSS Product. We only allow ids with alphanumerics, underscores and dashes. See the [products feed specification](https://support.google.com/merchants/answer/188494#id) for details. */
+  rawProvidedId?: string | undefined;
+  /** A list of custom (CSS-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form (for example: `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
+  customAttributes?: CustomAttributeList | undefined;
+  /** Required. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the CSS Product. */
+  contentLanguage?: string | undefined;
+  /** Required. The [feed label](https://developers.google.com/shopping-content/guides/products/feed-labels) for the CSS Product. Feed Label is synonymous to "target country" and hence should always be a valid region code. For example: 'DE' for Germany, 'FR' for France. */
+  feedLabel?: string | undefined;
+  /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
+  name?: string | undefined;
+  /** A list of CSS Product attributes. */
+  attributes?: Attributes | undefined;
+  /** DEPRECATED. Use expiration_date instead. Represents the existing version (freshness) of the CSS Product, which can be used to preserve the right order when multiple updates are done at the same time. This field must not be set to the future time. If set, the update is prevented if a newer version of the item already exists in our system (that is the last update time of the existing CSS products is later than the freshness time set in the update). If the update happens, the last update time is then set to this freshness time. If not set, the update will not be prevented and the last update time will default to when this request was received by the CSS API. If the operation is prevented, the aborted exception will be thrown. */
+  freshnessTime?: string | undefined;
+  /** Output only. The name of the processed CSS Product. Format: `accounts/{account}/cssProducts/{css_product}` " */
+  finalName?: string | undefined;
+}
 /** This resource represents input data you submit for a CSS Product, not the processed CSS Product that you see in CSS Center, in Shopping Ads, or across Google surfaces. */
 export interface CssProductInput {
   /** Required. Your unique identifier for the CSS Product. This is the same for the CSS Product input and processed CSS Product. We only allow ids with alphanumerics, underscores and dashes. See the [products feed specification](https://support.google.com/merchants/answer/188494#id) for details. */
@@ -423,14 +455,6 @@ export interface CssProductInput {
   freshnessTime?: string | undefined;
   /** Output only. The name of the processed CSS Product. Format: `accounts/{account}/cssProducts/{css_product}` " */
   finalName?: string | undefined;
-}
-export interface InsertAccountsCssProductInputsRequest {
-  /** Optional. DEPRECATED. Feed id is not required for CSS Products. The primary or supplemental feed id. If CSS Product already exists and feed id provided is different, then the CSS Product will be moved to a new feed. Note: For now, CSSs do not need to provide feed ids as we create feeds on the fly. We do not have supplemental feed support for CSS Products yet. */
-  feedId?: string | undefined;
-  /** Required. The account where this CSS Product will be inserted. Format: accounts/{account} */
-  parent: string;
-  /** Request body */
-  body?: CssProductInput | undefined;
 }
 export interface ListAccountsCssProductsRequest {
   /** A page token, received from a previous `ListCssProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCssProducts` must match the call that provided the page token. */
@@ -530,27 +554,42 @@ export interface PatchAccountsCssProductInputsRequest {
   updateMask?: string | undefined;
   /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
-  /** Request body */
-  body?: CssProductInput | undefined;
+  /** Required. Your unique identifier for the CSS Product. This is the same for the CSS Product input and processed CSS Product. We only allow ids with alphanumerics, underscores and dashes. See the [products feed specification](https://support.google.com/merchants/answer/188494#id) for details. */
+  rawProvidedId?: string | undefined;
+  /** A list of custom (CSS-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form (for example: `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
+  customAttributes?: CustomAttributeList | undefined;
+  /** Required. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the CSS Product. */
+  contentLanguage?: string | undefined;
+  /** Required. The [feed label](https://developers.google.com/shopping-content/guides/products/feed-labels) for the CSS Product. Feed Label is synonymous to "target country" and hence should always be a valid region code. For example: 'DE' for Germany, 'FR' for France. */
+  feedLabel?: string | undefined;
+  /** A list of CSS Product attributes. */
+  attributes?: Attributes | undefined;
+  /** DEPRECATED. Use expiration_date instead. Represents the existing version (freshness) of the CSS Product, which can be used to preserve the right order when multiple updates are done at the same time. This field must not be set to the future time. If set, the update is prevented if a newer version of the item already exists in our system (that is the last update time of the existing CSS products is later than the freshness time set in the update). If the update happens, the last update time is then set to this freshness time. If not set, the update will not be prevented and the last update time will default to when this request was received by the CSS API. If the operation is prevented, the aborted exception will be thrown. */
+  freshnessTime?: string | undefined;
+  /** Output only. The name of the processed CSS Product. Format: `accounts/{account}/cssProducts/{css_product}` " */
+  finalName?: string | undefined;
 }
 export interface PatchAccountsLabelsRequest {
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
   name: string;
-  /** Request body */
-  body?: AccountLabel | undefined;
-}
-/** The request message for the `UpdateLabels` method. */
-export interface UpdateAccountLabelsRequest {
-  /** The list of label IDs to overwrite the existing account label IDs. If the list is empty, all currently assigned label IDs will be deleted. */
-  labelIds?: StringList | undefined;
-  /** Optional. Only required when updating MC account labels. The CSS domain that is the parent resource of the MC account. Format: accounts/{account} */
-  parent?: string | undefined;
+  /** Output only. The type of this label. */
+  labelType?: AccountLabelLabelTypeEnum | (string & {}) | undefined;
+  /** The display name of this label. */
+  displayName?: string | undefined;
+  /** The description of this label. */
+  description?: string | undefined;
+  /** Output only. The ID of account this label belongs to. */
+  accountId?: string | undefined;
+  /** Output only. The ID of the label. */
+  labelId?: string | undefined;
 }
 export interface UpdateLabelsAccountsRequest {
   /** Required. The label resource name. Format: accounts/{account} */
   name: string;
-  /** Request body */
-  body?: UpdateAccountLabelsRequest | undefined;
+  /** The list of label IDs to overwrite the existing account label IDs. If the list is empty, all currently assigned label IDs will be deleted. */
+  labelIds?: StringList | undefined;
+  /** Optional. Only required when updating MC account labels. The CSS domain that is the parent resource of the MC account. Format: accounts/{account} */
+  parent?: string | undefined;
 }
 export type CreateAccountsLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new label, not assigned to any account. */
@@ -787,7 +826,7 @@ export const updateLabelsAccounts: API.OperationMethod<
   UpdateLabelsAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<UpdateLabelsAccountsRequest>,
+  input: __S(96, __c6, 0) as any as S.Schema<UpdateLabelsAccountsRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -935,7 +974,13 @@ function __c4(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
+          rawProvidedId: S.optional(S.String),
+          customAttributes: S.optional(__S(273, __c17, 1)),
+          contentLanguage: S.optional(S.String),
+          feedLabel: S.optional(S.String),
+          attributes: S.optional(__S(283, __c17, 11)),
+          freshnessTime: S.optional(S.String),
+          finalName: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://css.googleapis.com/" }),
         ),
@@ -948,7 +993,11 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
+          labelType: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          accountId: S.optional(S.String),
+          labelId: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://css.googleapis.com/" }),
         ),
@@ -960,15 +1009,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           labelIds: S.optional(__S(224, __c14, 0)),
           parent: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateAccountLabelsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -985,7 +1028,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
+          labelType: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          accountId: S.optional(S.String),
+          name: S.optional(S.String),
+          labelId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1280,7 +1328,14 @@ function __c18(j: number): any {
         S.Struct({
           feedId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
+          rawProvidedId: S.optional(S.String),
+          customAttributes: S.optional(__S(273, __c17, 1)),
+          contentLanguage: S.optional(S.String),
+          feedLabel: S.optional(S.String),
+          name: S.optional(S.String),
+          attributes: S.optional(__S(283, __c17, 11)),
+          freshnessTime: S.optional(S.String),
+          finalName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

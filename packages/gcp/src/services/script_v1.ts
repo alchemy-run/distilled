@@ -83,16 +83,11 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Request to create a script project. */
-export interface CreateProjectRequest {
+export interface CreateProjectsRequest {
   /** The title for the project. */
   title?: string | undefined;
   /** The Drive ID of a parent file that the created script project is bound to. This is usually the ID of a Google Doc, Google Sheet, Google Form, or Google Slides file. If not set, a standalone script project is created. */
   parentId?: string | undefined;
-}
-export interface CreateProjectsRequest {
-  /** Request body */
-  body?: CreateProjectRequest | undefined;
 }
 /** A simple user profile resource. */
 export interface GoogleAppsScriptTypeUser {
@@ -122,22 +117,15 @@ export interface Project {
   /** When the script was created. */
   createTime?: string | undefined;
 }
-/** Metadata the defines how a deployment is configured. */
-export interface DeploymentConfig {
+export interface CreateProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
-  scriptId?: string | undefined;
+  scriptId: string;
   /** The description for this deployment. */
   description?: string | undefined;
   /** The manifest file name for this deployment. */
   manifestFileName?: string | undefined;
   /** The version number on which this deployment is based. */
   versionNumber?: number | undefined;
-}
-export interface CreateProjectsDeploymentsRequest {
-  /** The script project's Drive ID. */
-  scriptId: string;
-  /** Request body */
-  body?: DeploymentConfig | undefined;
 }
 export type GoogleAppsScriptTypeAddOnEntryPointAddOnTypeEnum =
   | "UNKNOWN_ADDON_TYPE"
@@ -215,6 +203,17 @@ export interface EntryPoint {
   entryPointType?: EntryPointEntryPointTypeEnum | undefined;
 }
 export type EntryPointList = Array<EntryPoint>;
+/** Metadata the defines how a deployment is configured. */
+export interface DeploymentConfig {
+  /** The script project's Drive ID. */
+  scriptId?: string | undefined;
+  /** The description for this deployment. */
+  description?: string | undefined;
+  /** The manifest file name for this deployment. */
+  manifestFileName?: string | undefined;
+  /** The version number on which this deployment is based. */
+  versionNumber?: number | undefined;
+}
 /** Representation of a single script deployment. */
 export interface Deployment {
   /** Last modified date time stamp. */
@@ -226,6 +225,16 @@ export interface Deployment {
   /** The deployment configuration. */
   deploymentConfig?: DeploymentConfig | undefined;
 }
+export interface CreateProjectsVersionsRequest {
+  /** The script project's Drive ID. */
+  scriptId: string;
+  /** When the version was created. */
+  createTime?: string | undefined;
+  /** The description for this version. */
+  description?: string | undefined;
+  /** The incremental ID that is created by Apps Script when a version is created. This is system assigned number and is immutable once created. */
+  versionNumber?: number | undefined;
+}
 /** A resource representing a script project version. A version is a "snapshot" of a script project and is similar to a read-only branched release. When creating deployments, the version to use must be specified. */
 export interface Version {
   /** The script project's Drive ID. */
@@ -236,12 +245,6 @@ export interface Version {
   description?: string | undefined;
   /** The incremental ID that is created by Apps Script when a version is created. This is system assigned number and is immutable once created. */
   versionNumber?: number | undefined;
-}
-export interface CreateProjectsVersionsRequest {
-  /** The script project's Drive ID. */
-  scriptId: string;
-  /** Request body */
-  body?: Version | undefined;
 }
 export interface DeleteProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
@@ -571,8 +574,9 @@ export interface ListScriptProcessesResponse {
   processes?: GoogleAppsScriptTypeProcessList | undefined;
 }
 export type DocumentList = Array<unknown>;
-/** A request to run the function in a script. The script is identified by the specified `script_id`. Executing a function on a script returns results based on the implementation of the script. */
-export interface ExecutionRequest {
+export interface RunScriptsRequest {
+  /** The script ID of the script to be executed. Find the script ID on the **Project settings** page under "IDs." As multiple executable APIs can be deployed in new IDE for same script, this field should be populated with DeploymentID generated while deploying in new IDE instead of script ID. */
+  scriptId: string;
   /** The parameters to be passed to the function being executed. The object type for each parameter should match the expected type in Apps Script. Parameters cannot be Apps Script-specific object types (such as a `Document` or a `Calendar`); they can only be primitive types such as `string`, `number`, `array`, `object`, or `boolean`. Optional. */
   parameters?: DocumentList | undefined;
   /** *Deprecated*. For use with Android add-ons only. An ID that represents the user's current session in the Android app for Google Docs or Sheets, included as extra data in the [Intent](https://developer.android.com/guide/components/intents-filters.html) that launches the add-on. When an Android add-on is run with a session state, it gains the privileges of a [bound](https://developers.google.com/apps-script/guides/bound) script--that is, it can access information like the user's current cursor position (in Docs) or selected cell (in Sheets). To retrieve the state, call `Intent.getStringExtra("com.google.android.apps.docs.addons.SessionState")`. Optional. */
@@ -581,12 +585,6 @@ export interface ExecutionRequest {
   function?: string | undefined;
   /** If `true` and the user is an owner of the script, the script runs at the most recently saved version rather than the version deployed for use with the Apps Script API. Optional; default is `false`. */
   devMode?: boolean | undefined;
-}
-export interface RunScriptsRequest {
-  /** The script ID of the script to be executed. Find the script ID on the **Project settings** page under "IDs." As multiple executable APIs can be deployed in new IDE for same script, this field should be populated with DeploymentID generated while deploying in new IDE instead of script ID. */
-  scriptId: string;
-  /** Request body */
-  body?: ExecutionRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -611,21 +609,16 @@ export interface Operation {
 export interface UpdateContentProjectsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
-  /** Request body */
-  body?: Content | undefined;
-}
-/** Request with deployment information to update an existing deployment. */
-export interface UpdateDeploymentRequest {
-  /** The deployment configuration. */
-  deploymentConfig?: DeploymentConfig | undefined;
+  /** The list of script project files. One of the files is a script manifest; it must be named "appsscript", must have type of JSON, and include the manifest configurations for the project. */
+  files?: FileList | undefined;
 }
 export interface UpdateProjectsDeploymentsRequest {
   /** The deployment ID for this deployment. */
   deploymentId: string;
   /** The script project's Drive ID. */
   scriptId: string;
-  /** Request body */
-  body?: UpdateDeploymentRequest | undefined;
+  /** The deployment configuration. */
+  deploymentConfig?: DeploymentConfig | undefined;
 }
 export type CreateProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new, empty script project with no script files and a base manifest file. */
@@ -635,7 +628,7 @@ export const createProjects: API.OperationMethod<
   CreateProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<CreateProjectsRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateProjectsRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -873,8 +866,8 @@ export const runScripts: API.OperationMethod<
   RunScriptsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(130, __c8, 2) as any as S.Schema<RunScriptsRequest>,
-  output: __S(134, __c8, 6) as any as S.Schema<Operation>,
+  input: __S(129, __c8, 1) as any as S.Schema<RunScriptsRequest>,
+  output: __S(133, __c8, 5) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -912,7 +905,7 @@ export const updateProjectsDeployments: API.OperationMethod<
   UpdateProjectsDeploymentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(161, __c10, 1) as any as S.Schema<UpdateProjectsDeploymentsRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<UpdateProjectsDeploymentsRequest>,
   output: __S(248, __c15, 8) as any as S.Schema<Deployment>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1115,17 +1108,11 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          scriptId: S.String.pipe(T.Label()),
           parameters: S.optional(__S(128, __c8, 0)),
           sessionState: S.optional(S.String),
           function: S.optional(S.String),
           devMode: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ExecutionRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(129, __c8, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1134,23 +1121,23 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RunScriptsRequest" });
-    case 3:
+    case 2:
       return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.Array(__S(130, __c8, 2));
     case 4:
-      return S.Array(__S(131, __c8, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(132, __c8, 4)),
+          details: S.optional(__S(131, __c8, 3)),
           message: S.optional(S.String),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(133, __c8, 5)),
-          response: S.optional(__S(131, __c8, 3)),
+          error: S.optional(__S(132, __c8, 4)),
+          response: S.optional(__S(130, __c8, 2)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
@@ -1162,7 +1149,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(326, __c20, 6).pipe(T.HttpBody())),
+          files: S.optional(__S(325, __c20, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1178,15 +1165,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deploymentConfig: S.optional(__S(240, __c15, 0)),
-        }),
-      ).annotate({ identifier: "UpdateDeploymentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           deploymentId: S.String.pipe(T.Label()),
           scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
+          deploymentConfig: S.optional(__S(247, __c15, 7)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1204,12 +1185,6 @@ function __c11(j: number): any {
         S.Struct({
           title: S.optional(S.String),
           parentId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateProjectRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "POST", uri: "v1/projects", baseUrl: "https://script.googleapis.com/" }),
         ),
@@ -1251,7 +1226,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          manifestFileName: S.optional(S.String),
+          versionNumber: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1267,15 +1244,6 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scriptId: S.optional(S.String),
-          description: S.optional(S.String),
-          manifestFileName: S.optional(S.String),
-          versionNumber: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DeploymentConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           description: S.optional(S.String),
           helpUrl: S.optional(S.String),
           reportIssueUrl: S.optional(S.String),
@@ -1284,50 +1252,59 @@ function __c15(j: number): any {
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsScriptTypeAddOnEntryPoint" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           executeAs: S.optional(S.String),
           access: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsScriptTypeWebAppConfig" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          entryPointConfig: S.optional(__S(242, __c15, 2)),
+          entryPointConfig: S.optional(__S(241, __c15, 1)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsScriptTypeWebAppEntryPoint" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           access: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleAppsScriptTypeExecutionApiConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          entryPointConfig: S.optional(__S(243, __c15, 3)),
+        }),
+      ).annotate({ identifier: "GoogleAppsScriptTypeExecutionApiEntryPoint" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          entryPointConfig: S.optional(__S(244, __c15, 4)),
-        }),
-      ).annotate({ identifier: "GoogleAppsScriptTypeExecutionApiEntryPoint" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          addOn: S.optional(__S(241, __c15, 1)),
-          webApp: S.optional(__S(243, __c15, 3)),
-          executionApi: S.optional(__S(245, __c15, 5)),
+          addOn: S.optional(__S(240, __c15, 0)),
+          webApp: S.optional(__S(242, __c15, 2)),
+          executionApi: S.optional(__S(244, __c15, 4)),
           entryPointType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntryPoint" });
+    case 6:
+      return S.Array(__S(245, __c15, 5));
     case 7:
-      return S.Array(__S(246, __c15, 6));
+      return S.suspend(() =>
+        S.Struct({
+          scriptId: S.optional(S.String),
+          description: S.optional(S.String),
+          manifestFileName: S.optional(S.String),
+          versionNumber: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DeploymentConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
           deploymentId: S.optional(S.String),
-          entryPoints: S.optional(__S(247, __c15, 7)),
-          deploymentConfig: S.optional(__S(240, __c15, 0)),
+          entryPoints: S.optional(__S(246, __c15, 6)),
+          deploymentConfig: S.optional(__S(247, __c15, 7)),
         }),
       ).annotate({ identifier: "Deployment" });
   }
@@ -1338,7 +1315,9 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scriptId: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          versionNumber: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",

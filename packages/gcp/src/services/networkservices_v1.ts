@@ -153,8 +153,11 @@ export type AgentConnectivityTemplateDeploymentModelEnum =
   | "DEPLOYMENT_MODEL_UNSPECIFIED"
   | "CENTRALIZED"
   | "AMBIENT";
-/** AgentConnectivityTemplate represents a reusable network configuration. */
-export interface AgentConnectivityTemplate {
+export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest {
+  /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
+  agentConnectivityTemplateId?: string | undefined;
   /** Optional. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
   accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {}) | undefined;
   /** Optional. Configuration for egress network traffic. */
@@ -177,14 +180,6 @@ export interface AgentConnectivityTemplate {
   description?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsAgentConnectivityTemplatesRequest {
-  /** Required. The parent resource of the AgentConnectivityTemplate. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the AgentConnectivityTemplate resource to be created. */
-  agentConnectivityTemplateId?: string | undefined;
-  /** Request body */
-  body?: AgentConnectivityTemplate | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -260,8 +255,11 @@ export interface AgentGatewaySelfManaged {
   /** Optional. A supported Google Cloud networking proxy in the Project and Location */
   resourceUri?: string | undefined;
 }
-/** AgentGateway represents the agent gateway resource. */
-export interface AgentGateway {
+export interface CreateProjectsLocationsAgentGatewaysRequest {
+  /** Required. Short name of the AgentGateway resource to be created. */
+  agentGatewayId?: string | undefined;
+  /** Required. The parent resource of the AgentGateway. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
   /** Optional. Deprecated. */
@@ -289,14 +287,6 @@ export interface AgentGateway {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsAgentGatewaysRequest {
-  /** Required. Short name of the AgentGateway resource to be created. */
-  agentGatewayId?: string | undefined;
-  /** Required. The parent resource of the AgentGateway. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: AgentGateway | undefined;
-}
 export type AuthzExtensionWireFormatEnum =
   | "WIRE_FORMAT_UNSPECIFIED"
   | "EXT_PROC_GRPC"
@@ -305,8 +295,13 @@ export type AuthzExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-/** `AuthzExtension` is a resource that allows traffic forwarding to a callout backend service to make an authorization decision. */
-export interface AuthzExtension {
+export interface CreateProjectsLocationsAuthzExtensionsRequest {
+  /** Required. User-provided ID of the `AuthzExtension` resource to be created. */
+  authzExtensionId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource of the `AuthzExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
   metadata?: DocumentMap | undefined;
   /** Optional. A human-readable description of the resource. */
@@ -335,16 +330,6 @@ export interface AuthzExtension {
   forwardAttributes?: StringList | undefined;
   /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
   authority?: string | undefined;
-}
-export interface CreateProjectsLocationsAuthzExtensionsRequest {
-  /** Required. User-provided ID of the `AuthzExtension` resource to be created. */
-  authzExtensionId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource of the `AuthzExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Request body */
-  body?: AuthzExtension | undefined;
 }
 export type EndpointPolicyTypeEnum =
   | "ENDPOINT_POLICY_TYPE_UNSPECIFIED"
@@ -383,8 +368,11 @@ export interface TrafficPortSelector {
   /** Optional. A list of ports. Can be port numbers or port range (example, [80-90] specifies all ports from 80 to 90, including 80 and 90) or named ports or * to specify all ports. If the list is empty, all ports are selected. */
   ports?: StringList | undefined;
 }
-/** EndpointPolicy is a resource that helps apply desired configuration on the endpoints that match specific criteria. For example, this resource can be used to apply "authentication config" an all endpoints that serve on port 8080. */
-export interface EndpointPolicy {
+export interface CreateProjectsLocationsEndpointPoliciesRequest {
+  /** Required. The parent resource of the EndpointPolicy. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the EndpointPolicy resource to be created. E.g. "CustomECS". */
+  endpointPolicyId?: string | undefined;
   /** Optional. This field specifies the URL of AuthorizationPolicy resource that applies authorization policies to the inbound traffic at the matched endpoints. Refer to Authorization. If this field is not specified, authorization is disabled(no authz checks) for this endpoint. */
   authorizationPolicy?: string | undefined;
   /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
@@ -407,14 +395,6 @@ export interface EndpointPolicy {
   updateTime?: string | undefined;
   /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
   trafficPortSelector?: TrafficPortSelector | undefined;
-}
-export interface CreateProjectsLocationsEndpointPoliciesRequest {
-  /** Required. The parent resource of the EndpointPolicy. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the EndpointPolicy resource to be created. E.g. "CustomECS". */
-  endpointPolicyId?: string | undefined;
-  /** Request body */
-  body?: EndpointPolicy | undefined;
 }
 export type ExtensionBindingTargetScopeResourceTypesItemEnum =
   | "RESOURCE_TYPE_UNSPECIFIED"
@@ -490,8 +470,11 @@ export interface ExtensionBindingMatchCondition {
   to?: ExtensionBindingMatchConditionTo | undefined;
 }
 export type ExtensionBindingMatchConditionList = Array<ExtensionBindingMatchCondition>;
-/** `ExtensionBinding` is a resource representing the attachment of an extension to a service. */
-export interface ExtensionBinding {
+export interface CreateProjectsLocationsExtensionBindingsRequest {
+  /** Required. The parent resource of the `ExtensionBinding` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. Short name of the `ExtensionBinding` resource to be created. */
+  extensionBindingId?: string | undefined;
   /** Required. The name of the extension that this binding should attach to target resources. Format: For Google-provided extensions, specify the service endpoint, for example `modelarmor.us-central1.rep.googleapis.com`. */
   producerExtension?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
@@ -517,21 +500,16 @@ export interface ExtensionBinding {
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsExtensionBindingsRequest {
-  /** Required. The parent resource of the `ExtensionBinding` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. Short name of the `ExtensionBinding` resource to be created. */
-  extensionBindingId?: string | undefined;
-  /** Request body */
-  body?: ExtensionBinding | undefined;
-}
 export type GatewayTypeEnum = "TYPE_UNSPECIFIED" | "OPEN_MESH" | "SECURE_WEB_GATEWAY";
 export type GatewayRoutingModeEnum = "EXPLICIT_ROUTING_MODE" | "NEXT_HOP_ROUTING_MODE";
 export type GatewayEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
 export type IntegerList = Array<number>;
 export type GatewayIpVersionEnum = "IP_VERSION_UNSPECIFIED" | "IPV4" | "IPV6";
-/** Gateway represents the configuration for a proxy, typically a load balancer. It captures the ip:port over which the services are exposed by the proxy, along with any policy configurations. Routes have reference to to Gateways to dictate how requests should be routed by this Gateway. */
-export interface Gateway {
+export interface CreateProjectsLocationsGatewaysRequest {
+  /** Required. The parent resource of the Gateway. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the Gateway resource to be created. */
+  gatewayId?: string | undefined;
   /** Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*\/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
   network?: string | undefined;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
@@ -572,14 +550,6 @@ export interface Gateway {
   addresses?: StringList | undefined;
   /** Optional. The IP Version that will be used by this gateway. Valid options are IPV4 or IPV6. Default is IPV4. */
   ipVersion?: GatewayIpVersionEnum | (string & {}) | undefined;
-}
-export interface CreateProjectsLocationsGatewaysRequest {
-  /** Required. The parent resource of the Gateway. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the Gateway resource to be created. */
-  gatewayId?: string | undefined;
-  /** Request body */
-  body?: Gateway | undefined;
 }
 /** The specifications for retries. Specifies one or more conditions for which this retry rule applies. Valid values are: */
 export interface GrpcRouteRetryPolicy {
@@ -676,8 +646,11 @@ export interface GrpcRouteRouteRule {
   matches?: GrpcRouteRouteMatchList | undefined;
 }
 export type GrpcRouteRouteRuleList = Array<GrpcRouteRouteRule>;
-/** GrpcRoute is the resource defining how gRPC traffic routed by a Mesh or Gateway resource is routed. */
-export interface GrpcRoute {
+export interface CreateProjectsLocationsGrpcRoutesRequest {
+  /** Required. The parent resource of the GrpcRoute. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the GrpcRoute resource to be created. */
+  grpcRouteId?: string | undefined;
   /** Optional. Set of label tags associated with the GrpcRoute resource. */
   labels?: StringMap | undefined;
   /** Output only. The timestamp when the resource was created. */
@@ -698,14 +671,6 @@ export interface GrpcRoute {
   name?: string | undefined;
   /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
   hostnames?: StringList | undefined;
-}
-export interface CreateProjectsLocationsGrpcRoutesRequest {
-  /** Required. The parent resource of the GrpcRoute. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the GrpcRoute resource to be created. */
-  grpcRouteId?: string | undefined;
-  /** Request body */
-  body?: GrpcRoute | undefined;
 }
 /** Specifications to match a query parameter in the request. */
 export interface HttpRouteQueryParameterMatch {
@@ -913,8 +878,13 @@ export interface HttpRouteRouteRule {
   action?: HttpRouteRouteAction | undefined;
 }
 export type HttpRouteRouteRuleList = Array<HttpRouteRouteRule>;
-/** HttpRoute is the resource defining how HTTP traffic should be routed by a Mesh or Gateway resource. */
-export interface HttpRoute {
+export interface CreateProjectsLocationsHttpRoutesRequest {
+  /** Required. The parent resource of the HttpRoute. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the HttpRoute resource to be created. */
+  httpRouteId?: string | undefined;
+  /** Optional. Idempotent request UUID. */
+  requestId?: string | undefined;
   /** Optional. Set of label tags associated with the HttpRoute resource. */
   labels?: StringMap | undefined;
   /** Output only. The timestamp when the resource was updated. */
@@ -935,16 +905,6 @@ export interface HttpRoute {
   hostnames?: StringList | undefined;
   /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList | undefined;
-}
-export interface CreateProjectsLocationsHttpRoutesRequest {
-  /** Required. The parent resource of the HttpRoute. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the HttpRoute resource to be created. */
-  httpRouteId?: string | undefined;
-  /** Optional. Idempotent request UUID. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: HttpRoute | undefined;
 }
 export type ExtensionChainExtensionSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -1015,8 +975,13 @@ export type LbEdgeExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-/** `LbEdgeExtension` is a resource that lets the extension service influence the selection of backend services and Cloud CDN cache keys by modifying request headers. */
-export interface LbEdgeExtension {
+export interface CreateProjectsLocationsLbEdgeExtensionsRequest {
+  /** Required. The parent resource of the `LbEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. User-provided ID of the `LbEdgeExtension` resource to be created. */
+  lbEdgeExtensionId?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
   /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
@@ -1034,22 +999,17 @@ export interface LbEdgeExtension {
   /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsLbEdgeExtensionsRequest {
-  /** Required. The parent resource of the `LbEdgeExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. User-provided ID of the `LbEdgeExtension` resource to be created. */
-  lbEdgeExtensionId?: string | undefined;
-  /** Request body */
-  body?: LbEdgeExtension | undefined;
-}
 export type LbRouteExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-/** `LbRouteExtension` is a resource that lets you control where traffic is routed to for a given request. */
-export interface LbRouteExtension {
+export interface CreateProjectsLocationsLbRouteExtensionsRequest {
+  /** Required. User-provided ID of the `LbRouteExtension` resource to be created. */
+  lbRouteExtensionId?: string | undefined;
+  /** Required. The parent resource of the `LbRouteExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
@@ -1069,22 +1029,17 @@ export interface LbRouteExtension {
   /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
   metadata?: DocumentMap | undefined;
 }
-export interface CreateProjectsLocationsLbRouteExtensionsRequest {
-  /** Required. User-provided ID of the `LbRouteExtension` resource to be created. */
-  lbRouteExtensionId?: string | undefined;
-  /** Required. The parent resource of the `LbRouteExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: LbRouteExtension | undefined;
-}
 export type LbTrafficExtensionLoadBalancingSchemeEnum =
   | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
   | "INTERNAL_MANAGED"
   | "EXTERNAL_MANAGED";
-/** `LbTrafficExtension` is a resource that lets the extension service modify the headers and payloads of both requests and responses without impacting the choice of backend services or any other security policies associated with the backend service. */
-export interface LbTrafficExtension {
+export interface CreateProjectsLocationsLbTrafficExtensionsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. User-provided ID of the `LbTrafficExtension` resource to be created. */
+  lbTrafficExtensionId?: string | undefined;
+  /** Required. The parent resource of the `LbTrafficExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
   /** Optional. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbTrafficExtension` resource can be associated with a forwarding rule. */
@@ -1104,19 +1059,12 @@ export interface LbTrafficExtension {
   /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
   metadata?: DocumentMap | undefined;
 }
-export interface CreateProjectsLocationsLbTrafficExtensionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. User-provided ID of the `LbTrafficExtension` resource to be created. */
-  lbTrafficExtensionId?: string | undefined;
-  /** Required. The parent resource of the `LbTrafficExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Request body */
-  body?: LbTrafficExtension | undefined;
-}
 export type MeshEnvoyHeadersEnum = "ENVOY_HEADERS_UNSPECIFIED" | "NONE" | "DEBUG_HEADERS";
-/** Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary. */
-export interface Mesh {
+export interface CreateProjectsLocationsMeshesRequest {
+  /** Required. The parent resource of the Mesh. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the Mesh resource to be created. */
+  meshId?: string | undefined;
   /** Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments. */
   interceptionPort?: number | undefined;
   /** Optional. Set of label tags associated with the Mesh resource. */
@@ -1133,14 +1081,6 @@ export interface Mesh {
   name?: string | undefined;
   /** Output only. Server-defined URL of this resource */
   selfLink?: string | undefined;
-}
-export interface CreateProjectsLocationsMeshesRequest {
-  /** Required. The parent resource of the Mesh. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the Mesh resource to be created. */
-  meshId?: string | undefined;
-  /** Request body */
-  body?: Mesh | undefined;
 }
 export type MulticastResourceStateStateEnum =
   | "STATE_ENUM_UNSPECIFIED"
@@ -1161,8 +1101,13 @@ export type MulticastConsumerAssociationResourceStateEnum =
   | "CONSUMER_RESOURCE_STATE_UNSPECIFIED"
   | "ACTIVE"
   | "OBSOLETE";
-/** Multicast consumer association resource. */
-export interface MulticastConsumerAssociation {
+export interface CreateProjectsLocationsMulticastConsumerAssociationsRequest {
+  /** Required. The parent resource of the multicast consumer association. Use the following format: `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. A unique name for the multicast consumer association. The name is restricted to lower-case letters, numbers, and hyphen, with the first character a lower-case letter, and the last a letter or a number. The name must not exceed 48 characters. */
+  multicastConsumerAssociationId?: string | undefined;
   /** Optional. An optional text description of the multicast consumer association. */
   description?: string | undefined;
   /** Output only. [Output only] The timestamp when the Multicast Consumer Association was most recently updated. */
@@ -1186,16 +1131,6 @@ export interface MulticastConsumerAssociation {
   /** Output only. [Deprecated] The resource state of the multicast consumer association. Use the state field instead. */
   resourceState?: MulticastConsumerAssociationResourceStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsMulticastConsumerAssociationsRequest {
-  /** Required. The parent resource of the multicast consumer association. Use the following format: `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. A unique name for the multicast consumer association. The name is restricted to lower-case letters, numbers, and hyphen, with the first character a lower-case letter, and the last a letter or a number. The name must not exceed 48 characters. */
-  multicastConsumerAssociationId?: string | undefined;
-  /** Request body */
-  body?: MulticastConsumerAssociation | undefined;
-}
 export type MulticastGroupConsumerActivationResourceStateEnum =
   | "CONSUMER_RESOURCE_STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -1205,8 +1140,13 @@ export interface MulticastLogConfig {
   /** Optional. Whether to enable logging or not. */
   enabled?: boolean | undefined;
 }
-/** Multicast group consumer activation resource. */
-export interface MulticastGroupConsumerActivation {
+export interface CreateProjectsLocationsMulticastGroupConsumerActivationsRequest {
+  /** Required. The parent resource of the multicast group consumer activation. Use the following format: `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. A unique name for the multicast group consumer activation. The name is restricted to lower-case letters, numbers, and hyphen, with the first character a lower-case letter, and the last a letter or a number. The name must not exceed 48 characters. */
+  multicastGroupConsumerActivationId?: string | undefined;
   /** Optional. The resource name of the multicast group created by the admin in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroups/*`. This field is deprecated. Use multicast_group_range_activation instead. */
   multicastGroup?: string | undefined;
   /** Output only. [Output only] The Google-generated UUID for the resource. This value is unique across all multicast group consumer activation resources. If a multicast group consumer activation is deleted and another with the same name is created, the new multicast group consumer activation is assigned a different unique_id. */
@@ -1232,16 +1172,6 @@ export interface MulticastGroupConsumerActivation {
   /** Output only. [Output only] The timestamp when the multicast group consumer activation was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsMulticastGroupConsumerActivationsRequest {
-  /** Required. The parent resource of the multicast group consumer activation. Use the following format: `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. A unique name for the multicast group consumer activation. The name is restricted to lower-case letters, numbers, and hyphen, with the first character a lower-case letter, and the last a letter or a number. The name must not exceed 48 characters. */
-  multicastGroupConsumerActivationId?: string | undefined;
-  /** Request body */
-  body?: MulticastGroupConsumerActivation | undefined;
-}
 export type ProducerExtensionPhaseEnum = "PHASE_UNSPECIFIED" | "TRAFFIC" | "AUTHZ";
 export type ProducerExtensionExtensionSettingsSupportedEventsItemEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -1265,8 +1195,11 @@ export interface ProducerExtensionExtensionSettings {
   /** Optional. The `:authority` header in the request sent to the extension service. */
   authority?: string | undefined;
 }
-/** `ProducerExtension` is a resource representing producer defined configuration for their service extension. */
-export interface ProducerExtension {
+export interface CreateProjectsLocationsProducerExtensionsRequest {
+  /** Required. The parent resource of the `ProducerExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. Short name of the `ProducerExtension` resource to be created. */
+  producerExtensionId?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
   /** Optional. A human-readable description of the resource. */
@@ -1284,16 +1217,13 @@ export interface ProducerExtension {
   /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
   etag?: string | undefined;
 }
-export interface CreateProjectsLocationsProducerExtensionsRequest {
-  /** Required. The parent resource of the `ProducerExtension` resource. Must be in the format `projects/{project}/locations/{location}`. */
+export interface CreateProjectsLocationsServiceBindingsRequest {
+  /** Required. Short name of the ServiceBinding resource to be created. */
+  serviceBindingId?: string | undefined;
+  /** Required. The parent resource of the ServiceBinding. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Required. Short name of the `ProducerExtension` resource to be created. */
-  producerExtensionId?: string | undefined;
-  /** Request body */
-  body?: ProducerExtension | undefined;
-}
-/** ServiceBinding can be used to: - Bind a Service Directory Service to be used in a BackendService resource. This feature will be deprecated soon. - Bind a Private Service Connect producer service to be used in consumer Cloud Service Mesh or Application Load Balancers. - Bind a Cloud Run service to be used in consumer Cloud Service Mesh or Application Load Balancers. */
-export interface ServiceBinding {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
   serviceId?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
@@ -1308,16 +1238,6 @@ export interface ServiceBinding {
   service?: string | undefined;
   /** Optional. Set of label tags associated with the ServiceBinding resource. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsServiceBindingsRequest {
-  /** Required. Short name of the ServiceBinding resource to be created. */
-  serviceBindingId?: string | undefined;
-  /** Required. The parent resource of the ServiceBinding. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: ServiceBinding | undefined;
 }
 export type ServiceLbPolicyIsolationConfigIsolationModeEnum =
   | "ISOLATION_MODE_UNSPECIFIED"
@@ -1352,8 +1272,11 @@ export interface ServiceLbPolicyAutoCapacityDrain {
   /** Optional. If set to 'True', an unhealthy IG/NEG will be set as drained. - An IG/NEG is considered unhealthy if less than 25% of the instances/endpoints in the IG/NEG are healthy. - This option will never result in draining more than 50% of the configured IGs/NEGs for the Backend Service. */
   enable?: boolean | undefined;
 }
-/** ServiceLbPolicy holds load balancing and traffic distribution configuration that can be applied to a global or regional BackendService. */
-export interface ServiceLbPolicy {
+export interface CreateProjectsLocationsServiceLbPoliciesRequest {
+  /** Required. The parent resource of the ServiceLbPolicy. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Required. Short name of the ServiceLbPolicy resource to be created. E.g. for resource name `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. the id is value of {service_lb_policy_name} */
+  serviceLbPolicyId?: string | undefined;
   /** Optional. Configuration to provide isolation support for the associated Backend Service. */
   isolationConfig?: ServiceLbPolicyIsolationConfig | undefined;
   /** Output only. The timestamp when this resource was created. */
@@ -1372,14 +1295,6 @@ export interface ServiceLbPolicy {
   updateTime?: string | undefined;
   /** Optional. Set of label tags associated with the ServiceLbPolicy resource. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsServiceLbPoliciesRequest {
-  /** Required. The parent resource of the ServiceLbPolicy. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. Short name of the ServiceLbPolicy resource to be created. E.g. for resource name `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. the id is value of {service_lb_policy_name} */
-  serviceLbPolicyId?: string | undefined;
-  /** Request body */
-  body?: ServiceLbPolicy | undefined;
 }
 /** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "OR"ed for evaluation. If no routeMatch field is specified, this rule will unconditionally match traffic. */
 export interface TcpRouteRouteMatch {
@@ -1414,8 +1329,11 @@ export interface TcpRouteRouteRule {
   action?: TcpRouteRouteAction | undefined;
 }
 export type TcpRouteRouteRuleList = Array<TcpRouteRouteRule>;
-/** TcpRoute is the resource defining how TCP traffic should be routed by a Mesh/Gateway resource. */
-export interface TcpRoute {
+export interface CreateProjectsLocationsTcpRoutesRequest {
+  /** Required. Short name of the TcpRoute resource to be created. */
+  tcpRouteId?: string | undefined;
+  /** Required. The parent resource of the TcpRoute. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Optional. Set of label tags associated with the TcpRoute resource. */
   labels?: StringMap | undefined;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
@@ -1434,14 +1352,6 @@ export interface TcpRoute {
   createTime?: string | undefined;
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsTcpRoutesRequest {
-  /** Required. Short name of the TcpRoute resource to be created. */
-  tcpRouteId?: string | undefined;
-  /** Required. The parent resource of the TcpRoute. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: TcpRoute | undefined;
 }
 /** RouteMatch defines the predicate used to match requests to a given action. Multiple match types are "AND"ed for evaluation. */
 export interface TlsRouteRouteMatch {
@@ -1474,8 +1384,11 @@ export interface TlsRouteRouteRule {
   action?: TlsRouteRouteAction | undefined;
 }
 export type TlsRouteRouteRuleList = Array<TlsRouteRouteRule>;
-/** TlsRoute defines how traffic should be routed based on SNI and other matching L3 attributes. */
-export interface TlsRoute {
+export interface CreateProjectsLocationsTlsRoutesRequest {
+  /** Required. The parent resource of the TlsRoute. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Required. Short name of the TlsRoute resource to be created. */
+  tlsRouteId?: string | undefined;
   /** Optional. A free-text description of the resource. Max length 1024 characters. */
   description?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
@@ -1496,14 +1409,6 @@ export interface TlsRoute {
   targetProxies?: StringList | undefined;
   /** Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
   gateways?: StringList | undefined;
-}
-export interface CreateProjectsLocationsTlsRoutesRequest {
-  /** Required. The parent resource of the TlsRoute. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Required. Short name of the TlsRoute resource to be created. */
-  tlsRouteId?: string | undefined;
-  /** Request body */
-  body?: TlsRoute | undefined;
 }
 /** Details of a `WasmPluginVersion` resource to be inlined in the `WasmPlugin` resource. */
 export interface WasmPluginVersionDetails {
@@ -1550,8 +1455,11 @@ export interface WasmPluginUsedBy {
   name?: string | undefined;
 }
 export type WasmPluginUsedByList = Array<WasmPluginUsedBy>;
-/** `WasmPlugin` is a resource representing a service executing a customer-provided Wasm module. */
-export interface WasmPlugin {
+export interface CreateProjectsLocationsWasmPluginsRequest {
+  /** Required. The parent resource of the `WasmPlugin` resource. Must be in the format `projects/{project}/locations/global`. */
+  parent: string;
+  /** Required. User-provided ID of the `WasmPlugin` resource to be created. */
+  wasmPluginId?: string | undefined;
   /** Optional. All versions of this `WasmPlugin` resource in the key-value format. The key is the resource ID, and the value is the `VersionDetails` object. Lets you create or update a `WasmPlugin` resource and its versions in a single request. When the `main_version_id` field is not empty, it must point to one of the `VersionDetails` objects in the map. If provided in a `PATCH` request, the new versions replace the previous set. Any version omitted from the `versions` field is removed. Because the `WasmPluginVersion` resource is immutable, if a `WasmPluginVersion` resource with the same name already exists and differs, the request fails. Note: In a `GET` request, this field is populated only if the field `GetWasmPluginRequest.view` is set to `WASM_PLUGIN_VIEW_FULL`. */
   versions?: WasmPluginVersionDetailsMap | undefined;
   /** Optional. Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. Note that the settings relate to the logs generated by using logging statements in your Wasm code. */
@@ -1571,16 +1479,11 @@ export interface WasmPlugin {
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWasmPluginsRequest {
-  /** Required. The parent resource of the `WasmPlugin` resource. Must be in the format `projects/{project}/locations/global`. */
+export interface CreateProjectsLocationsWasmPluginsVersionsRequest {
+  /** Required. The parent resource of the `WasmPluginVersion` resource. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
   parent: string;
-  /** Required. User-provided ID of the `WasmPlugin` resource to be created. */
-  wasmPluginId?: string | undefined;
-  /** Request body */
-  body?: WasmPlugin | undefined;
-}
-/** A single immutable version of a `WasmPlugin` resource. Defines the Wasm module used and optionally its runtime config. */
-export interface WasmPluginVersion {
+  /** Required. User-provided ID of the `WasmPluginVersion` resource to be created. */
+  wasmPluginVersionId?: string | undefined;
   /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
   pluginConfigDigest?: string | undefined;
   /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` resource is created, the digest of the contents is saved in the `plugin_config_digest` field. */
@@ -1601,14 +1504,6 @@ export interface WasmPluginVersion {
   name?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsWasmPluginsVersionsRequest {
-  /** Required. The parent resource of the `WasmPluginVersion` resource. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}`. */
-  parent: string;
-  /** Required. User-provided ID of the `WasmPluginVersion` resource to be created. */
-  wasmPluginVersionId?: string | undefined;
-  /** Request body */
-  body?: WasmPluginVersion | undefined;
 }
 export interface DeleteProjectsLocationsAgentConnectivityTemplatesRequest {
   /** Required. A name of the AgentConnectivityTemplate to delete. Must be in the format `projects/*\/locations/*\/agentConnectivityTemplates/*`. */
@@ -1812,25 +1707,205 @@ export interface GetProjectsLocationsAgentConnectivityTemplatesRequest {
   /** Required. A name of the AgentConnectivityTemplate to get. Must be in the format `projects/*\/locations/*\/agentConnectivityTemplates/*`. */
   name: string;
 }
+/** AgentConnectivityTemplate represents a reusable network configuration. */
+export interface AgentConnectivityTemplate {
+  /** Optional. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
+  accessPath?: AgentConnectivityTemplateAccessPathEnum | undefined;
+  /** Optional. Configuration for egress network traffic. */
+  egressNetworkConfig?: EgressNetworkConfig | undefined;
+  /** Optional. The compute environment where the agent is hosted. Exactly one type of compute must be chosen. */
+  agentCompute?: AgentConnectivityTemplateAgentComputeEnum | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Identifier. Name of the AgentConnectivityTemplate resource. It matches pattern `projects/*\/locations/*\/agentConnectivityTemplates/`. */
+  name?: string | undefined;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Optional. Set of label tags associated with the AgentConnectivityTemplate resource. */
+  labels?: StringMap | undefined;
+  /** Optional. The types of network access provided to the gateway. Both PUBLIC and PRIVATE can be configured. */
+  accessTypes?: AgentConnectivityTemplateAccessTypesItemEnumList | undefined;
+  /** Optional. The deployment model for the gateway. */
+  deploymentModel?: AgentConnectivityTemplateDeploymentModelEnum | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+}
 export interface GetProjectsLocationsAgentGatewaysRequest {
   /** Required. A name of the AgentGateway to get. Must be in the format `projects/*\/locations/*\/agentGateways/*`. */
   name: string;
+}
+/** AgentGateway represents the agent gateway resource. */
+export interface AgentGateway {
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Deprecated. */
+  protocols?: AgentGatewayProtocolsItemEnumList | undefined;
+  /** Optional. The resource name of the AgentConnectivityTemplate. Format: projects/{project}/locations/{location}/agentConnectivityTemplates/{template} */
+  agentConnectivityTemplate?: string | undefined;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. Field for populated AgentGateway card. */
+  agentGatewayCard?: AgentGatewayAgentGatewayOutputCard | undefined;
+  /** Optional. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
+  googleManaged?: AgentGatewayGoogleManaged | undefined;
+  /** Optional. Network configuration for the AgentGateway. */
+  networkConfig?: AgentGatewayNetworkConfig | undefined;
+  /** Optional. Attach to existing Application Load Balancers or Secure Web Proxies. */
+  selfManaged?: AgentGatewaySelfManaged | undefined;
+  /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
+  name?: string | undefined;
+  /** Optional. Set of label tags associated with the AgentGateway resource. */
+  labels?: StringMap | undefined;
+  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
+  registries?: StringList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsAuthzExtensionsRequest {
   /** Required. A name of the `AuthzExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
   name: string;
 }
+/** `AuthzExtension` is a resource that allows traffic forwarding to a callout backend service to make an authorization decision. */
+export interface AuthzExtension {
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
+  metadata?: DocumentMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Required. The reference to the service that runs the extension. To configure a callout extension: For global AuthzExtension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For regional AuthzExtension, `service` must be a fully-qualified reference to one of the following: * a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * a fully qualified domain name that can be resolved by the Google Cloud DNS. * `iap.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to REQUEST_AUTHZ. * `modelarmor..rep.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to CONTENT_AUTHZ. */
+  service?: string | undefined;
+  /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
+  timeout?: string | undefined;
+  /** Optional. Determines how the proxy behaves if the call to the extension fails or times out. When set to `TRUE`, request or response processing continues without error. Any subsequent extensions in the extension chain are also executed. When set to `FALSE` or the default setting of `FALSE` is used, one of the following happens: * If response headers have not been delivered to the downstream client, a generic 500 error is returned to the client. The error response can be tailored by configuring a custom error response in the load balancer. * If response headers have been delivered, then the HTTP stream to the downstream client is reset. */
+  failOpen?: boolean | undefined;
+  /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
+  wireFormat?: AuthzExtensionWireFormatEnum | undefined;
+  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | undefined;
+  /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
+  name?: string | undefined;
+  /** Optional. List of the HTTP headers to forward to the extension (from the client). If omitted, all headers are sent. Each element is a string indicating the header name. */
+  forwardHeaders?: StringList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: StringList | undefined;
+  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
+  authority?: string | undefined;
+}
 export interface GetProjectsLocationsEndpointPoliciesRequest {
   /** Required. A name of the EndpointPolicy to get. Must be in the format `projects/*\/locations/*\/endpointPolicies/*`. */
   name: string;
+}
+/** EndpointPolicy is a resource that helps apply desired configuration on the endpoints that match specific criteria. For example, this resource can be used to apply "authentication config" an all endpoints that serve on port 8080. */
+export interface EndpointPolicy {
+  /** Optional. This field specifies the URL of AuthorizationPolicy resource that applies authorization policies to the inbound traffic at the matched endpoints. Refer to Authorization. If this field is not specified, authorization is disabled(no authz checks) for this endpoint. */
+  authorizationPolicy?: string | undefined;
+  /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
+  name?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. Set of label tags associated with the EndpointPolicy resource. */
+  labels?: StringMap | undefined;
+  /** Required. The type of endpoint policy. This is primarily used to validate the configuration. */
+  type?: EndpointPolicyTypeEnum | undefined;
+  /** Required. A matcher that selects endpoints to which the policies should be applied. */
+  endpointMatcher?: EndpointMatcher | undefined;
+  /** Optional. Deprecated: This field is not used and is a no-op. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy can be set to specify the authentication for traffic from the proxy to the actual endpoints. More specifically, it is applied to the outgoing traffic from the proxy to the endpoint. This is typically used for sidecar model where the proxy identifies itself as endpoint to the control plane, with the connection between sidecar and endpoint requiring authentication. If this field is not set, authentication is disabled(open). Applicable only when EndpointPolicyType is SIDECAR_PROXY. */
+  clientTlsPolicy?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
+  serverTlsPolicy?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
+  trafficPortSelector?: TrafficPortSelector | undefined;
 }
 export interface GetProjectsLocationsExtensionBindingsRequest {
   /** Required. A name of the `ExtensionBinding` resource to get. Must be in the format `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
 }
+/** `ExtensionBinding` is a resource representing the attachment of an extension to a service. */
+export interface ExtensionBinding {
+  /** Required. The name of the extension that this binding should attach to target resources. Format: For Google-provided extensions, specify the service endpoint, for example `modelarmor.us-central1.rep.googleapis.com`. */
+  producerExtension?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Additional metadata that should be passed to the attached extension with each request. This field is subject to the following limitations: * The total size of the metadata must be less than 1 KiB. * The total number of keys must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. */
+  producerMetadata?: StringMap | undefined;
+  /** Optional. This field is not supported. */
+  priority?: number | undefined;
+  /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
+  name?: string | undefined;
+  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. */
+  target?: ExtensionBindingTarget | undefined;
+  /** Optional. A list of match conditions to evaluate against the incoming request. The extension is invoked if the request matches at least one condition, or if no match conditions are specified. A request matches a condition only if it matches every field that is set in that condition. Limited to 5 conditions. */
+  matchConditions?: ExtensionBindingMatchConditionList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Set of labels associated with the `ExtensionBinding` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. Determines the behavior of the extension binding when the call to the extension fails or times out. Default value is `FALSE`. When set to `TRUE`, failures of the extension are silently ignored. */
+  failOpen?: boolean | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+}
 export interface GetProjectsLocationsGatewaysRequest {
   /** Required. A name of the Gateway to get. Must be in the format `projects/*\/locations/*\/gateways/*`. */
   name: string;
+}
+/** Gateway represents the configuration for a proxy, typically a load balancer. It captures the ip:port over which the services are exposed by the proxy, along with any policy configurations. Routes have reference to to Gateways to dictate how requests should be routed by this Gateway. */
+export interface Gateway {
+  /** Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*\/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
+  network?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. If true, the Gateway will listen on all ports. This is mutually exclusive with the `ports` field. This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  allPorts?: boolean | undefined;
+  /** Optional. The relative resource name identifying the subnetwork in which this SWG is allocated. For example: `projects/*\/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY". */
+  subnetwork?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Optional. A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections. For example: `projects/*\/locations/*\/gatewaySecurityPolicies/swg-policy`. This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
+  gatewaySecurityPolicy?: string | undefined;
+  /** Immutable. The type of the customer managed gateway. This field is required. If unspecified, an error is returned. */
+  type?: GatewayTypeEnum | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled. */
+  serverTlsPolicy?: string | undefined;
+  /** Optional. A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection. This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  certificateUrls?: StringList | undefined;
+  /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Scope determines how configuration across multiple Gateway instances are merged. The configuration for multiple Gateway instances with the same scope will be merged as presented as a single configuration to the proxy/load balancer. Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens. */
+  scope?: string | undefined;
+  /** Optional. Set of label tags associated with the Gateway resource. */
+  labels?: StringMap | undefined;
+  /** Optional. The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY. */
+  routingMode?: GatewayRoutingModeEnum | undefined;
+  /** Optional. If true, the gateway will allow traffic from clients outside of the region where the gateway is located. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. */
+  allowGlobalAccess?: boolean | undefined;
+  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
+  envoyHeaders?: GatewayEnvoyHeadersEnum | undefined;
+  /** Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 5 ports. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports. */
+  ports?: IntegerList | undefined;
+  /** Optional. Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic. When no address is provided, an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6. */
+  addresses?: StringList | undefined;
+  /** Optional. The IP Version that will be used by this gateway. Valid options are IPV4 or IPV6. Default is IPV4. */
+  ipVersion?: GatewayIpVersionEnum | undefined;
 }
 export interface GetProjectsLocationsGatewaysRouteViewsRequest {
   /** Required. Name of the GatewayRouteView resource. Formats: projects/{project_number}/locations/{location}/gateways/{gateway}/routeViews/{route_view} */
@@ -1853,25 +1928,151 @@ export interface GetProjectsLocationsGrpcRoutesRequest {
   /** Required. A name of the GrpcRoute to get. Must be in the format `projects/*\/locations/*\/grpcRoutes/*`. */
   name: string;
 }
+/** GrpcRoute is the resource defining how gRPC traffic routed by a Mesh or Gateway resource is routed. */
+export interface GrpcRoute {
+  /** Optional. Set of label tags associated with the GrpcRoute resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Gateways defines a list of gateways this GrpcRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. A list of detailed rules defining how to route traffic. Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the first matching GrpcRoute.RouteRule will be executed. At least one rule must be supplied. */
+  rules?: GrpcRouteRouteRuleList | undefined;
+  /** Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` */
+  meshes?: StringList | undefined;
+  /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
+  name?: string | undefined;
+  /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
+  hostnames?: StringList | undefined;
+}
 export interface GetProjectsLocationsHttpRoutesRequest {
   /** Required. A name of the HttpRoute to get. Must be in the format `projects/*\/locations/*\/httpRoutes/*`. */
   name: string;
+}
+/** HttpRoute is the resource defining how HTTP traffic should be routed by a Mesh or Gateway resource. */
+export interface HttpRoute {
+  /** Optional. Set of label tags associated with the HttpRoute resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule. */
+  rules?: HttpRouteRouteRuleList | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
+  name?: string | undefined;
+  /** Required. Hostnames define a set of hosts that should match against the HTTP host header to select a HttpRoute to process the request. Hostname is the fully qualified domain name of a network host, as defined by RFC 1123 with the exception that: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateways must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or Gateways under the same scope), it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. */
+  hostnames?: StringList | undefined;
+  /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
 }
 export interface GetProjectsLocationsLbEdgeExtensionsRequest {
   /** Required. A name of the `LbEdgeExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name: string;
 }
+/** `LbEdgeExtension` is a resource that lets the extension service influence the selection of backend services and Cloud CDN cache keys by modifying request headers. */
+export interface LbEdgeExtension {
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Required. All forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `EXTERNAL_MANAGED`. */
+  loadBalancingScheme?: LbEdgeExtensionLoadBalancingSchemeEnum | undefined;
+  /** Optional. Set of labels associated with the `LbEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbEdgeExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsLbRouteExtensionsRequest {
   /** Required. A name of the `LbRouteExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
   name: string;
+}
+/** `LbRouteExtension` is a resource that lets you control where traffic is routed to for a given request. */
+export interface LbRouteExtension {
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbRouteExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbRouteExtensionLoadBalancingSchemeEnum | undefined;
+  /** Required. Identifier. Name of the `LbRouteExtension` resource in the following format: `projects/{project}/locations/{location}/lbRouteExtensions/{lb_route_extension}`. */
+  name?: string | undefined;
+  /** Optional. Set of labels associated with the `LbRouteExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsLbTrafficExtensionsRequest {
   /** Required. A name of the `LbTrafficExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
   name: string;
 }
+/** `LbTrafficExtension` is a resource that lets the extension service modify the headers and payloads of both requests and responses without impacting the choice of backend services or any other security policies associated with the backend service. */
+export interface LbTrafficExtension {
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbTrafficExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
+  name?: string | undefined;
+  /** Optional. Set of labels associated with the `LbTrafficExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbTrafficExtensionLoadBalancingSchemeEnum | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap | undefined;
+}
 export interface GetProjectsLocationsMeshesRequest {
   /** Required. A name of the Mesh to get. Must be in the format `projects/*\/locations/*\/meshes/*`. */
   name: string;
+}
+/** Mesh represents a logical configuration grouping for workload to workload communication within a service mesh. Routes that point to mesh dictate how requests are routed within this logical mesh boundary. */
+export interface Mesh {
+  /** Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments. */
+  interceptionPort?: number | undefined;
+  /** Optional. Set of label tags associated with the Mesh resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
+  envoyHeaders?: MeshEnvoyHeadersEnum | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
+  name?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
 }
 export interface GetProjectsLocationsMeshesRouteViewsRequest {
   /** Required. Name of the MeshRouteView resource. Format: projects/{project_number}/locations/{location}/meshes/{mesh}/routeViews/{route_view} */
@@ -1894,9 +2095,61 @@ export interface GetProjectsLocationsMulticastConsumerAssociationsRequest {
   /** Required. The resource name of the multicast consumer association to get. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
   name: string;
 }
+/** Multicast consumer association resource. */
+export interface MulticastConsumerAssociation {
+  /** Optional. An optional text description of the multicast consumer association. */
+  description?: string | undefined;
+  /** Output only. [Output only] The timestamp when the Multicast Consumer Association was most recently updated. */
+  updateTime?: string | undefined;
+  /** Output only. [Output only] A Compute Engine (placement policy)[https://cloud.google.com/compute/docs/instances/placement-policies-overview] that can be used to place virtual machine (VM) instances as multicast consumers close to the multicast infrastructure created for this domain, on a best effort basis. */
+  placementPolicy?: string | undefined;
+  /** Identifier. The resource name of the multicast consumer association. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
+  name?: string | undefined;
+  /** Required. The resource name of the multicast consumer VPC network. Use following format: `projects/{project}/locations/global/networks/{network}`. */
+  network?: string | undefined;
+  /** Output only. [Output only] The state of the resource. */
+  state?: MulticastResourceState | undefined;
+  /** Optional. The resource name of the multicast domain activation that is in the same zone as this multicast consumer association. Use the following format: `projects/*\/locations/*\/multicastDomainActivations/*`. */
+  multicastDomainActivation?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. [Output only] The Google-generated UUID for the resource. This value is unique across all multicast consumer association resources. If a multicast consumer association is deleted and another with the same name is created, the new multicast consumer association is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Output only. [Output only] The timestamp when the multicast consumer association was created. */
+  createTime?: string | undefined;
+  /** Output only. [Deprecated] The resource state of the multicast consumer association. Use the state field instead. */
+  resourceState?: MulticastConsumerAssociationResourceStateEnum | undefined;
+}
 export interface GetProjectsLocationsMulticastGroupConsumerActivationsRequest {
   /** Required. The resource name of the multicast group consumer activation to get. Use the following format: `projects/*\/locations/*\/multicastGroupConsumerActivations/*`. */
   name: string;
+}
+/** Multicast group consumer activation resource. */
+export interface MulticastGroupConsumerActivation {
+  /** Optional. The resource name of the multicast group created by the admin in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroups/*`. This field is deprecated. Use multicast_group_range_activation instead. */
+  multicastGroup?: string | undefined;
+  /** Output only. [Output only] The Google-generated UUID for the resource. This value is unique across all multicast group consumer activation resources. If a multicast group consumer activation is deleted and another with the same name is created, the new multicast group consumer activation is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Identifier. The resource name of the multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroupConsumerActivations/*`. */
+  name?: string | undefined;
+  /** Output only. [Output only] The timestamp when the multicast group consumer activation was most recently updated. */
+  updateTime?: string | undefined;
+  /** Output only. [Deprecated] The resource state of the multicast group consumer activation. Use the state field instead. */
+  resourceState?: MulticastGroupConsumerActivationResourceStateEnum | undefined;
+  /** Required. The resource name of the multicast group range activation created by the admin in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroupRangeActivations/*`. */
+  multicastGroupRangeActivation?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Optional. Specifies the logging options for the activities performed related to the multicast group consumer activation. Defaults to false. If logging is enabled, logs are exported to Cloud Logging. */
+  logConfig?: MulticastLogConfig | undefined;
+  /** Required. The resource name of the multicast consumer association that is in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
+  multicastConsumerAssociation?: string | undefined;
+  /** Optional. An optional text description of the multicast group consumer activation. */
+  description?: string | undefined;
+  /** Output only. [Output only] The state of the resource. */
+  state?: MulticastResourceState | undefined;
+  /** Output only. [Output only] The timestamp when the multicast group consumer activation was created. */
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1906,21 +2159,122 @@ export interface GetProjectsLocationsProducerExtensionsRequest {
   /** Required. A name of the `ProducerExtension` resource to get. Must be in the format `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
   name: string;
 }
+/** `ProducerExtension` is a resource representing producer defined configuration for their service extension. */
+export interface ProducerExtension {
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Required. The phase in which this `ProducerExtension` should execute. */
+  phase?: ProducerExtensionPhaseEnum | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Set of labels associated with the `ProducerExtension` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Required. The configuration for the service that this `ProducerExtension` offers. */
+  extensionSettings?: ProducerExtensionExtensionSettings | undefined;
+  /** Identifier. Name of the `ProducerExtension` resource in the following format: `projects/{project}/locations/{location}/producerExtensions/{producer_extension}`. */
+  name?: string | undefined;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+}
 export interface GetProjectsLocationsServiceBindingsRequest {
   /** Required. A name of the ServiceBinding to get. Must be in the format `projects/*\/locations/*\/serviceBindings/*`. */
   name: string;
+}
+/** ServiceBinding can be used to: - Bind a Service Directory Service to be used in a BackendService resource. This feature will be deprecated soon. - Bind a Private Service Connect producer service to be used in consumer Cloud Service Mesh or Application Load Balancers. - Bind a Cloud Run service to be used in consumer Cloud Service Mesh or Application Load Balancers. */
+export interface ServiceBinding {
+  /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
+  serviceId?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Identifier. Name of the ServiceBinding resource. It matches pattern `projects/*\/locations/*\/serviceBindings/`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. The full Service Directory Service name of the format `projects/*\/locations/*\/namespaces/*\/services/*`. This field is for Service Directory integration which will be deprecated soon. */
+  service?: string | undefined;
+  /** Optional. Set of label tags associated with the ServiceBinding resource. */
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsServiceLbPoliciesRequest {
   /** Required. A name of the ServiceLbPolicy to get. Must be in the format `projects/{project}/locations/{location}/serviceLbPolicies/*`. */
   name: string;
 }
+/** ServiceLbPolicy holds load balancing and traffic distribution configuration that can be applied to a global or regional BackendService. */
+export interface ServiceLbPolicy {
+  /** Optional. Configuration to provide isolation support for the associated Backend Service. */
+  isolationConfig?: ServiceLbPolicyIsolationConfig | undefined;
+  /** Output only. The timestamp when this resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The type of load balancing algorithm to be used. The default behavior is WATERFALL_BY_REGION. */
+  loadBalancingAlgorithm?: ServiceLbPolicyLoadBalancingAlgorithmEnum | undefined;
+  /** Optional. Configuration related to health based failover. */
+  failoverConfig?: ServiceLbPolicyFailoverConfig | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
+  name?: string | undefined;
+  /** Optional. Configuration to automatically move traffic away for unhealthy IG/NEG for the associated Backend Service. */
+  autoCapacityDrain?: ServiceLbPolicyAutoCapacityDrain | undefined;
+  /** Output only. The timestamp when this resource was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Set of label tags associated with the ServiceLbPolicy resource. */
+  labels?: StringMap | undefined;
+}
 export interface GetProjectsLocationsTcpRoutesRequest {
   /** Required. A name of the TcpRoute to get. Must be in the format `projects/*\/locations/*\/tcpRoutes/*`. */
   name: string;
 }
+/** TcpRoute is the resource defining how TCP traffic should be routed by a Mesh/Gateway resource. */
+export interface TcpRoute {
+  /** Optional. Set of label tags associated with the TcpRoute resource. */
+  labels?: StringMap | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
+  rules?: TcpRouteRouteRuleList | undefined;
+  /** Optional. Gateways defines a list of gateways this TcpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
+  /** Optional. Meshes defines a list of meshes this TcpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsTlsRoutesRequest {
   /** Required. A name of the TlsRoute to get. Must be in the format `projects/*\/locations/*\/tlsRoutes/*`. */
   name: string;
+}
+/** TlsRoute defines how traffic should be routed based on SNI and other matching L3 attributes. */
+export interface TlsRoute {
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Set of label tags associated with the TlsRoute resource. */
+  labels?: StringMap | undefined;
+  /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
+  rules?: TlsRouteRouteRuleList | undefined;
+  /** Optional. Meshes defines a list of meshes this TlsRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Optional. TargetProxies defines a list of TargetTcpProxies this TlsRoute is attached to, as one of the routing rules to route the requests served by the TargetTcpProxy. Each TargetTcpProxy reference should match the pattern: `projects/*\/locations/*\/targetTcpProxies/` */
+  targetProxies?: StringList | undefined;
+  /** Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
 }
 export type GetProjectsLocationsWasmPluginsViewEnum =
   | "WASM_PLUGIN_VIEW_UNSPECIFIED"
@@ -1932,9 +2286,53 @@ export interface GetProjectsLocationsWasmPluginsRequest {
   /** Determines how much data must be returned in the response. See [AIP-157](https://google.aip.dev/157). */
   view?: GetProjectsLocationsWasmPluginsViewEnum | (string & {}) | undefined;
 }
+/** `WasmPlugin` is a resource representing a service executing a customer-provided Wasm module. */
+export interface WasmPlugin {
+  /** Optional. All versions of this `WasmPlugin` resource in the key-value format. The key is the resource ID, and the value is the `VersionDetails` object. Lets you create or update a `WasmPlugin` resource and its versions in a single request. When the `main_version_id` field is not empty, it must point to one of the `VersionDetails` objects in the map. If provided in a `PATCH` request, the new versions replace the previous set. Any version omitted from the `versions` field is removed. Because the `WasmPluginVersion` resource is immutable, if a `WasmPluginVersion` resource with the same name already exists and differs, the request fails. Note: In a `GET` request, this field is populated only if the field `GetWasmPluginRequest.view` is set to `WASM_PLUGIN_VIEW_FULL`. */
+  versions?: WasmPluginVersionDetailsMap | undefined;
+  /** Optional. Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. Note that the settings relate to the logs generated by using logging statements in your Wasm code. */
+  logConfig?: WasmPluginLogConfig | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The ID of the `WasmPluginVersion` resource that is the currently serving one. The version referred to must be a child of this `WasmPlugin` resource. */
+  mainVersionId?: string | undefined;
+  /** Optional. Set of labels associated with the `WasmPlugin` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
+  name?: string | undefined;
+  /** Output only. List of all [extensions](https://cloud.google.com/service-extensions/docs/overview) that use this `WasmPlugin` resource. */
+  usedBy?: WasmPluginUsedByList | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+}
 export interface GetProjectsLocationsWasmPluginsVersionsRequest {
   /** Required. A name of the `WasmPluginVersion` resource to get. Must be in the format `projects/{project}/locations/global/wasmPlugins/{wasm_plugin}/versions/{wasm_plugin_version}`. */
   name: string;
+}
+/** A single immutable version of a `WasmPlugin` resource. Defines the Wasm module used and optionally its runtime config. */
+export interface WasmPluginVersion {
+  /** Output only. This field holds the digest (usually checksum) value for the plugin configuration. The value is calculated based on the contents of `plugin_config_data` field or the image defined by the `plugin_config_uri` field. */
+  pluginConfigDigest?: string | undefined;
+  /** Configuration for the plugin. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. When a new `WasmPluginVersion` resource is created, the digest of the contents is saved in the `plugin_config_digest` field. */
+  pluginConfigData?: string | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Optional. Set of labels associated with the `WasmPluginVersion` resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. URI of the image containing the Wasm module, stored in Artifact Registry. The URI can refer to one of the following repository formats: * Container images: the `image_uri` must point to a container that contains a single file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `image_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `image_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.wasm`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `image_digest` field. */
+  imageUri?: string | undefined;
+  /** URI of the plugin configuration stored in the Artifact Registry. The configuration is provided to the plugin at runtime through the `ON_CONFIGURE` callback. The URI can refer to one of the following repository formats: * Container images: the `plugin_config_uri` must point to a container that contains a single file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the digest of the image is saved in the `plugin_config_digest` field. When pulling a container image from Artifact Registry, the digest value is used instead of an image tag. * Generic artifacts: the `plugin_config_uri` must be in this format: `projects/{project}/locations/{location}/repositories/{repository}/ genericArtifacts/{package}:{version}`. The specified package and version must contain a file with the name `plugin.config`. When a new `WasmPluginVersion` resource is created, the checksum of the contents of the file is saved in the `plugin_config_digest` field. */
+  pluginConfigUri?: string | undefined;
+  /** Output only. This field holds the digest (usually checksum) value for the plugin image. The value is calculated based on the `image_uri` field. If the `image_uri` field refers to a container image, the digest value is obtained from the container image. If the `image_uri` field refers to a generic artifact, the digest value is calculated based on the contents of the file. */
+  imageDigest?: string | undefined;
+  /** Identifier. Name of the `WasmPluginVersion` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}/ versions/{wasm_plugin_version}`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
@@ -2441,16 +2839,56 @@ export interface PatchProjectsLocationsAgentConnectivityTemplatesRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentConnectivityTemplate resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AgentConnectivityTemplate | undefined;
+  /** Optional. Immutable. The path of the access. Maps roughly to ingress/egress, though we keep CLIENT_TO_AGENT and AGENT_TO_ANYWHERE as carryovers from Agent Gateway's original resource model. The path is immutable once set. Exactly one path can be set. */
+  accessPath?: AgentConnectivityTemplateAccessPathEnum | (string & {}) | undefined;
+  /** Optional. Configuration for egress network traffic. */
+  egressNetworkConfig?: EgressNetworkConfig | undefined;
+  /** Optional. The compute environment where the agent is hosted. Exactly one type of compute must be chosen. */
+  agentCompute?: AgentConnectivityTemplateAgentComputeEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Optional. Set of label tags associated with the AgentConnectivityTemplate resource. */
+  labels?: StringMap | undefined;
+  /** Optional. The types of network access provided to the gateway. Both PUBLIC and PRIVATE can be configured. */
+  accessTypes?: AgentConnectivityTemplateAccessTypesItemEnumList | undefined;
+  /** Optional. The deployment model for the gateway. */
+  deploymentModel?: AgentConnectivityTemplateDeploymentModelEnum | (string & {}) | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentGatewaysRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AgentGateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the AgentGateway resource. It matches pattern `projects/*\/locations/*\/agentGateways/`. */
   name: string;
-  /** Request body */
-  body?: AgentGateway | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Deprecated. */
+  protocols?: AgentGatewayProtocolsItemEnumList | undefined;
+  /** Optional. The resource name of the AgentConnectivityTemplate. Format: projects/{project}/locations/{location}/agentConnectivityTemplates/{template} */
+  agentConnectivityTemplate?: string | undefined;
+  /** Optional. Etag of the resource. If this is provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. Field for populated AgentGateway card. */
+  agentGatewayCard?: AgentGatewayAgentGatewayOutputCard | undefined;
+  /** Optional. Proxy is orchestrated and managed by GoogleCloud in a tenant project. */
+  googleManaged?: AgentGatewayGoogleManaged | undefined;
+  /** Optional. Network configuration for the AgentGateway. */
+  networkConfig?: AgentGatewayNetworkConfig | undefined;
+  /** Optional. Attach to existing Application Load Balancers or Secure Web Proxies. */
+  selfManaged?: AgentGatewaySelfManaged | undefined;
+  /** Optional. Set of label tags associated with the AgentGateway resource. */
+  labels?: StringMap | undefined;
+  /** Optional. A list of Agent registries containing the agents, MCP servers and tools governed by the Agent Gateway. Note: Currently limited to project-scoped registries Must be of format `//agentregistry.googleapis.com/projects/{project}/locations/{location}/` */
+  registries?: StringList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthzExtensionsRequest {
   /** Required. Identifier. Name of the `AuthzExtension` resource in the following format: `projects/{project}/locations/{location}/authzExtensions/{authz_extension}`. */
@@ -2459,48 +2897,178 @@ export interface PatchProjectsLocationsAuthzExtensionsRequest {
   requestId?: string | undefined;
   /** Optional. Used to specify the fields to be overwritten in the `AuthzExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AuthzExtension | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata is available under the namespace `com.google.authz_extension.`. The following variables are supported in the metadata Struct: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. */
+  metadata?: DocumentMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Set of labels associated with the `AuthzExtension` resource. The format must comply with [the requirements for labels](/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Required. The reference to the service that runs the extension. To configure a callout extension: For global AuthzExtension, `service` must be a fully-qualified reference to a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/global/backendServices/{backendService}`. For regional AuthzExtension, `service` must be a fully-qualified reference to one of the following: * a [backend service](https://cloud.google.com/compute/docs/reference/rest/v1/backendServices) in the format: `https://www.googleapis.com/compute/v1/projects/{project}/regions/{region}/backendServices/{backendService}`. * a fully qualified domain name that can be resolved by the Google Cloud DNS. * `iap.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to REQUEST_AUTHZ. * `modelarmor..rep.googleapis.com` and it can only be referenced by an AuthzPolicy with the policyProfile set to CONTENT_AUTHZ. */
+  service?: string | undefined;
+  /** Required. Specifies the timeout for each individual message on the stream. The timeout must be between 10-10000 milliseconds. */
+  timeout?: string | undefined;
+  /** Optional. Determines how the proxy behaves if the call to the extension fails or times out. When set to `TRUE`, request or response processing continues without error. Any subsequent extensions in the extension chain are also executed. When set to `FALSE` or the default setting of `FALSE` is used, one of the following happens: * If response headers have not been delivered to the downstream client, a generic 500 error is returned to the client. The error response can be tailored by configuring a custom error response in the load balancer. * If response headers have been delivered, then the HTTP stream to the downstream client is reset. */
+  failOpen?: boolean | undefined;
+  /** Optional. The format of communication supported by the callout extension. This field is supported only for regional `AuthzExtension` resources. If not specified, the default value `EXT_PROC_GRPC` is used. Global `AuthzExtension` resources use the `EXT_PROC_GRPC` wire format. */
+  wireFormat?: AuthzExtensionWireFormatEnum | (string & {}) | undefined;
+  /** Optional. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. The supported values are `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. You can omit this field for `AuthzExtensions` resources that don't reference a backend service. For more information, see [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: AuthzExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Optional. List of the HTTP headers to forward to the extension (from the client). If omitted, all headers are sent. Each element is a string indicating the header name. */
+  forwardHeaders?: StringList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. List of the Envoy attributes to forward to the extension server. The attributes provided here are included as part of the `ProcessingRequest.attributes` field (of type `map`), where the keys are the attribute names. Refer to the [documentation](https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference#attributes) for the names of attributes that can be forwarded. If omitted, no attributes are sent. Each element is a string indicating the attribute name. */
+  forwardAttributes?: StringList | undefined;
+  /** Optional. The `:authority` header in the gRPC request sent from Envoy to the extension service. It is required when the `service` field points to a backend service. */
+  authority?: string | undefined;
 }
 export interface PatchProjectsLocationsEndpointPoliciesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the EndpointPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the EndpointPolicy resource. It matches pattern `projects/{project}/locations/*\/endpointPolicies/{endpoint_policy}`. */
   name: string;
-  /** Request body */
-  body?: EndpointPolicy | undefined;
+  /** Optional. This field specifies the URL of AuthorizationPolicy resource that applies authorization policies to the inbound traffic at the matched endpoints. Refer to Authorization. If this field is not specified, authorization is disabled(no authz checks) for this endpoint. */
+  authorizationPolicy?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. Set of label tags associated with the EndpointPolicy resource. */
+  labels?: StringMap | undefined;
+  /** Required. The type of endpoint policy. This is primarily used to validate the configuration. */
+  type?: EndpointPolicyTypeEnum | (string & {}) | undefined;
+  /** Required. A matcher that selects endpoints to which the policies should be applied. */
+  endpointMatcher?: EndpointMatcher | undefined;
+  /** Optional. Deprecated: This field is not used and is a no-op. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy can be set to specify the authentication for traffic from the proxy to the actual endpoints. More specifically, it is applied to the outgoing traffic from the proxy to the endpoint. This is typically used for sidecar model where the proxy identifies itself as endpoint to the control plane, with the connection between sidecar and endpoint requiring authentication. If this field is not set, authentication is disabled(open). Applicable only when EndpointPolicyType is SIDECAR_PROXY. */
+  clientTlsPolicy?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is used to determine the authentication policy to be applied to terminate the inbound traffic at the identified backends. If this field is not set, authentication is disabled(open) for this endpoint. */
+  serverTlsPolicy?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Port selector for the (matched) endpoints. If no port selector is provided, the matched config is applied to all ports. */
+  trafficPortSelector?: TrafficPortSelector | undefined;
 }
 export interface PatchProjectsLocationsExtensionBindingsRequest {
   /** Identifier. Name of the `ExtensionBinding` resource in the following format: `projects/{project}/locations/{location}/extensionBindings/{extension_binding}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the `ExtensionBinding` resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ExtensionBinding | undefined;
+  /** Required. The name of the extension that this binding should attach to target resources. Format: For Google-provided extensions, specify the service endpoint, for example `modelarmor.us-central1.rep.googleapis.com`. */
+  producerExtension?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Additional metadata that should be passed to the attached extension with each request. This field is subject to the following limitations: * The total size of the metadata must be less than 1 KiB. * The total number of keys must be less than 16. * The length of each key must be less than 64 characters. * The length of each value must be less than 1024 characters. */
+  producerMetadata?: StringMap | undefined;
+  /** Optional. This field is not supported. */
+  priority?: number | undefined;
+  /** Optional. Etag of the resource. If provided, it must match the server's etag. If the provided etag does not match the server's etag, the request will fail with a 409 ABORTED error. */
+  etag?: string | undefined;
+  /** Required. Specifies a target to which this `ExtensionBinding` should be attached. */
+  target?: ExtensionBindingTarget | undefined;
+  /** Optional. A list of match conditions to evaluate against the incoming request. The extension is invoked if the request matches at least one condition, or if no match conditions are specified. A request matches a condition only if it matches every field that is set in that condition. Limited to 5 conditions. */
+  matchConditions?: ExtensionBindingMatchConditionList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Set of labels associated with the `ExtensionBinding` resource. The format must comply with [the following requirements](https://cloud.google.com/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Optional. Determines the behavior of the extension binding when the call to the extension fails or times out. Default value is `FALSE`. When set to `TRUE`, failures of the extension are silently ignored. */
+  failOpen?: boolean | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
 }
 export interface PatchProjectsLocationsGatewaysRequest {
   /** Identifier. Name of the Gateway resource. It matches pattern `projects/*\/locations/*\/gateways/`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Gateway resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Gateway | undefined;
+  /** Optional. The relative resource name identifying the VPC network that is using this configuration. For example: `projects/*\/global/networks/network-1`. Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
+  network?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. If true, the Gateway will listen on all ports. This is mutually exclusive with the `ports` field. This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  allPorts?: boolean | undefined;
+  /** Optional. The relative resource name identifying the subnetwork in which this SWG is allocated. For example: `projects/*\/regions/us-central1/subnetworks/network-1` Currently, this field is specific to gateways of type 'SECURE_WEB_GATEWAY". */
+  subnetwork?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Optional. A fully-qualified GatewaySecurityPolicy URL reference. Defines how a server should apply security policy to inbound (VM to Proxy) initiated connections. For example: `projects/*\/locations/*\/gatewaySecurityPolicies/swg-policy`. This policy is specific to gateways of type 'SECURE_WEB_GATEWAY'. */
+  gatewaySecurityPolicy?: string | undefined;
+  /** Immutable. The type of the customer managed gateway. This field is required. If unspecified, an error is returned. */
+  type?: GatewayTypeEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how TLS traffic is terminated. If empty, TLS termination is disabled. */
+  serverTlsPolicy?: string | undefined;
+  /** Optional. A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection. This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'. */
+  certificateUrls?: StringList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Scope determines how configuration across multiple Gateway instances are merged. The configuration for multiple Gateway instances with the same scope will be merged as presented as a single configuration to the proxy/load balancer. Max length 64 characters. Scope should start with a letter and can only have letters, numbers, hyphens. */
+  scope?: string | undefined;
+  /** Optional. Set of label tags associated with the Gateway resource. */
+  labels?: StringMap | undefined;
+  /** Optional. The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY. */
+  routingMode?: GatewayRoutingModeEnum | (string & {}) | undefined;
+  /** Optional. If true, the gateway will allow traffic from clients outside of the region where the gateway is located. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. */
+  allowGlobalAccess?: boolean | undefined;
+  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
+  envoyHeaders?: GatewayEnvoyHeadersEnum | (string & {}) | undefined;
+  /** Required. One or more port numbers (1-65535), on which the Gateway will receive traffic. The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 5 ports. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports. */
+  ports?: IntegerList | undefined;
+  /** Optional. Zero or one IPv4 or IPv6 address on which the Gateway will receive the traffic. When no address is provided, an IP from the subnetwork is allocated This field only applies to gateways of type 'SECURE_WEB_GATEWAY'. Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6. */
+  addresses?: StringList | undefined;
+  /** Optional. The IP Version that will be used by this gateway. Valid options are IPV4 or IPV6. Default is IPV4. */
+  ipVersion?: GatewayIpVersionEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsGrpcRoutesRequest {
   /** Identifier. Name of the GrpcRoute resource. It matches pattern `projects/*\/locations/*\/grpcRoutes/` */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the GrpcRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GrpcRoute | undefined;
+  /** Optional. Set of label tags associated with the GrpcRoute resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Gateways defines a list of gateways this GrpcRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. A list of detailed rules defining how to route traffic. Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the first matching GrpcRoute.RouteRule will be executed. At least one rule must be supplied. */
+  rules?: GrpcRouteRouteRuleList | undefined;
+  /** Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` */
+  meshes?: StringList | undefined;
+  /** Required. Service hostnames with an optional port for which this route describes traffic. Format: [:] Hostname is the fully qualified domain name of a network host. This matches the RFC 1123 definition of a hostname with 2 notable exceptions: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateway must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. If a port is specified, then gRPC clients must use the channel URI with the port to match this rule (i.e. "xds:///service:123"), otherwise they must supply the URI without a port (i.e. "xds:///service"). */
+  hostnames?: StringList | undefined;
 }
 export interface PatchProjectsLocationsHttpRoutesRequest {
   /** Identifier. Name of the HttpRoute resource. It matches pattern `projects/*\/locations/*\/httpRoutes/http_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the HttpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: HttpRoute | undefined;
+  /** Optional. Set of label tags associated with the HttpRoute resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. Rules that define how traffic is routed and handled. Rules will be matched sequentially based on the RouteMatch specified for the rule. */
+  rules?: HttpRouteRouteRuleList | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Meshes defines a list of meshes this HttpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Required. Hostnames define a set of hosts that should match against the HTTP host header to select a HttpRoute to process the request. Hostname is the fully qualified domain name of a network host, as defined by RFC 1123 with the exception that: - IPs are not allowed. - A hostname may be prefixed with a wildcard label (`*.`). The wildcard label must appear by itself as the first label. Hostname can be "precise" which is a domain name without the terminating dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a domain name prefixed with a single wildcard label (e.g. `*.example.com`). Note that as per RFC1035 and RFC1123, a label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character. No other punctuation is allowed. The routes associated with a Mesh or Gateways must have unique hostnames. If you attempt to attach multiple routes with conflicting hostnames, the configuration will be rejected. For example, while it is acceptable for routes for the hostnames `*.foo.bar.com` and `*.bar.com` to be associated with the same Mesh (or Gateways under the same scope), it is not possible to associate two routes both with `*.bar.com` or both with `bar.com`. */
+  hostnames?: StringList | undefined;
+  /** Optional. Gateways defines a list of gateways this HttpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
 }
 export interface PatchProjectsLocationsLbEdgeExtensionsRequest {
   /** Optional. Used to specify the fields to be overwritten in the `LbEdgeExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
@@ -2509,8 +3077,20 @@ export interface PatchProjectsLocationsLbEdgeExtensionsRequest {
   requestId?: string | undefined;
   /** Required. Identifier. Name of the `LbEdgeExtension` resource in the following format: `projects/{project}/locations/{location}/lbEdgeExtensions/{lb_edge_extension}`. */
   name: string;
-  /** Request body */
-  body?: LbEdgeExtension | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Required. All forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `EXTERNAL_MANAGED`. */
+  loadBalancingScheme?: LbEdgeExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Optional. Set of labels associated with the `LbEdgeExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbEdgeExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
 }
 export interface PatchProjectsLocationsLbRouteExtensionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2519,8 +3099,22 @@ export interface PatchProjectsLocationsLbRouteExtensionsRequest {
   name: string;
   /** Optional. Used to specify the fields to be overwritten in the `LbRouteExtension` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LbRouteExtension | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbRouteExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED`, `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbRouteExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Optional. Set of labels associated with the `LbRouteExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_route_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap | undefined;
 }
 export interface PatchProjectsLocationsLbTrafficExtensionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2529,16 +3123,42 @@ export interface PatchProjectsLocationsLbTrafficExtensionsRequest {
   updateMask?: string | undefined;
   /** Required. Identifier. Name of the `LbTrafficExtension` resource in the following format: `projects/{project}/locations/{location}/lbTrafficExtensions/{lb_traffic_extension}`. */
   name: string;
-  /** Request body */
-  body?: LbTrafficExtension | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A list of references to the forwarding rules to which this service extension is attached. At least one forwarding rule is required. Only one `LbTrafficExtension` resource can be associated with a forwarding rule. */
+  forwardingRules?: StringList | undefined;
+  /** Optional. Set of labels associated with the `LbTrafficExtension` resource. The format must comply with [the requirements for labels](https://cloud.google.com/compute/docs/labeling-resources#requirements) for Google Cloud resources. */
+  labels?: StringMap | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Required. All backend services and forwarding rules referenced by this extension must share the same load balancing scheme. Supported values: `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: LbTrafficExtensionLoadBalancingSchemeEnum | (string & {}) | undefined;
+  /** Required. A set of ordered extension chains that contain the match conditions and extensions to execute. Match conditions for each extension chain are evaluated in sequence for a given request. The first extension chain that has a condition that matches the request is executed. Any subsequent extension chains do not execute. Limited to 5 extension chains per resource. */
+  extensionChains?: ExtensionChainList | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. The metadata provided here is included as part of the `metadata_context` (of type `google.protobuf.Struct`) in the `ProcessingRequest` message sent to the extension server. The metadata applies to all extensions in all extensions chains in this resource. The metadata is available under the key `com.google.lb_traffic_extension.`. The following variables are supported in the metadata: `{forwarding_rule_id}` - substituted with the forwarding rule's fully qualified resource name. This field must not be set if at least one of the extension chains contains plugin extensions. Setting it results in a validation error. You can set metadata at either the resource level or the extension level. The extension level metadata is recommended because you can pass a different set of metadata through each extension to the backend. */
+  metadata?: DocumentMap | undefined;
 }
 export interface PatchProjectsLocationsMeshesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Mesh resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the Mesh resource. It matches pattern `projects/*\/locations/*\/meshes/`. */
   name: string;
-  /** Request body */
-  body?: Mesh | undefined;
+  /** Optional. If set to a valid TCP port (1-65535), instructs the SIDECAR proxy to listen on the specified port of localhost (127.0.0.1) address. The SIDECAR proxy will expect all traffic to be redirected to this port regardless of its actual ip:port destination. If unset, a port '15001' is used as the interception port. This is applicable only for sidecar proxy deployments. */
+  interceptionPort?: number | undefined;
+  /** Optional. Set of label tags associated with the Mesh resource. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Determines if envoy will insert internal debug headers into upstream requests. Other Envoy headers may still be injected. By default, envoy will not insert any debug headers. */
+  envoyHeaders?: MeshEnvoyHeadersEnum | (string & {}) | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
 }
 export interface PatchProjectsLocationsMulticastConsumerAssociationsRequest {
   /** Identifier. The resource name of the multicast consumer association. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
@@ -2547,8 +3167,26 @@ export interface PatchProjectsLocationsMulticastConsumerAssociationsRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: MulticastConsumerAssociation | undefined;
+  /** Optional. An optional text description of the multicast consumer association. */
+  description?: string | undefined;
+  /** Output only. [Output only] The timestamp when the Multicast Consumer Association was most recently updated. */
+  updateTime?: string | undefined;
+  /** Output only. [Output only] A Compute Engine (placement policy)[https://cloud.google.com/compute/docs/instances/placement-policies-overview] that can be used to place virtual machine (VM) instances as multicast consumers close to the multicast infrastructure created for this domain, on a best effort basis. */
+  placementPolicy?: string | undefined;
+  /** Required. The resource name of the multicast consumer VPC network. Use following format: `projects/{project}/locations/global/networks/{network}`. */
+  network?: string | undefined;
+  /** Output only. [Output only] The state of the resource. */
+  state?: MulticastResourceState | undefined;
+  /** Optional. The resource name of the multicast domain activation that is in the same zone as this multicast consumer association. Use the following format: `projects/*\/locations/*\/multicastDomainActivations/*`. */
+  multicastDomainActivation?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. [Output only] The Google-generated UUID for the resource. This value is unique across all multicast consumer association resources. If a multicast consumer association is deleted and another with the same name is created, the new multicast consumer association is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Output only. [Output only] The timestamp when the multicast consumer association was created. */
+  createTime?: string | undefined;
+  /** Output only. [Deprecated] The resource state of the multicast consumer association. Use the state field instead. */
+  resourceState?: MulticastConsumerAssociationResourceStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsMulticastGroupConsumerActivationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2557,8 +3195,28 @@ export interface PatchProjectsLocationsMulticastGroupConsumerActivationsRequest 
   updateMask?: string | undefined;
   /** Identifier. The resource name of the multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroupConsumerActivations/*`. */
   name: string;
-  /** Request body */
-  body?: MulticastGroupConsumerActivation | undefined;
+  /** Optional. The resource name of the multicast group created by the admin in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroups/*`. This field is deprecated. Use multicast_group_range_activation instead. */
+  multicastGroup?: string | undefined;
+  /** Output only. [Output only] The Google-generated UUID for the resource. This value is unique across all multicast group consumer activation resources. If a multicast group consumer activation is deleted and another with the same name is created, the new multicast group consumer activation is assigned a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Output only. [Output only] The timestamp when the multicast group consumer activation was most recently updated. */
+  updateTime?: string | undefined;
+  /** Output only. [Deprecated] The resource state of the multicast group consumer activation. Use the state field instead. */
+  resourceState?: MulticastGroupConsumerActivationResourceStateEnum | (string & {}) | undefined;
+  /** Required. The resource name of the multicast group range activation created by the admin in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastGroupRangeActivations/*`. */
+  multicastGroupRangeActivation?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Optional. Specifies the logging options for the activities performed related to the multicast group consumer activation. Defaults to false. If logging is enabled, logs are exported to Cloud Logging. */
+  logConfig?: MulticastLogConfig | undefined;
+  /** Required. The resource name of the multicast consumer association that is in the same zone as this multicast group consumer activation. Use the following format: `projects/*\/locations/*\/multicastConsumerAssociations/*`. */
+  multicastConsumerAssociation?: string | undefined;
+  /** Optional. An optional text description of the multicast group consumer activation. */
+  description?: string | undefined;
+  /** Output only. [Output only] The state of the resource. */
+  state?: MulticastResourceState | undefined;
+  /** Output only. [Output only] The timestamp when the multicast group consumer activation was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsServiceBindingsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees this for 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID version 4 with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -2567,76 +3225,138 @@ export interface PatchProjectsLocationsServiceBindingsRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceBinding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ServiceBinding | undefined;
+  /** Output only. The unique identifier of the Service Directory Service against which the ServiceBinding resource is validated. This is populated when the Service Binding resource is used in another resource (like Backend Service). This is of the UUID4 format. This field is for Service Directory integration which will be deprecated soon. */
+  serviceId?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. The full Service Directory Service name of the format `projects/*\/locations/*\/namespaces/*\/services/*`. This field is for Service Directory integration which will be deprecated soon. */
+  service?: string | undefined;
+  /** Optional. Set of label tags associated with the ServiceBinding resource. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsServiceLbPoliciesRequest {
   /** Identifier. Name of the ServiceLbPolicy resource. It matches pattern `projects/{project}/locations/{location}/serviceLbPolicies/{service_lb_policy_name}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServiceLbPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ServiceLbPolicy | undefined;
+  /** Optional. Configuration to provide isolation support for the associated Backend Service. */
+  isolationConfig?: ServiceLbPolicyIsolationConfig | undefined;
+  /** Output only. The timestamp when this resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The type of load balancing algorithm to be used. The default behavior is WATERFALL_BY_REGION. */
+  loadBalancingAlgorithm?: ServiceLbPolicyLoadBalancingAlgorithmEnum | (string & {}) | undefined;
+  /** Optional. Configuration related to health based failover. */
+  failoverConfig?: ServiceLbPolicyFailoverConfig | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Optional. Configuration to automatically move traffic away for unhealthy IG/NEG for the associated Backend Service. */
+  autoCapacityDrain?: ServiceLbPolicyAutoCapacityDrain | undefined;
+  /** Output only. The timestamp when this resource was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Set of label tags associated with the ServiceLbPolicy resource. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsTcpRoutesRequest {
   /** Identifier. Name of the TcpRoute resource. It matches pattern `projects/*\/locations/*\/tcpRoutes/tcp_route_name>`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TcpRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: TcpRoute | undefined;
+  /** Optional. Set of label tags associated with the TcpRoute resource. */
+  labels?: StringMap | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
+  rules?: TcpRouteRouteRuleList | undefined;
+  /** Optional. Gateways defines a list of gateways this TcpRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
+  /** Optional. Meshes defines a list of meshes this TcpRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsTlsRoutesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsRoute resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Name of the TlsRoute resource. It matches pattern `projects/*\/locations/*\/tlsRoutes/tls_route_name>`. */
   name: string;
-  /** Request body */
-  body?: TlsRoute | undefined;
+  /** Optional. A free-text description of the resource. Max length 1024 characters. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Set of label tags associated with the TlsRoute resource. */
+  labels?: StringMap | undefined;
+  /** Required. Rules that define how traffic is routed and handled. At least one RouteRule must be supplied. If there are multiple rules then the action taken will be the first rule to match. */
+  rules?: TlsRouteRouteRuleList | undefined;
+  /** Optional. Meshes defines a list of meshes this TlsRoute is attached to, as one of the routing rules to route the requests served by the mesh. Each mesh reference should match the pattern: `projects/*\/locations/*\/meshes/` The attached Mesh should be of a type SIDECAR */
+  meshes?: StringList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. Server-defined URL of this resource */
+  selfLink?: string | undefined;
+  /** Optional. TargetProxies defines a list of TargetTcpProxies this TlsRoute is attached to, as one of the routing rules to route the requests served by the TargetTcpProxy. Each TargetTcpProxy reference should match the pattern: `projects/*\/locations/*\/targetTcpProxies/` */
+  targetProxies?: StringList | undefined;
+  /** Optional. Gateways defines a list of gateways this TlsRoute is attached to, as one of the routing rules to route the requests served by the gateway. Each gateway reference should match the pattern: `projects/*\/locations/*\/gateways/` */
+  gateways?: StringList | undefined;
 }
 export interface PatchProjectsLocationsWasmPluginsRequest {
   /** Optional. Used to specify the fields to be overwritten in the `WasmPlugin` resource by the update. The fields specified in the `update_mask` field are relative to the resource, not the full request. An omitted `update_mask` field is treated as an implied `update_mask` field equivalent to all fields that are populated (that have a non-empty value). The `update_mask` field supports a special value `*`, which means that each field in the given `WasmPlugin` resource (including the empty ones) replaces the current value. */
   updateMask?: string | undefined;
   /** Identifier. Name of the `WasmPlugin` resource in the following format: `projects/{project}/locations/{location}/wasmPlugins/{wasm_plugin}`. */
   name: string;
-  /** Request body */
-  body?: WasmPlugin | undefined;
+  /** Optional. All versions of this `WasmPlugin` resource in the key-value format. The key is the resource ID, and the value is the `VersionDetails` object. Lets you create or update a `WasmPlugin` resource and its versions in a single request. When the `main_version_id` field is not empty, it must point to one of the `VersionDetails` objects in the map. If provided in a `PATCH` request, the new versions replace the previous set. Any version omitted from the `versions` field is removed. Because the `WasmPluginVersion` resource is immutable, if a `WasmPluginVersion` resource with the same name already exists and differs, the request fails. Note: In a `GET` request, this field is populated only if the field `GetWasmPluginRequest.view` is set to `WASM_PLUGIN_VIEW_FULL`. */
+  versions?: WasmPluginVersionDetailsMap | undefined;
+  /** Optional. Specifies the logging options for the activity performed by this plugin. If logging is enabled, plugin logs are exported to Cloud Logging. Note that the settings relate to the logs generated by using logging statements in your Wasm code. */
+  logConfig?: WasmPluginLogConfig | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. The ID of the `WasmPluginVersion` resource that is the currently serving one. The version referred to must be a child of this `WasmPlugin` resource. */
+  mainVersionId?: string | undefined;
+  /** Optional. Set of labels associated with the `WasmPlugin` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
+  labels?: StringMap | undefined;
+  /** Output only. List of all [extensions](https://cloud.google.com/service-extensions/docs/overview) that use this `WasmPlugin` resource. */
+  usedBy?: WasmPluginUsedByList | undefined;
+  /** Optional. A human-readable description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsEdgeCacheOriginsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsEdgeCacheServicesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEdgeCacheKeysetsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -2646,14 +3366,14 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsEdgeCacheOriginsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEdgeCacheServicesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2668,8 +3388,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(2528, __c79, 0) as any as S.Schema<Empty>,
+  input: __S(2240, __c70, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2691,11 +3411,11 @@ export const createProjectsLocationsAgentConnectivityTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<CreateProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2716,8 +3436,8 @@ export const createProjectsLocationsAgentGateways: API.OperationMethod<
   CreateProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<CreateProjectsLocationsAgentGatewaysRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(3488, __c109, 0) as any as S.Schema<CreateProjectsLocationsAgentGatewaysRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2738,8 +3458,8 @@ export const createProjectsLocationsAuthzExtensions: API.OperationMethod<
   CreateProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<CreateProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(4160, __c130, 0) as any as S.Schema<CreateProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2760,8 +3480,8 @@ export const createProjectsLocationsEndpointPolicies: API.OperationMethod<
   CreateProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<CreateProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(4704, __c147, 0) as any as S.Schema<CreateProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2782,8 +3502,8 @@ export const createProjectsLocationsExtensionBindings: API.OperationMethod<
   CreateProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<CreateProjectsLocationsExtensionBindingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(5088, __c159, 0) as any as S.Schema<CreateProjectsLocationsExtensionBindingsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2805,7 +3525,7 @@ export const createProjectsLocationsGateways: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsGatewaysRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2827,7 +3547,7 @@ export const createProjectsLocationsGrpcRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreateProjectsLocationsGrpcRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2849,7 +3569,7 @@ export const createProjectsLocationsHttpRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<CreateProjectsLocationsHttpRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2870,8 +3590,8 @@ export const createProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   CreateProjectsLocationsLbEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2892,8 +3612,8 @@ export const createProjectsLocationsLbRouteExtensions: API.OperationMethod<
   CreateProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2914,8 +3634,8 @@ export const createProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   CreateProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<CreateProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1216, __c38, 0) as any as S.Schema<CreateProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2936,8 +3656,8 @@ export const createProjectsLocationsMeshes: API.OperationMethod<
   CreateProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateProjectsLocationsMeshesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateProjectsLocationsMeshesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2959,11 +3679,11 @@ export const createProjectsLocationsMulticastConsumerAssociations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<CreateProjectsLocationsMulticastConsumerAssociationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2985,11 +3705,11 @@ export const createProjectsLocationsMulticastGroupConsumerActivations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<CreateProjectsLocationsMulticastGroupConsumerActivationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3010,8 +3730,8 @@ export const createProjectsLocationsProducerExtensions: API.OperationMethod<
   CreateProjectsLocationsProducerExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<CreateProjectsLocationsProducerExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CreateProjectsLocationsProducerExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3032,8 +3752,8 @@ export const createProjectsLocationsServiceBindings: API.OperationMethod<
   CreateProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateProjectsLocationsServiceBindingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1472, __c46, 0) as any as S.Schema<CreateProjectsLocationsServiceBindingsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3054,8 +3774,8 @@ export const createProjectsLocationsServiceLbPolicies: API.OperationMethod<
   CreateProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<CreateProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3076,8 +3796,8 @@ export const createProjectsLocationsTcpRoutes: API.OperationMethod<
   CreateProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateProjectsLocationsTcpRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1568, __c49, 0) as any as S.Schema<CreateProjectsLocationsTcpRoutesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3098,8 +3818,8 @@ export const createProjectsLocationsTlsRoutes: API.OperationMethod<
   CreateProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<CreateProjectsLocationsTlsRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1632, __c51, 0) as any as S.Schema<CreateProjectsLocationsTlsRoutesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3120,8 +3840,8 @@ export const createProjectsLocationsWasmPlugins: API.OperationMethod<
   CreateProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3142,8 +3862,8 @@ export const createProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   CreateProjectsLocationsWasmPluginsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3165,11 +3885,11 @@ export const deleteProjectsLocationsAgentConnectivityTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2048,
-    __c64,
+    1792,
+    __c56,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3190,8 +3910,8 @@ export const deleteProjectsLocationsAgentGateways: API.OperationMethod<
   DeleteProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DeleteProjectsLocationsAgentGatewaysRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteProjectsLocationsAgentGatewaysRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3212,8 +3932,8 @@ export const deleteProjectsLocationsAuthzExtensions: API.OperationMethod<
   DeleteProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DeleteProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DeleteProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3234,8 +3954,8 @@ export const deleteProjectsLocationsEndpointPolicies: API.OperationMethod<
   DeleteProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3256,8 +3976,8 @@ export const deleteProjectsLocationsExtensionBindings: API.OperationMethod<
   DeleteProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteProjectsLocationsExtensionBindingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteProjectsLocationsExtensionBindingsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3278,8 +3998,8 @@ export const deleteProjectsLocationsGateways: API.OperationMethod<
   DeleteProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DeleteProjectsLocationsGatewaysRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeleteProjectsLocationsGatewaysRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3300,8 +4020,8 @@ export const deleteProjectsLocationsGrpcRoutes: API.OperationMethod<
   DeleteProjectsLocationsGrpcRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteProjectsLocationsGrpcRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteProjectsLocationsGrpcRoutesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3322,8 +4042,8 @@ export const deleteProjectsLocationsHttpRoutes: API.OperationMethod<
   DeleteProjectsLocationsHttpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteProjectsLocationsHttpRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteProjectsLocationsHttpRoutesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3344,8 +4064,8 @@ export const deleteProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbEdgeExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3366,8 +4086,8 @@ export const deleteProjectsLocationsLbRouteExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeleteProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeleteProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3388,8 +4108,8 @@ export const deleteProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   DeleteProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DeleteProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3410,8 +4130,8 @@ export const deleteProjectsLocationsMeshes: API.OperationMethod<
   DeleteProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsMeshesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeleteProjectsLocationsMeshesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3433,11 +4153,11 @@ export const deleteProjectsLocationsMulticastConsumerAssociations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2176,
+    __c68,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsMulticastConsumerAssociationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3459,11 +4179,11 @@ export const deleteProjectsLocationsMulticastGroupConsumerActivations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsMulticastGroupConsumerActivationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3484,8 +4204,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(2528, __c79, 0) as any as S.Schema<Empty>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3506,8 +4226,8 @@ export const deleteProjectsLocationsProducerExtensions: API.OperationMethod<
   DeleteProjectsLocationsProducerExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeleteProjectsLocationsProducerExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteProjectsLocationsProducerExtensionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3528,8 +4248,8 @@ export const deleteProjectsLocationsServiceBindings: API.OperationMethod<
   DeleteProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<DeleteProjectsLocationsServiceBindingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteProjectsLocationsServiceBindingsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3550,8 +4270,8 @@ export const deleteProjectsLocationsServiceLbPolicies: API.OperationMethod<
   DeleteProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<DeleteProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeleteProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3572,8 +4292,8 @@ export const deleteProjectsLocationsTcpRoutes: API.OperationMethod<
   DeleteProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DeleteProjectsLocationsTcpRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2432, __c76, 0) as any as S.Schema<DeleteProjectsLocationsTcpRoutesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3594,8 +4314,8 @@ export const deleteProjectsLocationsTlsRoutes: API.OperationMethod<
   DeleteProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<DeleteProjectsLocationsTlsRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2464, __c77, 0) as any as S.Schema<DeleteProjectsLocationsTlsRoutesRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3616,8 +4336,8 @@ export const deleteProjectsLocationsWasmPlugins: API.OperationMethod<
   DeleteProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3638,8 +4358,8 @@ export const deleteProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   DeleteProjectsLocationsWasmPluginsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3656,11 +4376,11 @@ export const getIamPolicyProjectsLocationsEdgeCacheKeysets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest>,
-  output: __S(2855, __c89, 7) as any as S.Schema<Policy>,
+  output: __S(2599, __c81, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3677,11 +4397,11 @@ export const getIamPolicyProjectsLocationsEdgeCacheOrigins: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2880,
-    __c90,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsEdgeCacheOriginsRequest>,
-  output: __S(2855, __c89, 7) as any as S.Schema<Policy>,
+  output: __S(2599, __c81, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3698,11 +4418,11 @@ export const getIamPolicyProjectsLocationsEdgeCacheServices: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    2880,
+    __c90,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsEdgeCacheServicesRequest>,
-  output: __S(2855, __c89, 7) as any as S.Schema<Policy>,
+  output: __S(2599, __c81, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3718,8 +4438,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<Location>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3736,11 +4456,11 @@ export const getProjectsLocationsAgentConnectivityTemplates: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c101,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<GetProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(2947, __c92, 3) as any as S.Schema<AgentConnectivityTemplate>,
+  output: __S(3008, __c94, 0) as any as S.Schema<AgentConnectivityTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3756,8 +4476,8 @@ export const getProjectsLocationsAgentGateways: API.OperationMethod<
   GetProjectsLocationsAgentGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetProjectsLocationsAgentGatewaysRequest>,
-  output: __S(3558, __c111, 6) as any as S.Schema<AgentGateway>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetProjectsLocationsAgentGatewaysRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<AgentGateway>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3773,8 +4493,8 @@ export const getProjectsLocationsAuthzExtensions: API.OperationMethod<
   GetProjectsLocationsAuthzExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<AuthzExtension>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<AuthzExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3790,8 +4510,8 @@ export const getProjectsLocationsEndpointPolicies: API.OperationMethod<
   GetProjectsLocationsEndpointPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(4357, __c136, 5) as any as S.Schema<EndpointPolicy>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<EndpointPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3807,8 +4527,8 @@ export const getProjectsLocationsExtensionBindings: API.OperationMethod<
   GetProjectsLocationsExtensionBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetProjectsLocationsExtensionBindingsRequest>,
-  output: __S(4747, __c148, 11) as any as S.Schema<ExtensionBinding>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetProjectsLocationsExtensionBindingsRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<ExtensionBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3824,8 +4544,8 @@ export const getProjectsLocationsGateways: API.OperationMethod<
   GetProjectsLocationsGatewaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetProjectsLocationsGatewaysRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<Gateway>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetProjectsLocationsGatewaysRequest>,
+  output: __S(3328, __c104, 0) as any as S.Schema<Gateway>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3841,8 +4561,8 @@ export const getProjectsLocationsGatewaysRouteViews: API.OperationMethod<
   GetProjectsLocationsGatewaysRouteViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetProjectsLocationsGatewaysRouteViewsRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<GatewayRouteView>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetProjectsLocationsGatewaysRouteViewsRequest>,
+  output: __S(3392, __c106, 0) as any as S.Schema<GatewayRouteView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3858,8 +4578,8 @@ export const getProjectsLocationsGrpcRoutes: API.OperationMethod<
   GetProjectsLocationsGrpcRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetProjectsLocationsGrpcRoutesRequest>,
-  output: __S(491, __c15, 11) as any as S.Schema<GrpcRoute>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetProjectsLocationsGrpcRoutesRequest>,
+  output: __S(3456, __c108, 0) as any as S.Schema<GrpcRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3875,8 +4595,8 @@ export const getProjectsLocationsHttpRoutes: API.OperationMethod<
   GetProjectsLocationsHttpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetProjectsLocationsHttpRoutesRequest>,
-  output: __S(885, __c27, 21) as any as S.Schema<HttpRoute>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetProjectsLocationsHttpRoutesRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<HttpRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3893,7 +4613,7 @@ export const getProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<GetProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<LbEdgeExtension>,
+  output: __S(3648, __c114, 0) as any as S.Schema<LbEdgeExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3909,8 +4629,8 @@ export const getProjectsLocationsLbRouteExtensions: API.OperationMethod<
   GetProjectsLocationsLbRouteExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<LbRouteExtension>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<LbRouteExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3926,8 +4646,8 @@ export const getProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   GetProjectsLocationsLbTrafficExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<LbTrafficExtension>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<LbTrafficExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3943,8 +4663,8 @@ export const getProjectsLocationsMeshes: API.OperationMethod<
   GetProjectsLocationsMeshesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetProjectsLocationsMeshesRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<Mesh>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetProjectsLocationsMeshesRequest>,
+  output: __S(3840, __c120, 0) as any as S.Schema<Mesh>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3960,8 +4680,8 @@ export const getProjectsLocationsMeshesRouteViews: API.OperationMethod<
   GetProjectsLocationsMeshesRouteViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetProjectsLocationsMeshesRouteViewsRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<MeshRouteView>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetProjectsLocationsMeshesRouteViewsRequest>,
+  output: __S(3904, __c122, 0) as any as S.Schema<MeshRouteView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3981,11 +4701,11 @@ export const getProjectsLocationsMulticastConsumerAssociations: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<GetProjectsLocationsMulticastConsumerAssociationsRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<MulticastConsumerAssociation>,
+  output: __S(3968, __c124, 0) as any as S.Schema<MulticastConsumerAssociation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4005,11 +4725,11 @@ export const getProjectsLocationsMulticastGroupConsumerActivations: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3840,
-    __c120,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<GetProjectsLocationsMulticastGroupConsumerActivationsRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<MulticastGroupConsumerActivation>,
+  output: __S(4032, __c126, 0) as any as S.Schema<MulticastGroupConsumerActivation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4025,8 +4745,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4042,8 +4762,8 @@ export const getProjectsLocationsProducerExtensions: API.OperationMethod<
   GetProjectsLocationsProducerExtensionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetProjectsLocationsProducerExtensionsRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<ProducerExtension>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetProjectsLocationsProducerExtensionsRequest>,
+  output: __S(4128, __c129, 0) as any as S.Schema<ProducerExtension>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4059,8 +4779,8 @@ export const getProjectsLocationsServiceBindings: API.OperationMethod<
   GetProjectsLocationsServiceBindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetProjectsLocationsServiceBindingsRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<ServiceBinding>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetProjectsLocationsServiceBindingsRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<ServiceBinding>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4076,8 +4796,8 @@ export const getProjectsLocationsServiceLbPolicies: API.OperationMethod<
   GetProjectsLocationsServiceLbPoliciesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(1763, __c55, 3) as any as S.Schema<ServiceLbPolicy>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<ServiceLbPolicy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4093,8 +4813,8 @@ export const getProjectsLocationsTcpRoutes: API.OperationMethod<
   GetProjectsLocationsTcpRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetProjectsLocationsTcpRoutesRequest>,
-  output: __S(1829, __c57, 5) as any as S.Schema<TcpRoute>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetProjectsLocationsTcpRoutesRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<TcpRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4110,8 +4830,8 @@ export const getProjectsLocationsTlsRoutes: API.OperationMethod<
   GetProjectsLocationsTlsRoutesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetProjectsLocationsTlsRoutesRequest>,
-  output: __S(1895, __c59, 7) as any as S.Schema<TlsRoute>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetProjectsLocationsTlsRoutesRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<TlsRoute>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4127,8 +4847,8 @@ export const getProjectsLocationsWasmPlugins: API.OperationMethod<
   GetProjectsLocationsWasmPluginsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsRequest>,
-  output: __S(1957, __c61, 5) as any as S.Schema<WasmPlugin>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsRequest>,
+  output: __S(4480, __c140, 0) as any as S.Schema<WasmPlugin>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4144,8 +4864,8 @@ export const getProjectsLocationsWasmPluginsVersions: API.OperationMethod<
   GetProjectsLocationsWasmPluginsVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsVersionsRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<WasmPluginVersion>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetProjectsLocationsWasmPluginsVersionsRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<WasmPluginVersion>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4162,8 +4882,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(4194, __c131, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(4578, __c143, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4185,11 +4905,11 @@ export const listProjectsLocationsAgentConnectivityTemplates: API.PaginatedOpera
   ListAgentConnectivityTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4224,
-    __c132,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<ListProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(4226, __c132, 2) as any as S.Schema<ListAgentConnectivityTemplatesResponse>,
+  output: __S(4610, __c144, 2) as any as S.Schema<ListAgentConnectivityTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4207,8 +4927,8 @@ export const listProjectsLocationsAgentGateways: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAgentGatewaysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<ListProjectsLocationsAgentGatewaysRequest>,
-  output: __S(4258, __c133, 2) as any as S.Schema<ListAgentGatewaysResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListProjectsLocationsAgentGatewaysRequest>,
+  output: __S(4642, __c145, 2) as any as S.Schema<ListAgentGatewaysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4226,8 +4946,8 @@ export const listProjectsLocationsAuthzExtensions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAuthzExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(4290, __c134, 2) as any as S.Schema<ListAuthzExtensionsResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<ListProjectsLocationsAuthzExtensionsRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<ListAuthzExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4245,8 +4965,8 @@ export const listProjectsLocationsEndpointPolicies: API.PaginatedOperationMethod
   GcpOpContext,
   ListEndpointPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<ListProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(4386, __c137, 2) as any as S.Schema<ListEndpointPoliciesResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ListProjectsLocationsEndpointPoliciesRequest>,
+  output: __S(4770, __c149, 2) as any as S.Schema<ListEndpointPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4264,8 +4984,8 @@ export const listProjectsLocationsExtensionBindings: API.PaginatedOperationMetho
   GcpOpContext,
   ListExtensionBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<ListProjectsLocationsExtensionBindingsRequest>,
-  output: __S(4418, __c138, 2) as any as S.Schema<ListExtensionBindingsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListProjectsLocationsExtensionBindingsRequest>,
+  output: __S(4802, __c150, 2) as any as S.Schema<ListExtensionBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4283,8 +5003,8 @@ export const listProjectsLocationsGateways: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGatewaysResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ListProjectsLocationsGatewaysRequest>,
-  output: __S(4450, __c139, 2) as any as S.Schema<ListGatewaysResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<ListProjectsLocationsGatewaysRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<ListGatewaysResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4302,8 +5022,8 @@ export const listProjectsLocationsGatewaysRouteViews: API.PaginatedOperationMeth
   GcpOpContext,
   ListGatewayRouteViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListProjectsLocationsGatewaysRouteViewsRequest>,
-  output: __S(4482, __c140, 2) as any as S.Schema<ListGatewayRouteViewsResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<ListProjectsLocationsGatewaysRouteViewsRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<ListGatewayRouteViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4321,8 +5041,8 @@ export const listProjectsLocationsGrpcRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGrpcRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListProjectsLocationsGrpcRoutesRequest>,
-  output: __S(4514, __c141, 2) as any as S.Schema<ListGrpcRoutesResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<ListProjectsLocationsGrpcRoutesRequest>,
+  output: __S(4898, __c153, 2) as any as S.Schema<ListGrpcRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4340,8 +5060,8 @@ export const listProjectsLocationsHttpRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListHttpRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsHttpRoutesRequest>,
-  output: __S(4546, __c142, 2) as any as S.Schema<ListHttpRoutesResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListProjectsLocationsHttpRoutesRequest>,
+  output: __S(4930, __c154, 2) as any as S.Schema<ListHttpRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4359,8 +5079,8 @@ export const listProjectsLocationsLbEdgeExtensions: API.PaginatedOperationMethod
   GcpOpContext,
   ListLbEdgeExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(4578, __c143, 2) as any as S.Schema<ListLbEdgeExtensionsResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ListProjectsLocationsLbEdgeExtensionsRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<ListLbEdgeExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4378,8 +5098,8 @@ export const listProjectsLocationsLbRouteExtensions: API.PaginatedOperationMetho
   GcpOpContext,
   ListLbRouteExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(4610, __c144, 2) as any as S.Schema<ListLbRouteExtensionsResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ListProjectsLocationsLbRouteExtensionsRequest>,
+  output: __S(4994, __c156, 2) as any as S.Schema<ListLbRouteExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4397,8 +5117,8 @@ export const listProjectsLocationsLbTrafficExtensions: API.PaginatedOperationMet
   GcpOpContext,
   ListLbTrafficExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<ListProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<ListLbTrafficExtensionsResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListProjectsLocationsLbTrafficExtensionsRequest>,
+  output: __S(5026, __c157, 2) as any as S.Schema<ListLbTrafficExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4416,8 +5136,8 @@ export const listProjectsLocationsMeshes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMeshesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ListProjectsLocationsMeshesRequest>,
-  output: __S(4674, __c146, 2) as any as S.Schema<ListMeshesResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListProjectsLocationsMeshesRequest>,
+  output: __S(5058, __c158, 2) as any as S.Schema<ListMeshesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4435,8 +5155,8 @@ export const listProjectsLocationsMeshesRouteViews: API.PaginatedOperationMethod
   GcpOpContext,
   ListMeshRouteViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ListProjectsLocationsMeshesRouteViewsRequest>,
-  output: __S(4770, __c149, 2) as any as S.Schema<ListMeshRouteViewsResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<ListProjectsLocationsMeshesRouteViewsRequest>,
+  output: __S(5154, __c161, 2) as any as S.Schema<ListMeshRouteViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4458,11 +5178,11 @@ export const listProjectsLocationsMulticastConsumerAssociations: API.PaginatedOp
   ListMulticastConsumerAssociationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4800,
-    __c150,
+    5184,
+    __c162,
     0,
   ) as any as S.Schema<ListProjectsLocationsMulticastConsumerAssociationsRequest>,
-  output: __S(4802, __c150, 2) as any as S.Schema<ListMulticastConsumerAssociationsResponse>,
+  output: __S(5186, __c162, 2) as any as S.Schema<ListMulticastConsumerAssociationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4484,11 +5204,11 @@ export const listProjectsLocationsMulticastGroupConsumerActivations: API.Paginat
   ListMulticastGroupConsumerActivationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4832,
-    __c151,
+    5216,
+    __c163,
     0,
   ) as any as S.Schema<ListProjectsLocationsMulticastGroupConsumerActivationsRequest>,
-  output: __S(4834, __c151, 2) as any as S.Schema<ListMulticastGroupConsumerActivationsResponse>,
+  output: __S(5218, __c163, 2) as any as S.Schema<ListMulticastGroupConsumerActivationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4506,8 +5226,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(5250, __c164, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4525,8 +5245,8 @@ export const listProjectsLocationsProducerExtensions: API.PaginatedOperationMeth
   GcpOpContext,
   ListProducerExtensionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ListProjectsLocationsProducerExtensionsRequest>,
-  output: __S(4898, __c153, 2) as any as S.Schema<ListProducerExtensionsResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListProjectsLocationsProducerExtensionsRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<ListProducerExtensionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4544,8 +5264,8 @@ export const listProjectsLocationsServiceBindings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListServiceBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListProjectsLocationsServiceBindingsRequest>,
-  output: __S(4930, __c154, 2) as any as S.Schema<ListServiceBindingsResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListProjectsLocationsServiceBindingsRequest>,
+  output: __S(5314, __c166, 2) as any as S.Schema<ListServiceBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4563,8 +5283,8 @@ export const listProjectsLocationsServiceLbPolicies: API.PaginatedOperationMetho
   GcpOpContext,
   ListServiceLbPoliciesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ListProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(4962, __c155, 2) as any as S.Schema<ListServiceLbPoliciesResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListProjectsLocationsServiceLbPoliciesRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<ListServiceLbPoliciesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4582,8 +5302,8 @@ export const listProjectsLocationsTcpRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTcpRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ListProjectsLocationsTcpRoutesRequest>,
-  output: __S(4994, __c156, 2) as any as S.Schema<ListTcpRoutesResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListProjectsLocationsTcpRoutesRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<ListTcpRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4601,8 +5321,8 @@ export const listProjectsLocationsTlsRoutes: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTlsRoutesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListProjectsLocationsTlsRoutesRequest>,
-  output: __S(5026, __c157, 2) as any as S.Schema<ListTlsRoutesResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListProjectsLocationsTlsRoutesRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<ListTlsRoutesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4620,8 +5340,8 @@ export const listProjectsLocationsWasmPlugins: API.PaginatedOperationMethod<
   GcpOpContext,
   ListWasmPluginsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ListProjectsLocationsWasmPluginsRequest>,
-  output: __S(5058, __c158, 2) as any as S.Schema<ListWasmPluginsResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListProjectsLocationsWasmPluginsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<ListWasmPluginsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4667,7 +5387,7 @@ export const patchProjectsLocationsAgentConnectivityTemplates: API.OperationMeth
     __c3,
     0,
   ) as any as S.Schema<PatchProjectsLocationsAgentConnectivityTemplatesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4689,7 +5409,7 @@ export const patchProjectsLocationsAgentGateways: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<PatchProjectsLocationsAgentGatewaysRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4711,7 +5431,7 @@ export const patchProjectsLocationsAuthzExtensions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PatchProjectsLocationsAuthzExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4733,7 +5453,7 @@ export const patchProjectsLocationsEndpointPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PatchProjectsLocationsEndpointPoliciesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4755,7 +5475,7 @@ export const patchProjectsLocationsExtensionBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<PatchProjectsLocationsExtensionBindingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4777,7 +5497,7 @@ export const patchProjectsLocationsGateways: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<PatchProjectsLocationsGatewaysRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4799,7 +5519,7 @@ export const patchProjectsLocationsGrpcRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<PatchProjectsLocationsGrpcRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4821,7 +5541,7 @@ export const patchProjectsLocationsHttpRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<PatchProjectsLocationsHttpRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4843,7 +5563,7 @@ export const patchProjectsLocationsLbEdgeExtensions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<PatchProjectsLocationsLbEdgeExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4865,7 +5585,7 @@ export const patchProjectsLocationsLbRouteExtensions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<PatchProjectsLocationsLbRouteExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4887,7 +5607,7 @@ export const patchProjectsLocationsLbTrafficExtensions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<PatchProjectsLocationsLbTrafficExtensionsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4909,7 +5629,7 @@ export const patchProjectsLocationsMeshes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<PatchProjectsLocationsMeshesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4935,7 +5655,7 @@ export const patchProjectsLocationsMulticastConsumerAssociations: API.OperationM
     __c19,
     0,
   ) as any as S.Schema<PatchProjectsLocationsMulticastConsumerAssociationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4961,7 +5681,7 @@ export const patchProjectsLocationsMulticastGroupConsumerActivations: API.Operat
     __c20,
     0,
   ) as any as S.Schema<PatchProjectsLocationsMulticastGroupConsumerActivationsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4983,7 +5703,7 @@ export const patchProjectsLocationsServiceBindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<PatchProjectsLocationsServiceBindingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5005,7 +5725,7 @@ export const patchProjectsLocationsServiceLbPolicies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<PatchProjectsLocationsServiceLbPoliciesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5027,7 +5747,7 @@ export const patchProjectsLocationsTcpRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<PatchProjectsLocationsTcpRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5049,7 +5769,7 @@ export const patchProjectsLocationsTlsRoutes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<PatchProjectsLocationsTlsRoutesRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5071,7 +5791,7 @@ export const patchProjectsLocationsWasmPlugins: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<PatchProjectsLocationsWasmPluginsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<Operation>,
+  output: __S(2754, __c86, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5097,7 +5817,7 @@ export const setIamPolicyProjectsLocationsEdgeCacheKeysets: API.OperationMethod<
     __c28,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest>,
-  output: __S(2855, __c89, 7) as any as S.Schema<Policy>,
+  output: __S(2599, __c81, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5119,11 +5839,11 @@ export const setIamPolicyProjectsLocationsEdgeCacheOrigins: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    928,
+    __c29,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsEdgeCacheOriginsRequest>,
-  output: __S(2855, __c89, 7) as any as S.Schema<Policy>,
+  output: __S(2599, __c81, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5145,11 +5865,11 @@ export const setIamPolicyProjectsLocationsEdgeCacheServices: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    960,
+    __c30,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsEdgeCacheServicesRequest>,
-  output: __S(2855, __c89, 7) as any as S.Schema<Policy>,
+  output: __S(2599, __c81, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5171,11 +5891,11 @@ export const testIamPermissionsProjectsLocationsEdgeCacheKeysets: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c32,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsEdgeCacheKeysetsRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5197,11 +5917,11 @@ export const testIamPermissionsProjectsLocationsEdgeCacheOrigins: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsEdgeCacheOriginsRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5223,11 +5943,11 @@ export const testIamPermissionsProjectsLocationsEdgeCacheServices: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c35,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsEdgeCacheServicesRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5243,7 +5963,26 @@ function __c0(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           gatewayId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
+          network: S.optional(S.String),
+          description: S.optional(S.String),
+          allPorts: S.optional(S.Boolean),
+          subnetwork: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          gatewaySecurityPolicy: S.optional(S.String),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          certificateUrls: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          scope: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          routingMode: S.optional(S.String),
+          allowGlobalAccess: S.optional(S.Boolean),
+          envoyHeaders: S.optional(S.String),
+          ports: S.optional(__S(32, __c1, 0)),
+          addresses: S.optional(__S(2816, __c88, 0)),
+          ipVersion: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5258,31 +5997,6 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.optional(S.String),
-          description: S.optional(S.String),
-          allPorts: S.optional(S.Boolean),
-          subnetwork: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          gatewaySecurityPolicy: S.optional(S.String),
-          type: S.optional(S.String),
-          createTime: S.optional(S.String),
-          serverTlsPolicy: S.optional(S.String),
-          certificateUrls: S.optional(__S(3072, __c96, 0)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          scope: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          routingMode: S.optional(S.String),
-          allowGlobalAccess: S.optional(S.Boolean),
-          envoyHeaders: S.optional(S.String),
-          ports: S.optional(__S(32, __c1, 0)),
-          addresses: S.optional(__S(3072, __c96, 0)),
-          ipVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Gateway" });
   }
 }
 function __c2(j: number): any {
@@ -5302,13 +6016,13 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsWasmPluginsVersionsRequest" });
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(4544, __c142, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
           wasmPluginVersions: S.optional(__S(65, __c2, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListWasmPluginVersionsResponse" });
   }
@@ -5320,7 +6034,16 @@ function __c3(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2947, __c92, 3).pipe(T.HttpBody())),
+          accessPath: S.optional(S.String),
+          egressNetworkConfig: S.optional(__S(2690, __c84, 2)),
+          agentCompute: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          accessTypes: S.optional(__S(2848, __c89, 0)),
+          deploymentModel: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5338,7 +6061,18 @@ function __c4(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3558, __c111, 6).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          protocols: S.optional(__S(2848, __c89, 0)),
+          agentConnectivityTemplate: S.optional(S.String),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          agentGatewayCard: S.optional(__S(3520, __c110, 0)),
+          googleManaged: S.optional(__S(3521, __c110, 1)),
+          networkConfig: S.optional(__S(3524, __c110, 4)),
+          selfManaged: S.optional(__S(3525, __c110, 5)),
+          labels: S.optional(__S(2784, __c87, 0)),
+          registries: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5357,7 +6091,19 @@ function __c5(j: number): any {
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
+          metadata: S.optional(__S(2720, __c85, 0)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          service: S.optional(S.String),
+          timeout: S.optional(S.String),
+          failOpen: S.optional(S.Boolean),
+          wireFormat: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          forwardHeaders: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
+          forwardAttributes: S.optional(__S(2816, __c88, 0)),
+          authority: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5375,7 +6121,16 @@ function __c6(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
+          authorizationPolicy: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          type: S.optional(S.String),
+          endpointMatcher: S.optional(__S(4739, __c148, 3)),
+          clientTlsPolicy: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          trafficPortSelector: S.optional(__S(4740, __c148, 4)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5393,7 +6148,17 @@ function __c7(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4747, __c148, 11).pipe(T.HttpBody())),
+          producerExtension: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          producerMetadata: S.optional(__S(2784, __c87, 0)),
+          priority: S.optional(S.Number),
+          etag: S.optional(S.String),
+          target: S.optional(__S(5121, __c160, 1)),
+          matchConditions: S.optional(__S(5130, __c160, 10)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          failOpen: S.optional(S.Boolean),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5411,7 +6176,25 @@ function __c8(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c1, 1).pipe(T.HttpBody())),
+          network: S.optional(S.String),
+          description: S.optional(S.String),
+          allPorts: S.optional(S.Boolean),
+          subnetwork: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          gatewaySecurityPolicy: S.optional(S.String),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          certificateUrls: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
+          scope: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          routingMode: S.optional(S.String),
+          allowGlobalAccess: S.optional(S.Boolean),
+          envoyHeaders: S.optional(S.String),
+          ports: S.optional(__S(32, __c1, 0)),
+          addresses: S.optional(__S(2816, __c88, 0)),
+          ipVersion: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5429,7 +6212,15 @@ function __c9(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(491, __c15, 11).pipe(T.HttpBody())),
+          labels: S.optional(__S(2784, __c87, 0)),
+          createTime: S.optional(S.String),
+          gateways: S.optional(__S(2816, __c88, 0)),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(490, __c15, 10)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          hostnames: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5447,7 +6238,15 @@ function __c10(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(885, __c27, 21).pipe(T.HttpBody())),
+          labels: S.optional(__S(2784, __c87, 0)),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(884, __c27, 20)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          selfLink: S.optional(S.String),
+          hostnames: S.optional(__S(2816, __c88, 0)),
+          gateways: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5466,7 +6265,13 @@ function __c11(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          createTime: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5484,7 +6289,16 @@ function __c12(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           grpcRouteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(491, __c15, 11).pipe(T.HttpBody())),
+          labels: S.optional(__S(2784, __c87, 0)),
+          createTime: S.optional(S.String),
+          gateways: S.optional(__S(2816, __c88, 0)),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(490, __c15, 10)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          hostnames: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5531,7 +6345,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           numRetries: S.optional(S.Number),
-          retryConditions: S.optional(__S(3072, __c96, 0)),
+          retryConditions: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "GrpcRouteRetryPolicy" });
     case 1:
@@ -5596,21 +6410,6 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GrpcRouteRouteRule" });
     case 10:
       return S.Array(__S(489, __c15, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(3040, __c95, 0)),
-          createTime: S.optional(S.String),
-          gateways: S.optional(__S(3072, __c96, 0)),
-          description: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rules: S.optional(__S(490, __c15, 10)),
-          meshes: S.optional(__S(3072, __c96, 0)),
-          name: S.optional(S.String),
-          hostnames: S.optional(__S(3072, __c96, 0)),
-        }),
-      ).annotate({ identifier: "GrpcRoute" });
   }
 }
 function __c16(j: number): any {
@@ -5621,7 +6420,14 @@ function __c16(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          loadBalancingScheme: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          createTime: S.optional(S.String),
+          metadata: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5640,7 +6446,14 @@ function __c17(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          labels: S.optional(__S(2784, __c87, 0)),
+          description: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5658,7 +6471,13 @@ function __c18(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
+          interceptionPort: S.optional(S.Number),
+          labels: S.optional(__S(2784, __c87, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          envoyHeaders: S.optional(S.String),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5677,7 +6496,16 @@ function __c19(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          network: S.optional(S.String),
+          state: S.optional(__S(1312, __c41, 0)),
+          multicastDomainActivation: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          uniqueId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          resourceState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5696,7 +6524,17 @@ function __c20(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1569, __c49, 1).pipe(T.HttpBody())),
+          multicastGroup: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceState: S.optional(S.String),
+          multicastGroupRangeActivation: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          logConfig: S.optional(__S(1376, __c43, 0)),
+          multicastConsumerAssociation: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(__S(1312, __c41, 0)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5715,7 +6553,12 @@ function __c21(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
+          serviceId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          service: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5733,7 +6576,14 @@ function __c22(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1763, __c55, 3).pipe(T.HttpBody())),
+          isolationConfig: S.optional(__S(1536, __c48, 0)),
+          createTime: S.optional(S.String),
+          loadBalancingAlgorithm: S.optional(S.String),
+          failoverConfig: S.optional(__S(1537, __c48, 1)),
+          description: S.optional(S.String),
+          autoCapacityDrain: S.optional(__S(1538, __c48, 2)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5751,7 +6601,14 @@ function __c23(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1829, __c57, 5).pipe(T.HttpBody())),
+          labels: S.optional(__S(2784, __c87, 0)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(1604, __c50, 4)),
+          gateways: S.optional(__S(2816, __c88, 0)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          selfLink: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5769,7 +6626,15 @@ function __c24(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1895, __c59, 7).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          rules: S.optional(__S(1670, __c52, 6)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          createTime: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          targetProxies: S.optional(__S(2816, __c88, 0)),
+          gateways: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5787,7 +6652,14 @@ function __c25(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1957, __c61, 5).pipe(T.HttpBody())),
+          versions: S.optional(__S(1729, __c54, 1)),
+          logConfig: S.optional(__S(1730, __c54, 2)),
+          createTime: S.optional(S.String),
+          mainVersionId: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          usedBy: S.optional(__S(1732, __c54, 4)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5806,7 +6678,16 @@ function __c26(j: number): any {
           parent: S.String.pipe(T.Label()),
           httpRouteId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(885, __c27, 21).pipe(T.HttpBody())),
+          labels: S.optional(__S(2784, __c87, 0)),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(884, __c27, 20)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          selfLink: S.optional(S.String),
+          name: S.optional(S.String),
+          hostnames: S.optional(__S(2816, __c88, 0)),
+          gateways: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5889,9 +6770,9 @@ function __c27(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(3040, __c95, 0)),
-          remove: S.optional(__S(3072, __c96, 0)),
-          set: S.optional(__S(3040, __c95, 0)),
+          add: S.optional(__S(2784, __c87, 0)),
+          remove: S.optional(__S(2816, __c88, 0)),
+          set: S.optional(__S(2784, __c87, 0)),
         }),
       ).annotate({ identifier: "HttpRouteHeaderModifier" });
     case 11:
@@ -5911,20 +6792,20 @@ function __c27(j: number): any {
         S.Struct({
           numRetries: S.optional(S.Number),
           perTryTimeout: S.optional(S.String),
-          retryConditions: S.optional(__S(3072, __c96, 0)),
+          retryConditions: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "HttpRouteRetryPolicy" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          allowHeaders: S.optional(__S(3072, __c96, 0)),
-          exposeHeaders: S.optional(__S(3072, __c96, 0)),
-          allowOrigins: S.optional(__S(3072, __c96, 0)),
+          allowHeaders: S.optional(__S(2816, __c88, 0)),
+          exposeHeaders: S.optional(__S(2816, __c88, 0)),
+          allowOrigins: S.optional(__S(2816, __c88, 0)),
           maxAge: S.optional(S.String),
-          allowOriginRegexes: S.optional(__S(3072, __c96, 0)),
+          allowOriginRegexes: S.optional(__S(2816, __c88, 0)),
           disabled: S.optional(S.Boolean),
           allowCredentials: S.optional(S.Boolean),
-          allowMethods: S.optional(__S(3072, __c96, 0)),
+          allowMethods: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "HttpRouteCorsPolicy" });
     case 14:
@@ -5980,21 +6861,6 @@ function __c27(j: number): any {
       ).annotate({ identifier: "HttpRouteRouteRule" });
     case 20:
       return S.Array(__S(883, __c27, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(3040, __c95, 0)),
-          updateTime: S.optional(S.String),
-          rules: S.optional(__S(884, __c27, 20)),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          meshes: S.optional(__S(3072, __c96, 0)),
-          selfLink: S.optional(S.String),
-          name: S.optional(S.String),
-          hostnames: S.optional(__S(3072, __c96, 0)),
-          gateways: S.optional(__S(3072, __c96, 0)),
-        }),
-      ).annotate({ identifier: "HttpRoute" });
   }
 }
 function __c28(j: number): any {
@@ -6003,7 +6869,8 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(2599, __c81, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6019,19 +6886,9 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(2855, __c89, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(2599, __c81, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6042,13 +6899,14 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsEdgeCacheOriginsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(2599, __c81, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6059,13 +6917,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsEdgeCacheServicesRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6076,23 +6934,23 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsEdgeCacheKeysetsRequest" });
   }
 }
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(2816, __c88, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
 function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(3072, __c96, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6103,13 +6961,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsEdgeCacheOriginsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c33, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6120,7 +6978,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsEdgeCacheServicesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6128,7 +6986,14 @@ function __c36(j: number): any {
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           lbEdgeExtensionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          createTime: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6139,27 +7004,27 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsLbEdgeExtensionsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           observabilityMode: S.optional(S.Boolean),
-          supportedEvents: S.optional(__S(3104, __c97, 0)),
+          supportedEvents: S.optional(__S(2848, __c89, 0)),
           requestBodySendMode: S.optional(S.String),
           authority: S.optional(S.String),
           failOpen: S.optional(S.Boolean),
-          metadata: S.optional(__S(2976, __c93, 0)),
+          metadata: S.optional(__S(2720, __c85, 0)),
           service: S.optional(S.String),
           timeout: S.optional(S.String),
-          forwardAttributes: S.optional(__S(3072, __c96, 0)),
+          forwardAttributes: S.optional(__S(2816, __c88, 0)),
           name: S.optional(S.String),
           responseBodySendMode: S.optional(S.String),
-          forwardHeaders: S.optional(__S(3072, __c96, 0)),
+          forwardHeaders: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ExtensionChainExtension" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6170,32 +7035,15 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          extensions: S.optional(__S(1185, __c37, 1)),
-          matchCondition: S.optional(__S(1186, __c37, 2)),
+          extensions: S.optional(__S(1153, __c36, 1)),
+          matchCondition: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "ExtensionChain" });
     case 4:
-      return S.Array(__S(1187, __c37, 3));
+      return S.Array(__S(1155, __c36, 3));
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          extensionChains: S.optional(__S(1188, __c37, 4)),
-          createTime: S.optional(S.String),
-          loadBalancingScheme: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          forwardingRules: S.optional(__S(3072, __c96, 0)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LbEdgeExtension" });
-  }
-}
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6203,7 +7051,15 @@ function __c39(j: number): any {
           lbRouteExtensionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          loadBalancingScheme: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          createTime: S.optional(S.String),
+          metadata: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6214,25 +7070,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsLbRouteExtensionsRequest" });
   }
 }
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          forwardingRules: S.optional(__S(3072, __c96, 0)),
-          loadBalancingScheme: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          extensionChains: S.optional(__S(1188, __c37, 4)),
-          createTime: S.optional(S.String),
-          metadata: S.optional(__S(2976, __c93, 0)),
-        }),
-      ).annotate({ identifier: "LbRouteExtension" });
-  }
-}
-function __c41(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6240,7 +7078,15 @@ function __c41(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           lbTrafficExtensionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          description: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6251,32 +7097,21 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsLbTrafficExtensionsRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          forwardingRules: S.optional(__S(3072, __c96, 0)),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          description: S.optional(S.String),
-          loadBalancingScheme: S.optional(S.String),
-          extensionChains: S.optional(__S(1188, __c37, 4)),
-          updateTime: S.optional(S.String),
-          metadata: S.optional(__S(2976, __c93, 0)),
-        }),
-      ).annotate({ identifier: "LbTrafficExtension" });
-  }
-}
-function __c43(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           meshId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1408, __c44, 0).pipe(T.HttpBody())),
+          interceptionPort: S.optional(S.Number),
+          labels: S.optional(__S(2784, __c87, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          envoyHeaders: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6287,24 +7122,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMeshesRequest" });
   }
 }
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          interceptionPort: S.optional(S.Number),
-          labels: S.optional(__S(3040, __c95, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          envoyHeaders: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          selfLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Mesh" });
-  }
-}
-function __c45(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6312,7 +7130,17 @@ function __c45(j: number): any {
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           multicastConsumerAssociationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1504, __c47, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          state: S.optional(__S(1312, __c41, 0)),
+          multicastDomainActivation: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          uniqueId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          resourceState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6323,7 +7151,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMulticastConsumerAssociationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6333,27 +7161,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "MulticastResourceState" });
   }
 }
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          placementPolicy: S.optional(S.String),
-          name: S.optional(S.String),
-          network: S.optional(S.String),
-          state: S.optional(__S(1472, __c46, 0)),
-          multicastDomainActivation: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          uniqueId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          resourceState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MulticastConsumerAssociation" });
-  }
-}
-function __c48(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6361,7 +7169,18 @@ function __c48(j: number): any {
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           multicastGroupConsumerActivationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1569, __c49, 1).pipe(T.HttpBody())),
+          multicastGroup: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceState: S.optional(S.String),
+          multicastGroupRangeActivation: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          logConfig: S.optional(__S(1376, __c43, 0)),
+          multicastConsumerAssociation: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(__S(1312, __c41, 0)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6372,7 +7191,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMulticastGroupConsumerActivationsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6380,33 +7199,23 @@ function __c49(j: number): any {
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MulticastLogConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          multicastGroup: S.optional(S.String),
-          uniqueId: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          resourceState: S.optional(S.String),
-          multicastGroupRangeActivation: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          logConfig: S.optional(__S(1568, __c49, 0)),
-          multicastConsumerAssociation: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(__S(1472, __c46, 0)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MulticastGroupConsumerActivation" });
   }
 }
-function __c50(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           producerExtensionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1633, __c51, 1).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          phase: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          extensionSettings: S.optional(__S(1440, __c45, 0)),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6417,33 +7226,20 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsProducerExtensionsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          supportedEvents: S.optional(__S(3104, __c97, 0)),
+          supportedEvents: S.optional(__S(2848, __c89, 0)),
           service: S.optional(S.String),
           observabilityMode: S.optional(S.Boolean),
           authority: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProducerExtensionExtensionSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          phase: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          extensionSettings: S.optional(__S(1632, __c51, 0)),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProducerExtension" });
   }
 }
-function __c52(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6451,7 +7247,13 @@ function __c52(j: number): any {
           serviceBindingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1696, __c53, 0).pipe(T.HttpBody())),
+          serviceId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          service: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6462,30 +7264,22 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServiceBindingsRequest" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          service: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-        }),
-      ).annotate({ identifier: "ServiceBinding" });
-  }
-}
-function __c54(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           serviceLbPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1763, __c55, 3).pipe(T.HttpBody())),
+          isolationConfig: S.optional(__S(1536, __c48, 0)),
+          createTime: S.optional(S.String),
+          loadBalancingAlgorithm: S.optional(S.String),
+          failoverConfig: S.optional(__S(1537, __c48, 1)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          autoCapacityDrain: S.optional(__S(1538, __c48, 2)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6496,7 +7290,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsServiceLbPoliciesRequest" });
   }
 }
-function __c55(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6517,30 +7311,24 @@ function __c55(j: number): any {
           enable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ServiceLbPolicyAutoCapacityDrain" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          isolationConfig: S.optional(__S(1760, __c55, 0)),
-          createTime: S.optional(S.String),
-          loadBalancingAlgorithm: S.optional(S.String),
-          failoverConfig: S.optional(__S(1761, __c55, 1)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          autoCapacityDrain: S.optional(__S(1762, __c55, 2)),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-        }),
-      ).annotate({ identifier: "ServiceLbPolicy" });
   }
 }
-function __c56(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tcpRouteId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1829, __c57, 5).pipe(T.HttpBody())),
+          labels: S.optional(__S(2784, __c87, 0)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(1604, __c50, 4)),
+          gateways: S.optional(__S(2816, __c88, 0)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          selfLink: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6551,7 +7339,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTcpRoutesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6561,7 +7349,7 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "TcpRouteRouteMatch" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6573,36 +7361,31 @@ function __c57(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          matches: S.optional(__S(1825, __c57, 1)),
-          action: S.optional(__S(1826, __c57, 2)),
+          matches: S.optional(__S(1601, __c50, 1)),
+          action: S.optional(__S(1602, __c50, 2)),
         }),
       ).annotate({ identifier: "TcpRouteRouteRule" });
     case 4:
-      return S.Array(__S(1827, __c57, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(3040, __c95, 0)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          rules: S.optional(__S(1828, __c57, 4)),
-          gateways: S.optional(__S(3072, __c96, 0)),
-          meshes: S.optional(__S(3072, __c96, 0)),
-          selfLink: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TcpRoute" });
+      return S.Array(__S(1603, __c50, 3));
   }
 }
-function __c58(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           tlsRouteId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1895, __c59, 7).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          rules: S.optional(__S(1670, __c52, 6)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          targetProxies: S.optional(__S(2816, __c88, 0)),
+          gateways: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6613,17 +7396,17 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTlsRoutesRequest" });
   }
 }
-function __c59(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sniHost: S.optional(__S(3072, __c96, 0)),
-          alpn: S.optional(__S(3072, __c96, 0)),
+          sniHost: S.optional(__S(2816, __c88, 0)),
+          alpn: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "TlsRouteRouteMatch" });
     case 1:
-      return S.Array(__S(1888, __c59, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6632,48 +7415,41 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "TlsRouteRouteDestination" });
     case 3:
-      return S.Array(__S(1890, __c59, 2));
+      return S.Array(__S(1666, __c52, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(1891, __c59, 3)),
+          destinations: S.optional(__S(1667, __c52, 3)),
           idleTimeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "TlsRouteRouteAction" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          matches: S.optional(__S(1889, __c59, 1)),
-          action: S.optional(__S(1892, __c59, 4)),
+          matches: S.optional(__S(1665, __c52, 1)),
+          action: S.optional(__S(1668, __c52, 4)),
         }),
       ).annotate({ identifier: "TlsRouteRouteRule" });
     case 6:
-      return S.Array(__S(1893, __c59, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          rules: S.optional(__S(1894, __c59, 6)),
-          meshes: S.optional(__S(3072, __c96, 0)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          targetProxies: S.optional(__S(3072, __c96, 0)),
-          gateways: S.optional(__S(3072, __c96, 0)),
-        }),
-      ).annotate({ identifier: "TlsRoute" });
+      return S.Array(__S(1669, __c52, 5));
   }
 }
-function __c60(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           wasmPluginId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1957, __c61, 5).pipe(T.HttpBody())),
+          versions: S.optional(__S(1729, __c54, 1)),
+          logConfig: S.optional(__S(1730, __c54, 2)),
+          createTime: S.optional(S.String),
+          mainVersionId: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          name: S.optional(S.String),
+          usedBy: S.optional(__S(1732, __c54, 4)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6684,7 +7460,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsWasmPluginsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6696,12 +7472,12 @@ function __c61(j: number): any {
           pluginConfigUri: S.optional(S.String),
           pluginConfigDigest: S.optional(S.String),
           imageDigest: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
+          labels: S.optional(__S(2784, __c87, 0)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "WasmPluginVersionDetails" });
     case 1:
-      return S.Record(S.String, __S(1952, __c61, 0));
+      return S.Record(S.String, __S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6717,31 +7493,26 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "WasmPluginUsedBy" });
     case 4:
-      return S.Array(__S(1955, __c61, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          versions: S.optional(__S(1953, __c61, 1)),
-          logConfig: S.optional(__S(1954, __c61, 2)),
-          createTime: S.optional(S.String),
-          mainVersionId: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          name: S.optional(S.String),
-          usedBy: S.optional(__S(1956, __c61, 4)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WasmPlugin" });
+      return S.Array(__S(1731, __c54, 3));
   }
 }
-function __c62(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           wasmPluginVersionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2016, __c63, 0).pipe(T.HttpBody())),
+          pluginConfigDigest: S.optional(S.String),
+          pluginConfigData: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          updateTime: S.optional(S.String),
+          imageUri: S.optional(S.String),
+          pluginConfigUri: S.optional(S.String),
+          imageDigest: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6752,26 +7523,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsWasmPluginsVersionsRequest" });
   }
 }
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pluginConfigDigest: S.optional(S.String),
-          pluginConfigData: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          updateTime: S.optional(S.String),
-          imageUri: S.optional(S.String),
-          pluginConfigUri: S.optional(S.String),
-          imageDigest: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WasmPluginVersion" });
-  }
-}
-function __c64(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6788,7 +7540,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAgentConnectivityTemplatesRequest" });
   }
 }
-function __c65(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6805,7 +7557,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAgentGatewaysRequest" });
   }
 }
-function __c66(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6822,7 +7574,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAuthzExtensionsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6838,7 +7590,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsEndpointPoliciesRequest" });
   }
 }
-function __c68(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6855,7 +7607,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsExtensionBindingsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6871,7 +7623,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGatewaysRequest" });
   }
 }
-function __c70(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6887,7 +7639,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGrpcRoutesRequest" });
   }
 }
-function __c71(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6903,7 +7655,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsHttpRoutesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6920,7 +7672,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsLbEdgeExtensionsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6937,7 +7689,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsLbRouteExtensionsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6954,7 +7706,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsLbTrafficExtensionsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6970,7 +7722,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMeshesRequest" });
   }
 }
-function __c76(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6987,7 +7739,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMulticastConsumerAssociationsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7004,13 +7756,13 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMulticastGroupConsumerActivationsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2528, __c79, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7021,13 +7773,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c80(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7043,7 +7795,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7060,7 +7812,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsProducerExtensionsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7077,7 +7829,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServiceBindingsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7093,7 +7845,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsServiceLbPoliciesRequest" });
   }
 }
-function __c84(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7109,7 +7861,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsTcpRoutesRequest" });
   }
 }
-function __c85(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7125,7 +7877,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsTlsRoutesRequest" });
   }
 }
-function __c86(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7141,7 +7893,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsWasmPluginsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7157,7 +7909,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsWasmPluginsVersionsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7174,26 +7926,26 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsEdgeCacheKeysetsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(3072, __c96, 0)),
+          exemptedMembers: S.optional(__S(2816, __c88, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(2848, __c89, 0));
+      return S.Array(__S(2592, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(2849, __c89, 1)),
+          auditLogConfigs: S.optional(__S(2593, __c81, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(2850, __c89, 2));
+      return S.Array(__S(2594, __c81, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7206,25 +7958,25 @@ function __c89(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(2852, __c89, 4)),
-          members: S.optional(__S(3072, __c96, 0)),
+          condition: S.optional(__S(2596, __c81, 4)),
+          members: S.optional(__S(2816, __c88, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(2853, __c89, 5));
+      return S.Array(__S(2597, __c81, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(2851, __c89, 3)),
-          bindings: S.optional(__S(2854, __c89, 6)),
+          auditConfigs: S.optional(__S(2595, __c81, 3)),
+          bindings: S.optional(__S(2598, __c81, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c90(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7241,14 +7993,24 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsEdgeCacheOriginsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           agentConnectivityTemplateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2947, __c92, 3).pipe(T.HttpBody())),
+          accessPath: S.optional(S.String),
+          egressNetworkConfig: S.optional(__S(2690, __c84, 2)),
+          agentCompute: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          accessTypes: S.optional(__S(2848, __c89, 0)),
+          deploymentModel: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7259,7 +8021,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAgentConnectivityTemplatesRequest" });
   }
 }
-function __c92(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7271,7 +8033,7 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(3072, __c96, 0)),
+          domains: S.optional(__S(2816, __c88, 0)),
           targetNetwork: S.optional(S.String),
           domain: S.optional(S.String),
         }),
@@ -7279,80 +8041,64 @@ function __c92(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tlsConfig: S.optional(__S(2944, __c92, 0)),
-          dnsPeeringConfig: S.optional(__S(2945, __c92, 1)),
+          tlsConfig: S.optional(__S(2688, __c84, 0)),
+          dnsPeeringConfig: S.optional(__S(2689, __c84, 1)),
           networkAttachment: S.optional(S.String),
           vpcEgress: S.optional(S.String),
           trustConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "EgressNetworkConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          accessPath: S.optional(S.String),
-          egressNetworkConfig: S.optional(__S(2946, __c92, 2)),
-          agentCompute: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          accessTypes: S.optional(__S(3104, __c97, 0)),
-          deploymentModel: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentConnectivityTemplate" });
   }
 }
-function __c93(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c94(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2976, __c93, 0));
+      return S.Array(__S(2720, __c85, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(3008, __c94, 0)),
+          details: S.optional(__S(2752, __c86, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(2976, __c93, 0)),
+          response: S.optional(__S(2720, __c85, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(3009, __c94, 1)),
+          error: S.optional(__S(2753, __c86, 1)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(2976, __c93, 0)),
+          metadata: S.optional(__S(2720, __c85, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c95(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c96(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c97(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c98(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7369,7 +8115,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsEdgeCacheServicesRequest" });
   }
 }
-function __c99(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7385,21 +8131,21 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
+          labels: S.optional(__S(2784, __c87, 0)),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(2976, __c93, 0)),
+          metadata: S.optional(__S(2720, __c85, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c101(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7415,7 +8161,27 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAgentConnectivityTemplatesRequest" });
   }
 }
-function __c102(j: number): any {
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accessPath: S.optional(S.String),
+          egressNetworkConfig: S.optional(__S(2690, __c84, 2)),
+          agentCompute: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          accessTypes: S.optional(__S(2848, __c89, 0)),
+          deploymentModel: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentConnectivityTemplate" });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7431,7 +8197,29 @@ function __c102(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAgentGatewaysRequest" });
   }
 }
-function __c103(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          protocols: S.optional(__S(2848, __c89, 0)),
+          agentConnectivityTemplate: S.optional(S.String),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          agentGatewayCard: S.optional(__S(3520, __c110, 0)),
+          googleManaged: S.optional(__S(3521, __c110, 1)),
+          networkConfig: S.optional(__S(3524, __c110, 4)),
+          selfManaged: S.optional(__S(3525, __c110, 5)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          registries: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentGateway" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7447,7 +8235,30 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAuthzExtensionsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(2720, __c85, 0)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          service: S.optional(S.String),
+          timeout: S.optional(S.String),
+          failOpen: S.optional(S.Boolean),
+          wireFormat: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          name: S.optional(S.String),
+          forwardHeaders: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
+          forwardAttributes: S.optional(__S(2816, __c88, 0)),
+          authority: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthzExtension" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7463,7 +8274,27 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsEndpointPoliciesRequest" });
   }
 }
-function __c105(j: number): any {
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationPolicy: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          type: S.optional(S.String),
+          endpointMatcher: S.optional(__S(4739, __c148, 3)),
+          clientTlsPolicy: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          trafficPortSelector: S.optional(__S(4740, __c148, 4)),
+        }),
+      ).annotate({ identifier: "EndpointPolicy" });
+  }
+}
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7479,7 +8310,28 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsExtensionBindingsRequest" });
   }
 }
-function __c106(j: number): any {
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          producerExtension: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          producerMetadata: S.optional(__S(2784, __c87, 0)),
+          priority: S.optional(S.Number),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          target: S.optional(__S(5121, __c160, 1)),
+          matchConditions: S.optional(__S(5130, __c160, 10)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          failOpen: S.optional(S.Boolean),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtensionBinding" });
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7495,7 +8347,36 @@ function __c106(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGatewaysRequest" });
   }
 }
-function __c107(j: number): any {
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.optional(S.String),
+          description: S.optional(S.String),
+          allPorts: S.optional(S.Boolean),
+          subnetwork: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          gatewaySecurityPolicy: S.optional(S.String),
+          type: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          certificateUrls: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          scope: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          routingMode: S.optional(S.String),
+          allowGlobalAccess: S.optional(S.Boolean),
+          envoyHeaders: S.optional(S.String),
+          ports: S.optional(__S(32, __c1, 0)),
+          addresses: S.optional(__S(2816, __c88, 0)),
+          ipVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Gateway" });
+  }
+}
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7511,7 +8392,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGatewaysRouteViewsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7525,7 +8406,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GatewayRouteView" });
   }
 }
-function __c109(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7541,14 +8422,45 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGrpcRoutesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2784, __c87, 0)),
+          createTime: S.optional(S.String),
+          gateways: S.optional(__S(2816, __c88, 0)),
+          description: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(490, __c15, 10)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          hostnames: S.optional(__S(2816, __c88, 0)),
+        }),
+      ).annotate({ identifier: "GrpcRoute" });
+  }
+}
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agentGatewayId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3558, __c111, 6).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          protocols: S.optional(__S(2848, __c89, 0)),
+          agentConnectivityTemplate: S.optional(S.String),
+          etag: S.optional(S.String),
+          description: S.optional(S.String),
+          agentGatewayCard: S.optional(__S(3520, __c110, 0)),
+          googleManaged: S.optional(__S(3521, __c110, 1)),
+          networkConfig: S.optional(__S(3524, __c110, 4)),
+          selfManaged: S.optional(__S(3525, __c110, 5)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          registries: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7559,13 +8471,13 @@ function __c110(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAgentGatewaysRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mtlsEndpoint: S.optional(S.String),
-          rootCertificates: S.optional(__S(3072, __c96, 0)),
+          rootCertificates: S.optional(__S(2816, __c88, 0)),
           serviceExtensionsServiceAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentGatewayAgentGatewayOutputCard" });
@@ -7584,7 +8496,7 @@ function __c111(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(3072, __c96, 0)),
+          domains: S.optional(__S(2816, __c88, 0)),
           targetProject: S.optional(S.String),
           targetNetwork: S.optional(S.String),
         }),
@@ -7592,38 +8504,20 @@ function __c111(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          egress: S.optional(__S(3554, __c111, 2)),
-          dnsPeeringConfig: S.optional(__S(3555, __c111, 3)),
+          egress: S.optional(__S(3522, __c110, 2)),
+          dnsPeeringConfig: S.optional(__S(3523, __c110, 3)),
         }),
       ).annotate({ identifier: "AgentGatewayNetworkConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          resourceUris: S.optional(__S(3072, __c96, 0)),
+          resourceUris: S.optional(__S(2816, __c88, 0)),
           resourceUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentGatewaySelfManaged" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          protocols: S.optional(__S(3104, __c97, 0)),
-          agentConnectivityTemplate: S.optional(S.String),
-          etag: S.optional(S.String),
-          description: S.optional(S.String),
-          agentGatewayCard: S.optional(__S(3552, __c111, 0)),
-          googleManaged: S.optional(__S(3553, __c111, 1)),
-          networkConfig: S.optional(__S(3556, __c111, 4)),
-          selfManaged: S.optional(__S(3557, __c111, 5)),
-          name: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          registries: S.optional(__S(3072, __c96, 0)),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentGateway" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7637,6 +8531,25 @@ function __c112(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsHttpRoutesRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2784, __c87, 0)),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(884, __c27, 20)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          selfLink: S.optional(S.String),
+          name: S.optional(S.String),
+          hostnames: S.optional(__S(2816, __c88, 0)),
+          gateways: S.optional(__S(2816, __c88, 0)),
+        }),
+      ).annotate({ identifier: "HttpRoute" });
   }
 }
 function __c113(j: number): any {
@@ -7660,15 +8573,16 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsLbRouteExtensionsRequest" });
+          updateTime: S.optional(S.String),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          createTime: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LbEdgeExtension" });
   }
 }
 function __c115(j: number): any {
@@ -7684,7 +8598,7 @@ function __c115(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsLbTrafficExtensionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsLbRouteExtensionsRequest" });
   }
 }
 function __c116(j: number): any {
@@ -7692,15 +8606,17 @@ function __c116(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsMeshesRequest" });
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
+          loadBalancingScheme: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          createTime: S.optional(S.String),
+          metadata: S.optional(__S(2720, __c85, 0)),
+        }),
+      ).annotate({ identifier: "LbRouteExtension" });
   }
 }
 function __c117(j: number): any {
@@ -7716,7 +8632,7 @@ function __c117(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsMeshesRouteViewsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsLbTrafficExtensionsRequest" });
   }
 }
 function __c118(j: number): any {
@@ -7724,13 +8640,17 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          routeLocation: S.optional(S.String),
-          routeProjectNumber: S.optional(S.String),
+          createTime: S.optional(S.String),
+          forwardingRules: S.optional(__S(2816, __c88, 0)),
           name: S.optional(S.String),
-          routeId: S.optional(S.String),
-          routeType: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          description: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          extensionChains: S.optional(__S(1156, __c36, 4)),
+          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(2720, __c85, 0)),
         }),
-      ).annotate({ identifier: "MeshRouteView" });
+      ).annotate({ identifier: "LbTrafficExtension" });
   }
 }
 function __c119(j: number): any {
@@ -7746,7 +8666,7 @@ function __c119(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsMulticastConsumerAssociationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsMeshesRequest" });
   }
 }
 function __c120(j: number): any {
@@ -7754,15 +8674,16 @@ function __c120(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsMulticastGroupConsumerActivationsRequest" });
+          interceptionPort: S.optional(S.Number),
+          labels: S.optional(__S(2784, __c87, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          envoyHeaders: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          selfLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Mesh" });
   }
 }
 function __c121(j: number): any {
@@ -7778,10 +8699,24 @@ function __c121(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsMeshesRouteViewsRequest" });
   }
 }
 function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          routeLocation: S.optional(S.String),
+          routeProjectNumber: S.optional(S.String),
+          name: S.optional(S.String),
+          routeId: S.optional(S.String),
+          routeType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MeshRouteView" });
+  }
+}
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7794,26 +8729,7 @@ function __c122(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsProducerExtensionsRequest" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authzExtensionId: S.optional(S.String.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3968, __c124, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1/{+parent}/authzExtensions",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsAuthzExtensionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsMulticastConsumerAssociationsRequest" });
   }
 }
 function __c124(j: number): any {
@@ -7821,22 +8737,19 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2976, __c93, 0)),
           description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          service: S.optional(S.String),
-          timeout: S.optional(S.String),
-          failOpen: S.optional(S.Boolean),
-          wireFormat: S.optional(S.String),
-          loadBalancingScheme: S.optional(S.String),
-          name: S.optional(S.String),
-          forwardHeaders: S.optional(__S(3072, __c96, 0)),
           updateTime: S.optional(S.String),
-          forwardAttributes: S.optional(__S(3072, __c96, 0)),
-          authority: S.optional(S.String),
+          placementPolicy: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          state: S.optional(__S(1312, __c41, 0)),
+          multicastDomainActivation: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          uniqueId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          resourceState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AuthzExtension" });
+      ).annotate({ identifier: "MulticastConsumerAssociation" });
   }
 }
 function __c125(j: number): any {
@@ -7852,7 +8765,7 @@ function __c125(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceBindingsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsMulticastGroupConsumerActivationsRequest" });
   }
 }
 function __c126(j: number): any {
@@ -7860,15 +8773,20 @@ function __c126(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://networkservices.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsServiceLbPoliciesRequest" });
+          multicastGroup: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          resourceState: S.optional(S.String),
+          multicastGroupRangeActivation: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          logConfig: S.optional(__S(1376, __c43, 0)),
+          multicastConsumerAssociation: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(__S(1312, __c41, 0)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MulticastGroupConsumerActivation" });
   }
 }
 function __c127(j: number): any {
@@ -7884,7 +8802,7 @@ function __c127(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTcpRoutesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c128(j: number): any {
@@ -7900,10 +8818,194 @@ function __c128(j: number): any {
             baseUrl: "https://networkservices.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsTlsRoutesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsProducerExtensionsRequest" });
   }
 }
 function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          phase: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          extensionSettings: S.optional(__S(1440, __c45, 0)),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProducerExtension" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authzExtensionId: S.optional(S.String.pipe(T.Query())),
+          requestId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          metadata: S.optional(__S(2720, __c85, 0)),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          service: S.optional(S.String),
+          timeout: S.optional(S.String),
+          failOpen: S.optional(S.Boolean),
+          wireFormat: S.optional(S.String),
+          loadBalancingScheme: S.optional(S.String),
+          name: S.optional(S.String),
+          forwardHeaders: S.optional(__S(2816, __c88, 0)),
+          updateTime: S.optional(S.String),
+          forwardAttributes: S.optional(__S(2816, __c88, 0)),
+          authority: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1/{+parent}/authzExtensions",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsAuthzExtensionsRequest" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServiceBindingsRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          service: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+        }),
+      ).annotate({ identifier: "ServiceBinding" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsServiceLbPoliciesRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          isolationConfig: S.optional(__S(1536, __c48, 0)),
+          createTime: S.optional(S.String),
+          loadBalancingAlgorithm: S.optional(S.String),
+          failoverConfig: S.optional(__S(1537, __c48, 1)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          autoCapacityDrain: S.optional(__S(1538, __c48, 2)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+        }),
+      ).annotate({ identifier: "ServiceLbPolicy" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTcpRoutesRequest" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(2784, __c87, 0)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          rules: S.optional(__S(1604, __c50, 4)),
+          gateways: S.optional(__S(2816, __c88, 0)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          selfLink: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TcpRoute" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://networkservices.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsTlsRoutesRequest" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          rules: S.optional(__S(1670, __c52, 6)),
+          meshes: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          targetProxies: S.optional(__S(2816, __c88, 0)),
+          gateways: S.optional(__S(2816, __c88, 0)),
+        }),
+      ).annotate({ identifier: "TlsRoute" });
+  }
+}
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7920,7 +9022,25 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsWasmPluginsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          versions: S.optional(__S(1729, __c54, 1)),
+          logConfig: S.optional(__S(1730, __c54, 2)),
+          createTime: S.optional(S.String),
+          mainVersionId: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          name: S.optional(S.String),
+          usedBy: S.optional(__S(1732, __c54, 4)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WasmPlugin" });
+  }
+}
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7936,7 +9056,26 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsWasmPluginsVersionsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pluginConfigDigest: S.optional(S.String),
+          pluginConfigData: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          updateTime: S.optional(S.String),
+          imageUri: S.optional(S.String),
+          pluginConfigUri: S.optional(S.String),
+          imageDigest: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WasmPluginVersion" });
+  }
+}
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7945,7 +9084,7 @@ function __c131(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(3072, __c96, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -7955,17 +9094,17 @@ function __c131(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(3200, __c100, 0));
+      return S.Array(__S(2944, __c92, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(4193, __c131, 1)),
+          locations: S.optional(__S(4577, __c143, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7983,18 +9122,18 @@ function __c132(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAgentConnectivityTemplatesRequest" });
     case 1:
-      return S.Array(__S(2947, __c92, 3));
+      return S.Array(__S(3008, __c94, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          agentConnectivityTemplates: S.optional(__S(4225, __c132, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          agentConnectivityTemplates: S.optional(__S(4609, __c144, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListAgentConnectivityTemplatesResponse" });
   }
 }
-function __c133(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8013,18 +9152,18 @@ function __c133(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAgentGatewaysRequest" });
     case 1:
-      return S.Array(__S(3558, __c111, 6));
+      return S.Array(__S(3072, __c96, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          agentGateways: S.optional(__S(4257, __c133, 1)),
+          agentGateways: S.optional(__S(4641, __c145, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListAgentGatewaysResponse" });
   }
 }
-function __c134(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8043,25 +9182,35 @@ function __c134(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAuthzExtensionsRequest" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(3136, __c98, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          authzExtensions: S.optional(__S(4289, __c134, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          authzExtensions: S.optional(__S(4673, __c146, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAuthzExtensionsResponse" });
   }
 }
-function __c135(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           endpointPolicyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
+          authorizationPolicy: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          type: S.optional(S.String),
+          endpointMatcher: S.optional(__S(4739, __c148, 3)),
+          clientTlsPolicy: S.optional(S.String),
+          createTime: S.optional(S.String),
+          serverTlsPolicy: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          trafficPortSelector: S.optional(__S(4740, __c148, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8072,7 +9221,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEndpointPoliciesRequest" });
   }
 }
-function __c136(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8082,45 +9231,29 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "EndpointMatcherMetadataLabelMatcherMetadataLabels" });
     case 1:
-      return S.Array(__S(4352, __c136, 0));
+      return S.Array(__S(4736, __c148, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           metadataLabelMatchCriteria: S.optional(S.String),
-          metadataLabels: S.optional(__S(4353, __c136, 1)),
+          metadataLabels: S.optional(__S(4737, __c148, 1)),
         }),
       ).annotate({ identifier: "EndpointMatcherMetadataLabelMatcher" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadataLabelMatcher: S.optional(__S(4354, __c136, 2)),
+          metadataLabelMatcher: S.optional(__S(4738, __c148, 2)),
         }),
       ).annotate({ identifier: "EndpointMatcher" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ports: S.optional(__S(3072, __c96, 0)),
+          ports: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "TrafficPortSelector" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          authorizationPolicy: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          type: S.optional(S.String),
-          endpointMatcher: S.optional(__S(4355, __c136, 3)),
-          clientTlsPolicy: S.optional(S.String),
-          createTime: S.optional(S.String),
-          serverTlsPolicy: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          trafficPortSelector: S.optional(__S(4356, __c136, 4)),
-        }),
-      ).annotate({ identifier: "EndpointPolicy" });
   }
 }
-function __c137(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8138,18 +9271,18 @@ function __c137(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEndpointPoliciesRequest" });
     case 1:
-      return S.Array(__S(4357, __c136, 5));
+      return S.Array(__S(3200, __c100, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          endpointPolicies: S.optional(__S(4385, __c137, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          endpointPolicies: S.optional(__S(4769, __c149, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndpointPoliciesResponse" });
   }
 }
-function __c138(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8166,18 +9299,18 @@ function __c138(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsExtensionBindingsRequest" });
     case 1:
-      return S.Array(__S(4747, __c148, 11));
+      return S.Array(__S(3264, __c102, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
           nextPageToken: S.optional(S.String),
-          extensionBindings: S.optional(__S(4417, __c138, 1)),
+          extensionBindings: S.optional(__S(4801, __c150, 1)),
         }),
       ).annotate({ identifier: "ListExtensionBindingsResponse" });
   }
 }
-function __c139(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8194,18 +9327,18 @@ function __c139(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGatewaysRequest" });
     case 1:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(3328, __c104, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          gateways: S.optional(__S(4449, __c139, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          gateways: S.optional(__S(4833, __c151, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListGatewaysResponse" });
   }
 }
-function __c140(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8222,18 +9355,18 @@ function __c140(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGatewaysRouteViewsRequest" });
     case 1:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3392, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gatewayRouteViews: S.optional(__S(4481, __c140, 1)),
+          gatewayRouteViews: S.optional(__S(4865, __c152, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListGatewayRouteViewsResponse" });
   }
 }
-function __c141(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8251,18 +9384,18 @@ function __c141(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGrpcRoutesRequest" });
     case 1:
-      return S.Array(__S(491, __c15, 11));
+      return S.Array(__S(3456, __c108, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          grpcRoutes: S.optional(__S(4513, __c141, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          grpcRoutes: S.optional(__S(4897, __c153, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGrpcRoutesResponse" });
   }
 }
-function __c142(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8281,18 +9414,18 @@ function __c142(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsHttpRoutesRequest" });
     case 1:
-      return S.Array(__S(885, __c27, 21));
+      return S.Array(__S(3584, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          httpRoutes: S.optional(__S(4545, __c142, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          httpRoutes: S.optional(__S(4929, __c154, 1)),
         }),
       ).annotate({ identifier: "ListHttpRoutesResponse" });
   }
 }
-function __c143(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8311,18 +9444,18 @@ function __c143(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsLbEdgeExtensionsRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(3648, __c114, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          lbEdgeExtensions: S.optional(__S(4577, __c143, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          lbEdgeExtensions: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "ListLbEdgeExtensionsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8341,18 +9474,18 @@ function __c144(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsLbRouteExtensionsRequest" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(3712, __c116, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          lbRouteExtensions: S.optional(__S(4609, __c144, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          lbRouteExtensions: S.optional(__S(4993, __c156, 1)),
         }),
       ).annotate({ identifier: "ListLbRouteExtensionsResponse" });
   }
 }
-function __c145(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8371,18 +9504,18 @@ function __c145(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsLbTrafficExtensionsRequest" });
     case 1:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(3776, __c118, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          lbTrafficExtensions: S.optional(__S(4641, __c145, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          lbTrafficExtensions: S.optional(__S(5025, __c157, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLbTrafficExtensionsResponse" });
   }
 }
-function __c146(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8400,25 +9533,36 @@ function __c146(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMeshesRequest" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(3840, __c120, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          meshes: S.optional(__S(4673, __c146, 1)),
+          meshes: S.optional(__S(5057, __c158, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListMeshesResponse" });
   }
 }
-function __c147(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           extensionBindingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4747, __c148, 11).pipe(T.HttpBody())),
+          producerExtension: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          producerMetadata: S.optional(__S(2784, __c87, 0)),
+          priority: S.optional(S.Number),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          target: S.optional(__S(5121, __c160, 1)),
+          matchConditions: S.optional(__S(5130, __c160, 10)),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(2784, __c87, 0)),
+          failOpen: S.optional(S.Boolean),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8429,20 +9573,20 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsExtensionBindingsRequest" });
   }
 }
-function __c148(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(3104, __c97, 0)),
+          resourceTypes: S.optional(__S(2848, __c89, 0)),
           parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionBindingTargetScope" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(3072, __c96, 0)),
-          scope: S.optional(__S(4736, __c148, 0)),
+          resources: S.optional(__S(2816, __c88, 0)),
+          scope: S.optional(__S(5120, __c160, 0)),
         }),
       ).annotate({ identifier: "ExtensionBindingTarget" });
     case 2:
@@ -8458,64 +9602,47 @@ function __c148(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(4738, __c148, 2)),
+          value: S.optional(__S(5122, __c160, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionBindingMatchConditionHeaderMatch" });
     case 4:
-      return S.Array(__S(4739, __c148, 3));
+      return S.Array(__S(5123, __c160, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(4740, __c148, 4)),
+          headers: S.optional(__S(5124, __c160, 4)),
         }),
       ).annotate({ identifier: "ExtensionBindingMatchConditionToDestinationHeaderSet" });
     case 6:
-      return S.Array(__S(4738, __c148, 2));
+      return S.Array(__S(5122, __c160, 2));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          headerSet: S.optional(__S(4741, __c148, 5)),
-          resources: S.optional(__S(4742, __c148, 6)),
-          paths: S.optional(__S(4742, __c148, 6)),
-          hosts: S.optional(__S(4742, __c148, 6)),
+          headerSet: S.optional(__S(5125, __c160, 5)),
+          resources: S.optional(__S(5126, __c160, 6)),
+          paths: S.optional(__S(5126, __c160, 6)),
+          hosts: S.optional(__S(5126, __c160, 6)),
         }),
       ).annotate({ identifier: "ExtensionBindingMatchConditionToDestination" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(4743, __c148, 7)),
-          notDestination: S.optional(__S(4743, __c148, 7)),
+          destination: S.optional(__S(5127, __c160, 7)),
+          notDestination: S.optional(__S(5127, __c160, 7)),
         }),
       ).annotate({ identifier: "ExtensionBindingMatchConditionTo" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          to: S.optional(__S(4744, __c148, 8)),
+          to: S.optional(__S(5128, __c160, 8)),
         }),
       ).annotate({ identifier: "ExtensionBindingMatchCondition" });
     case 10:
-      return S.Array(__S(4745, __c148, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          producerExtension: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          producerMetadata: S.optional(__S(3040, __c95, 0)),
-          priority: S.optional(S.Number),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
-          target: S.optional(__S(4737, __c148, 1)),
-          matchConditions: S.optional(__S(4746, __c148, 10)),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(3040, __c95, 0)),
-          failOpen: S.optional(S.Boolean),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtensionBinding" });
+      return S.Array(__S(5129, __c160, 9));
   }
 }
-function __c149(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8532,18 +9659,18 @@ function __c149(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMeshesRouteViewsRequest" });
     case 1:
-      return S.Array(__S(3776, __c118, 0));
+      return S.Array(__S(3904, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          meshRouteViews: S.optional(__S(4769, __c149, 1)),
+          meshRouteViews: S.optional(__S(5153, __c161, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListMeshRouteViewsResponse" });
   }
 }
-function __c150(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8562,18 +9689,18 @@ function __c150(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMulticastConsumerAssociationsRequest" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(3968, __c124, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          multicastConsumerAssociations: S.optional(__S(4801, __c150, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          multicastConsumerAssociations: S.optional(__S(5185, __c162, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListMulticastConsumerAssociationsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8592,18 +9719,18 @@ function __c151(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMulticastGroupConsumerActivationsRequest" });
     case 1:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(4032, __c126, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          multicastGroupConsumerActivations: S.optional(__S(4833, __c151, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          multicastGroupConsumerActivations: S.optional(__S(5217, __c163, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMulticastGroupConsumerActivationsResponse" });
   }
 }
-function __c152(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8622,18 +9749,18 @@ function __c152(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(3010, __c94, 2));
+      return S.Array(__S(2754, __c86, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(4865, __c152, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          operations: S.optional(__S(5249, __c164, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c153(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8650,18 +9777,18 @@ function __c153(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsProducerExtensionsRequest" });
     case 1:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(4128, __c129, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          producerExtensions: S.optional(__S(4897, __c153, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          producerExtensions: S.optional(__S(5281, __c165, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProducerExtensionsResponse" });
   }
 }
-function __c154(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8678,18 +9805,18 @@ function __c154(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceBindingsRequest" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(4224, __c132, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          serviceBindings: S.optional(__S(4929, __c154, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          serviceBindings: S.optional(__S(5313, __c166, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServiceBindingsResponse" });
   }
 }
-function __c155(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8706,18 +9833,18 @@ function __c155(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsServiceLbPoliciesRequest" });
     case 1:
-      return S.Array(__S(1763, __c55, 3));
+      return S.Array(__S(4288, __c134, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          serviceLbPolicies: S.optional(__S(4961, __c155, 1)),
+          serviceLbPolicies: S.optional(__S(5345, __c167, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListServiceLbPoliciesResponse" });
   }
 }
-function __c156(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8735,18 +9862,18 @@ function __c156(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTcpRoutesRequest" });
     case 1:
-      return S.Array(__S(1829, __c57, 5));
+      return S.Array(__S(4352, __c136, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          tcpRoutes: S.optional(__S(4993, __c156, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          tcpRoutes: S.optional(__S(5377, __c168, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTcpRoutesResponse" });
   }
 }
-function __c157(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8764,18 +9891,18 @@ function __c157(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTlsRoutesRequest" });
     case 1:
-      return S.Array(__S(1895, __c59, 7));
+      return S.Array(__S(4416, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          tlsRoutes: S.optional(__S(5025, __c157, 1)),
-          unreachable: S.optional(__S(3072, __c96, 0)),
+          tlsRoutes: S.optional(__S(5409, __c169, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "ListTlsRoutesResponse" });
   }
 }
-function __c158(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8792,12 +9919,12 @@ function __c158(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsWasmPluginsRequest" });
     case 1:
-      return S.Array(__S(1957, __c61, 5));
+      return S.Array(__S(4480, __c140, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3072, __c96, 0)),
-          wasmPlugins: S.optional(__S(5057, __c158, 1)),
+          unreachable: S.optional(__S(2816, __c88, 0)),
+          wasmPlugins: S.optional(__S(5441, __c170, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWasmPluginsResponse" });

@@ -88,16 +88,11 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyV1beta1Request {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
@@ -130,27 +125,17 @@ export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-}
 export interface SetIamPolicyV1beta1Request {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsV1beta1Request {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -165,7 +150,7 @@ export const getIamPolicyV1beta1: API.OperationMethod<
   GetIamPolicyV1beta1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<GetIamPolicyV1beta1Request>,
+  input: __S(1, __c0, 1) as any as S.Schema<GetIamPolicyV1beta1Request>,
   output: __S(7, __c1, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -182,7 +167,7 @@ export const setIamPolicyV1beta1: API.OperationMethod<
   SetIamPolicyV1beta1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<SetIamPolicyV1beta1Request>,
+  input: __S(12, __c3, 0) as any as S.Schema<SetIamPolicyV1beta1Request>,
   output: __S(7, __c1, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -204,8 +189,8 @@ export const testIamPermissionsV1beta1: API.OperationMethod<
   TestIamPermissionsV1beta1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c4, 1) as any as S.Schema<TestIamPermissionsV1beta1Request>,
-  output: __S(16, __c4, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<TestIamPermissionsV1beta1Request>,
+  output: __S(17, __c4, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -225,14 +210,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -285,14 +264,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(7, __c1, 3)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(7, __c1, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -308,14 +281,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(8, __c2, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c4, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -324,6 +291,12 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsV1beta1Request" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(8, __c2, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

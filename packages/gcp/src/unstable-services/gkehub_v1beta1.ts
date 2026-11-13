@@ -246,8 +246,13 @@ export type MembershipInfrastructureTypeEnum =
   | "INFRASTRUCTURE_TYPE_UNSPECIFIED"
   | "ON_PREM"
   | "MULTI_CLOUD";
-/** Membership contains information about a member cluster. */
-export interface Membership {
+export interface CreateProjectsLocationsMembershipsRequest {
+  /** Required. The parent (project and location) where the Memberships will be created. Specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Client chosen ID for the membership. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  membershipId?: string | undefined;
   /** Output only. The full, unique name of this Membership resource in the format `projects/*\/locations/*\/memberships/{membership_id}`, set during creation. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
   name?: string | undefined;
   /** Optional. An externally-generated and managed ID for this Membership. This ID may be modified after creation, but this is not recommended. For GKE clusters, external_id is managed by the Hub API and updates will be ignored. The ID must match the regex: `a-zA-Z0-9*` If this Membership represents a Kubernetes cluster, this value should be set to the UID of the `kube-system` namespace object. */
@@ -278,16 +283,6 @@ export interface Membership {
   infrastructureType?: MembershipInfrastructureTypeEnum | (string & {}) | undefined;
   /** Output only. For clusters using Connect, the timestamp of the most recent connection established with Google Cloud. This time is updated every several minutes, not continuously. For clusters that do not use GKE Connect, or that have never connected successfully, this field will be unset. */
   lastConnectionTime?: string | undefined;
-}
-export interface CreateProjectsLocationsMembershipsRequest {
-  /** Required. The parent (project and location) where the Memberships will be created. Specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Client chosen ID for the membership. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
-  membershipId?: string | undefined;
-  /** Request body */
-  body?: Membership | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -459,6 +454,39 @@ export interface GetProjectsLocationsMembershipsRequest {
   /** Required. The Membership resource name in the format `projects/*\/locations/*\/memberships/*`. */
   name: string;
 }
+/** Membership contains information about a member cluster. */
+export interface Membership {
+  /** Output only. The full, unique name of this Membership resource in the format `projects/*\/locations/*\/memberships/{membership_id}`, set during creation. `membership_id` must be a valid RFC 1123 compliant DNS label: 1. At most 63 characters in length 2. It must consist of lower case alphanumeric characters or `-` 3. It must start and end with an alphanumeric character Which can be expressed as the regex: `[a-z0-9]([-a-z0-9]*[a-z0-9])?`, with a maximum length of 63 characters. */
+  name?: string | undefined;
+  /** Optional. An externally-generated and managed ID for this Membership. This ID may be modified after creation, but this is not recommended. For GKE clusters, external_id is managed by the Hub API and updates will be ignored. The ID must match the regex: `a-zA-Z0-9*` If this Membership represents a Kubernetes cluster, this value should be set to the UID of the `kube-system` namespace object. */
+  externalId?: string | undefined;
+  /** Output only. When the Membership was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. When the Membership was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Membership resources. If a Membership resource is deleted and another resource with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Optional. The monitoring config information for this membership. */
+  monitoringConfig?: MonitoringConfig | undefined;
+  /** Output only. When the Membership was created. */
+  createTime?: string | undefined;
+  /** Output only. State of the Membership resource. */
+  state?: MembershipState | undefined;
+  /** Optional. How to identify workloads from this Membership. See the documentation on Workload Identity for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity */
+  authority?: Authority | undefined;
+  /** Optional. Description of this membership, limited to 63 characters. Must match the regex: `a-zA-Z0-9*` */
+  description?: string | undefined;
+  /** Optional. Google Cloud labels for this membership. These labels are not leveraged by multi-cluster features, instead, we prefer cluster labels, which can be set on GKE cluster or other cluster types. */
+  labels?: StringMap | undefined;
+  /** Optional. Endpoint information to reach this member. */
+  endpoint?: MembershipEndpoint | undefined;
+  /** Output only. The type of the membership. */
+  membershipType?: MembershipMembershipTypeEnum | undefined;
+  /** Optional. The infrastructure type this Membership is running on. */
+  infrastructureType?: MembershipInfrastructureTypeEnum | undefined;
+  /** Output only. For clusters using Connect, the timestamp of the most recent connection established with Google Cloud. This time is updated every several minutes, not continuously. For clusters that do not use GKE Connect, or that have never connected successfully, this field will be unset. */
+  lastConnectionTime?: string | undefined;
+}
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -534,32 +562,48 @@ export interface PatchProjectsLocationsMembershipsRequest {
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Membership | undefined;
+  /** Optional. An externally-generated and managed ID for this Membership. This ID may be modified after creation, but this is not recommended. For GKE clusters, external_id is managed by the Hub API and updates will be ignored. The ID must match the regex: `a-zA-Z0-9*` If this Membership represents a Kubernetes cluster, this value should be set to the UID of the `kube-system` namespace object. */
+  externalId?: string | undefined;
+  /** Output only. When the Membership was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. When the Membership was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. Google-generated UUID for this resource. This is unique across all Membership resources. If a Membership resource is deleted and another resource with the same name is created, it gets a different unique_id. */
+  uniqueId?: string | undefined;
+  /** Optional. The monitoring config information for this membership. */
+  monitoringConfig?: MonitoringConfig | undefined;
+  /** Output only. When the Membership was created. */
+  createTime?: string | undefined;
+  /** Output only. State of the Membership resource. */
+  state?: MembershipState | undefined;
+  /** Optional. How to identify workloads from this Membership. See the documentation on Workload Identity for more details: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity */
+  authority?: Authority | undefined;
+  /** Optional. Description of this membership, limited to 63 characters. Must match the regex: `a-zA-Z0-9*` */
+  description?: string | undefined;
+  /** Optional. Google Cloud labels for this membership. These labels are not leveraged by multi-cluster features, instead, we prefer cluster labels, which can be set on GKE cluster or other cluster types. */
+  labels?: StringMap | undefined;
+  /** Optional. Endpoint information to reach this member. */
+  endpoint?: MembershipEndpoint | undefined;
+  /** Output only. The type of the membership. */
+  membershipType?: MembershipMembershipTypeEnum | (string & {}) | undefined;
+  /** Optional. The infrastructure type this Membership is running on. */
+  infrastructureType?: MembershipInfrastructureTypeEnum | (string & {}) | undefined;
+  /** Output only. For clusters using Connect, the timestamp of the most recent connection established with Google Cloud. This time is updated every several minutes, not continuously. For clusters that do not use GKE Connect, or that have never connected successfully, this field will be unset. */
+  lastConnectionTime?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsMembershipsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsMembershipsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
-}
 export interface TestIamPermissionsProjectsLocationsMembershipsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -592,8 +636,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<Empty>,
+  input: __S(240, __c15, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -614,8 +658,8 @@ export const createProjectsLocationsMemberships: API.OperationMethod<
   CreateProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateProjectsLocationsMembershipsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<Operation>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateProjectsLocationsMembershipsRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -636,8 +680,8 @@ export const deleteProjectsLocationsMemberships: API.OperationMethod<
   DeleteProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteProjectsLocationsMembershipsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<Operation>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteProjectsLocationsMembershipsRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -658,8 +702,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<Empty>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -679,11 +723,11 @@ export const generateConnectManifestProjectsLocationsMemberships: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c24,
+    400,
+    __c25,
     0,
   ) as any as S.Schema<GenerateConnectManifestProjectsLocationsMembershipsRequest>,
-  output: __S(388, __c24, 4) as any as S.Schema<GenerateConnectManifestResponse>,
+  output: __S(404, __c25, 4) as any as S.Schema<GenerateConnectManifestResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -703,11 +747,11 @@ export const generateExclusivityManifestProjectsLocationsMemberships: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    400,
-    __c25,
+    416,
+    __c26,
     0,
   ) as any as S.Schema<GenerateExclusivityManifestProjectsLocationsMembershipsRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<GenerateExclusivityManifestResponse>,
+  output: __S(417, __c26, 1) as any as S.Schema<GenerateExclusivityManifestResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -758,7 +802,7 @@ export const getProjectsLocationsMemberships: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetProjectsLocationsMembershipsRequest>,
-  output: __S(300, __c18, 12) as any as S.Schema<Membership>,
+  output: __S(96, __c6, 0) as any as S.Schema<Membership>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -774,8 +818,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<Operation>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -792,8 +836,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -811,8 +855,8 @@ export const listProjectsLocationsMemberships: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMembershipsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListProjectsLocationsMembershipsRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListMembershipsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListProjectsLocationsMembershipsRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<ListMembershipsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -830,8 +874,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -853,8 +897,8 @@ export const patchProjectsLocationsMemberships: API.OperationMethod<
   PatchProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<PatchProjectsLocationsMembershipsRequest>,
-  output: __S(320, __c20, 0) as any as S.Schema<Operation>,
+  input: __S(176, __c11, 0) as any as S.Schema<PatchProjectsLocationsMembershipsRequest>,
+  output: __S(336, __c21, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -875,7 +919,7 @@ export const setIamPolicyProjectsLocationsMemberships: API.OperationMethod<
   SetIamPolicyProjectsLocationsMembershipsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<SetIamPolicyProjectsLocationsMembershipsRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<SetIamPolicyProjectsLocationsMembershipsRequest>,
   output: __S(39, __c2, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -898,11 +942,11 @@ export const testIamPermissionsProjectsLocationsMemberships: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    193,
-    __c12,
-    1,
+    208,
+    __c13,
+    0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsMembershipsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(209, __c13, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -922,11 +966,11 @@ export const validateExclusivityProjectsLocationsMemberships: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c13,
+    224,
+    __c14,
     0,
   ) as any as S.Schema<ValidateExclusivityProjectsLocationsMembershipsRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<ValidateExclusivityResponse>,
+  output: __S(225, __c14, 1) as any as S.Schema<ValidateExclusivityResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1031,9 +1075,9 @@ function __c4(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(304, __c19, 0)),
+          metadata: S.optional(__S(320, __c20, 0)),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(272, __c17, 0)),
+          labels: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1059,6 +1103,30 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          externalId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          monitoringConfig: S.optional(__S(304, __c19, 0)),
+          createTime: S.optional(S.String),
+          state: S.optional(__S(305, __c19, 1)),
+          authority: S.optional(__S(306, __c19, 2)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(288, __c18, 0)),
+          endpoint: S.optional(__S(315, __c19, 11)),
+          membershipType: S.optional(S.String),
+          infrastructureType: S.optional(S.String),
+          lastConnectionTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Membership" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1070,7 +1138,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1093,13 +1161,13 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(113, __c7, 1)),
+          locations: S.optional(__S(129, __c8, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1118,18 +1186,18 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMembershipsRequest" });
     case 1:
-      return S.Array(__S(300, __c18, 12));
+      return S.Array(__S(96, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(129, __c8, 1)),
+          resources: S.optional(__S(145, __c9, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "ListMembershipsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1148,18 +1216,18 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(336, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(145, __c9, 1)),
+          operations: S.optional(__S(161, __c10, 1)),
           unreachable: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1167,7 +1235,20 @@ function __c10(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(300, __c18, 12).pipe(T.HttpBody())),
+          externalId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          monitoringConfig: S.optional(__S(304, __c19, 0)),
+          createTime: S.optional(S.String),
+          state: S.optional(__S(305, __c19, 1)),
+          authority: S.optional(__S(306, __c19, 2)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(288, __c18, 0)),
+          endpoint: S.optional(__S(315, __c19, 11)),
+          membershipType: S.optional(S.String),
+          infrastructureType: S.optional(S.String),
+          lastConnectionTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1178,20 +1259,14 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsMembershipsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(39, __c2, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1202,19 +1277,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsMembershipsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(16, __c1, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1223,9 +1292,15 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsMembershipsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(16, __c1, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1244,18 +1319,18 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(337, __c21, 1)),
+          status: S.optional(__S(353, __c22, 1)),
         }),
       ).annotate({ identifier: "ValidateExclusivityResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1266,13 +1341,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1280,7 +1355,21 @@ function __c16(j: number): any {
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           membershipId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(300, __c18, 12).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          externalId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          uniqueId: S.optional(S.String),
+          monitoringConfig: S.optional(__S(304, __c19, 0)),
+          createTime: S.optional(S.String),
+          state: S.optional(__S(305, __c19, 1)),
+          authority: S.optional(__S(306, __c19, 2)),
+          description: S.optional(S.String),
+          labels: S.optional(__S(288, __c18, 0)),
+          endpoint: S.optional(__S(315, __c19, 11)),
+          membershipType: S.optional(S.String),
+          infrastructureType: S.optional(S.String),
+          lastConnectionTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1291,13 +1380,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMembershipsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1369,7 +1458,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ResourceManifest" });
     case 8:
-      return S.Array(__S(295, __c18, 7));
+      return S.Array(__S(311, __c19, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1382,81 +1471,61 @@ function __c18(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          membershipResources: S.optional(__S(296, __c18, 8)),
-          resourceOptions: S.optional(__S(297, __c18, 9)),
-          connectResources: S.optional(__S(296, __c18, 8)),
+          membershipResources: S.optional(__S(312, __c19, 8)),
+          resourceOptions: S.optional(__S(313, __c19, 9)),
+          connectResources: S.optional(__S(312, __c19, 8)),
           membershipCrManifest: S.optional(S.String),
         }),
       ).annotate({ identifier: "KubernetesResource" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          gkeCluster: S.optional(__S(291, __c18, 3)),
-          kubernetesMetadata: S.optional(__S(292, __c18, 4)),
-          multiCloudCluster: S.optional(__S(291, __c18, 3)),
-          onPremCluster: S.optional(__S(293, __c18, 5)),
-          edgeCluster: S.optional(__S(294, __c18, 6)),
-          applianceCluster: S.optional(__S(294, __c18, 6)),
-          kubernetesResource: S.optional(__S(298, __c18, 10)),
+          gkeCluster: S.optional(__S(307, __c19, 3)),
+          kubernetesMetadata: S.optional(__S(308, __c19, 4)),
+          multiCloudCluster: S.optional(__S(307, __c19, 3)),
+          onPremCluster: S.optional(__S(309, __c19, 5)),
+          edgeCluster: S.optional(__S(310, __c19, 6)),
+          applianceCluster: S.optional(__S(310, __c19, 6)),
+          kubernetesResource: S.optional(__S(314, __c19, 10)),
         }),
       ).annotate({ identifier: "MembershipEndpoint" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          externalId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          deleteTime: S.optional(S.String),
-          uniqueId: S.optional(S.String),
-          monitoringConfig: S.optional(__S(288, __c18, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(__S(289, __c18, 1)),
-          authority: S.optional(__S(290, __c18, 2)),
-          description: S.optional(S.String),
-          labels: S.optional(__S(272, __c17, 0)),
-          endpoint: S.optional(__S(299, __c18, 11)),
-          membershipType: S.optional(S.String),
-          infrastructureType: S.optional(S.String),
-          lastConnectionTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Membership" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          response: S.optional(__S(304, __c19, 0)),
-          done: S.optional(S.Boolean),
-          error: S.optional(__S(337, __c21, 1)),
-          metadata: S.optional(__S(304, __c19, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Operation" });
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(304, __c19, 0));
+      return S.suspend(() =>
+        S.Struct({
+          response: S.optional(__S(320, __c20, 0)),
+          done: S.optional(S.Boolean),
+          error: S.optional(__S(353, __c22, 1)),
+          metadata: S.optional(__S(320, __c20, 0)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(320, __c20, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(336, __c21, 0)),
+          details: S.optional(__S(352, __c22, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1474,7 +1543,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMembershipsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1490,7 +1559,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1522,20 +1591,20 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           manifest: S.optional(S.String),
-          type: S.optional(__S(385, __c24, 1)),
+          type: S.optional(__S(401, __c25, 1)),
         }),
       ).annotate({ identifier: "ConnectAgentResource" });
     case 3:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(402, __c25, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          manifest: S.optional(__S(387, __c24, 3)),
+          manifest: S.optional(__S(403, __c25, 3)),
         }),
       ).annotate({ identifier: "GenerateConnectManifestResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

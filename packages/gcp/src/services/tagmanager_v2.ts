@@ -740,15 +740,11 @@ export interface Entity {
   trigger?: Trigger | undefined;
 }
 export type EntityList = Array<Entity>;
-export interface ProposedChange {
-  /** The list of workspace changes to be applied. */
-  changes?: EntityList | undefined;
-}
 export interface BulkUpdateAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
-  /** Request body */
-  body?: ProposedChange | undefined;
+  /** The list of workspace changes to be applied. */
+  changes?: EntityList | undefined;
 }
 export interface BulkUpdateWorkspaceResponse {
   /** The entities that were added or updated during the bulk-update. Does not include entities that were deleted or updated by the system. */
@@ -842,12 +838,37 @@ export interface Container {
 export interface CreateAccountsContainersRequest {
   /** GTM Account's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Container | undefined;
+  /** List of domain names associated with the Container. */
+  domainName?: StringList | undefined;
+  /** Read-only Container feature set. */
+  features?: ContainerFeatures | undefined;
+  /** All Tag IDs that refer to this Container. */
+  tagIds?: StringList | undefined;
+  /** Container display name. */
+  name?: string | undefined;
+  /** List of server-side container URLs for the Container. If multiple URLs are provided, all URL paths must match. */
+  taggingServerUrls?: StringList | undefined;
+  /** List of Usage Contexts for the Container. Valid values include: web, android, or ios. */
+  usageContext?: ContainerUsageContextItemEnumList | undefined;
+  /** The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
+  fingerprint?: string | undefined;
+  /** GTM Container's API relative path. */
+  path?: string | undefined;
+  /** Container Public ID. */
+  publicId?: string | undefined;
+  /** Container Notes. */
+  notes?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** The Container ID uniquely identifies the GTM Container. */
+  containerId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
 }
 export type EnvironmentTypeEnum = "user" | "live" | "latest" | "workspace";
-/** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
-export interface Environment {
+export interface CreateAccountsContainersEnvironmentsRequest {
+  /** GTM Container's API relative path. */
+  parent: string;
   /** Whether or not to enable debug by default for the environment. */
   enableDebug?: boolean | undefined;
   /** GTM Container ID. */
@@ -879,11 +900,58 @@ export interface Environment {
   /** GTM Environment ID uniquely identifies the GTM Environment. */
   environmentId?: string | undefined;
 }
-export interface CreateAccountsContainersEnvironmentsRequest {
-  /** GTM Container's API relative path. */
+/** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
+export interface Environment {
+  /** Whether or not to enable debug by default for the environment. */
+  enableDebug?: boolean | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** The environment authorization code. */
+  authorizationCode?: string | undefined;
+  /** The environment description. Can be set or changed only on USER type environments. */
+  description?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Represents a link to a container version. */
+  containerVersionId?: string | undefined;
+  /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
+  fingerprint?: string | undefined;
+  /** Represents a link to a quick preview of a workspace. */
+  workspaceId?: string | undefined;
+  /** GTM Environment's API relative path. */
+  path?: string | undefined;
+  /** The last update time-stamp for the authorization code. */
+  authorizationTimestamp?: string | undefined;
+  /** Default preview page url for the environment. */
+  url?: string | undefined;
+  /** The type of this environment. */
+  type?: EnvironmentTypeEnum | undefined;
+  /** The environment display name. Can be set or changed only on USER type environments. */
+  name?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Environment ID uniquely identifies the GTM Environment. */
+  environmentId?: string | undefined;
+}
+export interface CreateAccountsContainersWorkspacesRequest {
+  /** GTM parent Container's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Environment | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The Workspace ID uniquely identifies the GTM Workspace. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Workspace as computed at storage time. This value is recomputed whenever the workspace is modified. */
+  fingerprint?: string | undefined;
+  /** Workspace display name. */
+  name?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Workspace's API relative path. */
+  path?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** Workspace description. */
+  description?: string | undefined;
 }
 /** Represents a Google Tag Manager Container Workspace. */
 export interface Workspace {
@@ -903,12 +971,6 @@ export interface Workspace {
   containerId?: string | undefined;
   /** Workspace description. */
   description?: string | undefined;
-}
-export interface CreateAccountsContainersWorkspacesRequest {
-  /** GTM parent Container's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Workspace | undefined;
 }
 export type CreateAccountsContainersWorkspacesBuilt_in_variablesTypeEnum =
   | "builtInVariableTypeUnspecified"
@@ -1045,56 +1107,316 @@ export interface CreateBuiltInVariableResponse {
 export interface CreateAccountsContainersWorkspacesClientsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Client | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Priority determines relative firing order. */
+  priority?: number | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Client as computed at storage time. This value is recomputed whenever the client is modified. */
+  fingerprint?: string | undefined;
+  /** The client's parameters. */
+  parameter?: ParameterList | undefined;
+  /** Client display name. */
+  name?: string | undefined;
+  /** The Client ID uniquely identifies the GTM client. */
+  clientId?: string | undefined;
+  /** Client type. */
+  type?: string | undefined;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string | undefined;
+  /** GTM client's API relative path. */
+  path?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesFoldersRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Folder | undefined;
+  /** User notes on how to apply this folder in the container. */
+  notes?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Folder's API relative path. */
+  path?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The Folder ID uniquely identifies the GTM Folder. */
+  folderId?: string | undefined;
+  /** Folder display name. */
+  name?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
+  fingerprint?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesGtag_configRequest {
   /** Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: GtagConfig | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Google tag config type. */
+  type?: string | undefined;
+  /** The Google tag config's parameters. */
+  parameter?: ParameterList | undefined;
+  /** Google tag container ID. */
+  containerId?: string | undefined;
+  /** The ID uniquely identifies the Google tag config. */
+  gtagConfigId?: string | undefined;
+  /** Google tag account ID. */
+  accountId?: string | undefined;
+  /** Google tag config's API relative path. */
+  path?: string | undefined;
+  /** Google tag workspace ID. Only used by GTM containers. Set to 0 otherwise. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the Google tag config as computed at storage time. This value is recomputed whenever the config is modified. */
+  fingerprint?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesTagsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Tag | undefined;
+  /** Consent settings of a tag. */
+  consentSettings?: TagConsentSetting | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** If non-empty, then the tag display name will be included in the monitoring metadata map using the key specified. */
+  monitoringMetadataTagNameKey?: string | undefined;
+  /** GTM Tag's API relative path. */
+  path?: string | undefined;
+  /** The tag's parameters. */
+  parameter?: ParameterList | undefined;
+  /** Option to fire this tag. */
+  tagFiringOption?: TagTagFiringOptionEnum | (string & {}) | undefined;
+  /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
+  blockingTriggerId?: StringList | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Indicates whether the tag is paused, which prevents the tag from firing. */
+  paused?: boolean | undefined;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string | undefined;
+  /** The Tag ID uniquely identifies the GTM Tag. */
+  tagId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
+  fingerprint?: string | undefined;
+  /** The end timestamp in milliseconds to schedule a tag. */
+  scheduleEndMs?: string | undefined;
+  /** A map of key-value pairs of tag metadata to be included in the event data for tag monitoring. Notes: - This parameter must be type MAP. - Each parameter in the map are type TEMPLATE, however cannot contain variable references. */
+  monitoringMetadata?: Parameter | undefined;
+  /** The list of setup tags. Currently we only allow one. */
+  setupTag?: SetupTagList | undefined;
+  /** User defined numeric priority of the tag. Tags are fired asynchronously in order of priority. Tags with higher numeric value fire first. A tag's priority can be a positive or negative value. The default value is 0. */
+  priority?: Parameter | undefined;
+  /** Tag display name. */
+  name?: string | undefined;
+  /** GTM Tag Type. */
+  type?: string | undefined;
+  /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
+  firingTriggerId?: StringList | undefined;
+  /** If set to true, this tag will only fire in the live environment (e.g. not in preview or debug mode). */
+  liveOnly?: boolean | undefined;
+  /** The list of teardown tags. Currently we only allow one. */
+  teardownTag?: TeardownTagList | undefined;
+  /** The start timestamp in milliseconds to schedule a tag. */
+  scheduleStartMs?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: CustomTemplate | undefined;
+  /** The Custom Template ID uniquely identifies the GTM custom template. */
+  templateId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Custom Template as computed at storage time. This value is recomputed whenever the template is modified. */
+  fingerprint?: string | undefined;
+  /** The custom template in text format. */
+  templateData?: string | undefined;
+  /** GTM Custom Template's API relative path. */
+  path?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** A reference to the Community Template Gallery entry. */
+  galleryReference?: GalleryReference | undefined;
+  /** Custom Template display name. */
+  name?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Transformation | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Transformation as computed at storage time. This value is recomputed whenever the transformation is modified. */
+  fingerprint?: string | undefined;
+  /** The transformation's parameters. */
+  parameter?: ParameterList | undefined;
+  /** User notes on how to apply this transformation in the container. */
+  notes?: string | undefined;
+  /** GTM transformation's API relative path. */
+  path?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Transformation type. */
+  type?: string | undefined;
+  /** Transformation display name. */
+  name?: string | undefined;
+  /** The Transformation ID uniquely identifies the GTM transformation. */
+  transformationId?: string | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesTriggersRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Trigger | undefined;
+  /** User notes on how to apply this trigger in the container. */
+  notes?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
+  fingerprint?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The trigger will only fire iff all Conditions are true. */
+  filter?: ConditionList | undefined;
+  /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
+  limit?: Parameter | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
+  checkValidation?: Parameter | undefined;
+  /** Additional parameters. */
+  parameter?: ParameterList | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  continuousTimeMinMilliseconds?: Parameter | undefined;
+  /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
+  intervalSeconds?: Parameter | undefined;
+  /** GTM Trigger's API relative path. */
+  path?: string | undefined;
+  /** A click trigger CSS selector (i.e. "a", "button" etc.). Only valid for AMP Click trigger. */
+  selector?: Parameter | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
+  interval?: Parameter | undefined;
+  /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
+  waitForTagsTimeout?: Parameter | undefined;
+  /** Used in the case of custom event, which is fired iff all Conditions are true. */
+  customEventFilter?: ConditionList | undefined;
+  /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
+  uniqueTriggerId?: Parameter | undefined;
+  /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
+  visibilitySelector?: Parameter | undefined;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
+  verticalScrollPercentageList?: Parameter | undefined;
+  /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
+  waitForTags?: Parameter | undefined;
+  /** Name of the GTM event that is fired. Only valid for Timer triggers. */
+  eventName?: Parameter | undefined;
+  /** The Trigger ID uniquely identifies the GTM Trigger. */
+  triggerId?: string | undefined;
+  /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  totalTimeMinMilliseconds?: Parameter | undefined;
+  /** Used in the case of auto event tracking. */
+  autoEventFilter?: ConditionList | undefined;
+  /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
+  maxTimerLengthSeconds?: Parameter | undefined;
+  /** Trigger display name. */
+  name?: string | undefined;
+  /** A visibility trigger minimum percent visibility. Only valid for AMP Visibility trigger. */
+  visiblePercentageMin?: Parameter | undefined;
+  /** A visibility trigger maximum percent visibility. Only valid for AMP Visibility trigger. */
+  visiblePercentageMax?: Parameter | undefined;
+  /** Defines the data layer event that causes this trigger. */
+  type?: TriggerTypeEnum | (string & {}) | undefined;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
+  horizontalScrollPercentageList?: Parameter | undefined;
 }
 export interface CreateAccountsContainersWorkspacesVariablesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Variable | undefined;
+  /** The Variable ID uniquely identifies the GTM Variable. */
+  variableId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Option to convert a variable value to other value. */
+  formatValue?: VariableFormatValue | undefined;
+  /** The variable's parameters. */
+  parameter?: ParameterList | undefined;
+  /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
+  enablingTriggerId?: StringList | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
+  fingerprint?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Variable Type. */
+  type?: string | undefined;
+  /** The end timestamp in milliseconds to schedule a variable. */
+  scheduleEndMs?: string | undefined;
+  /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
+  disablingTriggerId?: StringList | undefined;
+  /** Variable display name. */
+  name?: string | undefined;
+  /** User notes on how to apply this variable in the container. */
+  notes?: string | undefined;
+  /** GTM Variable's API relative path. */
+  path?: string | undefined;
+  /** The start timestamp in milliseconds to schedule a variable. */
+  scheduleStartMs?: string | undefined;
 }
 export interface CreateAccountsContainersWorkspacesZonesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
-  /** Request body */
-  body?: Zone | undefined;
+  /** This Zone's boundary. */
+  boundary?: ZoneBoundary | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** This Zone's type restrictions. */
+  typeRestriction?: ZoneTypeRestriction | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Zone as computed at storage time. This value is recomputed whenever the zone is modified. */
+  fingerprint?: string | undefined;
+  /** Containers that are children of this Zone. */
+  childContainer?: ZoneChildContainerList | undefined;
+  /** Zone display name. */
+  name?: string | undefined;
+  /** The Zone ID uniquely identifies the GTM Zone. */
+  zoneId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** GTM Zone's API relative path. */
+  path?: string | undefined;
+  /** User notes on how to apply this zone in the container. */
+  notes?: string | undefined;
 }
 export type ContainerAccessPermissionEnum =
   | "containerPermissionUnspecified"
@@ -1121,6 +1443,20 @@ export interface AccountAccess {
   /** Whether the user has no access, user access, or admin access to an account. */
   permission?: AccountAccessPermissionEnum | (string & {}) | undefined;
 }
+export interface CreateAccountsUser_permissionsRequest {
+  /** GTM Account's API relative path. */
+  parent: string;
+  /** GTM UserPermission's API relative path. */
+  path?: string | undefined;
+  /** The Account ID uniquely identifies the GTM Account. */
+  accountId?: string | undefined;
+  /** User's email address. */
+  emailAddress?: string | undefined;
+  /** GTM Container access permissions. */
+  containerAccess?: ContainerAccessList | undefined;
+  /** GTM Account access permissions. */
+  accountAccess?: AccountAccess | undefined;
+}
 /** Represents a user's permissions to an account and its container. */
 export interface UserPermission {
   /** GTM UserPermission's API relative path. */
@@ -1134,24 +1470,13 @@ export interface UserPermission {
   /** GTM Account access permissions. */
   accountAccess?: AccountAccess | undefined;
 }
-export interface CreateAccountsUser_permissionsRequest {
-  /** GTM Account's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: UserPermission | undefined;
-}
-/** Options for new container versions. */
-export interface CreateContainerVersionRequestVersionOptions {
+export interface CreateVersionAccountsContainersWorkspacesRequest {
+  /** GTM Workspace's API relative path. */
+  path: string;
   /** The notes of the container version to be created. */
   notes?: string | undefined;
   /** The name of the container version to be created. */
   name?: string | undefined;
-}
-export interface CreateVersionAccountsContainersWorkspacesRequest {
-  /** GTM Workspace's API relative path. */
-  path: string;
-  /** Request body */
-  body?: CreateContainerVersionRequestVersionOptions | undefined;
 }
 /** The status of a workspace after synchronization. */
 export interface SyncStatus {
@@ -1861,8 +2186,22 @@ export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersRequest 
   variableId?: StringList | undefined;
   /** The triggers to be moved to the folder. */
   triggerId?: StringList | undefined;
-  /** Request body */
-  body?: Folder | undefined;
+  /** User notes on how to apply this folder in the container. */
+  notes?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The Folder ID uniquely identifies the GTM Folder. */
+  folderId?: string | undefined;
+  /** Folder display name. */
+  name?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
+  fingerprint?: string | undefined;
 }
 export interface MoveEntitiesToFolderAccountsContainersWorkspacesFoldersResponse {}
 export interface MoveTagIdAccountsContainersRequest {
@@ -1910,16 +2249,62 @@ export interface PublishContainerVersionResponse {
 export interface ReauthorizeAccountsContainersEnvironmentsRequest {
   /** GTM Environment's API relative path. */
   path: string;
-  /** Request body */
-  body?: Environment | undefined;
+  /** Whether or not to enable debug by default for the environment. */
+  enableDebug?: boolean | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** The environment authorization code. */
+  authorizationCode?: string | undefined;
+  /** The environment description. Can be set or changed only on USER type environments. */
+  description?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Represents a link to a container version. */
+  containerVersionId?: string | undefined;
+  /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
+  fingerprint?: string | undefined;
+  /** Represents a link to a quick preview of a workspace. */
+  workspaceId?: string | undefined;
+  /** The last update time-stamp for the authorization code. */
+  authorizationTimestamp?: string | undefined;
+  /** Default preview page url for the environment. */
+  url?: string | undefined;
+  /** The type of this environment. */
+  type?: EnvironmentTypeEnum | (string & {}) | undefined;
+  /** The environment display name. Can be set or changed only on USER type environments. */
+  name?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Environment ID uniquely identifies the GTM Environment. */
+  environmentId?: string | undefined;
 }
 export interface Resolve_conflictAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the entity_in_workspace in the merge conflict. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Entity | undefined;
+  /** The built in variable being represented by the entity. */
+  builtInVariable?: BuiltInVariable | undefined;
+  /** The custom template being represented by the entity. */
+  customTemplate?: CustomTemplate | undefined;
+  /** The client being represented by the entity. */
+  client?: Client | undefined;
+  /** Represents how the entity has been changed in the workspace. */
+  changeStatus?: EntityChangeStatusEnum | (string & {}) | undefined;
+  /** The zone being represented by the entity. */
+  zone?: Zone | undefined;
+  /** The folder being represented by the entity. */
+  folder?: Folder | undefined;
+  /** The gtag config being represented by the entity. */
+  gtagConfig?: GtagConfig | undefined;
+  /** The variable being represented by the entity. */
+  variable?: Variable | undefined;
+  /** The transformation being represented by the entity. */
+  transformation?: Transformation | undefined;
+  /** The tag being represented by the entity. */
+  tag?: Tag | undefined;
+  /** The trigger being represented by the entity. */
+  trigger?: Trigger | undefined;
 }
 export interface Resolve_conflictAccountsContainersWorkspacesResponse {}
 export type RevertAccountsContainersWorkspacesBuilt_in_variablesTypeEnum =
@@ -2173,118 +2558,444 @@ export interface UpdateAccountsRequest {
   fingerprint?: string | undefined;
   /** GTM Account's API relative path. */
   path: string;
-  /** Request body */
-  body?: Account | undefined;
+  /** The Account ID uniquely identifies the GTM Account. */
+  accountId?: string | undefined;
+  /** Account display name. */
+  name?: string | undefined;
+  /** Read-only Account feature set */
+  features?: AccountFeatures | undefined;
+  /** Whether the account shares data anonymously with Google and others. This flag enables benchmarking by sharing your data in an anonymous form. Google will remove all identifiable information about your website, combine the data with hundreds of other anonymous sites and report aggregate trends in the benchmarking service. */
+  shareData?: boolean | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
 }
 export interface UpdateAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the container in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Container | undefined;
+  /** List of domain names associated with the Container. */
+  domainName?: StringList | undefined;
+  /** Read-only Container feature set. */
+  features?: ContainerFeatures | undefined;
+  /** All Tag IDs that refer to this Container. */
+  tagIds?: StringList | undefined;
+  /** Container display name. */
+  name?: string | undefined;
+  /** List of server-side container URLs for the Container. If multiple URLs are provided, all URL paths must match. */
+  taggingServerUrls?: StringList | undefined;
+  /** List of Usage Contexts for the Container. Valid values include: web, android, or ios. */
+  usageContext?: ContainerUsageContextItemEnumList | undefined;
+  /** Container Public ID. */
+  publicId?: string | undefined;
+  /** Container Notes. */
+  notes?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** The Container ID uniquely identifies the GTM Container. */
+  containerId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
 }
 export interface UpdateAccountsContainersEnvironmentsRequest {
   /** GTM Environment's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Environment | undefined;
+  /** Whether or not to enable debug by default for the environment. */
+  enableDebug?: boolean | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** The environment authorization code. */
+  authorizationCode?: string | undefined;
+  /** The environment description. Can be set or changed only on USER type environments. */
+  description?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Represents a link to a container version. */
+  containerVersionId?: string | undefined;
+  /** Represents a link to a quick preview of a workspace. */
+  workspaceId?: string | undefined;
+  /** The last update time-stamp for the authorization code. */
+  authorizationTimestamp?: string | undefined;
+  /** Default preview page url for the environment. */
+  url?: string | undefined;
+  /** The type of this environment. */
+  type?: EnvironmentTypeEnum | (string & {}) | undefined;
+  /** The environment display name. Can be set or changed only on USER type environments. */
+  name?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Environment ID uniquely identifies the GTM Environment. */
+  environmentId?: string | undefined;
 }
 export interface UpdateAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: ContainerVersion | undefined;
+  /** The triggers in the container that this version was taken from. */
+  trigger?: TriggerList | undefined;
+  /** The clients in the container that this version was taken from. */
+  client?: ClientList | undefined;
+  /** The variables in the container that this version was taken from. */
+  variable?: VariableList | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Container version display name. */
+  name?: string | undefined;
+  /** A value of true indicates this container version has been deleted. */
+  deleted?: boolean | undefined;
+  /** The tags in the container that this version was taken from. */
+  tag?: TagList | undefined;
+  /** The folders in the container that this version was taken from. */
+  folder?: FolderList | undefined;
+  /** The transformations in the container that this version was taken from. */
+  transformation?: TransformationList | undefined;
+  /** The Google tag configs in the container that this version was taken from. */
+  gtagConfig?: GtagConfigList | undefined;
+  /** The Container Version ID uniquely identifies the GTM Container Version. */
+  containerVersionId?: string | undefined;
+  /** Container version description. */
+  description?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** The built-in variables in the container that this version was taken from. */
+  builtInVariable?: BuiltInVariableList | undefined;
+  /** The custom templates in the container that this version was taken from. */
+  customTemplate?: CustomTemplateList | undefined;
+  /** The zones in the container that this version was taken from. */
+  zone?: ZoneList | undefined;
+  /** The container that this version was taken from. */
+  container?: Container | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the workspace in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Workspace | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The Workspace ID uniquely identifies the GTM Workspace. */
+  workspaceId?: string | undefined;
+  /** Workspace display name. */
+  name?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** Workspace description. */
+  description?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesClientsRequest {
   /** When provided, this fingerprint must match the fingerprint of the client in storage. */
   fingerprint?: string | undefined;
   /** GTM Client's API relative path. */
   path: string;
-  /** Request body */
-  body?: Client | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Priority determines relative firing order. */
+  priority?: number | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The client's parameters. */
+  parameter?: ParameterList | undefined;
+  /** Client display name. */
+  name?: string | undefined;
+  /** The Client ID uniquely identifies the GTM client. */
+  clientId?: string | undefined;
+  /** Client type. */
+  type?: string | undefined;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
+  /** User notes on how to apply this folder in the container. */
+  notes?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The Folder ID uniquely identifies the GTM Folder. */
+  folderId?: string | undefined;
+  /** Folder display name. */
+  name?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesGtag_configRequest {
   /** When provided, this fingerprint must match the fingerprint of the config in storage. */
   fingerprint?: string | undefined;
   /** Google tag config's API relative path. */
   path: string;
-  /** Request body */
-  body?: GtagConfig | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Google tag config type. */
+  type?: string | undefined;
+  /** The Google tag config's parameters. */
+  parameter?: ParameterList | undefined;
+  /** Google tag container ID. */
+  containerId?: string | undefined;
+  /** The ID uniquely identifies the Google tag config. */
+  gtagConfigId?: string | undefined;
+  /** Google tag account ID. */
+  accountId?: string | undefined;
+  /** Google tag workspace ID. Only used by GTM containers. Set to 0 otherwise. */
+  workspaceId?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTagsRequest {
   /** GTM Tag's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Tag | undefined;
+  /** Consent settings of a tag. */
+  consentSettings?: TagConsentSetting | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** If non-empty, then the tag display name will be included in the monitoring metadata map using the key specified. */
+  monitoringMetadataTagNameKey?: string | undefined;
+  /** The tag's parameters. */
+  parameter?: ParameterList | undefined;
+  /** Option to fire this tag. */
+  tagFiringOption?: TagTagFiringOptionEnum | (string & {}) | undefined;
+  /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
+  blockingTriggerId?: StringList | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Indicates whether the tag is paused, which prevents the tag from firing. */
+  paused?: boolean | undefined;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string | undefined;
+  /** The Tag ID uniquely identifies the GTM Tag. */
+  tagId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The end timestamp in milliseconds to schedule a tag. */
+  scheduleEndMs?: string | undefined;
+  /** A map of key-value pairs of tag metadata to be included in the event data for tag monitoring. Notes: - This parameter must be type MAP. - Each parameter in the map are type TEMPLATE, however cannot contain variable references. */
+  monitoringMetadata?: Parameter | undefined;
+  /** The list of setup tags. Currently we only allow one. */
+  setupTag?: SetupTagList | undefined;
+  /** User defined numeric priority of the tag. Tags are fired asynchronously in order of priority. Tags with higher numeric value fire first. A tag's priority can be a positive or negative value. The default value is 0. */
+  priority?: Parameter | undefined;
+  /** Tag display name. */
+  name?: string | undefined;
+  /** GTM Tag Type. */
+  type?: string | undefined;
+  /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
+  firingTriggerId?: StringList | undefined;
+  /** If set to true, this tag will only fire in the live environment (e.g. not in preview or debug mode). */
+  liveOnly?: boolean | undefined;
+  /** The list of teardown tags. Currently we only allow one. */
+  teardownTag?: TeardownTagList | undefined;
+  /** The start timestamp in milliseconds to schedule a tag. */
+  scheduleStartMs?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTemplatesRequest {
   /** When provided, this fingerprint must match the fingerprint of the templates in storage. */
   fingerprint?: string | undefined;
   /** GTM Custom Template's API relative path. */
   path: string;
-  /** Request body */
-  body?: CustomTemplate | undefined;
+  /** The Custom Template ID uniquely identifies the GTM custom template. */
+  templateId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The custom template in text format. */
+  templateData?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** A reference to the Community Template Gallery entry. */
+  galleryReference?: GalleryReference | undefined;
+  /** Custom Template display name. */
+  name?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Transformation's API relative path. */
   path: string;
   /** When provided, this fingerprint must match the fingerprint of the transformation in storage. */
   fingerprint?: string | undefined;
-  /** Request body */
-  body?: Transformation | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** The transformation's parameters. */
+  parameter?: ParameterList | undefined;
+  /** User notes on how to apply this transformation in the container. */
+  notes?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Transformation type. */
+  type?: string | undefined;
+  /** Transformation display name. */
+  name?: string | undefined;
+  /** The Transformation ID uniquely identifies the GTM transformation. */
+  transformationId?: string | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesTriggersRequest {
   /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
   fingerprint?: string | undefined;
   /** GTM Trigger's API relative path. */
   path: string;
-  /** Request body */
-  body?: Trigger | undefined;
+  /** User notes on how to apply this trigger in the container. */
+  notes?: string | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** The trigger will only fire iff all Conditions are true. */
+  filter?: ConditionList | undefined;
+  /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
+  limit?: Parameter | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
+  checkValidation?: Parameter | undefined;
+  /** Additional parameters. */
+  parameter?: ParameterList | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  continuousTimeMinMilliseconds?: Parameter | undefined;
+  /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
+  intervalSeconds?: Parameter | undefined;
+  /** A click trigger CSS selector (i.e. "a", "button" etc.). Only valid for AMP Click trigger. */
+  selector?: Parameter | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
+  interval?: Parameter | undefined;
+  /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
+  waitForTagsTimeout?: Parameter | undefined;
+  /** Used in the case of custom event, which is fired iff all Conditions are true. */
+  customEventFilter?: ConditionList | undefined;
+  /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
+  uniqueTriggerId?: Parameter | undefined;
+  /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
+  visibilitySelector?: Parameter | undefined;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
+  verticalScrollPercentageList?: Parameter | undefined;
+  /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
+  waitForTags?: Parameter | undefined;
+  /** Name of the GTM event that is fired. Only valid for Timer triggers. */
+  eventName?: Parameter | undefined;
+  /** The Trigger ID uniquely identifies the GTM Trigger. */
+  triggerId?: string | undefined;
+  /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  totalTimeMinMilliseconds?: Parameter | undefined;
+  /** Used in the case of auto event tracking. */
+  autoEventFilter?: ConditionList | undefined;
+  /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
+  maxTimerLengthSeconds?: Parameter | undefined;
+  /** Trigger display name. */
+  name?: string | undefined;
+  /** A visibility trigger minimum percent visibility. Only valid for AMP Visibility trigger. */
+  visiblePercentageMin?: Parameter | undefined;
+  /** A visibility trigger maximum percent visibility. Only valid for AMP Visibility trigger. */
+  visiblePercentageMax?: Parameter | undefined;
+  /** Defines the data layer event that causes this trigger. */
+  type?: TriggerTypeEnum | (string & {}) | undefined;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
+  horizontalScrollPercentageList?: Parameter | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesVariablesRequest {
   /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
   fingerprint?: string | undefined;
   /** GTM Variable's API relative path. */
   path: string;
-  /** Request body */
-  body?: Variable | undefined;
+  /** The Variable ID uniquely identifies the GTM Variable. */
+  variableId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** Option to convert a variable value to other value. */
+  formatValue?: VariableFormatValue | undefined;
+  /** The variable's parameters. */
+  parameter?: ParameterList | undefined;
+  /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
+  enablingTriggerId?: StringList | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** Parent folder id. */
+  parentFolderId?: string | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** GTM Variable Type. */
+  type?: string | undefined;
+  /** The end timestamp in milliseconds to schedule a variable. */
+  scheduleEndMs?: string | undefined;
+  /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
+  disablingTriggerId?: StringList | undefined;
+  /** Variable display name. */
+  name?: string | undefined;
+  /** User notes on how to apply this variable in the container. */
+  notes?: string | undefined;
+  /** The start timestamp in milliseconds to schedule a variable. */
+  scheduleStartMs?: string | undefined;
 }
 export interface UpdateAccountsContainersWorkspacesZonesRequest {
   /** When provided, this fingerprint must match the fingerprint of the zone in storage. */
   fingerprint?: string | undefined;
   /** GTM Zone's API relative path. */
   path: string;
-  /** Request body */
-  body?: Zone | undefined;
+  /** This Zone's boundary. */
+  boundary?: ZoneBoundary | undefined;
+  /** GTM Container ID. */
+  containerId?: string | undefined;
+  /** This Zone's type restrictions. */
+  typeRestriction?: ZoneTypeRestriction | undefined;
+  /** GTM Workspace ID. */
+  workspaceId?: string | undefined;
+  /** Containers that are children of this Zone. */
+  childContainer?: ZoneChildContainerList | undefined;
+  /** Zone display name. */
+  name?: string | undefined;
+  /** The Zone ID uniquely identifies the GTM Zone. */
+  zoneId?: string | undefined;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string | undefined;
+  /** GTM Account ID. */
+  accountId?: string | undefined;
+  /** User notes on how to apply this zone in the container. */
+  notes?: string | undefined;
 }
 export interface UpdateAccountsUser_permissionsRequest {
   /** GTM UserPermission's API relative path. */
   path: string;
-  /** Request body */
-  body?: UserPermission | undefined;
+  /** The Account ID uniquely identifies the GTM Account. */
+  accountId?: string | undefined;
+  /** User's email address. */
+  emailAddress?: string | undefined;
+  /** GTM Container access permissions. */
+  containerAccess?: ContainerAccessList | undefined;
+  /** GTM Account access permissions. */
+  accountAccess?: AccountAccess | undefined;
 }
 export type BulkUpdateAccountsContainersWorkspacesError =
   | NotFound
@@ -2300,8 +3011,8 @@ export const bulkUpdateAccountsContainersWorkspaces: API.OperationMethod<
   BulkUpdateAccountsContainersWorkspacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(537, __c67, 1) as any as S.Schema<BulkUpdateAccountsContainersWorkspacesRequest>,
-  output: __S(536, __c67, 0) as any as S.Schema<BulkUpdateWorkspaceResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<BulkUpdateAccountsContainersWorkspacesRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<BulkUpdateWorkspaceResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2680,8 +3391,8 @@ export const createVersionAccountsContainersWorkspaces: API.OperationMethod<
   CreateVersionAccountsContainersWorkspacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c24, 1) as any as S.Schema<CreateVersionAccountsContainersWorkspacesRequest>,
-  output: __S(194, __c24, 2) as any as S.Schema<CreateContainerVersionResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateVersionAccountsContainersWorkspacesRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<CreateContainerVersionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4791,7 +5502,12 @@ function __c2(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1056, __c132, 0).pipe(T.HttpBody())),
+          accountId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          name: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          containerId: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4809,7 +5525,17 @@ function __c3(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c70, 0).pipe(T.HttpBody())),
+          parentFolderId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          priority: S.optional(S.Number),
+          workspaceId: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          name: S.optional(S.String),
+          clientId: S.optional(S.String),
+          type: S.optional(S.String),
+          notes: S.optional(S.String),
+          containerId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4827,7 +5553,13 @@ function __c4(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
+          notes: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          accountId: S.optional(S.String),
+          folderId: S.optional(S.String),
+          name: S.optional(S.String),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4845,7 +5577,13 @@ function __c5(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c72, 0).pipe(T.HttpBody())),
+          tagManagerUrl: S.optional(S.String),
+          type: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          containerId: S.optional(S.String),
+          gtagConfigId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4863,7 +5601,29 @@ function __c6(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(589, __c73, 5).pipe(T.HttpBody())),
+          consentSettings: S.optional(__S(584, __c73, 0)),
+          containerId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          monitoringMetadataTagNameKey: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          tagFiringOption: S.optional(S.String),
+          blockingTriggerId: S.optional(__S(656, __c82, 0)),
+          parentFolderId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          paused: S.optional(S.Boolean),
+          notes: S.optional(S.String),
+          tagId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          scheduleEndMs: S.optional(S.String),
+          monitoringMetadata: S.optional(__S(552, __c69, 0)),
+          setupTag: S.optional(__S(586, __c73, 2)),
+          priority: S.optional(__S(552, __c69, 0)),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          firingTriggerId: S.optional(__S(656, __c82, 0)),
+          liveOnly: S.optional(S.Boolean),
+          teardownTag: S.optional(__S(588, __c73, 4)),
+          scheduleStartMs: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4881,7 +5641,14 @@ function __c7(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(593, __c74, 1).pipe(T.HttpBody())),
+          templateId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          templateData: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          galleryReference: S.optional(__S(592, __c74, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4899,7 +5666,16 @@ function __c8(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(600, __c75, 0).pipe(T.HttpBody())),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          notes: S.optional(S.String),
+          accountId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          transformationId: S.optional(S.String),
+          parentFolderId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4917,7 +5693,36 @@ function __c9(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(616, __c77, 0).pipe(T.HttpBody())),
+          notes: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          filter: S.optional(__S(609, __c76, 1)),
+          limit: S.optional(__S(552, __c69, 0)),
+          tagManagerUrl: S.optional(S.String),
+          checkValidation: S.optional(__S(552, __c69, 0)),
+          parameter: S.optional(__S(553, __c69, 1)),
+          parentFolderId: S.optional(S.String),
+          continuousTimeMinMilliseconds: S.optional(__S(552, __c69, 0)),
+          intervalSeconds: S.optional(__S(552, __c69, 0)),
+          selector: S.optional(__S(552, __c69, 0)),
+          containerId: S.optional(S.String),
+          interval: S.optional(__S(552, __c69, 0)),
+          waitForTagsTimeout: S.optional(__S(552, __c69, 0)),
+          customEventFilter: S.optional(__S(609, __c76, 1)),
+          uniqueTriggerId: S.optional(__S(552, __c69, 0)),
+          visibilitySelector: S.optional(__S(552, __c69, 0)),
+          verticalScrollPercentageList: S.optional(__S(552, __c69, 0)),
+          waitForTags: S.optional(__S(552, __c69, 0)),
+          eventName: S.optional(__S(552, __c69, 0)),
+          triggerId: S.optional(S.String),
+          totalTimeMinMilliseconds: S.optional(__S(552, __c69, 0)),
+          autoEventFilter: S.optional(__S(609, __c76, 1)),
+          maxTimerLengthSeconds: S.optional(__S(552, __c69, 0)),
+          name: S.optional(S.String),
+          visiblePercentageMin: S.optional(__S(552, __c69, 0)),
+          visiblePercentageMax: S.optional(__S(552, __c69, 0)),
+          type: S.optional(S.String),
+          horizontalScrollPercentageList: S.optional(__S(552, __c69, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4935,7 +5740,21 @@ function __c10(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(625, __c78, 1).pipe(T.HttpBody())),
+          variableId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          formatValue: S.optional(__S(624, __c78, 0)),
+          parameter: S.optional(__S(553, __c69, 1)),
+          enablingTriggerId: S.optional(__S(656, __c82, 0)),
+          workspaceId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          parentFolderId: S.optional(S.String),
+          containerId: S.optional(S.String),
+          type: S.optional(S.String),
+          scheduleEndMs: S.optional(S.String),
+          disablingTriggerId: S.optional(__S(656, __c82, 0)),
+          name: S.optional(S.String),
+          notes: S.optional(S.String),
+          scheduleStartMs: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4953,7 +5772,16 @@ function __c11(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(636, __c79, 4).pipe(T.HttpBody())),
+          boundary: S.optional(__S(632, __c79, 0)),
+          containerId: S.optional(S.String),
+          typeRestriction: S.optional(__S(633, __c79, 1)),
+          workspaceId: S.optional(S.String),
+          childContainer: S.optional(__S(635, __c79, 3)),
+          name: S.optional(S.String),
+          zoneId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          accountId: S.optional(S.String),
+          notes: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4970,7 +5798,19 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(560, __c70, 0).pipe(T.HttpBody())),
+          parentFolderId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          priority: S.optional(S.Number),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          name: S.optional(S.String),
+          clientId: S.optional(S.String),
+          type: S.optional(S.String),
+          notes: S.optional(S.String),
+          path: S.optional(S.String),
+          containerId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4987,7 +5827,10 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(187, __c23, 3).pipe(T.HttpBody())),
+          accountId: S.optional(S.String),
+          emailAddress: S.optional(S.String),
+          containerAccess: S.optional(__S(185, __c23, 1)),
+          accountAccess: S.optional(__S(186, __c23, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5004,7 +5847,15 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
+          notes: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          path: S.optional(S.String),
+          accountId: S.optional(S.String),
+          folderId: S.optional(S.String),
+          name: S.optional(S.String),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5021,7 +5872,15 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(576, __c72, 0).pipe(T.HttpBody())),
+          tagManagerUrl: S.optional(S.String),
+          type: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          containerId: S.optional(S.String),
+          gtagConfigId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          path: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5038,7 +5897,31 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(589, __c73, 5).pipe(T.HttpBody())),
+          consentSettings: S.optional(__S(584, __c73, 0)),
+          containerId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          monitoringMetadataTagNameKey: S.optional(S.String),
+          path: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          tagFiringOption: S.optional(S.String),
+          blockingTriggerId: S.optional(__S(656, __c82, 0)),
+          parentFolderId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          paused: S.optional(S.Boolean),
+          notes: S.optional(S.String),
+          tagId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          scheduleEndMs: S.optional(S.String),
+          monitoringMetadata: S.optional(__S(552, __c69, 0)),
+          setupTag: S.optional(__S(586, __c73, 2)),
+          priority: S.optional(__S(552, __c69, 0)),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          firingTriggerId: S.optional(__S(656, __c82, 0)),
+          liveOnly: S.optional(S.Boolean),
+          teardownTag: S.optional(__S(588, __c73, 4)),
+          scheduleStartMs: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5055,7 +5938,16 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(593, __c74, 1).pipe(T.HttpBody())),
+          templateId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          templateData: S.optional(S.String),
+          path: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          galleryReference: S.optional(__S(592, __c74, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5072,7 +5964,18 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(600, __c75, 0).pipe(T.HttpBody())),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          parameter: S.optional(__S(553, __c69, 1)),
+          notes: S.optional(S.String),
+          path: S.optional(S.String),
+          accountId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          transformationId: S.optional(S.String),
+          parentFolderId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5089,7 +5992,38 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(616, __c77, 0).pipe(T.HttpBody())),
+          notes: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          accountId: S.optional(S.String),
+          filter: S.optional(__S(609, __c76, 1)),
+          limit: S.optional(__S(552, __c69, 0)),
+          tagManagerUrl: S.optional(S.String),
+          checkValidation: S.optional(__S(552, __c69, 0)),
+          parameter: S.optional(__S(553, __c69, 1)),
+          parentFolderId: S.optional(S.String),
+          continuousTimeMinMilliseconds: S.optional(__S(552, __c69, 0)),
+          intervalSeconds: S.optional(__S(552, __c69, 0)),
+          path: S.optional(S.String),
+          selector: S.optional(__S(552, __c69, 0)),
+          containerId: S.optional(S.String),
+          interval: S.optional(__S(552, __c69, 0)),
+          waitForTagsTimeout: S.optional(__S(552, __c69, 0)),
+          customEventFilter: S.optional(__S(609, __c76, 1)),
+          uniqueTriggerId: S.optional(__S(552, __c69, 0)),
+          visibilitySelector: S.optional(__S(552, __c69, 0)),
+          verticalScrollPercentageList: S.optional(__S(552, __c69, 0)),
+          waitForTags: S.optional(__S(552, __c69, 0)),
+          eventName: S.optional(__S(552, __c69, 0)),
+          triggerId: S.optional(S.String),
+          totalTimeMinMilliseconds: S.optional(__S(552, __c69, 0)),
+          autoEventFilter: S.optional(__S(609, __c76, 1)),
+          maxTimerLengthSeconds: S.optional(__S(552, __c69, 0)),
+          name: S.optional(S.String),
+          visiblePercentageMin: S.optional(__S(552, __c69, 0)),
+          visiblePercentageMax: S.optional(__S(552, __c69, 0)),
+          type: S.optional(S.String),
+          horizontalScrollPercentageList: S.optional(__S(552, __c69, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5106,7 +6040,23 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(625, __c78, 1).pipe(T.HttpBody())),
+          variableId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          formatValue: S.optional(__S(624, __c78, 0)),
+          parameter: S.optional(__S(553, __c69, 1)),
+          enablingTriggerId: S.optional(__S(656, __c82, 0)),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          accountId: S.optional(S.String),
+          parentFolderId: S.optional(S.String),
+          containerId: S.optional(S.String),
+          type: S.optional(S.String),
+          scheduleEndMs: S.optional(S.String),
+          disablingTriggerId: S.optional(__S(656, __c82, 0)),
+          name: S.optional(S.String),
+          notes: S.optional(S.String),
+          path: S.optional(S.String),
+          scheduleStartMs: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5123,7 +6073,18 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(636, __c79, 4).pipe(T.HttpBody())),
+          boundary: S.optional(__S(632, __c79, 0)),
+          containerId: S.optional(S.String),
+          typeRestriction: S.optional(__S(633, __c79, 1)),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          childContainer: S.optional(__S(635, __c79, 3)),
+          name: S.optional(S.String),
+          zoneId: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          accountId: S.optional(S.String),
+          path: S.optional(S.String),
+          notes: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5140,7 +6101,11 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(187, __c23, 3).pipe(T.HttpBody())),
+          path: S.optional(S.String),
+          accountId: S.optional(S.String),
+          emailAddress: S.optional(S.String),
+          containerAccess: S.optional(__S(185, __c23, 1)),
+          accountAccess: S.optional(__S(186, __c23, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5185,15 +6150,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          path: S.String.pipe(T.Label()),
           notes: S.optional(S.String),
           name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateContainerVersionRequestVersionOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c24, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5202,7 +6161,7 @@ function __c24(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateVersionAccountsContainersWorkspacesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           newWorkspacePath: S.optional(S.String),
@@ -5820,14 +6779,8 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          changes: S.optional(__S(640, __c80, 0)),
-        }),
-      ).annotate({ identifier: "ProposedChange" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(536, __c67, 0).pipe(T.HttpBody())),
+          changes: S.optional(__S(640, __c80, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5836,6 +6789,12 @@ function __c67(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BulkUpdateAccountsContainersWorkspacesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          changes: S.optional(__S(640, __c80, 0)),
+        }),
+      ).annotate({ identifier: "BulkUpdateWorkspaceResponse" });
   }
 }
 function __c68(j: number): any {
@@ -6757,7 +7716,19 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
+          domainName: S.optional(__S(656, __c82, 0)),
+          features: S.optional(__S(776, __c97, 0)),
+          tagIds: S.optional(__S(656, __c82, 0)),
+          name: S.optional(S.String),
+          taggingServerUrls: S.optional(__S(656, __c82, 0)),
+          usageContext: S.optional(__S(768, __c96, 0)),
+          fingerprint: S.optional(S.String),
+          path: S.optional(S.String),
+          publicId: S.optional(S.String),
+          notes: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          containerId: S.optional(S.String),
+          accountId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6932,7 +7903,14 @@ function __c116(j: number): any {
           path: S.String.pipe(T.Label()),
           variableId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
           triggerId: S.optional(__S(656, __c82, 0).pipe(T.Query())),
-          body: S.optional(__S(568, __c71, 0).pipe(T.HttpBody())),
+          notes: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          accountId: S.optional(S.String),
+          folderId: S.optional(S.String),
+          name: S.optional(S.String),
+          containerId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6995,7 +7973,21 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c120, 0).pipe(T.HttpBody())),
+          enableDebug: S.optional(S.Boolean),
+          containerId: S.optional(S.String),
+          authorizationCode: S.optional(S.String),
+          description: S.optional(S.String),
+          accountId: S.optional(S.String),
+          containerVersionId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          path: S.optional(S.String),
+          authorizationTimestamp: S.optional(S.String),
+          url: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          environmentId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7060,7 +8052,20 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c120, 0).pipe(T.HttpBody())),
+          enableDebug: S.optional(S.Boolean),
+          containerId: S.optional(S.String),
+          authorizationCode: S.optional(S.String),
+          description: S.optional(S.String),
+          accountId: S.optional(S.String),
+          containerVersionId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          authorizationTimestamp: S.optional(S.String),
+          url: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          environmentId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7078,7 +8083,17 @@ function __c123(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(648, __c81, 0).pipe(T.HttpBody())),
+          builtInVariable: S.optional(__S(544, __c68, 0)),
+          customTemplate: S.optional(__S(593, __c74, 1)),
+          client: S.optional(__S(560, __c70, 0)),
+          changeStatus: S.optional(S.String),
+          zone: S.optional(__S(636, __c79, 4)),
+          folder: S.optional(__S(568, __c71, 0)),
+          gtagConfig: S.optional(__S(576, __c72, 0)),
+          variable: S.optional(__S(625, __c78, 1)),
+          transformation: S.optional(__S(600, __c75, 0)),
+          tag: S.optional(__S(589, __c73, 5)),
+          trigger: S.optional(__S(616, __c77, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7256,7 +8271,14 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1056, __c132, 0).pipe(T.HttpBody())),
+          accountId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          name: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          path: S.optional(S.String),
+          containerId: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7415,7 +8437,11 @@ function __c139(j: number): any {
         S.Struct({
           fingerprint: S.optional(S.String.pipe(T.Query())),
           path: S.String.pipe(T.Label()),
-          body: S.optional(__S(433, __c54, 1).pipe(T.HttpBody())),
+          accountId: S.optional(S.String),
+          name: S.optional(S.String),
+          features: S.optional(__S(432, __c54, 0)),
+          shareData: S.optional(S.Boolean),
+          tagManagerUrl: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7433,7 +8459,17 @@ function __c140(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(777, __c97, 1).pipe(T.HttpBody())),
+          domainName: S.optional(__S(656, __c82, 0)),
+          features: S.optional(__S(776, __c97, 0)),
+          tagIds: S.optional(__S(656, __c82, 0)),
+          name: S.optional(S.String),
+          taggingServerUrls: S.optional(__S(656, __c82, 0)),
+          usageContext: S.optional(__S(768, __c96, 0)),
+          publicId: S.optional(S.String),
+          notes: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          containerId: S.optional(S.String),
+          accountId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7451,7 +8487,19 @@ function __c141(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(960, __c120, 0).pipe(T.HttpBody())),
+          enableDebug: S.optional(S.Boolean),
+          containerId: S.optional(S.String),
+          authorizationCode: S.optional(S.String),
+          description: S.optional(S.String),
+          accountId: S.optional(S.String),
+          containerVersionId: S.optional(S.String),
+          workspaceId: S.optional(S.String),
+          authorizationTimestamp: S.optional(S.String),
+          url: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          tagManagerUrl: S.optional(S.String),
+          environmentId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7469,7 +8517,24 @@ function __c142(j: number): any {
         S.Struct({
           path: S.String.pipe(T.Label()),
           fingerprint: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(272, __c34, 0).pipe(T.HttpBody())),
+          trigger: S.optional(__S(208, __c26, 0)),
+          client: S.optional(__S(224, __c28, 0)),
+          variable: S.optional(__S(216, __c27, 0)),
+          tagManagerUrl: S.optional(S.String),
+          accountId: S.optional(S.String),
+          name: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          tag: S.optional(__S(200, __c25, 0)),
+          folder: S.optional(__S(232, __c29, 0)),
+          transformation: S.optional(__S(256, __c32, 0)),
+          gtagConfig: S.optional(__S(240, __c30, 0)),
+          containerVersionId: S.optional(S.String),
+          description: S.optional(S.String),
+          containerId: S.optional(S.String),
+          builtInVariable: S.optional(__S(8, __c1, 0)),
+          customTemplate: S.optional(__S(248, __c31, 0)),
+          zone: S.optional(__S(264, __c33, 0)),
+          container: S.optional(__S(777, __c97, 1)),
         }).pipe(
           T.Http({
             method: "PUT",

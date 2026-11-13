@@ -111,15 +111,11 @@ export interface SiteVerificationWebResourceGettokenRequestSite {
   /** The type of resource to be verified. Can be SITE or INET_DOMAIN (domain name). */
   type?: string | undefined;
 }
-export interface SiteVerificationWebResourceGettokenRequest {
+export interface GetTokenWebResourceRequest {
   /** The site for which a verification token will be generated. */
   site?: SiteVerificationWebResourceGettokenRequestSite | undefined;
   /** The verification method that will be used to verify this site. For sites, 'FILE' or 'META' methods may be used. For domains, only 'DNS' may be used. */
   verificationMethod?: string | undefined;
-}
-export interface GetTokenWebResourceRequest {
-  /** Request body */
-  body?: SiteVerificationWebResourceGettokenRequest | undefined;
 }
 export interface SiteVerificationWebResourceGettokenResponse {
   /** The verification method to use in conjunction with this token. For FILE, the token should be placed in the top-level directory of the site, stored inside a file of the same name. For META, the token should be placed in the HEAD tag of the default page that is loaded for the site. For DNS, the token should be placed in a TXT record of the domain. */
@@ -149,8 +145,12 @@ export interface SiteVerificationWebResourceResource {
 export interface InsertWebResourceRequest {
   /** The method to use for verifying a site or domain. */
   verificationMethod: string;
-  /** Request body */
-  body?: SiteVerificationWebResourceResource | undefined;
+  /** The address and type of a site that is verified or will be verified. */
+  site?: SiteVerificationWebResourceResourceSite | undefined;
+  /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
+  id?: string | undefined;
+  /** The email addresses of all verified owners. */
+  owners?: StringList | undefined;
 }
 export interface ListWebResourceRequest {}
 export type SiteVerificationWebResourceResourceList = Array<SiteVerificationWebResourceResource>;
@@ -161,14 +161,18 @@ export interface SiteVerificationWebResourceListResponse {
 export interface PatchWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
-  /** Request body */
-  body?: SiteVerificationWebResourceResource | undefined;
+  /** The address and type of a site that is verified or will be verified. */
+  site?: SiteVerificationWebResourceResourceSite | undefined;
+  /** The email addresses of all verified owners. */
+  owners?: StringList | undefined;
 }
 export interface UpdateWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
-  /** Request body */
-  body?: SiteVerificationWebResourceResource | undefined;
+  /** The address and type of a site that is verified or will be verified. */
+  site?: SiteVerificationWebResourceResourceSite | undefined;
+  /** The email addresses of all verified owners. */
+  owners?: StringList | undefined;
 }
 export type DeleteWebResourceError =
   | NotFound
@@ -214,8 +218,8 @@ export const getTokenWebResource: API.OperationMethod<
   GetTokenWebResourceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<GetTokenWebResourceRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<SiteVerificationWebResourceGettokenResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetTokenWebResourceRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<SiteVerificationWebResourceGettokenResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -369,7 +373,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(25, __c6, 1).pipe(T.HttpBody())),
+          site: S.optional(__S(16, __c4, 0)),
+          owners: S.optional(__S(24, __c6, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -386,7 +391,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(25, __c6, 1).pipe(T.HttpBody())),
+          site: S.optional(__S(16, __c4, 0)),
+          owners: S.optional(__S(24, __c6, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -422,12 +428,6 @@ function __c3(j: number): any {
         S.Struct({
           site: S.optional(__S(16, __c4, 0)),
           verificationMethod: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SiteVerificationWebResourceGettokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(12, __c3, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -436,7 +436,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetTokenWebResourceRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
@@ -492,7 +492,9 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           verificationMethod: S.String.pipe(T.Query()),
-          body: S.optional(__S(25, __c6, 1).pipe(T.HttpBody())),
+          site: S.optional(__S(16, __c4, 0)),
+          id: S.optional(S.String),
+          owners: S.optional(__S(24, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",

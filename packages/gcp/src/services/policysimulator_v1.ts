@@ -178,8 +178,9 @@ export type GoogleCloudPolicysimulatorV1ReplayStateEnum =
   | "RUNNING"
   | "SUCCEEDED"
   | "FAILED";
-/** A resource describing a `Replay`, or simulation. */
-export interface GoogleCloudPolicysimulatorV1Replay {
+export interface CreateFoldersLocationsReplaysRequest {
+  /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
+  parent: string;
   /** Output only. Summary statistics about the replayed log entries. */
   resultsSummary?: GoogleCloudPolicysimulatorV1ReplayResultsSummary | undefined;
   /** Required. The configuration used for the `Replay`. */
@@ -188,12 +189,6 @@ export interface GoogleCloudPolicysimulatorV1Replay {
   name?: string | undefined;
   /** Output only. The current state of the `Replay`. */
   state?: GoogleCloudPolicysimulatorV1ReplayStateEnum | (string & {}) | undefined;
-}
-export interface CreateFoldersLocationsReplaysRequest {
-  /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1Replay | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -355,8 +350,11 @@ export type GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewStateEnum =
   | "PREVIEW_RUNNING"
   | "PREVIEW_SUCCEEDED"
   | "PREVIEW_FAILED";
-/** OrgPolicyViolationsPreview is a resource providing a preview of the violations that will exist if an OrgPolicy change is made. The list of violations are modeled as child resources and retrieved via a ListOrgPolicyViolations API call. There are potentially more OrgPolicyViolations than could fit in an embedded field. Thus, the use of a child resource instead of a field. */
-export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
+export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
+  /** Optional. An optional user-specified ID for the OrgPolicyViolationsPreview. If not provided, a random ID will be generated. */
+  orgPolicyViolationsPreviewId?: string | undefined;
+  /** Required. The organization under which this OrgPolicyViolationsPreview will be created. Example: `organizations/my-example-org/locations/global` */
+  parent: string;
   /** Output only. The resource name of the `OrgPolicyViolationsPreview`. It has the following format: `organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview}` Example: `organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f` */
   name?: string | undefined;
   /** Required. The proposed changes we are previewing violations for. */
@@ -375,25 +373,29 @@ export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
     | (string & {})
     | undefined;
 }
-export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
-  /** Optional. An optional user-specified ID for the OrgPolicyViolationsPreview. If not provided, a random ID will be generated. */
-  orgPolicyViolationsPreviewId?: string | undefined;
-  /** Required. The organization under which this OrgPolicyViolationsPreview will be created. Example: `organizations/my-example-org/locations/global` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview | undefined;
-}
 export interface CreateOrganizationsLocationsReplaysRequest {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1Replay | undefined;
+  /** Output only. Summary statistics about the replayed log entries. */
+  resultsSummary?: GoogleCloudPolicysimulatorV1ReplayResultsSummary | undefined;
+  /** Required. The configuration used for the `Replay`. */
+  config?: GoogleCloudPolicysimulatorV1ReplayConfig | undefined;
+  /** Output only. The resource name of the `Replay`, which has the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
+  name?: string | undefined;
+  /** Output only. The current state of the `Replay`. */
+  state?: GoogleCloudPolicysimulatorV1ReplayStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsReplaysRequest {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudPolicysimulatorV1Replay | undefined;
+  /** Output only. Summary statistics about the replayed log entries. */
+  resultsSummary?: GoogleCloudPolicysimulatorV1ReplayResultsSummary | undefined;
+  /** Required. The configuration used for the `Replay`. */
+  config?: GoogleCloudPolicysimulatorV1ReplayConfig | undefined;
+  /** Output only. The resource name of the `Replay`, which has the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
+  name?: string | undefined;
+  /** Output only. The current state of the `Replay`. */
+  state?: GoogleCloudPolicysimulatorV1ReplayStateEnum | (string & {}) | undefined;
 }
 export interface GetFoldersLocationsAccessPolicySimulationsOperationsRequest {
   /** The name of the operation resource. */
@@ -406,6 +408,17 @@ export interface GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest
 export interface GetFoldersLocationsReplaysRequest {
   /** Required. The name of the Replay to retrieve, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the `Replay`. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   name: string;
+}
+/** A resource describing a `Replay`, or simulation. */
+export interface GoogleCloudPolicysimulatorV1Replay {
+  /** Output only. Summary statistics about the replayed log entries. */
+  resultsSummary?: GoogleCloudPolicysimulatorV1ReplayResultsSummary | undefined;
+  /** Required. The configuration used for the `Replay`. */
+  config?: GoogleCloudPolicysimulatorV1ReplayConfig | undefined;
+  /** Output only. The resource name of the `Replay`, which has the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the Replay. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
+  name?: string | undefined;
+  /** Output only. The current state of the `Replay`. */
+  state?: GoogleCloudPolicysimulatorV1ReplayStateEnum | undefined;
 }
 export interface GetFoldersLocationsReplaysOperationsRequest {
   /** The name of the operation resource. */
@@ -422,6 +435,23 @@ export interface GetOrganizationsLocationsAccessPolicySimulationsOperationsReque
 export interface GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
   /** Required. The name of the OrgPolicyViolationsPreview to get. */
   name: string;
+}
+/** OrgPolicyViolationsPreview is a resource providing a preview of the violations that will exist if an OrgPolicy change is made. The list of violations are modeled as child resources and retrieved via a ListOrgPolicyViolations API call. There are potentially more OrgPolicyViolations than could fit in an embedded field. Thus, the use of a child resource instead of a field. */
+export interface GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview {
+  /** Output only. The resource name of the `OrgPolicyViolationsPreview`. It has the following format: `organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview}` Example: `organizations/my-example-org/locations/global/orgPolicyViolationsPreviews/506a5f7f` */
+  name?: string | undefined;
+  /** Required. The proposed changes we are previewing violations for. */
+  overlay?: GoogleCloudPolicysimulatorV1OrgPolicyOverlay | undefined;
+  /** Output only. The names of the constraints against which all `OrgPolicyViolations` were evaluated. If `OrgPolicyOverlay` only contains `PolicyOverlay` then it contains the name of the configured custom constraint, applicable to the specified policies. Otherwise it contains the name of the constraint specified in `CustomConstraintOverlay`. Format: `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` */
+  customConstraints?: StringList | undefined;
+  /** Output only. The number of OrgPolicyViolations in this `OrgPolicyViolationsPreview`. This count may differ from `resource_summary.noncompliant_count` because each OrgPolicyViolation is specific to a resource **and** constraint. If there are multiple constraints being evaluated (i.e. multiple policies in the overlay), a single resource may violate multiple constraints. */
+  violationsCount?: number | undefined;
+  /** Output only. A summary of the state of all resources scanned for compliance with the changed OrgPolicy. */
+  resourceCounts?: GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts | undefined;
+  /** Output only. Time when this `OrgPolicyViolationsPreview` was created. */
+  createTime?: string | undefined;
+  /** Output only. The state of the `OrgPolicyViolationsPreview`. */
+  state?: GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewStateEnum | undefined;
 }
 export interface GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest {
   /** The name of the operation resource. */
@@ -762,8 +792,8 @@ export const createFoldersLocationsReplays: API.OperationMethod<
   CreateFoldersLocationsReplaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateFoldersLocationsReplaysRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateFoldersLocationsReplaysRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -785,11 +815,11 @@ export const createOrganizationsLocationsOrgPolicyViolationsPreviews: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c31,
+    528,
+    __c33,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -810,8 +840,8 @@ export const createOrganizationsLocationsReplays: API.OperationMethod<
   CreateOrganizationsLocationsReplaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateOrganizationsLocationsReplaysRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateOrganizationsLocationsReplaysRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -832,8 +862,8 @@ export const createProjectsLocationsReplays: API.OperationMethod<
   CreateProjectsLocationsReplaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CreateProjectsLocationsReplaysRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(592, __c37, 0) as any as S.Schema<CreateProjectsLocationsReplaysRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -853,11 +883,11 @@ export const getFoldersLocationsAccessPolicySimulationsOperations: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c36,
+    608,
+    __c38,
     0,
   ) as any as S.Schema<GetFoldersLocationsAccessPolicySimulationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -877,11 +907,11 @@ export const getFoldersLocationsOrgPolicyViolationsPreviewsOperations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    592,
-    __c37,
+    624,
+    __c39,
     0,
   ) as any as S.Schema<GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -898,7 +928,7 @@ export const getFoldersLocationsReplays: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetFoldersLocationsReplaysRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<GoogleCloudPolicysimulatorV1Replay>,
+  output: __S(16, __c1, 0) as any as S.Schema<GoogleCloudPolicysimulatorV1Replay>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -914,8 +944,8 @@ export const getFoldersLocationsReplaysOperations: API.OperationMethod<
   GetFoldersLocationsReplaysOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetFoldersLocationsReplaysOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetFoldersLocationsReplaysOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -931,8 +961,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -952,11 +982,11 @@ export const getOrganizationsLocationsAccessPolicySimulationsOperations: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    48,
-    __c3,
+    64,
+    __c4,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -976,14 +1006,14 @@ export const getOrganizationsLocationsOrgPolicyViolationsPreviews: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
-    __c4,
+    80,
+    __c5,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>,
   output: __S(
-    524,
-    __c32,
-    12,
+    96,
+    __c6,
+    0,
   ) as any as S.Schema<GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1004,11 +1034,11 @@ export const getOrganizationsLocationsOrgPolicyViolationsPreviewsOperations: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    80,
-    __c5,
+    112,
+    __c7,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1024,8 +1054,8 @@ export const getOrganizationsLocationsReplays: API.OperationMethod<
   GetOrganizationsLocationsReplaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetOrganizationsLocationsReplaysRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<GoogleCloudPolicysimulatorV1Replay>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetOrganizationsLocationsReplaysRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<GoogleCloudPolicysimulatorV1Replay>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1041,8 +1071,8 @@ export const getOrganizationsLocationsReplaysOperations: API.OperationMethod<
   GetOrganizationsLocationsReplaysOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetOrganizationsLocationsReplaysOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetOrganizationsLocationsReplaysOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1062,11 +1092,11 @@ export const getProjectsLocationsAccessPolicySimulationsOperations: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    128,
-    __c8,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<GetProjectsLocationsAccessPolicySimulationsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1086,11 +1116,11 @@ export const getProjectsLocationsOrgPolicyViolationsPreviewsOperations: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    144,
-    __c9,
+    176,
+    __c11,
     0,
   ) as any as S.Schema<GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1106,8 +1136,8 @@ export const getProjectsLocationsReplays: API.OperationMethod<
   GetProjectsLocationsReplaysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsReplaysRequest>,
-  output: __S(467, __c29, 3) as any as S.Schema<GoogleCloudPolicysimulatorV1Replay>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetProjectsLocationsReplaysRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<GoogleCloudPolicysimulatorV1Replay>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1123,8 +1153,8 @@ export const getProjectsLocationsReplaysOperations: API.OperationMethod<
   GetProjectsLocationsReplaysOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsReplaysOperationsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetProjectsLocationsReplaysOperationsRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1141,8 +1171,8 @@ export const listFoldersLocationsReplaysOperations: API.PaginatedOperationMethod
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListFoldersLocationsReplaysOperationsRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListFoldersLocationsReplaysOperationsRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1160,10 +1190,10 @@ export const listFoldersLocationsReplaysResults: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudPolicysimulatorV1ListReplayResultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListFoldersLocationsReplaysResultsRequest>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListFoldersLocationsReplaysResultsRequest>,
   output: __S(
-    253,
-    __c15,
+    285,
+    __c17,
     13,
   ) as any as S.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1183,8 +1213,8 @@ export const listOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,13 +1236,13 @@ export const listOrganizationsLocationsOrgPolicyViolationsPreviews: API.Paginate
   GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    272,
-    __c17,
+    304,
+    __c19,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest>,
   output: __S(
-    274,
-    __c17,
+    306,
+    __c19,
     2,
   ) as any as S.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsPreviewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1236,13 +1266,13 @@ export const listOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViola
   GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    288,
-    __c18,
+    320,
+    __c20,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest>,
   output: __S(
-    292,
-    __c18,
+    324,
+    __c20,
     4,
   ) as any as S.Schema<GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1262,8 +1292,8 @@ export const listOrganizationsLocationsReplaysOperations: API.PaginatedOperation
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListOrganizationsLocationsReplaysOperationsRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListOrganizationsLocationsReplaysOperationsRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1281,10 +1311,10 @@ export const listOrganizationsLocationsReplaysResults: API.PaginatedOperationMet
   GcpOpContext,
   GoogleCloudPolicysimulatorV1ListReplayResultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListOrganizationsLocationsReplaysResultsRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListOrganizationsLocationsReplaysResultsRequest>,
   output: __S(
-    253,
-    __c15,
+    285,
+    __c17,
     13,
   ) as any as S.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1304,8 +1334,8 @@ export const listProjectsLocationsReplaysOperations: API.PaginatedOperationMetho
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsReplaysOperationsRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsReplaysOperationsRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1323,10 +1353,10 @@ export const listProjectsLocationsReplaysResults: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudPolicysimulatorV1ListReplayResultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsReplaysResultsRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListProjectsLocationsReplaysResultsRequest>,
   output: __S(
-    253,
-    __c15,
+    285,
+    __c17,
     13,
   ) as any as S.Schema<GoogleCloudPolicysimulatorV1ListReplayResultsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1359,15 +1389,12 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://policysimulator.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetFoldersLocationsReplaysOperationsRequest" });
+          resultsSummary: S.optional(__S(496, __c31, 0)),
+          config: S.optional(__S(498, __c31, 2)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1Replay" });
   }
 }
 function __c2(j: number): any {
@@ -1383,10 +1410,26 @@ function __c2(j: number): any {
             baseUrl: "https://policysimulator.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetOperationsRequest" });
+      ).annotate({ identifier: "GetFoldersLocationsReplaysOperationsRequest" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://policysimulator.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetOperationsRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1404,7 +1447,7 @@ function __c3(j: number): any {
       });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1420,7 +1463,23 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          overlay: S.optional(__S(554, __c34, 10)),
+          customConstraints: S.optional(__S(416, __c26, 0)),
+          violationsCount: S.optional(S.Number),
+          resourceCounts: S.optional(__S(555, __c34, 11)),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1438,7 +1497,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1454,7 +1513,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsReplaysRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1470,7 +1529,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsReplaysOperationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1486,7 +1545,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAccessPolicySimulationsOperationsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1504,7 +1563,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1520,7 +1579,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsReplaysRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1536,7 +1595,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsReplaysOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1556,21 +1615,21 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsReplaysOperationsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(480, __c30, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(384, __c24, 0)),
-          operations: S.optional(__S(208, __c13, 0)),
+          unreachable: S.optional(__S(416, __c26, 0)),
+          operations: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1588,7 +1647,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsReplaysResultsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1608,7 +1667,7 @@ function __c15(j: number): any {
         identifier: "GoogleCloudPolicysimulatorV1BindingExplanationAnnotatedMembership",
       });
     case 2:
-      return S.Record(S.String, __S(241, __c15, 1));
+      return S.Record(S.String, __S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1616,72 +1675,72 @@ function __c15(j: number): any {
           rolePermission: S.optional(S.String),
           rolePermissionRelevance: S.optional(S.String),
           role: S.optional(S.String),
-          memberships: S.optional(__S(242, __c15, 2)),
+          memberships: S.optional(__S(274, __c17, 2)),
           access: S.optional(S.String),
-          condition: S.optional(__S(400, __c25, 0)),
+          condition: S.optional(__S(432, __c27, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1BindingExplanation" });
     case 4:
-      return S.Array(__S(243, __c15, 3));
+      return S.Array(__S(275, __c17, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          bindingExplanations: S.optional(__S(244, __c15, 4)),
+          bindingExplanations: S.optional(__S(276, __c17, 4)),
           access: S.optional(S.String),
-          policy: S.optional(__S(487, __c30, 7)),
+          policy: S.optional(__S(519, __c32, 7)),
           relevance: S.optional(S.String),
           fullResourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ExplainedPolicy" });
     case 6:
-      return S.Array(__S(245, __c15, 5));
+      return S.Array(__S(277, __c17, 5));
     case 7:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(465, __c29, 1));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          policies: S.optional(__S(246, __c15, 6)),
-          errors: S.optional(__S(247, __c15, 7)),
+          policies: S.optional(__S(278, __c17, 6)),
+          errors: S.optional(__S(279, __c17, 7)),
           accessState: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ExplainedAccess" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          baseline: S.optional(__S(248, __c15, 8)),
+          baseline: S.optional(__S(280, __c17, 8)),
           accessChange: S.optional(S.String),
-          simulated: S.optional(__S(248, __c15, 8)),
+          simulated: S.optional(__S(280, __c17, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1AccessStateDiff" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          accessDiff: S.optional(__S(249, __c15, 9)),
+          accessDiff: S.optional(__S(281, __c17, 9)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayDiff" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          lastSeenDate: S.optional(__S(480, __c30, 0)),
+          lastSeenDate: S.optional(__S(512, __c32, 0)),
           name: S.optional(S.String),
-          accessTuple: S.optional(__S(240, __c15, 0)),
-          diff: S.optional(__S(250, __c15, 10)),
+          accessTuple: S.optional(__S(272, __c17, 0)),
+          diff: S.optional(__S(282, __c17, 10)),
           parent: S.optional(S.String),
-          error: S.optional(__S(433, __c27, 1)),
+          error: S.optional(__S(465, __c29, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResult" });
     case 12:
-      return S.Array(__S(251, __c15, 11));
+      return S.Array(__S(283, __c17, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          replayResults: S.optional(__S(252, __c15, 12)),
+          replayResults: S.optional(__S(284, __c17, 12)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListReplayResultsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1701,7 +1760,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListOperationsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1718,11 +1777,11 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest" });
     case 1:
-      return S.Array(__S(524, __c32, 12));
+      return S.Array(__S(96, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          orgPolicyViolationsPreviews: S.optional(__S(273, __c17, 1)),
+          orgPolicyViolationsPreviews: S.optional(__S(305, __c19, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({
@@ -1730,7 +1789,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1752,7 +1811,7 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ancestors: S.optional(__S(384, __c24, 0)),
+          ancestors: S.optional(__S(416, __c26, 0)),
           resource: S.optional(S.String),
           assetType: S.optional(S.String),
         }),
@@ -1761,23 +1820,23 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          error: S.optional(__S(433, __c27, 1)),
-          resource: S.optional(__S(289, __c18, 1)),
-          customConstraint: S.optional(__S(529, __c33, 1)),
+          error: S.optional(__S(465, __c29, 1)),
+          resource: S.optional(__S(321, __c20, 1)),
+          customConstraint: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolation" });
     case 3:
-      return S.Array(__S(290, __c18, 2));
+      return S.Array(__S(322, __c20, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          orgPolicyViolations: S.optional(__S(291, __c18, 3)),
+          orgPolicyViolations: S.optional(__S(323, __c20, 3)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ListOrgPolicyViolationsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1797,7 +1856,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsReplaysOperationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1815,7 +1874,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsReplaysResultsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1835,7 +1894,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsReplaysOperationsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1853,13 +1912,16 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsReplaysResultsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(467, __c29, 3).pipe(T.HttpBody())),
+          resultsSummary: S.optional(__S(496, __c31, 0)),
+          config: S.optional(__S(498, __c31, 2)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1870,13 +1932,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateFoldersLocationsReplaysRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1889,74 +1951,65 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GoogleTypeExpr" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(448, __c28, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(432, __c27, 0)),
+          details: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(433, __c27, 1)),
-          metadata: S.optional(__S(416, __c26, 0)),
-          response: S.optional(__S(416, __c26, 0)),
+          error: S.optional(__S(465, __c29, 1)),
+          metadata: S.optional(__S(448, __c28, 0)),
+          response: S.optional(__S(448, __c28, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newestDate: S.optional(__S(480, __c30, 0)),
+          newestDate: S.optional(__S(512, __c32, 0)),
           unchangedCount: S.optional(S.Number),
           logCount: S.optional(S.Number),
           differenceCount: S.optional(S.Number),
           errorCount: S.optional(S.Number),
-          oldestDate: S.optional(__S(480, __c30, 0)),
+          oldestDate: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayResultsSummary" });
     case 1:
-      return S.Record(S.String, __S(487, __c30, 7));
+      return S.Record(S.String, __S(519, __c32, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          policyOverlay: S.optional(__S(465, __c29, 1)),
+          policyOverlay: S.optional(__S(497, __c31, 1)),
           logSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1ReplayConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          resultsSummary: S.optional(__S(464, __c29, 0)),
-          config: S.optional(__S(466, __c29, 2)),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1Replay" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1969,50 +2022,56 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(384, __c24, 0)),
+          members: S.optional(__S(416, __c26, 0)),
           role: S.optional(S.String),
-          condition: S.optional(__S(400, __c25, 0)),
+          condition: S.optional(__S(432, __c27, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(384, __c24, 0)),
+          exemptedMembers: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
     case 4:
-      return S.Array(__S(483, __c30, 3));
+      return S.Array(__S(515, __c32, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(484, __c30, 4)),
+          auditLogConfigs: S.optional(__S(516, __c32, 4)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
     case 6:
-      return S.Array(__S(485, __c30, 5));
+      return S.Array(__S(517, __c32, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          bindings: S.optional(__S(482, __c30, 2)),
+          bindings: S.optional(__S(514, __c32, 2)),
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(486, __c30, 6)),
+          auditConfigs: S.optional(__S(518, __c32, 6)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           orgPolicyViolationsPreviewId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(524, __c32, 12).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          overlay: S.optional(__S(554, __c34, 10)),
+          customConstraints: S.optional(__S(416, __c26, 0)),
+          violationsCount: S.optional(S.Number),
+          resourceCounts: S.optional(__S(555, __c34, 11)),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2023,39 +2082,39 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           customConstraintParent: S.optional(S.String),
-          customConstraint: S.optional(__S(529, __c33, 1)),
+          customConstraint: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayCustomConstraintOverlay",
       });
     case 1:
-      return S.Array(__S(512, __c32, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowedValues: S.optional(__S(384, __c24, 0)),
-          deniedValues: S.optional(__S(384, __c24, 0)),
+          allowedValues: S.optional(__S(416, __c26, 0)),
+          deniedValues: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRuleStringValues" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           denyAll: S.optional(S.Boolean),
-          condition: S.optional(__S(400, __c25, 0)),
+          condition: S.optional(__S(432, __c27, 0)),
           allowAll: S.optional(S.Boolean),
-          parameters: S.optional(__S(416, __c26, 0)),
+          parameters: S.optional(__S(448, __c28, 0)),
           enforce: S.optional(S.Boolean),
-          values: S.optional(__S(514, __c32, 2)),
+          values: S.optional(__S(546, __c34, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpecPolicyRule" });
     case 4:
-      return S.Array(__S(515, __c32, 3));
+      return S.Array(__S(547, __c34, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2063,40 +2122,40 @@ function __c32(j: number): any {
           inheritFromParent: S.optional(S.Boolean),
           reset: S.optional(S.Boolean),
           etag: S.optional(S.String),
-          rules: S.optional(__S(516, __c32, 4)),
+          rules: S.optional(__S(548, __c34, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2PolicySpec" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           launch: S.optional(S.String),
-          spec: S.optional(__S(517, __c32, 5)),
+          spec: S.optional(__S(549, __c34, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2AlternatePolicySpec" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
-          dryRunSpec: S.optional(__S(517, __c32, 5)),
-          spec: S.optional(__S(517, __c32, 5)),
-          alternate: S.optional(__S(518, __c32, 6)),
+          dryRunSpec: S.optional(__S(549, __c34, 5)),
+          spec: S.optional(__S(549, __c34, 5)),
+          alternate: S.optional(__S(550, __c34, 6)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2Policy" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(519, __c32, 7)),
+          policy: S.optional(__S(551, __c34, 7)),
           policyParent: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlayPolicyOverlay" });
     case 9:
-      return S.Array(__S(520, __c32, 8));
+      return S.Array(__S(552, __c34, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          customConstraints: S.optional(__S(513, __c32, 1)),
-          policies: S.optional(__S(521, __c32, 9)),
+          customConstraints: S.optional(__S(545, __c34, 1)),
+          policies: S.optional(__S(553, __c34, 9)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyOverlay" });
     case 11:
@@ -2111,21 +2170,9 @@ function __c32(j: number): any {
       ).annotate({
         identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreviewResourceCounts",
       });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          overlay: S.optional(__S(522, __c32, 10)),
-          customConstraints: S.optional(__S(384, __c24, 0)),
-          violationsCount: S.optional(S.Number),
-          resourceCounts: S.optional(__S(523, __c32, 11)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudPolicysimulatorV1OrgPolicyViolationsPreview" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2133,24 +2180,27 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actionType: S.optional(S.String),
-          methodTypes: S.optional(__S(528, __c33, 0)),
+          methodTypes: S.optional(__S(560, __c35, 0)),
           condition: S.optional(S.String),
           name: S.optional(S.String),
           updateTime: S.optional(S.String),
-          resourceTypes: S.optional(__S(384, __c24, 0)),
+          resourceTypes: S.optional(__S(416, __c26, 0)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudOrgpolicyV2CustomConstraint" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(467, __c29, 3).pipe(T.HttpBody())),
+          resultsSummary: S.optional(__S(496, __c31, 0)),
+          config: S.optional(__S(498, __c31, 2)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2161,13 +2211,16 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsLocationsReplaysRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(467, __c29, 3).pipe(T.HttpBody())),
+          resultsSummary: S.optional(__S(496, __c31, 0)),
+          config: S.optional(__S(498, __c31, 2)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2178,7 +2231,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsReplaysRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2194,7 +2247,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetFoldersLocationsAccessPolicySimulationsOperationsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

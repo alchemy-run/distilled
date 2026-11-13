@@ -84,6 +84,22 @@ export class NotFound
   ) {}
 
 export type StringMap = { [key: string]: string | undefined };
+export interface CreateProjectsLocationsNamespacesRequest {
+  /** Required. The resource name of the project and location the namespace will be created in. */
+  parent: string;
+  /** Required. The Resource ID must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
+  namespaceId?: string | undefined;
+  /** Output only. A globally unique identifier (in UUID4 format) for this namespace. */
+  uid?: string | undefined;
+  /** Output only. The timestamp when the namespace was last updated. */
+  updateTime?: string | undefined;
+  /** Identifier. The resource name for the namespace in the format `projects/*\/locations/*\/namespaces/*`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the namespace was created. */
+  createTime?: string | undefined;
+  /** Optional. Resource labels associated with this namespace. No more than 64 user labels can be associated with a given resource. Label keys and values can be no longer than 63 characters. */
+  labels?: StringMap | undefined;
+}
 /** A container for services. Namespaces allow administrators to group services together and define permissions for a collection of services. */
 export interface Namespace {
   /** Output only. A globally unique identifier (in UUID4 format) for this namespace. */
@@ -96,14 +112,6 @@ export interface Namespace {
   createTime?: string | undefined;
   /** Optional. Resource labels associated with this namespace. No more than 64 user labels can be associated with a given resource. Label keys and values can be no longer than 63 characters. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsNamespacesRequest {
-  /** Required. The resource name of the project and location the namespace will be created in. */
-  parent: string;
-  /** Required. The Resource ID must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  namespaceId?: string | undefined;
-  /** Request body */
-  body?: Namespace | undefined;
 }
 /** An individual endpoint that provides a service. The service must already exist to create an endpoint. */
 export interface Endpoint {
@@ -125,6 +133,24 @@ export interface Endpoint {
   createTime?: string | undefined;
 }
 export type EndpointList = Array<Endpoint>;
+export interface CreateProjectsLocationsNamespacesServicesRequest {
+  /** Required. The resource name of the namespace this service will belong to. */
+  parent: string;
+  /** Required. The Resource ID must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
+  serviceId?: string | undefined;
+  /** Output only. The timestamp when the service was created. */
+  createTime?: string | undefined;
+  /** Output only. A globally unique identifier (in UUID4 format) for this service. */
+  uid?: string | undefined;
+  /** Output only. The timestamp when the service was last updated. Note: endpoints being created/deleted/updated within the service are not considered service updates for the purpose of this timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. Endpoints associated with this service. Returned on LookupService.ResolveService. Control plane clients should use RegistrationService.ListEndpoints. */
+  endpoints?: EndpointList | undefined;
+  /** Optional. Metadata for the service. This data can be consumed by service clients. Restrictions: * The entire metadata dictionary may contain up to 2000 characters, spread accoss all key-value pairs. Metadata that goes beyond this limit are rejected * Valid metadata keys have two segments: an optional prefix and name, separated by a slash (/). The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots (.), not longer than 253 characters in total, followed by a slash (/). Metadata that fails to meet these requirements are rejected Note: This field is equivalent to the `annotations` field in the v1 API. They have the same syntax and read/write to the same location in Service Directory. */
+  metadata?: StringMap | undefined;
+  /** Identifier. The resource name for the service in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
+  name?: string | undefined;
+}
 /** An individual service. A service contains a name and optional metadata. A service must exist before endpoints can be added to it. */
 export interface Service {
   /** Output only. The timestamp when the service was created. */
@@ -140,21 +166,27 @@ export interface Service {
   /** Identifier. The resource name for the service in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsNamespacesServicesRequest {
-  /** Required. The resource name of the namespace this service will belong to. */
-  parent: string;
-  /** Required. The Resource ID must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
-  serviceId?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
-}
 export interface CreateProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Required. The resource name of the service that this endpoint provides. */
   parent: string;
   /** Required. The Resource ID must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression `[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
   endpointId?: string | undefined;
-  /** Request body */
-  body?: Endpoint | undefined;
+  /** Identifier. The resource name for the endpoint in the format `projects/*\/locations/*\/namespaces/*\/services/*\/endpoints/*`. */
+  name?: string | undefined;
+  /** Optional. An IPv4 or IPv6 address. Service Directory rejects bad addresses like: * `8.8.8` * `8.8.8.8:53` * `test:bad:address` * `[::1]` * `[::1]:8080` Limited to 45 characters. */
+  address?: string | undefined;
+  /** Optional. Service Directory rejects values outside of `[0, 65535]`. */
+  port?: number | undefined;
+  /** Output only. The timestamp when the endpoint was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Metadata for the endpoint. This data can be consumed by service clients. Restrictions: * The entire metadata dictionary may contain up to 512 characters, spread accoss all key-value pairs. Metadata that goes beyond this limit are rejected * Valid metadata keys have two segments: an optional prefix and name, separated by a slash (/). The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots (.), not longer than 253 characters in total, followed by a slash (/). Metadata that fails to meet these requirements are rejected Note: This field is equivalent to the `annotations` field in the v1 API. They have the same syntax and read/write to the same location in Service Directory. */
+  metadata?: StringMap | undefined;
+  /** Immutable. The Google Compute Engine network (VPC) of the endpoint in the format `projects//locations/global/networks/*`. The project must be specified by project number (project id is rejected). Incorrectly formatted networks are rejected, but no other validation is performed on this field (ex. network or project existence, reachability, or permissions). */
+  network?: string | undefined;
+  /** Output only. A globally unique identifier (in UUID4 format) for this endpoint. */
+  uid?: string | undefined;
+  /** Output only. The timestamp when the endpoint was created. */
+  createTime?: string | undefined;
 }
 export interface DeleteProjectsLocationsNamespacesRequest {
   /** Required. The name of the namespace to delete. */
@@ -175,16 +207,11 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyProjectsLocationsNamespacesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -220,14 +247,14 @@ export interface Policy {
 export interface GetIamPolicyProjectsLocationsNamespacesServicesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyProjectsLocationsNamespacesWorkloadsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -343,75 +370,86 @@ export interface PatchProjectsLocationsNamespacesRequest {
   updateMask?: string | undefined;
   /** Identifier. The resource name for the namespace in the format `projects/*\/locations/*\/namespaces/*`. */
   name: string;
-  /** Request body */
-  body?: Namespace | undefined;
+  /** Output only. A globally unique identifier (in UUID4 format) for this namespace. */
+  uid?: string | undefined;
+  /** Output only. The timestamp when the namespace was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The timestamp when the namespace was created. */
+  createTime?: string | undefined;
+  /** Optional. Resource labels associated with this namespace. No more than 64 user labels can be associated with a given resource. Label keys and values can be no longer than 63 characters. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsNamespacesServicesRequest {
   /** Identifier. The resource name for the service in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Service | undefined;
+  /** Output only. The timestamp when the service was created. */
+  createTime?: string | undefined;
+  /** Output only. A globally unique identifier (in UUID4 format) for this service. */
+  uid?: string | undefined;
+  /** Output only. The timestamp when the service was last updated. Note: endpoints being created/deleted/updated within the service are not considered service updates for the purpose of this timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. Endpoints associated with this service. Returned on LookupService.ResolveService. Control plane clients should use RegistrationService.ListEndpoints. */
+  endpoints?: EndpointList | undefined;
+  /** Optional. Metadata for the service. This data can be consumed by service clients. Restrictions: * The entire metadata dictionary may contain up to 2000 characters, spread accoss all key-value pairs. Metadata that goes beyond this limit are rejected * Valid metadata keys have two segments: an optional prefix and name, separated by a slash (/). The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots (.), not longer than 253 characters in total, followed by a slash (/). Metadata that fails to meet these requirements are rejected Note: This field is equivalent to the `annotations` field in the v1 API. They have the same syntax and read/write to the same location in Service Directory. */
+  metadata?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Identifier. The resource name for the endpoint in the format `projects/*\/locations/*\/namespaces/*\/services/*\/endpoints/*`. */
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Endpoint | undefined;
+  /** Optional. An IPv4 or IPv6 address. Service Directory rejects bad addresses like: * `8.8.8` * `8.8.8.8:53` * `test:bad:address` * `[::1]` * `[::1]:8080` Limited to 45 characters. */
+  address?: string | undefined;
+  /** Optional. Service Directory rejects values outside of `[0, 65535]`. */
+  port?: number | undefined;
+  /** Output only. The timestamp when the endpoint was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. Metadata for the endpoint. This data can be consumed by service clients. Restrictions: * The entire metadata dictionary may contain up to 512 characters, spread accoss all key-value pairs. Metadata that goes beyond this limit are rejected * Valid metadata keys have two segments: an optional prefix and name, separated by a slash (/). The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots (.), not longer than 253 characters in total, followed by a slash (/). Metadata that fails to meet these requirements are rejected Note: This field is equivalent to the `annotations` field in the v1 API. They have the same syntax and read/write to the same location in Service Directory. */
+  metadata?: StringMap | undefined;
+  /** Immutable. The Google Compute Engine network (VPC) of the endpoint in the format `projects//locations/global/networks/*`. The project must be specified by project number (project id is rejected). Incorrectly formatted networks are rejected, but no other validation is performed on this field (ex. network or project existence, reachability, or permissions). */
+  network?: string | undefined;
+  /** Output only. A globally unique identifier (in UUID4 format) for this endpoint. */
+  uid?: string | undefined;
+  /** Output only. The timestamp when the endpoint was created. */
+  createTime?: string | undefined;
 }
-/** The request message for LookupService.ResolveService. Looks up a service by its name, returns the service and its endpoints. */
-export interface ResolveServiceRequest {
+export interface ResolveProjectsLocationsNamespacesServicesRequest {
+  /** Required. The name of the service to resolve. */
+  name: string;
   /** Optional. The maximum number of endpoints to return. Defaults to 25. Maximum is 100. If a value less than one is specified, the Default is used. If a value greater than the Maximum is specified, the Maximum is used. */
   maxEndpoints?: number | undefined;
   /** Optional. The filter applied to the endpoints of the resolved service. General `filter` string syntax: ` ()` * `` can be `name`, `address`, `port`, or `metadata.` for map field * `` can be `<`, `>`, `<=`, `>=`, `!=`, `=`, `:`. Of which `:` means `HAS`, and is roughly the same as `=` * `` must be the same data type as field * `` can be `AND`, `OR`, `NOT` Examples of valid filters: * `metadata.owner` returns endpoints that have a annotation with the key `owner`, this is the same as `metadata:owner` * `metadata.protocol=gRPC` returns endpoints that have key/value `protocol=gRPC` * `address=192.108.1.105` returns endpoints that have this address * `port>8080` returns endpoints that have port number larger than 8080 * `name>projects/my-project/locations/us-east1/namespaces/my-namespace/services/my-service/endpoints/endpoint-c` returns endpoints that have name that is alphabetically later than the string, so "endpoint-e" is returned but "endpoint-a" is not * `name=projects/my-project/locations/us-central1/namespaces/my-namespace/services/my-service/endpoints/ep-1` returns the endpoint that has an endpoint_id equal to `ep-1` * `metadata.owner!=sd AND metadata.foo=bar` returns endpoints that have `owner` in annotation key but value is not `sd` AND have key/value `foo=bar` * `doesnotexist.foo=bar` returns an empty list. Note that endpoint doesn't have a field called "doesnotexist". Since the filter does not match any endpoint, it returns no results For more information about filtering, see [API Filtering](https://aip.dev/160). */
   endpointFilter?: string | undefined;
 }
-export interface ResolveProjectsLocationsNamespacesServicesRequest {
-  /** Required. The name of the service to resolve. */
-  name: string;
-  /** Request body */
-  body?: ResolveServiceRequest | undefined;
-}
 /** The response message for LookupService.ResolveService. */
 export interface ResolveServiceResponse {
   service?: Service | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-}
 export interface SetIamPolicyProjectsLocationsNamespacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsNamespacesServicesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsNamespacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -421,14 +459,14 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsNamespacesServicesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type CreateProjectsLocationsNamespacesError =
   | NotFound
@@ -443,8 +481,8 @@ export const createProjectsLocationsNamespaces: API.OperationMethod<
   CreateProjectsLocationsNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<CreateProjectsLocationsNamespacesRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<Namespace>,
+  input: __S(104, __c26, 0) as any as S.Schema<CreateProjectsLocationsNamespacesRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<Namespace>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -465,8 +503,8 @@ export const createProjectsLocationsNamespacesServices: API.OperationMethod<
   CreateProjectsLocationsNamespacesServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<CreateProjectsLocationsNamespacesServicesRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<Service>,
+  input: __S(116, __c29, 0) as any as S.Schema<CreateProjectsLocationsNamespacesServicesRequest>,
+  output: __S(124, __c31, 0) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -488,11 +526,11 @@ export const createProjectsLocationsNamespacesServicesEndpoints: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    136,
-    __c34,
+    132,
+    __c33,
     0,
   ) as any as S.Schema<CreateProjectsLocationsNamespacesServicesEndpointsRequest>,
-  output: __S(132, __c33, 0) as any as S.Schema<Endpoint>,
+  output: __S(128, __c32, 0) as any as S.Schema<Endpoint>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -513,8 +551,8 @@ export const deleteProjectsLocationsNamespaces: API.OperationMethod<
   DeleteProjectsLocationsNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c35, 0) as any as S.Schema<DeleteProjectsLocationsNamespacesRequest>,
-  output: __S(144, __c36, 0) as any as S.Schema<Empty>,
+  input: __S(136, __c34, 0) as any as S.Schema<DeleteProjectsLocationsNamespacesRequest>,
+  output: __S(140, __c35, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -535,8 +573,8 @@ export const deleteProjectsLocationsNamespacesServices: API.OperationMethod<
   DeleteProjectsLocationsNamespacesServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<DeleteProjectsLocationsNamespacesServicesRequest>,
-  output: __S(144, __c36, 0) as any as S.Schema<Empty>,
+  input: __S(144, __c36, 0) as any as S.Schema<DeleteProjectsLocationsNamespacesServicesRequest>,
+  output: __S(140, __c35, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -558,11 +596,11 @@ export const deleteProjectsLocationsNamespacesServicesEndpoints: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    152,
-    __c38,
+    148,
+    __c37,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsNamespacesServicesEndpointsRequest>,
-  output: __S(144, __c36, 0) as any as S.Schema<Empty>,
+  output: __S(140, __c35, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -670,7 +708,7 @@ export const getProjectsLocationsNamespaces: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetProjectsLocationsNamespacesRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<Namespace>,
+  output: __S(108, __c27, 0) as any as S.Schema<Namespace>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -687,7 +725,7 @@ export const getProjectsLocationsNamespacesServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetProjectsLocationsNamespacesServicesRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<Service>,
+  output: __S(124, __c31, 0) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -711,7 +749,7 @@ export const getProjectsLocationsNamespacesServicesEndpoints: API.OperationMetho
     __c10,
     0,
   ) as any as S.Schema<GetProjectsLocationsNamespacesServicesEndpointsRequest>,
-  output: __S(132, __c33, 0) as any as S.Schema<Endpoint>,
+  output: __S(128, __c32, 0) as any as S.Schema<Endpoint>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -816,7 +854,7 @@ export const patchProjectsLocationsNamespaces: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<PatchProjectsLocationsNamespacesRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<Namespace>,
+  output: __S(108, __c27, 0) as any as S.Schema<Namespace>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -838,7 +876,7 @@ export const patchProjectsLocationsNamespacesServices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<PatchProjectsLocationsNamespacesServicesRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<Service>,
+  output: __S(124, __c31, 0) as any as S.Schema<Service>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -864,7 +902,7 @@ export const patchProjectsLocationsNamespacesServicesEndpoints: API.OperationMet
     __c17,
     0,
   ) as any as S.Schema<PatchProjectsLocationsNamespacesServicesEndpointsRequest>,
-  output: __S(132, __c33, 0) as any as S.Schema<Endpoint>,
+  output: __S(128, __c32, 0) as any as S.Schema<Endpoint>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -885,8 +923,8 @@ export const resolveProjectsLocationsNamespacesServices: API.OperationMethod<
   ResolveProjectsLocationsNamespacesServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c18, 1) as any as S.Schema<ResolveProjectsLocationsNamespacesServicesRequest>,
-  output: __S(74, __c18, 2) as any as S.Schema<ResolveServiceResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<ResolveProjectsLocationsNamespacesServicesRequest>,
+  output: __S(73, __c18, 1) as any as S.Schema<ResolveServiceResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -930,8 +968,8 @@ export const setIamPolicyProjectsLocationsNamespacesServices: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    84,
-    __c21,
+    80,
+    __c20,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsNamespacesServicesRequest>,
   output: __S(15, __c3, 3) as any as S.Schema<Policy>,
@@ -956,8 +994,8 @@ export const setIamPolicyProjectsLocationsNamespacesWorkloads: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    88,
-    __c22,
+    84,
+    __c21,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest>,
   output: __S(15, __c3, 3) as any as S.Schema<Policy>,
@@ -981,8 +1019,8 @@ export const testIamPermissionsProjectsLocationsNamespaces: API.OperationMethod<
   TestIamPermissionsProjectsLocationsNamespacesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsNamespacesRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsNamespacesRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1004,11 +1042,11 @@ export const testIamPermissionsProjectsLocationsNamespacesServices: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    100,
-    __c25,
+    96,
+    __c24,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsNamespacesServicesRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1030,11 +1068,11 @@ export const testIamPermissionsProjectsLocationsNamespacesWorkloads: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    104,
-    __c26,
+    100,
+    __c25,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(92, __c23, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1049,7 +1087,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c1, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(4, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1068,12 +1106,6 @@ function __c1(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          options: S.optional(__S(4, __c1, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c2(j: number): any {
@@ -1119,7 +1151,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c1, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(4, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1136,7 +1168,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c1, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(4, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1174,7 +1206,7 @@ function __c7(j: number): any {
           displayName: S.optional(S.String),
           metadata: S.optional(__S(28, __c7, 0)),
           name: S.optional(S.String),
-          labels: S.optional(__S(116, __c29, 0)),
+          labels: S.optional(__S(112, __c28, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1275,7 +1307,7 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNamespacesRequest" });
     case 1:
-      return S.Array(__S(112, __c28, 0));
+      return S.Array(__S(108, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1304,7 +1336,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsNamespacesServicesRequest" });
     case 1:
-      return S.Array(__S(128, __c32, 0));
+      return S.Array(__S(124, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1335,7 +1367,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(124, __c31, 0)),
+          endpoints: S.optional(__S(120, __c30, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndpointsResponse" });
@@ -1348,7 +1380,10 @@ function __c15(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(112, __c28, 0).pipe(T.HttpBody())),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(112, __c28, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1366,7 +1401,11 @@ function __c16(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          endpoints: S.optional(__S(120, __c30, 0)),
+          metadata: S.optional(__S(112, __c28, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1384,7 +1423,13 @@ function __c17(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(132, __c33, 0).pipe(T.HttpBody())),
+          address: S.optional(S.String),
+          port: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(112, __c28, 0)),
+          network: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1400,15 +1445,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           maxEndpoints: S.optional(S.Number),
           endpointFilter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResolveServiceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c18, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1417,10 +1456,10 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ResolveProjectsLocationsNamespacesServicesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(__S(128, __c32, 0)),
+          service: S.optional(__S(124, __c31, 0)),
         }),
       ).annotate({ identifier: "ResolveServiceResponse" });
   }
@@ -1431,7 +1470,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c20, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(15, __c3, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1447,18 +1486,8 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(15, __c3, 3)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c20, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(15, __c3, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1469,13 +1498,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsNamespacesServicesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c20, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(15, __c3, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1486,13 +1515,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsNamespacesWorkloadsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1503,23 +1532,23 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsNamespacesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(8, __c2, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1530,13 +1559,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsNamespacesServicesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c24, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1547,14 +1576,18 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsNamespacesWorkloadsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           namespaceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(112, __c28, 0).pipe(T.HttpBody())),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(112, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1565,7 +1598,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNamespacesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1574,25 +1607,30 @@ function __c28(j: number): any {
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          labels: S.optional(__S(116, __c29, 0)),
+          labels: S.optional(__S(112, __c28, 0)),
         }),
       ).annotate({ identifier: "Namespace" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           serviceId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          endpoints: S.optional(__S(120, __c30, 0)),
+          metadata: S.optional(__S(112, __c28, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1603,13 +1641,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNamespacesServicesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(132, __c33, 0));
+      return S.Array(__S(128, __c32, 0));
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1617,14 +1655,14 @@ function __c32(j: number): any {
           createTime: S.optional(S.String),
           uid: S.optional(S.String),
           updateTime: S.optional(S.String),
-          endpoints: S.optional(__S(124, __c31, 0)),
-          metadata: S.optional(__S(116, __c29, 0)),
+          endpoints: S.optional(__S(120, __c30, 0)),
+          metadata: S.optional(__S(112, __c28, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Service" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1633,7 +1671,7 @@ function __c33(j: number): any {
           address: S.optional(S.String),
           port: S.optional(S.Number),
           updateTime: S.optional(S.String),
-          metadata: S.optional(__S(116, __c29, 0)),
+          metadata: S.optional(__S(112, __c28, 0)),
           network: S.optional(S.String),
           uid: S.optional(S.String),
           createTime: S.optional(S.String),
@@ -1641,14 +1679,21 @@ function __c33(j: number): any {
       ).annotate({ identifier: "Endpoint" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           endpointId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(132, __c33, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          address: S.optional(S.String),
+          port: S.optional(S.Number),
+          updateTime: S.optional(S.String),
+          metadata: S.optional(__S(112, __c28, 0)),
+          network: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1659,7 +1704,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsNamespacesServicesEndpointsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1675,13 +1720,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsNamespacesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1697,7 +1742,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsNamespacesServicesRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

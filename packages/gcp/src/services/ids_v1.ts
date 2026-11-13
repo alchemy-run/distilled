@@ -108,8 +108,13 @@ export type EndpointSeverityEnum =
   | "CRITICAL";
 export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
-/** Endpoint describes a single IDS endpoint. It defines a forwarding rule to which packets can be sent for IDS inspection. */
-export interface Endpoint {
+export interface CreateProjectsLocationsEndpointsRequest {
+  /** Required. The endpoint's parent. */
+  parent: string;
+  /** Required. The endpoint identifier. This will be part of the endpoint's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. Values that do not match this pattern will trigger an INVALID_ARGUMENT error. */
+  endpointId?: string | undefined;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. The create time timestamp. */
   createTime?: string | undefined;
   /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
@@ -138,16 +143,6 @@ export interface Endpoint {
   description?: string | undefined;
   /** Output only. The IP address of the IDS Endpoint's ILB. */
   endpointIp?: string | undefined;
-}
-export interface CreateProjectsLocationsEndpointsRequest {
-  /** Required. The endpoint's parent. */
-  parent: string;
-  /** Required. The endpoint identifier. This will be part of the endpoint's resource name. This value must start with a lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens, and cannot end with a hyphen. Values that do not match this pattern will trigger an INVALID_ARGUMENT error. */
-  endpointId?: string | undefined;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Endpoint | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -203,6 +198,37 @@ export interface Location {
 export interface GetProjectsLocationsEndpointsRequest {
   /** Required. The name of the endpoint to retrieve. Format: projects/{project}/locations/{location}/endpoints/{endpoint} */
   name: string;
+}
+/** Endpoint describes a single IDS endpoint. It defines a forwarding rule to which packets can be sent for IDS inspection. */
+export interface Endpoint {
+  /** Output only. The create time timestamp. */
+  createTime?: string | undefined;
+  /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
+  endpointForwardingRule?: string | undefined;
+  /** Output only. Current state of the endpoint. */
+  state?: EndpointStateEnum | undefined;
+  /** Whether the endpoint should report traffic logs in addition to threat logs. */
+  trafficLogs?: boolean | undefined;
+  /** Required. The fully qualified URL of the network to which the IDS Endpoint is attached. */
+  network?: string | undefined;
+  /** Required. Lowest threat severity that this endpoint will alert on. */
+  severity?: EndpointSeverityEnum | undefined;
+  /** Output only. The name of the endpoint. */
+  name?: string | undefined;
+  /** Output only. [Output Only] Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. The update time timestamp. */
+  updateTime?: string | undefined;
+  /** List of threat IDs to be excepted from generating alerts. */
+  threatExceptions?: StringList | undefined;
+  /** Output only. [Output Only] Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** The labels of the endpoint. */
+  labels?: StringMap | undefined;
+  /** User-provided description of the endpoint */
+  description?: string | undefined;
+  /** Output only. The IP address of the IDS Endpoint's ILB. */
+  endpointIp?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -278,8 +304,32 @@ export interface PatchProjectsLocationsEndpointsRequest {
   requestId?: string | undefined;
   /** Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Endpoint | undefined;
+  /** Output only. The create time timestamp. */
+  createTime?: string | undefined;
+  /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
+  endpointForwardingRule?: string | undefined;
+  /** Output only. Current state of the endpoint. */
+  state?: EndpointStateEnum | (string & {}) | undefined;
+  /** Whether the endpoint should report traffic logs in addition to threat logs. */
+  trafficLogs?: boolean | undefined;
+  /** Required. The fully qualified URL of the network to which the IDS Endpoint is attached. */
+  network?: string | undefined;
+  /** Required. Lowest threat severity that this endpoint will alert on. */
+  severity?: EndpointSeverityEnum | (string & {}) | undefined;
+  /** Output only. [Output Only] Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. The update time timestamp. */
+  updateTime?: string | undefined;
+  /** List of threat IDs to be excepted from generating alerts. */
+  threatExceptions?: StringList | undefined;
+  /** Output only. [Output Only] Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** The labels of the endpoint. */
+  labels?: StringMap | undefined;
+  /** User-provided description of the endpoint */
+  description?: string | undefined;
+  /** Output only. The IP address of the IDS Endpoint's ILB. */
+  endpointIp?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -338,7 +388,7 @@ export const deleteProjectsLocationsEndpoints: API.OperationMethod<
   DeleteProjectsLocationsEndpointsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<DeleteProjectsLocationsEndpointsRequest>,
+  input: __S(48, __c12, 0) as any as S.Schema<DeleteProjectsLocationsEndpointsRequest>,
   output: __S(34, __c8, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -360,7 +410,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  input: __S(52, __c13, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -377,8 +427,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(64, __c16, 0) as any as S.Schema<Location>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -394,8 +444,8 @@ export const getProjectsLocationsEndpoints: API.OperationMethod<
   GetProjectsLocationsEndpointsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetProjectsLocationsEndpointsRequest>,
-  output: __S(48, __c12, 0) as any as S.Schema<Endpoint>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetProjectsLocationsEndpointsRequest>,
+  output: __S(68, __c17, 0) as any as S.Schema<Endpoint>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -531,7 +581,7 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(64, __c16, 0));
+      return S.Array(__S(60, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -560,7 +610,7 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEndpointsRequest" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
+      return S.Array(__S(68, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -609,7 +659,19 @@ function __c4(j: number): any {
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          endpointForwardingRule: S.optional(S.String),
+          state: S.optional(S.String),
+          trafficLogs: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          severity: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          threatExceptions: S.optional(__S(44, __c11, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          labels: S.optional(__S(40, __c10, 0)),
+          description: S.optional(S.String),
+          endpointIp: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
         ),
@@ -647,7 +709,20 @@ function __c7(j: number): any {
           parent: S.String.pipe(T.Label()),
           endpointId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          endpointForwardingRule: S.optional(S.String),
+          state: S.optional(S.String),
+          trafficLogs: S.optional(S.Boolean),
+          network: S.optional(S.String),
+          severity: S.optional(S.String),
+          name: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          threatExceptions: S.optional(__S(44, __c11, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          labels: S.optional(__S(40, __c10, 0)),
+          description: S.optional(S.String),
+          endpointIp: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -705,6 +780,69 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsEndpointsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          labels: S.optional(__S(40, __c10, 0)),
+          metadata: S.optional(__S(36, __c9, 0)),
+          locationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Location" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsEndpointsRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           createTime: S.optional(S.String),
           endpointForwardingRule: S.optional(S.String),
           state: S.optional(S.String),
@@ -721,69 +859,6 @@ function __c12(j: number): any {
           endpointIp: S.optional(S.String),
         }),
       ).annotate({ identifier: "Endpoint" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsEndpointsRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          labels: S.optional(__S(40, __c10, 0)),
-          metadata: S.optional(__S(36, __c9, 0)),
-          locationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Location" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsEndpointsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

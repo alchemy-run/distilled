@@ -105,8 +105,11 @@ export interface GSuitePrincipal {
   /** This principal references a Google Workspace user account. */
   gsuiteUserEmail?: string | undefined;
 }
-/** Reference to a user, group, or domain. */
-export interface Principal {
+export interface CheckAccessDebugDatasourcesItemsRequest {
+  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
+  "debugOptions.enableDebugging"?: boolean | undefined;
+  /** Item name, format: datasources/{source_id}/items/{item_id} */
+  name: string;
   /** This principal is a group identified using an external identity. The name field must specify the group resource name with this format: identitysources/{source_id}/groups/{ID} */
   groupResourceName?: string | undefined;
   /** This principal is a user identified using an external identity. The name field must specify the user resource name with this format: identitysources/{source_id}/users/{ID} */
@@ -114,22 +117,13 @@ export interface Principal {
   /** This principal is a Google Workspace user, group or domain. */
   gsuitePrincipal?: GSuitePrincipal | undefined;
 }
-export interface CheckAccessDebugDatasourcesItemsRequest {
-  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
-  "debugOptions.enableDebugging"?: boolean | undefined;
-  /** Item name, format: datasources/{source_id}/items/{item_id} */
-  name: string;
-  /** Request body */
-  body?: Principal | undefined;
-}
 export interface CheckAccessResponse {
   /** Returns true if principal has access. Returns false otherwise. */
   hasAccess?: boolean | undefined;
 }
 export type StringList = Array<string>;
 export type GSuitePrincipalList = Array<GSuitePrincipal>;
-/** Datasource is a logical namespace for items to be indexed. All items must belong to a datasource. This is the prerequisite before items can be indexed into Cloud Search. */
-export interface DataSource {
+export interface CreateSettingsDatasourcesRequest {
   /** A short name or alias for the source. This value will be used to match the 'source' operator. For example, if the short name is *<value>* then queries like *source:<value>* will only return results for this source. The value must be unique across all datasources. The value must only contain alphanumeric characters (a-zA-Z0-9). The value cannot start with 'google' and cannot be one of the following: mail, gmail, docs, drive, groups, sites, calendar, hangouts, gplus, keep, people, teams. Its maximum length is 32 characters. */
   shortName?: string | undefined;
   /** Disable serving any search or assist results. */
@@ -148,10 +142,6 @@ export interface DataSource {
   indexingServiceAccounts?: StringList | undefined;
   /** This field restricts visibility to items at the datasource level. Items within the datasource are restricted to the union of users and groups included in this field. Note that, this does not ensure access to a specific item, as users need to have ACL permissions on the contained items. This ensures a high level access on the entire datasource, and that the individual items are not shared outside this visibility. */
   itemsVisibility?: GSuitePrincipalList | undefined;
-}
-export interface CreateSettingsDatasourcesRequest {
-  /** Request body */
-  body?: DataSource | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -310,8 +300,7 @@ export interface ScoringConfig {
   /** Whether to personalize the results. By default, personal signals will be used to boost results. */
   disablePersonalization?: boolean | undefined;
 }
-/** SearchApplication */
-export interface SearchApplication {
+export interface CreateSettingsSearchapplicationsRequest {
   /** The default options for query interpretation */
   queryInterpretationConfig?: QueryInterpretationConfig | undefined;
   /** The default options for sorting the search results */
@@ -335,10 +324,6 @@ export interface SearchApplication {
   /** Configuration for ranking results. */
   scoringConfig?: ScoringConfig | undefined;
 }
-export interface CreateSettingsSearchapplicationsRequest {
-  /** Request body */
-  body?: SearchApplication | undefined;
-}
 export type DeleteIndexingDatasourcesItemsModeEnum = "UNSPECIFIED" | "SYNCHRONOUS" | "ASYNCHRONOUS";
 export interface DeleteIndexingDatasourcesItemsRequest {
   /** Required. The name of the item to delete. Format: datasources/{source_id}/items/{item_id} */
@@ -357,19 +342,15 @@ export interface DebugOptions {
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   enableDebugging?: boolean | undefined;
 }
-export interface DeleteQueueItemsRequest {
+export interface DeleteQueueItemsIndexingDatasourcesItemsRequest {
+  /** The name of the Data Source to delete items in a queue. Format: datasources/{source_id} */
+  name: string;
   /** The name of a queue to delete items from. */
   queue?: string | undefined;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
-}
-export interface DeleteQueueItemsIndexingDatasourcesItemsRequest {
-  /** The name of the Data Source to delete items in a queue. Format: datasources/{source_id} */
-  name: string;
-  /** Request body */
-  body?: DeleteQueueItemsRequest | undefined;
 }
 export interface DeleteSchemaIndexingDatasourcesRequest {
   /** The name of the data source to delete Schema. Format: datasources/{source_id} */
@@ -441,6 +422,15 @@ export type ItemAclAclInheritanceTypeEnum =
   | "CHILD_OVERRIDE"
   | "PARENT_OVERRIDE"
   | "BOTH_PERMIT";
+/** Reference to a user, group, or domain. */
+export interface Principal {
+  /** This principal is a group identified using an external identity. The name field must specify the group resource name with this format: identitysources/{source_id}/groups/{ID} */
+  groupResourceName?: string | undefined;
+  /** This principal is a user identified using an external identity. The name field must specify the user resource name with this format: identitysources/{source_id}/users/{ID} */
+  userResourceName?: string | undefined;
+  /** This principal is a Google Workspace user, group or domain. */
+  gsuitePrincipal?: GSuitePrincipal | undefined;
+}
 export type PrincipalList = Array<Principal>;
 /** Access control list information for the item. For more information see [Map ACLs](https://developers.google.com/workspace/cloud-search/docs/guides/acls). */
 export interface ItemAcl {
@@ -1015,11 +1005,57 @@ export interface GetSettingsDatasourcesRequest {
   /** The name of the datasource resource. Format: datasources/{source_id}. */
   name: string;
 }
+/** Datasource is a logical namespace for items to be indexed. All items must belong to a datasource. This is the prerequisite before items can be indexed into Cloud Search. */
+export interface DataSource {
+  /** A short name or alias for the source. This value will be used to match the 'source' operator. For example, if the short name is *<value>* then queries like *source:<value>* will only return results for this source. The value must be unique across all datasources. The value must only contain alphanumeric characters (a-zA-Z0-9). The value cannot start with 'google' and cannot be one of the following: mail, gmail, docs, drive, groups, sites, calendar, hangouts, gplus, keep, people, teams. Its maximum length is 32 characters. */
+  shortName?: string | undefined;
+  /** Disable serving any search or assist results. */
+  disableServing?: boolean | undefined;
+  /** Required. Display name of the datasource The maximum length is 300 characters. */
+  displayName?: string | undefined;
+  /** If true, sets the datasource to read-only mode. In read-only mode, the Indexing API rejects any requests to index or delete items in this source. Enabling read-only mode does not stop the processing of previously accepted data. */
+  disableModifications?: boolean | undefined;
+  /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
+  name?: string | undefined;
+  /** IDs of the Long Running Operations (LROs) currently running for this schema. */
+  operationIds?: StringList | undefined;
+  /** Can a user request to get thumbnail URI for Items indexed in this data source. */
+  returnThumbnailUrls?: boolean | undefined;
+  /** List of service accounts that have indexing access. */
+  indexingServiceAccounts?: StringList | undefined;
+  /** This field restricts visibility to items at the datasource level. Items within the datasource are restricted to the union of users and groups included in this field. Note that, this does not ensure access to a specific item, as users need to have ACL permissions on the contained items. This ensures a high level access on the entire datasource, and that the individual items are not shared outside this visibility. */
+  itemsVisibility?: GSuitePrincipalList | undefined;
+}
 export interface GetSettingsSearchapplicationsRequest {
   /** The name of the search application. Format: searchapplications/{application_id}. */
   name: string;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
+}
+/** SearchApplication */
+export interface SearchApplication {
+  /** The default options for query interpretation */
+  queryInterpretationConfig?: QueryInterpretationConfig | undefined;
+  /** The default options for sorting the search results */
+  defaultSortOptions?: SortOptions | undefined;
+  /** Configuration for a sources specified in data_source_restrictions. */
+  sourceConfig?: SourceConfigList | undefined;
+  /** Indicates whether audit logging is on/off for requests made for the search application in query APIs. */
+  enableAuditLog?: boolean | undefined;
+  /** Retrictions applied to the configurations. The maximum number of elements is 10. */
+  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
+  /** The default fields for returning facet results. The sources specified here also have been included in data_source_restrictions above. */
+  defaultFacetOptions?: FacetOptionsList | undefined;
+  /** Display name of the Search Application. The maximum length is 300 characters. */
+  displayName?: string | undefined;
+  /** With each result we should return the URI for its thumbnail (when applicable) */
+  returnResultThumbnailUrls?: boolean | undefined;
+  /** The name of the Search Application. Format: searchapplications/{application_id}. */
+  name?: string | undefined;
+  /** Output only. IDs of the Long Running Operations (LROs) currently running for this schema. Output only field. */
+  operationIds?: StringList | undefined;
+  /** Configuration for ranking results. */
+  scoringConfig?: ScoringConfig | undefined;
 }
 export interface GetStatsIndexDatasourcesRequest {
   /** Month of date. Must be from 1 to 12. */
@@ -1165,7 +1201,9 @@ export interface IndexItemOptions {
   /** Specifies if the index request should allow Google Workspace principals that do not exist or are deleted. */
   allowUnknownGsuitePrincipals?: boolean | undefined;
 }
-export interface IndexItemRequest {
+export interface IndexIndexingDatasourcesItemsRequest {
+  /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
+  name: string;
   /** Required. The RequestMode for this request. */
   mode?: IndexItemRequestModeEnum | (string & {}) | undefined;
   /** Common debug options. */
@@ -1175,12 +1213,6 @@ export interface IndexItemRequest {
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
   indexItemOptions?: IndexItemOptions | undefined;
-}
-export interface IndexIndexingDatasourcesItemsRequest {
-  /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
-  name: string;
-  /** Request body */
-  body?: IndexItemRequest | undefined;
 }
 /** Request message for `InitializeCustomer` method. */
 export interface InitializeCustomerRequest {}
@@ -1404,16 +1436,48 @@ export interface PatchSettingsDatasourcesRequest {
   "debugOptions.enableDebugging"?: boolean | undefined;
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
-  /** Request body */
-  body?: DataSource | undefined;
+  /** A short name or alias for the source. This value will be used to match the 'source' operator. For example, if the short name is *<value>* then queries like *source:<value>* will only return results for this source. The value must be unique across all datasources. The value must only contain alphanumeric characters (a-zA-Z0-9). The value cannot start with 'google' and cannot be one of the following: mail, gmail, docs, drive, groups, sites, calendar, hangouts, gplus, keep, people, teams. Its maximum length is 32 characters. */
+  shortName?: string | undefined;
+  /** Disable serving any search or assist results. */
+  disableServing?: boolean | undefined;
+  /** Required. Display name of the datasource The maximum length is 300 characters. */
+  displayName?: string | undefined;
+  /** If true, sets the datasource to read-only mode. In read-only mode, the Indexing API rejects any requests to index or delete items in this source. Enabling read-only mode does not stop the processing of previously accepted data. */
+  disableModifications?: boolean | undefined;
+  /** IDs of the Long Running Operations (LROs) currently running for this schema. */
+  operationIds?: StringList | undefined;
+  /** Can a user request to get thumbnail URI for Items indexed in this data source. */
+  returnThumbnailUrls?: boolean | undefined;
+  /** List of service accounts that have indexing access. */
+  indexingServiceAccounts?: StringList | undefined;
+  /** This field restricts visibility to items at the datasource level. Items within the datasource are restricted to the union of users and groups included in this field. Note that, this does not ensure access to a specific item, as users need to have ACL permissions on the contained items. This ensures a high level access on the entire datasource, and that the individual items are not shared outside this visibility. */
+  itemsVisibility?: GSuitePrincipalList | undefined;
 }
 export interface PatchSettingsSearchapplicationsRequest {
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
-  /** Request body */
-  body?: SearchApplication | undefined;
+  /** The default options for query interpretation */
+  queryInterpretationConfig?: QueryInterpretationConfig | undefined;
+  /** The default options for sorting the search results */
+  defaultSortOptions?: SortOptions | undefined;
+  /** Configuration for a sources specified in data_source_restrictions. */
+  sourceConfig?: SourceConfigList | undefined;
+  /** Indicates whether audit logging is on/off for requests made for the search application in query APIs. */
+  enableAuditLog?: boolean | undefined;
+  /** Retrictions applied to the configurations. The maximum number of elements is 10. */
+  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
+  /** The default fields for returning facet results. The sources specified here also have been included in data_source_restrictions above. */
+  defaultFacetOptions?: FacetOptionsList | undefined;
+  /** Display name of the Search Application. The maximum length is 300 characters. */
+  displayName?: string | undefined;
+  /** With each result we should return the URI for its thumbnail (when applicable) */
+  returnResultThumbnailUrls?: boolean | undefined;
+  /** Output only. IDs of the Long Running Operations (LROs) currently running for this schema. Output only field. */
+  operationIds?: StringList | undefined;
+  /** Configuration for ranking results. */
+  scoringConfig?: ScoringConfig | undefined;
 }
 export type PollItemsRequestStatusCodesItemEnum =
   | "CODE_UNSPECIFIED"
@@ -1424,7 +1488,9 @@ export type PollItemsRequestStatusCodesItemEnum =
 export type PollItemsRequestStatusCodesItemEnumList = Array<
   PollItemsRequestStatusCodesItemEnum | (string & {})
 >;
-export interface PollItemsRequest {
+export interface PollIndexingDatasourcesItemsRequest {
+  /** The name of the Data Source to poll items. Format: datasources/{source_id} */
+  name: string;
   /** Maximum number of items to return. The maximum value is 100 and the default value is 20. */
   limit?: number | undefined;
   /** Common debug options. */
@@ -1435,12 +1501,6 @@ export interface PollItemsRequest {
   queue?: string | undefined;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
-}
-export interface PollIndexingDatasourcesItemsRequest {
-  /** The name of the Data Source to poll items. Format: datasources/{source_id} */
-  name: string;
-  /** Request body */
-  body?: PollItemsRequest | undefined;
 }
 export interface PollItemsResponse {
   /** Set of items from the queue available for connector to process. These items have the following subset of fields populated: version metadata.hash structured_data.hash content.hash payload status queue */
@@ -1469,19 +1529,15 @@ export interface PushItem {
   /** The metadata hash of the item according to the repository. If specified, this is used to determine how to modify this item's status. Setting this field and the type field results in argument error. The maximum length is 2048 characters. */
   metadataHash?: string | undefined;
 }
-export interface PushItemRequest {
+export interface PushIndexingDatasourcesItemsRequest {
+  /** The name of the item to push into the indexing queue. Format: datasources/{source_id}/items/{ID} This is a required field. The maximum length is 1536 characters. */
+  name: string;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
   /** Item to push onto the queue. */
   item?: PushItem | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
-}
-export interface PushIndexingDatasourcesItemsRequest {
-  /** The name of the item to push into the indexing queue. Format: datasources/{source_id}/items/{ID} This is a required field. The maximum length is 1536 characters. */
-  name: string;
-  /** Request body */
-  body?: PushItemRequest | undefined;
 }
 /** Shared request options for all RPC methods. */
 export interface RequestOptions {
@@ -1508,42 +1564,29 @@ export interface UserActivity {
   /** Contains data which needs to be logged/removed. */
   queryActivity?: QueryActivity | undefined;
 }
-/** Remove Logged Activity Request. */
-export interface RemoveActivityRequest {
+export interface RemoveActivityQueryRequest {
   /** Request options, such as the search application and clientId. */
   requestOptions?: RequestOptions | undefined;
   /** User Activity containing the data to be deleted. */
   userActivity?: UserActivity | undefined;
 }
-export interface RemoveActivityQueryRequest {
-  /** Request body */
-  body?: RemoveActivityRequest | undefined;
-}
 /** Remove Logged Activity Response. will return an empty response for now. Will be revisited in later phases. */
 export interface RemoveActivityResponse {}
-export interface ResetSearchApplicationRequest {
-  /** Common debug options. */
-  debugOptions?: DebugOptions | undefined;
-}
 export interface ResetSettingsSearchapplicationsRequest {
   /** The name of the search application to be reset. Format: applications/{application_id}. */
   name: string;
-  /** Request body */
-  body?: ResetSearchApplicationRequest | undefined;
-}
-export interface SearchItemsByViewUrlRequest {
-  /** Specify the full view URL to find the corresponding item. The maximum length is 2048 characters. */
-  viewUrl?: string | undefined;
-  /** The next_page_token value returned from a previous request, if any. */
-  pageToken?: string | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
 export interface SearchByViewUrlDebugDatasourcesItemsRequest {
   /** Source name, format: datasources/{source_id} */
   name: string;
-  /** Request body */
-  body?: SearchItemsByViewUrlRequest | undefined;
+  /** Specify the full view URL to find the corresponding item. The maximum length is 2048 characters. */
+  viewUrl?: string | undefined;
+  /** The next_page_token value returned from a previous request, if any. */
+  pageToken?: string | undefined;
+  /** Common debug options. */
+  debugOptions?: DebugOptions | undefined;
 }
 export interface SearchItemsByViewUrlResponse {
   items?: ItemList | undefined;
@@ -1559,8 +1602,7 @@ export interface QueryInterpretationOptions {
   /** Use this flag to disable supplemental results for a query. Supplemental results setting chosen at SearchApplication level will take precedence if set to True. */
   disableSupplementalResults?: boolean | undefined;
 }
-/** The search API request. NEXT ID: 26 */
-export interface SearchRequest {
+export interface SearchQueryRequest {
   /** Starting index of the results. */
   start?: number | undefined;
   /** Maximum number of search results to return in one page. Valid values are between 1 and 100, inclusive. Default value is 10. Minimum value is 50 when results beyond 2000 are requested. */
@@ -1578,10 +1620,6 @@ export interface SearchRequest {
   requestOptions?: RequestOptions | undefined;
   /** The options for sorting the search results */
   sortOptions?: SortOptions | undefined;
-}
-export interface SearchQueryRequest {
-  /** Request body */
-  body?: SearchRequest | undefined;
 }
 /** A person's name. */
 export interface Name {
@@ -1827,18 +1865,13 @@ export interface SearchResponse {
   /** Expanded result count information. */
   resultCounts?: ResultCounts | undefined;
 }
-/** Request of suggest API. */
-export interface SuggestRequest {
+export interface SuggestQueryRequest {
   /** The sources to use for suggestions. If not specified, the data sources are taken from the current search application. NOTE: Suggestions are only supported for the following sources: * Third-party data sources * PredefinedSource.PERSON * PredefinedSource.GOOGLE_DRIVE */
   dataSourceRestrictions?: DataSourceRestrictionList | undefined;
   /** Request options, such as the search application and user timezone. */
   requestOptions?: RequestOptions | undefined;
   /** Partial query for which autocomplete suggestions will be shown. For example, if the query is "sea", then the server might return "season", "search", "seagull" and so on. */
   query?: string | undefined;
-}
-export interface SuggestQueryRequest {
-  /** Request body */
-  body?: SuggestRequest | undefined;
 }
 export type QuerySuggestionSourceCorpusEnum =
   | "SOURCE_CORPUS_UNSPECIFIED"
@@ -1874,7 +1907,9 @@ export interface SuggestResponse {
   /** List of suggestions. */
   suggestResults?: SuggestResultList | undefined;
 }
-export interface UnreserveItemsRequest {
+export interface UnreserveIndexingDatasourcesItemsRequest {
+  /** The name of the Data Source to unreserve all items. Format: datasources/{source_id} */
+  name: string;
   /** The name of a queue to unreserve items from. */
   queue?: string | undefined;
   /** Common debug options. */
@@ -1882,19 +1917,17 @@ export interface UnreserveItemsRequest {
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
 }
-export interface UnreserveIndexingDatasourcesItemsRequest {
-  /** The name of the Data Source to unreserve all items. Format: datasources/{source_id} */
-  name: string;
-  /** Request body */
-  body?: UnreserveItemsRequest | undefined;
-}
 export interface UpdateCustomerSettingsRequest {
   /** Update mask to control which fields get updated. If you specify a field in the update_mask but don't specify its value here, that field will be cleared. If the mask is not present or empty, all fields will be updated. Currently supported field paths: vpc_settings and audit_logging_settings */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: CustomerSettings | undefined;
+  /** VPC SC settings for the customer. If update_mask is empty then this field will be updated based on UpdateCustomerSettings request. */
+  vpcSettings?: VPCSettings | undefined;
+  /** Audit Logging settings for the customer. If update_mask is empty then this field will be updated based on UpdateCustomerSettings request. */
+  auditLoggingSettings?: AuditLoggingSettings | undefined;
 }
-export interface UpdateSchemaRequest {
+export interface UpdateSchemaIndexingDatasourcesRequest {
+  /** The name of the data source to update Schema. Format: datasources/{source_id} */
+  name: string;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
   /** The new schema for the source. */
@@ -1902,56 +1935,57 @@ export interface UpdateSchemaRequest {
   /** If true, the schema will be checked for validity, but will not be registered with the data source, even if valid. */
   validateOnly?: boolean | undefined;
 }
-export interface UpdateSchemaIndexingDatasourcesRequest {
-  /** The name of the data source to update Schema. Format: datasources/{source_id} */
+export interface UpdateSettingsDatasourcesRequest {
+  /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
-  /** Request body */
-  body?: UpdateSchemaRequest | undefined;
-}
-export interface UpdateDataSourceRequest {
   source?: DataSource | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
   /** Only applies to [`settings.datasources.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.datasources/patch). Update mask to control which fields to update. Example field paths: `name`, `displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the source, that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
 }
-export interface UpdateSettingsDatasourcesRequest {
-  /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
-  name: string;
-  /** Request body */
-  body?: UpdateDataSourceRequest | undefined;
-}
 export interface UpdateSettingsSearchapplicationsRequest {
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SearchApplication | undefined;
+  /** The default options for query interpretation */
+  queryInterpretationConfig?: QueryInterpretationConfig | undefined;
+  /** The default options for sorting the search results */
+  defaultSortOptions?: SortOptions | undefined;
+  /** Configuration for a sources specified in data_source_restrictions. */
+  sourceConfig?: SourceConfigList | undefined;
+  /** Indicates whether audit logging is on/off for requests made for the search application in query APIs. */
+  enableAuditLog?: boolean | undefined;
+  /** Retrictions applied to the configurations. The maximum number of elements is 10. */
+  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
+  /** The default fields for returning facet results. The sources specified here also have been included in data_source_restrictions above. */
+  defaultFacetOptions?: FacetOptionsList | undefined;
+  /** Display name of the Search Application. The maximum length is 300 characters. */
+  displayName?: string | undefined;
+  /** With each result we should return the URI for its thumbnail (when applicable) */
+  returnResultThumbnailUrls?: boolean | undefined;
+  /** Output only. IDs of the Long Running Operations (LROs) currently running for this schema. Output only field. */
+  operationIds?: StringList | undefined;
+  /** Configuration for ranking results. */
+  scoringConfig?: ScoringConfig | undefined;
 }
-/** Start upload file request. */
-export interface StartUploadItemRequest {
+export interface UploadIndexingDatasourcesItemsRequest {
+  /** The name of the Item to start a resumable upload. Format: datasources/{source_id}/items/{item_id}. The maximum length is 1536 bytes. */
+  name: string;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
-export interface UploadIndexingDatasourcesItemsRequest {
-  /** The name of the Item to start a resumable upload. Format: datasources/{source_id}/items/{item_id}. The maximum length is 1536 bytes. */
-  name: string;
-  /** Request body */
-  body?: StartUploadItemRequest | undefined;
+export interface UploadMediaRequest {
+  /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
+  resourceName: string;
 }
 /** Media resource. */
 export interface Media {
   /** Name of the media resource. */
   resourceName?: string | undefined;
-}
-export interface UploadMediaRequest {
-  /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
-  resourceName: string;
-  /** Request body */
-  body?: Media | undefined;
 }
 export type CheckAccessDebugDatasourcesItemsError =
   | NotFound
@@ -1967,8 +2001,8 @@ export const checkAccessDebugDatasourcesItems: API.OperationMethod<
   CheckAccessDebugDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<CheckAccessDebugDatasourcesItemsRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<CheckAccessResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<CheckAccessDebugDatasourcesItemsRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<CheckAccessResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1990,8 +2024,8 @@ export const createSettingsDatasources: API.OperationMethod<
   CreateSettingsDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<CreateSettingsDatasourcesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1984, __c62, 0) as any as S.Schema<CreateSettingsDatasourcesRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2013,8 +2047,8 @@ export const createSettingsSearchapplications: API.OperationMethod<
   CreateSettingsSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<CreateSettingsSearchapplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreateSettingsSearchapplicationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2036,8 +2070,8 @@ export const deleteIndexingDatasourcesItems: API.OperationMethod<
   DeleteIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteIndexingDatasourcesItemsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteIndexingDatasourcesItemsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2059,8 +2093,8 @@ export const deleteQueueItemsIndexingDatasourcesItems: API.OperationMethod<
   DeleteQueueItemsIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2305, __c72, 1) as any as S.Schema<DeleteQueueItemsIndexingDatasourcesItemsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteQueueItemsIndexingDatasourcesItemsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2083,7 +2117,7 @@ export const deleteSchemaIndexingDatasources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteSchemaIndexingDatasourcesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2106,7 +2140,7 @@ export const deleteSettingsDatasources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteSettingsDatasourcesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2129,7 +2163,7 @@ export const deleteSettingsSearchapplications: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteSettingsSearchapplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2146,7 +2180,7 @@ export const getCustomerSettings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetCustomerSettingsRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<CustomerSettings>,
+  output: __S(97, __c3, 1) as any as S.Schema<CustomerSettings>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2167,7 +2201,7 @@ export const getIndexingDatasourcesItems: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetIndexingDatasourcesItemsRequest>,
-  output: __S(207, __c6, 15) as any as S.Schema<Item>,
+  output: __S(239, __c7, 15) as any as S.Schema<Item>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2183,8 +2217,8 @@ export const getIndexStats: API.OperationMethod<
   GetIndexStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetIndexStatsRequest>,
-  output: __S(324, __c10, 4) as any as S.Schema<GetCustomerIndexStatsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetIndexStatsRequest>,
+  output: __S(356, __c11, 4) as any as S.Schema<GetCustomerIndexStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2200,8 +2234,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2217,8 +2251,8 @@ export const getQueryStats: API.OperationMethod<
   GetQueryStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetQueryStatsRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<GetCustomerQueryStatsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetQueryStatsRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<GetCustomerQueryStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2238,8 +2272,8 @@ export const getSchemaIndexingDatasources: API.OperationMethod<
   GetSchemaIndexingDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetSchemaIndexingDatasourcesRequest>,
-  output: __S(506, __c15, 26) as any as S.Schema<Cloudsearch_Schema>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetSchemaIndexingDatasourcesRequest>,
+  output: __S(538, __c16, 26) as any as S.Schema<Cloudsearch_Schema>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2255,8 +2289,8 @@ export const getSearchapplicationStats: API.OperationMethod<
   GetSearchapplicationStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetSearchapplicationStatsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<GetCustomerSearchApplicationStatsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetSearchapplicationStatsRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<GetCustomerSearchApplicationStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2272,8 +2306,8 @@ export const getSessionStats: API.OperationMethod<
   GetSessionStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetSessionStatsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<GetCustomerSessionStatsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetSessionStatsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<GetCustomerSessionStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2289,8 +2323,8 @@ export const getSettingsDatasources: API.OperationMethod<
   GetSettingsDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetSettingsDatasourcesRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<DataSource>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetSettingsDatasourcesRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<DataSource>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2310,8 +2344,8 @@ export const getSettingsSearchapplications: API.OperationMethod<
   GetSettingsSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetSettingsSearchapplicationsRequest>,
-  output: __S(2246, __c70, 6) as any as S.Schema<SearchApplication>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetSettingsSearchapplicationsRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SearchApplication>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2327,8 +2361,8 @@ export const getStatsIndexDatasources: API.OperationMethod<
   GetStatsIndexDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetStatsIndexDatasourcesRequest>,
-  output: __S(324, __c10, 4) as any as S.Schema<GetDataSourceIndexStatsResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetStatsIndexDatasourcesRequest>,
+  output: __S(356, __c11, 4) as any as S.Schema<GetDataSourceIndexStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2348,8 +2382,8 @@ export const getStatsQuerySearchapplications: API.OperationMethod<
   GetStatsQuerySearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetStatsQuerySearchapplicationsRequest>,
-  output: __S(707, __c22, 3) as any as S.Schema<GetSearchApplicationQueryStatsResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetStatsQuerySearchapplicationsRequest>,
+  output: __S(803, __c25, 3) as any as S.Schema<GetSearchApplicationQueryStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2369,8 +2403,8 @@ export const getStatsSessionSearchapplications: API.OperationMethod<
   GetStatsSessionSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetStatsSessionSearchapplicationsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<GetSearchApplicationSessionStatsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetStatsSessionSearchapplicationsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<GetSearchApplicationSessionStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2390,8 +2424,8 @@ export const getStatsUserSearchapplications: API.OperationMethod<
   GetStatsUserSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetStatsUserSearchapplicationsRequest>,
-  output: __S(771, __c24, 3) as any as S.Schema<GetSearchApplicationUserStatsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetStatsUserSearchapplicationsRequest>,
+  output: __S(867, __c27, 3) as any as S.Schema<GetSearchApplicationUserStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2407,8 +2441,8 @@ export const getUserStats: API.OperationMethod<
   GetUserStatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetUserStatsRequest>,
-  output: __S(803, __c25, 3) as any as S.Schema<GetCustomerUserStatsResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetUserStatsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<GetCustomerUserStatsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2430,8 +2464,8 @@ export const indexIndexingDatasourcesItems: API.OperationMethod<
   IndexIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(834, __c26, 2) as any as S.Schema<IndexIndexingDatasourcesItemsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(929, __c29, 1) as any as S.Schema<IndexIndexingDatasourcesItemsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2453,8 +2487,8 @@ export const initializeCustomerV1: API.OperationMethod<
   InitializeCustomerV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<InitializeCustomerV1Request>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<InitializeCustomerV1Request>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2475,8 +2509,8 @@ export const listDebugDatasourcesItemsUnmappedids: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUnmappedIdentitiesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListDebugDatasourcesItemsUnmappedidsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<ListUnmappedIdentitiesResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListDebugDatasourcesItemsUnmappedidsRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<ListUnmappedIdentitiesResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2498,8 +2532,8 @@ export const listDebugIdentitysourcesUnmappedids: API.PaginatedOperationMethod<
   GcpOpContext,
   ListUnmappedIdentitiesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListDebugIdentitysourcesUnmappedidsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<ListUnmappedIdentitiesResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListDebugIdentitysourcesUnmappedidsRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<ListUnmappedIdentitiesResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2522,11 +2556,11 @@ export const listForunmappedidentityDebugIdentitysourcesItems: API.PaginatedOper
   ListItemNamesForUnmappedIdentityResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1024,
-    __c32,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<ListForunmappedidentityDebugIdentitysourcesItemsRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<ListItemNamesForUnmappedIdentityResponse>,
+  output: __S(1121, __c35, 1) as any as S.Schema<ListItemNamesForUnmappedIdentityResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2548,8 +2582,8 @@ export const listIndexingDatasourcesItems: API.PaginatedOperationMethod<
   GcpOpContext,
   Item
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListIndexingDatasourcesItemsRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ListItemsResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListIndexingDatasourcesItemsRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<ListItemsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2567,8 +2601,8 @@ export const listOperationsLro: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListOperationsLroRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListOperationsLroRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2586,8 +2620,8 @@ export const listQuerySources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListQuerySourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListQuerySourcesRequest>,
-  output: __S(1157, __c36, 5) as any as S.Schema<ListQuerySourcesResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListQuerySourcesRequest>,
+  output: __S(1253, __c39, 5) as any as S.Schema<ListQuerySourcesResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2605,8 +2639,8 @@ export const listSettingsDatasources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDataSourceResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListSettingsDatasourcesRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<ListDataSourceResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListSettingsDatasourcesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<ListDataSourceResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2628,8 +2662,8 @@ export const listSettingsSearchapplications: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSearchApplicationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListSettingsSearchapplicationsRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<ListSearchApplicationsResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListSettingsSearchapplicationsRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<ListSearchApplicationsResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2652,8 +2686,8 @@ export const patchSettingsDatasources: API.OperationMethod<
   PatchSettingsDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<PatchSettingsDatasourcesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1344, __c42, 0) as any as S.Schema<PatchSettingsDatasourcesRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2675,8 +2709,8 @@ export const patchSettingsSearchapplications: API.OperationMethod<
   PatchSettingsSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<PatchSettingsSearchapplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1376, __c43, 0) as any as S.Schema<PatchSettingsSearchapplicationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2698,8 +2732,8 @@ export const pollIndexingDatasourcesItems: API.OperationMethod<
   PollIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1314, __c41, 2) as any as S.Schema<PollIndexingDatasourcesItemsRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<PollItemsResponse>,
+  input: __S(1409, __c44, 1) as any as S.Schema<PollIndexingDatasourcesItemsRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<PollItemsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2721,8 +2755,8 @@ export const pushIndexingDatasourcesItems: API.OperationMethod<
   PushIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1346, __c42, 2) as any as S.Schema<PushIndexingDatasourcesItemsRequest>,
-  output: __S(207, __c6, 15) as any as S.Schema<Item>,
+  input: __S(1441, __c45, 1) as any as S.Schema<PushIndexingDatasourcesItemsRequest>,
+  output: __S(239, __c7, 15) as any as S.Schema<Item>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2744,8 +2778,8 @@ export const removeActivityQuery: API.OperationMethod<
   RemoveActivityQueryError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1379, __c43, 3) as any as S.Schema<RemoveActivityQueryRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<RemoveActivityResponse>,
+  input: __S(1474, __c46, 2) as any as S.Schema<RemoveActivityQueryRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<RemoveActivityResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2767,8 +2801,8 @@ export const resetSettingsSearchapplications: API.OperationMethod<
   ResetSettingsSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1441, __c45, 1) as any as S.Schema<ResetSettingsSearchapplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ResetSettingsSearchapplicationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2790,8 +2824,8 @@ export const searchByViewUrlDebugDatasourcesItems: API.OperationMethod<
   SearchByViewUrlDebugDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c46, 1) as any as S.Schema<SearchByViewUrlDebugDatasourcesItemsRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<SearchItemsByViewUrlResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<SearchByViewUrlDebugDatasourcesItemsRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<SearchItemsByViewUrlResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2813,8 +2847,8 @@ export const searchQuery: API.OperationMethod<
   SearchQueryError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1506, __c47, 2) as any as S.Schema<SearchQueryRequest>,
-  output: __S(1534, __c47, 30) as any as S.Schema<SearchResponse>,
+  input: __S(1601, __c50, 1) as any as S.Schema<SearchQueryRequest>,
+  output: __S(1629, __c50, 29) as any as S.Schema<SearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2836,8 +2870,8 @@ export const suggestQuery: API.OperationMethod<
   SuggestQueryError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1569, __c49, 1) as any as S.Schema<SuggestQueryRequest>,
-  output: __S(1573, __c49, 5) as any as S.Schema<SuggestResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<SuggestQueryRequest>,
+  output: __S(1668, __c52, 4) as any as S.Schema<SuggestResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2859,8 +2893,8 @@ export const unreserveIndexingDatasourcesItems: API.OperationMethod<
   UnreserveIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1601, __c50, 1) as any as S.Schema<UnreserveIndexingDatasourcesItemsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UnreserveIndexingDatasourcesItemsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2882,8 +2916,8 @@ export const updateCustomerSettings: API.OperationMethod<
   UpdateCustomerSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<UpdateCustomerSettingsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateCustomerSettingsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2905,8 +2939,8 @@ export const updateSchemaIndexingDatasources: API.OperationMethod<
   UpdateSchemaIndexingDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1665, __c52, 1) as any as S.Schema<UpdateSchemaIndexingDatasourcesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UpdateSchemaIndexingDatasourcesRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2928,8 +2962,8 @@ export const updateSettingsDatasources: API.OperationMethod<
   UpdateSettingsDatasourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1793, __c56, 1) as any as S.Schema<UpdateSettingsDatasourcesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1856, __c58, 0) as any as S.Schema<UpdateSettingsDatasourcesRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2951,8 +2985,8 @@ export const updateSettingsSearchapplications: API.OperationMethod<
   UpdateSettingsSearchapplicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UpdateSettingsSearchapplicationsRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
+  input: __S(1888, __c59, 0) as any as S.Schema<UpdateSettingsSearchapplicationsRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2974,8 +3008,8 @@ export const uploadIndexingDatasourcesItems: API.OperationMethod<
   UploadIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1857, __c58, 1) as any as S.Schema<UploadIndexingDatasourcesItemsRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<UploadItemRef>,
+  input: __S(1920, __c60, 0) as any as S.Schema<UploadIndexingDatasourcesItemsRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<UploadItemRef>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2997,8 +3031,8 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c59, 1) as any as S.Schema<UploadMediaRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<Media>,
+  input: __S(1952, __c61, 0) as any as S.Schema<UploadMediaRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<Media>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3070,6 +3104,13 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetCustomerSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpcSettings: S.optional(__S(128, __c4, 0)),
+          auditLoggingSettings: S.optional(__S(129, __c4, 1)),
+        }),
+      ).annotate({ identifier: "CustomerSettings" });
   }
 }
 function __c4(j: number): any {
@@ -3089,13 +3130,6 @@ function __c4(j: number): any {
           logDataWriteActions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuditLoggingSettings" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          vpcSettings: S.optional(__S(128, __c4, 0)),
-          auditLoggingSettings: S.optional(__S(129, __c4, 1)),
-        }),
-      ).annotate({ identifier: "CustomerSettings" });
   }
 }
 function __c5(j: number): any {
@@ -3121,22 +3155,34 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contentDataRef: S.optional(__S(256, __c8, 0)),
+          groupResourceName: S.optional(S.String),
+          userResourceName: S.optional(S.String),
+          gsuitePrincipal: S.optional(__S(1824, __c57, 0)),
+        }),
+      ).annotate({ identifier: "Principal" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contentDataRef: S.optional(__S(288, __c9, 0)),
           hash: S.optional(S.String),
           contentFormat: S.optional(S.String),
           inlineContent: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemContent" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           aclInheritanceType: S.optional(S.String),
-          owners: S.optional(__S(193, __c6, 1)),
+          owners: S.optional(__S(225, __c7, 1)),
           inheritAclFrom: S.optional(S.String),
-          deniedReaders: S.optional(__S(193, __c6, 1)),
-          readers: S.optional(__S(193, __c6, 1)),
+          deniedReaders: S.optional(__S(225, __c7, 1)),
+          readers: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "ItemAcl" });
     case 3:
@@ -3148,27 +3194,27 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          principal: S.optional(__S(1728, __c54, 0)),
+          principal: S.optional(__S(192, __c6, 0)),
           type: S.optional(S.String),
           interactionTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Interaction" });
     case 5:
-      return S.Array(__S(196, __c6, 4));
+      return S.Array(__S(228, __c7, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           hash: S.optional(S.String),
-          searchQualityMetadata: S.optional(__S(195, __c6, 3)),
-          interactions: S.optional(__S(197, __c6, 5)),
+          searchQualityMetadata: S.optional(__S(227, __c7, 3)),
+          interactions: S.optional(__S(229, __c7, 5)),
           objectType: S.optional(S.String),
           contentLanguage: S.optional(S.String),
-          contextAttributes: S.optional(__S(225, __c7, 1)),
+          contextAttributes: S.optional(__S(257, __c8, 1)),
           createTime: S.optional(S.String),
           containerName: S.optional(S.String),
           mimeType: S.optional(S.String),
           updateTime: S.optional(S.String),
-          keywords: S.optional(__S(1984, __c62, 0)),
+          keywords: S.optional(__S(2048, __c64, 0)),
           sourceRepositoryUrl: S.optional(S.String),
           title: S.optional(S.String),
         }),
@@ -3181,17 +3227,17 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "FieldViolation" });
     case 8:
-      return S.Array(__S(199, __c6, 7));
+      return S.Array(__S(231, __c7, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          fieldViolations: S.optional(__S(200, __c6, 8)),
+          fieldViolations: S.optional(__S(232, __c7, 8)),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessingError" });
     case 10:
-      return S.Array(__S(201, __c6, 9));
+      return S.Array(__S(233, __c7, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -3201,62 +3247,62 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "RepositoryError" });
     case 12:
-      return S.Array(__S(203, __c6, 11));
+      return S.Array(__S(235, __c7, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          processingErrors: S.optional(__S(202, __c6, 10)),
+          processingErrors: S.optional(__S(234, __c7, 10)),
           code: S.optional(S.String),
-          repositoryErrors: S.optional(__S(204, __c6, 12)),
+          repositoryErrors: S.optional(__S(236, __c7, 12)),
         }),
       ).annotate({ identifier: "ItemStatus" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(__S(235, __c7, 11)),
+          object: S.optional(__S(267, __c8, 11)),
           hash: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemStructuredData" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(192, __c6, 0)),
+          content: S.optional(__S(224, __c7, 0)),
           payload: S.optional(S.String),
-          acl: S.optional(__S(194, __c6, 2)),
-          metadata: S.optional(__S(198, __c6, 6)),
+          acl: S.optional(__S(226, __c7, 2)),
+          metadata: S.optional(__S(230, __c7, 6)),
           name: S.optional(S.String),
           version: S.optional(S.String),
-          status: S.optional(__S(205, __c6, 13)),
+          status: S.optional(__S(237, __c7, 13)),
           itemType: S.optional(S.String),
-          structuredData: S.optional(__S(206, __c6, 14)),
+          structuredData: S.optional(__S(238, __c7, 14)),
           queue: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1984, __c62, 0)),
+          values: S.optional(__S(2048, __c64, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContextAttribute" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
-      return S.Array(__S(2080, __c65, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(226, __c7, 2)),
+          values: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "DateValues" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1984, __c62, 0)),
+          values: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "TextValues" });
     case 5:
@@ -3264,43 +3310,43 @@ function __c7(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(229, __c7, 5)),
+          values: S.optional(__S(261, __c8, 5)),
         }),
       ).annotate({ identifier: "DoubleValues" });
     case 7:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(235, __c7, 11)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(267, __c8, 11)));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(231, __c7, 7)),
+          values: S.optional(__S(263, __c8, 7)),
         }),
       ).annotate({ identifier: "ObjectValues" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          dateValues: S.optional(__S(227, __c7, 3)),
-          textValues: S.optional(__S(228, __c7, 4)),
-          enumValues: S.optional(__S(228, __c7, 4)),
-          doubleValues: S.optional(__S(230, __c7, 6)),
+          dateValues: S.optional(__S(259, __c8, 3)),
+          textValues: S.optional(__S(260, __c8, 4)),
+          enumValues: S.optional(__S(260, __c8, 4)),
+          doubleValues: S.optional(__S(262, __c8, 6)),
           booleanValue: S.optional(S.Boolean),
-          integerValues: S.optional(__S(228, __c7, 4)),
+          integerValues: S.optional(__S(260, __c8, 4)),
           name: S.optional(S.String),
-          timestampValues: S.optional(__S(228, __c7, 4)),
-          objectValues: S.optional(__S(232, __c7, 8)),
-          htmlValues: S.optional(__S(228, __c7, 4)),
+          timestampValues: S.optional(__S(260, __c8, 4)),
+          objectValues: S.optional(__S(264, __c8, 8)),
+          htmlValues: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "NamedProperty" });
     case 10:
-      return S.Array(__S(233, __c7, 9));
+      return S.Array(__S(265, __c8, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(234, __c7, 10)),
+          properties: S.optional(__S(266, __c8, 10)),
         }),
       ).annotate({ identifier: "StructuredDataObject" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3310,7 +3356,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UploadItemRef" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3331,7 +3377,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetIndexStatsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3342,26 +3388,26 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ItemCountByStatus" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(352, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          itemCountByStatus: S.optional(__S(321, __c10, 1)),
-          date: S.optional(__S(2080, __c65, 0)),
+          itemCountByStatus: S.optional(__S(353, __c11, 1)),
+          date: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "CustomerIndexStats" });
     case 3:
-      return S.Array(__S(322, __c10, 2));
+      return S.Array(__S(354, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(323, __c10, 3)),
+          stats: S.optional(__S(355, __c11, 3)),
           averageIndexedItemCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCustomerIndexStatsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3377,7 +3423,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3399,22 +3445,22 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(2080, __c65, 0)),
-          queryCountByStatus: S.optional(__S(417, __c13, 1)),
+          date: S.optional(__S(2144, __c67, 0)),
+          queryCountByStatus: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "CustomerQueryStats" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           totalQueryCount: S.optional(S.String),
-          stats: S.optional(__S(386, __c12, 2)),
+          stats: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "GetCustomerQueryStatsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3424,10 +3470,10 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "QueryCountByStatus" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(448, __c14, 0));
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3444,7 +3490,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSchemaIndexingDatasourcesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3457,7 +3503,7 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(480, __c15, 0)),
+          operatorOptions: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "TimestampPropertyOptions" });
     case 2:
@@ -3475,8 +3521,8 @@ function __c15(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(482, __c15, 2)),
-          retrievalImportance: S.optional(__S(483, __c15, 3)),
+          operatorOptions: S.optional(__S(514, __c16, 2)),
+          retrievalImportance: S.optional(__S(515, __c16, 3)),
         }),
       ).annotate({ identifier: "HtmlPropertyOptions" });
     case 5:
@@ -3493,8 +3539,8 @@ function __c15(j: number): any {
           orderedRanking: S.optional(S.String),
           maximumValue: S.optional(S.String),
           minimumValue: S.optional(S.String),
-          integerFacetingOptions: S.optional(__S(2112, __c66, 0)),
-          operatorOptions: S.optional(__S(485, __c15, 5)),
+          integerFacetingOptions: S.optional(__S(2176, __c68, 0)),
+          operatorOptions: S.optional(__S(517, __c16, 5)),
         }),
       ).annotate({ identifier: "IntegerPropertyOptions" });
     case 7:
@@ -3506,13 +3552,13 @@ function __c15(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          subobjectProperties: S.optional(S.suspend(() => __S(496, __c15, 16))),
+          subobjectProperties: S.optional(S.suspend(() => __S(528, __c16, 16))),
         }),
       ).annotate({ identifier: "ObjectPropertyOptions" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(482, __c15, 2)),
+          operatorOptions: S.optional(__S(514, __c16, 2)),
         }),
       ).annotate({ identifier: "BooleanPropertyOptions" });
     case 10:
@@ -3525,8 +3571,8 @@ function __c15(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(490, __c15, 10)),
-          retrievalImportance: S.optional(__S(483, __c15, 3)),
+          operatorOptions: S.optional(__S(522, __c16, 10)),
+          retrievalImportance: S.optional(__S(515, __c16, 3)),
         }),
       ).annotate({ identifier: "TextPropertyOptions" });
     case 12:
@@ -3537,12 +3583,12 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "EnumValuePair" });
     case 13:
-      return S.Array(__S(492, __c15, 12));
+      return S.Array(__S(524, __c16, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          possibleValues: S.optional(__S(493, __c15, 13)),
-          operatorOptions: S.optional(__S(482, __c15, 2)),
+          possibleValues: S.optional(__S(525, __c16, 13)),
+          operatorOptions: S.optional(__S(514, __c16, 2)),
           orderedRanking: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnumPropertyOptions" });
@@ -3550,26 +3596,26 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           isWildcardSearchable: S.optional(S.Boolean),
-          timestampPropertyOptions: S.optional(__S(481, __c15, 1)),
+          timestampPropertyOptions: S.optional(__S(513, __c16, 1)),
           isRepeatable: S.optional(S.Boolean),
-          htmlPropertyOptions: S.optional(__S(484, __c15, 4)),
+          htmlPropertyOptions: S.optional(__S(516, __c16, 4)),
           name: S.optional(S.String),
-          integerPropertyOptions: S.optional(__S(486, __c15, 6)),
-          displayOptions: S.optional(__S(487, __c15, 7)),
-          objectPropertyOptions: S.optional(__S(488, __c15, 8)),
-          booleanPropertyOptions: S.optional(__S(489, __c15, 9)),
-          datePropertyOptions: S.optional(__S(481, __c15, 1)),
+          integerPropertyOptions: S.optional(__S(518, __c16, 6)),
+          displayOptions: S.optional(__S(519, __c16, 7)),
+          objectPropertyOptions: S.optional(__S(520, __c16, 8)),
+          booleanPropertyOptions: S.optional(__S(521, __c16, 9)),
+          datePropertyOptions: S.optional(__S(513, __c16, 1)),
           isSortable: S.optional(S.Boolean),
           isReturnable: S.optional(S.Boolean),
           isFacetable: S.optional(S.Boolean),
-          textPropertyOptions: S.optional(__S(491, __c15, 11)),
-          enumPropertyOptions: S.optional(__S(494, __c15, 14)),
-          doublePropertyOptions: S.optional(__S(489, __c15, 9)),
+          textPropertyOptions: S.optional(__S(523, __c16, 11)),
+          enumPropertyOptions: S.optional(__S(526, __c16, 14)),
+          doublePropertyOptions: S.optional(__S(521, __c16, 9)),
           isSuggestable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PropertyDefinition" });
     case 16:
-      return S.Array(__S(495, __c15, 15));
+      return S.Array(__S(527, __c16, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -3577,19 +3623,19 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "DisplayedProperty" });
     case 18:
-      return S.Array(__S(497, __c15, 17));
+      return S.Array(__S(529, __c16, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(498, __c15, 18)),
+          properties: S.optional(__S(530, __c16, 18)),
         }),
       ).annotate({ identifier: "Metaline" });
     case 20:
-      return S.Array(__S(499, __c15, 19));
+      return S.Array(__S(531, __c16, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          metalines: S.optional(__S(500, __c15, 20)),
+          metalines: S.optional(__S(532, __c16, 20)),
           objectDisplayLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObjectDisplayOptions" });
@@ -3603,31 +3649,31 @@ function __c15(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          displayOptions: S.optional(__S(501, __c15, 21)),
-          suggestionFilteringOperators: S.optional(__S(1984, __c62, 0)),
-          freshnessOptions: S.optional(__S(502, __c15, 22)),
+          displayOptions: S.optional(__S(533, __c16, 21)),
+          suggestionFilteringOperators: S.optional(__S(2048, __c64, 0)),
+          freshnessOptions: S.optional(__S(534, __c16, 22)),
         }),
       ).annotate({ identifier: "ObjectOptions" });
     case 24:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          propertyDefinitions: S.optional(__S(496, __c15, 16)),
-          options: S.optional(__S(503, __c15, 23)),
+          propertyDefinitions: S.optional(__S(528, __c16, 16)),
+          options: S.optional(__S(535, __c16, 23)),
         }),
       ).annotate({ identifier: "ObjectDefinition" });
     case 25:
-      return S.Array(__S(504, __c15, 24));
+      return S.Array(__S(536, __c16, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          objectDefinitions: S.optional(__S(505, __c15, 25)),
-          operationIds: S.optional(__S(1984, __c62, 0)),
+          objectDefinitions: S.optional(__S(537, __c16, 25)),
+          operationIds: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "Cloudsearch_Schema" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3649,22 +3695,22 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(2080, __c65, 0)),
+          date: S.optional(__S(2144, __c67, 0)),
           count: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerSearchApplicationStats" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(514, __c16, 2)),
+          stats: S.optional(__S(546, __c17, 2)),
           averageSearchApplicationCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCustomerSearchApplicationStatsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3685,26 +3731,26 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetSessionStatsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(2080, __c65, 0)),
+          date: S.optional(__S(2144, __c67, 0)),
           searchSessionsCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerSessionStats" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(577, __c18, 1)),
+          stats: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "GetCustomerSessionStatsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3721,7 +3767,25 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetSettingsDatasourcesRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          shortName: S.optional(S.String),
+          disableServing: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          disableModifications: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          returnThumbnailUrls: S.optional(S.Boolean),
+          indexingServiceAccounts: S.optional(__S(2048, __c64, 0)),
+          itemsVisibility: S.optional(__S(2016, __c63, 0)),
+        }),
+      ).annotate({ identifier: "DataSource" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3738,7 +3802,27 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetSettingsSearchapplicationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queryInterpretationConfig: S.optional(__S(2304, __c72, 0)),
+          defaultSortOptions: S.optional(__S(2272, __c71, 0)),
+          sourceConfig: S.optional(__S(2308, __c72, 4)),
+          enableAuditLog: S.optional(S.Boolean),
+          dataSourceRestrictions: S.optional(__S(2248, __c70, 8)),
+          defaultFacetOptions: S.optional(__S(2274, __c71, 2)),
+          displayName: S.optional(S.String),
+          returnResultThumbnailUrls: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          scoringConfig: S.optional(__S(2309, __c72, 5)),
+        }),
+      ).annotate({ identifier: "SearchApplication" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3760,7 +3844,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetStatsIndexDatasourcesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3783,22 +3867,22 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          queryCountByStatus: S.optional(__S(417, __c13, 1)),
-          date: S.optional(__S(2080, __c65, 0)),
+          queryCountByStatus: S.optional(__S(449, __c14, 1)),
+          date: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "SearchApplicationQueryStats" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(801, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(706, __c22, 2)),
+          stats: S.optional(__S(802, __c25, 2)),
           totalQueryCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSearchApplicationQueryStatsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3820,7 +3904,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetStatsSessionSearchapplicationsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3846,20 +3930,20 @@ function __c24(j: number): any {
           oneDayActiveUsersCount: S.optional(S.String),
           sevenDaysActiveUsersCount: S.optional(S.String),
           thirtyDaysActiveUsersCount: S.optional(S.String),
-          date: S.optional(__S(2080, __c65, 0)),
+          date: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "SearchApplicationUserStats" });
     case 2:
-      return S.Array(__S(769, __c24, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(770, __c24, 2)),
+          stats: S.optional(__S(866, __c27, 2)),
         }),
       ).annotate({ identifier: "GetSearchApplicationUserStatsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3882,22 +3966,22 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           thirtyDaysActiveUsersCount: S.optional(S.String),
-          date: S.optional(__S(2080, __c65, 0)),
+          date: S.optional(__S(2144, __c67, 0)),
           sevenDaysActiveUsersCount: S.optional(S.String),
           oneDayActiveUsersCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerUserStats" });
     case 2:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(897, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(802, __c25, 2)),
+          stats: S.optional(__S(898, __c28, 2)),
         }),
       ).annotate({ identifier: "GetCustomerUserStatsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3908,18 +3992,12 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mode: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          item: S.optional(__S(207, __c6, 15)),
-          connectorName: S.optional(S.String),
-          indexItemOptions: S.optional(__S(832, __c26, 0)),
-        }),
-      ).annotate({ identifier: "IndexItemRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(833, __c26, 1).pipe(T.HttpBody())),
+          mode: S.optional(S.String),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
+          item: S.optional(__S(239, __c7, 15)),
+          connectorName: S.optional(S.String),
+          indexItemOptions: S.optional(__S(928, __c29, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3930,12 +4008,12 @@ function __c26(j: number): any {
       ).annotate({ identifier: "IndexIndexingDatasourcesItemsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3946,13 +4024,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "InitializeCustomerV1Request" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "InitializeCustomerRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3971,27 +4049,27 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListDebugDatasourcesItemsUnmappedidsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resolutionStatusCode: S.optional(S.String),
-          externalIdentity: S.optional(__S(1728, __c54, 0)),
+          externalIdentity: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "UnmappedIdentity" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unmappedIdentities: S.optional(__S(961, __c30, 1)),
+          unmappedIdentities: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "ListUnmappedIdentitiesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4011,7 +4089,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListDebugIdentitysourcesUnmappedidsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4033,13 +4111,13 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          itemNames: S.optional(__S(1984, __c62, 0)),
+          itemNames: S.optional(__S(2048, __c64, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListItemNamesForUnmappedIdentityResponse" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4061,19 +4139,19 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1088, __c34, 0),
+          items: __S(1184, __c37, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListItemsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(207, __c6, 15));
+      return S.Array(__S(239, __c7, 15));
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4092,18 +4170,18 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsLroRequest" });
     case 1:
-      return S.Array(__S(2019, __c63, 3));
+      return S.Array(__S(2083, __c65, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1984, __c62, 0)),
-          operations: S.optional(__S(1121, __c35, 1)),
+          unreachable: S.optional(__S(2048, __c64, 0)),
+          operations: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4126,7 +4204,7 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enumValues: S.optional(__S(1984, __c62, 0)),
+          enumValues: S.optional(__S(2048, __c64, 0)),
           greaterThanOperatorName: S.optional(S.String),
           isFacetable: S.optional(S.Boolean),
           lessThanOperatorName: S.optional(S.String),
@@ -4141,28 +4219,28 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "QueryOperator" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           shortName: S.optional(S.String),
-          operators: S.optional(__S(1154, __c36, 2)),
-          source: S.optional(__S(2144, __c67, 0)),
+          operators: S.optional(__S(1250, __c39, 2)),
+          source: S.optional(__S(2208, __c69, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuerySource" });
     case 4:
-      return S.Array(__S(1155, __c36, 3));
+      return S.Array(__S(1251, __c39, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          sources: S.optional(__S(1156, __c36, 4)),
+          sources: S.optional(__S(1252, __c39, 4)),
         }),
       ).annotate({ identifier: "ListQuerySourcesResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4179,17 +4257,17 @@ function __c37(j: number): any {
         ),
       ).annotate({ identifier: "ListSettingsDatasourcesRequest" });
     case 1:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          sources: S.optional(__S(1185, __c37, 1)),
+          sources: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "ListDataSourceResponse" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4206,17 +4284,17 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListSettingsSearchapplicationsRequest" });
     case 1:
-      return S.Array(__S(2246, __c70, 6));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          searchApplications: S.optional(__S(1217, __c38, 1)),
+          searchApplications: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "ListSearchApplicationsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4224,7 +4302,14 @@ function __c39(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1953, __c61, 1).pipe(T.HttpBody())),
+          shortName: S.optional(S.String),
+          disableServing: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          disableModifications: S.optional(S.Boolean),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          returnThumbnailUrls: S.optional(S.Boolean),
+          indexingServiceAccounts: S.optional(__S(2048, __c64, 0)),
+          itemsVisibility: S.optional(__S(2016, __c63, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4235,14 +4320,23 @@ function __c39(j: number): any {
       ).annotate({ identifier: "PatchSettingsDatasourcesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2246, __c70, 6).pipe(T.HttpBody())),
+          queryInterpretationConfig: S.optional(__S(2304, __c72, 0)),
+          defaultSortOptions: S.optional(__S(2272, __c71, 0)),
+          sourceConfig: S.optional(__S(2308, __c72, 4)),
+          enableAuditLog: S.optional(S.Boolean),
+          dataSourceRestrictions: S.optional(__S(2248, __c70, 8)),
+          defaultFacetOptions: S.optional(__S(2274, __c71, 2)),
+          displayName: S.optional(S.String),
+          returnResultThumbnailUrls: S.optional(S.Boolean),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          scoringConfig: S.optional(__S(2309, __c72, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4253,25 +4347,19 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PatchSettingsSearchapplicationsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           limit: S.optional(S.Number),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          statusCodes: S.optional(__S(1312, __c41, 0)),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
+          statusCodes: S.optional(__S(1408, __c44, 0)),
           queue: S.optional(S.String),
           connectorName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PollItemsRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1313, __c41, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4280,22 +4368,22 @@ function __c41(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PollIndexingDatasourcesItemsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1088, __c34, 0)),
+          items: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "PollItemsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           payload: S.optional(S.String),
           type: S.optional(S.String),
-          repositoryError: S.optional(__S(203, __c6, 11)),
+          repositoryError: S.optional(__S(235, __c7, 11)),
           structuredDataHash: S.optional(S.String),
           queue: S.optional(S.String),
           contentHash: S.optional(S.String),
@@ -4305,16 +4393,10 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectorName: S.optional(S.String),
-          item: S.optional(__S(1344, __c42, 0)),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "PushItemRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1345, __c42, 1).pipe(T.HttpBody())),
+          connectorName: S.optional(S.String),
+          item: S.optional(__S(1440, __c45, 0)),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4325,7 +4407,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PushIndexingDatasourcesItemsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4336,20 +4418,14 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          queryActivity: S.optional(__S(1376, __c43, 0)),
+          queryActivity: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "UserActivity" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requestOptions: S.optional(__S(1408, __c44, 0)),
-          userActivity: S.optional(__S(1377, __c43, 1)),
-        }),
-      ).annotate({ identifier: "RemoveActivityRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1378, __c43, 2).pipe(T.HttpBody())),
+          requestOptions: S.optional(__S(1504, __c47, 0)),
+          userActivity: S.optional(__S(1473, __c46, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4360,7 +4436,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "RemoveActivityQueryRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4370,24 +4446,18 @@ function __c44(j: number): any {
           timeZone: S.optional(S.String),
           countryCode: S.optional(S.String),
           languageCode: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
         }),
       ).annotate({ identifier: "RequestOptions" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "ResetSearchApplicationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1440, __c45, 0).pipe(T.HttpBody())),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4398,21 +4468,15 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ResetSettingsSearchapplicationsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           viewUrl: S.optional(S.String),
           pageToken: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "SearchItemsByViewUrlRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4421,16 +4485,16 @@ function __c46(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchByViewUrlDebugDatasourcesItemsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(1088, __c34, 0)),
+          items: S.optional(__S(1184, __c37, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchItemsByViewUrlResponse" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4445,19 +4509,13 @@ function __c47(j: number): any {
         S.Struct({
           start: S.optional(S.Number),
           pageSize: S.optional(S.Number),
-          queryInterpretationOptions: S.optional(__S(1504, __c47, 0)),
-          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
+          queryInterpretationOptions: S.optional(__S(1600, __c50, 0)),
+          dataSourceRestrictions: S.optional(__S(2248, __c70, 8)),
           query: S.optional(S.String),
-          contextAttributes: S.optional(__S(225, __c7, 1)),
-          facetOptions: S.optional(__S(2210, __c69, 2)),
-          requestOptions: S.optional(__S(1408, __c44, 0)),
-          sortOptions: S.optional(__S(2208, __c69, 0)),
-        }),
-      ).annotate({ identifier: "SearchRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1505, __c47, 1).pipe(T.HttpBody())),
+          contextAttributes: S.optional(__S(257, __c8, 1)),
+          facetOptions: S.optional(__S(2274, __c71, 2)),
+          requestOptions: S.optional(__S(1504, __c47, 0)),
+          sortOptions: S.optional(__S(2272, __c71, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4466,136 +4524,136 @@ function __c47(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchQueryRequest" });
+    case 2:
+      return S.Array(__S(1641, __c51, 9));
     case 3:
-      return S.Array(__S(1545, __c48, 9));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           operatorName: S.optional(S.String),
           label: S.optional(S.String),
-          property: S.optional(__S(233, __c7, 9)),
+          property: S.optional(__S(265, __c8, 9)),
         }),
       ).annotate({ identifier: "ResultDisplayField" });
+    case 4:
+      return S.Array(__S(1603, __c50, 3));
     case 5:
-      return S.Array(__S(1508, __c47, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(1509, __c47, 5)),
+          fields: S.optional(__S(1604, __c50, 4)),
         }),
       ).annotate({ identifier: "ResultDisplayLine" });
+    case 6:
+      return S.Array(__S(1605, __c50, 5));
     case 7:
-      return S.Array(__S(1510, __c47, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          metalines: S.optional(__S(1511, __c47, 7)),
+          metalines: S.optional(__S(1606, __c50, 6)),
           objectTypeLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResultDisplayMetadata" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          owner: S.optional(__S(1544, __c48, 8)),
-          displayOptions: S.optional(__S(1512, __c47, 8)),
-          fields: S.optional(__S(234, __c7, 10)),
+          owner: S.optional(__S(1640, __c51, 8)),
+          displayOptions: S.optional(__S(1607, __c50, 7)),
+          fields: S.optional(__S(266, __c8, 10)),
           createTime: S.optional(S.String),
           mimeType: S.optional(S.String),
           objectType: S.optional(S.String),
           thumbnailUrl: S.optional(S.String),
           updateTime: S.optional(S.String),
-          source: S.optional(__S(2144, __c67, 0)),
+          source: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "Metadata" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           formattedDebugInfo: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResultDebugInfo" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           start: S.optional(S.Number),
           end: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MatchRange" });
+    case 11:
+      return S.Array(__S(1610, __c50, 10));
     case 12:
-      return S.Array(__S(1515, __c47, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
           snippet: S.optional(S.String),
-          matchRanges: S.optional(__S(1516, __c47, 12)),
+          matchRanges: S.optional(__S(1611, __c50, 11)),
         }),
       ).annotate({ identifier: "Snippet" });
-    case 14:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1513, __c47, 9)),
-          clusteredResults: S.optional(S.suspend(() => __S(1519, __c47, 15))),
+          metadata: S.optional(__S(1608, __c50, 8)),
+          clusteredResults: S.optional(S.suspend(() => __S(1614, __c50, 14))),
           url: S.optional(S.String),
-          debugInfo: S.optional(__S(1514, __c47, 10)),
-          snippet: S.optional(__S(1517, __c47, 13)),
+          debugInfo: S.optional(__S(1609, __c50, 9)),
+          snippet: S.optional(__S(1612, __c50, 12)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchResult" });
+    case 14:
+      return S.Array(__S(1613, __c50, 13));
     case 15:
-      return S.Array(__S(1518, __c47, 14));
-    case 16:
       return S.suspend(() =>
         S.Struct({
           privateDoNotAccessOrElseSafeHtmlWrappedValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "SafeHtmlProto" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          suggestedQueryHtml: S.optional(__S(1520, __c47, 16)),
+          suggestedQueryHtml: S.optional(__S(1615, __c50, 15)),
           suggestionType: S.optional(S.String),
           suggestedQuery: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpellResult" });
+    case 17:
+      return S.Array(__S(1616, __c50, 16));
     case 18:
-      return S.Array(__S(1521, __c47, 17));
-    case 19:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
-          source: S.optional(__S(2144, __c67, 0)),
+          source: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "ErrorMessage" });
+    case 19:
+      return S.Array(__S(1618, __c50, 18));
     case 20:
-      return S.Array(__S(1523, __c47, 19));
+      return S.suspend(() =>
+        S.Struct({
+          errorMessages: S.optional(__S(1619, __c50, 19)),
+        }),
+      ).annotate({ identifier: "ErrorInfo" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          errorMessages: S.optional(__S(1524, __c47, 20)),
-        }),
-      ).annotate({ identifier: "ErrorInfo" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
           percentage: S.optional(S.Number),
-          filter: S.optional(__S(2180, __c68, 4)),
-          value: S.optional(__S(2176, __c68, 0)),
+          filter: S.optional(__S(2244, __c70, 4)),
+          value: S.optional(__S(2240, __c70, 0)),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FacetBucket" });
+    case 22:
+      return S.Array(__S(1621, __c50, 21));
     case 23:
-      return S.Array(__S(1526, __c47, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
           sourceName: S.optional(S.String),
-          buckets: S.optional(__S(1527, __c47, 23)),
+          buckets: S.optional(__S(1622, __c50, 22)),
           objectType: S.optional(S.String),
           operatorName: S.optional(S.String),
         }),
       ).annotate({ identifier: "FacetResult" });
+    case 24:
+      return S.Array(__S(1623, __c50, 23));
     case 25:
-      return S.Array(__S(1528, __c47, 24));
-    case 26:
       return S.suspend(() =>
         S.Struct({
           interpretedQueryActualResultCount: S.optional(S.Number),
@@ -4605,42 +4663,42 @@ function __c47(j: number): any {
           interpretedQueryEstimatedResultCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryInterpretation" });
-    case 27:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           resultCountExact: S.optional(S.String),
           resultCountEstimate: S.optional(S.String),
           hasMoreResults: S.optional(S.Boolean),
-          source: S.optional(__S(2144, __c67, 0)),
+          source: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "SourceResultCount" });
+    case 27:
+      return S.Array(__S(1626, __c50, 26));
     case 28:
-      return S.Array(__S(1531, __c47, 27));
+      return S.suspend(() =>
+        S.Struct({
+          sourceResultCounts: S.optional(__S(1627, __c50, 27)),
+        }),
+      ).annotate({ identifier: "ResultCounts" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          sourceResultCounts: S.optional(__S(1532, __c47, 28)),
-        }),
-      ).annotate({ identifier: "ResultCounts" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          structuredResults: S.optional(__S(1507, __c47, 3)),
+          structuredResults: S.optional(__S(1602, __c50, 2)),
           resultCountEstimate: S.optional(S.String),
-          results: S.optional(__S(1519, __c47, 15)),
+          results: S.optional(__S(1614, __c50, 14)),
           resultCountExact: S.optional(S.String),
-          spellResults: S.optional(__S(1522, __c47, 18)),
-          errorInfo: S.optional(__S(1525, __c47, 21)),
-          facetResults: S.optional(__S(1529, __c47, 25)),
-          queryInterpretation: S.optional(__S(1530, __c47, 26)),
-          debugInfo: S.optional(__S(1514, __c47, 10)),
+          spellResults: S.optional(__S(1617, __c50, 17)),
+          errorInfo: S.optional(__S(1620, __c50, 20)),
+          facetResults: S.optional(__S(1624, __c50, 24)),
+          queryInterpretation: S.optional(__S(1625, __c50, 25)),
+          debugInfo: S.optional(__S(1609, __c50, 9)),
           hasMoreResults: S.optional(S.Boolean),
-          resultCounts: S.optional(__S(1533, __c47, 29)),
+          resultCounts: S.optional(__S(1628, __c50, 28)),
         }),
       ).annotate({ identifier: "SearchResponse" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4649,7 +4707,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "Name" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4658,7 +4716,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "PhoneNumber" });
     case 3:
-      return S.Array(__S(1538, __c48, 2));
+      return S.Array(__S(1634, __c51, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4670,7 +4728,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "EmailAddress" });
     case 5:
-      return S.Array(__S(1540, __c48, 4));
+      return S.Array(__S(1636, __c51, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -4678,40 +4736,34 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "Photo" });
     case 7:
-      return S.Array(__S(1542, __c48, 6));
+      return S.Array(__S(1638, __c51, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           obfuscatedId: S.optional(S.String),
-          personNames: S.optional(__S(1537, __c48, 1)),
-          phoneNumbers: S.optional(__S(1539, __c48, 3)),
-          emailAddresses: S.optional(__S(1541, __c48, 5)),
-          photos: S.optional(__S(1543, __c48, 7)),
+          personNames: S.optional(__S(1633, __c51, 1)),
+          phoneNumbers: S.optional(__S(1635, __c51, 3)),
+          emailAddresses: S.optional(__S(1637, __c51, 5)),
+          photos: S.optional(__S(1639, __c51, 7)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Person" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          person: S.optional(__S(1544, __c48, 8)),
+          person: S.optional(__S(1640, __c51, 8)),
         }),
       ).annotate({ identifier: "StructuredResult" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
-          requestOptions: S.optional(__S(1408, __c44, 0)),
+          dataSourceRestrictions: S.optional(__S(2248, __c70, 8)),
+          requestOptions: S.optional(__S(1504, __c47, 0)),
           query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SuggestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4720,47 +4772,41 @@ function __c49(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SuggestQueryRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           lastQueryTime: S.optional(S.String),
           sourceCorpus: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuerySuggestion" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          querySuggestion: S.optional(__S(1570, __c49, 2)),
+          querySuggestion: S.optional(__S(1665, __c52, 1)),
           suggestedQuery: S.optional(S.String),
-          source: S.optional(__S(2144, __c67, 0)),
-          peopleSuggestion: S.optional(__S(1545, __c48, 9)),
+          source: S.optional(__S(2208, __c69, 0)),
+          peopleSuggestion: S.optional(__S(1641, __c51, 9)),
         }),
       ).annotate({ identifier: "SuggestResult" });
+    case 3:
+      return S.Array(__S(1666, __c52, 2));
     case 4:
-      return S.Array(__S(1571, __c49, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          suggestResults: S.optional(__S(1572, __c49, 4)),
+          suggestResults: S.optional(__S(1667, __c52, 3)),
         }),
       ).annotate({ identifier: "SuggestResponse" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          queue: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          connectorName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UnreserveItemsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1600, __c50, 0).pipe(T.HttpBody())),
+          queue: S.optional(S.String),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
+          connectorName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4771,13 +4817,14 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UnreserveIndexingDatasourcesItemsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(130, __c4, 2).pipe(T.HttpBody())),
+          vpcSettings: S.optional(__S(128, __c4, 0)),
+          auditLoggingSettings: S.optional(__S(129, __c4, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4788,21 +4835,15 @@ function __c51(j: number): any {
       ).annotate({ identifier: "UpdateCustomerSettingsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          schema: S.optional(__S(506, __c15, 26)),
-          validateOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UpdateSchemaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1664, __c52, 0).pipe(T.HttpBody())),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
+          schema: S.optional(__S(538, __c16, 26)),
+          validateOnly: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4813,14 +4854,16 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateSchemaIndexingDatasourcesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
+          groupResourceName: S.optional(S.String),
+          userResourceName: S.optional(S.String),
+          gsuitePrincipal: S.optional(__S(1824, __c57, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4837,19 +4880,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CheckAccessResponse" });
   }
 }
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupResourceName: S.optional(S.String),
-          userResourceName: S.optional(S.String),
-          gsuitePrincipal: S.optional(__S(1760, __c55, 0)),
-        }),
-      ).annotate({ identifier: "Principal" });
-  }
-}
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4861,21 +4892,15 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GSuitePrincipal" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1953, __c61, 1)),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateDataSourceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1792, __c56, 0).pipe(T.HttpBody())),
+          source: S.optional(__S(672, __c21, 0)),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4886,14 +4911,23 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateSettingsDatasourcesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2246, __c70, 6).pipe(T.HttpBody())),
+          queryInterpretationConfig: S.optional(__S(2304, __c72, 0)),
+          defaultSortOptions: S.optional(__S(2272, __c71, 0)),
+          sourceConfig: S.optional(__S(2308, __c72, 4)),
+          enableAuditLog: S.optional(S.Boolean),
+          dataSourceRestrictions: S.optional(__S(2248, __c70, 8)),
+          defaultFacetOptions: S.optional(__S(2274, __c71, 2)),
+          displayName: S.optional(S.String),
+          returnResultThumbnailUrls: S.optional(S.Boolean),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          scoringConfig: S.optional(__S(2309, __c72, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4904,20 +4938,14 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateSettingsSearchapplicationsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connectorName: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "StartUploadItemRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
+          connectorName: S.optional(S.String),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4928,19 +4956,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UploadIndexingDatasourcesItemsRequest" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Media" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4949,14 +4970,28 @@ function __c59(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UploadMediaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Media" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(1953, __c61, 1).pipe(T.HttpBody())),
+          shortName: S.optional(S.String),
+          disableServing: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          disableModifications: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          returnThumbnailUrls: S.optional(S.Boolean),
+          indexingServiceAccounts: S.optional(__S(2048, __c64, 0)),
+          itemsVisibility: S.optional(__S(2016, __c63, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4967,64 +5002,60 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateSettingsDatasourcesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1760, __c55, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          shortName: S.optional(S.String),
-          disableServing: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          disableModifications: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          operationIds: S.optional(__S(1984, __c62, 0)),
-          returnThumbnailUrls: S.optional(S.Boolean),
-          indexingServiceAccounts: S.optional(__S(1984, __c62, 0)),
-          itemsVisibility: S.optional(__S(1952, __c61, 0)),
-        }),
-      ).annotate({ identifier: "DataSource" });
+      return S.Array(__S(1824, __c57, 0));
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(2016, __c63, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(2017, __c63, 1)),
+          details: S.optional(__S(2081, __c65, 1)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2016, __c63, 0)),
-          response: S.optional(__S(2016, __c63, 0)),
+          metadata: S.optional(__S(2080, __c65, 0)),
+          response: S.optional(__S(2080, __c65, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(2018, __c63, 2)),
+          error: S.optional(__S(2082, __c65, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(2246, __c70, 6).pipe(T.HttpBody())),
+          queryInterpretationConfig: S.optional(__S(2304, __c72, 0)),
+          defaultSortOptions: S.optional(__S(2272, __c71, 0)),
+          sourceConfig: S.optional(__S(2308, __c72, 4)),
+          enableAuditLog: S.optional(S.Boolean),
+          dataSourceRestrictions: S.optional(__S(2248, __c70, 8)),
+          defaultFacetOptions: S.optional(__S(2274, __c71, 2)),
+          displayName: S.optional(S.String),
+          returnResultThumbnailUrls: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          operationIds: S.optional(__S(2048, __c64, 0)),
+          scoringConfig: S.optional(__S(2309, __c72, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5035,7 +5066,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "CreateSettingsSearchapplicationsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5047,17 +5078,17 @@ function __c65(j: number): any {
       ).annotate({ identifier: "Cloudsearch_Date" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          integerBuckets: S.optional(__S(1984, __c62, 0)),
+          integerBuckets: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "IntegerFacetingOptions" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5068,7 +5099,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "Source" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5077,7 +5108,7 @@ function __c68(j: number): any {
           booleanValue: S.optional(S.Boolean),
           doubleValue: S.optional(S.Number),
           stringValue: S.optional(S.String),
-          dateValue: S.optional(__S(2080, __c65, 0)),
+          dateValue: S.optional(__S(2144, __c67, 0)),
           timestampValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "Value" });
@@ -5085,46 +5116,46 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operatorName: S.optional(S.String),
-          value: S.optional(__S(2176, __c68, 0)),
+          value: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "ValueFilter" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2180, __c68, 4)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(2244, __c70, 4)));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          subFilters: S.optional(__S(2178, __c68, 2)),
+          subFilters: S.optional(__S(2242, __c70, 2)),
           logicOperator: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompositeFilter" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          valueFilter: S.optional(__S(2177, __c68, 1)),
-          compositeFilter: S.optional(__S(2179, __c68, 3)),
+          valueFilter: S.optional(__S(2241, __c70, 1)),
+          compositeFilter: S.optional(__S(2243, __c70, 3)),
         }),
       ).annotate({ identifier: "Filter" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(2180, __c68, 4)),
+          filter: S.optional(__S(2244, __c70, 4)),
           objectType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FilterOptions" });
     case 6:
-      return S.Array(__S(2181, __c68, 5));
+      return S.Array(__S(2245, __c70, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          filterOptions: S.optional(__S(2182, __c68, 6)),
-          source: S.optional(__S(2144, __c67, 0)),
+          filterOptions: S.optional(__S(2246, __c70, 6)),
+          source: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "DataSourceRestriction" });
     case 8:
-      return S.Array(__S(2183, __c68, 7));
+      return S.Array(__S(2247, __c70, 7));
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5136,7 +5167,7 @@ function __c69(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          integerFacetingOptions: S.optional(__S(2112, __c66, 0)),
+          integerFacetingOptions: S.optional(__S(2176, __c68, 0)),
           numFacetBuckets: S.optional(S.Number),
           sourceName: S.optional(S.String),
           operatorName: S.optional(S.String),
@@ -5144,10 +5175,10 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "FacetOptions" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2273, __c71, 1));
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5172,13 +5203,13 @@ function __c70(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scoringConfig: S.optional(__S(2241, __c70, 1)),
-          source: S.optional(__S(2144, __c67, 0)),
-          crowdingConfig: S.optional(__S(2242, __c70, 2)),
+          scoringConfig: S.optional(__S(2305, __c72, 1)),
+          source: S.optional(__S(2208, __c69, 0)),
+          crowdingConfig: S.optional(__S(2306, __c72, 2)),
         }),
       ).annotate({ identifier: "SourceConfig" });
     case 4:
-      return S.Array(__S(2243, __c70, 3));
+      return S.Array(__S(2307, __c72, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5186,25 +5217,9 @@ function __c70(j: number): any {
           disablePersonalization: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ScoringConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          queryInterpretationConfig: S.optional(__S(2240, __c70, 0)),
-          defaultSortOptions: S.optional(__S(2208, __c69, 0)),
-          sourceConfig: S.optional(__S(2244, __c70, 4)),
-          enableAuditLog: S.optional(S.Boolean),
-          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
-          defaultFacetOptions: S.optional(__S(2210, __c69, 2)),
-          displayName: S.optional(S.String),
-          returnResultThumbnailUrls: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          operationIds: S.optional(__S(1984, __c62, 0)),
-          scoringConfig: S.optional(__S(2245, __c70, 5)),
-        }),
-      ).annotate({ identifier: "SearchApplication" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5224,21 +5239,15 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeleteIndexingDatasourcesItemsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           queue: S.optional(S.String),
           connectorName: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "DeleteQueueItemsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2304, __c72, 0).pipe(T.HttpBody())),
+          debugOptions: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5249,7 +5258,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeleteQueueItemsIndexingDatasourcesItemsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

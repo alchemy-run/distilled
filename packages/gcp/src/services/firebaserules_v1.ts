@@ -97,6 +97,16 @@ export class RulesetInUse
     [{ status: 400, message: { includes: "there are releases referring to this ruleset" } }],
   ) {}
 
+export interface CreateProjectsReleasesRequest {
+  /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
+  name: string;
+  /** Output only. Time the release was updated. */
+  updateTime?: string | undefined;
+  /** Required. Name of the `Ruleset` referred to by this `Release`. The `Ruleset` must exist for the `Release` to be created. */
+  rulesetName?: string | undefined;
+  /** Output only. Time the release was created. */
+  createTime?: string | undefined;
+}
 /** `Release` is a named reference to a `Ruleset`. Once a `Release` refers to a `Ruleset`, rules-enabled services will be able to enforce the `Ruleset`. */
 export interface Release {
   /** Output only. Time the release was updated. */
@@ -107,12 +117,6 @@ export interface Release {
   rulesetName?: string | undefined;
   /** Output only. Time the release was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsReleasesRequest {
-  /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
-  name: string;
-  /** Request body */
-  body?: Release | undefined;
 }
 /** `File` containing source content. */
 export interface File {
@@ -135,6 +139,18 @@ export interface Metadata {
   /** Services that this ruleset has declarations for (e.g., "cloud.firestore"). There may be 0+ of these. */
   services?: StringList | undefined;
 }
+export interface CreateProjectsRulesetsRequest {
+  /** Required. Resource name for Project which owns this `Ruleset`. Format: `projects/{project_id}` */
+  name: string;
+  /** Required. `Source` for the `Ruleset`. */
+  source?: Source | undefined;
+  /** Output only. The metadata for this ruleset. */
+  metadata?: Metadata | undefined;
+  /** Immutable. Intended resource to which this Ruleset should be released. May be left blank to signify the resource associated with the default release. Expected format: firestore.googleapis.com/projects//databases/ */
+  attachmentPoint?: string | undefined;
+  /** Output only. Time the `Ruleset` was created. */
+  createTime?: string | undefined;
+}
 /** `Ruleset` is an immutable copy of `Source` with a globally unique identifier and a creation time. */
 export interface Ruleset {
   /** Required. `Source` for the `Ruleset`. */
@@ -147,12 +163,6 @@ export interface Ruleset {
   attachmentPoint?: string | undefined;
   /** Output only. Time the `Ruleset` was created. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsRulesetsRequest {
-  /** Required. Resource name for Project which owns this `Ruleset`. Format: `projects/{project_id}` */
-  name: string;
-  /** Request body */
-  body?: Ruleset | undefined;
 }
 export interface DeleteProjectsReleasesRequest {
   /** Required. Resource name for the `Release` to delete. Format: `projects/{project_id}/releases/{release_id}` */
@@ -244,18 +254,13 @@ export interface ListRulesetsResponse {
   /** List of `Ruleset` instances. */
   rulesets?: RulesetList | undefined;
 }
-/** The request for FirebaseRulesService.UpdateRelease. */
-export interface UpdateReleaseRequest {
+export interface PatchProjectsReleasesRequest {
+  /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
+  name: string;
   /** Required. `Release` to update. */
   release?: Release | undefined;
   /** Optional. Specifies which fields to update. */
   updateMask?: string | undefined;
-}
-export interface PatchProjectsReleasesRequest {
-  /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
-  name: string;
-  /** Request body */
-  body?: UpdateReleaseRequest | undefined;
 }
 /** Arg matchers for the mock function. */
 export interface Arg {
@@ -306,18 +311,13 @@ export interface TestSuite {
   /** Collection of test cases associated with the `TestSuite`. */
   testCases?: TestCaseList | undefined;
 }
-/** The request for FirebaseRulesService.TestRuleset. */
-export interface TestRulesetRequest {
+export interface TestProjectsRequest {
+  /** Required. Tests may either provide `source` or a `Ruleset` resource name. For tests against `source`, the resource name must refer to the project: Format: `projects/{project_id}` For tests against a `Ruleset`, this must be the `Ruleset` resource name: Format: `projects/{project_id}/rulesets/{ruleset_id}` */
+  name: string;
   /** Required. The tests to execute against the `Source`. When `Source` is provided inline, the test cases will only be run if the `Source` is syntactically and semantically valid. Inline `TestSuite` to run. */
   testSuite?: TestSuite | undefined;
   /** Optional. Optional `Source` to be checked for correctness. This field must not be set when the resource name refers to a `Ruleset`. */
   source?: Source | undefined;
-}
-export interface TestProjectsRequest {
-  /** Required. Tests may either provide `source` or a `Ruleset` resource name. For tests against `source`, the resource name must refer to the project: Format: `projects/{project_id}` For tests against a `Ruleset`, this must be the `Ruleset` resource name: Format: `projects/{project_id}/rulesets/{ruleset_id}` */
-  name: string;
-  /** Request body */
-  body?: TestRulesetRequest | undefined;
 }
 /** Position in the `Source` content including its line, column number, and an index of the `File` in the `Source` message. Used for debug purposes. */
 export interface SourcePosition {
@@ -573,7 +573,7 @@ export const patchProjectsReleases: API.OperationMethod<
   PatchProjectsReleasesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c4, 1) as any as S.Schema<PatchProjectsReleasesRequest>,
+  input: __S(128, __c4, 0) as any as S.Schema<PatchProjectsReleasesRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<Release>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -590,8 +590,8 @@ export const testProjects: API.OperationMethod<
   TestProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(169, __c5, 9) as any as S.Schema<TestProjectsRequest>,
-  output: __S(184, __c5, 24) as any as S.Schema<TestRulesetResponse>,
+  input: __S(168, __c5, 8) as any as S.Schema<TestProjectsRequest>,
+  output: __S(183, __c5, 23) as any as S.Schema<TestRulesetResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -693,15 +693,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           release: S.optional(__S(224, __c7, 0)),
           updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateReleaseRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -762,15 +756,9 @@ function __c5(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           testSuite: S.optional(__S(167, __c5, 7)),
           source: S.optional(__S(322, __c10, 2)),
-        }),
-      ).annotate({ identifier: "TestRulesetRequest" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c5, 8).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -779,7 +767,7 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestProjectsRequest" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           currentOffset: S.optional(S.Number),
@@ -789,73 +777,73 @@ function __c5(j: number): any {
           column: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SourcePosition" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          sourcePosition: S.optional(__S(170, __c5, 10)),
+          sourcePosition: S.optional(__S(169, __c5, 9)),
           severity: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Issue" });
+    case 11:
+      return S.Array(__S(170, __c5, 10));
     case 12:
-      return S.Array(__S(171, __c5, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
-          sourcePosition: S.optional(__S(170, __c5, 10)),
+          sourcePosition: S.optional(__S(169, __c5, 9)),
           value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "VisitedExpression" });
+    case 13:
+      return S.Array(__S(172, __c5, 12));
     case 14:
-      return S.Array(__S(173, __c5, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ValueCount" });
+    case 15:
+      return S.Array(__S(174, __c5, 14));
     case 16:
-      return S.Array(__S(175, __c5, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(176, __c5, 16)),
-          sourcePosition: S.optional(__S(170, __c5, 10)),
-          children: S.optional(S.suspend(() => __S(178, __c5, 18))),
+          values: S.optional(__S(175, __c5, 15)),
+          sourcePosition: S.optional(__S(169, __c5, 9)),
+          children: S.optional(S.suspend(() => __S(177, __c5, 17))),
         }),
       ).annotate({ identifier: "ExpressionReport" });
+    case 17:
+      return S.Array(__S(176, __c5, 16));
     case 18:
-      return S.Array(__S(177, __c5, 17));
-    case 19:
       return S.Array(S.Unknown);
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          args: S.optional(__S(179, __c5, 19)),
+          args: S.optional(__S(178, __c5, 18)),
           function: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionCall" });
+    case 20:
+      return S.Array(__S(179, __c5, 19));
     case 21:
-      return S.Array(__S(180, __c5, 20));
-    case 22:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          visitedExpressions: S.optional(__S(174, __c5, 14)),
+          visitedExpressions: S.optional(__S(173, __c5, 13)),
           debugMessages: S.optional(__S(323, __c10, 3)),
-          expressionReports: S.optional(__S(178, __c5, 18)),
-          functionCalls: S.optional(__S(181, __c5, 21)),
-          errorPosition: S.optional(__S(170, __c5, 10)),
+          expressionReports: S.optional(__S(177, __c5, 17)),
+          functionCalls: S.optional(__S(180, __c5, 20)),
+          errorPosition: S.optional(__S(169, __c5, 9)),
         }),
       ).annotate({ identifier: "TestResult" });
+    case 22:
+      return S.Array(__S(181, __c5, 21));
     case 23:
-      return S.Array(__S(182, __c5, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
-          issues: S.optional(__S(172, __c5, 12)),
-          testResults: S.optional(__S(183, __c5, 23)),
+          issues: S.optional(__S(171, __c5, 11)),
+          testResults: S.optional(__S(182, __c5, 22)),
         }),
       ).annotate({ identifier: "TestRulesetResponse" });
   }
@@ -866,7 +854,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c7, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          rulesetName: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -896,7 +886,10 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(289, __c9, 1).pipe(T.HttpBody())),
+          source: S.optional(__S(322, __c10, 2)),
+          metadata: S.optional(__S(288, __c9, 0)),
+          attachmentPoint: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

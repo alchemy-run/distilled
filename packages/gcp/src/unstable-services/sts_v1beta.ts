@@ -82,8 +82,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Request message for ExchangeToken. */
-export interface GoogleIdentityStsV1betaExchangeTokenRequest {
+export interface TokenV1betaRequest {
   /** Required. The type of security token. Must be `urn:ietf:params:oauth:token-type:access_token`, which indicates an OAuth 2.0 access token. */
   requestedTokenType?: string | undefined;
   /** Required. The grant type. Must be `urn:ietf:params:oauth:grant-type:token-exchange`, which indicates a token exchange. */
@@ -98,10 +97,6 @@ export interface GoogleIdentityStsV1betaExchangeTokenRequest {
   audience?: string | undefined;
   /** A set of features that Security Token Service supports, in addition to the standard OAuth 2.0 token exchange, formatted as a serialized JSON object of Options. The size of the parameter value must not exceed 4096 characters. */
   options?: string | undefined;
-}
-export interface TokenV1betaRequest {
-  /** Request body */
-  body?: GoogleIdentityStsV1betaExchangeTokenRequest | undefined;
 }
 /** Response message for ExchangeToken. */
 export interface GoogleIdentityStsV1betaExchangeTokenResponse {
@@ -122,8 +117,8 @@ export const tokenV1beta: API.OperationMethod<
   TokenV1betaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<TokenV1betaRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<GoogleIdentityStsV1betaExchangeTokenResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<TokenV1betaRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<GoogleIdentityStsV1betaExchangeTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -144,17 +139,11 @@ function __c0(j: number): any {
           subjectToken: S.optional(S.String),
           audience: S.optional(S.String),
           options: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleIdentityStsV1betaExchangeTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "POST", uri: "v1beta/token", baseUrl: "https://sts.googleapis.com/" }),
         ),
       ).annotate({ identifier: "TokenV1betaRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           access_token: S.optional(S.String),

@@ -155,8 +155,9 @@ export type DeviceSessionStateEnum =
   | "FINISHED"
   | "UNAVAILABLE"
   | "ERROR";
-/** Protobuf message describing the device message, used from several RPCs. */
-export interface DeviceSession {
+export interface CreateProjectsDeviceSessionsRequest {
+  /** Required. The Compute Engine project under which this device will be allocated. "projects/{project_id}" */
+  parent: string;
   /** Output only. The historical state transitions of the session_state message including the current session state. */
   stateHistories?: SessionStateEventList | undefined;
   /** Output only. The interval of time that this device must be interacted with before it transitions from ACTIVE to TIMEOUT_INACTIVITY. */
@@ -178,11 +179,28 @@ export interface DeviceSession {
   /** Output only. The time that the Session was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsDeviceSessionsRequest {
-  /** Required. The Compute Engine project under which this device will be allocated. "projects/{project_id}" */
-  parent: string;
-  /** Request body */
-  body?: DeviceSession | undefined;
+/** Protobuf message describing the device message, used from several RPCs. */
+export interface DeviceSession {
+  /** Output only. The historical state transitions of the session_state message including the current session state. */
+  stateHistories?: SessionStateEventList | undefined;
+  /** Output only. The interval of time that this device must be interacted with before it transitions from ACTIVE to TIMEOUT_INACTIVITY. */
+  inactivityTimeout?: string | undefined;
+  /** Optional. The amount of time that a device will be initially allocated for. This can eventually be extended with the UpdateDeviceSession RPC. Default: 15 minutes. */
+  ttl?: string | undefined;
+  /** Optional. If the device is still in use at this time, any connections will be ended and the SessionState will transition from ACTIVE to FINISHED. */
+  expireTime?: string | undefined;
+  /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
+  name?: string | undefined;
+  /** Required. The requested device. */
+  androidDevice?: AndroidDevice | undefined;
+  /** Output only. The timestamp that the session first became ACTIVE. */
+  activeStartTime?: string | undefined;
+  /** Output only. Current state of the DeviceSession. */
+  state?: DeviceSessionStateEnum | undefined;
+  /** Output only. The title of the DeviceSession to be presented in the UI. */
+  displayName?: string | undefined;
+  /** Output only. The time that the Session was created. */
+  createTime?: string | undefined;
 }
 export type TestMatrixInvalidMatrixDetailsEnum =
   | "INVALID_MATRIX_DETAILS_UNSPECIFIED"
@@ -714,8 +732,11 @@ export interface MatrixErrorDetail {
   message?: string | undefined;
 }
 export type MatrixErrorDetailList = Array<MatrixErrorDetail>;
-/** TestMatrix captures all details about a test. It contains the environment configuration, test specification, test executions and overall state and outcome. */
-export interface TestMatrix {
+export interface CreateProjectsTestMatricesRequest {
+  /** A string id used to detect duplicated requests. Ids are automatically scoped to a project, so users should ensure the ID is unique per-project. A UUID is recommended. Optional, but strongly recommended. */
+  requestId?: string | undefined;
+  /** The GCE project under which this job will run. */
+  projectId: string;
   /** If true, only a single attempt at most will be made to run each execution/shard in the matrix. Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential infrastructure issue is detected. This feature is for latency sensitive workloads. The incidence of execution failures may be significantly greater for fail-fast matrices and support is more limited because of that expectation. */
   failFast?: boolean | undefined;
   /** Output only. Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state. */
@@ -736,8 +757,6 @@ export interface TestMatrix {
   resultStorage?: ResultStorage | undefined;
   /** Information about the client which invoked the test. */
   clientInfo?: ClientInfo | undefined;
-  /** The cloud project that owns the test matrix. */
-  projectId?: string | undefined;
   /** Output Only. The overall outcome of the test. Only set when the test matrix state is FINISHED. */
   outcomeSummary?: TestMatrixOutcomeSummaryEnum | (string & {}) | undefined;
   /** The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns. */
@@ -745,19 +764,42 @@ export interface TestMatrix {
   /** Output only. Details about why a matrix was deemed invalid. If multiple checks can be safely performed, they will be reported but no assumptions should be made about the length of this list. */
   extendedInvalidMatrixDetails?: MatrixErrorDetailList | undefined;
 }
-export interface CreateProjectsTestMatricesRequest {
-  /** A string id used to detect duplicated requests. Ids are automatically scoped to a project, so users should ensure the ID is unique per-project. A UUID is recommended. Optional, but strongly recommended. */
-  requestId?: string | undefined;
-  /** The GCE project under which this job will run. */
-  projectId: string;
-  /** Request body */
-  body?: TestMatrix | undefined;
+/** TestMatrix captures all details about a test. It contains the environment configuration, test specification, test executions and overall state and outcome. */
+export interface TestMatrix {
+  /** If true, only a single attempt at most will be made to run each execution/shard in the matrix. Flaky test attempts are not affected. Normally, 2 or more attempts are made if a potential infrastructure issue is detected. This feature is for latency sensitive workloads. The incidence of execution failures may be significantly greater for fail-fast matrices and support is more limited because of that expectation. */
+  failFast?: boolean | undefined;
+  /** Output only. Describes why the matrix is considered invalid. Only useful for matrices in the INVALID state. */
+  invalidMatrixDetails?: TestMatrixInvalidMatrixDetailsEnum | undefined;
+  /** Output only. The list of test executions that the service creates for this matrix. */
+  testExecutions?: TestExecutionList | undefined;
+  /** Output only. Unique id set by the service. */
+  testMatrixId?: string | undefined;
+  /** Output only. The time this test matrix was initially created. */
+  timestamp?: string | undefined;
+  /** Required. How to run the test. */
+  testSpecification?: TestSpecification | undefined;
+  /** Required. The devices the tests are being executed on. */
+  environmentMatrix?: EnvironmentMatrix | undefined;
+  /** Output only. Indicates the current progress of the test matrix. */
+  state?: TestMatrixStateEnum | undefined;
+  /** Required. Where the results for the matrix are written. */
+  resultStorage?: ResultStorage | undefined;
+  /** Information about the client which invoked the test. */
+  clientInfo?: ClientInfo | undefined;
+  /** The cloud project that owns the test matrix. */
+  projectId?: string | undefined;
+  /** Output Only. The overall outcome of the test. Only set when the test matrix state is FINISHED. */
+  outcomeSummary?: TestMatrixOutcomeSummaryEnum | undefined;
+  /** The number of times a TestExecution should be re-attempted if one or more of its test cases fail for any reason. The maximum number of reruns allowed is 10. Default is 0, which implies no reruns. */
+  flakyTestAttempts?: number | undefined;
+  /** Output only. Details about why a matrix was deemed invalid. If multiple checks can be safely performed, they will be reported but no assumptions should be made about the length of this list. */
+  extendedInvalidMatrixDetails?: MatrixErrorDetailList | undefined;
 }
 export interface GetApkDetailsApplicationDetailServiceRequest {
   /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
   "bundleLocation.gcsPath"?: string | undefined;
-  /** Request body */
-  body?: FileReference | undefined;
+  /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
+  gcsPath?: string | undefined;
 }
 /** The section of an tag. https://developer.android.com/guide/topics/manifest/intent-filter-element.html */
 export interface IntentFilter {
@@ -1187,8 +1229,24 @@ export interface PatchProjectsDeviceSessionsRequest {
   name: string;
   /** Required. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DeviceSession | undefined;
+  /** Output only. The historical state transitions of the session_state message including the current session state. */
+  stateHistories?: SessionStateEventList | undefined;
+  /** Output only. The interval of time that this device must be interacted with before it transitions from ACTIVE to TIMEOUT_INACTIVITY. */
+  inactivityTimeout?: string | undefined;
+  /** Optional. The amount of time that a device will be initially allocated for. This can eventually be extended with the UpdateDeviceSession RPC. Default: 15 minutes. */
+  ttl?: string | undefined;
+  /** Optional. If the device is still in use at this time, any connections will be ended and the SessionState will transition from ACTIVE to FINISHED. */
+  expireTime?: string | undefined;
+  /** Required. The requested device. */
+  androidDevice?: AndroidDevice | undefined;
+  /** Output only. The timestamp that the session first became ACTIVE. */
+  activeStartTime?: string | undefined;
+  /** Output only. Current state of the DeviceSession. */
+  state?: DeviceSessionStateEnum | (string & {}) | undefined;
+  /** Output only. The title of the DeviceSession to be presented in the UI. */
+  displayName?: string | undefined;
+  /** Output only. The time that the Session was created. */
+  createTime?: string | undefined;
 }
 export type CancelProjectsDeviceSessionsError =
   | NotFound
@@ -1270,7 +1328,7 @@ export const createProjectsTestMatrices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<CreateProjectsTestMatricesRequest>,
-  output: __S(439, __c13, 23) as any as S.Schema<TestMatrix>,
+  output: __S(440, __c13, 24) as any as S.Schema<TestMatrix>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1291,8 +1349,8 @@ export const getApkDetailsApplicationDetailService: API.OperationMethod<
   GetApkDetailsApplicationDetailServiceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetApkDetailsApplicationDetailServiceRequest>,
-  output: __S(525, __c16, 13) as any as S.Schema<GetApkDetailsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetApkDetailsApplicationDetailServiceRequest>,
+  output: __S(493, __c15, 13) as any as S.Schema<GetApkDetailsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1308,7 +1366,7 @@ export const getProjectsDeviceSessions: API.OperationMethod<
   GetProjectsDeviceSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetProjectsDeviceSessionsRequest>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetProjectsDeviceSessionsRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<DeviceSession>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1326,7 +1384,7 @@ export const getProjectsTestMatrices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetProjectsTestMatricesRequest>,
-  output: __S(439, __c13, 23) as any as S.Schema<TestMatrix>,
+  output: __S(440, __c13, 24) as any as S.Schema<TestMatrix>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1431,7 +1489,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "Orientation" });
     case 2:
@@ -1440,7 +1498,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
           id: S.optional(S.String),
           region: S.optional(S.String),
         }),
@@ -1458,7 +1516,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "XcodeVersion" });
     case 7:
@@ -1466,10 +1524,10 @@ function __c1(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
           minorVersion: S.optional(S.Number),
           majorVersion: S.optional(S.Number),
-          supportedXcodeVersionIds: S.optional(__S(480, __c15, 0)),
+          supportedXcodeVersionIds: S.optional(__S(448, __c14, 0)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "IosVersion" });
@@ -1491,10 +1549,10 @@ function __c1(j: number): any {
           perVersionInfo: S.optional(__S(43, __c1, 11)),
           formFactor: S.optional(S.String),
           screenDensity: S.optional(S.Number),
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
           screenX: S.optional(S.Number),
-          supportedVersionIds: S.optional(__S(480, __c15, 0)),
-          deviceCapabilities: S.optional(__S(480, __c15, 0)),
+          supportedVersionIds: S.optional(__S(448, __c14, 0)),
+          deviceCapabilities: S.optional(__S(448, __c14, 0)),
           name: S.optional(S.String),
           screenY: S.optional(S.Number),
         }),
@@ -1581,7 +1639,7 @@ function __c1(j: number): any {
           codeName: S.optional(S.String),
           distribution: S.optional(__S(56, __c1, 24)),
           releaseDate: S.optional(__S(48, __c1, 16)),
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
           id: S.optional(S.String),
           versionString: S.optional(S.String),
         }),
@@ -1626,12 +1684,12 @@ function __c2(j: number): any {
           form: S.optional(S.String),
           formFactor: S.optional(S.String),
           codename: S.optional(S.String),
-          supportedVersionIds: S.optional(__S(480, __c15, 0)),
+          supportedVersionIds: S.optional(__S(448, __c14, 0)),
           id: S.optional(S.String),
           accessDeniedReasons: S.optional(__S(59, __c1, 27)),
-          tags: S.optional(__S(480, __c15, 0)),
+          tags: S.optional(__S(448, __c14, 0)),
           brand: S.optional(S.String),
-          supportedAbis: S.optional(__S(480, __c15, 0)),
+          supportedAbis: S.optional(__S(448, __c14, 0)),
           screenY: S.optional(S.Number),
           screenDensity: S.optional(S.Number),
           perVersionInfo: S.optional(__S(62, __c1, 30)),
@@ -1699,7 +1757,15 @@ function __c4(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
+          stateHistories: S.optional(__S(321, __c10, 1)),
+          inactivityTimeout: S.optional(S.String),
+          ttl: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          androidDevice: S.optional(__S(288, __c9, 0)),
+          activeStartTime: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1762,7 +1828,16 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
+          stateHistories: S.optional(__S(321, __c10, 1)),
+          inactivityTimeout: S.optional(S.String),
+          ttl: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          name: S.optional(S.String),
+          androidDevice: S.optional(__S(288, __c9, 0)),
+          activeStartTime: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1822,7 +1897,19 @@ function __c11(j: number): any {
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(439, __c13, 23).pipe(T.HttpBody())),
+          failFast: S.optional(S.Boolean),
+          invalidMatrixDetails: S.optional(S.String),
+          testExecutions: S.optional(__S(427, __c13, 11)),
+          testMatrixId: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          testSpecification: S.optional(__S(424, __c13, 8)),
+          environmentMatrix: S.optional(__S(433, __c13, 17)),
+          state: S.optional(S.String),
+          resultStorage: S.optional(__S(436, __c13, 20)),
+          clientInfo: S.optional(__S(437, __c13, 21)),
+          outcomeSummary: S.optional(S.String),
+          flakyTestAttempts: S.optional(S.Number),
+          extendedInvalidMatrixDetails: S.optional(__S(439, __c13, 23)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1838,7 +1925,7 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          testTargets: S.optional(__S(480, __c15, 0)),
+          testTargets: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "TestTargetsForShard" });
     case 1:
@@ -1884,90 +1971,96 @@ function __c12(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          packageName: S.optional(S.String),
-          location: S.optional(__S(448, __c14, 0)),
+          gcsPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Apk" });
+      ).annotate({ identifier: "FileReference" });
     case 7:
-      return S.Array(__S(390, __c12, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          obbFileName: S.optional(S.String),
-          obb: S.optional(__S(448, __c14, 0)),
+          packageName: S.optional(S.String),
+          location: S.optional(__S(390, __c12, 6)),
         }),
-      ).annotate({ identifier: "ObbFile" });
+      ).annotate({ identifier: "Apk" });
+    case 8:
+      return S.Array(__S(391, __c12, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          devicePath: S.optional(S.String),
-          content: S.optional(__S(448, __c14, 0)),
+          obbFileName: S.optional(S.String),
+          obb: S.optional(__S(390, __c12, 6)),
         }),
-      ).annotate({ identifier: "RegularFile" });
+      ).annotate({ identifier: "ObbFile" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          obbFile: S.optional(__S(392, __c12, 8)),
-          regularFile: S.optional(__S(393, __c12, 9)),
+          devicePath: S.optional(S.String),
+          content: S.optional(__S(390, __c12, 6)),
+        }),
+      ).annotate({ identifier: "RegularFile" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          obbFile: S.optional(__S(393, __c12, 9)),
+          regularFile: S.optional(__S(394, __c12, 10)),
         }),
       ).annotate({ identifier: "DeviceFile" });
-    case 11:
-      return S.Array(__S(394, __c12, 10));
     case 12:
+      return S.Array(__S(395, __c12, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
-    case 13:
-      return S.Array(__S(396, __c12, 12));
     case 14:
+      return S.Array(__S(397, __c12, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           durationSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SystraceSetup" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          directoriesToPull: S.optional(__S(480, __c15, 0)),
-          account: S.optional(__S(389, __c12, 5)),
-          dontAutograntPermissions: S.optional(S.Boolean),
-          networkProfile: S.optional(S.String),
-          initialSetupApks: S.optional(__S(391, __c12, 7)),
-          filesToPush: S.optional(__S(395, __c12, 11)),
-          environmentVariables: S.optional(__S(397, __c12, 13)),
-          additionalApks: S.optional(__S(391, __c12, 7)),
-          systrace: S.optional(__S(398, __c12, 14)),
-        }),
-      ).annotate({ identifier: "TestSetup" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          appBundleId: S.optional(S.String),
-          xctestrun: S.optional(__S(448, __c14, 0)),
-          xcodeVersion: S.optional(S.String),
-          testSpecialEntitlements: S.optional(S.Boolean),
-          testsZip: S.optional(__S(448, __c14, 0)),
+          directoriesToPull: S.optional(__S(448, __c14, 0)),
+          account: S.optional(__S(389, __c12, 5)),
+          dontAutograntPermissions: S.optional(S.Boolean),
+          networkProfile: S.optional(S.String),
+          initialSetupApks: S.optional(__S(392, __c12, 8)),
+          filesToPush: S.optional(__S(396, __c12, 12)),
+          environmentVariables: S.optional(__S(398, __c12, 14)),
+          additionalApks: S.optional(__S(392, __c12, 8)),
+          systrace: S.optional(__S(399, __c12, 15)),
         }),
-      ).annotate({ identifier: "IosXcTest" });
+      ).annotate({ identifier: "TestSetup" });
     case 17:
-      return S.Array(__S(448, __c14, 0));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          bundleSplits: S.optional(__S(401, __c12, 17)),
+          appBundleId: S.optional(S.String),
+          xctestrun: S.optional(__S(390, __c12, 6)),
+          xcodeVersion: S.optional(S.String),
+          testSpecialEntitlements: S.optional(S.Boolean),
+          testsZip: S.optional(__S(390, __c12, 6)),
         }),
-      ).annotate({ identifier: "ApkSplits" });
+      ).annotate({ identifier: "IosXcTest" });
+    case 18:
+      return S.Array(__S(390, __c12, 6));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          apks: S.optional(__S(402, __c12, 18)),
-          bundleLocation: S.optional(__S(448, __c14, 0)),
+          bundleSplits: S.optional(__S(402, __c12, 18)),
+        }),
+      ).annotate({ identifier: "ApkSplits" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          apks: S.optional(__S(403, __c12, 19)),
+          bundleLocation: S.optional(__S(390, __c12, 6)),
         }),
       ).annotate({ identifier: "AppBundle" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           inputText: S.optional(S.String),
@@ -1975,159 +2068,159 @@ function __c12(j: number): any {
           resourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "RoboDirective" });
-    case 21:
-      return S.Array(__S(404, __c12, 20));
     case 22:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.optional(S.String),
-          categories: S.optional(__S(480, __c15, 0)),
-          action: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StartActivityIntent" });
+      return S.Array(__S(405, __c12, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
+          uri: S.optional(S.String),
+          categories: S.optional(__S(448, __c14, 0)),
+          action: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartActivityIntent" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
           timeout: S.optional(S.String),
-          startActivity: S.optional(__S(406, __c12, 22)),
+          startActivity: S.optional(__S(407, __c12, 23)),
           noActivity: S.optional(__S(192, __c6, 0)),
           launcherActivity: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "RoboStartingIntent" });
-    case 24:
-      return S.Array(__S(407, __c12, 23));
     case 25:
+      return S.Array(__S(408, __c12, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          appBundle: S.optional(__S(403, __c12, 19)),
-          appApk: S.optional(__S(448, __c14, 0)),
-          roboDirectives: S.optional(__S(405, __c12, 21)),
-          startingIntents: S.optional(__S(408, __c12, 24)),
+          appBundle: S.optional(__S(404, __c12, 20)),
+          appApk: S.optional(__S(390, __c12, 6)),
+          roboDirectives: S.optional(__S(406, __c12, 22)),
+          startingIntents: S.optional(__S(409, __c12, 25)),
           maxDepth: S.optional(S.Number),
-          roboScript: S.optional(__S(448, __c14, 0)),
+          roboScript: S.optional(__S(390, __c12, 6)),
           appPackageId: S.optional(S.String),
           appInitialActivity: S.optional(S.String),
           maxSteps: S.optional(S.Number),
           roboMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AndroidRoboTest" });
-    case 26:
-      return S.Array(S.Number);
     case 27:
-      return S.suspend(() =>
-        S.Struct({
-          scenarios: S.optional(__S(410, __c12, 26)),
-          appIpa: S.optional(__S(448, __c14, 0)),
-          appBundleId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosTestLoop" });
+      return S.Array(S.Number);
     case 28:
       return S.suspend(() =>
         S.Struct({
-          roboScript: S.optional(__S(448, __c14, 0)),
-          appIpa: S.optional(__S(448, __c14, 0)),
+          scenarios: S.optional(__S(411, __c12, 27)),
+          appIpa: S.optional(__S(390, __c12, 6)),
+          appBundleId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IosTestLoop" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          roboScript: S.optional(__S(390, __c12, 6)),
+          appIpa: S.optional(__S(390, __c12, 6)),
           appBundleId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IosRoboTest" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           bundleId: S.optional(S.String),
           devicePath: S.optional(S.String),
-          content: S.optional(__S(448, __c14, 0)),
+          content: S.optional(__S(390, __c12, 6)),
         }),
       ).annotate({ identifier: "IosDeviceFile" });
-    case 30:
-      return S.Array(__S(413, __c12, 29));
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          pullDirectories: S.optional(__S(414, __c12, 30)),
-          additionalIpas: S.optional(__S(401, __c12, 17)),
-          pushFiles: S.optional(__S(414, __c12, 30)),
-          networkProfile: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IosTestSetup" });
+      return S.Array(__S(414, __c12, 30));
   }
 }
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(384, __c12, 0));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          testTargetsForShard: S.optional(__S(416, __c13, 0)),
+          pullDirectories: S.optional(__S(415, __c12, 31)),
+          additionalIpas: S.optional(__S(402, __c12, 18)),
+          pushFiles: S.optional(__S(415, __c12, 31)),
+          networkProfile: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IosTestSetup" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          testTargetsForShard: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "ManualSharding" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           targetedShardDuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "SmartSharding" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           numShards: S.optional(S.Number),
         }),
       ).annotate({ identifier: "UniformSharding" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          manualSharding: S.optional(__S(417, __c13, 1)),
-          smartSharding: S.optional(__S(418, __c13, 2)),
-          uniformSharding: S.optional(__S(419, __c13, 3)),
-        }),
-      ).annotate({ identifier: "ShardingOption" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          appBundle: S.optional(__S(403, __c12, 19)),
-          appApk: S.optional(__S(448, __c14, 0)),
-          testTargets: S.optional(__S(480, __c15, 0)),
-          appPackageId: S.optional(S.String),
-          testPackageId: S.optional(S.String),
-          testApk: S.optional(__S(448, __c14, 0)),
-          orchestratorOption: S.optional(S.String),
-          testRunnerClass: S.optional(S.String),
-          shardingOption: S.optional(__S(420, __c13, 4)),
+          manualSharding: S.optional(__S(418, __c13, 2)),
+          smartSharding: S.optional(__S(419, __c13, 3)),
+          uniformSharding: S.optional(__S(420, __c13, 4)),
         }),
-      ).annotate({ identifier: "AndroidInstrumentationTest" });
+      ).annotate({ identifier: "ShardingOption" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          appApk: S.optional(__S(448, __c14, 0)),
-          scenarioLabels: S.optional(__S(480, __c15, 0)),
+          appBundle: S.optional(__S(404, __c12, 20)),
+          appApk: S.optional(__S(390, __c12, 6)),
+          testTargets: S.optional(__S(448, __c14, 0)),
           appPackageId: S.optional(S.String),
-          appBundle: S.optional(__S(403, __c12, 19)),
-          scenarios: S.optional(__S(410, __c12, 26)),
+          testPackageId: S.optional(S.String),
+          testApk: S.optional(__S(390, __c12, 6)),
+          orchestratorOption: S.optional(S.String),
+          testRunnerClass: S.optional(S.String),
+          shardingOption: S.optional(__S(421, __c13, 5)),
         }),
-      ).annotate({ identifier: "AndroidTestLoop" });
+      ).annotate({ identifier: "AndroidInstrumentationTest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          testSetup: S.optional(__S(399, __c12, 15)),
-          iosXcTest: S.optional(__S(400, __c12, 16)),
-          androidRoboTest: S.optional(__S(409, __c12, 25)),
-          iosTestLoop: S.optional(__S(411, __c12, 27)),
-          disablePerformanceMetrics: S.optional(S.Boolean),
-          testTimeout: S.optional(S.String),
-          iosRoboTest: S.optional(__S(412, __c12, 28)),
-          iosTestSetup: S.optional(__S(415, __c12, 31)),
-          disableVideoRecording: S.optional(S.Boolean),
-          androidInstrumentationTest: S.optional(__S(421, __c13, 5)),
-          androidTestLoop: S.optional(__S(422, __c13, 6)),
+          appApk: S.optional(__S(390, __c12, 6)),
+          scenarioLabels: S.optional(__S(448, __c14, 0)),
+          appPackageId: S.optional(S.String),
+          appBundle: S.optional(__S(404, __c12, 20)),
+          scenarios: S.optional(__S(411, __c12, 27)),
         }),
-      ).annotate({ identifier: "TestSpecification" });
+      ).annotate({ identifier: "AndroidTestLoop" });
     case 8:
       return S.suspend(() =>
         S.Struct({
+          testSetup: S.optional(__S(400, __c12, 16)),
+          iosXcTest: S.optional(__S(401, __c12, 17)),
+          androidRoboTest: S.optional(__S(410, __c12, 26)),
+          iosTestLoop: S.optional(__S(412, __c12, 28)),
+          disablePerformanceMetrics: S.optional(S.Boolean),
+          testTimeout: S.optional(S.String),
+          iosRoboTest: S.optional(__S(413, __c12, 29)),
+          iosTestSetup: S.optional(__S(416, __c13, 0)),
+          disableVideoRecording: S.optional(S.Boolean),
+          androidInstrumentationTest: S.optional(__S(422, __c13, 6)),
+          androidTestLoop: S.optional(__S(423, __c13, 7)),
+        }),
+      ).annotate({ identifier: "TestSpecification" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           errorMessage: S.optional(S.String),
-          progressMessages: S.optional(__S(480, __c15, 0)),
+          progressMessages: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "TestDetails" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -2138,53 +2231,53 @@ function __c13(j: number): any {
           projectId: S.optional(S.String),
           timestamp: S.optional(S.String),
           matrixId: S.optional(S.String),
-          testSpecification: S.optional(__S(423, __c13, 7)),
-          testDetails: S.optional(__S(424, __c13, 8)),
+          testSpecification: S.optional(__S(424, __c13, 8)),
+          testDetails: S.optional(__S(425, __c13, 9)),
         }),
       ).annotate({ identifier: "TestExecution" });
-    case 10:
-      return S.Array(__S(425, __c13, 9));
     case 11:
+      return S.Array(__S(426, __c13, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          locales: S.optional(__S(480, __c15, 0)),
-          androidVersionIds: S.optional(__S(480, __c15, 0)),
-          androidModelIds: S.optional(__S(480, __c15, 0)),
-          orientations: S.optional(__S(480, __c15, 0)),
+          locales: S.optional(__S(448, __c14, 0)),
+          androidVersionIds: S.optional(__S(448, __c14, 0)),
+          androidModelIds: S.optional(__S(448, __c14, 0)),
+          orientations: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "AndroidMatrix" });
-    case 12:
-      return S.Array(__S(386, __c12, 2));
     case 13:
+      return S.Array(__S(386, __c12, 2));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          iosDevices: S.optional(__S(428, __c13, 12)),
+          iosDevices: S.optional(__S(429, __c13, 13)),
         }),
       ).annotate({ identifier: "IosDeviceList" });
-    case 14:
-      return S.Array(__S(288, __c9, 0));
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          androidDevices: S.optional(__S(430, __c13, 14)),
-        }),
-      ).annotate({ identifier: "AndroidDeviceList" });
+      return S.Array(__S(288, __c9, 0));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          androidMatrix: S.optional(__S(427, __c13, 11)),
-          iosDeviceList: S.optional(__S(429, __c13, 13)),
-          androidDeviceList: S.optional(__S(431, __c13, 15)),
+          androidDevices: S.optional(__S(431, __c13, 15)),
+        }),
+      ).annotate({ identifier: "AndroidDeviceList" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          androidMatrix: S.optional(__S(428, __c13, 12)),
+          iosDeviceList: S.optional(__S(430, __c13, 14)),
+          androidDeviceList: S.optional(__S(432, __c13, 16)),
         }),
       ).annotate({ identifier: "EnvironmentMatrix" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           historyId: S.optional(S.String),
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolResultsHistory" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           projectId: S.optional(S.String),
@@ -2192,48 +2285,48 @@ function __c13(j: number): any {
           historyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolResultsExecution" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          toolResultsHistory: S.optional(__S(433, __c13, 17)),
-          resultsUrl: S.optional(S.String),
-          googleCloudStorage: S.optional(__S(448, __c14, 0)),
-          toolResultsExecution: S.optional(__S(434, __c13, 18)),
-        }),
-      ).annotate({ identifier: "ResultStorage" });
     case 20:
       return S.suspend(() =>
         S.Struct({
+          toolResultsHistory: S.optional(__S(434, __c13, 18)),
+          resultsUrl: S.optional(S.String),
+          googleCloudStorage: S.optional(__S(390, __c12, 6)),
+          toolResultsExecution: S.optional(__S(435, __c13, 19)),
+        }),
+      ).annotate({ identifier: "ResultStorage" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
-          clientInfoDetails: S.optional(__S(397, __c12, 13)),
+          clientInfoDetails: S.optional(__S(398, __c12, 14)),
         }),
       ).annotate({ identifier: "ClientInfo" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           reason: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "MatrixErrorDetail" });
-    case 22:
-      return S.Array(__S(437, __c13, 21));
     case 23:
+      return S.Array(__S(438, __c13, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           failFast: S.optional(S.Boolean),
           invalidMatrixDetails: S.optional(S.String),
-          testExecutions: S.optional(__S(426, __c13, 10)),
+          testExecutions: S.optional(__S(427, __c13, 11)),
           testMatrixId: S.optional(S.String),
           timestamp: S.optional(S.String),
-          testSpecification: S.optional(__S(423, __c13, 7)),
-          environmentMatrix: S.optional(__S(432, __c13, 16)),
+          testSpecification: S.optional(__S(424, __c13, 8)),
+          environmentMatrix: S.optional(__S(433, __c13, 17)),
           state: S.optional(S.String),
-          resultStorage: S.optional(__S(435, __c13, 19)),
-          clientInfo: S.optional(__S(436, __c13, 20)),
+          resultStorage: S.optional(__S(436, __c13, 20)),
+          clientInfo: S.optional(__S(437, __c13, 21)),
           projectId: S.optional(S.String),
           outcomeSummary: S.optional(S.String),
           flakyTestAttempts: S.optional(S.Number),
-          extendedInvalidMatrixDetails: S.optional(__S(438, __c13, 22)),
+          extendedInvalidMatrixDetails: S.optional(__S(439, __c13, 23)),
         }),
       ).annotate({ identifier: "TestMatrix" });
   }
@@ -2241,26 +2334,16 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          gcsPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FileReference" });
+      return S.Array(S.String);
   }
 }
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           "bundleLocation.gcsPath": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(448, __c14, 0).pipe(T.HttpBody())),
+          gcsPath: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2272,22 +2355,22 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          categoryNames: S.optional(__S(480, __c15, 0)),
-          actionNames: S.optional(__S(480, __c15, 0)),
+          categoryNames: S.optional(__S(448, __c14, 0)),
+          actionNames: S.optional(__S(448, __c14, 0)),
           mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntentFilter" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          intentFilter: S.optional(__S(514, __c16, 2)),
+          intentFilter: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "Service" });
     case 4:
-      return S.Array(__S(515, __c16, 3));
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2296,7 +2379,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "UsesPermissionTag" });
     case 6:
-      return S.Array(__S(517, __c16, 5));
+      return S.Array(__S(485, __c15, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2305,7 +2388,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "UsesFeature" });
     case 8:
-      return S.Array(__S(519, __c16, 7));
+      return S.Array(__S(487, __c15, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -2314,21 +2397,21 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Metadata" });
     case 10:
-      return S.Array(__S(521, __c16, 9));
+      return S.Array(__S(489, __c15, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(516, __c16, 4)),
+          services: S.optional(__S(484, __c15, 4)),
           packageName: S.optional(S.String),
-          usesPermission: S.optional(__S(480, __c15, 0)),
+          usesPermission: S.optional(__S(448, __c14, 0)),
           targetSdkVersion: S.optional(S.Number),
           applicationLabel: S.optional(S.String),
           versionName: S.optional(S.String),
-          usesPermissionTags: S.optional(__S(518, __c16, 6)),
-          intentFilters: S.optional(__S(514, __c16, 2)),
+          usesPermissionTags: S.optional(__S(486, __c15, 6)),
+          intentFilters: S.optional(__S(482, __c15, 2)),
           maxSdkVersion: S.optional(S.Number),
-          usesFeature: S.optional(__S(520, __c16, 8)),
-          metadata: S.optional(__S(522, __c16, 10)),
+          usesFeature: S.optional(__S(488, __c15, 8)),
+          metadata: S.optional(__S(490, __c15, 10)),
           minSdkVersion: S.optional(S.Number),
           versionCode: S.optional(S.String),
         }),
@@ -2336,18 +2419,18 @@ function __c16(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          apkManifest: S.optional(__S(523, __c16, 11)),
+          apkManifest: S.optional(__S(491, __c15, 11)),
         }),
       ).annotate({ identifier: "ApkDetail" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          apkDetail: S.optional(__S(524, __c16, 12)),
+          apkDetail: S.optional(__S(492, __c15, 12)),
         }),
       ).annotate({ identifier: "GetApkDetailsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

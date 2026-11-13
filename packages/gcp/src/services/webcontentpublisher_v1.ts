@@ -175,8 +175,11 @@ export interface SlProduct {
   /** Optional. The Google Cloud Project number associated with the publication. */
   gcpProjectNumber?: string | undefined;
 }
-/** Represents a publisher's publication in Reader Revenue Manager. */
-export interface Publication {
+export interface CreateOrganizationsPublicationsRequest {
+  /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
+  parent: string;
+  /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
+  publicationId?: string | undefined;
   /** Output only. The content policy compliance status of the publication. */
   contentPolicyStatus?: ContentPolicyStatus | undefined;
   /** Output only. The configured payment option. */
@@ -187,8 +190,6 @@ export interface Publication {
   products?: StringList | undefined;
   /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
   name?: string | undefined;
-  /** Output only. The unique identifier of the publication. */
-  publicationId?: string | undefined;
   /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
   publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
   /** Output only. The unique identifier of the organization that owns this publication. */
@@ -212,13 +213,42 @@ export interface Publication {
   /** Optional. The URL to the publisher's Privacy Policy. */
   publicationPrivacyPolicyUrl?: string | undefined;
 }
-export interface CreateOrganizationsPublicationsRequest {
-  /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
-  parent: string;
-  /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
+/** Represents a publisher's publication in Reader Revenue Manager. */
+export interface Publication {
+  /** Output only. The content policy compliance status of the publication. */
+  contentPolicyStatus?: ContentPolicyStatus | undefined;
+  /** Output only. The configured payment option. */
+  paymentOption?: PublicationPaymentOptionEnum | undefined;
+  /** Optional. The URL to the publisher's own Terms of Service. */
+  publicationTosUrl?: string | undefined;
+  /** Output only. The list of active products/features enabled for this publication. */
+  products?: StringList | undefined;
+  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  name?: string | undefined;
+  /** Output only. The unique identifier of the publication. */
   publicationId?: string | undefined;
-  /** Request body */
-  body?: Publication | undefined;
+  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
+  publicationType?: PublicationPublicationTypeEnum | undefined;
+  /** Output only. The unique identifier of the organization that owns this publication. */
+  organizationId?: string | undefined;
+  /** Optional. Reader Revenue Manager product settings and status. */
+  rrmProduct?: RrmProduct | undefined;
+  /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
+  regionCode?: string | undefined;
+  /** Required. The primary domain property associated with the publication. */
+  primaryDomain?: DomainProperty | undefined;
+  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
+  languageCode?: string | undefined;
+  /** Optional. Additional domain properties verified for the publication. */
+  additionalDomains?: DomainPropertyList | undefined;
+  /** Required. The user-visible display name of the publication. */
+  displayName?: string | undefined;
+  /** Output only. The current onboarding state. */
+  onboardingState?: PublicationOnboardingStateEnum | undefined;
+  /** Optional. Subscription Linking product configurations. */
+  slProduct?: SlProduct | undefined;
+  /** Optional. The URL to the publisher's Privacy Policy. */
+  publicationPrivacyPolicyUrl?: string | undefined;
 }
 export type IntegerList = Array<number>;
 /** A preset question referencing a template in the survey question catalog. */
@@ -277,8 +307,11 @@ export interface NewsletterConfig {
   /** Required. The title of the newsletter signup prompt. */
   title?: string | undefined;
 }
-/** Represents a Call-To-Action (CTA) configuration for a publication. */
-export interface Cta {
+export interface CreateOrganizationsPublicationsCtasRequest {
+  /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
+  parent: string;
+  /** Optional. The unique identifier of the CTA to create. If not specified, the server will generate a random CTA ID. */
+  ctaId?: string | undefined;
   /** Optional. Configuration specific to survey CTAs. Only populated if type is `SURVEY`. */
   surveyConfig?: SurveyConfig | undefined;
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
@@ -292,13 +325,20 @@ export interface Cta {
   /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
   newsletterConfig?: NewsletterConfig | undefined;
 }
-export interface CreateOrganizationsPublicationsCtasRequest {
-  /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
-  parent: string;
-  /** Optional. The unique identifier of the CTA to create. If not specified, the server will generate a random CTA ID. */
-  ctaId?: string | undefined;
-  /** Request body */
-  body?: Cta | undefined;
+/** Represents a Call-To-Action (CTA) configuration for a publication. */
+export interface Cta {
+  /** Optional. Configuration specific to survey CTAs. Only populated if type is `SURVEY`. */
+  surveyConfig?: SurveyConfig | undefined;
+  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
+  name?: string | undefined;
+  /** Optional. The current state of this CTA. */
+  state?: CtaStateEnum | undefined;
+  /** Required. The user-visible display name of the CTA. */
+  displayName?: string | undefined;
+  /** Required. The type of this CTA. */
+  type?: CtaTypeEnum | undefined;
+  /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
+  newsletterConfig?: NewsletterConfig | undefined;
 }
 /** Request message for `GeneratePlatformSiteTokens`. */
 export interface GeneratePlatformSiteTokensRequest {}
@@ -761,16 +801,54 @@ export interface PatchOrganizationsPublicationsRequest {
   updateMask?: string | undefined;
   /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
   name: string;
-  /** Request body */
-  body?: Publication | undefined;
+  /** Output only. The content policy compliance status of the publication. */
+  contentPolicyStatus?: ContentPolicyStatus | undefined;
+  /** Output only. The configured payment option. */
+  paymentOption?: PublicationPaymentOptionEnum | (string & {}) | undefined;
+  /** Optional. The URL to the publisher's own Terms of Service. */
+  publicationTosUrl?: string | undefined;
+  /** Output only. The list of active products/features enabled for this publication. */
+  products?: StringList | undefined;
+  /** Output only. The unique identifier of the publication. */
+  publicationId?: string | undefined;
+  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
+  publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
+  /** Output only. The unique identifier of the organization that owns this publication. */
+  organizationId?: string | undefined;
+  /** Optional. Reader Revenue Manager product settings and status. */
+  rrmProduct?: RrmProduct | undefined;
+  /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
+  regionCode?: string | undefined;
+  /** Required. The primary domain property associated with the publication. */
+  primaryDomain?: DomainProperty | undefined;
+  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
+  languageCode?: string | undefined;
+  /** Optional. Additional domain properties verified for the publication. */
+  additionalDomains?: DomainPropertyList | undefined;
+  /** Required. The user-visible display name of the publication. */
+  displayName?: string | undefined;
+  /** Output only. The current onboarding state. */
+  onboardingState?: PublicationOnboardingStateEnum | (string & {}) | undefined;
+  /** Optional. Subscription Linking product configurations. */
+  slProduct?: SlProduct | undefined;
+  /** Optional. The URL to the publisher's Privacy Policy. */
+  publicationPrivacyPolicyUrl?: string | undefined;
 }
 export interface PatchOrganizationsPublicationsCtasRequest {
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Cta | undefined;
+  /** Optional. Configuration specific to survey CTAs. Only populated if type is `SURVEY`. */
+  surveyConfig?: SurveyConfig | undefined;
+  /** Optional. The current state of this CTA. */
+  state?: CtaStateEnum | (string & {}) | undefined;
+  /** Required. The user-visible display name of the CTA. */
+  displayName?: string | undefined;
+  /** Required. The type of this CTA. */
+  type?: CtaTypeEnum | (string & {}) | undefined;
+  /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
+  newsletterConfig?: NewsletterConfig | undefined;
 }
 export type CheckFreeAccessPublicationsError = NotFound | Forbidden | GcpOpError;
 /** Checks if a user is eligible for free article access. */
@@ -1139,7 +1217,22 @@ function __c4(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(151, __c9, 7).pipe(T.HttpBody())),
+          contentPolicyStatus: S.optional(__S(144, __c9, 0)),
+          paymentOption: S.optional(S.String),
+          publicationTosUrl: S.optional(S.String),
+          products: S.optional(__S(145, __c9, 1)),
+          publicationId: S.optional(S.String),
+          publicationType: S.optional(S.String),
+          organizationId: S.optional(S.String),
+          rrmProduct: S.optional(__S(147, __c9, 3)),
+          regionCode: S.optional(S.String),
+          primaryDomain: S.optional(__S(148, __c9, 4)),
+          languageCode: S.optional(S.String),
+          additionalDomains: S.optional(__S(149, __c9, 5)),
+          displayName: S.optional(S.String),
+          onboardingState: S.optional(S.String),
+          slProduct: S.optional(__S(150, __c9, 6)),
+          publicationPrivacyPolicyUrl: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1157,7 +1250,11 @@ function __c5(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(185, __c11, 9).pipe(T.HttpBody())),
+          surveyConfig: S.optional(__S(183, __c11, 7)),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          newsletterConfig: S.optional(__S(184, __c11, 8)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1223,7 +1320,22 @@ function __c8(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           publicationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(151, __c9, 7).pipe(T.HttpBody())),
+          contentPolicyStatus: S.optional(__S(144, __c9, 0)),
+          paymentOption: S.optional(S.String),
+          publicationTosUrl: S.optional(S.String),
+          products: S.optional(__S(145, __c9, 1)),
+          name: S.optional(S.String),
+          publicationType: S.optional(S.String),
+          organizationId: S.optional(S.String),
+          rrmProduct: S.optional(__S(147, __c9, 3)),
+          regionCode: S.optional(S.String),
+          primaryDomain: S.optional(__S(148, __c9, 4)),
+          languageCode: S.optional(S.String),
+          additionalDomains: S.optional(__S(149, __c9, 5)),
+          displayName: S.optional(S.String),
+          onboardingState: S.optional(S.String),
+          slProduct: S.optional(__S(150, __c9, 6)),
+          publicationPrivacyPolicyUrl: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1307,7 +1419,12 @@ function __c10(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           ctaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(185, __c11, 9).pipe(T.HttpBody())),
+          surveyConfig: S.optional(__S(183, __c11, 7)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          newsletterConfig: S.optional(__S(184, __c11, 8)),
         }).pipe(
           T.Http({
             method: "POST",

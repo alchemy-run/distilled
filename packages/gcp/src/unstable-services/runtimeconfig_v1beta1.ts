@@ -83,6 +83,16 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface CreateProjectsConfigsRequest {
+  /** An optional but recommended unique `request_id`. If the server receives two `create()` requests with the same `request_id`, then the second request will be ignored and the first resource created and stored in the backend is returned. Empty `request_id` fields are ignored. It is responsibility of the client to ensure uniqueness of the `request_id` strings. `request_id` strings are limited to 64 characters. */
+  requestId?: string | undefined;
+  /** The [project ID](https://support.google.com/cloud/answer/6158840?hl=en&ref_topic=6158848) for this request, in the format `projects/[PROJECT_ID]`. */
+  parent: string;
+  /** The resource name of a runtime config. The name must have the format: projects/[PROJECT_ID]/configs/[CONFIG_NAME] The `[PROJECT_ID]` must be a valid project ID, and `[CONFIG_NAME]` is an arbitrary name that matches the `[0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])?` regular expression. The length of `[CONFIG_NAME]` must be less than 64 characters. You pick the RuntimeConfig resource name, but the server will validate that the name adheres to this format. After you create the resource, you cannot change the resource's name. */
+  name?: string | undefined;
+  /** An optional description of the RuntimeConfig object. */
+  description?: string | undefined;
+}
 /** A RuntimeConfig resource is the primary resource in the Cloud RuntimeConfig service. A RuntimeConfig resource consists of metadata and a hierarchy of variables. */
 export interface RuntimeConfig {
   /** The resource name of a runtime config. The name must have the format: projects/[PROJECT_ID]/configs/[CONFIG_NAME] The `[PROJECT_ID]` must be a valid project ID, and `[CONFIG_NAME]` is an arbitrary name that matches the `[0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])?` regular expression. The length of `[CONFIG_NAME]` must be less than 64 characters. You pick the RuntimeConfig resource name, but the server will validate that the name adheres to this format. After you create the resource, you cannot change the resource's name. */
@@ -90,17 +100,12 @@ export interface RuntimeConfig {
   /** An optional description of the RuntimeConfig object. */
   description?: string | undefined;
 }
-export interface CreateProjectsConfigsRequest {
+export type VariableStateEnum = "VARIABLE_STATE_UNSPECIFIED" | "UPDATED" | "DELETED";
+export interface CreateProjectsConfigsVariablesRequest {
+  /** The path to the RutimeConfig resource that this variable should belong to. The configuration must exist beforehand; the path must be in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]` */
+  parent: string;
   /** An optional but recommended unique `request_id`. If the server receives two `create()` requests with the same `request_id`, then the second request will be ignored and the first resource created and stored in the backend is returned. Empty `request_id` fields are ignored. It is responsibility of the client to ensure uniqueness of the `request_id` strings. `request_id` strings are limited to 64 characters. */
   requestId?: string | undefined;
-  /** The [project ID](https://support.google.com/cloud/answer/6158840?hl=en&ref_topic=6158848) for this request, in the format `projects/[PROJECT_ID]`. */
-  parent: string;
-  /** Request body */
-  body?: RuntimeConfig | undefined;
-}
-export type VariableStateEnum = "VARIABLE_STATE_UNSPECIFIED" | "UPDATED" | "DELETED";
-/** Describes a single variable within a RuntimeConfig resource. The name denotes the hierarchical variable name. For example, `ports/serving_port` is a valid variable name. The variable value is an opaque string and only leaf variables can have values (that is, variables that do not have any child variables). */
-export interface Variable {
   /** The name of the variable resource, in the format: projects/[PROJECT_ID]/configs/[CONFIG_NAME]/variables/[VARIABLE_NAME] The `[PROJECT_ID]` must be a valid project ID, `[CONFIG_NAME]` must be a valid RuntimeConfig resource and `[VARIABLE_NAME]` follows Unix file system file path naming. The `[VARIABLE_NAME]` can contain ASCII letters, numbers, slashes and dashes. Slashes are used as path element separators and are not part of the `[VARIABLE_NAME]` itself, so `[VARIABLE_NAME]` must contain at least one non-slash character. Multiple slashes are coalesced into single slash character. Each path segment should match [0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])? regular expression. The length of a `[VARIABLE_NAME]` must be less than 256 characters. Once you create a variable, you cannot change the variable name. */
   name?: string | undefined;
   /** Output only. The time of the last variable update. Timestamp will be UTC timestamp. */
@@ -112,13 +117,18 @@ export interface Variable {
   /** Output only. The current state of the variable. The variable state indicates the outcome of the `variables().watch` call and is visible through the `get` and `list` calls. */
   state?: VariableStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsConfigsVariablesRequest {
-  /** The path to the RutimeConfig resource that this variable should belong to. The configuration must exist beforehand; the path must be in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]` */
-  parent: string;
-  /** An optional but recommended unique `request_id`. If the server receives two `create()` requests with the same `request_id`, then the second request will be ignored and the first resource created and stored in the backend is returned. Empty `request_id` fields are ignored. It is responsibility of the client to ensure uniqueness of the `request_id` strings. `request_id` strings are limited to 64 characters. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Variable | undefined;
+/** Describes a single variable within a RuntimeConfig resource. The name denotes the hierarchical variable name. For example, `ports/serving_port` is a valid variable name. The variable value is an opaque string and only leaf variables can have values (that is, variables that do not have any child variables). */
+export interface Variable {
+  /** The name of the variable resource, in the format: projects/[PROJECT_ID]/configs/[CONFIG_NAME]/variables/[VARIABLE_NAME] The `[PROJECT_ID]` must be a valid project ID, `[CONFIG_NAME]` must be a valid RuntimeConfig resource and `[VARIABLE_NAME]` follows Unix file system file path naming. The `[VARIABLE_NAME]` can contain ASCII letters, numbers, slashes and dashes. Slashes are used as path element separators and are not part of the `[VARIABLE_NAME]` itself, so `[VARIABLE_NAME]` must contain at least one non-slash character. Multiple slashes are coalesced into single slash character. Each path segment should match [0-9A-Za-z](?:[_.A-Za-z0-9-]{0,62}[_.A-Za-z0-9])? regular expression. The length of a `[VARIABLE_NAME]` must be less than 256 characters. Once you create a variable, you cannot change the variable name. */
+  name?: string | undefined;
+  /** Output only. The time of the last variable update. Timestamp will be UTC timestamp. */
+  updateTime?: string | undefined;
+  /** The string value of the variable. The length of the value must be less than 4096 bytes. Empty values are also accepted. For example, `text: "my text value"`. The string must be valid UTF-8. */
+  text?: string | undefined;
+  /** The binary value of the variable. The length of the value must be less than 4096 bytes. Empty values are also accepted. The value must be base64 encoded, and must comply with IETF RFC4648 (https://www.ietf.org/rfc/rfc4648.txt). Only one of `value` or `text` can be set. */
+  value?: string | undefined;
+  /** Output only. The current state of the variable. The variable state indicates the outcome of the `variables().watch` call and is visible through the `get` and `list` calls. */
+  state?: VariableStateEnum | undefined;
 }
 /** A Cardinality condition for the Waiter resource. A cardinality condition is met when the number of variables under a specified path prefix reaches a predefined number. For example, if you set a Cardinality condition where the `path` is set to `/foo` and the number of paths is set to `2`, the following variables would meet the condition in a RuntimeConfig resource: + `/foo/variable1 = "value1"` + `/foo/variable2 = "value2"` + `/bar/variable3 = "value3"` It would not satisfy the same condition with the `number` set to `3`, however, because there is only 2 paths that start with `/foo`. Cardinality conditions are recursive; all subtrees under the specific path prefix are counted. */
 export interface Cardinality {
@@ -143,8 +153,11 @@ export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
-/** A Waiter resource waits for some end condition within a RuntimeConfig resource to be met before it returns. For example, assume you have a distributed system where each node writes to a Variable resource indicating the node's readiness as part of the startup process. You then configure a Waiter resource with the success condition set to wait until some number of nodes have checked in. Afterwards, your application runs some arbitrary code after the condition has been met and the waiter returns successfully. Once created, a Waiter resource is immutable. To learn more about using waiters, read the [Creating a Waiter](/deployment-manager/runtime-configurator/creating-a-waiter) documentation. */
-export interface Waiter {
+export interface CreateProjectsConfigsWaitersRequest {
+  /** The path to the configuration that will own the waiter. The configuration must exist beforehand; the path must be in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]`. */
+  parent: string;
+  /** An optional but recommended unique `request_id`. If the server receives two `create()` requests with the same `request_id`, then the second request will be ignored and the first resource created and stored in the backend is returned. Empty `request_id` fields are ignored. It is responsibility of the client to ensure uniqueness of the `request_id` strings. `request_id` strings are limited to 64 characters. */
+  requestId?: string | undefined;
   /** Output only. If the value is `false`, it means the waiter is still waiting for one of its conditions to be met. If true, the waiter has finished. If the waiter finished due to a timeout or failure, `error` will be set. */
   done?: boolean | undefined;
   /** [Required] Specifies the timeout of the waiter in seconds, beginning from the instant that `waiters().create` method is called. If this time elapses before the success or failure conditions are met, the waiter fails and sets the `error` code to `DEADLINE_EXCEEDED`. */
@@ -159,14 +172,6 @@ export interface Waiter {
   name?: string | undefined;
   /** Output only. The instant at which this Waiter resource was created. Adding the value of `timeout` to this instant yields the timeout deadline for the waiter. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsConfigsWaitersRequest {
-  /** The path to the configuration that will own the waiter. The configuration must exist beforehand; the path must be in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]`. */
-  parent: string;
-  /** An optional but recommended unique `request_id`. If the server receives two `create()` requests with the same `request_id`, then the second request will be ignored and the first resource created and stored in the backend is returned. Empty `request_id` fields are ignored. It is responsibility of the client to ensure uniqueness of the `request_id` strings. `request_id` strings are limited to 64 characters. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Waiter | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -250,6 +255,23 @@ export interface GetProjectsConfigsWaitersRequest {
   /** The fully-qualified name of the Waiter resource object to retrieve, in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]/waiters/[WAITER_NAME]` */
   name: string;
 }
+/** A Waiter resource waits for some end condition within a RuntimeConfig resource to be met before it returns. For example, assume you have a distributed system where each node writes to a Variable resource indicating the node's readiness as part of the startup process. You then configure a Waiter resource with the success condition set to wait until some number of nodes have checked in. Afterwards, your application runs some arbitrary code after the condition has been met and the waiter returns successfully. Once created, a Waiter resource is immutable. To learn more about using waiters, read the [Creating a Waiter](/deployment-manager/runtime-configurator/creating-a-waiter) documentation. */
+export interface Waiter {
+  /** Output only. If the value is `false`, it means the waiter is still waiting for one of its conditions to be met. If true, the waiter has finished. If the waiter finished due to a timeout or failure, `error` will be set. */
+  done?: boolean | undefined;
+  /** [Required] Specifies the timeout of the waiter in seconds, beginning from the instant that `waiters().create` method is called. If this time elapses before the success or failure conditions are met, the waiter fails and sets the `error` code to `DEADLINE_EXCEEDED`. */
+  timeout?: string | undefined;
+  /** [Optional] The failure condition of this waiter. If this condition is met, `done` will be set to `true` and the `error` code will be set to `ABORTED`. The failure condition takes precedence over the success condition. If both conditions are met, a failure will be indicated. This value is optional; if no failure condition is set, the only failure scenario will be a timeout. */
+  failure?: EndCondition | undefined;
+  /** Output only. If the waiter ended due to a failure or timeout, this value will be set. */
+  error?: Status | undefined;
+  /** [Required] The success condition. If this condition is met, `done` will be set to `true` and the `error` value will remain unset. The failure condition takes precedence over the success condition. If both conditions are met, a failure will be indicated. */
+  success?: EndCondition | undefined;
+  /** The name of the Waiter resource, in the format: projects/[PROJECT_ID]/configs/[CONFIG_NAME]/waiters/[WAITER_NAME] The `[PROJECT_ID]` must be a valid Google Cloud project ID, the `[CONFIG_NAME]` must be a valid RuntimeConfig resource, the `[WAITER_NAME]` must match RFC 1035 segment specification, and the length of `[WAITER_NAME]` must be less than 64 bytes. After you create a Waiter resource, you cannot change the resource name. */
+  name?: string | undefined;
+  /** Output only. The instant at which this Waiter resource was created. Adding the value of `timeout` to this instant yields the timeout deadline for the waiter. */
+  createTime?: string | undefined;
+}
 export interface ListProjectsConfigsRequest {
   /** Specifies a page token to use. Set `pageToken` to a `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string | undefined;
@@ -302,27 +324,17 @@ export interface ListWaitersResponse {
   /** Found waiters in the project. */
   waiters?: WaiterList | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
-}
 export interface SetIamPolicyProjectsConfigsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsProjectsConfigsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -332,43 +344,44 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsConfigsOperationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsConfigsVariablesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsConfigsWaitersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface UpdateProjectsConfigsRequest {
   /** The name of the RuntimeConfig resource to update, in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]` */
   name: string;
-  /** Request body */
-  body?: RuntimeConfig | undefined;
+  /** An optional description of the RuntimeConfig object. */
+  description?: string | undefined;
 }
 export interface UpdateProjectsConfigsVariablesRequest {
   /** The name of the variable to update, in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]/variables/[VARIABLE_NAME]` */
   name: string;
-  /** Request body */
-  body?: Variable | undefined;
-}
-/** Request for the `WatchVariable()` method. */
-export interface WatchVariableRequest {
-  /** If specified, checks the current timestamp of the variable and if the current timestamp is newer than `newerThan` timestamp, the method returns immediately. If not specified or the variable has an older timestamp, the watcher waits for a the value to change before returning. */
-  newerThan?: string | undefined;
+  /** Output only. The time of the last variable update. Timestamp will be UTC timestamp. */
+  updateTime?: string | undefined;
+  /** The string value of the variable. The length of the value must be less than 4096 bytes. Empty values are also accepted. For example, `text: "my text value"`. The string must be valid UTF-8. */
+  text?: string | undefined;
+  /** The binary value of the variable. The length of the value must be less than 4096 bytes. Empty values are also accepted. The value must be base64 encoded, and must comply with IETF RFC4648 (https://www.ietf.org/rfc/rfc4648.txt). Only one of `value` or `text` can be set. */
+  value?: string | undefined;
+  /** Output only. The current state of the variable. The variable state indicates the outcome of the `variables().watch` call and is visible through the `get` and `list` calls. */
+  state?: VariableStateEnum | (string & {}) | undefined;
 }
 export interface WatchProjectsConfigsVariablesRequest {
   /** The name of the variable to watch, in the format: `projects/[PROJECT_ID]/configs/[CONFIG_NAME]` */
   name: string;
-  /** Request body */
-  body?: WatchVariableRequest | undefined;
+  /** If specified, checks the current timestamp of the variable and if the current timestamp is newer than `newerThan` timestamp, the method returns immediately. If not specified or the variable has an older timestamp, the watcher waits for a the value to change before returning. */
+  newerThan?: string | undefined;
 }
 export type CreateProjectsConfigsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new RuntimeConfig resource. The configuration name must be unique within project. */
@@ -378,8 +391,8 @@ export const createProjectsConfigs: API.OperationMethod<
   CreateProjectsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<CreateProjectsConfigsRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<RuntimeConfig>,
+  input: __S(80, __c20, 0) as any as S.Schema<CreateProjectsConfigsRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<RuntimeConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -400,8 +413,8 @@ export const createProjectsConfigsVariables: API.OperationMethod<
   CreateProjectsConfigsVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<CreateProjectsConfigsVariablesRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Variable>,
+  input: __S(88, __c22, 0) as any as S.Schema<CreateProjectsConfigsVariablesRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -422,8 +435,8 @@ export const createProjectsConfigsWaiters: API.OperationMethod<
   CreateProjectsConfigsWaitersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<CreateProjectsConfigsWaitersRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<Operation>,
+  input: __S(96, __c24, 0) as any as S.Schema<CreateProjectsConfigsWaitersRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -439,8 +452,8 @@ export const deleteProjectsConfigs: API.OperationMethod<
   DeleteProjectsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<DeleteProjectsConfigsRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(112, __c28, 0) as any as S.Schema<DeleteProjectsConfigsRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -461,8 +474,8 @@ export const deleteProjectsConfigsVariables: API.OperationMethod<
   DeleteProjectsConfigsVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<DeleteProjectsConfigsVariablesRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(120, __c30, 0) as any as S.Schema<DeleteProjectsConfigsVariablesRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -483,8 +496,8 @@ export const deleteProjectsConfigsWaiters: API.OperationMethod<
   DeleteProjectsConfigsWaitersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<DeleteProjectsConfigsWaitersRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
+  input: __S(124, __c31, 0) as any as S.Schema<DeleteProjectsConfigsWaitersRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -518,7 +531,7 @@ export const getProjectsConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetProjectsConfigsRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<RuntimeConfig>,
+  output: __S(84, __c21, 0) as any as S.Schema<RuntimeConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -535,7 +548,7 @@ export const getProjectsConfigsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetProjectsConfigsOperationsRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<Operation>,
+  output: __S(100, __c25, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -552,7 +565,7 @@ export const getProjectsConfigsVariables: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetProjectsConfigsVariablesRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Variable>,
+  output: __S(92, __c23, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -569,7 +582,7 @@ export const getProjectsConfigsWaiters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetProjectsConfigsWaitersRequest>,
-  output: __S(106, __c26, 2) as any as S.Schema<Waiter>,
+  output: __S(28, __c7, 0) as any as S.Schema<Waiter>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -586,8 +599,8 @@ export const listProjectsConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<ListProjectsConfigsRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<ListConfigsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListProjectsConfigsRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -605,8 +618,8 @@ export const listProjectsConfigsVariables: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVariablesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<ListProjectsConfigsVariablesRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<ListVariablesResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<ListProjectsConfigsVariablesRequest>,
+  output: __S(38, __c9, 2) as any as S.Schema<ListVariablesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -624,8 +637,8 @@ export const listProjectsConfigsWaiters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListWaitersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListProjectsConfigsWaitersRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<ListWaitersResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListProjectsConfigsWaitersRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<ListWaitersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -647,7 +660,7 @@ export const setIamPolicyProjectsConfigs: API.OperationMethod<
   SetIamPolicyProjectsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c10, 1) as any as S.Schema<SetIamPolicyProjectsConfigsRequest>,
+  input: __S(44, __c11, 0) as any as S.Schema<SetIamPolicyProjectsConfigsRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -669,8 +682,8 @@ export const testIamPermissionsProjectsConfigs: API.OperationMethod<
   TestIamPermissionsProjectsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsRequest>,
-  output: __S(48, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -691,8 +704,8 @@ export const testIamPermissionsProjectsConfigsOperations: API.OperationMethod<
   TestIamPermissionsProjectsConfigsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsOperationsRequest>,
-  output: __S(48, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsOperationsRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -713,8 +726,8 @@ export const testIamPermissionsProjectsConfigsVariables: API.OperationMethod<
   TestIamPermissionsProjectsConfigsVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsVariablesRequest>,
-  output: __S(48, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsVariablesRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -735,8 +748,8 @@ export const testIamPermissionsProjectsConfigsWaiters: API.OperationMethod<
   TestIamPermissionsProjectsConfigsWaitersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsWaitersRequest>,
-  output: __S(48, __c12, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<TestIamPermissionsProjectsConfigsWaitersRequest>,
+  output: __S(52, __c13, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -752,8 +765,8 @@ export const updateProjectsConfigs: API.OperationMethod<
   UpdateProjectsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<UpdateProjectsConfigsRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<RuntimeConfig>,
+  input: __S(68, __c17, 0) as any as S.Schema<UpdateProjectsConfigsRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<RuntimeConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -774,8 +787,8 @@ export const updateProjectsConfigsVariables: API.OperationMethod<
   UpdateProjectsConfigsVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<UpdateProjectsConfigsVariablesRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Variable>,
+  input: __S(72, __c18, 0) as any as S.Schema<UpdateProjectsConfigsVariablesRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -796,8 +809,8 @@ export const watchProjectsConfigsVariables: API.OperationMethod<
   WatchProjectsConfigsVariablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c18, 1) as any as S.Schema<WatchProjectsConfigsVariablesRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<Variable>,
+  input: __S(76, __c19, 0) as any as S.Schema<WatchProjectsConfigsVariablesRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<Variable>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -929,6 +942,22 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          done: S.optional(S.Boolean),
+          timeout: S.optional(S.String),
+          failure: S.optional(__S(109, __c27, 1)),
+          error: S.optional(__S(106, __c26, 2)),
+          success: S.optional(__S(109, __c27, 1)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Waiter" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
@@ -941,17 +970,17 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsConfigsRequest" });
     case 1:
-      return S.Array(__S(80, __c20, 0));
+      return S.Array(__S(84, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          configs: S.optional(__S(29, __c7, 1)),
+          configs: S.optional(__S(33, __c8, 1)),
         }),
       ).annotate({ identifier: "ListConfigsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -970,17 +999,17 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsConfigsVariablesRequest" });
     case 1:
-      return S.Array(__S(88, __c22, 0));
+      return S.Array(__S(92, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          variables: S.optional(__S(33, __c8, 1)),
+          variables: S.optional(__S(37, __c9, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListVariablesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -997,29 +1026,23 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsConfigsWaitersRequest" });
     case 1:
-      return S.Array(__S(106, __c26, 2));
+      return S.Array(__S(28, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          waiters: S.optional(__S(37, __c9, 1)),
+          waiters: S.optional(__S(41, __c10, 1)),
         }),
       ).annotate({ identifier: "ListWaitersResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(7, __c1, 3)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c10, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(7, __c1, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1030,13 +1053,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsConfigsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1047,23 +1070,23 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsConfigsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           permissions: S.optional(__S(8, __c2, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1074,13 +1097,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsConfigsOperationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1091,13 +1114,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsConfigsVariablesRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(8, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1108,13 +1131,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsConfigsWaitersRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c20, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1125,13 +1148,16 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateProjectsConfigsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          text: S.optional(S.String),
+          value: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1142,19 +1168,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateProjectsConfigsVariablesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newerThan: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WatchVariableRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c18, 0).pipe(T.HttpBody())),
+          newerThan: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1165,14 +1185,15 @@ function __c18(j: number): any {
       ).annotate({ identifier: "WatchProjectsConfigsVariablesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c20, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1183,7 +1204,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateProjectsConfigsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1194,14 +1215,18 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RuntimeConfig" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(88, __c22, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          text: S.optional(S.String),
+          value: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1212,7 +1237,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateProjectsConfigsVariablesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1226,14 +1251,20 @@ function __c22(j: number): any {
       ).annotate({ identifier: "Variable" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(106, __c26, 2).pipe(T.HttpBody())),
+          done: S.optional(S.Boolean),
+          timeout: S.optional(S.String),
+          failure: S.optional(__S(109, __c27, 1)),
+          error: S.optional(__S(106, __c26, 2)),
+          success: S.optional(__S(109, __c27, 1)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1244,37 +1275,37 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsConfigsWaitersRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          response: S.optional(__S(100, __c25, 0)),
-          error: S.optional(__S(102, __c25, 2)),
+          response: S.optional(__S(104, __c26, 0)),
+          error: S.optional(__S(106, __c26, 2)),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(100, __c25, 0)),
+          metadata: S.optional(__S(104, __c26, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(100, __c25, 0));
+      return S.Array(__S(104, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(101, __c25, 1)),
+          details: S.optional(__S(105, __c26, 1)),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1286,24 +1317,12 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cardinality: S.optional(__S(104, __c26, 0)),
+          cardinality: S.optional(__S(108, __c27, 0)),
         }),
       ).annotate({ identifier: "EndCondition" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          done: S.optional(S.Boolean),
-          timeout: S.optional(S.String),
-          failure: S.optional(__S(105, __c26, 1)),
-          error: S.optional(__S(102, __c25, 2)),
-          success: S.optional(__S(105, __c26, 1)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Waiter" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1319,13 +1338,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteProjectsConfigsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1342,7 +1361,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteProjectsConfigsVariablesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

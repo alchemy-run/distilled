@@ -105,10 +105,7 @@ export interface Config {
 export type ConfigMap = { [key: string]: Config | undefined };
 export interface ContainerThreatDetectionSettings {
   name?: string | undefined;
-  serviceEnablementState?:
-    | ContainerThreatDetectionSettingsServiceEnablementStateEnum
-    | (string & {})
-    | undefined;
+  serviceEnablementState?: ContainerThreatDetectionSettingsServiceEnablementStateEnum | undefined;
   serviceAccount?: string | undefined;
   updateTime?: string | undefined;
   modules?: ConfigMap | undefined;
@@ -124,10 +121,7 @@ export type EventThreatDetectionSettingsServiceEnablementStateEnum =
   | "DISABLED";
 export interface EventThreatDetectionSettings {
   updateTime?: string | undefined;
-  serviceEnablementState?:
-    | EventThreatDetectionSettingsServiceEnablementStateEnum
-    | (string & {})
-    | undefined;
+  serviceEnablementState?: EventThreatDetectionSettingsServiceEnablementStateEnum | undefined;
   name?: string | undefined;
   modules?: ConfigMap | undefined;
 }
@@ -145,7 +139,6 @@ export interface RapidVulnerabilityDetectionSettings {
   updateTime?: string | undefined;
   serviceEnablementState?:
     | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
-    | (string & {})
     | undefined;
 }
 export interface CalculateFoldersSecurityHealthAnalyticsSettingsRequest {
@@ -158,10 +151,7 @@ export type SecurityHealthAnalyticsSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface SecurityHealthAnalyticsSettings {
-  serviceEnablementState?:
-    | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
-    | (string & {})
-    | undefined;
+  serviceEnablementState?: SecurityHealthAnalyticsSettingsServiceEnablementStateEnum | undefined;
   name?: string | undefined;
   modules?: ConfigMap | undefined;
   updateTime?: string | undefined;
@@ -181,7 +171,6 @@ export interface VirtualMachineThreatDetectionSettings {
   modules?: ConfigMap | undefined;
   serviceEnablementState?:
     | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
-    | (string & {})
     | undefined;
   serviceAccount?: string | undefined;
   updateTime?: string | undefined;
@@ -196,10 +185,7 @@ export type WebSecurityScannerSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface WebSecurityScannerSettings {
-  serviceEnablementState?:
-    | WebSecurityScannerSettingsServiceEnablementStateEnum
-    | (string & {})
-    | undefined;
+  serviceEnablementState?: WebSecurityScannerSettingsServiceEnablementStateEnum | undefined;
   modules?: ConfigMap | undefined;
   name?: string | undefined;
   updateTime?: string | undefined;
@@ -359,116 +345,202 @@ export interface GetWebSecurityScannerSettingsProjectsRequest {
 export interface UpdateContainerThreatDetectionSettingsFoldersRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ContainerThreatDetectionSettings | undefined;
+  serviceEnablementState?:
+    | ContainerThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsOrganizationsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: ContainerThreatDetectionSettings | undefined;
+  serviceEnablementState?:
+    | ContainerThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: ContainerThreatDetectionSettings | undefined;
+  serviceEnablementState?:
+    | ContainerThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsLocationsClustersRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ContainerThreatDetectionSettings | undefined;
+  serviceEnablementState?:
+    | ContainerThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsFoldersRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EventThreatDetectionSettings | undefined;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | EventThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsOrganizationsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: EventThreatDetectionSettings | undefined;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | EventThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsProjectsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EventThreatDetectionSettings | undefined;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | EventThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsFoldersRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RapidVulnerabilityDetectionSettings | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsOrganizationsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: RapidVulnerabilityDetectionSettings | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsProjectsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: RapidVulnerabilityDetectionSettings | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsFoldersRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityHealthAnalyticsSettings | undefined;
+  serviceEnablementState?:
+    | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceAccount?: string | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityHealthAnalyticsSettings | undefined;
+  serviceEnablementState?:
+    | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceAccount?: string | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsProjectsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityHealthAnalyticsSettings | undefined;
+  serviceEnablementState?:
+    | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceAccount?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsFoldersRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VirtualMachineThreatDetectionSettings | undefined;
+  modules?: ConfigMap | undefined;
+  serviceEnablementState?:
+    | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VirtualMachineThreatDetectionSettings | undefined;
+  modules?: ConfigMap | undefined;
+  serviceEnablementState?:
+    | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsProjectsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VirtualMachineThreatDetectionSettings | undefined;
+  modules?: ConfigMap | undefined;
+  serviceEnablementState?:
+    | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsFoldersRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: WebSecurityScannerSettings | undefined;
+  serviceEnablementState?:
+    | WebSecurityScannerSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsOrganizationsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: WebSecurityScannerSettings | undefined;
+  serviceEnablementState?:
+    | WebSecurityScannerSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsProjectsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: WebSecurityScannerSettings | undefined;
+  serviceEnablementState?:
+    | WebSecurityScannerSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
 }
 export type CalculateFoldersContainerThreatDetectionSettingsError =
   | NotFound
@@ -2434,7 +2506,10 @@ function __c40(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2452,7 +2527,10 @@ function __c41(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2470,7 +2548,10 @@ function __c42(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2488,7 +2569,10 @@ function __c43(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2538,7 +2622,9 @@ function __c46(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2556,7 +2642,9 @@ function __c47(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2574,7 +2662,9 @@ function __c48(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(180, __c45, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2592,7 +2682,9 @@ function __c49(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(228, __c57, 0).pipe(T.HttpBody())),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2610,7 +2702,9 @@ function __c50(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(228, __c57, 0).pipe(T.HttpBody())),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2628,7 +2722,9 @@ function __c51(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(228, __c57, 0).pipe(T.HttpBody())),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
+          serviceEnablementState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2646,7 +2742,10 @@ function __c52(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c64, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2664,7 +2763,10 @@ function __c53(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c64, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2682,7 +2784,10 @@ function __c54(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(256, __c64, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2700,7 +2805,10 @@ function __c55(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(264, __c66, 0).pipe(T.HttpBody())),
+          modules: S.optional(__S(134, __c33, 2)),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2747,7 +2855,10 @@ function __c58(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(264, __c66, 0).pipe(T.HttpBody())),
+          modules: S.optional(__S(134, __c33, 2)),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2765,7 +2876,10 @@ function __c59(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(264, __c66, 0).pipe(T.HttpBody())),
+          modules: S.optional(__S(134, __c33, 2)),
+          serviceEnablementState: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2783,7 +2897,9 @@ function __c60(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c68, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2801,7 +2917,9 @@ function __c61(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(272, __c68, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2819,7 +2937,9 @@ function __c62(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c68, 0).pipe(T.HttpBody())),
+          serviceEnablementState: S.optional(S.String),
+          modules: S.optional(__S(134, __c33, 2)),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",

@@ -96,6 +96,18 @@ export interface Bucket {
   /** Output only. Resource name of the bucket. */
   name?: string | undefined;
 }
+export interface CreateProjectsDefaultBucketRequest {
+  /** Required. The parent resource where the default bucket will be created, `projects/{project_id_or_number}`. */
+  parent: string;
+  /** Output only. Underlying bucket resource. */
+  bucket?: Bucket | undefined;
+  /** Identifier. Resource name of the default bucket. */
+  name?: string | undefined;
+  /** Required. Immutable. Location of the default bucket. */
+  location?: string | undefined;
+  /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
+  storageClass?: string | undefined;
+}
 /** Spark tier-eligible Cloud Storage bucket. One per project. This resource exists if the underlying Cloud Storage bucket exists and it is linked to your Firebase project. See https://firebase.google.com/pricing for pricing details. */
 export interface DefaultBucket {
   /** Output only. Underlying bucket resource. */
@@ -106,12 +118,6 @@ export interface DefaultBucket {
   location?: string | undefined;
   /** Immutable. Storage class of the default bucket. Supported values are available at https://cloud.google.com/storage/docs/storage-classes#classes. */
   storageClass?: string | undefined;
-}
-export interface CreateProjectsDefaultBucketRequest {
-  /** Required. The parent resource where the default bucket will be created, `projects/{project_id_or_number}`. */
-  parent: string;
-  /** Request body */
-  body?: DefaultBucket | undefined;
 }
 export interface DeleteDefaultBucketProjectsRequest {
   /** Required. The name of the default bucket to delete, `projects/{project_id_or_number}/defaultBucket`. */
@@ -349,7 +355,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(20, __c5, 0).pipe(T.HttpBody())),
+          bucket: S.optional(__S(8, __c2, 0)),
+          name: S.optional(S.String),
+          location: S.optional(S.String),
+          storageClass: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

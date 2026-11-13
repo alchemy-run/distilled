@@ -198,8 +198,13 @@ export interface AuthProviderTypeParams {
   apiKey?: ApiKeyParams | undefined;
 }
 export type AuthProviderStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED";
-/** Represents an auth provider. */
-export interface AuthProvider {
+export interface CreateProjectsLocationsAuthProvidersRequest {
+  /** Required. The parent resource where the auth provider is created. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Required. The ID to use for the auth provider, which will become the final segment of the auth provider's resource name. This value should be 1-63 characters, and valid characters are /a-z-/. The first character must be a lowercase letter, and the last character must be a lowercase letter or a number. */
+  authProviderId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. Set to `true` if the auth provider is deleted. */
   deleted?: boolean | undefined;
   /** Output only. The creation timestamp. */
@@ -225,15 +230,32 @@ export interface AuthProvider {
   /** Output only. The state of the auth provider. */
   state?: AuthProviderStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsAuthProvidersRequest {
-  /** Required. The parent resource where the auth provider is created. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Required. The ID to use for the auth provider, which will become the final segment of the auth provider's resource name. This value should be 1-63 characters, and valid characters are /a-z-/. The first character must be a lowercase letter, and the last character must be a lowercase letter or a number. */
-  authProviderId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: AuthProvider | undefined;
+/** Represents an auth provider. */
+export interface AuthProvider {
+  /** Output only. Set to `true` if the auth provider is deleted. */
+  deleted?: boolean | undefined;
+  /** Output only. The creation timestamp. */
+  createTime?: string | undefined;
+  /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
+  name?: string | undefined;
+  /** Optional. Input only. Identifiers for the agents that will use this auth provider, starting with `principal://`. For example: `principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}` */
+  workloadIds?: StringList | undefined;
+  /** Output only. The update timestamp. */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. The time when the auth provider will expire. */
+  expireTime?: string | undefined;
+  /** Optional. List of scopes that are allowed to be requested for this auth provider. If this list is non-empty, only scopes within this list may be requested. If this list is empty, all scopes may be requested. Scopes appearing in `blocked_scopes` are disallowed even if they appear in `allowed_scopes`. The number of allowed scopes is limited to 200. */
+  allowedScopes?: StringList | undefined;
+  /** Required. Parameters specific to the auth provider type. */
+  authProviderTypeParams?: AuthProviderTypeParams | undefined;
+  /** Optional. Description of the resource. Must be less than 256 characters. */
+  description?: string | undefined;
+  /** Optional. List of scopes that are blocked from being requested for this auth provider. If a scope appears in this list, it will not be requested, even if it also appears in `allowed_scopes`. `blocked_scopes` takes precedence over `allowed_scopes`. The number of blocked scopes is limited to 200. */
+  blockedScopes?: StringList | undefined;
+  /** Output only. The state of the auth provider. */
+  state?: AuthProviderStateEnum | undefined;
 }
 export interface DeleteProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. */
@@ -249,24 +271,17 @@ export interface DeleteProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-/** Request message for `DisableAuthProvider`. */
-export interface DisableAuthProviderRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-}
 export interface DisableProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: DisableAuthProviderRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
-/** Request message for `EnableAuthProvider`. */
-export type EnableAuthProviderRequest = DisableAuthProviderRequest;
 export interface EnableProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: DisableAuthProviderRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -506,8 +521,28 @@ export interface PatchProjectsLocationsAuthProvidersRequest {
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the auth provider resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: AuthProvider | undefined;
+  /** Output only. Set to `true` if the auth provider is deleted. */
+  deleted?: boolean | undefined;
+  /** Output only. The creation timestamp. */
+  createTime?: string | undefined;
+  /** Optional. Input only. Identifiers for the agents that will use this auth provider, starting with `principal://`. For example: `principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}` */
+  workloadIds?: StringList | undefined;
+  /** Output only. The update timestamp. */
+  updateTime?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. The time when the auth provider will expire. */
+  expireTime?: string | undefined;
+  /** Optional. List of scopes that are allowed to be requested for this auth provider. If this list is non-empty, only scopes within this list may be requested. If this list is empty, all scopes may be requested. Scopes appearing in `blocked_scopes` are disallowed even if they appear in `allowed_scopes`. The number of allowed scopes is limited to 200. */
+  allowedScopes?: StringList | undefined;
+  /** Required. Parameters specific to the auth provider type. */
+  authProviderTypeParams?: AuthProviderTypeParams | undefined;
+  /** Optional. Description of the resource. Must be less than 256 characters. */
+  description?: string | undefined;
+  /** Optional. List of scopes that are blocked from being requested for this auth provider. If a scope appears in this list, it will not be requested, even if it also appears in `allowed_scopes`. `blocked_scopes` takes precedence over `allowed_scopes`. The number of blocked scopes is limited to 200. */
+  blockedScopes?: StringList | undefined;
+  /** Output only. The state of the auth provider. */
+  state?: AuthProviderStateEnum | (string & {}) | undefined;
 }
 export interface QueryProjectsLocationsAuthProvidersRequest {
   /** Required. The workload identifier to filter by. */
@@ -541,64 +576,46 @@ export interface QueryWorkloadsResponse {
   /** The unique list of identifiers for the agents that used this auth provider, starting with `principal://`. */
   workloadIds?: StringList | undefined;
 }
-/** Request message for `ResolveAuthorization`. */
-export interface ResolveAuthorizationRequest {
-  /** Required. The user ID of the client for whom the authorization is resolved. */
-  clientUserId?: string | undefined;
-}
 export interface ResolveAuthorizationProjectsLocationsAuthProvidersRequest {
   /** Required. The name of the auth provider to resolve authorization for. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: ResolveAuthorizationRequest | undefined;
+  /** Required. The user ID of the client for whom the authorization is resolved. */
+  clientUserId?: string | undefined;
 }
 /** Response message for `ResolveAuthorization`. */
 export interface ResolveAuthorizationResponse {
   /** The resource name of the resolved authorization. Format: projects/{project}/locations/{location}/authProviders/{auth_provider}/authorizations/{authorization} */
   authorization?: string | undefined;
 }
-/** Request message for `RevokeAuthorization`. */
-export interface RevokeAuthorizationRequest {
-  /** Required. The identity of the user to revoke authorization for. */
-  userId?: string | undefined;
-}
 export interface RevokeAuthorizationProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: RevokeAuthorizationRequest | undefined;
+  /** Required. The identity of the user to revoke authorization for. */
+  userId?: string | undefined;
 }
 /** Response message for `RevokeAuthorization`. */
 export interface RevokeAuthorizationResponse {}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsAuthProvidersRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsAuthProvidersRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -608,16 +625,14 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
-/** Request message for `UndeleteAuthProvider`. */
-export type UndeleteAuthProviderRequest = DisableAuthProviderRequest;
 export interface UndeleteProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
-  /** Request body */
-  body?: DisableAuthProviderRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type CreateProjectsLocationsAuthProvidersError =
   | NotFound
@@ -632,8 +647,8 @@ export const createProjectsLocationsAuthProviders: API.OperationMethod<
   CreateProjectsLocationsAuthProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<CreateProjectsLocationsAuthProvidersRequest>,
-  output: __S(459, __c28, 11) as any as S.Schema<AuthProvider>,
+  input: __S(368, __c23, 0) as any as S.Schema<CreateProjectsLocationsAuthProvidersRequest>,
+  output: __S(443, __c27, 11) as any as S.Schema<AuthProvider>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -654,8 +669,8 @@ export const deleteProjectsLocationsAuthProviders: API.OperationMethod<
   DeleteProjectsLocationsAuthProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteProjectsLocationsAuthProvidersRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<Empty>,
+  input: __S(464, __c29, 0) as any as S.Schema<DeleteProjectsLocationsAuthProvidersRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -677,11 +692,11 @@ export const deleteProjectsLocationsAuthProvidersAuthorizations: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    496,
-    __c31,
+    480,
+    __c30,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsAuthProvidersAuthorizationsRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<Empty>,
+  output: __S(384, __c24, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -702,8 +717,8 @@ export const disableProjectsLocationsAuthProviders: API.OperationMethod<
   DisableProjectsLocationsAuthProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DisableProjectsLocationsAuthProvidersRequest>,
-  output: __S(459, __c28, 11) as any as S.Schema<AuthProvider>,
+  input: __S(496, __c31, 0) as any as S.Schema<DisableProjectsLocationsAuthProvidersRequest>,
+  output: __S(443, __c27, 11) as any as S.Schema<AuthProvider>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -724,8 +739,8 @@ export const enableProjectsLocationsAuthProviders: API.OperationMethod<
   EnableProjectsLocationsAuthProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<EnableProjectsLocationsAuthProvidersRequest>,
-  output: __S(459, __c28, 11) as any as S.Schema<AuthProvider>,
+  input: __S(512, __c32, 0) as any as S.Schema<EnableProjectsLocationsAuthProvidersRequest>,
+  output: __S(443, __c27, 11) as any as S.Schema<AuthProvider>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -741,8 +756,8 @@ export const getIamPolicyProjectsLocationsAuthProviders: API.OperationMethod<
   GetIamPolicyProjectsLocationsAuthProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetIamPolicyProjectsLocationsAuthProvidersRequest>,
-  output: __S(583, __c36, 7) as any as S.Schema<Policy>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetIamPolicyProjectsLocationsAuthProvidersRequest>,
+  output: __S(551, __c34, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -766,7 +781,7 @@ export const getIamPolicyProjectsLocationsAuthProvidersAuthorizations: API.Opera
     __c0,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest>,
-  output: __S(583, __c36, 7) as any as S.Schema<Policy>,
+  output: __S(551, __c34, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -817,7 +832,7 @@ export const getProjectsLocationsAuthProviders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetProjectsLocationsAuthProvidersRequest>,
-  output: __S(459, __c28, 11) as any as S.Schema<AuthProvider>,
+  output: __S(443, __c27, 11) as any as S.Schema<AuthProvider>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -946,7 +961,7 @@ export const patchProjectsLocationsAuthProviders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<PatchProjectsLocationsAuthProvidersRequest>,
-  output: __S(459, __c28, 11) as any as S.Schema<AuthProvider>,
+  output: __S(443, __c27, 11) as any as S.Schema<AuthProvider>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1006,11 +1021,11 @@ export const resolveAuthorizationProjectsLocationsAuthProviders: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    241,
+    240,
     __c15,
-    1,
+    0,
   ) as any as S.Schema<ResolveAuthorizationProjectsLocationsAuthProvidersRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<ResolveAuthorizationResponse>,
+  output: __S(241, __c15, 1) as any as S.Schema<ResolveAuthorizationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1032,11 +1047,11 @@ export const revokeAuthorizationProjectsLocationsAuthProviders: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    257,
+    256,
     __c16,
-    1,
+    0,
   ) as any as S.Schema<RevokeAuthorizationProjectsLocationsAuthProvidersRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RevokeAuthorizationResponse>,
+  output: __S(384, __c24, 0) as any as S.Schema<RevokeAuthorizationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1058,7 +1073,7 @@ export const setIamPolicyProjectsLocationsAuthProviders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<SetIamPolicyProjectsLocationsAuthProvidersRequest>,
-  output: __S(583, __c36, 7) as any as S.Schema<Policy>,
+  output: __S(551, __c34, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1080,11 +1095,11 @@ export const setIamPolicyProjectsLocationsAuthProvidersAuthorizations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    304,
-    __c19,
+    288,
+    __c18,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest>,
-  output: __S(583, __c36, 7) as any as S.Schema<Policy>,
+  output: __S(551, __c34, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1106,11 +1121,11 @@ export const testIamPermissionsProjectsLocationsAuthProviders: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c20,
+    304,
+    __c19,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsAuthProvidersRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(320, __c20, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1132,11 +1147,11 @@ export const testIamPermissionsProjectsLocationsAuthProvidersAuthorizations: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c22,
+    336,
+    __c21,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(320, __c20, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1157,8 +1172,8 @@ export const undeleteProjectsLocationsAuthProviders: API.OperationMethod<
   UndeleteProjectsLocationsAuthProvidersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<UndeleteProjectsLocationsAuthProvidersRequest>,
-  output: __S(459, __c28, 11) as any as S.Schema<AuthProvider>,
+  input: __S(352, __c22, 0) as any as S.Schema<UndeleteProjectsLocationsAuthProvidersRequest>,
+  output: __S(443, __c27, 11) as any as S.Schema<AuthProvider>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1206,10 +1221,10 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(416, __c26, 0)),
+          labels: S.optional(__S(400, __c25, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(432, __c27, 0)),
+          metadata: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1242,9 +1257,9 @@ function __c4(j: number): any {
           lastAccessTime: S.optional(S.String),
           purgeTime: S.optional(S.String),
           authProviderType: S.optional(S.String),
-          labels: S.optional(__S(416, __c26, 0)),
+          labels: S.optional(__S(400, __c25, 0)),
           tokenUrl: S.optional(S.String),
-          scopes: S.optional(__S(464, __c29, 0)),
+          scopes: S.optional(__S(448, __c28, 0)),
           authProvider: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccessSummary" });
@@ -1287,7 +1302,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(464, __c29, 0)),
+          scopes: S.optional(__S(448, __c28, 0)),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
           state: S.optional(S.String),
@@ -1302,7 +1317,7 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          extraLocationTypes: S.optional(__S(464, __c29, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(448, __c28, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -1350,7 +1365,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessSummaries: S.optional(__S(145, __c9, 1)),
-          unreachable: S.optional(__S(464, __c29, 0)),
+          unreachable: S.optional(__S(448, __c28, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAccessSummariesResponse" });
@@ -1376,11 +1391,11 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAuthProvidersRequest" });
     case 1:
-      return S.Array(__S(459, __c28, 11));
+      return S.Array(__S(443, __c27, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(464, __c29, 0)),
+          unreachable: S.optional(__S(448, __c28, 0)),
           authProviders: S.optional(__S(161, __c10, 1)),
           nextPageToken: S.optional(S.String),
         }),
@@ -1410,7 +1425,7 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(464, __c29, 0)),
+          unreachable: S.optional(__S(448, __c28, 0)),
           nextPageToken: S.optional(S.String),
           authorizations: S.optional(__S(177, __c11, 1)),
         }),
@@ -1425,7 +1440,17 @@ function __c12(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(459, __c28, 11).pipe(T.HttpBody())),
+          deleted: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          workloadIds: S.optional(__S(448, __c28, 0)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(400, __c25, 0)),
+          expireTime: S.optional(S.String),
+          allowedScopes: S.optional(__S(448, __c28, 0)),
+          authProviderTypeParams: S.optional(__S(442, __c27, 10)),
+          description: S.optional(S.String),
+          blockedScopes: S.optional(__S(448, __c28, 0)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1456,7 +1481,7 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authProviderNames: S.optional(__S(464, __c29, 0)),
+          authProviderNames: S.optional(__S(448, __c28, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryAuthProvidersResponse" });
@@ -1482,7 +1507,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          workloadIds: S.optional(__S(464, __c29, 0)),
+          workloadIds: S.optional(__S(448, __c28, 0)),
         }),
       ).annotate({ identifier: "QueryWorkloadsResponse" });
   }
@@ -1492,14 +1517,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientUserId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResolveAuthorizationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
+          clientUserId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1508,7 +1527,7 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ResolveAuthorizationProjectsLocationsAuthProvidersRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           authorization: S.optional(S.String),
@@ -1521,14 +1540,8 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RevokeAuthorizationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c16, 0).pipe(T.HttpBody())),
+          userId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1545,7 +1558,8 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(551, __c34, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1561,19 +1575,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(583, __c36, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(288, __c18, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(551, __c34, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1584,13 +1588,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1601,23 +1605,23 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsAuthProvidersRequest" });
   }
 }
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(448, __c28, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
 function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(464, __c29, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c21, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1630,13 +1634,13 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1647,7 +1651,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsLocationsAuthProvidersRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1655,7 +1659,18 @@ function __c24(j: number): any {
           parent: S.String.pipe(T.Label()),
           authProviderId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(459, __c28, 11).pipe(T.HttpBody())),
+          deleted: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          workloadIds: S.optional(__S(448, __c28, 0)),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(400, __c25, 0)),
+          expireTime: S.optional(S.String),
+          allowedScopes: S.optional(__S(448, __c28, 0)),
+          authProviderTypeParams: S.optional(__S(442, __c27, 10)),
+          description: S.optional(S.String),
+          blockedScopes: S.optional(__S(448, __c28, 0)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1666,7 +1681,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAuthProvidersRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1674,19 +1689,19 @@ function __c25(j: number): any {
       });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1709,12 +1724,12 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "TwoLeggedOAuth" });
     case 2:
-      return S.Array(__S(432, __c27, 0));
+      return S.Array(__S(416, __c26, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
           connector: S.optional(S.String),
-          authorizationDetails: S.optional(__S(450, __c28, 2)),
+          authorizationDetails: S.optional(__S(434, __c27, 2)),
         }),
       ).annotate({ identifier: "ConnectorReferenceAuthProvider" });
     case 4:
@@ -1734,9 +1749,9 @@ function __c28(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          idJagAdditionalClaims: S.optional(__S(432, __c27, 0)),
+          idJagAdditionalClaims: S.optional(__S(416, __c26, 0)),
           idJagAuthProvider: S.optional(S.String),
-          agentIdentityPool: S.optional(__S(400, __c25, 0)),
+          agentIdentityPool: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "IdTokenProcessingConfig" });
     case 7:
@@ -1748,14 +1763,14 @@ function __c28(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          customIssuer: S.optional(__S(452, __c28, 4)),
-          googleAccount: S.optional(__S(400, __c25, 0)),
-          clientSecretAuth: S.optional(__S(453, __c28, 5)),
-          workforceIdentityFederation: S.optional(__S(400, __c25, 0)),
-          idTokenInput: S.optional(__S(454, __c28, 6)),
-          clientAssertionJwtAuth: S.optional(__S(455, __c28, 7)),
-          additionalParameters: S.optional(__S(416, __c26, 0)),
-          idJagInput: S.optional(__S(400, __c25, 0)),
+          customIssuer: S.optional(__S(436, __c27, 4)),
+          googleAccount: S.optional(__S(384, __c24, 0)),
+          clientSecretAuth: S.optional(__S(437, __c27, 5)),
+          workforceIdentityFederation: S.optional(__S(384, __c24, 0)),
+          idTokenInput: S.optional(__S(438, __c27, 6)),
+          clientAssertionJwtAuth: S.optional(__S(439, __c27, 7)),
+          additionalParameters: S.optional(__S(400, __c25, 0)),
+          idJagInput: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "CrossAppAccessAuthProvider" });
     case 9:
@@ -1767,12 +1782,12 @@ function __c28(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          threeLeggedOauth: S.optional(__S(448, __c28, 0)),
-          twoLeggedOauth: S.optional(__S(449, __c28, 1)),
-          connectorReferenceAuthProvider: S.optional(__S(451, __c28, 3)),
-          geAuthProvider: S.optional(__S(400, __c25, 0)),
-          xaaAuthProvider: S.optional(__S(456, __c28, 8)),
-          apiKey: S.optional(__S(457, __c28, 9)),
+          threeLeggedOauth: S.optional(__S(432, __c27, 0)),
+          twoLeggedOauth: S.optional(__S(433, __c27, 1)),
+          connectorReferenceAuthProvider: S.optional(__S(435, __c27, 3)),
+          geAuthProvider: S.optional(__S(384, __c24, 0)),
+          xaaAuthProvider: S.optional(__S(440, __c27, 8)),
+          apiKey: S.optional(__S(441, __c27, 9)),
         }),
       ).annotate({ identifier: "AuthProviderTypeParams" });
     case 11:
@@ -1781,26 +1796,26 @@ function __c28(j: number): any {
           deleted: S.optional(S.Boolean),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          workloadIds: S.optional(__S(464, __c29, 0)),
+          workloadIds: S.optional(__S(448, __c28, 0)),
           updateTime: S.optional(S.String),
-          labels: S.optional(__S(416, __c26, 0)),
+          labels: S.optional(__S(400, __c25, 0)),
           expireTime: S.optional(S.String),
-          allowedScopes: S.optional(__S(464, __c29, 0)),
-          authProviderTypeParams: S.optional(__S(458, __c28, 10)),
+          allowedScopes: S.optional(__S(448, __c28, 0)),
+          authProviderTypeParams: S.optional(__S(442, __c27, 10)),
           description: S.optional(S.String),
-          blockedScopes: S.optional(__S(464, __c29, 0)),
+          blockedScopes: S.optional(__S(448, __c28, 0)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthProvider" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1817,7 +1832,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAuthProvidersRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1834,13 +1849,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAuthProvidersAuthorizationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1851,23 +1866,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DisableProjectsLocationsAuthProvidersRequest" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DisableAuthProviderRequest" });
-  }
-}
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1878,7 +1883,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "EnableProjectsLocationsAuthProvidersRequest" });
   }
 }
-function __c35(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1895,7 +1900,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsAuthProvidersRequest" });
   }
 }
-function __c36(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1909,37 +1914,37 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(464, __c29, 0)),
+          members: S.optional(__S(448, __c28, 0)),
           role: S.optional(S.String),
-          condition: S.optional(__S(576, __c36, 0)),
+          condition: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(464, __c29, 0)),
+          exemptedMembers: S.optional(__S(448, __c28, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(579, __c36, 3));
+      return S.Array(__S(547, __c34, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(580, __c36, 4)),
+          auditLogConfigs: S.optional(__S(548, __c34, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(581, __c36, 5));
+      return S.Array(__S(549, __c34, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(578, __c36, 2)),
+          bindings: S.optional(__S(546, __c34, 2)),
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(582, __c36, 6)),
+          auditConfigs: S.optional(__S(550, __c34, 6)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });

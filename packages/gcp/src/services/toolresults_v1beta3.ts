@@ -165,11 +165,6 @@ export interface PerfSample {
   value?: number | undefined;
 }
 export type PerfSampleList = Array<PerfSample>;
-/** The request must provide up to a maximum of 5000 samples to be created; a larger sample size will cause an INVALID_ARGUMENT error */
-export interface BatchCreatePerfSamplesRequest {
-  /** The set of PerfSamples to create should not include existing timestamps */
-  perfSamples?: PerfSampleList | undefined;
-}
 export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest {
   /** The cloud project */
   projectId: string;
@@ -181,15 +176,18 @@ export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamp
   sampleSeriesId: string;
   /** A tool results history ID. */
   historyId: string;
-  /** Request body */
-  body?: BatchCreatePerfSamplesRequest | undefined;
+  /** The set of PerfSamples to create should not include existing timestamps */
+  perfSamples?: PerfSampleList | undefined;
 }
 export interface BatchCreatePerfSamplesResponse {
   perfSamples?: PerfSampleList | undefined;
 }
 export type HistoryTestPlatformEnum = "unknownPlatform" | "android" | "ios";
-/** A History represents a sorted list of Executions ordered by the start_timestamp_millis field (descending). It can be used to group all the Executions of a continuous build. Note that the ordering only operates on one-dimension. If a repository has multiple branches, it means that multiple histories will need to be used in order to order Executions per branch. */
-export interface History {
+export interface CreateProjectsHistoriesRequest {
+  /** A Project id. Required. */
+  projectId: string;
+  /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
+  requestId?: string | undefined;
   /** A short human-readable (plain text) name to display in the UI. Maximum of 100 characters. - In response: present if set during create. - In create request: optional */
   displayName?: string | undefined;
   /** The platform of the test history. - In response: always set. Returns the platform of the last execution if unknown. */
@@ -199,13 +197,16 @@ export interface History {
   /** A unique identifier within a project for this History. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create request: never set */
   historyId?: string | undefined;
 }
-export interface CreateProjectsHistoriesRequest {
-  /** A Project id. Required. */
-  projectId: string;
-  /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: History | undefined;
+/** A History represents a sorted list of Executions ordered by the start_timestamp_millis field (descending). It can be used to group all the Executions of a continuous build. Note that the ordering only operates on one-dimension. If a repository has multiple branches, it means that multiple histories will need to be used in order to order Executions per branch. */
+export interface History {
+  /** A short human-readable (plain text) name to display in the UI. Maximum of 100 characters. - In response: present if set during create. - In create request: optional */
+  displayName?: string | undefined;
+  /** The platform of the test history. - In response: always set. Returns the platform of the last execution if unknown. */
+  testPlatform?: HistoryTestPlatformEnum | undefined;
+  /** A name to uniquely identify a history within a project. Maximum of 200 characters. - In response always set - In create request: always set */
+  name?: string | undefined;
+  /** A unique identifier within a project for this History. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create request: never set */
+  historyId?: string | undefined;
 }
 export type StringList = Array<string>;
 /** A test of an Android application that can control an Android component independently of its normal lifecycle. See for more information on types of Android tests. */
@@ -370,8 +371,13 @@ export interface Outcome {
 export type MatrixDimensionDefinition = AndroidTestLoop;
 export type MatrixDimensionDefinitionList = Array<AndroidTestLoop>;
 export type ExecutionStateEnum = "unknownState" | "pending" | "inProgress" | "complete";
-/** An Execution represents a collection of Steps. For instance, it could represent: - a mobile test executed across a range of device configurations - a jenkins job with a build step followed by a test step The maximum size of an execution message is 1 MiB. An Execution can be updated until its state is set to COMPLETE at which point it becomes immutable. */
-export interface Execution {
+export interface CreateProjectsHistoriesExecutionsRequest {
+  /** A History id. Required. */
+  historyId: string;
+  /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
+  requestId?: string | undefined;
+  /** A Project id. Required. */
+  projectId: string;
   /** The time when the Execution was created. This value will be set automatically when CreateExecution is called. - In response: always set - In create/update request: never set */
   creationTime?: Timestamp | undefined;
   /** Lightweight information about execution request. - In response: present if set by create - In create: optional - In update: optional */
@@ -389,15 +395,24 @@ export interface Execution {
   /** TestExecution Matrix ID that the TestExecutionService uses. - In response: present if set by create - In create: optional - In update: never set */
   testExecutionMatrixId?: string | undefined;
 }
-export interface CreateProjectsHistoriesExecutionsRequest {
-  /** A History id. Required. */
-  historyId: string;
-  /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string | undefined;
-  /** A Project id. Required. */
-  projectId: string;
-  /** Request body */
-  body?: Execution | undefined;
+/** An Execution represents a collection of Steps. For instance, it could represent: - a mobile test executed across a range of device configurations - a jenkins job with a build step followed by a test step The maximum size of an execution message is 1 MiB. An Execution can be updated until its state is set to COMPLETE at which point it becomes immutable. */
+export interface Execution {
+  /** The time when the Execution was created. This value will be set automatically when CreateExecution is called. - In response: always set - In create/update request: never set */
+  creationTime?: Timestamp | undefined;
+  /** Lightweight information about execution request. - In response: present if set by create - In create: optional - In update: optional */
+  specification?: Specification | undefined;
+  /** The time when the Execution status transitioned to COMPLETE. This value will be set automatically when state transitions to COMPLETE. - In response: set if the execution state is COMPLETE. - In create/update request: never set */
+  completionTime?: Timestamp | undefined;
+  /** Classify the result, for example into SUCCESS or FAILURE - In response: present if set by create/update request - In create/update request: optional */
+  outcome?: Outcome | undefined;
+  /** A unique identifier within a History for this Execution. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create/update request: never set */
+  executionId?: string | undefined;
+  /** The dimensions along which different steps in this execution may vary. This must remain fixed over the life of the execution. Returns INVALID_ARGUMENT if this field is set in an update request. Returns INVALID_ARGUMENT if the same name occurs in more than one dimension_definition. Returns INVALID_ARGUMENT if the size of the list is over 100. - In response: present if set by create - In create request: optional - In update request: never set */
+  dimensionDefinitions?: MatrixDimensionDefinitionList | undefined;
+  /** The initial state is IN_PROGRESS. The only legal state transitions is from IN_PROGRESS to COMPLETE. A PRECONDITION_FAILED will be returned if an invalid transition is requested. The state can only be set to COMPLETE once. A FAILED_PRECONDITION will be returned if the state is set to COMPLETE multiple times. If the state is set to COMPLETE, all the in-progress steps within the execution will be set as COMPLETE. If the outcome of the step is not set, the outcome will be set to INCONCLUSIVE. - In response always set - In create/update request: optional */
+  state?: ExecutionStateEnum | undefined;
+  /** TestExecution Matrix ID that the TestExecutionService uses. - In response: present if set by create - In create: optional - In update: never set */
+  testExecutionMatrixId?: string | undefined;
 }
 export interface StepLabelsEntry {
   key?: string | undefined;
@@ -603,8 +618,15 @@ export interface StepDimensionValueEntry {
 }
 export type StepDimensionValueEntryList = Array<StepDimensionValueEntry>;
 export type StepStateEnum = "unknownState" | "pending" | "inProgress" | "complete";
-/** A Step represents a single operation performed as part of Execution. A step can be used to represent the execution of a tool ( for example a test runner execution or an execution of a compiler). Steps can overlap (for instance two steps might have the same start time if some operations are done in parallel). Here is an example, let's consider that we have a continuous build is executing a test runner for each iteration. The workflow would look like: - user creates a Execution with id 1 - user creates a TestExecutionStep with id 100 for Execution 1 - user update TestExecutionStep with id 100 to add a raw xml log + the service parses the xml logs and returns a TestExecutionStep with updated TestResult(s). - user update the status of TestExecutionStep with id 100 to COMPLETE A Step can be updated until its state is set to COMPLETE at which points it becomes immutable. */
-export interface Step {
+export interface CreateProjectsHistoriesExecutionsStepsRequest {
+  /** Required. A History id. */
+  historyId: string;
+  /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
+  requestId?: string | undefined;
+  /** Required. An Execution id. */
+  executionId: string;
+  /** Required. A Project id. */
+  projectId: string;
   /** Arbitrary user-supplied key/value pairs that are associated with the step. Users are responsible for managing the key namespace such that keys don't accidentally collide. An INVALID_ARGUMENT will be returned if the number of labels exceeds 100 or if the length of any of the keys or values exceeds 100 characters. - In response: always set - In create request: optional - In update request: optional; any new key/value pair will be added to the map, and any new value for an existing key will update that key's value */
   labels?: StepLabelsEntryList | undefined;
   /** Details when multiple steps are run with the same configuration as a group. These details can be used identify which group this step is part of. It also identifies the groups 'primary step' which indexes all the group members. - In response: present if previously set. - In create request: optional, set iff this step was performed more than once. - In update request: optional */
@@ -636,17 +658,38 @@ export interface Step {
   /** How much the device resource is used to perform the test. This is the device usage used for billing purpose, which is different from the run_duration, for example, infrastructure failure won't be charged for device usage. PRECONDITION_FAILED will be returned if one attempts to set a device_usage on a step which already has this field set. - In response: present if previously set. - In create request: optional - In update request: optional */
   deviceUsageDuration?: Duration | undefined;
 }
-export interface CreateProjectsHistoriesExecutionsStepsRequest {
-  /** Required. A History id. */
-  historyId: string;
-  /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string | undefined;
-  /** Required. An Execution id. */
-  executionId: string;
-  /** Required. A Project id. */
-  projectId: string;
-  /** Request body */
-  body?: Step | undefined;
+/** A Step represents a single operation performed as part of Execution. A step can be used to represent the execution of a tool ( for example a test runner execution or an execution of a compiler). Steps can overlap (for instance two steps might have the same start time if some operations are done in parallel). Here is an example, let's consider that we have a continuous build is executing a test runner for each iteration. The workflow would look like: - user creates a Execution with id 1 - user creates a TestExecutionStep with id 100 for Execution 1 - user update TestExecutionStep with id 100 to add a raw xml log + the service parses the xml logs and returns a TestExecutionStep with updated TestResult(s). - user update the status of TestExecutionStep with id 100 to COMPLETE A Step can be updated until its state is set to COMPLETE at which points it becomes immutable. */
+export interface Step {
+  /** Arbitrary user-supplied key/value pairs that are associated with the step. Users are responsible for managing the key namespace such that keys don't accidentally collide. An INVALID_ARGUMENT will be returned if the number of labels exceeds 100 or if the length of any of the keys or values exceeds 100 characters. - In response: always set - In create request: optional - In update request: optional; any new key/value pair will be added to the map, and any new value for an existing key will update that key's value */
+  labels?: StepLabelsEntryList | undefined;
+  /** Details when multiple steps are run with the same configuration as a group. These details can be used identify which group this step is part of. It also identifies the groups 'primary step' which indexes all the group members. - In response: present if previously set. - In create request: optional, set iff this step was performed more than once. - In update request: optional */
+  multiStep?: MultiStep | undefined;
+  /** The time when the step status was set to complete. This value will be set automatically when state transitions to COMPLETE. - In response: set if the execution state is COMPLETE. - In create/update request: never set */
+  completionTime?: Timestamp | undefined;
+  /** Classification of the result, for example into SUCCESS or FAILURE - In response: present if set by create/update request - In create/update request: optional */
+  outcome?: Outcome | undefined;
+  /** A short human-readable name to display in the UI. Maximum of 100 characters. For example: Clean build A PRECONDITION_FAILED will be returned upon creating a new step if it shares its name and dimension_value with an existing step. If two steps represent a similar action, but have different dimension values, they should share the same name. For instance, if the same set of tests is run on two different platforms, the two steps should have the same name. - In response: always set - In create request: always set - In update request: never set */
+  name?: string | undefined;
+  /** How long it took for this step to run. If unset, this is set to the difference between creation_time and completion_time when the step is set to the COMPLETE state. In some cases, it is appropriate to set this value separately: For instance, if a step is created, but the operation it represents is queued for a few minutes before it executes, it would be appropriate not to include the time spent queued in its run_duration. PRECONDITION_FAILED will be returned if one attempts to set a run_duration on a step which already has this field set. - In response: present if previously set; always present on COMPLETE step - In create request: optional - In update request: optional */
+  runDuration?: Duration | undefined;
+  /** Whether any of the outputs of this step are images whose thumbnails can be fetched with ListThumbnails. - In response: always set - In create/update request: never set */
+  hasImages?: boolean | undefined;
+  /** An execution of a tool (used for steps we don't explicitly support). */
+  toolExecutionStep?: ToolExecutionStep | undefined;
+  /** An execution of a test runner. */
+  testExecutionStep?: TestExecutionStep | undefined;
+  /** If the execution containing this step has any dimension_definition set, then this field allows the child to specify the values of the dimensions. The keys must exactly match the dimension_definition of the execution. For example, if the execution has `dimension_definition = ['attempt', 'device']` then a step must define values for those dimensions, eg. `dimension_value = ['attempt': '1', 'device': 'Nexus 6']` If a step does not participate in one dimension of the matrix, the value for that dimension should be empty string. For example, if one of the tests is executed by a runner which does not support retries, the step could have `dimension_value = ['attempt': '', 'device': 'Nexus 6']` If the step does not participate in any dimensions of the matrix, it may leave dimension_value unset. A PRECONDITION_FAILED will be returned if any of the keys do not exist in the dimension_definition of the execution. A PRECONDITION_FAILED will be returned if another step in this execution already has the same name and dimension_value, but differs on other data fields, for example, step field is different. A PRECONDITION_FAILED will be returned if dimension_value is set, and there is a dimension_definition in the execution which is not specified as one of the keys. - In response: present if set by create - In create request: optional - In update request: never set */
+  dimensionValue?: StepDimensionValueEntryList | undefined;
+  /** A unique identifier within a Execution for this Step. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response: always set - In create/update request: never set */
+  stepId?: string | undefined;
+  /** A description of this tool For example: mvn clean package -D skipTests=true - In response: present if set by create/update request - In create/update request: optional */
+  description?: string | undefined;
+  /** The time when the step was created. - In response: always set - In create/update request: never set */
+  creationTime?: Timestamp | undefined;
+  /** The initial state is IN_PROGRESS. The only legal state transitions are * IN_PROGRESS -> COMPLETE A PRECONDITION_FAILED will be returned if an invalid transition is requested. It is valid to create Step with a state set to COMPLETE. The state can only be set to COMPLETE once. A PRECONDITION_FAILED will be returned if the state is set to COMPLETE multiple times. - In response: always set - In create/update request: optional */
+  state?: StepStateEnum | undefined;
+  /** How much the device resource is used to perform the test. This is the device usage used for billing purpose, which is different from the run_duration, for example, infrastructure failure won't be charged for device usage. PRECONDITION_FAILED will be returned if one attempts to set a device_usage on a step which already has this field set. - In response: present if previously set. - In create request: optional - In update request: optional */
+  deviceUsageDuration?: Duration | undefined;
 }
 export interface GraphicsStatsBucket {
   /** Lower bound of render time in milliseconds. */
@@ -718,6 +761,23 @@ export interface AppStartTime {
   /** Optional. The time from app start to reaching the developer-reported "fully drawn" time. This is only stored if the app includes a call to Activity.reportFullyDrawn(). See https://developer.android.com/topic/performance/launch-time.html#time-full */
   fullyDrawnTime?: Duration | undefined;
 }
+export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest {
+  /** A tool results history ID. */
+  historyId: string;
+  /** A tool results step ID. */
+  stepId: string;
+  /** The cloud project */
+  projectId: string;
+  /** A tool results execution ID. */
+  executionId: string;
+  /** Graphics statistics for the entire run. Statistics are reset at the beginning of the run and collected at the end of the run. */
+  graphicsStats?: GraphicsStats | undefined;
+  /** Set of resource collected */
+  perfMetrics?: PerfMetricsSummaryPerfMetricsItemEnumList | undefined;
+  /** Describes the environment in which the performance metrics were collected */
+  perfEnvironment?: PerfEnvironment | undefined;
+  appStartTime?: AppStartTime | undefined;
+}
 /** A summary of perf metrics collected and performance environment info */
 export interface PerfMetricsSummary {
   /** Graphics statistics for the entire run. Statistics are reset at the beginning of the run and collected at the end of the run. */
@@ -735,18 +795,6 @@ export interface PerfMetricsSummary {
   appStartTime?: AppStartTime | undefined;
   /** A tool results history ID. @OutputOnly */
   historyId?: string | undefined;
-}
-export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest {
-  /** A tool results history ID. */
-  historyId: string;
-  /** A tool results step ID. */
-  stepId: string;
-  /** The cloud project */
-  projectId: string;
-  /** A tool results execution ID. */
-  executionId: string;
-  /** Request body */
-  body?: PerfMetricsSummary | undefined;
 }
 export type BasicPerfSampleSeriesPerfMetricTypeEnum =
   | "perfMetricTypeUnspecified"
@@ -781,6 +829,20 @@ export interface BasicPerfSampleSeries {
   perfUnit?: BasicPerfSampleSeriesPerfUnitEnum | (string & {}) | undefined;
   sampleSeriesLabel?: BasicPerfSampleSeriesSampleSeriesLabelEnum | (string & {}) | undefined;
 }
+export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
+  /** A tool results history ID. */
+  historyId: string;
+  /** A tool results step ID. */
+  stepId: string;
+  /** The cloud project */
+  projectId: string;
+  /** A tool results execution ID. */
+  executionId: string;
+  /** A sample series id @OutputOnly */
+  sampleSeriesId?: string | undefined;
+  /** Basic series represented by a line chart */
+  basicPerfSampleSeries?: BasicPerfSampleSeries | undefined;
+}
 /** Resource representing a collection of performance samples (or data points) */
 export interface PerfSampleSeries {
   /** A tool results history ID. @OutputOnly */
@@ -795,18 +857,6 @@ export interface PerfSampleSeries {
   basicPerfSampleSeries?: BasicPerfSampleSeries | undefined;
   /** The cloud project @OutputOnly */
   projectId?: string | undefined;
-}
-export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
-  /** A tool results history ID. */
-  historyId: string;
-  /** A tool results step ID. */
-  stepId: string;
-  /** The cloud project */
-  projectId: string;
-  /** A tool results execution ID. */
-  executionId: string;
-  /** Request body */
-  body?: PerfSampleSeries | undefined;
 }
 export interface GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest {
   /** A tool results step ID. */
@@ -1225,8 +1275,20 @@ export interface PatchProjectsHistoriesExecutionsRequest {
   executionId: string;
   /** Required. */
   historyId: string;
-  /** Request body */
-  body?: Execution | undefined;
+  /** The time when the Execution was created. This value will be set automatically when CreateExecution is called. - In response: always set - In create/update request: never set */
+  creationTime?: Timestamp | undefined;
+  /** Lightweight information about execution request. - In response: present if set by create - In create: optional - In update: optional */
+  specification?: Specification | undefined;
+  /** The time when the Execution status transitioned to COMPLETE. This value will be set automatically when state transitions to COMPLETE. - In response: set if the execution state is COMPLETE. - In create/update request: never set */
+  completionTime?: Timestamp | undefined;
+  /** Classify the result, for example into SUCCESS or FAILURE - In response: present if set by create/update request - In create/update request: optional */
+  outcome?: Outcome | undefined;
+  /** The dimensions along which different steps in this execution may vary. This must remain fixed over the life of the execution. Returns INVALID_ARGUMENT if this field is set in an update request. Returns INVALID_ARGUMENT if the same name occurs in more than one dimension_definition. Returns INVALID_ARGUMENT if the size of the list is over 100. - In response: present if set by create - In create request: optional - In update request: never set */
+  dimensionDefinitions?: MatrixDimensionDefinitionList | undefined;
+  /** The initial state is IN_PROGRESS. The only legal state transitions is from IN_PROGRESS to COMPLETE. A PRECONDITION_FAILED will be returned if an invalid transition is requested. The state can only be set to COMPLETE once. A FAILED_PRECONDITION will be returned if the state is set to COMPLETE multiple times. If the state is set to COMPLETE, all the in-progress steps within the execution will be set as COMPLETE. If the outcome of the step is not set, the outcome will be set to INCONCLUSIVE. - In response always set - In create/update request: optional */
+  state?: ExecutionStateEnum | (string & {}) | undefined;
+  /** TestExecution Matrix ID that the TestExecutionService uses. - In response: present if set by create - In create: optional - In update: never set */
+  testExecutionMatrixId?: string | undefined;
 }
 export interface PatchProjectsHistoriesExecutionsStepsRequest {
   /** A Step id. Required. */
@@ -1239,13 +1301,34 @@ export interface PatchProjectsHistoriesExecutionsStepsRequest {
   executionId: string;
   /** A History id. Required. */
   historyId: string;
-  /** Request body */
-  body?: Step | undefined;
-}
-/** Request message for StepService.PublishXunitXmlFiles. */
-export interface PublishXunitXmlFilesRequest {
-  /** URI of the Xunit XML files to publish. The maximum size of the file this reference is pointing to is 50MB. Required. */
-  xunitXmlFiles?: FileReferenceList | undefined;
+  /** Arbitrary user-supplied key/value pairs that are associated with the step. Users are responsible for managing the key namespace such that keys don't accidentally collide. An INVALID_ARGUMENT will be returned if the number of labels exceeds 100 or if the length of any of the keys or values exceeds 100 characters. - In response: always set - In create request: optional - In update request: optional; any new key/value pair will be added to the map, and any new value for an existing key will update that key's value */
+  labels?: StepLabelsEntryList | undefined;
+  /** Details when multiple steps are run with the same configuration as a group. These details can be used identify which group this step is part of. It also identifies the groups 'primary step' which indexes all the group members. - In response: present if previously set. - In create request: optional, set iff this step was performed more than once. - In update request: optional */
+  multiStep?: MultiStep | undefined;
+  /** The time when the step status was set to complete. This value will be set automatically when state transitions to COMPLETE. - In response: set if the execution state is COMPLETE. - In create/update request: never set */
+  completionTime?: Timestamp | undefined;
+  /** Classification of the result, for example into SUCCESS or FAILURE - In response: present if set by create/update request - In create/update request: optional */
+  outcome?: Outcome | undefined;
+  /** A short human-readable name to display in the UI. Maximum of 100 characters. For example: Clean build A PRECONDITION_FAILED will be returned upon creating a new step if it shares its name and dimension_value with an existing step. If two steps represent a similar action, but have different dimension values, they should share the same name. For instance, if the same set of tests is run on two different platforms, the two steps should have the same name. - In response: always set - In create request: always set - In update request: never set */
+  name?: string | undefined;
+  /** How long it took for this step to run. If unset, this is set to the difference between creation_time and completion_time when the step is set to the COMPLETE state. In some cases, it is appropriate to set this value separately: For instance, if a step is created, but the operation it represents is queued for a few minutes before it executes, it would be appropriate not to include the time spent queued in its run_duration. PRECONDITION_FAILED will be returned if one attempts to set a run_duration on a step which already has this field set. - In response: present if previously set; always present on COMPLETE step - In create request: optional - In update request: optional */
+  runDuration?: Duration | undefined;
+  /** Whether any of the outputs of this step are images whose thumbnails can be fetched with ListThumbnails. - In response: always set - In create/update request: never set */
+  hasImages?: boolean | undefined;
+  /** An execution of a tool (used for steps we don't explicitly support). */
+  toolExecutionStep?: ToolExecutionStep | undefined;
+  /** An execution of a test runner. */
+  testExecutionStep?: TestExecutionStep | undefined;
+  /** If the execution containing this step has any dimension_definition set, then this field allows the child to specify the values of the dimensions. The keys must exactly match the dimension_definition of the execution. For example, if the execution has `dimension_definition = ['attempt', 'device']` then a step must define values for those dimensions, eg. `dimension_value = ['attempt': '1', 'device': 'Nexus 6']` If a step does not participate in one dimension of the matrix, the value for that dimension should be empty string. For example, if one of the tests is executed by a runner which does not support retries, the step could have `dimension_value = ['attempt': '', 'device': 'Nexus 6']` If the step does not participate in any dimensions of the matrix, it may leave dimension_value unset. A PRECONDITION_FAILED will be returned if any of the keys do not exist in the dimension_definition of the execution. A PRECONDITION_FAILED will be returned if another step in this execution already has the same name and dimension_value, but differs on other data fields, for example, step field is different. A PRECONDITION_FAILED will be returned if dimension_value is set, and there is a dimension_definition in the execution which is not specified as one of the keys. - In response: present if set by create - In create request: optional - In update request: never set */
+  dimensionValue?: StepDimensionValueEntryList | undefined;
+  /** A description of this tool For example: mvn clean package -D skipTests=true - In response: present if set by create/update request - In create/update request: optional */
+  description?: string | undefined;
+  /** The time when the step was created. - In response: always set - In create/update request: never set */
+  creationTime?: Timestamp | undefined;
+  /** The initial state is IN_PROGRESS. The only legal state transitions are * IN_PROGRESS -> COMPLETE A PRECONDITION_FAILED will be returned if an invalid transition is requested. It is valid to create Step with a state set to COMPLETE. The state can only be set to COMPLETE once. A PRECONDITION_FAILED will be returned if the state is set to COMPLETE multiple times. - In response: always set - In create/update request: optional */
+  state?: StepStateEnum | (string & {}) | undefined;
+  /** How much the device resource is used to perform the test. This is the device usage used for billing purpose, which is different from the run_duration, for example, infrastructure failure won't be charged for device usage. PRECONDITION_FAILED will be returned if one attempts to set a device_usage on a step which already has this field set. - In response: present if previously set. - In create request: optional - In update request: optional */
+  deviceUsageDuration?: Duration | undefined;
 }
 export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
   /** A Step id. Note: This step must include a TestExecutionStep. Required. */
@@ -1256,8 +1339,8 @@ export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
   executionId: string;
   /** A Project id. Required. */
   projectId: string;
-  /** Request body */
-  body?: PublishXunitXmlFilesRequest | undefined;
+  /** URI of the Xunit XML files to publish. The maximum size of the file this reference is pointing to is 50MB. Required. */
+  xunitXmlFiles?: FileReferenceList | undefined;
 }
 export type AccessibilityClustersProjectsHistoriesExecutionsStepsError =
   | NotFound
@@ -1297,11 +1380,11 @@ export const batchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    465,
+    464,
     __c29,
-    1,
+    0,
   ) as any as S.Schema<BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<BatchCreatePerfSamplesResponse>,
+  output: __S(465, __c29, 1) as any as S.Schema<BatchCreatePerfSamplesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1863,9 +1946,9 @@ export const publishXunitXmlFilesProjectsHistoriesExecutionsSteps: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    433,
+    432,
     __c27,
-    1,
+    0,
   ) as any as S.Schema<PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest>,
   output: __S(719, __c44, 15) as any as S.Schema<Step>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -1885,7 +1968,8 @@ function __c0(j: number): any {
           stepId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           executionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(17, __c1, 1).pipe(T.HttpBody())),
+          sampleSeriesId: S.optional(S.String),
+          basicPerfSampleSeries: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2502,7 +2586,13 @@ function __c25(j: number): any {
           projectId: S.String.pipe(T.Label()),
           executionId: S.String.pipe(T.Label()),
           historyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(585, __c36, 9).pipe(T.HttpBody())),
+          creationTime: S.optional(__S(496, __c31, 0)),
+          specification: S.optional(__S(584, __c36, 8)),
+          completionTime: S.optional(__S(496, __c31, 0)),
+          outcome: S.optional(__S(596, __c37, 4)),
+          dimensionDefinitions: S.optional(__S(561, __c35, 1)),
+          state: S.optional(S.String),
+          testExecutionMatrixId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2523,7 +2613,20 @@ function __c26(j: number): any {
           projectId: S.String.pipe(T.Label()),
           executionId: S.String.pipe(T.Label()),
           historyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(719, __c44, 15).pipe(T.HttpBody())),
+          labels: S.optional(__S(657, __c41, 1)),
+          multiStep: S.optional(__S(707, __c44, 3)),
+          completionTime: S.optional(__S(496, __c31, 0)),
+          outcome: S.optional(__S(596, __c37, 4)),
+          name: S.optional(S.String),
+          runDuration: S.optional(__S(496, __c31, 0)),
+          hasImages: S.optional(S.Boolean),
+          toolExecutionStep: S.optional(__S(711, __c44, 7)),
+          testExecutionStep: S.optional(__S(716, __c44, 12)),
+          dimensionValue: S.optional(__S(718, __c44, 14)),
+          description: S.optional(S.String),
+          creationTime: S.optional(__S(496, __c31, 0)),
+          state: S.optional(S.String),
+          deviceUsageDuration: S.optional(__S(496, __c31, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2539,17 +2642,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          xunitXmlFiles: S.optional(__S(708, __c44, 4)),
-        }),
-      ).annotate({ identifier: "PublishXunitXmlFilesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           stepId: S.String.pipe(T.Label()),
           historyId: S.String.pipe(T.Label()),
           executionId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
+          xunitXmlFiles: S.optional(__S(708, __c44, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2630,18 +2727,12 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          perfSamples: S.optional(__S(481, __c30, 1)),
-        }),
-      ).annotate({ identifier: "BatchCreatePerfSamplesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           projectId: S.String.pipe(T.Label()),
           stepId: S.String.pipe(T.Label()),
           executionId: S.String.pipe(T.Label()),
           sampleSeriesId: S.String.pipe(T.Label()),
           historyId: S.String.pipe(T.Label()),
-          body: S.optional(__S(464, __c29, 0).pipe(T.HttpBody())),
+          perfSamples: S.optional(__S(481, __c30, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2652,6 +2743,12 @@ function __c29(j: number): any {
       ).annotate({
         identifier: "BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          perfSamples: S.optional(__S(481, __c30, 1)),
+        }),
+      ).annotate({ identifier: "BatchCreatePerfSamplesResponse" });
   }
 }
 function __c30(j: number): any {
@@ -2685,7 +2782,10 @@ function __c32(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(528, __c33, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          testPlatform: S.optional(S.String),
+          name: S.optional(S.String),
+          historyId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2717,7 +2817,14 @@ function __c34(j: number): any {
           historyId: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(585, __c36, 9).pipe(T.HttpBody())),
+          creationTime: S.optional(__S(496, __c31, 0)),
+          specification: S.optional(__S(584, __c36, 8)),
+          completionTime: S.optional(__S(496, __c31, 0)),
+          outcome: S.optional(__S(596, __c37, 4)),
+          executionId: S.optional(S.String),
+          dimensionDefinitions: S.optional(__S(561, __c35, 1)),
+          state: S.optional(S.String),
+          testExecutionMatrixId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2891,7 +2998,21 @@ function __c39(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           executionId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(719, __c44, 15).pipe(T.HttpBody())),
+          labels: S.optional(__S(657, __c41, 1)),
+          multiStep: S.optional(__S(707, __c44, 3)),
+          completionTime: S.optional(__S(496, __c31, 0)),
+          outcome: S.optional(__S(596, __c37, 4)),
+          name: S.optional(S.String),
+          runDuration: S.optional(__S(496, __c31, 0)),
+          hasImages: S.optional(S.Boolean),
+          toolExecutionStep: S.optional(__S(711, __c44, 7)),
+          testExecutionStep: S.optional(__S(716, __c44, 12)),
+          dimensionValue: S.optional(__S(718, __c44, 14)),
+          stepId: S.optional(S.String),
+          description: S.optional(S.String),
+          creationTime: S.optional(__S(496, __c31, 0)),
+          state: S.optional(S.String),
+          deviceUsageDuration: S.optional(__S(496, __c31, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3098,7 +3219,10 @@ function __c45(j: number): any {
           stepId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           executionId: S.String.pipe(T.Label()),
-          body: S.optional(__S(743, __c46, 7).pipe(T.HttpBody())),
+          graphicsStats: S.optional(__S(738, __c46, 2)),
+          perfMetrics: S.optional(__S(752, __c47, 0)),
+          perfEnvironment: S.optional(__S(741, __c46, 5)),
+          appStartTime: S.optional(__S(742, __c46, 6)),
         }).pipe(
           T.Http({
             method: "POST",

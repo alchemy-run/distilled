@@ -112,51 +112,36 @@ export interface Cursor {
   /** The offset of a message within a topic partition. Must be greater than or equal 0. */
   offset?: string | undefined;
 }
-/** Request for CommitCursor. */
-export interface CommitCursorRequest {
+export interface CommitCursorCursorProjectsLocationsSubscriptionsRequest {
+  /** The subscription for which to update the cursor. */
+  subscription: string;
   /** The new value for the committed cursor. */
   cursor?: Cursor | undefined;
   /** The partition for which to update the cursor. Partitions are zero indexed, so `partition` must be in the range [0, topic.num_partitions). */
   partition?: string | undefined;
 }
-export interface CommitCursorCursorProjectsLocationsSubscriptionsRequest {
-  /** The subscription for which to update the cursor. */
-  subscription: string;
-  /** Request body */
-  body?: CommitCursorRequest | undefined;
-}
 /** Response for CommitCursor. */
 export interface CommitCursorResponse {}
-/** Compute the current head cursor for a partition. */
-export interface ComputeHeadCursorRequest {
-  /** Required. The partition for which we should compute the head cursor. */
-  partition?: string | undefined;
-}
 export interface ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest {
   /** Required. The topic for which we should compute the head cursor. */
   topic: string;
-  /** Request body */
-  body?: ComputeHeadCursorRequest | undefined;
+  /** Required. The partition for which we should compute the head cursor. */
+  partition?: string | undefined;
 }
 /** Response containing the head cursor for the requested topic and partition. */
 export interface ComputeHeadCursorResponse {
   /** The head cursor. */
   headCursor?: Cursor | undefined;
 }
-/** Compute statistics about a range of messages in a given topic and partition. */
-export interface ComputeMessageStatsRequest {
+export interface ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest {
+  /** Required. The topic for which we should compute message stats. */
+  topic: string;
   /** The exclusive end of the range. The range is empty if end_cursor <= start_cursor. Specifying a start_cursor before the first message and an end_cursor after the last message will retrieve all messages. */
   endCursor?: Cursor | undefined;
   /** Required. The partition for which we should compute message stats. */
   partition?: string | undefined;
   /** The inclusive start of the range. */
   startCursor?: Cursor | undefined;
-}
-export interface ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest {
-  /** Required. The topic for which we should compute message stats. */
-  topic: string;
-  /** Request body */
-  body?: ComputeMessageStatsRequest | undefined;
 }
 /** Response containing stats for messages in the requested topic and partition. */
 export interface ComputeMessageStatsResponse {
@@ -176,23 +161,28 @@ export interface TimeTarget {
   /** Request the cursor of the first message with publish time greater than or equal to `publish_time`. All messages thereafter are guaranteed to have publish times >= `publish_time`. */
   publishTime?: string | undefined;
 }
-/** Compute the corresponding cursor for a publish or event time in a topic partition. */
-export interface ComputeTimeCursorRequest {
+export interface ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest {
+  /** Required. The topic for which we should compute the cursor. */
+  topic: string;
   /** Required. The partition for which we should compute the cursor. */
   partition?: string | undefined;
   /** Required. The target publish or event time. Specifying a future time will return an unset cursor. */
   target?: TimeTarget | undefined;
 }
-export interface ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest {
-  /** Required. The topic for which we should compute the cursor. */
-  topic: string;
-  /** Request body */
-  body?: ComputeTimeCursorRequest | undefined;
-}
 /** Response containing the cursor corresponding to a publish or event time in a topic partition. */
 export interface ComputeTimeCursorResponse {
   /** If present, the cursor references the first message with time greater than or equal to the specified target time. If such a message cannot be found, the cursor will be unset (i.e. `cursor` is not present). */
   cursor?: Cursor | undefined;
+}
+export interface CreateAdminProjectsLocationsReservationsRequest {
+  /** Required. The ID to use for the reservation, which will become the final component of the reservation's name. This value is structured like: `my-reservation-name`. */
+  reservationId?: string | undefined;
+  /** Required. The parent location in which to create the reservation. Structured like `projects/{project_number}/locations/{location}`. */
+  parent: string;
+  /** The name of the reservation. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
+  name?: string | undefined;
+  /** The reserved throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages. Any topics which are declared as using capacity from a Reservation will consume resources from this reservation instead of being charged individually. */
+  throughputCapacity?: string | undefined;
 }
 /** Metadata about a reservation resource. */
 export interface Reservation {
@@ -200,14 +190,6 @@ export interface Reservation {
   name?: string | undefined;
   /** The reserved throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages. Any topics which are declared as using capacity from a Reservation will consume resources from this reservation instead of being charged individually. */
   throughputCapacity?: string | undefined;
-}
-export interface CreateAdminProjectsLocationsReservationsRequest {
-  /** Required. The ID to use for the reservation, which will become the final component of the reservation's name. This value is structured like: `my-reservation-name`. */
-  reservationId?: string | undefined;
-  /** Required. The parent location in which to create the reservation. Structured like `projects/{project_number}/locations/{location}`. */
-  parent: string;
-  /** Request body */
-  body?: Reservation | undefined;
 }
 export type DeliveryConfigDeliveryRequirementEnum =
   | "DELIVERY_REQUIREMENT_UNSPECIFIED"
@@ -246,6 +228,22 @@ export interface ExportConfig {
   /** Output only. The current state of the export, which may be different to the desired state due to errors. This field is output only. */
   currentState?: ExportConfigCurrentStateEnum | (string & {}) | undefined;
 }
+export interface CreateAdminProjectsLocationsSubscriptionsRequest {
+  /** If true, the newly created subscription will only receive messages published after the subscription was created. Otherwise, the entire message backlog will be received on the subscription. Defaults to false. */
+  skipBacklog?: boolean | undefined;
+  /** Required. The parent location in which to create the subscription. Structured like `projects/{project_number}/locations/{location}`. */
+  parent: string;
+  /** Required. The ID to use for the subscription, which will become the final component of the subscription's name. This value is structured like: `my-sub-name`. */
+  subscriptionId?: string | undefined;
+  /** The name of the topic this subscription is attached to. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
+  topic?: string | undefined;
+  /** The settings for this subscription's message delivery. */
+  deliveryConfig?: DeliveryConfig | undefined;
+  /** The name of the subscription. Structured like: projects/{project_number}/locations/{location}/subscriptions/{subscription_id} */
+  name?: string | undefined;
+  /** If present, messages are automatically written from the Pub/Sub Lite topic associated with this subscription to a destination. */
+  exportConfig?: ExportConfig | undefined;
+}
 /** Metadata about a subscription resource. */
 export interface Subscription {
   /** The name of the topic this subscription is attached to. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
@@ -256,16 +254,6 @@ export interface Subscription {
   name?: string | undefined;
   /** If present, messages are automatically written from the Pub/Sub Lite topic associated with this subscription to a destination. */
   exportConfig?: ExportConfig | undefined;
-}
-export interface CreateAdminProjectsLocationsSubscriptionsRequest {
-  /** If true, the newly created subscription will only receive messages published after the subscription was created. Otherwise, the entire message backlog will be received on the subscription. Defaults to false. */
-  skipBacklog?: boolean | undefined;
-  /** Required. The parent location in which to create the subscription. Structured like `projects/{project_number}/locations/{location}`. */
-  parent: string;
-  /** Required. The ID to use for the subscription, which will become the final component of the subscription's name. This value is structured like: `my-sub-name`. */
-  subscriptionId?: string | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
 }
 /** The settings for this topic's Reservation usage. */
 export interface ReservationConfig {
@@ -295,6 +283,20 @@ export interface PartitionConfig {
   /** The number of partitions in the topic. Must be at least 1. Once a topic has been created the number of partitions can be increased but not decreased. Message ordering is not guaranteed across a topic resize. For more information see https://cloud.google.com/pubsub/lite/docs/topics#scaling_capacity */
   count?: string | undefined;
 }
+export interface CreateAdminProjectsLocationsTopicsRequest {
+  /** Required. The parent location in which to create the topic. Structured like `projects/{project_number}/locations/{location}`. */
+  parent: string;
+  /** Required. The ID to use for the topic, which will become the final component of the topic's name. This value is structured like: `my-topic-name`. */
+  topicId?: string | undefined;
+  /** The settings for this topic's Reservation usage. */
+  reservationConfig?: ReservationConfig | undefined;
+  /** The settings for this topic's message retention. */
+  retentionConfig?: RetentionConfig | undefined;
+  /** The settings for this topic's partitions. */
+  partitionConfig?: PartitionConfig | undefined;
+  /** The name of the topic. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
+  name?: string | undefined;
+}
 /** Metadata about a topic resource. */
 export interface Topic {
   /** The settings for this topic's Reservation usage. */
@@ -305,14 +307,6 @@ export interface Topic {
   partitionConfig?: PartitionConfig | undefined;
   /** The name of the topic. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
   name?: string | undefined;
-}
-export interface CreateAdminProjectsLocationsTopicsRequest {
-  /** Required. The parent location in which to create the topic. Structured like `projects/{project_number}/locations/{location}`. */
-  parent: string;
-  /** Required. The ID to use for the topic, which will become the final component of the topic's name. This value is structured like: `my-topic-name`. */
-  topicId?: string | undefined;
-  /** Request body */
-  body?: Topic | undefined;
 }
 export interface DeleteAdminProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -508,38 +502,41 @@ export interface PatchAdminProjectsLocationsReservationsRequest {
   name: string;
   /** Required. A mask specifying the reservation fields to change. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Reservation | undefined;
+  /** The reserved throughput capacity. Every unit of throughput capacity is equivalent to 1 MiB/s of published messages or 2 MiB/s of subscribed messages. Any topics which are declared as using capacity from a Reservation will consume resources from this reservation instead of being charged individually. */
+  throughputCapacity?: string | undefined;
 }
 export interface PatchAdminProjectsLocationsSubscriptionsRequest {
   /** The name of the subscription. Structured like: projects/{project_number}/locations/{location}/subscriptions/{subscription_id} */
   name: string;
   /** Required. A mask specifying the subscription fields to change. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
+  /** The name of the topic this subscription is attached to. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
+  topic?: string | undefined;
+  /** The settings for this subscription's message delivery. */
+  deliveryConfig?: DeliveryConfig | undefined;
+  /** If present, messages are automatically written from the Pub/Sub Lite topic associated with this subscription to a destination. */
+  exportConfig?: ExportConfig | undefined;
 }
 export interface PatchAdminProjectsLocationsTopicsRequest {
   /** The name of the topic. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
   name: string;
   /** Required. A mask specifying the topic fields to change. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Topic | undefined;
+  /** The settings for this topic's Reservation usage. */
+  reservationConfig?: ReservationConfig | undefined;
+  /** The settings for this topic's message retention. */
+  retentionConfig?: RetentionConfig | undefined;
+  /** The settings for this topic's partitions. */
+  partitionConfig?: PartitionConfig | undefined;
 }
 export type SeekSubscriptionRequestNamedTargetEnum = "NAMED_TARGET_UNSPECIFIED" | "TAIL" | "HEAD";
-/** Request for SeekSubscription. */
-export interface SeekSubscriptionRequest {
+export interface SeekAdminProjectsLocationsSubscriptionsRequest {
+  /** Required. The name of the subscription to seek. */
+  name: string;
   /** Seek to the first message whose publish or event time is greater than or equal to the specified query time. If no such message can be located, will seek to the end of the message backlog. */
   timeTarget?: TimeTarget | undefined;
   /** Seek to a named position with respect to the message backlog. */
   namedTarget?: SeekSubscriptionRequestNamedTargetEnum | (string & {}) | undefined;
-}
-export interface SeekAdminProjectsLocationsSubscriptionsRequest {
-  /** Required. The name of the subscription to seek. */
-  name: string;
-  /** Request body */
-  body?: SeekSubscriptionRequest | undefined;
 }
 export type CancelAdminProjectsLocationsOperationsError =
   | NotFound
@@ -577,9 +574,9 @@ export const commitCursorCursorProjectsLocationsSubscriptions: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    241,
+    240,
     __c30,
-    1,
+    0,
   ) as any as S.Schema<CommitCursorCursorProjectsLocationsSubscriptionsRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<CommitCursorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -603,11 +600,11 @@ export const computeHeadCursorTopicStatsProjectsLocationsTopics: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    257,
+    256,
     __c32,
-    1,
+    0,
   ) as any as S.Schema<ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest>,
-  output: __S(258, __c32, 2) as any as S.Schema<ComputeHeadCursorResponse>,
+  output: __S(257, __c32, 1) as any as S.Schema<ComputeHeadCursorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -629,11 +626,11 @@ export const computeMessageStatsTopicStatsProjectsLocationsTopics: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    265,
+    264,
     __c33,
-    1,
+    0,
   ) as any as S.Schema<ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest>,
-  output: __S(266, __c33, 2) as any as S.Schema<ComputeMessageStatsResponse>,
+  output: __S(265, __c33, 1) as any as S.Schema<ComputeMessageStatsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -655,11 +652,11 @@ export const computeTimeCursorTopicStatsProjectsLocationsTopics: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    273,
+    272,
     __c34,
-    1,
+    0,
   ) as any as S.Schema<ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<ComputeTimeCursorResponse>,
+  output: __S(273, __c34, 1) as any as S.Schema<ComputeTimeCursorResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1132,7 +1129,7 @@ export const seekAdminProjectsLocationsSubscriptions: API.OperationMethod<
   SeekAdminProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(217, __c27, 1) as any as S.Schema<SeekAdminProjectsLocationsSubscriptionsRequest>,
+  input: __S(216, __c27, 0) as any as S.Schema<SeekAdminProjectsLocationsSubscriptionsRequest>,
   output: __S(91, __c11, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1149,7 +1146,8 @@ function __c0(j: number): any {
         S.Struct({
           reservationId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          throughputCapacity: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1179,7 +1177,10 @@ function __c2(j: number): any {
           skipBacklog: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           subscriptionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27, __c3, 3).pipe(T.HttpBody())),
+          topic: S.optional(S.String),
+          deliveryConfig: S.optional(__S(24, __c3, 0)),
+          name: S.optional(S.String),
+          exportConfig: S.optional(__S(26, __c3, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1231,7 +1232,10 @@ function __c4(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           topicId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(44, __c5, 4).pipe(T.HttpBody())),
+          reservationConfig: S.optional(__S(40, __c5, 0)),
+          retentionConfig: S.optional(__S(41, __c5, 1)),
+          partitionConfig: S.optional(__S(43, __c5, 3)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1667,7 +1671,7 @@ function __c24(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
+          throughputCapacity: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1685,7 +1689,9 @@ function __c25(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(27, __c3, 3).pipe(T.HttpBody())),
+          topic: S.optional(S.String),
+          deliveryConfig: S.optional(__S(24, __c3, 0)),
+          exportConfig: S.optional(__S(26, __c3, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1703,7 +1709,9 @@ function __c26(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(44, __c5, 4).pipe(T.HttpBody())),
+          reservationConfig: S.optional(__S(40, __c5, 0)),
+          retentionConfig: S.optional(__S(41, __c5, 1)),
+          partitionConfig: S.optional(__S(43, __c5, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1719,15 +1727,9 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           timeTarget: S.optional(__S(280, __c35, 0)),
           namedTarget: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SeekSubscriptionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(216, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1766,15 +1768,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          subscription: S.String.pipe(T.Label()),
           cursor: S.optional(__S(248, __c31, 0)),
           partition: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CommitCursorRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          subscription: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1800,14 +1796,8 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          partition: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ComputeHeadCursorRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           topic: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
+          partition: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1816,7 +1806,7 @@ function __c32(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           headCursor: S.optional(__S(248, __c31, 0)),
@@ -1829,16 +1819,10 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          topic: S.String.pipe(T.Label()),
           endCursor: S.optional(__S(248, __c31, 0)),
           partition: S.optional(S.String),
           startCursor: S.optional(__S(248, __c31, 0)),
-        }),
-      ).annotate({ identifier: "ComputeMessageStatsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          topic: S.String.pipe(T.Label()),
-          body: S.optional(__S(264, __c33, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1847,7 +1831,7 @@ function __c33(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           messageCount: S.optional(S.String),
@@ -1863,15 +1847,9 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          topic: S.String.pipe(T.Label()),
           partition: S.optional(S.String),
           target: S.optional(__S(280, __c35, 0)),
-        }),
-      ).annotate({ identifier: "ComputeTimeCursorRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          topic: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c34, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1880,7 +1858,7 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(__S(248, __c31, 0)),

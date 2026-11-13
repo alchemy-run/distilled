@@ -180,13 +180,9 @@ export interface CreateResourceValueConfigRequest {
   parent?: string | undefined;
 }
 export type CreateResourceValueConfigRequestList = Array<CreateResourceValueConfigRequest>;
-export interface BatchCreateResourceValueConfigsRequest {
-  requests?: CreateResourceValueConfigRequestList | undefined;
-}
 export interface BatchCreateOrganizationsResourceValueConfigsRequest {
   parent: string;
-  /** Request body */
-  body?: BatchCreateResourceValueConfigsRequest | undefined;
+  requests?: CreateResourceValueConfigRequestList | undefined;
 }
 export type GoogleCloudSecuritycenterV1ResourceValueConfigList =
   Array<GoogleCloudSecuritycenterV1ResourceValueConfig>;
@@ -194,15 +190,11 @@ export interface BatchCreateResourceValueConfigsResponse {
   resourceValueConfigs?: GoogleCloudSecuritycenterV1ResourceValueConfigList | undefined;
 }
 export type BulkMuteFindingsRequestMuteStateEnum = "MUTE_STATE_UNSPECIFIED" | "MUTED" | "UNDEFINED";
-export interface BulkMuteFindingsRequest {
+export interface BulkMuteFoldersFindingsRequest {
+  parent: string;
   muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {}) | undefined;
   muteAnnotation?: string | undefined;
   filter?: string | undefined;
-}
-export interface BulkMuteFoldersFindingsRequest {
-  parent: string;
-  /** Request body */
-  body?: BulkMuteFindingsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -220,18 +212,33 @@ export interface Operation {
 }
 export interface BulkMuteOrganizationsFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: BulkMuteFindingsRequest | undefined;
+  muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {}) | undefined;
+  muteAnnotation?: string | undefined;
+  filter?: string | undefined;
 }
 export interface BulkMuteProjectsFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: BulkMuteFindingsRequest | undefined;
+  muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {}) | undefined;
+  muteAnnotation?: string | undefined;
+  filter?: string | undefined;
 }
 export interface CancelOrganizationsOperationsRequest {
   name: string;
 }
 export interface Empty {}
+export interface CreateFoldersBigQueryExportsRequest {
+  parent: string;
+  bigQueryExportId?: string | undefined;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  name?: string | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
+}
 export interface GoogleCloudSecuritycenterV1BigQueryExport {
   updateTime?: string | undefined;
   filter?: string | undefined;
@@ -243,12 +250,6 @@ export interface GoogleCloudSecuritycenterV1BigQueryExport {
   mostRecentEditor?: string | undefined;
   principal?: string | undefined;
 }
-export interface CreateFoldersBigQueryExportsRequest {
-  parent: string;
-  bigQueryExportId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
-}
 export type EventThreatDetectionCustomModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
   | "ENABLED"
@@ -259,7 +260,8 @@ export type EventThreatDetectionCustomModuleCloudProviderEnum =
   | "GOOGLE_CLOUD_PLATFORM"
   | "AMAZON_WEB_SERVICES"
   | "MICROSOFT_AZURE";
-export interface EventThreatDetectionCustomModule {
+export interface CreateFoldersEventThreatDetectionSettingsCustomModulesRequest {
+  parent: string;
   type?: string | undefined;
   config?: DocumentMap | undefined;
   ancestorModule?: string | undefined;
@@ -271,16 +273,25 @@ export interface EventThreatDetectionCustomModule {
   cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
   updateTime?: string | undefined;
 }
-export interface CreateFoldersEventThreatDetectionSettingsCustomModulesRequest {
-  parent: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
+export interface EventThreatDetectionCustomModule {
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | undefined;
+  updateTime?: string | undefined;
 }
 export type GoogleCloudSecuritycenterV1MuteConfigTypeEnum =
   | "MUTE_CONFIG_TYPE_UNSPECIFIED"
   | "STATIC"
   | "DYNAMIC";
-export interface GoogleCloudSecuritycenterV1MuteConfig {
+export interface CreateFoldersMuteConfigsRequest {
+  parent: string;
+  muteConfigId?: string | undefined;
   updateTime?: string | undefined;
   createTime?: string | undefined;
   expiryTime?: string | undefined;
@@ -291,14 +302,29 @@ export interface GoogleCloudSecuritycenterV1MuteConfig {
   filter?: string | undefined;
   name?: string | undefined;
 }
-export interface CreateFoldersMuteConfigsRequest {
-  parent: string;
-  muteConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+export interface GoogleCloudSecuritycenterV1MuteConfig {
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
+  name?: string | undefined;
 }
 export interface StreamingConfig {
   filter?: string | undefined;
+}
+export interface CreateFoldersNotificationConfigsRequest {
+  parent: string;
+  configId?: string | undefined;
+  name?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface NotificationConfig {
   name?: string | undefined;
@@ -307,12 +333,6 @@ export interface NotificationConfig {
   streamingConfig?: StreamingConfig | undefined;
   description?: string | undefined;
   pubsubTopic?: string | undefined;
-}
-export interface CreateFoldersNotificationConfigsRequest {
-  parent: string;
-  configId?: string | undefined;
-  /** Request body */
-  body?: NotificationConfig | undefined;
 }
 export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -355,7 +375,8 @@ export interface GoogleCloudSecuritycenterV1CustomConfig {
   resourceSelector?: GoogleCloudSecuritycenterV1ResourceSelector | undefined;
   description?: string | undefined;
 }
-export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
+export interface CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
+  parent: string;
   enablementState?:
     | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
     | (string & {})
@@ -371,49 +392,98 @@ export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule 
   customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
   lastEditor?: string | undefined;
 }
-export interface CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
+export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
+  enablementState?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | undefined;
+  ancestorModule?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
 }
 export interface CreateOrganizationsBigQueryExportsRequest {
   parent: string;
   bigQueryExportId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  name?: string | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
 }
 export interface CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
+  updateTime?: string | undefined;
 }
 export interface CreateOrganizationsMuteConfigsRequest {
   muteConfigId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateOrganizationsNotificationConfigsRequest {
   configId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
+  name?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
+  enablementState?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | (string & {})
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | (string & {})
+    | undefined;
+  ancestorModule?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
+}
+export interface CreateOrganizationsSourcesRequest {
+  parent: string;
+  description?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  canonicalName?: string | undefined;
 }
 export interface Source {
   description?: string | undefined;
   name?: string | undefined;
   displayName?: string | undefined;
   canonicalName?: string | undefined;
-}
-export interface CreateOrganizationsSourcesRequest {
-  parent: string;
-  /** Request body */
-  body?: Source | undefined;
 }
 export type ConnectionProtocolEnum =
   | "PROTOCOL_UNSPECIFIED"
@@ -1544,7 +1614,9 @@ export type Network = Node;
 export type NetworkList = Array<Node>;
 export type LoadBalancer = Node;
 export type LoadBalancerList = Array<Node>;
-export interface Finding {
+export interface CreateOrganizationsSourcesFindingsRequest {
+  parent: string;
+  findingId?: string | undefined;
   connections?: ConnectionList | undefined;
   mute?: FindingMuteEnum | (string & {}) | undefined;
   agentSessions?: AgentSessionList | undefined;
@@ -1557,7 +1629,6 @@ export interface Finding {
   agentDataAccessEvents?: AgentDataAccessEventList | undefined;
   contacts?: ContactDetailsMap | undefined;
   backupDisasterRecovery?: BackupDisasterRecovery | undefined;
-  parent?: string | undefined;
   vertexAi?: VertexAi | undefined;
   moduleName?: string | undefined;
   attackExposure?: AttackExposure | undefined;
@@ -1619,39 +1690,146 @@ export interface Finding {
   networks?: NetworkList | undefined;
   loadBalancers?: LoadBalancerList | undefined;
 }
-export interface CreateOrganizationsSourcesFindingsRequest {
-  parent: string;
-  findingId?: string | undefined;
-  /** Request body */
-  body?: Finding | undefined;
+export interface Finding {
+  connections?: ConnectionList | undefined;
+  mute?: FindingMuteEnum | undefined;
+  agentSessions?: AgentSessionList | undefined;
+  kubernetes?: Kubernetes | undefined;
+  toxicCombination?: ToxicCombination | undefined;
+  cloudDlpDataProfile?: CloudDlpDataProfile | undefined;
+  complianceDetails?: ComplianceDetails | undefined;
+  orgPolicies?: OrgPolicyList | undefined;
+  dataRetentionDeletionEvents?: DataRetentionDeletionEventList | undefined;
+  agentDataAccessEvents?: AgentDataAccessEventList | undefined;
+  contacts?: ContactDetailsMap | undefined;
+  backupDisasterRecovery?: BackupDisasterRecovery | undefined;
+  parent?: string | undefined;
+  vertexAi?: VertexAi | undefined;
+  moduleName?: string | undefined;
+  attackExposure?: AttackExposure | undefined;
+  state?: FindingStateEnum | undefined;
+  cloudRun?: CloudRun | undefined;
+  compliances?: ComplianceList | undefined;
+  secret?: Secret | undefined;
+  eventTime?: string | undefined;
+  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  dataAccessEvents?: DataAccessEventList | undefined;
+  affectedResources?: AffectedResources | undefined;
+  chokepoint?: Chokepoint | undefined;
+  access?: Access | undefined;
+  findingClass?: FindingFindingClassEnum | undefined;
+  groupMemberships?: GroupMembershipList | undefined;
+  externalExposure?: ExternalExposure | undefined;
+  files?: FileList | undefined;
+  iamBindings?: IamBindingList | undefined;
+  parentDisplayName?: string | undefined;
+  job?: Job | undefined;
+  aiModel?: AiModel | undefined;
+  agent?: Agent | undefined;
+  logEntries?: LogEntryList | undefined;
+  nextSteps?: string | undefined;
+  discoveredWorkload?: DiscoveredWorkload | undefined;
+  mitreAttack?: MitreAttack | undefined;
+  disk?: Node | undefined;
+  database?: Database | undefined;
+  canonicalName?: string | undefined;
+  securityPosture?: SecurityPosture | undefined;
+  notebook?: Notebook | undefined;
+  cloudDlpInspection?: CloudDlpInspection | undefined;
+  exfiltration?: Exfiltration | undefined;
+  indicator?: Indicator | undefined;
+  externalUri?: string | undefined;
+  createTime?: string | undefined;
+  dataFlowEvents?: DataFlowEventList | undefined;
+  category?: string | undefined;
+  artifactGuardPolicies?: ArtifactGuardPolicies | undefined;
+  processes?: ProcessList | undefined;
+  policyViolationSummary?: PolicyViolationSummary | undefined;
+  vulnerability?: Vulnerability | undefined;
+  iamDetails?: GoogleCloudSecuritycenterV1IamDetails | undefined;
+  muteInitiator?: string | undefined;
+  application?: Application | undefined;
+  muteUpdateTime?: string | undefined;
+  containers?: ContainerList | undefined;
+  securityMarks?: SecurityMarks | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  agentAnomaly?: AgentAnomaly | undefined;
+  ipRules?: IpRules | undefined;
+  cloudArmor?: CloudArmor | undefined;
+  kernelRootkit?: KernelRootkit | undefined;
+  resourceName?: string | undefined;
+  severity?: FindingSeverityEnum | undefined;
+  muteInfo?: MuteInfo | undefined;
+  networks?: NetworkList | undefined;
+  loadBalancers?: LoadBalancerList | undefined;
 }
 export interface CreateProjectsBigQueryExportsRequest {
   bigQueryExportId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  name?: string | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
 }
 export interface CreateProjectsEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsMuteConfigsRequest {
   parent: string;
   muteConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateProjectsNotificationConfigsRequest {
   configId?: string | undefined;
   parent: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
+  name?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
+  enablementState?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | (string & {})
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | (string & {})
+    | undefined;
+  ancestorModule?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
 }
 export interface DeleteFoldersBigQueryExportsRequest {
   name: string;
@@ -1778,13 +1956,9 @@ export interface GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCust
 export interface GetPolicyOptions {
   requestedPolicyVersion?: number | undefined;
 }
-export interface GetIamPolicyRequest {
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyOrganizationsSourcesRequest {
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  options?: GetPolicyOptions | undefined;
 }
 export interface Binding {
   condition?: Expr | undefined;
@@ -1920,18 +2094,14 @@ export interface GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest 
 export interface GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   name: string;
 }
-export interface GroupAssetsRequest {
+export interface GroupFoldersAssetsRequest {
+  parent: string;
   compareDuration?: string | undefined;
   pageSize?: number | undefined;
   pageToken?: string | undefined;
   filter?: string | undefined;
   groupBy?: string | undefined;
   readTime?: string | undefined;
-}
-export interface GroupFoldersAssetsRequest {
-  parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupResult {
   properties?: DocumentMap | undefined;
@@ -1944,18 +2114,14 @@ export interface GroupAssetsResponse {
   groupByResults?: GroupResultList | undefined;
   readTime?: string | undefined;
 }
-export interface GroupFindingsRequest {
+export interface GroupFoldersSourcesFindingsRequest {
+  parent: string;
   pageToken?: string | undefined;
   readTime?: string | undefined;
   compareDuration?: string | undefined;
   filter?: string | undefined;
   pageSize?: number | undefined;
   groupBy?: string | undefined;
-}
-export interface GroupFoldersSourcesFindingsRequest {
-  parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupFindingsResponse {
   nextPageToken?: string | undefined;
@@ -1965,23 +2131,39 @@ export interface GroupFindingsResponse {
 }
 export interface GroupOrganizationsAssetsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
+  compareDuration?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  groupBy?: string | undefined;
+  readTime?: string | undefined;
 }
 export interface GroupOrganizationsSourcesFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
+  pageToken?: string | undefined;
+  readTime?: string | undefined;
+  compareDuration?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  groupBy?: string | undefined;
 }
 export interface GroupProjectsAssetsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupAssetsRequest | undefined;
+  compareDuration?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  groupBy?: string | undefined;
+  readTime?: string | undefined;
 }
 export interface GroupProjectsSourcesFindingsRequest {
   parent: string;
-  /** Request body */
-  body?: GroupFindingsRequest | undefined;
+  pageToken?: string | undefined;
+  readTime?: string | undefined;
+  compareDuration?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  groupBy?: string | undefined;
 }
 export interface ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest {
   pageToken?: string | undefined;
@@ -2549,158 +2731,526 @@ export interface ListProjectsSourcesFindingsRequest {
 export interface PatchFoldersBigQueryExportsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
 }
 export interface PatchFoldersEventThreatDetectionSettingsCustomModulesRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
+  updateTime?: string | undefined;
 }
 export interface PatchFoldersLocationsMuteConfigsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
 }
 export interface PatchFoldersMuteConfigsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
 }
 export interface PatchFoldersNotificationConfigsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: NotificationConfig | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
+  enablementState?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | (string & {})
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | (string & {})
+    | undefined;
+  ancestorModule?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
 }
 export interface PatchFoldersSourcesFindingsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Finding | undefined;
+  connections?: ConnectionList | undefined;
+  mute?: FindingMuteEnum | (string & {}) | undefined;
+  agentSessions?: AgentSessionList | undefined;
+  kubernetes?: Kubernetes | undefined;
+  toxicCombination?: ToxicCombination | undefined;
+  cloudDlpDataProfile?: CloudDlpDataProfile | undefined;
+  complianceDetails?: ComplianceDetails | undefined;
+  orgPolicies?: OrgPolicyList | undefined;
+  dataRetentionDeletionEvents?: DataRetentionDeletionEventList | undefined;
+  agentDataAccessEvents?: AgentDataAccessEventList | undefined;
+  contacts?: ContactDetailsMap | undefined;
+  backupDisasterRecovery?: BackupDisasterRecovery | undefined;
+  parent?: string | undefined;
+  vertexAi?: VertexAi | undefined;
+  moduleName?: string | undefined;
+  attackExposure?: AttackExposure | undefined;
+  state?: FindingStateEnum | (string & {}) | undefined;
+  cloudRun?: CloudRun | undefined;
+  compliances?: ComplianceList | undefined;
+  secret?: Secret | undefined;
+  eventTime?: string | undefined;
+  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap | undefined;
+  description?: string | undefined;
+  dataAccessEvents?: DataAccessEventList | undefined;
+  affectedResources?: AffectedResources | undefined;
+  chokepoint?: Chokepoint | undefined;
+  access?: Access | undefined;
+  findingClass?: FindingFindingClassEnum | (string & {}) | undefined;
+  groupMemberships?: GroupMembershipList | undefined;
+  externalExposure?: ExternalExposure | undefined;
+  files?: FileList | undefined;
+  iamBindings?: IamBindingList | undefined;
+  parentDisplayName?: string | undefined;
+  job?: Job | undefined;
+  aiModel?: AiModel | undefined;
+  agent?: Agent | undefined;
+  logEntries?: LogEntryList | undefined;
+  nextSteps?: string | undefined;
+  discoveredWorkload?: DiscoveredWorkload | undefined;
+  mitreAttack?: MitreAttack | undefined;
+  disk?: Node | undefined;
+  database?: Database | undefined;
+  canonicalName?: string | undefined;
+  securityPosture?: SecurityPosture | undefined;
+  notebook?: Notebook | undefined;
+  cloudDlpInspection?: CloudDlpInspection | undefined;
+  exfiltration?: Exfiltration | undefined;
+  indicator?: Indicator | undefined;
+  externalUri?: string | undefined;
+  createTime?: string | undefined;
+  dataFlowEvents?: DataFlowEventList | undefined;
+  category?: string | undefined;
+  artifactGuardPolicies?: ArtifactGuardPolicies | undefined;
+  processes?: ProcessList | undefined;
+  policyViolationSummary?: PolicyViolationSummary | undefined;
+  vulnerability?: Vulnerability | undefined;
+  iamDetails?: GoogleCloudSecuritycenterV1IamDetails | undefined;
+  muteInitiator?: string | undefined;
+  application?: Application | undefined;
+  muteUpdateTime?: string | undefined;
+  containers?: ContainerList | undefined;
+  securityMarks?: SecurityMarks | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  agentAnomaly?: AgentAnomaly | undefined;
+  ipRules?: IpRules | undefined;
+  cloudArmor?: CloudArmor | undefined;
+  kernelRootkit?: KernelRootkit | undefined;
+  resourceName?: string | undefined;
+  severity?: FindingSeverityEnum | (string & {}) | undefined;
+  muteInfo?: MuteInfo | undefined;
+  networks?: NetworkList | undefined;
+  loadBalancers?: LoadBalancerList | undefined;
 }
 export interface PatchFoldersSourcesFindingsExternalSystemsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
+  caseCloseTime?: string | undefined;
+  externalSystemUpdateTime?: string | undefined;
+  caseSla?: string | undefined;
+  externalUid?: string | undefined;
+  caseCreateTime?: string | undefined;
+  status?: string | undefined;
+  assignees?: StringList | undefined;
+  casePriority?: string | undefined;
+  caseUri?: string | undefined;
+  ticketInfo?: TicketInfo | undefined;
 }
 export interface PatchOrganizationsBigQueryExportsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
 }
 export interface PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
+  updateTime?: string | undefined;
 }
 export interface PatchOrganizationsLocationsMuteConfigsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
 }
 export interface PatchOrganizationsMuteConfigsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
 }
 export interface PatchOrganizationsNotificationConfigsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface PatchOrganizationsResourceValueConfigsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ResourceValueConfig | undefined;
+  sensitiveDataProtectionMapping?:
+    | GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum
+    | (string & {})
+    | undefined;
+  scope?: string | undefined;
+  resourceLabelsSelector?: StringMap | undefined;
+  updateTime?: string | undefined;
+  description?: string | undefined;
+  resourceType?: string | undefined;
+  tagValues?: StringList | undefined;
+  resourceValue?:
+    | GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum
+    | (string & {})
+    | undefined;
+  createTime?: string | undefined;
 }
 export interface PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
+  enablementState?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | (string & {})
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | (string & {})
+    | undefined;
+  ancestorModule?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
 }
 export interface PatchOrganizationsSourcesRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  canonicalName?: string | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Finding | undefined;
+  connections?: ConnectionList | undefined;
+  mute?: FindingMuteEnum | (string & {}) | undefined;
+  agentSessions?: AgentSessionList | undefined;
+  kubernetes?: Kubernetes | undefined;
+  toxicCombination?: ToxicCombination | undefined;
+  cloudDlpDataProfile?: CloudDlpDataProfile | undefined;
+  complianceDetails?: ComplianceDetails | undefined;
+  orgPolicies?: OrgPolicyList | undefined;
+  dataRetentionDeletionEvents?: DataRetentionDeletionEventList | undefined;
+  agentDataAccessEvents?: AgentDataAccessEventList | undefined;
+  contacts?: ContactDetailsMap | undefined;
+  backupDisasterRecovery?: BackupDisasterRecovery | undefined;
+  parent?: string | undefined;
+  vertexAi?: VertexAi | undefined;
+  moduleName?: string | undefined;
+  attackExposure?: AttackExposure | undefined;
+  state?: FindingStateEnum | (string & {}) | undefined;
+  cloudRun?: CloudRun | undefined;
+  compliances?: ComplianceList | undefined;
+  secret?: Secret | undefined;
+  eventTime?: string | undefined;
+  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap | undefined;
+  description?: string | undefined;
+  dataAccessEvents?: DataAccessEventList | undefined;
+  affectedResources?: AffectedResources | undefined;
+  chokepoint?: Chokepoint | undefined;
+  access?: Access | undefined;
+  findingClass?: FindingFindingClassEnum | (string & {}) | undefined;
+  groupMemberships?: GroupMembershipList | undefined;
+  externalExposure?: ExternalExposure | undefined;
+  files?: FileList | undefined;
+  iamBindings?: IamBindingList | undefined;
+  parentDisplayName?: string | undefined;
+  job?: Job | undefined;
+  aiModel?: AiModel | undefined;
+  agent?: Agent | undefined;
+  logEntries?: LogEntryList | undefined;
+  nextSteps?: string | undefined;
+  discoveredWorkload?: DiscoveredWorkload | undefined;
+  mitreAttack?: MitreAttack | undefined;
+  disk?: Node | undefined;
+  database?: Database | undefined;
+  canonicalName?: string | undefined;
+  securityPosture?: SecurityPosture | undefined;
+  notebook?: Notebook | undefined;
+  cloudDlpInspection?: CloudDlpInspection | undefined;
+  exfiltration?: Exfiltration | undefined;
+  indicator?: Indicator | undefined;
+  externalUri?: string | undefined;
+  createTime?: string | undefined;
+  dataFlowEvents?: DataFlowEventList | undefined;
+  category?: string | undefined;
+  artifactGuardPolicies?: ArtifactGuardPolicies | undefined;
+  processes?: ProcessList | undefined;
+  policyViolationSummary?: PolicyViolationSummary | undefined;
+  vulnerability?: Vulnerability | undefined;
+  iamDetails?: GoogleCloudSecuritycenterV1IamDetails | undefined;
+  muteInitiator?: string | undefined;
+  application?: Application | undefined;
+  muteUpdateTime?: string | undefined;
+  containers?: ContainerList | undefined;
+  securityMarks?: SecurityMarks | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  agentAnomaly?: AgentAnomaly | undefined;
+  ipRules?: IpRules | undefined;
+  cloudArmor?: CloudArmor | undefined;
+  kernelRootkit?: KernelRootkit | undefined;
+  resourceName?: string | undefined;
+  severity?: FindingSeverityEnum | (string & {}) | undefined;
+  muteInfo?: MuteInfo | undefined;
+  networks?: NetworkList | undefined;
+  loadBalancers?: LoadBalancerList | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsExternalSystemsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
+  caseCloseTime?: string | undefined;
+  externalSystemUpdateTime?: string | undefined;
+  caseSla?: string | undefined;
+  externalUid?: string | undefined;
+  caseCreateTime?: string | undefined;
+  status?: string | undefined;
+  assignees?: StringList | undefined;
+  casePriority?: string | undefined;
+  caseUri?: string | undefined;
+  ticketInfo?: TicketInfo | undefined;
 }
 export interface PatchProjectsBigQueryExportsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
 }
 export interface PatchProjectsEventThreatDetectionSettingsCustomModulesRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: EventThreatDetectionCustomModule | undefined;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
+  updateTime?: string | undefined;
 }
 export interface PatchProjectsLocationsMuteConfigsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
 }
 export interface PatchProjectsMuteConfigsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
 }
 export interface PatchProjectsNotificationConfigsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: NotificationConfig | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
+  enablementState?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | (string & {})
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | (string & {})
+    | undefined;
+  ancestorModule?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
 }
 export interface PatchProjectsSourcesFindingsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: Finding | undefined;
+  connections?: ConnectionList | undefined;
+  mute?: FindingMuteEnum | (string & {}) | undefined;
+  agentSessions?: AgentSessionList | undefined;
+  kubernetes?: Kubernetes | undefined;
+  toxicCombination?: ToxicCombination | undefined;
+  cloudDlpDataProfile?: CloudDlpDataProfile | undefined;
+  complianceDetails?: ComplianceDetails | undefined;
+  orgPolicies?: OrgPolicyList | undefined;
+  dataRetentionDeletionEvents?: DataRetentionDeletionEventList | undefined;
+  agentDataAccessEvents?: AgentDataAccessEventList | undefined;
+  contacts?: ContactDetailsMap | undefined;
+  backupDisasterRecovery?: BackupDisasterRecovery | undefined;
+  parent?: string | undefined;
+  vertexAi?: VertexAi | undefined;
+  moduleName?: string | undefined;
+  attackExposure?: AttackExposure | undefined;
+  state?: FindingStateEnum | (string & {}) | undefined;
+  cloudRun?: CloudRun | undefined;
+  compliances?: ComplianceList | undefined;
+  secret?: Secret | undefined;
+  eventTime?: string | undefined;
+  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap | undefined;
+  description?: string | undefined;
+  dataAccessEvents?: DataAccessEventList | undefined;
+  affectedResources?: AffectedResources | undefined;
+  chokepoint?: Chokepoint | undefined;
+  access?: Access | undefined;
+  findingClass?: FindingFindingClassEnum | (string & {}) | undefined;
+  groupMemberships?: GroupMembershipList | undefined;
+  externalExposure?: ExternalExposure | undefined;
+  files?: FileList | undefined;
+  iamBindings?: IamBindingList | undefined;
+  parentDisplayName?: string | undefined;
+  job?: Job | undefined;
+  aiModel?: AiModel | undefined;
+  agent?: Agent | undefined;
+  logEntries?: LogEntryList | undefined;
+  nextSteps?: string | undefined;
+  discoveredWorkload?: DiscoveredWorkload | undefined;
+  mitreAttack?: MitreAttack | undefined;
+  disk?: Node | undefined;
+  database?: Database | undefined;
+  canonicalName?: string | undefined;
+  securityPosture?: SecurityPosture | undefined;
+  notebook?: Notebook | undefined;
+  cloudDlpInspection?: CloudDlpInspection | undefined;
+  exfiltration?: Exfiltration | undefined;
+  indicator?: Indicator | undefined;
+  externalUri?: string | undefined;
+  createTime?: string | undefined;
+  dataFlowEvents?: DataFlowEventList | undefined;
+  category?: string | undefined;
+  artifactGuardPolicies?: ArtifactGuardPolicies | undefined;
+  processes?: ProcessList | undefined;
+  policyViolationSummary?: PolicyViolationSummary | undefined;
+  vulnerability?: Vulnerability | undefined;
+  iamDetails?: GoogleCloudSecuritycenterV1IamDetails | undefined;
+  muteInitiator?: string | undefined;
+  application?: Application | undefined;
+  muteUpdateTime?: string | undefined;
+  containers?: ContainerList | undefined;
+  securityMarks?: SecurityMarks | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  agentAnomaly?: AgentAnomaly | undefined;
+  ipRules?: IpRules | undefined;
+  cloudArmor?: CloudArmor | undefined;
+  kernelRootkit?: KernelRootkit | undefined;
+  resourceName?: string | undefined;
+  severity?: FindingSeverityEnum | (string & {}) | undefined;
+  muteInfo?: MuteInfo | undefined;
+  networks?: NetworkList | undefined;
+  loadBalancers?: LoadBalancerList | undefined;
 }
 export interface PatchProjectsSourcesFindingsExternalSystemsRequest {
   updateMask?: string | undefined;
   name: string;
-  /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
+  caseCloseTime?: string | undefined;
+  externalSystemUpdateTime?: string | undefined;
+  caseSla?: string | undefined;
+  externalUid?: string | undefined;
+  caseCreateTime?: string | undefined;
+  status?: string | undefined;
+  assignees?: StringList | undefined;
+  casePriority?: string | undefined;
+  caseUri?: string | undefined;
+  ticketInfo?: TicketInfo | undefined;
 }
 export interface RunAssetDiscoveryRequest {}
 export interface RunDiscoveryOrganizationsAssetsRequest {
@@ -2708,67 +3258,49 @@ export interface RunDiscoveryOrganizationsAssetsRequest {
   /** Request body */
   body?: RunAssetDiscoveryRequest | undefined;
 }
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyOrganizationsSourcesRequest {
+  resource: string;
   policy?: Policy | undefined;
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyOrganizationsSourcesRequest {
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export type SetMuteRequestMuteEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
-export interface SetMuteRequest {
-  mute?: SetMuteRequestMuteEnum | (string & {}) | undefined;
-}
 export interface SetMuteFoldersSourcesFindingsRequest {
   name: string;
-  /** Request body */
-  body?: SetMuteRequest | undefined;
+  mute?: SetMuteRequestMuteEnum | (string & {}) | undefined;
 }
 export interface SetMuteOrganizationsSourcesFindingsRequest {
   name: string;
-  /** Request body */
-  body?: SetMuteRequest | undefined;
+  mute?: SetMuteRequestMuteEnum | (string & {}) | undefined;
 }
 export interface SetMuteProjectsSourcesFindingsRequest {
   name: string;
-  /** Request body */
-  body?: SetMuteRequest | undefined;
+  mute?: SetMuteRequestMuteEnum | (string & {}) | undefined;
 }
 export type SetFindingStateRequestStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
-export interface SetFindingStateRequest {
+export interface SetStateFoldersSourcesFindingsRequest {
+  name: string;
   startTime?: string | undefined;
   state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
 }
-export interface SetStateFoldersSourcesFindingsRequest {
-  name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
-}
 export interface SetStateOrganizationsSourcesFindingsRequest {
   name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
+  startTime?: string | undefined;
+  state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
 }
 export interface SetStateProjectsSourcesFindingsRequest {
   name: string;
-  /** Request body */
-  body?: SetFindingStateRequest | undefined;
+  startTime?: string | undefined;
+  state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
 }
 export interface SimulatedResource {
   iamPolicyData?: Policy | undefined;
   resourceType?: string | undefined;
   resourceData?: DocumentMap | undefined;
 }
-export interface SimulateSecurityHealthAnalyticsCustomModuleRequest {
-  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
-  resource?: SimulatedResource | undefined;
-}
 export interface SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  resource?: SimulatedResource | undefined;
 }
 export interface SimulatedResult {
   error?: Status | undefined;
@@ -2780,21 +3312,17 @@ export interface SimulateSecurityHealthAnalyticsCustomModuleResponse {
 }
 export interface SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  resource?: SimulatedResource | undefined;
 }
 export interface SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
-  /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
-}
-export interface TestIamPermissionsRequest {
-  permissions?: StringList | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  resource?: SimulatedResource | undefined;
 }
 export interface TestIamPermissionsOrganizationsSourcesRequest {
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsResponse {
   permissions?: StringList | undefined;
@@ -2802,59 +3330,55 @@ export interface TestIamPermissionsResponse {
 export interface UpdateOrganizationSettingsOrganizationsRequest {
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: OrganizationSettings | undefined;
+  enableAssetDiscovery?: boolean | undefined;
+  assetDiscoveryConfig?: AssetDiscoveryConfig | undefined;
 }
 export interface UpdateSecurityMarksFoldersAssetsRequest {
   name: string;
   updateMask?: string | undefined;
   startTime?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
+  canonicalName?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface UpdateSecurityMarksFoldersSourcesFindingsRequest {
   startTime?: string | undefined;
   name: string;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
+  canonicalName?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsAssetsRequest {
   updateMask?: string | undefined;
   name: string;
   startTime?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
+  canonicalName?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
   updateMask?: string | undefined;
   startTime?: string | undefined;
   name: string;
-  /** Request body */
-  body?: SecurityMarks | undefined;
+  canonicalName?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface UpdateSecurityMarksProjectsAssetsRequest {
   name: string;
   startTime?: string | undefined;
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
+  canonicalName?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface UpdateSecurityMarksProjectsSourcesFindingsRequest {
   updateMask?: string | undefined;
   name: string;
   startTime?: string | undefined;
-  /** Request body */
-  body?: SecurityMarks | undefined;
-}
-export interface ValidateEventThreatDetectionCustomModuleRequest {
-  type?: string | undefined;
-  rawText?: string | undefined;
+  canonicalName?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export interface ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest {
   parent: string;
-  /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
+  type?: string | undefined;
+  rawText?: string | undefined;
 }
 export interface Position {
   columnNumber?: number | undefined;
@@ -2875,13 +3399,13 @@ export interface ValidateEventThreatDetectionCustomModuleResponse {
 }
 export interface ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest {
   parent: string;
-  /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
+  type?: string | undefined;
+  rawText?: string | undefined;
 }
 export interface ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest {
   parent: string;
-  /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
+  type?: string | undefined;
+  rawText?: string | undefined;
 }
 export type BatchCreateOrganizationsResourceValueConfigsError =
   | NotFound
@@ -2898,11 +3422,11 @@ export const batchCreateOrganizationsResourceValueConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4995,
-    __c156,
-    3,
+    4930,
+    __c154,
+    2,
   ) as any as S.Schema<BatchCreateOrganizationsResourceValueConfigsRequest>,
-  output: __S(4996, __c156, 4) as any as S.Schema<BatchCreateResourceValueConfigsResponse>,
+  output: __S(4931, __c154, 3) as any as S.Schema<BatchCreateResourceValueConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -2932,8 +3456,8 @@ export const bulkMuteFoldersFindings: API.OperationMethod<
   BulkMuteFoldersFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<BulkMuteFoldersFindingsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<Operation>,
+  input: __S(5440, __c170, 0) as any as S.Schema<BulkMuteFoldersFindingsRequest>,
+  output: __S(5504, __c172, 0) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -2963,8 +3487,8 @@ export const bulkMuteOrganizationsFindings: API.OperationMethod<
   BulkMuteOrganizationsFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<BulkMuteOrganizationsFindingsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<Operation>,
+  input: __S(5952, __c186, 0) as any as S.Schema<BulkMuteOrganizationsFindingsRequest>,
+  output: __S(5504, __c172, 0) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -2994,8 +3518,8 @@ export const bulkMuteProjectsFindings: API.OperationMethod<
   BulkMuteProjectsFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<BulkMuteProjectsFindingsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<Operation>,
+  input: __S(6432, __c201, 0) as any as S.Schema<BulkMuteProjectsFindingsRequest>,
+  output: __S(5504, __c172, 0) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -3223,7 +3747,7 @@ export const createOrganizationsBigQueryExports: API.OperationMethod<
   CreateOrganizationsBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CreateOrganizationsBigQueryExportsRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<CreateOrganizationsBigQueryExportsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GoogleCloudSecuritycenterV1BigQueryExport>,
   errors: [
     NotFound,
@@ -3255,8 +3779,8 @@ export const createOrganizationsEventThreatDetectionSettingsCustomModules: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2912,
-    __c91,
+    2848,
+    __c89,
     0,
   ) as any as S.Schema<CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<EventThreatDetectionCustomModule>,
@@ -3289,7 +3813,7 @@ export const createOrganizationsMuteConfigs: API.OperationMethod<
   CreateOrganizationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateOrganizationsMuteConfigsRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateOrganizationsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -3320,7 +3844,7 @@ export const createOrganizationsNotificationConfigs: API.OperationMethod<
   CreateOrganizationsNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<CreateOrganizationsNotificationConfigsRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<CreateOrganizationsNotificationConfigsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<NotificationConfig>,
   errors: [
     NotFound,
@@ -3352,8 +3876,8 @@ export const createOrganizationsSecurityHealthAnalyticsSettingsCustomModules: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
-    __c103,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
@@ -3390,8 +3914,8 @@ export const createOrganizationsSources: API.OperationMethod<
   CreateOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<CreateOrganizationsSourcesRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<Source>,
+  input: __S(3264, __c102, 0) as any as S.Schema<CreateOrganizationsSourcesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Source>,
   errors: [
     NotFound,
     Forbidden,
@@ -3421,8 +3945,8 @@ export const createOrganizationsSourcesFindings: API.OperationMethod<
   CreateOrganizationsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<CreateOrganizationsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  input: __S(3328, __c104, 0) as any as S.Schema<CreateOrganizationsSourcesFindingsRequest>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -3452,7 +3976,7 @@ export const createProjectsBigQueryExports: API.OperationMethod<
   CreateProjectsBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<CreateProjectsBigQueryExportsRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<CreateProjectsBigQueryExportsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GoogleCloudSecuritycenterV1BigQueryExport>,
   errors: [
     NotFound,
@@ -3484,8 +4008,8 @@ export const createProjectsEventThreatDetectionSettingsCustomModules: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3712,
-    __c116,
+    3648,
+    __c114,
     0,
   ) as any as S.Schema<CreateProjectsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<EventThreatDetectionCustomModule>,
@@ -3518,7 +4042,7 @@ export const createProjectsMuteConfigs: API.OperationMethod<
   CreateProjectsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<CreateProjectsMuteConfigsRequest>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateProjectsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -3549,7 +4073,7 @@ export const createProjectsNotificationConfigs: API.OperationMethod<
   CreateProjectsNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<CreateProjectsNotificationConfigsRequest>,
+  input: __S(3712, __c116, 0) as any as S.Schema<CreateProjectsNotificationConfigsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<NotificationConfig>,
   errors: [
     NotFound,
@@ -3581,8 +4105,8 @@ export const createProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3808,
-    __c119,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
@@ -3619,7 +4143,7 @@ export const deleteFoldersBigQueryExports: API.OperationMethod<
   DeleteFoldersBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<DeleteFoldersBigQueryExportsRequest>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DeleteFoldersBigQueryExportsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3651,8 +4175,8 @@ export const deleteFoldersEventThreatDetectionSettingsCustomModules: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3872,
-    __c121,
+    3808,
+    __c119,
     0,
   ) as any as S.Schema<DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
@@ -3685,7 +4209,7 @@ export const deleteFoldersLocationsMuteConfigs: API.OperationMethod<
   DeleteFoldersLocationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<DeleteFoldersLocationsMuteConfigsRequest>,
+  input: __S(3840, __c120, 0) as any as S.Schema<DeleteFoldersLocationsMuteConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3716,7 +4240,7 @@ export const deleteFoldersMuteConfigs: API.OperationMethod<
   DeleteFoldersMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<DeleteFoldersMuteConfigsRequest>,
+  input: __S(3872, __c121, 0) as any as S.Schema<DeleteFoldersMuteConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3747,7 +4271,7 @@ export const deleteFoldersNotificationConfigs: API.OperationMethod<
   DeleteFoldersNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<DeleteFoldersNotificationConfigsRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<DeleteFoldersNotificationConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3779,8 +4303,8 @@ export const deleteFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4000,
-    __c125,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
@@ -3813,7 +4337,7 @@ export const deleteOrganizationsBigQueryExports: API.OperationMethod<
   DeleteOrganizationsBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<DeleteOrganizationsBigQueryExportsRequest>,
+  input: __S(3968, __c124, 0) as any as S.Schema<DeleteOrganizationsBigQueryExportsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3845,8 +4369,8 @@ export const deleteOrganizationsEventThreatDetectionSettingsCustomModules: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4064,
-    __c127,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
@@ -3879,7 +4403,7 @@ export const deleteOrganizationsLocationsMuteConfigs: API.OperationMethod<
   DeleteOrganizationsLocationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<DeleteOrganizationsLocationsMuteConfigsRequest>,
+  input: __S(4032, __c126, 0) as any as S.Schema<DeleteOrganizationsLocationsMuteConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3910,7 +4434,7 @@ export const deleteOrganizationsMuteConfigs: API.OperationMethod<
   DeleteOrganizationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<DeleteOrganizationsMuteConfigsRequest>,
+  input: __S(4064, __c127, 0) as any as S.Schema<DeleteOrganizationsMuteConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3941,7 +4465,7 @@ export const deleteOrganizationsNotificationConfigs: API.OperationMethod<
   DeleteOrganizationsNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<DeleteOrganizationsNotificationConfigsRequest>,
+  input: __S(4096, __c128, 0) as any as S.Schema<DeleteOrganizationsNotificationConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -3972,7 +4496,7 @@ export const deleteOrganizationsOperations: API.OperationMethod<
   DeleteOrganizationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<DeleteOrganizationsOperationsRequest>,
+  input: __S(4128, __c129, 0) as any as S.Schema<DeleteOrganizationsOperationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -4003,7 +4527,7 @@ export const deleteOrganizationsResourceValueConfigs: API.OperationMethod<
   DeleteOrganizationsResourceValueConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<DeleteOrganizationsResourceValueConfigsRequest>,
+  input: __S(4160, __c130, 0) as any as S.Schema<DeleteOrganizationsResourceValueConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -4035,8 +4559,8 @@ export const deleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4256,
-    __c133,
+    4192,
+    __c131,
     0,
   ) as any as S.Schema<DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
@@ -4069,7 +4593,7 @@ export const deleteProjectsBigQueryExports: API.OperationMethod<
   DeleteProjectsBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<DeleteProjectsBigQueryExportsRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<DeleteProjectsBigQueryExportsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -4101,8 +4625,8 @@ export const deleteProjectsEventThreatDetectionSettingsCustomModules: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4256,
+    __c133,
     0,
   ) as any as S.Schema<DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
@@ -4135,7 +4659,7 @@ export const deleteProjectsLocationsMuteConfigs: API.OperationMethod<
   DeleteProjectsLocationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<DeleteProjectsLocationsMuteConfigsRequest>,
+  input: __S(4288, __c134, 0) as any as S.Schema<DeleteProjectsLocationsMuteConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -4166,7 +4690,7 @@ export const deleteProjectsMuteConfigs: API.OperationMethod<
   DeleteProjectsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<DeleteProjectsMuteConfigsRequest>,
+  input: __S(4320, __c135, 0) as any as S.Schema<DeleteProjectsMuteConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -4197,7 +4721,7 @@ export const deleteProjectsNotificationConfigs: API.OperationMethod<
   DeleteProjectsNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<DeleteProjectsNotificationConfigsRequest>,
+  input: __S(4352, __c136, 0) as any as S.Schema<DeleteProjectsNotificationConfigsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
@@ -4229,8 +4753,8 @@ export const deleteProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4448,
-    __c139,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<Empty>,
@@ -4261,7 +4785,7 @@ export const getFoldersBigQueryExports: API.OperationMethod<
   GetFoldersBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetFoldersBigQueryExportsRequest>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetFoldersBigQueryExportsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GoogleCloudSecuritycenterV1BigQueryExport>,
   errors: [
     NotFound,
@@ -4289,8 +4813,8 @@ export const getFoldersEventThreatDetectionSettingsCustomModules: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4512,
-    __c141,
+    4448,
+    __c139,
     0,
   ) as any as S.Schema<GetFoldersEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<EventThreatDetectionCustomModule>,
@@ -4320,11 +4844,11 @@ export const getFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4544,
-    __c142,
+    4480,
+    __c140,
     0,
   ) as any as S.Schema<GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest>,
-  output: __S(4576, __c143, 0) as any as S.Schema<EffectiveEventThreatDetectionCustomModule>,
+  output: __S(4512, __c141, 0) as any as S.Schema<EffectiveEventThreatDetectionCustomModule>,
   errors: [
     NotFound,
     Forbidden,
@@ -4350,7 +4874,7 @@ export const getFoldersLocationsMuteConfigs: API.OperationMethod<
   GetFoldersLocationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetFoldersLocationsMuteConfigsRequest>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetFoldersLocationsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -4377,7 +4901,7 @@ export const getFoldersMuteConfigs: API.OperationMethod<
   GetFoldersMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetFoldersMuteConfigsRequest>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetFoldersMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -4404,7 +4928,7 @@ export const getFoldersNotificationConfigs: API.OperationMethod<
   GetFoldersNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetFoldersNotificationConfigsRequest>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetFoldersNotificationConfigsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<NotificationConfig>,
   errors: [
     NotFound,
@@ -4432,8 +4956,8 @@ export const getFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
@@ -4467,13 +4991,13 @@ export const getFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4736,
-    __c148,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    4768,
-    __c149,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule>,
   errors: [
@@ -4503,8 +5027,8 @@ export const getIamPolicyOrganizationsSources: API.OperationMethod<
   GetIamPolicyOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4802, __c150, 2) as any as S.Schema<GetIamPolicyOrganizationsSourcesRequest>,
-  output: __S(4838, __c151, 6) as any as S.Schema<Policy>,
+  input: __S(4737, __c148, 1) as any as S.Schema<GetIamPolicyOrganizationsSourcesRequest>,
+  output: __S(4774, __c149, 6) as any as S.Schema<Policy>,
   errors: [
     NotFound,
     Forbidden,
@@ -4532,7 +5056,7 @@ export const getOrganizationsBigQueryExports: API.OperationMethod<
   GetOrganizationsBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetOrganizationsBigQueryExportsRequest>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetOrganizationsBigQueryExportsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GoogleCloudSecuritycenterV1BigQueryExport>,
   errors: [
     NotFound,
@@ -4559,8 +5083,8 @@ export const getOrganizationSettingsOrganizations: API.OperationMethod<
   GetOrganizationSettingsOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetOrganizationSettingsOrganizationsRequest>,
-  output: __S(4929, __c154, 1) as any as S.Schema<OrganizationSettings>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetOrganizationSettingsOrganizationsRequest>,
+  output: __S(4865, __c152, 1) as any as S.Schema<OrganizationSettings>,
   errors: [
     NotFound,
     Forbidden,
@@ -4587,8 +5111,8 @@ export const getOrganizationsEventThreatDetectionSettingsCustomModules: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4960,
-    __c155,
+    4896,
+    __c153,
     0,
   ) as any as S.Schema<GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<EventThreatDetectionCustomModule>,
@@ -4618,11 +5142,11 @@ export const getOrganizationsEventThreatDetectionSettingsEffectiveCustomModules:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5152,
-    __c161,
+    5088,
+    __c159,
     0,
   ) as any as S.Schema<GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest>,
-  output: __S(4576, __c143, 0) as any as S.Schema<EffectiveEventThreatDetectionCustomModule>,
+  output: __S(4512, __c141, 0) as any as S.Schema<EffectiveEventThreatDetectionCustomModule>,
   errors: [
     NotFound,
     Forbidden,
@@ -4648,7 +5172,7 @@ export const getOrganizationsLocationsMuteConfigs: API.OperationMethod<
   GetOrganizationsLocationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetOrganizationsLocationsMuteConfigsRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetOrganizationsLocationsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -4675,7 +5199,7 @@ export const getOrganizationsMuteConfigs: API.OperationMethod<
   GetOrganizationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetOrganizationsMuteConfigsRequest>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetOrganizationsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -4702,7 +5226,7 @@ export const getOrganizationsNotificationConfigs: API.OperationMethod<
   GetOrganizationsNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetOrganizationsNotificationConfigsRequest>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetOrganizationsNotificationConfigsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<NotificationConfig>,
   errors: [
     NotFound,
@@ -4729,8 +5253,8 @@ export const getOrganizationsOperations: API.OperationMethod<
   GetOrganizationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<GetOrganizationsOperationsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<Operation>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetOrganizationsOperationsRequest>,
+  output: __S(5504, __c172, 0) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -4756,8 +5280,8 @@ export const getOrganizationsResourceValueConfigs: API.OperationMethod<
   GetOrganizationsResourceValueConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetOrganizationsResourceValueConfigsRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetOrganizationsResourceValueConfigsRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig>,
   errors: [
     NotFound,
     Forbidden,
@@ -4784,8 +5308,8 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5344,
-    __c167,
+    5280,
+    __c165,
     0,
   ) as any as S.Schema<GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
@@ -4819,13 +5343,13 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModul
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5376,
-    __c168,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    4768,
-    __c149,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule>,
   errors: [
@@ -4853,8 +5377,8 @@ export const getOrganizationsSimulations: API.OperationMethod<
   GetOrganizationsSimulationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<GetOrganizationsSimulationsRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<Simulation>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetOrganizationsSimulationsRequest>,
+  output: __S(5345, __c167, 1) as any as S.Schema<Simulation>,
   errors: [
     NotFound,
     Forbidden,
@@ -4880,8 +5404,8 @@ export const getOrganizationsSimulationsValuedResources: API.OperationMethod<
   GetOrganizationsSimulationsValuedResourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetOrganizationsSimulationsValuedResourcesRequest>,
-  output: __S(5472, __c171, 0) as any as S.Schema<ValuedResource>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetOrganizationsSimulationsValuedResourcesRequest>,
+  output: __S(5408, __c169, 0) as any as S.Schema<ValuedResource>,
   errors: [
     NotFound,
     Forbidden,
@@ -4907,8 +5431,8 @@ export const getOrganizationsSources: API.OperationMethod<
   GetOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetOrganizationsSourcesRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<Source>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetOrganizationsSourcesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Source>,
   errors: [
     NotFound,
     Forbidden,
@@ -4934,7 +5458,7 @@ export const getProjectsBigQueryExports: API.OperationMethod<
   GetProjectsBigQueryExportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetProjectsBigQueryExportsRequest>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetProjectsBigQueryExportsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GoogleCloudSecuritycenterV1BigQueryExport>,
   errors: [
     NotFound,
@@ -4962,8 +5486,8 @@ export const getProjectsEventThreatDetectionSettingsCustomModules: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5728,
-    __c179,
+    5632,
+    __c176,
     0,
   ) as any as S.Schema<GetProjectsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<EventThreatDetectionCustomModule>,
@@ -4993,11 +5517,11 @@ export const getProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5760,
-    __c180,
+    5664,
+    __c177,
     0,
   ) as any as S.Schema<GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest>,
-  output: __S(4576, __c143, 0) as any as S.Schema<EffectiveEventThreatDetectionCustomModule>,
+  output: __S(4512, __c141, 0) as any as S.Schema<EffectiveEventThreatDetectionCustomModule>,
   errors: [
     NotFound,
     Forbidden,
@@ -5023,7 +5547,7 @@ export const getProjectsLocationsMuteConfigs: API.OperationMethod<
   GetProjectsLocationsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetProjectsLocationsMuteConfigsRequest>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetProjectsLocationsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -5050,7 +5574,7 @@ export const getProjectsMuteConfigs: API.OperationMethod<
   GetProjectsMuteConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetProjectsMuteConfigsRequest>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetProjectsMuteConfigsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GoogleCloudSecuritycenterV1MuteConfig>,
   errors: [
     NotFound,
@@ -5077,7 +5601,7 @@ export const getProjectsNotificationConfigs: API.OperationMethod<
   GetProjectsNotificationConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetProjectsNotificationConfigsRequest>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetProjectsNotificationConfigsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<NotificationConfig>,
   errors: [
     NotFound,
@@ -5105,8 +5629,8 @@ export const getProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5888,
-    __c184,
+    5792,
+    __c181,
     0,
   ) as any as S.Schema<GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
@@ -5140,13 +5664,13 @@ export const getProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5920,
-    __c185,
+    5824,
+    __c182,
     0,
   ) as any as S.Schema<GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    4768,
-    __c149,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule>,
   errors: [
@@ -5176,8 +5700,8 @@ export const groupFoldersAssets: API.OperationMethod<
   GroupFoldersAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GroupFoldersAssetsRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<GroupAssetsResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GroupFoldersAssetsRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<GroupAssetsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5207,8 +5731,8 @@ export const groupFoldersSourcesFindings: API.OperationMethod<
   GroupFoldersSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GroupFoldersSourcesFindingsRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<GroupFindingsResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GroupFoldersSourcesFindingsRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<GroupFindingsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5238,8 +5762,8 @@ export const groupOrganizationsAssets: API.OperationMethod<
   GroupOrganizationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GroupOrganizationsAssetsRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<GroupAssetsResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GroupOrganizationsAssetsRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<GroupAssetsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5269,8 +5793,8 @@ export const groupOrganizationsSourcesFindings: API.OperationMethod<
   GroupOrganizationsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GroupOrganizationsSourcesFindingsRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<GroupFindingsResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GroupOrganizationsSourcesFindingsRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<GroupFindingsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5300,8 +5824,8 @@ export const groupProjectsAssets: API.OperationMethod<
   GroupProjectsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GroupProjectsAssetsRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<GroupAssetsResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GroupProjectsAssetsRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<GroupAssetsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5331,8 +5855,8 @@ export const groupProjectsSourcesFindings: API.OperationMethod<
   GroupProjectsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GroupProjectsSourcesFindingsRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<GroupFindingsResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GroupProjectsSourcesFindingsRequest>,
+  output: __S(6016, __c188, 0) as any as S.Schema<GroupFindingsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5362,13 +5886,13 @@ export const listDescendantFoldersEventThreatDetectionSettingsCustomModules: API
   ListDescendantEventThreatDetectionCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6272,
-    __c196,
+    6176,
+    __c193,
     0,
   ) as any as S.Schema<ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(
-    6305,
-    __c197,
+    6209,
+    __c194,
     1,
   ) as any as S.Schema<ListDescendantEventThreatDetectionCustomModulesResponse>,
   errors: [
@@ -5399,13 +5923,13 @@ export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules: 
   ListDescendantSecurityHealthAnalyticsCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6336,
-    __c198,
+    6240,
+    __c195,
     0,
   ) as any as S.Schema<ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
-    6368,
-    __c199,
+    6272,
+    __c196,
     0,
   ) as any as S.Schema<ListDescendantSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
@@ -5436,13 +5960,13 @@ export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModule
   ListDescendantEventThreatDetectionCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6432,
-    __c201,
+    6336,
+    __c198,
     0,
   ) as any as S.Schema<ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(
-    6305,
-    __c197,
+    6209,
+    __c194,
     1,
   ) as any as S.Schema<ListDescendantEventThreatDetectionCustomModulesResponse>,
   errors: [
@@ -5473,13 +5997,13 @@ export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomMod
   ListDescendantSecurityHealthAnalyticsCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6464,
-    __c202,
+    6368,
+    __c199,
     0,
   ) as any as S.Schema<ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
-    6368,
-    __c199,
+    6272,
+    __c196,
     0,
   ) as any as S.Schema<ListDescendantSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
@@ -5510,13 +6034,13 @@ export const listDescendantProjectsEventThreatDetectionSettingsCustomModules: AP
   ListDescendantEventThreatDetectionCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6496,
-    __c203,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest>,
   output: __S(
-    6305,
-    __c197,
+    6209,
+    __c194,
     1,
   ) as any as S.Schema<ListDescendantEventThreatDetectionCustomModulesResponse>,
   errors: [
@@ -5547,13 +6071,13 @@ export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules:
   ListDescendantSecurityHealthAnalyticsCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6560,
-    __c205,
+    6464,
+    __c202,
     0,
   ) as any as S.Schema<ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
-    6368,
-    __c199,
+    6272,
+    __c196,
     0,
   ) as any as S.Schema<ListDescendantSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
@@ -5583,8 +6107,8 @@ export const listFoldersAssets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAssetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<ListFoldersAssetsRequest>,
-  output: __S(6661, __c208, 5) as any as S.Schema<ListAssetsResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ListFoldersAssetsRequest>,
+  output: __S(6565, __c205, 5) as any as S.Schema<ListAssetsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5612,8 +6136,8 @@ export const listFoldersBigQueryExports: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBigQueryExportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<ListFoldersBigQueryExportsRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<ListBigQueryExportsResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<ListFoldersBigQueryExportsRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<ListBigQueryExportsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5642,11 +6166,11 @@ export const listFoldersEventThreatDetectionSettingsCustomModules: API.Paginated
   ListEventThreatDetectionCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6752,
-    __c211,
+    6656,
+    __c208,
     0,
   ) as any as S.Schema<ListFoldersEventThreatDetectionSettingsCustomModulesRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<ListEventThreatDetectionCustomModulesResponse>,
+  output: __S(6209, __c194, 1) as any as S.Schema<ListEventThreatDetectionCustomModulesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5675,13 +6199,13 @@ export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.
   ListEffectiveEventThreatDetectionCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6784,
-    __c212,
+    6688,
+    __c209,
     0,
   ) as any as S.Schema<ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    6817,
-    __c213,
+    6721,
+    __c210,
     1,
   ) as any as S.Schema<ListEffectiveEventThreatDetectionCustomModulesResponse>,
   errors: [
@@ -5711,8 +6235,8 @@ export const listFoldersMuteConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMuteConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<ListFoldersMuteConfigsRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<ListMuteConfigsResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<ListFoldersMuteConfigsRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<ListMuteConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5740,8 +6264,8 @@ export const listFoldersNotificationConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListNotificationConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<ListFoldersNotificationConfigsRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<ListNotificationConfigsResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<ListFoldersNotificationConfigsRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<ListNotificationConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5770,11 +6294,11 @@ export const listFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Pagina
   ListSecurityHealthAnalyticsCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    6976,
-    __c218,
+    6880,
+    __c215,
     0,
   ) as any as S.Schema<ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest>,
-  output: __S(7008, __c219, 0) as any as S.Schema<ListSecurityHealthAnalyticsCustomModulesResponse>,
+  output: __S(6912, __c216, 0) as any as S.Schema<ListSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5803,13 +6327,13 @@ export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: A
   ListEffectiveSecurityHealthAnalyticsCustomModulesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    7040,
-    __c220,
+    6944,
+    __c217,
     0,
   ) as any as S.Schema<ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    7073,
-    __c221,
+    6977,
+    __c218,
     1,
   ) as any as S.Schema<ListEffectiveSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
@@ -5839,8 +6363,8 @@ export const listFoldersSources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<ListFoldersSourcesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<ListSourcesResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<ListFoldersSourcesRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<ListSourcesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5898,7 +6422,7 @@ export const listOrganizationsAssets: API.PaginatedOperationMethod<
   ListAssetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListOrganizationsAssetsRequest>,
-  output: __S(6661, __c208, 5) as any as S.Schema<ListAssetsResponse>,
+  output: __S(6565, __c205, 5) as any as S.Schema<ListAssetsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5956,7 +6480,7 @@ export const listOrganizationsBigQueryExports: API.PaginatedOperationMethod<
   ListBigQueryExportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ListOrganizationsBigQueryExportsRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<ListBigQueryExportsResponse>,
+  output: __S(6625, __c207, 1) as any as S.Schema<ListBigQueryExportsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -5989,7 +6513,7 @@ export const listOrganizationsEventThreatDetectionSettingsCustomModules: API.Pag
     __c8,
     0,
   ) as any as S.Schema<ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<ListEventThreatDetectionCustomModulesResponse>,
+  output: __S(6209, __c194, 1) as any as S.Schema<ListEventThreatDetectionCustomModulesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6023,8 +6547,8 @@ export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules
     0,
   ) as any as S.Schema<ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    6817,
-    __c213,
+    6721,
+    __c210,
     1,
   ) as any as S.Schema<ListEffectiveEventThreatDetectionCustomModulesResponse>,
   errors: [
@@ -6055,7 +6579,7 @@ export const listOrganizationsMuteConfigs: API.PaginatedOperationMethod<
   ListMuteConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListOrganizationsMuteConfigsRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<ListMuteConfigsResponse>,
+  output: __S(6785, __c212, 1) as any as S.Schema<ListMuteConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6084,7 +6608,7 @@ export const listOrganizationsNotificationConfigs: API.PaginatedOperationMethod<
   ListNotificationConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListOrganizationsNotificationConfigsRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<ListNotificationConfigsResponse>,
+  output: __S(6849, __c214, 1) as any as S.Schema<ListNotificationConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6175,7 +6699,7 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.
     __c16,
     0,
   ) as any as S.Schema<ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
-  output: __S(7008, __c219, 0) as any as S.Schema<ListSecurityHealthAnalyticsCustomModulesResponse>,
+  output: __S(6912, __c216, 0) as any as S.Schema<ListSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6209,8 +6733,8 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModu
     0,
   ) as any as S.Schema<ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    7073,
-    __c221,
+    6977,
+    __c218,
     1,
   ) as any as S.Schema<ListEffectiveSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
@@ -6398,7 +6922,7 @@ export const listOrganizationsSources: API.PaginatedOperationMethod<
   ListSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListOrganizationsSourcesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<ListSourcesResponse>,
+  output: __S(7041, __c220, 1) as any as S.Schema<ListSourcesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6485,7 +7009,7 @@ export const listProjectsAssets: API.PaginatedOperationMethod<
   ListAssetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListProjectsAssetsRequest>,
-  output: __S(6661, __c208, 5) as any as S.Schema<ListAssetsResponse>,
+  output: __S(6565, __c205, 5) as any as S.Schema<ListAssetsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6514,7 +7038,7 @@ export const listProjectsBigQueryExports: API.PaginatedOperationMethod<
   ListBigQueryExportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListProjectsBigQueryExportsRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<ListBigQueryExportsResponse>,
+  output: __S(6625, __c207, 1) as any as S.Schema<ListBigQueryExportsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6547,7 +7071,7 @@ export const listProjectsEventThreatDetectionSettingsCustomModules: API.Paginate
     __c31,
     0,
   ) as any as S.Schema<ListProjectsEventThreatDetectionSettingsCustomModulesRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<ListEventThreatDetectionCustomModulesResponse>,
+  output: __S(6209, __c194, 1) as any as S.Schema<ListEventThreatDetectionCustomModulesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6581,8 +7105,8 @@ export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules: API
     0,
   ) as any as S.Schema<ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    6817,
-    __c213,
+    6721,
+    __c210,
     1,
   ) as any as S.Schema<ListEffectiveEventThreatDetectionCustomModulesResponse>,
   errors: [
@@ -6613,7 +7137,7 @@ export const listProjectsMuteConfigs: API.PaginatedOperationMethod<
   ListMuteConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListProjectsMuteConfigsRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<ListMuteConfigsResponse>,
+  output: __S(6785, __c212, 1) as any as S.Schema<ListMuteConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6642,7 +7166,7 @@ export const listProjectsNotificationConfigs: API.PaginatedOperationMethod<
   ListNotificationConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListProjectsNotificationConfigsRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<ListNotificationConfigsResponse>,
+  output: __S(6849, __c214, 1) as any as S.Schema<ListNotificationConfigsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6675,7 +7199,7 @@ export const listProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Pagin
     __c35,
     0,
   ) as any as S.Schema<ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
-  output: __S(7008, __c219, 0) as any as S.Schema<ListSecurityHealthAnalyticsCustomModulesResponse>,
+  output: __S(6912, __c216, 0) as any as S.Schema<ListSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6709,8 +7233,8 @@ export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: 
     0,
   ) as any as S.Schema<ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest>,
   output: __S(
-    7073,
-    __c221,
+    6977,
+    __c218,
     1,
   ) as any as S.Schema<ListEffectiveSecurityHealthAnalyticsCustomModulesResponse>,
   errors: [
@@ -6741,7 +7265,7 @@ export const listProjectsSources: API.PaginatedOperationMethod<
   ListSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListProjectsSourcesRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<ListSourcesResponse>,
+  output: __S(7041, __c220, 1) as any as S.Schema<ListSourcesResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -6998,7 +7522,7 @@ export const patchFoldersSourcesFindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<PatchFoldersSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7029,7 +7553,7 @@ export const patchFoldersSourcesFindingsExternalSystems: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<PatchFoldersSourcesFindingsExternalSystemsRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>,
+  output: __S(3361, __c105, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>,
   errors: [
     NotFound,
     Forbidden,
@@ -7219,7 +7743,7 @@ export const patchOrganizationsResourceValueConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<PatchOrganizationsResourceValueConfigsRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig>,
+  output: __S(5057, __c158, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ResourceValueConfig>,
   errors: [
     NotFound,
     Forbidden,
@@ -7289,7 +7813,7 @@ export const patchOrganizationsSources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<PatchOrganizationsSourcesRequest>,
-  output: __S(3360, __c105, 0) as any as S.Schema<Source>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Source>,
   errors: [
     NotFound,
     Forbidden,
@@ -7320,7 +7844,7 @@ export const patchOrganizationsSourcesFindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<PatchOrganizationsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7355,7 +7879,7 @@ export const patchOrganizationsSourcesFindingsExternalSystems: API.OperationMeth
     __c60,
     0,
   ) as any as S.Schema<PatchOrganizationsSourcesFindingsExternalSystemsRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>,
+  output: __S(3361, __c105, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>,
   errors: [
     NotFound,
     Forbidden,
@@ -7584,7 +8108,7 @@ export const patchProjectsSourcesFindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7615,7 +8139,7 @@ export const patchProjectsSourcesFindingsExternalSystems: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<PatchProjectsSourcesFindingsExternalSystemsRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>,
+  output: __S(3361, __c105, 1) as any as S.Schema<GoogleCloudSecuritycenterV1ExternalSystem>,
   errors: [
     NotFound,
     Forbidden,
@@ -7646,7 +8170,7 @@ export const runDiscoveryOrganizationsAssets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<RunDiscoveryOrganizationsAssetsRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<Operation>,
+  output: __S(5504, __c172, 0) as any as S.Schema<Operation>,
   errors: [
     NotFound,
     Forbidden,
@@ -7676,8 +8200,8 @@ export const setIamPolicyOrganizationsSources: API.OperationMethod<
   SetIamPolicyOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2369, __c74, 1) as any as S.Schema<SetIamPolicyOrganizationsSourcesRequest>,
-  output: __S(4838, __c151, 6) as any as S.Schema<Policy>,
+  input: __S(2368, __c74, 0) as any as S.Schema<SetIamPolicyOrganizationsSourcesRequest>,
+  output: __S(4774, __c149, 6) as any as S.Schema<Policy>,
   errors: [
     NotFound,
     Forbidden,
@@ -7708,7 +8232,7 @@ export const setMuteFoldersSourcesFindings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<SetMuteFoldersSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7738,8 +8262,8 @@ export const setMuteOrganizationsSourcesFindings: API.OperationMethod<
   SetMuteOrganizationsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<SetMuteOrganizationsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  input: __S(2432, __c76, 0) as any as S.Schema<SetMuteOrganizationsSourcesFindingsRequest>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7769,8 +8293,8 @@ export const setMuteProjectsSourcesFindings: API.OperationMethod<
   SetMuteProjectsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<SetMuteProjectsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  input: __S(2496, __c78, 0) as any as S.Schema<SetMuteProjectsSourcesFindingsRequest>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7800,8 +8324,8 @@ export const setStateFoldersSourcesFindings: API.OperationMethod<
   SetStateFoldersSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<SetStateFoldersSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  input: __S(2528, __c79, 0) as any as S.Schema<SetStateFoldersSourcesFindingsRequest>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7831,8 +8355,8 @@ export const setStateOrganizationsSourcesFindings: API.OperationMethod<
   SetStateOrganizationsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<SetStateOrganizationsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  input: __S(2560, __c80, 0) as any as S.Schema<SetStateOrganizationsSourcesFindingsRequest>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7862,8 +8386,8 @@ export const setStateProjectsSourcesFindings: API.OperationMethod<
   SetStateProjectsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<SetStateProjectsSourcesFindingsRequest>,
-  output: __S(3602, __c112, 18) as any as S.Schema<Finding>,
+  input: __S(2592, __c81, 0) as any as S.Schema<SetStateProjectsSourcesFindingsRequest>,
+  output: __S(3538, __c110, 18) as any as S.Schema<Finding>,
   errors: [
     NotFound,
     Forbidden,
@@ -7894,14 +8418,14 @@ export const simulateFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
-    2723,
-    __c85,
-    3,
+    2658,
+    __c83,
+    2,
   ) as any as S.Schema<SimulateSecurityHealthAnalyticsCustomModuleResponse>,
   errors: [
     NotFound,
@@ -7933,14 +8457,14 @@ export const simulateOrganizationsSecurityHealthAnalyticsSettingsCustomModules: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2752,
-    __c86,
+    2688,
+    __c84,
     0,
   ) as any as S.Schema<SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
-    2723,
-    __c85,
-    3,
+    2658,
+    __c83,
+    2,
   ) as any as S.Schema<SimulateSecurityHealthAnalyticsCustomModuleResponse>,
   errors: [
     NotFound,
@@ -7972,14 +8496,14 @@ export const simulateProjectsSecurityHealthAnalyticsSettingsCustomModules: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2720,
+    __c85,
     0,
   ) as any as S.Schema<SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest>,
   output: __S(
-    2723,
-    __c85,
-    3,
+    2658,
+    __c83,
+    2,
   ) as any as S.Schema<SimulateSecurityHealthAnalyticsCustomModuleResponse>,
   errors: [
     NotFound,
@@ -8010,8 +8534,8 @@ export const testIamPermissionsOrganizationsSources: API.OperationMethod<
   TestIamPermissionsOrganizationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2817, __c88, 1) as any as S.Schema<TestIamPermissionsOrganizationsSourcesRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsOrganizationsSourcesRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -8041,8 +8565,8 @@ export const updateOrganizationSettingsOrganizations: API.OperationMethod<
   UpdateOrganizationSettingsOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<UpdateOrganizationSettingsOrganizationsRequest>,
-  output: __S(4929, __c154, 1) as any as S.Schema<OrganizationSettings>,
+  input: __S(2784, __c87, 0) as any as S.Schema<UpdateOrganizationSettingsOrganizationsRequest>,
+  output: __S(4865, __c152, 1) as any as S.Schema<OrganizationSettings>,
   errors: [
     NotFound,
     Forbidden,
@@ -8072,8 +8596,8 @@ export const updateSecurityMarksFoldersAssets: API.OperationMethod<
   UpdateSecurityMarksFoldersAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<UpdateSecurityMarksFoldersAssetsRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<SecurityMarks>,
+  input: __S(2816, __c88, 0) as any as S.Schema<UpdateSecurityMarksFoldersAssetsRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SecurityMarks>,
   errors: [
     NotFound,
     Forbidden,
@@ -8103,8 +8627,8 @@ export const updateSecurityMarksFoldersSourcesFindings: API.OperationMethod<
   UpdateSecurityMarksFoldersSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<UpdateSecurityMarksFoldersSourcesFindingsRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<SecurityMarks>,
+  input: __S(2880, __c90, 0) as any as S.Schema<UpdateSecurityMarksFoldersSourcesFindingsRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SecurityMarks>,
   errors: [
     NotFound,
     Forbidden,
@@ -8134,8 +8658,8 @@ export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<
   UpdateSecurityMarksOrganizationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<UpdateSecurityMarksOrganizationsAssetsRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<SecurityMarks>,
+  input: __S(2912, __c91, 0) as any as S.Schema<UpdateSecurityMarksOrganizationsAssetsRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SecurityMarks>,
   errors: [
     NotFound,
     Forbidden,
@@ -8166,11 +8690,11 @@ export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c94,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<UpdateSecurityMarksOrganizationsSourcesFindingsRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<SecurityMarks>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SecurityMarks>,
   errors: [
     NotFound,
     Forbidden,
@@ -8200,8 +8724,8 @@ export const updateSecurityMarksProjectsAssets: API.OperationMethod<
   UpdateSecurityMarksProjectsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<UpdateSecurityMarksProjectsAssetsRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<SecurityMarks>,
+  input: __S(2976, __c93, 0) as any as S.Schema<UpdateSecurityMarksProjectsAssetsRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SecurityMarks>,
   errors: [
     NotFound,
     Forbidden,
@@ -8231,8 +8755,8 @@ export const updateSecurityMarksProjectsSourcesFindings: API.OperationMethod<
   UpdateSecurityMarksProjectsSourcesFindingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<UpdateSecurityMarksProjectsSourcesFindingsRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<SecurityMarks>,
+  input: __S(3008, __c94, 0) as any as S.Schema<UpdateSecurityMarksProjectsSourcesFindingsRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SecurityMarks>,
   errors: [
     NotFound,
     Forbidden,
@@ -8263,11 +8787,11 @@ export const validateCustomModuleFoldersEventThreatDetectionSettings: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest>,
-  output: __S(3141, __c98, 5) as any as S.Schema<ValidateEventThreatDetectionCustomModuleResponse>,
+  output: __S(3076, __c96, 4) as any as S.Schema<ValidateEventThreatDetectionCustomModuleResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -8298,11 +8822,11 @@ export const validateCustomModuleOrganizationsEventThreatDetectionSettings: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3168,
-    __c99,
+    3104,
+    __c97,
     0,
   ) as any as S.Schema<ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest>,
-  output: __S(3141, __c98, 5) as any as S.Schema<ValidateEventThreatDetectionCustomModuleResponse>,
+  output: __S(3076, __c96, 4) as any as S.Schema<ValidateEventThreatDetectionCustomModuleResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -8333,11 +8857,11 @@ export const validateCustomModuleProjectsEventThreatDetectionSettings: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3200,
-    __c100,
+    3136,
+    __c98,
     0,
   ) as any as S.Schema<ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest>,
-  output: __S(3141, __c98, 5) as any as S.Schema<ValidateEventThreatDetectionCustomModuleResponse>,
+  output: __S(3076, __c96, 4) as any as S.Schema<ValidateEventThreatDetectionCustomModuleResponse>,
   errors: [
     NotFound,
     Forbidden,
@@ -8404,11 +8928,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          developerOwners: S.optional(__S(3496, __c109, 8)),
-          criticality: S.optional(__S(3527, __c110, 7)),
-          environment: S.optional(__S(3527, __c110, 7)),
-          businessOwners: S.optional(__S(3496, __c109, 8)),
-          operatorOwners: S.optional(__S(3496, __c109, 8)),
+          developerOwners: S.optional(__S(3432, __c107, 8)),
+          criticality: S.optional(__S(3463, __c108, 7)),
+          environment: S.optional(__S(3463, __c108, 7)),
+          businessOwners: S.optional(__S(3432, __c107, 8)),
+          operatorOwners: S.optional(__S(3432, __c107, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceApplicationAttributes" });
     case 1:
@@ -8472,7 +8996,7 @@ function __c3(j: number): any {
           subscription: S.optional(__S(105, __c3, 9)),
           managementGroups: S.optional(__S(106, __c3, 10)),
           resourceGroup: S.optional(__S(102, __c3, 6)),
-          tenant: S.optional(__S(3536, __c110, 16)),
+          tenant: S.optional(__S(3472, __c108, 16)),
         }),
       ).annotate({ identifier: "AzureMetadata" });
     case 12:
@@ -8490,12 +9014,12 @@ function __c3(j: number): any {
           location: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
-          folders: S.optional(__S(6625, __c207, 1)),
+          folders: S.optional(__S(6529, __c204, 1)),
           azureMetadata: S.optional(__S(107, __c3, 11)),
           projectDisplayName: S.optional(S.String),
-          adcApplicationTemplate: S.optional(__S(3616, __c113, 0)),
+          adcApplicationTemplate: S.optional(__S(3552, __c111, 0)),
           parentName: S.optional(S.String),
-          adcSharedTemplate: S.optional(__S(3616, __c113, 0)),
+          adcSharedTemplate: S.optional(__S(3552, __c111, 0)),
           organization: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -8503,7 +9027,7 @@ function __c3(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          finding: S.optional(__S(3602, __c112, 18)),
+          finding: S.optional(__S(3538, __c110, 18)),
           stateChange: S.optional(S.String),
           resource: S.optional(__S(108, __c3, 12)),
         }),
@@ -8578,7 +9102,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(5088, __c159, 0)),
+          labels: S.optional(__S(5024, __c157, 0)),
           description: S.optional(S.String),
           type: S.optional(S.String),
           uuid: S.optional(S.String),
@@ -8741,11 +9265,11 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsOperationsRequest" });
     case 1:
-      return S.Array(__S(5600, __c175, 0));
+      return S.Array(__S(5504, __c172, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(5056, __c158, 0)),
+          unreachable: S.optional(__S(4992, __c156, 0)),
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(385, __c12, 1)),
         }),
@@ -8772,7 +9296,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          resourceValueConfigs: S.optional(__S(5024, __c157, 0)),
+          resourceValueConfigs: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "ListResourceValueConfigsResponse" });
   }
@@ -8784,7 +9308,15 @@ function __c14(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           bigQueryExportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          dataset: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          principal: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8899,7 +9431,7 @@ function __c19(j: number): any {
 function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5472, __c171, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -9035,7 +9567,16 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          config: S.optional(__S(5472, __c171, 0)),
+          ancestorModule: S.optional(S.String),
+          lastEditor: S.optional(S.String),
+          description: S.optional(S.String),
+          enablementState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9052,7 +9593,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          config: S.optional(__S(5568, __c174, 0)),
+          config: S.optional(__S(5472, __c171, 0)),
           ancestorModule: S.optional(S.String),
           lastEditor: S.optional(S.String),
           description: S.optional(S.String),
@@ -9266,7 +9807,15 @@ function __c39(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           muteConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9302,7 +9851,14 @@ function __c41(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          dataset: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          principal: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9320,7 +9876,15 @@ function __c42(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          config: S.optional(__S(5472, __c171, 0)),
+          ancestorModule: S.optional(S.String),
+          lastEditor: S.optional(S.String),
+          description: S.optional(S.String),
+          enablementState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9338,7 +9902,14 @@ function __c43(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9356,7 +9927,14 @@ function __c44(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9374,7 +9952,11 @@ function __c45(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          streamingConfig: S.optional(__S(1664, __c52, 0)),
+          description: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9392,7 +9974,13 @@ function __c46(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          enablementState: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          ancestorModule: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          lastEditor: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9410,7 +9998,78 @@ function __c47(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
+          connections: S.optional(__S(3393, __c106, 1)),
+          mute: S.optional(S.String),
+          agentSessions: S.optional(__S(3395, __c106, 3)),
+          kubernetes: S.optional(__S(3414, __c106, 22)),
+          toxicCombination: S.optional(__S(3415, __c106, 23)),
+          cloudDlpDataProfile: S.optional(__S(3419, __c106, 27)),
+          complianceDetails: S.optional(__S(3426, __c107, 2)),
+          orgPolicies: S.optional(__S(3553, __c111, 1)),
+          dataRetentionDeletionEvents: S.optional(__S(3428, __c107, 4)),
+          agentDataAccessEvents: S.optional(__S(3430, __c107, 6)),
+          contacts: S.optional(__S(3434, __c107, 10)),
+          backupDisasterRecovery: S.optional(__S(3435, __c107, 11)),
+          parent: S.optional(S.String),
+          vertexAi: S.optional(__S(3440, __c107, 16)),
+          moduleName: S.optional(S.String),
+          attackExposure: S.optional(__S(3441, __c107, 17)),
+          state: S.optional(S.String),
+          cloudRun: S.optional(__S(3442, __c107, 18)),
+          compliances: S.optional(__S(3444, __c107, 20)),
+          secret: S.optional(__S(3448, __c107, 24)),
+          eventTime: S.optional(S.String),
+          externalSystems: S.optional(__S(3449, __c107, 25)),
+          description: S.optional(S.String),
+          dataAccessEvents: S.optional(__S(3451, __c107, 27)),
+          affectedResources: S.optional(__S(3452, __c107, 28)),
+          chokepoint: S.optional(__S(3453, __c107, 29)),
+          access: S.optional(__S(3457, __c108, 1)),
+          findingClass: S.optional(S.String),
+          groupMemberships: S.optional(__S(3459, __c108, 3)),
+          externalExposure: S.optional(__S(3462, __c108, 6)),
+          files: S.optional(__S(3467, __c108, 11)),
+          iamBindings: S.optional(__S(3469, __c108, 13)),
+          parentDisplayName: S.optional(S.String),
+          job: S.optional(__S(3470, __c108, 14)),
+          aiModel: S.optional(__S(3471, __c108, 15)),
+          agent: S.optional(__S(3472, __c108, 16)),
+          logEntries: S.optional(__S(3475, __c108, 19)),
+          nextSteps: S.optional(S.String),
+          discoveredWorkload: S.optional(__S(3476, __c108, 20)),
+          mitreAttack: S.optional(__S(3477, __c108, 21)),
+          disk: S.optional(__S(3552, __c111, 0)),
+          database: S.optional(__S(3478, __c108, 22)),
+          canonicalName: S.optional(S.String),
+          securityPosture: S.optional(__S(3481, __c108, 25)),
+          notebook: S.optional(__S(3482, __c108, 26)),
+          cloudDlpInspection: S.optional(__S(3483, __c108, 27)),
+          exfiltration: S.optional(__S(3486, __c108, 30)),
+          indicator: S.optional(__S(3493, __c109, 5)),
+          externalUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          dataFlowEvents: S.optional(__S(3495, __c109, 7)),
+          category: S.optional(S.String),
+          artifactGuardPolicies: S.optional(__S(3498, __c109, 10)),
+          processes: S.optional(__S(3502, __c109, 14)),
+          policyViolationSummary: S.optional(__S(3503, __c109, 15)),
+          vulnerability: S.optional(__S(3512, __c109, 24)),
+          iamDetails: S.optional(__S(3515, __c109, 27)),
+          muteInitiator: S.optional(S.String),
+          application: S.optional(__S(3516, __c109, 28)),
+          muteUpdateTime: S.optional(S.String),
+          containers: S.optional(__S(3399, __c106, 7)),
+          securityMarks: S.optional(__S(3584, __c112, 0)),
+          sourceProperties: S.optional(__S(5472, __c171, 0)),
+          agentAnomaly: S.optional(__S(3521, __c110, 1)),
+          ipRules: S.optional(__S(3527, __c110, 7)),
+          cloudArmor: S.optional(__S(3532, __c110, 12)),
+          kernelRootkit: S.optional(__S(3533, __c110, 13)),
+          resourceName: S.optional(S.String),
+          severity: S.optional(S.String),
+          muteInfo: S.optional(__S(3537, __c110, 17)),
+          networks: S.optional(__S(3553, __c111, 1)),
+          loadBalancers: S.optional(__S(3553, __c111, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9428,7 +10087,16 @@ function __c48(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3425, __c107, 1).pipe(T.HttpBody())),
+          caseCloseTime: S.optional(S.String),
+          externalSystemUpdateTime: S.optional(S.String),
+          caseSla: S.optional(S.String),
+          externalUid: S.optional(S.String),
+          caseCreateTime: S.optional(S.String),
+          status: S.optional(S.String),
+          assignees: S.optional(__S(4992, __c156, 0)),
+          casePriority: S.optional(S.String),
+          caseUri: S.optional(S.String),
+          ticketInfo: S.optional(__S(3360, __c105, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9446,7 +10114,14 @@ function __c49(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          dataset: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          principal: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9464,7 +10139,15 @@ function __c50(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          config: S.optional(__S(5472, __c171, 0)),
+          ancestorModule: S.optional(S.String),
+          lastEditor: S.optional(S.String),
+          description: S.optional(S.String),
+          enablementState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9484,7 +10167,12 @@ function __c51(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           configId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          streamingConfig: S.optional(__S(1664, __c52, 0)),
+          description: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9523,7 +10211,14 @@ function __c53(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9541,7 +10236,14 @@ function __c54(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9559,7 +10261,11 @@ function __c55(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          streamingConfig: S.optional(__S(1664, __c52, 0)),
+          description: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9577,7 +10283,16 @@ function __c56(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(5121, __c160, 1).pipe(T.HttpBody())),
+          sensitiveDataProtectionMapping: S.optional(__S(5056, __c158, 0)),
+          cloudProvider: S.optional(S.String),
+          scope: S.optional(S.String),
+          resourceLabelsSelector: S.optional(__S(5024, __c157, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          tagValues: S.optional(__S(4992, __c156, 0)),
+          resourceValue: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9595,7 +10310,13 @@ function __c57(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          enablementState: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          ancestorModule: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          lastEditor: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9615,7 +10336,9 @@ function __c58(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          canonicalName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9633,7 +10356,78 @@ function __c59(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
+          connections: S.optional(__S(3393, __c106, 1)),
+          mute: S.optional(S.String),
+          agentSessions: S.optional(__S(3395, __c106, 3)),
+          kubernetes: S.optional(__S(3414, __c106, 22)),
+          toxicCombination: S.optional(__S(3415, __c106, 23)),
+          cloudDlpDataProfile: S.optional(__S(3419, __c106, 27)),
+          complianceDetails: S.optional(__S(3426, __c107, 2)),
+          orgPolicies: S.optional(__S(3553, __c111, 1)),
+          dataRetentionDeletionEvents: S.optional(__S(3428, __c107, 4)),
+          agentDataAccessEvents: S.optional(__S(3430, __c107, 6)),
+          contacts: S.optional(__S(3434, __c107, 10)),
+          backupDisasterRecovery: S.optional(__S(3435, __c107, 11)),
+          parent: S.optional(S.String),
+          vertexAi: S.optional(__S(3440, __c107, 16)),
+          moduleName: S.optional(S.String),
+          attackExposure: S.optional(__S(3441, __c107, 17)),
+          state: S.optional(S.String),
+          cloudRun: S.optional(__S(3442, __c107, 18)),
+          compliances: S.optional(__S(3444, __c107, 20)),
+          secret: S.optional(__S(3448, __c107, 24)),
+          eventTime: S.optional(S.String),
+          externalSystems: S.optional(__S(3449, __c107, 25)),
+          description: S.optional(S.String),
+          dataAccessEvents: S.optional(__S(3451, __c107, 27)),
+          affectedResources: S.optional(__S(3452, __c107, 28)),
+          chokepoint: S.optional(__S(3453, __c107, 29)),
+          access: S.optional(__S(3457, __c108, 1)),
+          findingClass: S.optional(S.String),
+          groupMemberships: S.optional(__S(3459, __c108, 3)),
+          externalExposure: S.optional(__S(3462, __c108, 6)),
+          files: S.optional(__S(3467, __c108, 11)),
+          iamBindings: S.optional(__S(3469, __c108, 13)),
+          parentDisplayName: S.optional(S.String),
+          job: S.optional(__S(3470, __c108, 14)),
+          aiModel: S.optional(__S(3471, __c108, 15)),
+          agent: S.optional(__S(3472, __c108, 16)),
+          logEntries: S.optional(__S(3475, __c108, 19)),
+          nextSteps: S.optional(S.String),
+          discoveredWorkload: S.optional(__S(3476, __c108, 20)),
+          mitreAttack: S.optional(__S(3477, __c108, 21)),
+          disk: S.optional(__S(3552, __c111, 0)),
+          database: S.optional(__S(3478, __c108, 22)),
+          canonicalName: S.optional(S.String),
+          securityPosture: S.optional(__S(3481, __c108, 25)),
+          notebook: S.optional(__S(3482, __c108, 26)),
+          cloudDlpInspection: S.optional(__S(3483, __c108, 27)),
+          exfiltration: S.optional(__S(3486, __c108, 30)),
+          indicator: S.optional(__S(3493, __c109, 5)),
+          externalUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          dataFlowEvents: S.optional(__S(3495, __c109, 7)),
+          category: S.optional(S.String),
+          artifactGuardPolicies: S.optional(__S(3498, __c109, 10)),
+          processes: S.optional(__S(3502, __c109, 14)),
+          policyViolationSummary: S.optional(__S(3503, __c109, 15)),
+          vulnerability: S.optional(__S(3512, __c109, 24)),
+          iamDetails: S.optional(__S(3515, __c109, 27)),
+          muteInitiator: S.optional(S.String),
+          application: S.optional(__S(3516, __c109, 28)),
+          muteUpdateTime: S.optional(S.String),
+          containers: S.optional(__S(3399, __c106, 7)),
+          securityMarks: S.optional(__S(3584, __c112, 0)),
+          sourceProperties: S.optional(__S(5472, __c171, 0)),
+          agentAnomaly: S.optional(__S(3521, __c110, 1)),
+          ipRules: S.optional(__S(3527, __c110, 7)),
+          cloudArmor: S.optional(__S(3532, __c110, 12)),
+          kernelRootkit: S.optional(__S(3533, __c110, 13)),
+          resourceName: S.optional(S.String),
+          severity: S.optional(S.String),
+          muteInfo: S.optional(__S(3537, __c110, 17)),
+          networks: S.optional(__S(3553, __c111, 1)),
+          loadBalancers: S.optional(__S(3553, __c111, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9651,7 +10445,16 @@ function __c60(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3425, __c107, 1).pipe(T.HttpBody())),
+          caseCloseTime: S.optional(S.String),
+          externalSystemUpdateTime: S.optional(S.String),
+          caseSla: S.optional(S.String),
+          externalUid: S.optional(S.String),
+          caseCreateTime: S.optional(S.String),
+          status: S.optional(S.String),
+          assignees: S.optional(__S(4992, __c156, 0)),
+          casePriority: S.optional(S.String),
+          caseUri: S.optional(S.String),
+          ticketInfo: S.optional(__S(3360, __c105, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9669,7 +10472,14 @@ function __c61(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          dataset: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          principal: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9687,7 +10497,15 @@ function __c62(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          config: S.optional(__S(5472, __c171, 0)),
+          ancestorModule: S.optional(S.String),
+          lastEditor: S.optional(S.String),
+          description: S.optional(S.String),
+          enablementState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9704,7 +10522,14 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          enablementState: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          ancestorModule: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          lastEditor: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9750,7 +10575,7 @@ function __c65(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(5056, __c158, 0)),
+          resourceTypes: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceSelector" });
     case 4:
@@ -9790,7 +10615,14 @@ function __c67(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9808,7 +10640,14 @@ function __c68(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9826,7 +10665,11 @@ function __c69(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          streamingConfig: S.optional(__S(1664, __c52, 0)),
+          description: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9844,7 +10687,13 @@ function __c70(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          enablementState: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          ancestorModule: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          lastEditor: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9864,7 +10713,78 @@ function __c71(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
+          connections: S.optional(__S(3393, __c106, 1)),
+          mute: S.optional(S.String),
+          agentSessions: S.optional(__S(3395, __c106, 3)),
+          kubernetes: S.optional(__S(3414, __c106, 22)),
+          toxicCombination: S.optional(__S(3415, __c106, 23)),
+          cloudDlpDataProfile: S.optional(__S(3419, __c106, 27)),
+          complianceDetails: S.optional(__S(3426, __c107, 2)),
+          orgPolicies: S.optional(__S(3553, __c111, 1)),
+          dataRetentionDeletionEvents: S.optional(__S(3428, __c107, 4)),
+          agentDataAccessEvents: S.optional(__S(3430, __c107, 6)),
+          contacts: S.optional(__S(3434, __c107, 10)),
+          backupDisasterRecovery: S.optional(__S(3435, __c107, 11)),
+          parent: S.optional(S.String),
+          vertexAi: S.optional(__S(3440, __c107, 16)),
+          moduleName: S.optional(S.String),
+          attackExposure: S.optional(__S(3441, __c107, 17)),
+          state: S.optional(S.String),
+          cloudRun: S.optional(__S(3442, __c107, 18)),
+          compliances: S.optional(__S(3444, __c107, 20)),
+          secret: S.optional(__S(3448, __c107, 24)),
+          eventTime: S.optional(S.String),
+          externalSystems: S.optional(__S(3449, __c107, 25)),
+          description: S.optional(S.String),
+          dataAccessEvents: S.optional(__S(3451, __c107, 27)),
+          affectedResources: S.optional(__S(3452, __c107, 28)),
+          chokepoint: S.optional(__S(3453, __c107, 29)),
+          access: S.optional(__S(3457, __c108, 1)),
+          findingClass: S.optional(S.String),
+          groupMemberships: S.optional(__S(3459, __c108, 3)),
+          externalExposure: S.optional(__S(3462, __c108, 6)),
+          files: S.optional(__S(3467, __c108, 11)),
+          iamBindings: S.optional(__S(3469, __c108, 13)),
+          parentDisplayName: S.optional(S.String),
+          job: S.optional(__S(3470, __c108, 14)),
+          aiModel: S.optional(__S(3471, __c108, 15)),
+          agent: S.optional(__S(3472, __c108, 16)),
+          logEntries: S.optional(__S(3475, __c108, 19)),
+          nextSteps: S.optional(S.String),
+          discoveredWorkload: S.optional(__S(3476, __c108, 20)),
+          mitreAttack: S.optional(__S(3477, __c108, 21)),
+          disk: S.optional(__S(3552, __c111, 0)),
+          database: S.optional(__S(3478, __c108, 22)),
+          canonicalName: S.optional(S.String),
+          securityPosture: S.optional(__S(3481, __c108, 25)),
+          notebook: S.optional(__S(3482, __c108, 26)),
+          cloudDlpInspection: S.optional(__S(3483, __c108, 27)),
+          exfiltration: S.optional(__S(3486, __c108, 30)),
+          indicator: S.optional(__S(3493, __c109, 5)),
+          externalUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          dataFlowEvents: S.optional(__S(3495, __c109, 7)),
+          category: S.optional(S.String),
+          artifactGuardPolicies: S.optional(__S(3498, __c109, 10)),
+          processes: S.optional(__S(3502, __c109, 14)),
+          policyViolationSummary: S.optional(__S(3503, __c109, 15)),
+          vulnerability: S.optional(__S(3512, __c109, 24)),
+          iamDetails: S.optional(__S(3515, __c109, 27)),
+          muteInitiator: S.optional(S.String),
+          application: S.optional(__S(3516, __c109, 28)),
+          muteUpdateTime: S.optional(S.String),
+          containers: S.optional(__S(3399, __c106, 7)),
+          securityMarks: S.optional(__S(3584, __c112, 0)),
+          sourceProperties: S.optional(__S(5472, __c171, 0)),
+          agentAnomaly: S.optional(__S(3521, __c110, 1)),
+          ipRules: S.optional(__S(3527, __c110, 7)),
+          cloudArmor: S.optional(__S(3532, __c110, 12)),
+          kernelRootkit: S.optional(__S(3533, __c110, 13)),
+          resourceName: S.optional(S.String),
+          severity: S.optional(S.String),
+          muteInfo: S.optional(__S(3537, __c110, 17)),
+          networks: S.optional(__S(3553, __c111, 1)),
+          loadBalancers: S.optional(__S(3553, __c111, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9882,7 +10802,16 @@ function __c72(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3425, __c107, 1).pipe(T.HttpBody())),
+          caseCloseTime: S.optional(S.String),
+          externalSystemUpdateTime: S.optional(S.String),
+          caseSla: S.optional(S.String),
+          externalUid: S.optional(S.String),
+          caseCreateTime: S.optional(S.String),
+          status: S.optional(S.String),
+          assignees: S.optional(__S(4992, __c156, 0)),
+          casePriority: S.optional(S.String),
+          caseUri: S.optional(S.String),
+          ticketInfo: S.optional(__S(3360, __c105, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -9915,15 +10844,9 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(4838, __c151, 6)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(4774, __c149, 6)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9940,7 +10863,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
+          mute: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9956,18 +10879,8 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mute: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetMuteRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
+          mute: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9978,14 +10891,22 @@ function __c77(j: number): any {
       ).annotate({ identifier: "SetMuteOrganizationsSourcesFindingsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           bigQueryExportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          dataset: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          principal: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9996,13 +10917,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsBigQueryExportsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
+          mute: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10013,13 +10934,14 @@ function __c79(j: number): any {
       ).annotate({ identifier: "SetMuteProjectsSourcesFindingsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
+          startTime: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10030,24 +10952,14 @@ function __c80(j: number): any {
       ).annotate({ identifier: "SetStateFoldersSourcesFindingsRequest" });
   }
 }
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetFindingStateRequest" });
-  }
-}
-function __c82(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
+          startTime: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10058,13 +10970,14 @@ function __c82(j: number): any {
       ).annotate({ identifier: "SetStateOrganizationsSourcesFindingsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
+          startTime: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10075,13 +10988,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SetStateProjectsSourcesFindingsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          resource: S.optional(__S(2656, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10094,46 +11008,40 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamPolicyData: S.optional(__S(4838, __c151, 6)),
+          iamPolicyData: S.optional(__S(4774, __c149, 6)),
           resourceType: S.optional(S.String),
-          resourceData: S.optional(__S(5568, __c174, 0)),
+          resourceData: S.optional(__S(5472, __c171, 0)),
         }),
       ).annotate({ identifier: "SimulatedResource" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customConfig: S.optional(__S(2084, __c65, 4)),
-          resource: S.optional(__S(2720, __c85, 0)),
+          error: S.optional(__S(5537, __c173, 1)),
+          noViolation: S.optional(__S(32, __c1, 0)),
+          finding: S.optional(__S(3538, __c110, 18)),
         }),
-      ).annotate({ identifier: "SimulateSecurityHealthAnalyticsCustomModuleRequest" });
+      ).annotate({ identifier: "SimulatedResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(5633, __c176, 1)),
-          noViolation: S.optional(__S(32, __c1, 0)),
-          finding: S.optional(__S(3602, __c112, 18)),
-        }),
-      ).annotate({ identifier: "SimulatedResult" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.optional(__S(2722, __c85, 2)),
+          result: S.optional(__S(2657, __c83, 1)),
         }),
       ).annotate({ identifier: "SimulateSecurityHealthAnalyticsCustomModuleResponse" });
   }
 }
-function __c86(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          resource: S.optional(__S(2656, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10146,13 +11054,14 @@ function __c86(j: number): any {
       });
   }
 }
-function __c87(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          resource: S.optional(__S(2656, __c83, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10165,19 +11074,13 @@ function __c87(j: number): any {
       });
   }
 }
-function __c88(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(5056, __c158, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2816, __c88, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(4992, __c156, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10186,16 +11089,23 @@ function __c88(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsOrganizationsSourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(4992, __c156, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4929, __c154, 1).pipe(T.HttpBody())),
+          enableAssetDiscovery: S.optional(S.Boolean),
+          assetDiscoveryConfig: S.optional(__S(4864, __c152, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10206,7 +11116,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationSettingsOrganizationsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10214,7 +11124,8 @@ function __c90(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
+          canonicalName: S.optional(S.String),
+          marks: S.optional(__S(5024, __c157, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10225,13 +11136,22 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UpdateSecurityMarksFoldersAssetsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          config: S.optional(__S(5472, __c171, 0)),
+          ancestorModule: S.optional(S.String),
+          lastEditor: S.optional(S.String),
+          description: S.optional(S.String),
+          enablementState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10244,7 +11164,7 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10252,7 +11172,8 @@ function __c92(j: number): any {
           startTime: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
+          canonicalName: S.optional(S.String),
+          marks: S.optional(__S(5024, __c157, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10263,7 +11184,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UpdateSecurityMarksFoldersSourcesFindingsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10271,7 +11192,8 @@ function __c93(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
+          canonicalName: S.optional(S.String),
+          marks: S.optional(__S(5024, __c157, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10282,7 +11204,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateSecurityMarksOrganizationsAssetsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10290,7 +11212,8 @@ function __c94(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
+          canonicalName: S.optional(S.String),
+          marks: S.optional(__S(5024, __c157, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10301,7 +11224,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdateSecurityMarksOrganizationsSourcesFindingsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10309,7 +11232,8 @@ function __c95(j: number): any {
           name: S.String.pipe(T.Label()),
           startTime: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
+          canonicalName: S.optional(S.String),
+          marks: S.optional(__S(5024, __c157, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10320,7 +11244,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdateSecurityMarksProjectsAssetsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10328,7 +11252,8 @@ function __c96(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           startTime: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3648, __c114, 0).pipe(T.HttpBody())),
+          canonicalName: S.optional(S.String),
+          marks: S.optional(__S(5024, __c157, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10339,13 +11264,14 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateSecurityMarksProjectsSourcesFindingsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          rawText: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10356,54 +11282,48 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          rawText: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ValidateEventThreatDetectionCustomModuleRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           columnNumber: S.optional(S.Number),
           lineNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Position" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          start: S.optional(__S(3137, __c98, 1)),
+          start: S.optional(__S(3072, __c96, 0)),
           fieldPath: S.optional(S.String),
-          end: S.optional(__S(3137, __c98, 1)),
+          end: S.optional(__S(3072, __c96, 0)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomModuleValidationError" });
+    case 2:
+      return S.Array(__S(3073, __c96, 1));
     case 3:
-      return S.Array(__S(3138, __c98, 2));
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(3074, __c96, 2)),
+        }),
+      ).annotate({ identifier: "CustomModuleValidationErrors" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(3139, __c98, 3)),
-        }),
-      ).annotate({ identifier: "CustomModuleValidationErrors" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(3140, __c98, 4)),
+          errors: S.optional(__S(3075, __c96, 3)),
         }),
       ).annotate({ identifier: "ValidateEventThreatDetectionCustomModuleResponse" });
   }
 }
-function __c99(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          rawText: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10416,13 +11336,14 @@ function __c99(j: number): any {
       });
   }
 }
-function __c100(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3136, __c98, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          rawText: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10433,14 +11354,22 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           muteConfigId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10451,14 +11380,19 @@ function __c101(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsMuteConfigsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           configId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          streamingConfig: S.optional(__S(1664, __c52, 0)),
+          description: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10469,13 +11403,20 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsNotificationConfigsRequest" });
   }
 }
-function __c103(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          enablementState: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          ancestorModule: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          lastEditor: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10488,13 +11429,16 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3360, __c105, 0).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          canonicalName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10505,7 +11449,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsSourcesRequest" });
   }
 }
-function __c105(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10518,14 +11462,85 @@ function __c105(j: number): any {
       ).annotate({ identifier: "Source" });
   }
 }
-function __c106(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           findingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3602, __c112, 18).pipe(T.HttpBody())),
+          connections: S.optional(__S(3393, __c106, 1)),
+          mute: S.optional(S.String),
+          agentSessions: S.optional(__S(3395, __c106, 3)),
+          kubernetes: S.optional(__S(3414, __c106, 22)),
+          toxicCombination: S.optional(__S(3415, __c106, 23)),
+          cloudDlpDataProfile: S.optional(__S(3419, __c106, 27)),
+          complianceDetails: S.optional(__S(3426, __c107, 2)),
+          orgPolicies: S.optional(__S(3553, __c111, 1)),
+          dataRetentionDeletionEvents: S.optional(__S(3428, __c107, 4)),
+          agentDataAccessEvents: S.optional(__S(3430, __c107, 6)),
+          contacts: S.optional(__S(3434, __c107, 10)),
+          backupDisasterRecovery: S.optional(__S(3435, __c107, 11)),
+          vertexAi: S.optional(__S(3440, __c107, 16)),
+          moduleName: S.optional(S.String),
+          attackExposure: S.optional(__S(3441, __c107, 17)),
+          state: S.optional(S.String),
+          cloudRun: S.optional(__S(3442, __c107, 18)),
+          compliances: S.optional(__S(3444, __c107, 20)),
+          secret: S.optional(__S(3448, __c107, 24)),
+          eventTime: S.optional(S.String),
+          externalSystems: S.optional(__S(3449, __c107, 25)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          dataAccessEvents: S.optional(__S(3451, __c107, 27)),
+          affectedResources: S.optional(__S(3452, __c107, 28)),
+          chokepoint: S.optional(__S(3453, __c107, 29)),
+          access: S.optional(__S(3457, __c108, 1)),
+          findingClass: S.optional(S.String),
+          groupMemberships: S.optional(__S(3459, __c108, 3)),
+          externalExposure: S.optional(__S(3462, __c108, 6)),
+          files: S.optional(__S(3467, __c108, 11)),
+          iamBindings: S.optional(__S(3469, __c108, 13)),
+          parentDisplayName: S.optional(S.String),
+          job: S.optional(__S(3470, __c108, 14)),
+          aiModel: S.optional(__S(3471, __c108, 15)),
+          agent: S.optional(__S(3472, __c108, 16)),
+          logEntries: S.optional(__S(3475, __c108, 19)),
+          nextSteps: S.optional(S.String),
+          discoveredWorkload: S.optional(__S(3476, __c108, 20)),
+          mitreAttack: S.optional(__S(3477, __c108, 21)),
+          disk: S.optional(__S(3552, __c111, 0)),
+          database: S.optional(__S(3478, __c108, 22)),
+          canonicalName: S.optional(S.String),
+          securityPosture: S.optional(__S(3481, __c108, 25)),
+          notebook: S.optional(__S(3482, __c108, 26)),
+          cloudDlpInspection: S.optional(__S(3483, __c108, 27)),
+          exfiltration: S.optional(__S(3486, __c108, 30)),
+          indicator: S.optional(__S(3493, __c109, 5)),
+          externalUri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          dataFlowEvents: S.optional(__S(3495, __c109, 7)),
+          category: S.optional(S.String),
+          artifactGuardPolicies: S.optional(__S(3498, __c109, 10)),
+          processes: S.optional(__S(3502, __c109, 14)),
+          policyViolationSummary: S.optional(__S(3503, __c109, 15)),
+          vulnerability: S.optional(__S(3512, __c109, 24)),
+          iamDetails: S.optional(__S(3515, __c109, 27)),
+          muteInitiator: S.optional(S.String),
+          application: S.optional(__S(3516, __c109, 28)),
+          muteUpdateTime: S.optional(S.String),
+          containers: S.optional(__S(3399, __c106, 7)),
+          securityMarks: S.optional(__S(3584, __c112, 0)),
+          sourceProperties: S.optional(__S(5472, __c171, 0)),
+          agentAnomaly: S.optional(__S(3521, __c110, 1)),
+          ipRules: S.optional(__S(3527, __c110, 7)),
+          cloudArmor: S.optional(__S(3532, __c110, 12)),
+          kernelRootkit: S.optional(__S(3533, __c110, 13)),
+          resourceName: S.optional(S.String),
+          severity: S.optional(S.String),
+          muteInfo: S.optional(__S(3537, __c110, 17)),
+          networks: S.optional(__S(3553, __c111, 1)),
+          loadBalancers: S.optional(__S(3553, __c111, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10536,7 +11551,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsSourcesFindingsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10558,16 +11573,16 @@ function __c107(j: number): any {
           externalUid: S.optional(S.String),
           caseCreateTime: S.optional(S.String),
           status: S.optional(S.String),
-          assignees: S.optional(__S(5056, __c158, 0)),
+          assignees: S.optional(__S(4992, __c156, 0)),
           casePriority: S.optional(S.String),
           caseUri: S.optional(S.String),
-          ticketInfo: S.optional(__S(3424, __c107, 0)),
+          ticketInfo: S.optional(__S(3360, __c105, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1ExternalSystem" });
   }
 }
-function __c108(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10580,7 +11595,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Connection" });
     case 1:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3392, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10588,7 +11603,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "AgentSession" });
     case 3:
-      return S.Array(__S(3458, __c108, 2));
+      return S.Array(__S(3394, __c106, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10597,39 +11612,39 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 5:
-      return S.Array(__S(3460, __c108, 4));
+      return S.Array(__S(3396, __c106, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(3461, __c108, 5)),
+          labels: S.optional(__S(3397, __c106, 5)),
           uri: S.optional(S.String),
           createTime: S.optional(S.String),
           imageId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Container" });
     case 7:
-      return S.Array(__S(3462, __c108, 6));
+      return S.Array(__S(3398, __c106, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          labels: S.optional(__S(3461, __c108, 5)),
-          containers: S.optional(__S(3463, __c108, 7)),
+          labels: S.optional(__S(3397, __c106, 5)),
+          containers: S.optional(__S(3399, __c106, 7)),
           ns: S.optional(S.String),
         }),
       ).annotate({ identifier: "Pod" });
     case 9:
-      return S.Array(__S(3464, __c108, 8));
+      return S.Array(__S(3400, __c106, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          nodes: S.optional(__S(3617, __c113, 1)),
+          nodes: S.optional(__S(3553, __c111, 1)),
         }),
       ).annotate({ identifier: "NodePool" });
     case 11:
-      return S.Array(__S(3466, __c108, 10));
+      return S.Array(__S(3402, __c106, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -10639,7 +11654,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Role" });
     case 13:
-      return S.Array(__S(3468, __c108, 12));
+      return S.Array(__S(3404, __c106, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -10653,11 +11668,11 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "AccessReview" });
     case 15:
-      return S.Array(__S(3470, __c108, 14));
+      return S.Array(__S(3406, __c106, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(3463, __c108, 7)),
+          containers: S.optional(__S(3399, __c106, 7)),
           ns: S.optional(S.String),
           kind: S.optional(S.String),
           group: S.optional(S.String),
@@ -10665,7 +11680,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Securitycenter_Object" });
     case 17:
-      return S.Array(__S(3472, __c108, 16));
+      return S.Array(__S(3408, __c106, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -10675,34 +11690,34 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Subject" });
     case 19:
-      return S.Array(__S(3474, __c108, 18));
+      return S.Array(__S(3410, __c106, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          subjects: S.optional(__S(3475, __c108, 19)),
+          subjects: S.optional(__S(3411, __c106, 19)),
           ns: S.optional(S.String),
           name: S.optional(S.String),
-          role: S.optional(__S(3468, __c108, 12)),
+          role: S.optional(__S(3404, __c106, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1Binding" });
     case 21:
-      return S.Array(__S(3476, __c108, 20));
+      return S.Array(__S(3412, __c106, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          pods: S.optional(__S(3465, __c108, 9)),
-          nodePools: S.optional(__S(3467, __c108, 11)),
-          nodes: S.optional(__S(3617, __c113, 1)),
-          roles: S.optional(__S(3469, __c108, 13)),
-          accessReviews: S.optional(__S(3471, __c108, 15)),
-          objects: S.optional(__S(3473, __c108, 17)),
-          bindings: S.optional(__S(3477, __c108, 21)),
+          pods: S.optional(__S(3401, __c106, 9)),
+          nodePools: S.optional(__S(3403, __c106, 11)),
+          nodes: S.optional(__S(3553, __c111, 1)),
+          roles: S.optional(__S(3405, __c106, 13)),
+          accessReviews: S.optional(__S(3407, __c106, 15)),
+          objects: S.optional(__S(3409, __c106, 17)),
+          bindings: S.optional(__S(3413, __c106, 21)),
         }),
       ).annotate({ identifier: "Kubernetes" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          relatedFindings: S.optional(__S(5056, __c158, 0)),
+          relatedFindings: S.optional(__S(4992, __c156, 0)),
           attackExposureScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ToxicCombination" });
@@ -10717,17 +11732,17 @@ function __c108(j: number): any {
         S.Struct({
           version: S.optional(S.String),
           name: S.optional(S.String),
-          sensitivityScore: S.optional(__S(3480, __c108, 24)),
+          sensitivityScore: S.optional(__S(3416, __c106, 24)),
         }),
       ).annotate({ identifier: "InfoType" });
     case 26:
-      return S.Array(__S(3481, __c108, 25));
+      return S.Array(__S(3417, __c106, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
           dataProfile: S.optional(S.String),
           parentType: S.optional(S.String),
-          infoTypes: S.optional(__S(3482, __c108, 26)),
+          infoTypes: S.optional(__S(3418, __c106, 26)),
         }),
       ).annotate({ identifier: "CloudDlpDataProfile" });
     case 28:
@@ -10738,25 +11753,25 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Control" });
     case 29:
-      return S.Array(__S(3484, __c108, 28));
+      return S.Array(__S(3420, __c106, 28));
     case 30:
       return S.Array(S.String);
     case 31:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          controls: S.optional(__S(3485, __c108, 29)),
-          category: S.optional(__S(3486, __c108, 30)),
+          controls: S.optional(__S(3421, __c106, 29)),
+          category: S.optional(__S(3422, __c106, 30)),
           displayName: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Framework" });
   }
 }
-function __c109(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3487, __c108, 31));
+      return S.Array(__S(3423, __c106, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10769,9 +11784,9 @@ function __c109(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          frameworks: S.optional(__S(3488, __c109, 0)),
-          cloudControlDeploymentNames: S.optional(__S(5056, __c158, 0)),
-          cloudControl: S.optional(__S(3489, __c109, 1)),
+          frameworks: S.optional(__S(3424, __c107, 0)),
+          cloudControlDeploymentNames: S.optional(__S(4992, __c156, 0)),
+          cloudControl: S.optional(__S(3425, __c107, 1)),
         }),
       ).annotate({ identifier: "ComplianceDetails" });
     case 3:
@@ -10785,7 +11800,7 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "DataRetentionDeletionEvent" });
     case 4:
-      return S.Array(__S(3491, __c109, 3));
+      return S.Array(__S(3427, __c107, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10796,7 +11811,7 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "AgentDataAccessEvent" });
     case 6:
-      return S.Array(__S(3493, __c109, 5));
+      return S.Array(__S(3429, __c107, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -10804,28 +11819,28 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "Contact" });
     case 8:
-      return S.Array(__S(3495, __c109, 7));
+      return S.Array(__S(3431, __c107, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          contacts: S.optional(__S(3496, __c109, 8)),
+          contacts: S.optional(__S(3432, __c107, 8)),
         }),
       ).annotate({ identifier: "ContactDetails" });
     case 10:
-      return S.Record(S.String, __S(3497, __c109, 9));
+      return S.Record(S.String, __S(3433, __c107, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           backupType: S.optional(S.String),
           host: S.optional(S.String),
-          policies: S.optional(__S(5056, __c158, 0)),
-          policyOptions: S.optional(__S(5056, __c158, 0)),
+          policies: S.optional(__S(4992, __c156, 0)),
+          policyOptions: S.optional(__S(4992, __c156, 0)),
           backupTemplate: S.optional(S.String),
           appliance: S.optional(S.String),
           profile: S.optional(S.String),
           backupCreateTime: S.optional(S.String),
           storagePool: S.optional(S.String),
-          applications: S.optional(__S(5056, __c158, 0)),
+          applications: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "BackupDisasterRecovery" });
     case 12:
@@ -10836,7 +11851,7 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "Pipeline" });
     case 13:
-      return S.Array(__S(3500, __c109, 12));
+      return S.Array(__S(3436, __c107, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -10846,12 +11861,12 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "Dataset" });
     case 15:
-      return S.Array(__S(3502, __c109, 14));
+      return S.Array(__S(3438, __c107, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          pipelines: S.optional(__S(3501, __c109, 13)),
-          datasets: S.optional(__S(3503, __c109, 15)),
+          pipelines: S.optional(__S(3437, __c107, 13)),
+          datasets: S.optional(__S(3439, __c107, 15)),
         }),
       ).annotate({ identifier: "VertexAi" });
     case 17:
@@ -10869,19 +11884,19 @@ function __c109(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          revisions: S.optional(__S(5056, __c158, 0)),
+          revisions: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "CloudRun" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          ids: S.optional(__S(5056, __c158, 0)),
+          ids: S.optional(__S(4992, __c156, 0)),
           standard: S.optional(S.String),
         }),
       ).annotate({ identifier: "Compliance" });
     case 20:
-      return S.Array(__S(3507, __c109, 19));
+      return S.Array(__S(3443, __c107, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -10905,13 +11920,13 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          filePath: S.optional(__S(3509, __c109, 21)),
-          environmentVariable: S.optional(__S(3510, __c109, 22)),
-          status: S.optional(__S(3511, __c109, 23)),
+          filePath: S.optional(__S(3445, __c107, 21)),
+          environmentVariable: S.optional(__S(3446, __c107, 22)),
+          status: S.optional(__S(3447, __c107, 23)),
         }),
       ).annotate({ identifier: "Secret" });
     case 25:
-      return S.Record(S.String, __S(3425, __c107, 1));
+      return S.Record(S.String, __S(3361, __c105, 1));
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -10922,7 +11937,7 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "DataAccessEvent" });
     case 27:
-      return S.Array(__S(3514, __c109, 26));
+      return S.Array(__S(3450, __c107, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -10932,7 +11947,7 @@ function __c109(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          relatedFindings: S.optional(__S(5056, __c158, 0)),
+          relatedFindings: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "Chokepoint" });
     case 30:
@@ -10950,19 +11965,19 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ServiceAccountDelegationInfo" });
   }
 }
-function __c110(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3519, __c109, 31));
+      return S.Array(__S(3455, __c107, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           serviceAccountKeyName: S.optional(S.String),
           methodName: S.optional(S.String),
           callerIp: S.optional(S.String),
-          callerIpGeo: S.optional(__S(3518, __c109, 30)),
+          callerIpGeo: S.optional(__S(3454, __c107, 30)),
           principalSubject: S.optional(S.String),
-          serviceAccountDelegationInfo: S.optional(__S(3520, __c110, 0)),
+          serviceAccountDelegationInfo: S.optional(__S(3456, __c108, 0)),
           userAgent: S.optional(S.String),
           serviceName: S.optional(S.String),
           userName: S.optional(S.String),
@@ -10978,7 +11993,7 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "GroupMembership" });
     case 3:
-      return S.Array(__S(3522, __c110, 2));
+      return S.Array(__S(3458, __c108, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -10987,7 +12002,7 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "HttpResponse" });
     case 5:
-      return S.Array(__S(3524, __c110, 4));
+      return S.Array(__S(3460, __c108, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -11009,7 +12024,7 @@ function __c110(j: number): any {
           privatePort: S.optional(S.String),
           exposedService: S.optional(S.String),
           publicPort: S.optional(S.String),
-          httpResponse: S.optional(__S(3525, __c110, 5)),
+          httpResponse: S.optional(__S(3461, __c108, 5)),
           networkPathInsightsGenerationTime: S.optional(S.String),
           exposedEndpoint: S.optional(S.String),
         }),
@@ -11021,7 +12036,7 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "FileOperation" });
     case 8:
-      return S.Array(__S(3527, __c110, 7));
+      return S.Array(__S(3463, __c108, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -11035,16 +12050,16 @@ function __c110(j: number): any {
           partiallyHashed: S.optional(S.Boolean),
           sha256: S.optional(S.String),
           fileLoadState: S.optional(S.String),
-          operations: S.optional(__S(3528, __c110, 8)),
+          operations: S.optional(__S(3464, __c108, 8)),
           path: S.optional(S.String),
           size: S.optional(S.String),
           hashedSize: S.optional(S.String),
-          diskPath: S.optional(__S(3529, __c110, 9)),
+          diskPath: S.optional(__S(3465, __c108, 9)),
           contents: S.optional(S.String),
         }),
       ).annotate({ identifier: "File" });
     case 11:
-      return S.Array(__S(3530, __c110, 10));
+      return S.Array(__S(3466, __c108, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -11054,7 +12069,7 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "IamBinding" });
     case 13:
-      return S.Array(__S(3532, __c110, 12));
+      return S.Array(__S(3468, __c108, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -11096,11 +12111,11 @@ function __c110(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          cloudLoggingEntry: S.optional(__S(3537, __c110, 17)),
+          cloudLoggingEntry: S.optional(__S(3473, __c108, 17)),
         }),
       ).annotate({ identifier: "LogEntry" });
     case 19:
-      return S.Array(__S(3538, __c110, 18));
+      return S.Array(__S(3474, __c108, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -11114,11 +12129,11 @@ function __c110(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          primaryTechniques: S.optional(__S(3486, __c108, 30)),
+          primaryTechniques: S.optional(__S(3422, __c106, 30)),
           version: S.optional(S.String),
-          additionalTactics: S.optional(__S(3486, __c108, 30)),
+          additionalTactics: S.optional(__S(3422, __c106, 30)),
           primaryTactic: S.optional(S.String),
-          additionalTechniques: S.optional(__S(3486, __c108, 30)),
+          additionalTechniques: S.optional(__S(3422, __c106, 30)),
         }),
       ).annotate({ identifier: "MitreAttack" });
     case 22:
@@ -11129,7 +12144,7 @@ function __c110(j: number): any {
           userName: S.optional(S.String),
           version: S.optional(S.String),
           query: S.optional(S.String),
-          grantees: S.optional(__S(5056, __c158, 0)),
+          grantees: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "Database" });
     case 23:
@@ -11141,7 +12156,7 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "PolicyDriftDetails" });
     case 24:
-      return S.Array(__S(3543, __c110, 23));
+      return S.Array(__S(3479, __c108, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -11150,7 +12165,7 @@ function __c110(j: number): any {
           changedPolicy: S.optional(S.String),
           name: S.optional(S.String),
           policy: S.optional(S.String),
-          policyDriftDetails: S.optional(__S(3544, __c110, 24)),
+          policyDriftDetails: S.optional(__S(3480, __c108, 24)),
           revisionId: S.optional(S.String),
           postureDeploymentResource: S.optional(S.String),
         }),
@@ -11176,17 +12191,17 @@ function __c110(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          components: S.optional(__S(5056, __c158, 0)),
+          components: S.optional(__S(4992, __c156, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExfilResource" });
     case 29:
-      return S.Array(__S(3548, __c110, 28));
+      return S.Array(__S(3484, __c108, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(3549, __c110, 29)),
-          targets: S.optional(__S(3549, __c110, 29)),
+          sources: S.optional(__S(3485, __c108, 29)),
+          targets: S.optional(__S(3485, __c108, 29)),
           totalExfiltratedBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "Exfiltration" });
@@ -11198,7 +12213,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "YaraRuleSignature" });
   }
 }
-function __c111(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11208,31 +12223,31 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "Detection" });
     case 1:
-      return S.Array(__S(3552, __c111, 0));
+      return S.Array(__S(3488, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           binaryFamily: S.optional(S.String),
-          detections: S.optional(__S(3553, __c111, 1)),
+          detections: S.optional(__S(3489, __c109, 1)),
         }),
       ).annotate({ identifier: "MemoryHashSignature" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           signatureType: S.optional(S.String),
-          yaraRuleSignature: S.optional(__S(3551, __c110, 31)),
-          memoryHashSignature: S.optional(__S(3554, __c111, 2)),
+          yaraRuleSignature: S.optional(__S(3487, __c108, 31)),
+          memoryHashSignature: S.optional(__S(3490, __c109, 2)),
         }),
       ).annotate({ identifier: "ProcessSignature" });
     case 4:
-      return S.Array(__S(3555, __c111, 3));
+      return S.Array(__S(3491, __c109, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          uris: S.optional(__S(5056, __c158, 0)),
-          ipAddresses: S.optional(__S(5056, __c158, 0)),
-          signatures: S.optional(__S(3556, __c111, 4)),
-          domains: S.optional(__S(5056, __c158, 0)),
+          uris: S.optional(__S(4992, __c156, 0)),
+          ipAddresses: S.optional(__S(4992, __c156, 0)),
+          signatures: S.optional(__S(3492, __c109, 4)),
+          domains: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "Indicator" });
     case 6:
@@ -11246,7 +12261,7 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "DataFlowEvent" });
     case 7:
-      return S.Array(__S(3558, __c111, 6));
+      return S.Array(__S(3494, __c109, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -11256,12 +12271,12 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "ArtifactGuardPolicy" });
     case 9:
-      return S.Array(__S(3560, __c111, 8));
+      return S.Array(__S(3496, __c109, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.optional(S.String),
-          failingPolicies: S.optional(__S(3561, __c111, 9)),
+          failingPolicies: S.optional(__S(3497, __c109, 9)),
         }),
       ).annotate({ identifier: "ArtifactGuardPolicies" });
     case 11:
@@ -11272,7 +12287,7 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 12:
-      return S.Array(__S(3563, __c111, 11));
+      return S.Array(__S(3499, __c109, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -11280,17 +12295,17 @@ function __c111(j: number): any {
           envVariablesTruncated: S.optional(S.Boolean),
           name: S.optional(S.String),
           pid: S.optional(S.String),
-          libraries: S.optional(__S(3531, __c110, 11)),
-          script: S.optional(__S(3530, __c110, 10)),
-          args: S.optional(__S(5056, __c158, 0)),
-          envVariables: S.optional(__S(3564, __c111, 12)),
+          libraries: S.optional(__S(3467, __c108, 11)),
+          script: S.optional(__S(3466, __c108, 10)),
+          args: S.optional(__S(4992, __c156, 0)),
+          envVariables: S.optional(__S(3500, __c109, 12)),
           argumentsTruncated: S.optional(S.Boolean),
-          binary: S.optional(__S(3530, __c110, 10)),
+          binary: S.optional(__S(3466, __c108, 10)),
           parentPid: S.optional(S.String),
         }),
       ).annotate({ identifier: "Process" });
     case 14:
-      return S.Array(__S(3565, __c111, 13));
+      return S.Array(__S(3501, __c109, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -11317,16 +12332,16 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "Reference" });
     case 18:
-      return S.Array(__S(3569, __c111, 17));
+      return S.Array(__S(3505, __c109, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          references: S.optional(__S(3570, __c111, 18)),
+          references: S.optional(__S(3506, __c109, 18)),
         }),
       ).annotate({ identifier: "Cwe" });
     case 20:
-      return S.Array(__S(3571, __c111, 19));
+      return S.Array(__S(3507, __c109, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -11346,8 +12361,8 @@ function __c111(j: number): any {
         S.Struct({
           firstExploitationDate: S.optional(S.String),
           exploitationActivity: S.optional(S.String),
-          cvssv3: S.optional(__S(3573, __c111, 21)),
-          references: S.optional(__S(3570, __c111, 18)),
+          cvssv3: S.optional(__S(3509, __c109, 21)),
+          references: S.optional(__S(3506, __c109, 18)),
           exploitReleaseDate: S.optional(S.String),
           impact: S.optional(S.String),
           id: S.optional(S.String),
@@ -11368,12 +12383,12 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reachable: S.optional(S.Boolean),
-          fixedPackage: S.optional(__S(3568, __c111, 16)),
-          offendingPackage: S.optional(__S(3568, __c111, 16)),
-          cwes: S.optional(__S(3572, __c111, 20)),
-          cve: S.optional(__S(3574, __c111, 22)),
+          fixedPackage: S.optional(__S(3504, __c109, 16)),
+          offendingPackage: S.optional(__S(3504, __c109, 16)),
+          cwes: S.optional(__S(3508, __c109, 20)),
+          cve: S.optional(__S(3510, __c109, 22)),
           providerRiskScore: S.optional(S.String),
-          securityBulletin: S.optional(__S(3575, __c111, 23)),
+          securityBulletin: S.optional(__S(3511, __c109, 23)),
         }),
       ).annotate({ identifier: "Vulnerability" });
     case 25:
@@ -11384,11 +12399,11 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1IamRolePermission" });
     case 26:
-      return S.Array(__S(3577, __c111, 25));
+      return S.Array(__S(3513, __c109, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          iamRolePermissions: S.optional(__S(3578, __c111, 26)),
+          iamRolePermissions: S.optional(__S(3514, __c109, 26)),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1IamDetails" });
     case 28:
@@ -11409,7 +12424,7 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "DetectorReference" });
     case 30:
-      return S.Array(__S(3581, __c111, 29));
+      return S.Array(__S(3517, __c109, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -11418,16 +12433,16 @@ function __c111(j: number): any {
       ).annotate({ identifier: "InvocationReference" });
   }
 }
-function __c112(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3583, __c111, 31));
+      return S.Array(__S(3519, __c109, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          detectorReferences: S.optional(__S(3582, __c111, 30)),
+          detectorReferences: S.optional(__S(3518, __c109, 30)),
           confidenceScore: S.optional(S.Number),
-          invocationReferences: S.optional(__S(3584, __c112, 0)),
+          invocationReferences: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "AgentAnomaly" });
     case 2:
@@ -11438,31 +12453,31 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "PortRange" });
     case 3:
-      return S.Array(__S(3586, __c112, 2));
+      return S.Array(__S(3522, __c110, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          portRanges: S.optional(__S(3587, __c112, 3)),
+          portRanges: S.optional(__S(3523, __c110, 3)),
           protocol: S.optional(S.String),
         }),
       ).annotate({ identifier: "IpRule" });
     case 5:
-      return S.Array(__S(3588, __c112, 4));
+      return S.Array(__S(3524, __c110, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ipRules: S.optional(__S(3589, __c112, 5)),
+          ipRules: S.optional(__S(3525, __c110, 5)),
         }),
       ).annotate({ identifier: "Allowed" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          exposedServices: S.optional(__S(5056, __c158, 0)),
+          exposedServices: S.optional(__S(4992, __c156, 0)),
           direction: S.optional(S.String),
-          destinationIpRanges: S.optional(__S(5056, __c158, 0)),
-          allowed: S.optional(__S(3590, __c112, 6)),
-          sourceIpRanges: S.optional(__S(5056, __c158, 0)),
-          denied: S.optional(__S(3590, __c112, 6)),
+          destinationIpRanges: S.optional(__S(4992, __c156, 0)),
+          allowed: S.optional(__S(3526, __c110, 6)),
+          sourceIpRanges: S.optional(__S(4992, __c156, 0)),
+          denied: S.optional(__S(3526, __c110, 6)),
         }),
       ).annotate({ identifier: "IpRules" });
     case 8:
@@ -11501,12 +12516,12 @@ function __c112(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(3592, __c112, 8)),
-          attack: S.optional(__S(3593, __c112, 9)),
-          securityPolicy: S.optional(__S(3594, __c112, 10)),
+          requests: S.optional(__S(3528, __c110, 8)),
+          attack: S.optional(__S(3529, __c110, 9)),
+          securityPolicy: S.optional(__S(3530, __c110, 10)),
           threatVector: S.optional(S.String),
           duration: S.optional(S.String),
-          adaptiveProtection: S.optional(__S(3595, __c112, 11)),
+          adaptiveProtection: S.optional(__S(3531, __c110, 11)),
         }),
       ).annotate({ identifier: "CloudArmor" });
     case 13:
@@ -11538,95 +12553,95 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "DynamicMuteRecord" });
     case 16:
-      return S.Array(__S(3599, __c112, 15));
+      return S.Array(__S(3535, __c110, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          staticMute: S.optional(__S(3598, __c112, 14)),
-          dynamicMuteRecords: S.optional(__S(3600, __c112, 16)),
+          staticMute: S.optional(__S(3534, __c110, 14)),
+          dynamicMuteRecords: S.optional(__S(3536, __c110, 16)),
         }),
       ).annotate({ identifier: "MuteInfo" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(3457, __c108, 1)),
+          connections: S.optional(__S(3393, __c106, 1)),
           mute: S.optional(S.String),
-          agentSessions: S.optional(__S(3459, __c108, 3)),
-          kubernetes: S.optional(__S(3478, __c108, 22)),
-          toxicCombination: S.optional(__S(3479, __c108, 23)),
-          cloudDlpDataProfile: S.optional(__S(3483, __c108, 27)),
-          complianceDetails: S.optional(__S(3490, __c109, 2)),
-          orgPolicies: S.optional(__S(3617, __c113, 1)),
-          dataRetentionDeletionEvents: S.optional(__S(3492, __c109, 4)),
-          agentDataAccessEvents: S.optional(__S(3494, __c109, 6)),
-          contacts: S.optional(__S(3498, __c109, 10)),
-          backupDisasterRecovery: S.optional(__S(3499, __c109, 11)),
+          agentSessions: S.optional(__S(3395, __c106, 3)),
+          kubernetes: S.optional(__S(3414, __c106, 22)),
+          toxicCombination: S.optional(__S(3415, __c106, 23)),
+          cloudDlpDataProfile: S.optional(__S(3419, __c106, 27)),
+          complianceDetails: S.optional(__S(3426, __c107, 2)),
+          orgPolicies: S.optional(__S(3553, __c111, 1)),
+          dataRetentionDeletionEvents: S.optional(__S(3428, __c107, 4)),
+          agentDataAccessEvents: S.optional(__S(3430, __c107, 6)),
+          contacts: S.optional(__S(3434, __c107, 10)),
+          backupDisasterRecovery: S.optional(__S(3435, __c107, 11)),
           parent: S.optional(S.String),
-          vertexAi: S.optional(__S(3504, __c109, 16)),
+          vertexAi: S.optional(__S(3440, __c107, 16)),
           moduleName: S.optional(S.String),
-          attackExposure: S.optional(__S(3505, __c109, 17)),
+          attackExposure: S.optional(__S(3441, __c107, 17)),
           state: S.optional(S.String),
-          cloudRun: S.optional(__S(3506, __c109, 18)),
-          compliances: S.optional(__S(3508, __c109, 20)),
-          secret: S.optional(__S(3512, __c109, 24)),
+          cloudRun: S.optional(__S(3442, __c107, 18)),
+          compliances: S.optional(__S(3444, __c107, 20)),
+          secret: S.optional(__S(3448, __c107, 24)),
           eventTime: S.optional(S.String),
-          externalSystems: S.optional(__S(3513, __c109, 25)),
+          externalSystems: S.optional(__S(3449, __c107, 25)),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          dataAccessEvents: S.optional(__S(3515, __c109, 27)),
-          affectedResources: S.optional(__S(3516, __c109, 28)),
-          chokepoint: S.optional(__S(3517, __c109, 29)),
-          access: S.optional(__S(3521, __c110, 1)),
+          dataAccessEvents: S.optional(__S(3451, __c107, 27)),
+          affectedResources: S.optional(__S(3452, __c107, 28)),
+          chokepoint: S.optional(__S(3453, __c107, 29)),
+          access: S.optional(__S(3457, __c108, 1)),
           findingClass: S.optional(S.String),
-          groupMemberships: S.optional(__S(3523, __c110, 3)),
-          externalExposure: S.optional(__S(3526, __c110, 6)),
-          files: S.optional(__S(3531, __c110, 11)),
-          iamBindings: S.optional(__S(3533, __c110, 13)),
+          groupMemberships: S.optional(__S(3459, __c108, 3)),
+          externalExposure: S.optional(__S(3462, __c108, 6)),
+          files: S.optional(__S(3467, __c108, 11)),
+          iamBindings: S.optional(__S(3469, __c108, 13)),
           parentDisplayName: S.optional(S.String),
-          job: S.optional(__S(3534, __c110, 14)),
-          aiModel: S.optional(__S(3535, __c110, 15)),
-          agent: S.optional(__S(3536, __c110, 16)),
-          logEntries: S.optional(__S(3539, __c110, 19)),
+          job: S.optional(__S(3470, __c108, 14)),
+          aiModel: S.optional(__S(3471, __c108, 15)),
+          agent: S.optional(__S(3472, __c108, 16)),
+          logEntries: S.optional(__S(3475, __c108, 19)),
           nextSteps: S.optional(S.String),
-          discoveredWorkload: S.optional(__S(3540, __c110, 20)),
-          mitreAttack: S.optional(__S(3541, __c110, 21)),
-          disk: S.optional(__S(3616, __c113, 0)),
-          database: S.optional(__S(3542, __c110, 22)),
+          discoveredWorkload: S.optional(__S(3476, __c108, 20)),
+          mitreAttack: S.optional(__S(3477, __c108, 21)),
+          disk: S.optional(__S(3552, __c111, 0)),
+          database: S.optional(__S(3478, __c108, 22)),
           canonicalName: S.optional(S.String),
-          securityPosture: S.optional(__S(3545, __c110, 25)),
-          notebook: S.optional(__S(3546, __c110, 26)),
-          cloudDlpInspection: S.optional(__S(3547, __c110, 27)),
-          exfiltration: S.optional(__S(3550, __c110, 30)),
-          indicator: S.optional(__S(3557, __c111, 5)),
+          securityPosture: S.optional(__S(3481, __c108, 25)),
+          notebook: S.optional(__S(3482, __c108, 26)),
+          cloudDlpInspection: S.optional(__S(3483, __c108, 27)),
+          exfiltration: S.optional(__S(3486, __c108, 30)),
+          indicator: S.optional(__S(3493, __c109, 5)),
           externalUri: S.optional(S.String),
           createTime: S.optional(S.String),
-          dataFlowEvents: S.optional(__S(3559, __c111, 7)),
+          dataFlowEvents: S.optional(__S(3495, __c109, 7)),
           category: S.optional(S.String),
-          artifactGuardPolicies: S.optional(__S(3562, __c111, 10)),
-          processes: S.optional(__S(3566, __c111, 14)),
-          policyViolationSummary: S.optional(__S(3567, __c111, 15)),
-          vulnerability: S.optional(__S(3576, __c111, 24)),
-          iamDetails: S.optional(__S(3579, __c111, 27)),
+          artifactGuardPolicies: S.optional(__S(3498, __c109, 10)),
+          processes: S.optional(__S(3502, __c109, 14)),
+          policyViolationSummary: S.optional(__S(3503, __c109, 15)),
+          vulnerability: S.optional(__S(3512, __c109, 24)),
+          iamDetails: S.optional(__S(3515, __c109, 27)),
           muteInitiator: S.optional(S.String),
-          application: S.optional(__S(3580, __c111, 28)),
+          application: S.optional(__S(3516, __c109, 28)),
           muteUpdateTime: S.optional(S.String),
-          containers: S.optional(__S(3463, __c108, 7)),
-          securityMarks: S.optional(__S(3648, __c114, 0)),
-          sourceProperties: S.optional(__S(5568, __c174, 0)),
-          agentAnomaly: S.optional(__S(3585, __c112, 1)),
-          ipRules: S.optional(__S(3591, __c112, 7)),
-          cloudArmor: S.optional(__S(3596, __c112, 12)),
-          kernelRootkit: S.optional(__S(3597, __c112, 13)),
+          containers: S.optional(__S(3399, __c106, 7)),
+          securityMarks: S.optional(__S(3584, __c112, 0)),
+          sourceProperties: S.optional(__S(5472, __c171, 0)),
+          agentAnomaly: S.optional(__S(3521, __c110, 1)),
+          ipRules: S.optional(__S(3527, __c110, 7)),
+          cloudArmor: S.optional(__S(3532, __c110, 12)),
+          kernelRootkit: S.optional(__S(3533, __c110, 13)),
           resourceName: S.optional(S.String),
           severity: S.optional(S.String),
-          muteInfo: S.optional(__S(3601, __c112, 17)),
-          networks: S.optional(__S(3617, __c113, 1)),
-          loadBalancers: S.optional(__S(3617, __c113, 1)),
+          muteInfo: S.optional(__S(3537, __c110, 17)),
+          networks: S.optional(__S(3553, __c111, 1)),
+          loadBalancers: S.optional(__S(3553, __c111, 1)),
         }),
       ).annotate({ identifier: "Finding" });
   }
 }
-function __c113(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11635,29 +12650,37 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "Node" });
     case 1:
-      return S.Array(__S(3616, __c113, 0));
+      return S.Array(__S(3552, __c111, 0));
   }
 }
-function __c114(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           canonicalName: S.optional(S.String),
           name: S.optional(S.String),
-          marks: S.optional(__S(5088, __c159, 0)),
+          marks: S.optional(__S(5024, __c157, 0)),
         }),
       ).annotate({ identifier: "SecurityMarks" });
   }
 }
-function __c115(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bigQueryExportId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          filter: S.optional(S.String),
+          createTime: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          dataset: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          principal: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11668,13 +12691,22 @@ function __c115(j: number): any {
       ).annotate({ identifier: "CreateProjectsBigQueryExportsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(896, __c28, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          config: S.optional(__S(5472, __c171, 0)),
+          ancestorModule: S.optional(S.String),
+          lastEditor: S.optional(S.String),
+          description: S.optional(S.String),
+          enablementState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11685,14 +12717,22 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateProjectsEventThreatDetectionSettingsCustomModulesRequest" });
   }
 }
-function __c117(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           muteConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1280, __c40, 0).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          mostRecentEditor: S.optional(S.String),
+          filter: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11703,14 +12743,19 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CreateProjectsMuteConfigsRequest" });
   }
 }
-function __c118(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           configId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1665, __c52, 1).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          deletionNotificationsEnabled: S.optional(S.Boolean),
+          serviceAccount: S.optional(S.String),
+          streamingConfig: S.optional(__S(1664, __c52, 0)),
+          description: S.optional(S.String),
+          pubsubTopic: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11721,13 +12766,20 @@ function __c118(j: number): any {
       ).annotate({ identifier: "CreateProjectsNotificationConfigsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2112, __c66, 0).pipe(T.HttpBody())),
+          enablementState: S.optional(S.String),
+          cloudProvider: S.optional(S.String),
+          ancestorModule: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          customConfig: S.optional(__S(2084, __c65, 4)),
+          lastEditor: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11740,7 +12792,7 @@ function __c119(j: number): any {
       });
   }
 }
-function __c120(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11756,7 +12808,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "DeleteFoldersBigQueryExportsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11772,7 +12824,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11788,7 +12840,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "DeleteFoldersLocationsMuteConfigsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11804,7 +12856,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "DeleteFoldersMuteConfigsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11820,7 +12872,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "DeleteFoldersNotificationConfigsRequest" });
   }
 }
-function __c125(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11838,7 +12890,7 @@ function __c125(j: number): any {
       });
   }
 }
-function __c126(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11854,7 +12906,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsBigQueryExportsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11872,7 +12924,7 @@ function __c127(j: number): any {
       });
   }
 }
-function __c128(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11888,7 +12940,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsLocationsMuteConfigsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11904,7 +12956,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsMuteConfigsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11920,7 +12972,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsNotificationConfigsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11936,7 +12988,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsOperationsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11952,7 +13004,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsResourceValueConfigsRequest" });
   }
 }
-function __c133(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11970,7 +13022,7 @@ function __c133(j: number): any {
       });
   }
 }
-function __c134(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11986,7 +13038,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "DeleteProjectsBigQueryExportsRequest" });
   }
 }
-function __c135(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12002,7 +13054,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest" });
   }
 }
-function __c136(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12018,7 +13070,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsMuteConfigsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12034,7 +13086,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteProjectsMuteConfigsRequest" });
   }
 }
-function __c138(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12050,7 +13102,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "DeleteProjectsNotificationConfigsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12068,7 +13120,7 @@ function __c139(j: number): any {
       });
   }
 }
-function __c140(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12084,7 +13136,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetFoldersBigQueryExportsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12100,7 +13152,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetFoldersEventThreatDetectionSettingsCustomModulesRequest" });
   }
 }
-function __c142(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12118,7 +13170,7 @@ function __c142(j: number): any {
       });
   }
 }
-function __c143(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12129,12 +13181,12 @@ function __c143(j: number): any {
           cloudProvider: S.optional(S.String),
           displayName: S.optional(S.String),
           type: S.optional(S.String),
-          config: S.optional(__S(5568, __c174, 0)),
+          config: S.optional(__S(5472, __c171, 0)),
         }),
       ).annotate({ identifier: "EffectiveEventThreatDetectionCustomModule" });
   }
 }
-function __c144(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12150,7 +13202,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetFoldersLocationsMuteConfigsRequest" });
   }
 }
-function __c145(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12166,7 +13218,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetFoldersMuteConfigsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12182,7 +13234,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetFoldersNotificationConfigsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12198,7 +13250,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest" });
   }
 }
-function __c148(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12216,7 +13268,7 @@ function __c148(j: number): any {
       });
   }
 }
-function __c149(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12232,7 +13284,7 @@ function __c149(j: number): any {
       });
   }
 }
-function __c150(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12243,14 +13295,8 @@ function __c150(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(4800, __c150, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(4801, __c150, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(4736, __c148, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12261,48 +13307,48 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetIamPolicyOrganizationsSourcesRequest" });
   }
 }
-function __c151(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(2048, __c64, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(5056, __c158, 0)),
+          members: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 1:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(4768, __c149, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(5056, __c158, 0)),
+          exemptedMembers: S.optional(__S(4992, __c156, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 3:
-      return S.Array(__S(4834, __c151, 2));
+      return S.Array(__S(4770, __c149, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(4835, __c151, 3)),
+          auditLogConfigs: S.optional(__S(4771, __c149, 3)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 5:
-      return S.Array(__S(4836, __c151, 4));
+      return S.Array(__S(4772, __c149, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(4833, __c151, 1)),
+          bindings: S.optional(__S(4769, __c149, 1)),
           version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(4837, __c151, 5)),
+          auditConfigs: S.optional(__S(4773, __c149, 5)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c152(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12318,7 +13364,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetOrganizationsBigQueryExportsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12334,13 +13380,13 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetOrganizationSettingsOrganizationsRequest" });
   }
 }
-function __c154(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectIds: S.optional(__S(5056, __c158, 0)),
-          folderIds: S.optional(__S(5056, __c158, 0)),
+          projectIds: S.optional(__S(4992, __c156, 0)),
+          folderIds: S.optional(__S(4992, __c156, 0)),
           inclusionMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetDiscoveryConfig" });
@@ -12348,13 +13394,13 @@ function __c154(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enableAssetDiscovery: S.optional(S.Boolean),
-          assetDiscoveryConfig: S.optional(__S(4928, __c154, 0)),
+          assetDiscoveryConfig: S.optional(__S(4864, __c152, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrganizationSettings" });
   }
 }
-function __c155(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12372,28 +13418,22 @@ function __c155(j: number): any {
       });
   }
 }
-function __c156(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceValueConfig: S.optional(__S(5121, __c160, 1)),
+          resourceValueConfig: S.optional(__S(5057, __c158, 1)),
           parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateResourceValueConfigRequest" });
     case 1:
-      return S.Array(__S(4992, __c156, 0));
+      return S.Array(__S(4928, __c154, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(4993, __c156, 1)),
-        }),
-      ).annotate({ identifier: "BatchCreateResourceValueConfigsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(4994, __c156, 2).pipe(T.HttpBody())),
+          requests: S.optional(__S(4929, __c154, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12402,33 +13442,33 @@ function __c156(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchCreateOrganizationsResourceValueConfigsRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          resourceValueConfigs: S.optional(__S(5024, __c157, 0)),
+          resourceValueConfigs: S.optional(__S(4960, __c155, 0)),
         }),
       ).annotate({ identifier: "BatchCreateResourceValueConfigsResponse" });
   }
 }
-function __c157(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5121, __c160, 1));
+      return S.Array(__S(5057, __c158, 1));
   }
 }
-function __c158(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c159(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c160(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12441,21 +13481,21 @@ function __c160(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          sensitiveDataProtectionMapping: S.optional(__S(5120, __c160, 0)),
+          sensitiveDataProtectionMapping: S.optional(__S(5056, __c158, 0)),
           cloudProvider: S.optional(S.String),
           scope: S.optional(S.String),
-          resourceLabelsSelector: S.optional(__S(5088, __c159, 0)),
+          resourceLabelsSelector: S.optional(__S(5024, __c157, 0)),
           updateTime: S.optional(S.String),
           description: S.optional(S.String),
           resourceType: S.optional(S.String),
-          tagValues: S.optional(__S(5056, __c158, 0)),
+          tagValues: S.optional(__S(4992, __c156, 0)),
           resourceValue: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritycenterV1ResourceValueConfig" });
   }
 }
-function __c161(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12473,7 +13513,7 @@ function __c161(j: number): any {
       });
   }
 }
-function __c162(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12489,7 +13529,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsMuteConfigsRequest" });
   }
 }
-function __c163(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12505,7 +13545,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetOrganizationsMuteConfigsRequest" });
   }
 }
-function __c164(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12521,7 +13561,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetOrganizationsNotificationConfigsRequest" });
   }
 }
-function __c165(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12537,7 +13577,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetOrganizationsOperationsRequest" });
   }
 }
-function __c166(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12553,7 +13593,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetOrganizationsResourceValueConfigsRequest" });
   }
 }
-function __c167(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12571,7 +13611,7 @@ function __c167(j: number): any {
       });
   }
 }
-function __c168(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12589,7 +13629,7 @@ function __c168(j: number): any {
       });
   }
 }
-function __c169(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12608,13 +13648,13 @@ function __c169(j: number): any {
         S.Struct({
           createTime: S.optional(S.String),
           name: S.optional(S.String),
-          resourceValueConfigsMetadata: S.optional(__S(3617, __c113, 1)),
+          resourceValueConfigsMetadata: S.optional(__S(3553, __c111, 1)),
           cloudProvider: S.optional(S.String),
         }),
       ).annotate({ identifier: "Simulation" });
   }
 }
-function __c170(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12630,7 +13670,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetOrganizationsSimulationsValuedResourcesRequest" });
   }
 }
-function __c171(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12638,7 +13678,7 @@ function __c171(j: number): any {
           resource: S.optional(S.String),
           resourceType: S.optional(S.String),
           exposedScore: S.optional(S.Number),
-          resourceValueConfigsUsed: S.optional(__S(3617, __c113, 1)),
+          resourceValueConfigsUsed: S.optional(__S(3553, __c111, 1)),
           resourceValue: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -12646,13 +13686,15 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ValuedResource" });
   }
 }
-function __c172(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
+          muteState: S.optional(S.String),
+          muteAnnotation: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12663,53 +13705,41 @@ function __c172(j: number): any {
       ).annotate({ identifier: "BulkMuteFoldersFindingsRequest" });
   }
 }
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          muteState: S.optional(S.String),
-          muteAnnotation: S.optional(S.String),
-          filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BulkMuteFindingsRequest" });
-  }
-}
-function __c174(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c175(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(5568, __c174, 0)),
-          error: S.optional(__S(5633, __c176, 1)),
-          metadata: S.optional(__S(5568, __c174, 0)),
+          response: S.optional(__S(5472, __c171, 0)),
+          error: S.optional(__S(5537, __c173, 1)),
+          metadata: S.optional(__S(5472, __c171, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c176(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5568, __c174, 0));
+      return S.Array(__S(5472, __c171, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(5632, __c176, 0)),
+          details: S.optional(__S(5536, __c173, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c177(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12725,7 +13755,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetOrganizationsSourcesRequest" });
   }
 }
-function __c178(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12741,7 +13771,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "GetProjectsBigQueryExportsRequest" });
   }
 }
-function __c179(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12757,7 +13787,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "GetProjectsEventThreatDetectionSettingsCustomModulesRequest" });
   }
 }
-function __c180(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12775,7 +13805,7 @@ function __c180(j: number): any {
       });
   }
 }
-function __c181(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12791,7 +13821,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsMuteConfigsRequest" });
   }
 }
-function __c182(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12807,7 +13837,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetProjectsMuteConfigsRequest" });
   }
 }
-function __c183(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12823,7 +13853,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetProjectsNotificationConfigsRequest" });
   }
 }
-function __c184(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12839,7 +13869,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest" });
   }
 }
-function __c185(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12857,13 +13887,18 @@ function __c185(j: number): any {
       });
   }
 }
-function __c186(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
+          compareDuration: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          pageToken: S.optional(S.String),
+          filter: S.optional(S.String),
+          groupBy: S.optional(S.String),
+          readTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12874,50 +13909,41 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GroupFoldersAssetsRequest" });
   }
 }
-function __c187(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(5568, __c174, 0)),
+          properties: S.optional(__S(5472, __c171, 0)),
           count: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupResult" });
     case 1:
-      return S.Array(__S(5984, __c187, 0));
+      return S.Array(__S(5888, __c184, 0));
   }
 }
-function __c188(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          compareDuration: S.optional(S.String),
-          pageSize: S.optional(S.Number),
-          pageToken: S.optional(S.String),
-          filter: S.optional(S.String),
-          groupBy: S.optional(S.String),
-          readTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroupAssetsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           nextPageToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
-          groupByResults: S.optional(__S(5985, __c187, 1)),
+          groupByResults: S.optional(__S(5889, __c184, 1)),
           readTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupAssetsResponse" });
   }
 }
-function __c189(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
+          muteState: S.optional(S.String),
+          muteAnnotation: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12928,13 +13954,18 @@ function __c189(j: number): any {
       ).annotate({ identifier: "BulkMuteOrganizationsFindingsRequest" });
   }
 }
-function __c190(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          readTime: S.optional(S.String),
+          compareDuration: S.optional(S.String),
+          filter: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          groupBy: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12945,37 +13976,31 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GroupFoldersSourcesFindingsRequest" });
   }
 }
-function __c191(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageToken: S.optional(S.String),
-          readTime: S.optional(S.String),
-          compareDuration: S.optional(S.String),
-          filter: S.optional(S.String),
-          pageSize: S.optional(S.Number),
-          groupBy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroupFindingsRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
           readTime: S.optional(S.String),
           totalSize: S.optional(S.Number),
-          groupByResults: S.optional(__S(5985, __c187, 1)),
+          groupByResults: S.optional(__S(5889, __c184, 1)),
         }),
       ).annotate({ identifier: "GroupFindingsResponse" });
   }
 }
-function __c192(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
+          compareDuration: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          pageToken: S.optional(S.String),
+          filter: S.optional(S.String),
+          groupBy: S.optional(S.String),
+          readTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12986,13 +14011,18 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GroupOrganizationsAssetsRequest" });
   }
 }
-function __c193(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          readTime: S.optional(S.String),
+          compareDuration: S.optional(S.String),
+          filter: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          groupBy: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13003,13 +14033,18 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GroupOrganizationsSourcesFindingsRequest" });
   }
 }
-function __c194(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6016, __c188, 0).pipe(T.HttpBody())),
+          compareDuration: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          pageToken: S.optional(S.String),
+          filter: S.optional(S.String),
+          groupBy: S.optional(S.String),
+          readTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13020,13 +14055,18 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GroupProjectsAssetsRequest" });
   }
 }
-function __c195(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          readTime: S.optional(S.String),
+          compareDuration: S.optional(S.String),
+          filter: S.optional(S.String),
+          pageSize: S.optional(S.Number),
+          groupBy: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13037,7 +14077,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GroupProjectsSourcesFindingsRequest" });
   }
 }
-function __c196(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13057,20 +14097,20 @@ function __c196(j: number): any {
       });
   }
 }
-function __c197(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(896, __c28, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          eventThreatDetectionCustomModules: S.optional(__S(6304, __c197, 0)),
+          eventThreatDetectionCustomModules: S.optional(__S(6208, __c194, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDescendantEventThreatDetectionCustomModulesResponse" });
   }
 }
-function __c198(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13090,24 +14130,24 @@ function __c198(j: number): any {
       });
   }
 }
-function __c199(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          securityHealthAnalyticsCustomModules: S.optional(__S(6400, __c200, 0)),
+          securityHealthAnalyticsCustomModules: S.optional(__S(6304, __c197, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDescendantSecurityHealthAnalyticsCustomModulesResponse" });
   }
 }
-function __c200(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(2112, __c66, 0));
   }
 }
-function __c201(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13127,7 +14167,7 @@ function __c201(j: number): any {
       });
   }
 }
-function __c202(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13148,7 +14188,7 @@ function __c202(j: number): any {
       });
   }
 }
-function __c203(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13168,13 +14208,15 @@ function __c203(j: number): any {
       });
   }
 }
-function __c204(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5536, __c173, 0).pipe(T.HttpBody())),
+          muteState: S.optional(S.String),
+          muteAnnotation: S.optional(S.String),
+          filter: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -13185,7 +14227,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "BulkMuteProjectsFindingsRequest" });
   }
 }
-function __c205(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13205,7 +14247,7 @@ function __c205(j: number): any {
       });
   }
 }
-function __c206(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13228,7 +14270,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "ListFoldersAssetsRequest" });
   }
 }
-function __c207(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13238,10 +14280,10 @@ function __c207(j: number): any {
         }),
       ).annotate({ identifier: "Folder" });
     case 1:
-      return S.Array(__S(6624, __c207, 0));
+      return S.Array(__S(6528, __c204, 0));
   }
 }
-function __c208(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13256,22 +14298,22 @@ function __c208(j: number): any {
           resourceProject: S.optional(S.String),
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
-          folders: S.optional(__S(6625, __c207, 1)),
+          folders: S.optional(__S(6529, __c204, 1)),
           resourceParent: S.optional(S.String),
           resourceProjectDisplayName: S.optional(S.String),
           resourceParentDisplayName: S.optional(S.String),
-          resourceOwners: S.optional(__S(5056, __c158, 0)),
+          resourceOwners: S.optional(__S(4992, __c156, 0)),
         }),
       ).annotate({ identifier: "SecurityCenterProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourceProperties: S.optional(__S(5568, __c174, 0)),
-          securityMarks: S.optional(__S(3648, __c114, 0)),
+          resourceProperties: S.optional(__S(5472, __c171, 0)),
+          securityMarks: S.optional(__S(3584, __c112, 0)),
           canonicalName: S.optional(S.String),
-          iamPolicy: S.optional(__S(6656, __c208, 0)),
+          iamPolicy: S.optional(__S(6560, __c205, 0)),
           updateTime: S.optional(S.String),
-          securityCenterProperties: S.optional(__S(6657, __c208, 1)),
+          securityCenterProperties: S.optional(__S(6561, __c205, 1)),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
         }),
@@ -13280,23 +14322,23 @@ function __c208(j: number): any {
       return S.suspend(() =>
         S.Struct({
           stateChange: S.optional(S.String),
-          asset: S.optional(__S(6658, __c208, 2)),
+          asset: S.optional(__S(6562, __c205, 2)),
         }),
       ).annotate({ identifier: "ListAssetsResult" });
     case 4:
-      return S.Array(__S(6659, __c208, 3));
+      return S.Array(__S(6563, __c205, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           totalSize: S.optional(S.Number),
           readTime: S.optional(S.String),
-          listAssetsResults: S.optional(__S(6660, __c208, 4)),
+          listAssetsResults: S.optional(__S(6564, __c205, 4)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAssetsResponse" });
   }
 }
-function __c209(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13314,7 +14356,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "ListFoldersBigQueryExportsRequest" });
   }
 }
-function __c210(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(480, __c15, 0));
@@ -13322,12 +14364,12 @@ function __c210(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          bigQueryExports: S.optional(__S(6720, __c210, 0)),
+          bigQueryExports: S.optional(__S(6624, __c207, 0)),
         }),
       ).annotate({ identifier: "ListBigQueryExportsResponse" });
   }
 }
-function __c211(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13345,7 +14387,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "ListFoldersEventThreatDetectionSettingsCustomModulesRequest" });
   }
 }
-function __c212(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13365,20 +14407,20 @@ function __c212(j: number): any {
       });
   }
 }
-function __c213(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4576, __c143, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          effectiveEventThreatDetectionCustomModules: S.optional(__S(6816, __c213, 0)),
+          effectiveEventThreatDetectionCustomModules: S.optional(__S(6720, __c210, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEffectiveEventThreatDetectionCustomModulesResponse" });
   }
 }
-function __c214(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13396,7 +14438,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ListFoldersMuteConfigsRequest" });
   }
 }
-function __c215(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1280, __c40, 0));
@@ -13404,12 +14446,12 @@ function __c215(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          muteConfigs: S.optional(__S(6880, __c215, 0)),
+          muteConfigs: S.optional(__S(6784, __c212, 0)),
         }),
       ).annotate({ identifier: "ListMuteConfigsResponse" });
   }
 }
-function __c216(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13427,7 +14469,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "ListFoldersNotificationConfigsRequest" });
   }
 }
-function __c217(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1665, __c52, 1));
@@ -13435,12 +14477,12 @@ function __c217(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          notificationConfigs: S.optional(__S(6944, __c217, 0)),
+          notificationConfigs: S.optional(__S(6848, __c214, 0)),
         }),
       ).annotate({ identifier: "ListNotificationConfigsResponse" });
   }
 }
-function __c218(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13458,18 +14500,18 @@ function __c218(j: number): any {
       ).annotate({ identifier: "ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest" });
   }
 }
-function __c219(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          securityHealthAnalyticsCustomModules: S.optional(__S(6400, __c200, 0)),
+          securityHealthAnalyticsCustomModules: S.optional(__S(6304, __c197, 0)),
         }),
       ).annotate({ identifier: "ListSecurityHealthAnalyticsCustomModulesResponse" });
   }
 }
-function __c220(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13489,20 +14531,20 @@ function __c220(j: number): any {
       });
   }
 }
-function __c221(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4768, __c149, 0));
+      return S.Array(__S(4704, __c147, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          effectiveSecurityHealthAnalyticsCustomModules: S.optional(__S(7072, __c221, 0)),
+          effectiveSecurityHealthAnalyticsCustomModules: S.optional(__S(6976, __c218, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEffectiveSecurityHealthAnalyticsCustomModulesResponse" });
   }
 }
-function __c222(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13520,14 +14562,14 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ListFoldersSourcesRequest" });
   }
 }
-function __c223(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3360, __c105, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(7136, __c223, 0)),
+          sources: S.optional(__S(7040, __c220, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSourcesResponse" });

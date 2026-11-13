@@ -96,18 +96,13 @@ export type CancelSubscriptionRequestCancellationReasonEnum =
   | "CANCELLATION_REASON_SYSTEM_CANCEL"
   | "CANCELLATION_REASON_BILLING_SYSTEM_SWITCH"
   | "CANCELLATION_REASON_OTHER";
-/** Request to cancel a subscription. */
-export interface CancelSubscriptionRequest {
+export interface CancelPartnersSubscriptionsRequest {
+  /** Required. The name of the subscription resource to be cancelled. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
+  name: string;
   /** Optional. If true, Google will cancel the subscription immediately, and may or may not (based on the contract) issue a prorated refund for the remainder of the billing cycle. Otherwise, Google defers the cancellation at renewal_time, and will not issue a refund. - YouTube subscriptions must use this option currently. However, the user will still have access to the subscription until the end of the billing cycle. */
   cancelImmediately?: boolean | undefined;
   /** Specifies the reason for the cancellation. */
   cancellationReason?: CancelSubscriptionRequestCancellationReasonEnum | (string & {}) | undefined;
-}
-export interface CancelPartnersSubscriptionsRequest {
-  /** Required. The name of the subscription resource to be cancelled. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
-  name: string;
-  /** Request body */
-  body?: CancelSubscriptionRequest | undefined;
 }
 export type SubscriptionCancellationDetailsReasonEnum =
   | "CANCELLATION_REASON_UNSPECIFIED"
@@ -410,8 +405,46 @@ export interface CreatePartnersSubscriptionsRequest {
   subscriptionId?: string | undefined;
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
-  /** Request body */
-  body?: Subscription | undefined;
+  /** Output only. The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. For example: "2019-08-31T17:28:54.564Z" */
+  cycleEndTime?: string | undefined;
+  /** Output only. Describes the details of a cancelled subscription. Only applicable to subscription of state `STATE_CANCELLED`. */
+  cancellationDetails?: SubscriptionCancellationDetails | undefined;
+  /** Identifier. Resource name of the subscription. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". This is available for authorizeAddon, but otherwise is response only. */
+  name?: string | undefined;
+  /** Optional. Subscription-level promotions. Only free trial is supported on this level. It determines the first renewal time of the subscription to be the end of the free trial period. Specify the promotion resource name only when used as input. */
+  promotionSpecs?: SubscriptionPromotionSpecList | undefined;
+  /** Output only. System generated timestamp when the subscription is created. UTC timezone. */
+  createTime?: string | undefined;
+  /** Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription. */
+  upgradeDowngradeDetails?: SubscriptionUpgradeDowngradeDetails | undefined;
+  /** Required. Identifier of the end-user in partner's system. The value is restricted to 63 ASCII characters at the maximum. */
+  partnerUserToken?: string | undefined;
+  /** Required. The line items of the subscription. */
+  lineItems?: SubscriptionLineItemList | undefined;
+  /** Optional. The timestamp when the user transaction was made with the Partner. Specify for the case of "bundle with choice", and it must be before the provision_time (when the user makes a selection). */
+  purchaseTime?: string | undefined;
+  /** Output only. Describes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
+  state?: SubscriptionStateEnum | (string & {}) | undefined;
+  /** Required. The location that the service is provided as indicated by the partner. */
+  serviceLocation?: Location | undefined;
+  /** Output only. System generated timestamp when the subscription is most recently updated. UTC timezone. */
+  updateTime?: string | undefined;
+  /** Output only. End of the free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
+  freeTrialEndTime?: string | undefined;
+  /** Output only. The time at which the subscription is expected to be renewed by Google - a new charge will be incurred and the service entitlement will be renewed. A non-immediate cancellation will take place at this time too, before which, the service entitlement for the end user will remain valid. UTC timezone in ISO 8061 format. For example: "2019-08-31T17:28:54.564Z" */
+  renewalTime?: string | undefined;
+  /** Output only. Describes the details of the migrated subscription. Only populated if this subscription is migrated from another system. */
+  migrationDetails?: SubscriptionMigrationDetails | undefined;
+  /** Output only. The place where partners should redirect the end-user to after creation. This field might also be populated when creation failed. However, Partners should always prepare a default URL to redirect the user in case this field is empty. */
+  redirectUri?: string | undefined;
+  /** Output only. Indicates if the subscription is entitled to the end user. */
+  endUserEntitled?: boolean | undefined;
+  /** Optional. Deprecated: consider using `line_items` as the input. Required. Resource name that identifies the purchased products. The format will be 'partners/{partner_id}/products/{product_id}'. */
+  products?: StringList | undefined;
+  /** Optional. Deprecated: consider using the top-level `promotion_specs` as the input. Optional. Resource name that identifies one or more promotions that can be applied on the product. A typical promotion for a subscription is Free trial. The format will be 'partners/{partner_id}/promotions/{promotion_id}'. */
+  promotions?: StringList | undefined;
+  /** Output only. Describes the processing state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
+  processingState?: SubscriptionProcessingStateEnum | (string & {}) | undefined;
 }
 /** The details of the line item to be entitled. */
 export interface EntitleSubscriptionRequestLineItemEntitlementDetails {
@@ -422,16 +455,11 @@ export interface EntitleSubscriptionRequestLineItemEntitlementDetails {
 }
 export type EntitleSubscriptionRequestLineItemEntitlementDetailsList =
   Array<EntitleSubscriptionRequestLineItemEntitlementDetails>;
-/** Partner request for entitling the previously provisioned subscription to an end user. The end user identity is inferred from the request OAuth context. */
-export interface EntitleSubscriptionRequest {
-  /** Optional. Deprecated: This field is no longer supported. All line items are entitled automatically. Optional. The line items to be entitled. If unspecified, all line items will be entitled. */
-  lineItemEntitlementDetails?: EntitleSubscriptionRequestLineItemEntitlementDetailsList | undefined;
-}
 export interface EntitlePartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource that is entitled to the current end user. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
-  /** Request body */
-  body?: EntitleSubscriptionRequest | undefined;
+  /** Optional. Deprecated: This field is no longer supported. All line items are entitled automatically. Optional. The line items to be entitled. If unspecified, all line items will be entitled. */
+  lineItemEntitlementDetails?: EntitleSubscriptionRequestLineItemEntitlementDetailsList | undefined;
 }
 /** Response that contains the entitled subscription resource. */
 export interface EntitleSubscriptionResponse {
@@ -445,18 +473,13 @@ export interface Extension {
   /** Required. Identifier of the end-user in partner's system. */
   partnerUserToken?: string | undefined;
 }
-/** Request message for extending a Subscription resource. A new recurrence will be made based on the subscription schedule defined by the original product. */
-export interface ExtendSubscriptionRequest {
+export interface ExtendPartnersSubscriptionsRequest {
+  /** Required. The name of the subscription resource to be extended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". */
+  name: string;
   /** Required. Restricted to 36 ASCII characters. A random UUID is recommended. The idempotency key for the request. The ID generation logic is controlled by the partner. request_id should be the same as on retries of the same request. A different request_id must be used for a extension of a different cycle. */
   requestId?: string | undefined;
   /** Required. Specifies details of the extension. Currently, the duration of the extension must be exactly one billing cycle of the original subscription. */
   extension?: Extension | undefined;
-}
-export interface ExtendPartnersSubscriptionsRequest {
-  /** Required. The name of the subscription resource to be extended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". */
-  name: string;
-  /** Request body */
-  body?: ExtendSubscriptionRequest | undefined;
 }
 /** Response that contains the timestamps after the extension. */
 export interface ExtendSubscriptionResponse {
@@ -467,20 +490,15 @@ export interface ExtendSubscriptionResponse {
   /** Output only. The time at which the subscription is expected to be renewed by Google - a new charge will be incurred and the service entitlement will be renewed. A non-immediate cancellation will take place at this time too, before which, the service entitlement for the end user will remain valid. UTC timezone in ISO 8061 format. For example: "2019-08-31T17:28:54.564Z" */
   renewalTime?: string | undefined;
 }
-/** Request to find eligible promotions for the current user. */
-export interface FindEligiblePromotionsRequest {
+export interface FindEligiblePartnersPromotionsRequest {
+  /** Required. The parent, the partner that can resell. Format: partners/{partner} */
+  parent: string;
   /** Optional. A page token, received from a previous `FindEligiblePromotions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FindEligiblePromotions` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of promotions to return. The service may return fewer than this value. If unspecified, at most 50 promotions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
   /** Optional. Specifies the filters for the promotion results. The syntax is defined in https://google.aip.dev/160 with the following caveats: 1. Only the following features are supported: - Logical operator `AND` - Comparison operator `=` (no wildcards `*`) - Traversal operator `.` - Has operator `:` (no wildcards `*`) 2. Only the following fields are supported: - `applicableProducts` - `regionCodes` - `youtubePayload.partnerEligibilityId` - `youtubePayload.postalCode` 3. Unless explicitly mentioned above, other features are not supported. Example: `applicableProducts:partners/partner1/products/product1 AND regionCodes:US AND youtubePayload.postalCode=94043 AND youtubePayload.partnerEligibilityId=eligibility-id` */
   filter?: string | undefined;
-}
-export interface FindEligiblePartnersPromotionsRequest {
-  /** Required. The parent, the partner that can resell. Format: partners/{partner} */
-  parent: string;
-  /** Request body */
-  body?: FindEligiblePromotionsRequest | undefined;
 }
 /** Localized variant of a text in a particular language. */
 export interface GoogleTypeLocalizedText {
@@ -558,16 +576,11 @@ export interface IntentPayload {
   /** The request to create a subscription. */
   createIntent?: CreateSubscriptionIntent | undefined;
 }
-/** Request to generate a user session. */
-export interface GenerateUserSessionRequest {
-  /** The user intent to generate the user session. */
-  intentPayload?: IntentPayload | undefined;
-}
 export interface GeneratePartnersUserSessionsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
-  /** Request body */
-  body?: GenerateUserSessionRequest | undefined;
+  /** The user intent to generate the user session. */
+  intentPayload?: IntentPayload | undefined;
 }
 /** Contains a short-lived token containing information required to interact with the Google Payments Reseller Platform via web endpoints. - Generate a user session token dynamically for an authenticated user. Do not share a token directly with a user in an unauthenticated context, such as SMS or email. - You can regenerate new session tokens repeatedly for the same `generate` request if necessary, regardless of whether previous tokens have expired. Multiple sessions will not result in duplicate fulfillments because the `subscription ID` guarantees uniqueness. For more integration details, see the [Google Managed Signup](/payments/reseller/subscription/reference/index/User.Signup.Integration/Google.Managed.Signup) documentation. */
 export interface UserSession {
@@ -675,8 +688,32 @@ export interface PatchPartnersSubscriptionsLineItemsRequest {
   requestId?: string | undefined;
   /** Required. The list of fields to update. Only a limited set of fields can be updated. The allowed fields are the following: - `product_payload.googleHomePayload.googleStructureId` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SubscriptionLineItem | undefined;
+  /** Output only. The free trial end time will be populated after the line item is successfully processed. End time of the line item free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
+  lineItemFreeTrialEndTime?: string | undefined;
+  /** Required. Product resource name that identifies the product associated with this line item. The format is 'partners/{partner_id}/products/{product_id}'. */
+  product?: string | undefined;
+  /** Optional. Details for a subscription line item with finite billing cycles. If unset, the line item will be charged indefinitely. Used only with LINE_ITEM_RECURRENCE_TYPE_PERIODIC. */
+  finiteBillingCycleDetails?: FiniteBillingCycleDetails | undefined;
+  /** Output only. Details only set for a ONE_TIME recurrence line item. */
+  oneTimeRecurrenceDetails?: SubscriptionLineItemOneTimeRecurrenceDetails | undefined;
+  /** Optional. Output only. The plan type of the line item. */
+  planType?: SubscriptionLineItemPlanTypeEnum | (string & {}) | undefined;
+  /** Optional. Product specific payload for this line item. */
+  productPayload?: ProductPayload | undefined;
+  /** Output only. The state of the line item. */
+  state?: SubscriptionLineItemStateEnum | (string & {}) | undefined;
+  /** Output only. A unique index of the subscription line item. */
+  lineItemIndex?: number | undefined;
+  /** Output only. Description of this line item. */
+  description?: string | undefined;
+  /** Output only. The recurrence type of the line item. */
+  recurrenceType?: SubscriptionLineItemRecurrenceTypeEnum | (string & {}) | undefined;
+  /** Output only. The price of the product/service in this line item. The amount could be the wholesale price, or it can include a cost of sale based on the contract. */
+  amount?: Amount | undefined;
+  /** Optional. The promotions applied on the line item. It can be: - an introductory pricing promotion. - a free trial promotion. This feature is not enabled. If used, the request will be rejected. When used as input in Create or Provision API, specify its resource name only. */
+  lineItemPromotionSpecs?: SubscriptionPromotionSpecList | undefined;
+  /** Output only. The bundle details for the line item. Only populated if the line item corresponds to a hard bundle. */
+  bundleDetails?: SubscriptionLineItemBundleDetails | undefined;
 }
 export type ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum =
   | "UNIT_UNSPECIFIED"
@@ -695,26 +732,59 @@ export interface ProvisionPartnersSubscriptionsRequest {
     | ProvisionPartnersSubscriptionsCycleOptions_initialCycleDuration_unitEnum
     | (string & {})
     | undefined;
-  /** Request body */
-  body?: Subscription | undefined;
+  /** Output only. The time at which the subscription is expected to be extended, in ISO 8061 format. UTC timezone. For example: "2019-08-31T17:28:54.564Z" */
+  cycleEndTime?: string | undefined;
+  /** Output only. Describes the details of a cancelled subscription. Only applicable to subscription of state `STATE_CANCELLED`. */
+  cancellationDetails?: SubscriptionCancellationDetails | undefined;
+  /** Identifier. Resource name of the subscription. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". This is available for authorizeAddon, but otherwise is response only. */
+  name?: string | undefined;
+  /** Optional. Subscription-level promotions. Only free trial is supported on this level. It determines the first renewal time of the subscription to be the end of the free trial period. Specify the promotion resource name only when used as input. */
+  promotionSpecs?: SubscriptionPromotionSpecList | undefined;
+  /** Output only. System generated timestamp when the subscription is created. UTC timezone. */
+  createTime?: string | undefined;
+  /** Optional. Details about the previous subscription that this new subscription upgrades/downgrades from. Only populated if this subscription is an upgrade/downgrade from another subscription. */
+  upgradeDowngradeDetails?: SubscriptionUpgradeDowngradeDetails | undefined;
+  /** Required. Identifier of the end-user in partner's system. The value is restricted to 63 ASCII characters at the maximum. */
+  partnerUserToken?: string | undefined;
+  /** Required. The line items of the subscription. */
+  lineItems?: SubscriptionLineItemList | undefined;
+  /** Optional. The timestamp when the user transaction was made with the Partner. Specify for the case of "bundle with choice", and it must be before the provision_time (when the user makes a selection). */
+  purchaseTime?: string | undefined;
+  /** Output only. Describes the state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
+  state?: SubscriptionStateEnum | (string & {}) | undefined;
+  /** Required. The location that the service is provided as indicated by the partner. */
+  serviceLocation?: Location | undefined;
+  /** Output only. System generated timestamp when the subscription is most recently updated. UTC timezone. */
+  updateTime?: string | undefined;
+  /** Output only. End of the free trial period, in ISO 8061 format. For example, "2019-08-31T17:28:54.564Z". It will be set the same as createTime if no free trial promotion is specified. */
+  freeTrialEndTime?: string | undefined;
+  /** Output only. The time at which the subscription is expected to be renewed by Google - a new charge will be incurred and the service entitlement will be renewed. A non-immediate cancellation will take place at this time too, before which, the service entitlement for the end user will remain valid. UTC timezone in ISO 8061 format. For example: "2019-08-31T17:28:54.564Z" */
+  renewalTime?: string | undefined;
+  /** Output only. Describes the details of the migrated subscription. Only populated if this subscription is migrated from another system. */
+  migrationDetails?: SubscriptionMigrationDetails | undefined;
+  /** Output only. The place where partners should redirect the end-user to after creation. This field might also be populated when creation failed. However, Partners should always prepare a default URL to redirect the user in case this field is empty. */
+  redirectUri?: string | undefined;
+  /** Output only. Indicates if the subscription is entitled to the end user. */
+  endUserEntitled?: boolean | undefined;
+  /** Optional. Deprecated: consider using `line_items` as the input. Required. Resource name that identifies the purchased products. The format will be 'partners/{partner_id}/products/{product_id}'. */
+  products?: StringList | undefined;
+  /** Optional. Deprecated: consider using the top-level `promotion_specs` as the input. Optional. Resource name that identifies one or more promotions that can be applied on the product. A typical promotion for a subscription is Free trial. The format will be 'partners/{partner_id}/promotions/{promotion_id}'. */
+  promotions?: StringList | undefined;
+  /** Output only. Describes the processing state of the subscription. See more details at [the lifecycle of a subscription](/payments/reseller/subscription/reference/index/Receive.Notifications#payments-subscription-lifecycle). */
+  processingState?: SubscriptionProcessingStateEnum | (string & {}) | undefined;
 }
 export type ResumeSubscriptionRequestResumeModeEnum =
   | "RESUME_MODE_UNSPECIFIED"
   | "RESUME_MODE_CYCLE_OPTIONS"
   | "RESUME_MODE_RESTORE_EXISTING_BILLING_SCHEDULE"
   | "RESUME_MODE_IMMEDIATE_NEW_CYCLE";
-/** Request to resume a suspended subscription. */
-export interface ResumeSubscriptionRequest {
+export interface ResumePartnersSubscriptionsRequest {
+  /** Required. The name of the subscription resource to be resumed. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
+  name: string;
   /** Required. The mode to resume the subscription. */
   resumeMode?: ResumeSubscriptionRequestResumeModeEnum | (string & {}) | undefined;
   /** Optional. The cycle options for the subscription. */
   cycleOptions?: CycleOptions | undefined;
-}
-export interface ResumePartnersSubscriptionsRequest {
-  /** Required. The name of the subscription resource to be resumed. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
-  name: string;
-  /** Request body */
-  body?: ResumeSubscriptionRequest | undefined;
 }
 /** Response that contains the resumed subscription. */
 export interface ResumeSubscriptionResponse {
@@ -725,16 +795,11 @@ export type SuspendSubscriptionRequestSuspendModeEnum =
   | "SUSPEND_MODE_UNSPECIFIED"
   | "SUSPEND_MODE_CANCEL_AFTER_GRACE_PERIOD"
   | "SUSPEND_MODE_CANCEL_AFTER_RETENTION_PERIOD";
-/** Request to suspend a subscription. */
-export interface SuspendSubscriptionRequest {
-  /** Optional. The mode to suspend the subscription. It's required for partners to specify the suspend mode, whether suspend immediately and indefinitely, or cancel the subscription after grace_period_millis or auto_cancel_duration_millis if it's not resumed. */
-  suspendMode?: SuspendSubscriptionRequestSuspendModeEnum | (string & {}) | undefined;
-}
 export interface SuspendPartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource to be suspended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
-  /** Request body */
-  body?: SuspendSubscriptionRequest | undefined;
+  /** Optional. The mode to suspend the subscription. It's required for partners to specify the suspend mode, whether suspend immediately and indefinitely, or cancel the subscription after grace_period_millis or auto_cancel_duration_millis if it's not resumed. */
+  suspendMode?: SuspendSubscriptionRequestSuspendModeEnum | (string & {}) | undefined;
 }
 /** Response that contains the suspended subscription. */
 export interface SuspendSubscriptionResponse {
@@ -767,7 +832,7 @@ export const cancelPartnersSubscriptions: API.OperationMethod<
   CancelPartnersSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c8, 1) as any as S.Schema<CancelPartnersSubscriptionsRequest>,
+  input: __S(128, __c8, 0) as any as S.Schema<CancelPartnersSubscriptionsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<CancelSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -811,7 +876,7 @@ export const entitlePartnersSubscriptions: API.OperationMethod<
   EntitlePartnersSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(275, __c17, 3) as any as S.Schema<EntitlePartnersSubscriptionsRequest>,
+  input: __S(274, __c17, 2) as any as S.Schema<EntitlePartnersSubscriptionsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<EntitleSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -833,8 +898,8 @@ export const extendPartnersSubscriptions: API.OperationMethod<
   ExtendPartnersSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(290, __c18, 2) as any as S.Schema<ExtendPartnersSubscriptionsRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<ExtendSubscriptionResponse>,
+  input: __S(289, __c18, 1) as any as S.Schema<ExtendPartnersSubscriptionsRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ExtendSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -855,8 +920,8 @@ export const findEligiblePartnersPromotions: API.OperationMethod<
   FindEligiblePartnersPromotionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(305, __c19, 1) as any as S.Schema<FindEligiblePartnersPromotionsRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<FindEligiblePromotionsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<FindEligiblePartnersPromotionsRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<FindEligiblePromotionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -877,8 +942,8 @@ export const generatePartnersUserSessions: API.OperationMethod<
   GeneratePartnersUserSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(357, __c22, 5) as any as S.Schema<GeneratePartnersUserSessionsRequest>,
-  output: __S(359, __c22, 7) as any as S.Schema<GenerateUserSessionResponse>,
+  input: __S(356, __c22, 4) as any as S.Schema<GeneratePartnersUserSessionsRequest>,
+  output: __S(358, __c22, 6) as any as S.Schema<GenerateUserSessionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -998,7 +1063,7 @@ export const resumePartnersSubscriptions: API.OperationMethod<
   ResumePartnersSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c5, 1) as any as S.Schema<ResumePartnersSubscriptionsRequest>,
+  input: __S(80, __c5, 0) as any as S.Schema<ResumePartnersSubscriptionsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<ResumeSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1020,7 +1085,7 @@ export const suspendPartnersSubscriptions: API.OperationMethod<
   SuspendPartnersSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<SuspendPartnersSubscriptionsRequest>,
+  input: __S(96, __c6, 0) as any as S.Schema<SuspendPartnersSubscriptionsRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<SuspendSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1167,7 +1232,19 @@ function __c3(j: number): any {
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(219, __c13, 11).pipe(T.HttpBody())),
+          lineItemFreeTrialEndTime: S.optional(S.String),
+          product: S.optional(S.String),
+          finiteBillingCycleDetails: S.optional(__S(192, __c12, 0)),
+          oneTimeRecurrenceDetails: S.optional(__S(211, __c13, 3)),
+          planType: S.optional(S.String),
+          productPayload: S.optional(__S(215, __c13, 7)),
+          state: S.optional(S.String),
+          lineItemIndex: S.optional(S.Number),
+          description: S.optional(S.String),
+          recurrenceType: S.optional(S.String),
+          amount: S.optional(__S(160, __c10, 0)),
+          lineItemPromotionSpecs: S.optional(__S(209, __c13, 1)),
+          bundleDetails: S.optional(__S(218, __c13, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1187,7 +1264,26 @@ function __c4(j: number): any {
           subscriptionId: S.optional(S.String.pipe(T.Query())),
           "cycleOptions.initialCycleDuration.count": S.optional(S.Number.pipe(T.Query())),
           "cycleOptions.initialCycleDuration.unit": S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(229, __c14, 5).pipe(T.HttpBody())),
+          cycleEndTime: S.optional(S.String),
+          cancellationDetails: S.optional(__S(224, __c14, 0)),
+          name: S.optional(S.String),
+          promotionSpecs: S.optional(__S(209, __c13, 1)),
+          createTime: S.optional(S.String),
+          upgradeDowngradeDetails: S.optional(__S(225, __c14, 1)),
+          partnerUserToken: S.optional(S.String),
+          lineItems: S.optional(__S(226, __c14, 2)),
+          purchaseTime: S.optional(S.String),
+          state: S.optional(S.String),
+          serviceLocation: S.optional(__S(227, __c14, 3)),
+          updateTime: S.optional(S.String),
+          freeTrialEndTime: S.optional(S.String),
+          renewalTime: S.optional(S.String),
+          migrationDetails: S.optional(__S(228, __c14, 4)),
+          redirectUri: S.optional(S.String),
+          endUserEntitled: S.optional(S.Boolean),
+          products: S.optional(__S(161, __c10, 1)),
+          promotions: S.optional(__S(161, __c10, 1)),
+          processingState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1203,15 +1299,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           resumeMode: S.optional(S.String),
           cycleOptions: S.optional(__S(368, __c23, 0)),
-        }),
-      ).annotate({ identifier: "ResumeSubscriptionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(80, __c5, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1227,14 +1317,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          suspendMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SuspendSubscriptionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          suspendMode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1271,15 +1355,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           cancelImmediately: S.optional(S.Boolean),
           cancellationReason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CancelSubscriptionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c8, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1515,7 +1593,26 @@ function __c16(j: number): any {
         S.Struct({
           subscriptionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(229, __c14, 5).pipe(T.HttpBody())),
+          cycleEndTime: S.optional(S.String),
+          cancellationDetails: S.optional(__S(224, __c14, 0)),
+          name: S.optional(S.String),
+          promotionSpecs: S.optional(__S(209, __c13, 1)),
+          createTime: S.optional(S.String),
+          upgradeDowngradeDetails: S.optional(__S(225, __c14, 1)),
+          partnerUserToken: S.optional(S.String),
+          lineItems: S.optional(__S(226, __c14, 2)),
+          purchaseTime: S.optional(S.String),
+          state: S.optional(S.String),
+          serviceLocation: S.optional(__S(227, __c14, 3)),
+          updateTime: S.optional(S.String),
+          freeTrialEndTime: S.optional(S.String),
+          renewalTime: S.optional(S.String),
+          migrationDetails: S.optional(__S(228, __c14, 4)),
+          redirectUri: S.optional(S.String),
+          endUserEntitled: S.optional(S.Boolean),
+          products: S.optional(__S(161, __c10, 1)),
+          promotions: S.optional(__S(161, __c10, 1)),
+          processingState: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1540,14 +1637,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          lineItemEntitlementDetails: S.optional(__S(273, __c17, 1)),
-        }),
-      ).annotate({ identifier: "EntitleSubscriptionRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(274, __c17, 2).pipe(T.HttpBody())),
+          lineItemEntitlementDetails: S.optional(__S(273, __c17, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1570,15 +1661,9 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String),
           extension: S.optional(__S(288, __c18, 0)),
-        }),
-      ).annotate({ identifier: "ExtendSubscriptionRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(289, __c18, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1587,7 +1672,7 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ExtendPartnersSubscriptionsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           freeTrialEndTime: S.optional(S.String),
@@ -1602,16 +1687,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
           filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FindEligiblePromotionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(304, __c19, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1620,7 +1699,7 @@ function __c19(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FindEligiblePartnersPromotionsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           promotions: S.optional(__S(337, __c21, 1)),
@@ -1696,14 +1775,8 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          intentPayload: S.optional(__S(355, __c22, 3)),
-        }),
-      ).annotate({ identifier: "GenerateUserSessionRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(356, __c22, 4).pipe(T.HttpBody())),
+          intentPayload: S.optional(__S(355, __c22, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1712,17 +1785,17 @@ function __c22(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GeneratePartnersUserSessionsRequest" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           token: S.optional(S.String),
           expireTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserSession" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          userSession: S.optional(__S(358, __c22, 6)),
+          userSession: S.optional(__S(357, __c22, 5)),
         }),
       ).annotate({ identifier: "GenerateUserSessionResponse" });
   }

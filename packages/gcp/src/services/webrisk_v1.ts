@@ -182,16 +182,16 @@ export interface GoogleCloudWebriskV1ComputeThreatListDiffResponse {
   /** The expected SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database after applying the provided diff. If the client state doesn't match the expected state, the client must discard this diff and retry later. */
   checksum?: GoogleCloudWebriskV1ComputeThreatListDiffResponseChecksum | undefined;
 }
+export interface CreateProjectsSubmissionsRequest {
+  /** Required. The name of the project that is making the submission. This string is in the format "projects/{project_number}". */
+  parent: string;
+  /** Required. The URI that is being reported for malicious content to be analyzed. */
+  uri?: string | undefined;
+}
 /** Wraps a URI that might be displaying malicious content. */
 export interface GoogleCloudWebriskV1Submission {
   /** Required. The URI that is being reported for malicious content to be analyzed. */
   uri?: string | undefined;
-}
-export interface CreateProjectsSubmissionsRequest {
-  /** Required. The name of the project that is making the submission. This string is in the format "projects/{project_number}". */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudWebriskV1Submission | undefined;
 }
 export interface DeleteProjectsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -372,8 +372,8 @@ export const createProjectsSubmissions: API.OperationMethod<
   CreateProjectsSubmissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<CreateProjectsSubmissionsRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<GoogleCloudWebriskV1Submission>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateProjectsSubmissionsRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<GoogleCloudWebriskV1Submission>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -651,14 +651,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudWebriskV1Submission" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c6, 0).pipe(T.HttpBody())),
+          uri: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -667,6 +661,12 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsSubmissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudWebriskV1Submission" });
   }
 }
 function __c7(j: number): any {

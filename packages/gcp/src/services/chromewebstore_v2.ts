@@ -220,8 +220,9 @@ export interface DeployInfo {
   deployPercentage?: number | undefined;
 }
 export type DeployInfoList = Array<DeployInfo>;
-/** Request message for PublishItem. */
-export interface PublishItemRequest {
+export interface PublishPublishersItemsRequest {
+  /** Required. Name of the item in the form `publishers/{publisherId}/items/{itemId}` */
+  name: string;
   /** Optional. When set to true the request will fail if there are any warnings during validation and the details will be included in the `error.details`. Otherwise warnings are treated as non-blocking and will be ignored for validation but will be included in the response for inspection. Defaults to `false` if unset. */
   blockOnWarnings?: boolean | undefined;
   /** Optional. Use this to control if the item is published immediately on approval or staged for publishing in the future. Defaults to `DEFAULT_PUBLISH` if unset. */
@@ -230,12 +231,6 @@ export interface PublishItemRequest {
   skipReview?: boolean | undefined;
   /** Optional. Additional deploy information including the desired initial percentage rollout. Defaults to the current value saved in the developer dashboard if unset. */
   deployInfos?: DeployInfoList | undefined;
-}
-export interface PublishPublishersItemsRequest {
-  /** Required. Name of the item in the form `publishers/{publisherId}/items/{itemId}` */
-  name: string;
-  /** Request body */
-  body?: PublishItemRequest | undefined;
 }
 /** Represents a single warning encountered during the request. */
 export interface Warning {
@@ -330,8 +325,9 @@ export interface QueryItemMetricsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-/** Request message for RollbackItem. */
-export interface RollbackItemRequest {
+export interface RollbackPublishersItemsRequest {
+  /** Required. Name of the item to rollback in the form `publishers/{publisherId}/items/{itemId}` */
+  name: string;
   /** Required. The new version to assign to the package being rolled back to. This effectively "rolls forward" the previous package by giving it a higher version number than the currently-published package. E.g. if the current published version is 1.1, the new version could be 1.1.1 or 1.2 but not 1.0. */
   newVersion?: string | undefined;
   /** Required. The target previously published CRX version to roll back to. If unset, defaults to the last published CRX version. */
@@ -341,24 +337,13 @@ export interface RollbackItemRequest {
   /** Required. The reason for the rollback that will be used for internal auditing and developer dashboard visibility. */
   rollbackReason?: string | undefined;
 }
-export interface RollbackPublishersItemsRequest {
-  /** Required. Name of the item to rollback in the form `publishers/{publisherId}/items/{itemId}` */
-  name: string;
-  /** Request body */
-  body?: RollbackItemRequest | undefined;
-}
 /** Response message for `RollbackItem`. */
 export interface RollbackItemResponse {}
-/** Request message for SetPublishedDeployPercentage. */
-export interface SetPublishedDeployPercentageRequest {
-  /** Required. Unscaled percentage value for the publised revision (nonnegative number between 0 and 100). It must be larger than the existing target percentage. */
-  deployPercentage?: number | undefined;
-}
 export interface SetPublishedDeployPercentagePublishersItemsRequest {
   /** Required. Name of the item to update the published revision of in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
-  /** Request body */
-  body?: SetPublishedDeployPercentageRequest | undefined;
+  /** Required. Unscaled percentage value for the publised revision (nonnegative number between 0 and 100). It must be larger than the existing target percentage. */
+  deployPercentage?: number | undefined;
 }
 /** Response message for `SetPublishedDeployPercentage`. */
 export interface SetPublishedDeployPercentageResponse {}
@@ -488,8 +473,8 @@ export const queryMetricsPublishersItems: API.PaginatedOperationMethod<
   GcpOpContext,
   QueryItemMetricsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<QueryMetricsPublishersItemsRequest>,
-  output: __S(87, __c10, 7) as any as S.Schema<QueryItemMetricsResponse>,
+  input: __S(73, __c9, 1) as any as S.Schema<QueryMetricsPublishersItemsRequest>,
+  output: __S(79, __c9, 7) as any as S.Schema<QueryItemMetricsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -511,7 +496,7 @@ export const rollbackPublishersItems: API.OperationMethod<
   RollbackPublishersItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<RollbackPublishersItemsRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<RollbackPublishersItemsRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<RollbackItemResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -565,17 +550,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           newVersion: S.optional(S.String),
           targetCrxVersion: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           rollbackReason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RollbackItemRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -592,7 +571,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
+          deployPercentage: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -776,21 +755,21 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(72, __c9, 0));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          blockOnWarnings: S.optional(S.Boolean),
-          publishType: S.optional(S.String),
-          skipReview: S.optional(S.Boolean),
-          deployInfos: S.optional(__S(64, __c8, 0)),
+          deployPercentage: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "PublishItemRequest" });
+      ).annotate({ identifier: "DeployInfo" });
+    case 1:
+      return S.Array(__S(64, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          blockOnWarnings: S.optional(S.Boolean),
+          publishType: S.optional(S.String),
+          skipReview: S.optional(S.Boolean),
+          deployInfos: S.optional(__S(65, __c8, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -828,26 +807,16 @@ function __c8(j: number): any {
 function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deployPercentage: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DeployInfo" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          metrics: S.optional(__S(72, __c9, 0).pipe(T.Query())),
           "timeSpec.lastDate.day": S.optional(S.Number.pipe(T.Query())),
           "timeSpec.firstDate.year": S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           "timeSpec.firstDate.day": S.optional(S.Number.pipe(T.Query())),
-          dimensions: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          dimensions: S.optional(__S(72, __c9, 0).pipe(T.Query())),
           "timeSpec.firstDate.month": S.optional(S.Number.pipe(T.Query())),
           "timeSpec.lastDate.month": S.optional(S.Number.pipe(T.Query())),
           "timeSpec.lastDate.year": S.optional(S.Number.pipe(T.Query())),
@@ -870,7 +839,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "MetricValue" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(74, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -882,17 +851,17 @@ function __c10(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metricValues: S.optional(__S(83, __c10, 3)),
-          date: S.optional(__S(84, __c10, 4)),
-          dimensionValues: S.optional(__S(80, __c10, 0)),
+          metricValues: S.optional(__S(75, __c9, 3)),
+          date: S.optional(__S(76, __c9, 4)),
+          dimensionValues: S.optional(__S(72, __c9, 0)),
         }),
       ).annotate({ identifier: "MetricRow" });
     case 6:
-      return S.Array(__S(85, __c10, 5));
+      return S.Array(__S(77, __c9, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metricRows: S.optional(__S(86, __c10, 6)),
+          metricRows: S.optional(__S(78, __c9, 6)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryItemMetricsResponse" });

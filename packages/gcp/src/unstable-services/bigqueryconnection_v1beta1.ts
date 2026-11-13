@@ -104,6 +104,26 @@ export interface CloudSqlProperties {
   /** Cloud SQL instance ID in the form `project:location:instance`. */
   instanceId?: string | undefined;
 }
+export interface CreateProjectsLocationsConnectionsRequest {
+  /** Optional. Connection id that should be assigned to the created connection. */
+  connectionId?: string | undefined;
+  /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Cloud SQL properties. */
+  cloudSql?: CloudSqlProperties | undefined;
+  /** Output only. The creation timestamp of the connection. */
+  creationTime?: string | undefined;
+  /** The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
+  name?: string | undefined;
+  /** User provided display name for the connection. */
+  friendlyName?: string | undefined;
+  /** Output only. True, if credential is configured for this connection. */
+  hasCredential?: boolean | undefined;
+  /** Output only. The last update timestamp of the connection. */
+  lastModifiedTime?: string | undefined;
+  /** User provided description. */
+  description?: string | undefined;
+}
 /** Configuration parameters to establish connection with an external data source, except the credential attributes. */
 export interface Connection {
   /** Cloud SQL properties. */
@@ -121,14 +141,6 @@ export interface Connection {
   /** User provided description. */
   description?: string | undefined;
 }
-export interface CreateProjectsLocationsConnectionsRequest {
-  /** Optional. Connection id that should be assigned to the created connection. */
-  connectionId?: string | undefined;
-  /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Request body */
-  body?: Connection | undefined;
-}
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Name of the deleted connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name: string;
@@ -140,16 +152,11 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -230,48 +237,43 @@ export interface PatchProjectsLocationsConnectionsRequest {
   name: string;
   /** Required. Update mask for the connection fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Connection | undefined;
+  /** Cloud SQL properties. */
+  cloudSql?: CloudSqlProperties | undefined;
+  /** Output only. The creation timestamp of the connection. */
+  creationTime?: string | undefined;
+  /** User provided display name for the connection. */
+  friendlyName?: string | undefined;
+  /** Output only. True, if credential is configured for this connection. */
+  hasCredential?: boolean | undefined;
+  /** Output only. The last update timestamp of the connection. */
+  lastModifiedTime?: string | undefined;
+  /** User provided description. */
+  description?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsConnectionsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
-}
 export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: StringList | undefined;
 }
-/** Credential to use with a connection. */
-export interface ConnectionCredential {
-  /** Credential for Cloud SQL database. */
-  cloudSql?: CloudSqlCredential | undefined;
-}
 export interface UpdateCredentialProjectsLocationsConnectionsRequest {
   /** Required. Name of the connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}/credential` */
   name: string;
-  /** Request body */
-  body?: ConnectionCredential | undefined;
+  /** Credential for Cloud SQL database. */
+  cloudSql?: CloudSqlCredential | undefined;
 }
 export type CreateProjectsLocationsConnectionsError =
   | NotFound
@@ -330,7 +332,7 @@ export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
   GetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(66, __c8, 2) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>,
+  input: __S(65, __c8, 1) as any as S.Schema<GetIamPolicyProjectsLocationsConnectionsRequest>,
   output: __S(79, __c9, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -410,7 +412,7 @@ export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
   SetIamPolicyProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>,
   output: __S(79, __c9, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -432,8 +434,8 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
   TestIamPermissionsProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<TestIamPermissionsProjectsLocationsConnectionsRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -454,7 +456,7 @@ export const updateCredentialProjectsLocationsConnections: API.OperationMethod<
   UpdateCredentialProjectsLocationsConnectionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<UpdateCredentialProjectsLocationsConnectionsRequest>,
+  input: __S(16, __c2, 0) as any as S.Schema<UpdateCredentialProjectsLocationsConnectionsRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -469,15 +471,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resource: S.String.pipe(T.Label()),
           policy: S.optional(__S(79, __c9, 7)),
           updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -493,14 +489,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(80, __c10, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c1, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(80, __c10, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -509,6 +499,12 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsConnectionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(80, __c10, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c2(j: number): any {
@@ -516,14 +512,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cloudSql: S.optional(__S(40, __c5, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionCredential" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
+          cloudSql: S.optional(__S(40, __c5, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -541,7 +531,13 @@ function __c3(j: number): any {
         S.Struct({
           connectionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
+          cloudSql: S.optional(__S(32, __c4, 0)),
+          creationTime: S.optional(S.String),
+          name: S.optional(S.String),
+          friendlyName: S.optional(S.String),
+          hasCredential: S.optional(S.Boolean),
+          lastModifiedTime: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -622,14 +618,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(64, __c8, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(64, __c8, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -746,7 +736,12 @@ function __c13(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
+          cloudSql: S.optional(__S(32, __c4, 0)),
+          creationTime: S.optional(S.String),
+          friendlyName: S.optional(S.String),
+          hasCredential: S.optional(S.Boolean),
+          lastModifiedTime: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",

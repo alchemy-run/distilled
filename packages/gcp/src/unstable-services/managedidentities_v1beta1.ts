@@ -122,16 +122,11 @@ export interface Trust {
   /** The trust direction, which decides if the current domain is trusted, trusting, or both. */
   trustDirection?: TrustTrustDirectionEnum | (string & {}) | undefined;
 }
-/** Request message for AttachTrust */
-export interface AttachTrustRequest {
-  /** Required. The domain trust resource. */
-  trust?: Trust | undefined;
-}
 export interface AttachTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: AttachTrustRequest | undefined;
+  /** Required. The domain trust resource. */
+  trust?: Trust | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -210,8 +205,11 @@ export type DomainStateEnum =
   | "REPAIRING"
   | "PERFORMING_MAINTENANCE"
   | "UNAVAILABLE";
-/** Represents a managed Microsoft Active Directory domain. If the domain is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
-export interface Domain {
+export interface CreateProjectsLocationsGlobalDomainsRequest {
+  /** Required. The resource project name and location using the form: `projects/{project_id}/locations/global` */
+  parent: string;
+  /** Required. A domain name, e.g. mydomain.myorg.com, with the following restrictions: * Must contain only lowercase letters, numbers, periods and hyphens. * Must start with a letter. * Must contain between 2-64 characters. * Must end with a number or a letter. * Must not start with period. * First segment length (mydomain form example above) shouldn't exceed 15 chars. * The last segment cannot be fully numeric. * Must be unique within the customer project. */
+  domainName?: string | undefined;
   /** Output only. The current trusts associated with the domain. */
   trusts?: TrustList | undefined;
   /** Required. Locations where domain needs to be provisioned. regions e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block. */
@@ -239,18 +237,13 @@ export interface Domain {
   /** Optional. Configuration for audit logs. True if audit logs are enabled, else false. Default is audit logs disabled. */
   auditLogsEnabled?: boolean | undefined;
 }
-export interface CreateProjectsLocationsGlobalDomainsRequest {
-  /** Required. The resource project name and location using the form: `projects/{project_id}/locations/global` */
-  parent: string;
-  /** Required. A domain name, e.g. mydomain.myorg.com, with the following restrictions: * Must contain only lowercase letters, numbers, periods and hyphens. * Must start with a letter. * Must contain between 2-64 characters. * Must end with a number or a letter. * Must not start with period. * First segment length (mydomain form example above) shouldn't exceed 15 chars. * The last segment cannot be fully numeric. * Must be unique within the customer project. */
-  domainName?: string | undefined;
-  /** Request body */
-  body?: Domain | undefined;
-}
 export type BackupTypeEnum = "TYPE_UNSPECIFIED" | "ON_DEMAND" | "SCHEDULED" | "SCHEMA_EXTENSION";
 export type BackupStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "FAILED" | "DELETING";
-/** Represents a Managed Microsoft Identities backup. */
-export interface Backup {
+export interface CreateProjectsLocationsGlobalDomainsBackupsRequest {
+  /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
+  parent: string;
+  /** Required. Backup Id, unique name to identify the backups with the following restrictions: * Must be lowercase letters, numbers, and hyphens * Must start with a letter. * Must contain between 1-63 characters. * Must end with a number or a letter. * Must be unique within the domain. */
+  backupId?: string | undefined;
   /** Output only. Indicates whether it's an on-demand backup or scheduled. */
   type?: BackupTypeEnum | (string & {}) | undefined;
   /** Optional. A short description of the backup. */
@@ -268,22 +261,17 @@ export interface Backup {
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalDomainsBackupsRequest {
-  /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
-  parent: string;
-  /** Required. Backup Id, unique name to identify the backups with the following restrictions: * Must be lowercase letters, numbers, and hyphens * Must start with a letter. * Must contain between 1-63 characters. * Must end with a number or a letter. * Must be unique within the domain. */
-  backupId?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
-}
 export type PeeringStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
   | "CONNECTED"
   | "DISCONNECTED"
   | "DELETING";
-/** Represents a Managed Microsoft Identities Peering. */
-export interface Peering {
+export interface CreateProjectsLocationsGlobalPeeringsRequest {
+  /** Required. Peering Id, unique name to identify peering. */
+  peeringId?: string | undefined;
+  /** Required. Resource project name and location using the form: `projects/{project_id}/locations/global` */
+  parent: string;
   /** Output only. The current state of this Peering. */
   state?: PeeringStateEnum | (string & {}) | undefined;
   /** Optional. Resource labels to represent user provided metadata. */
@@ -301,14 +289,6 @@ export interface Peering {
   /** Required. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Caller needs to make sure that CIDR subnets do not overlap between networks, else peering creation will fail. */
   authorizedNetwork?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalPeeringsRequest {
-  /** Required. Peering Id, unique name to identify peering. */
-  peeringId?: string | undefined;
-  /** Required. Resource project name and location using the form: `projects/{project_id}/locations/global` */
-  parent: string;
-  /** Request body */
-  body?: Peering | undefined;
-}
 export interface DeleteProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -325,16 +305,11 @@ export interface DeleteProjectsLocationsGlobalPeeringsRequest {
   /** Required. Peering resource name using the form: `projects/{project_id}/locations/global/peerings/{peering_id}` */
   name: string;
 }
-/** Request message for DetachTrust */
-export interface DetachTrustRequest {
-  /** Required. The domain trust resource to removed. */
-  trust?: Trust | undefined;
-}
 export interface DetachTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: DetachTrustRequest | undefined;
+  /** Required. The domain trust resource to removed. */
+  trust?: Trust | undefined;
 }
 /** DisableMigrationRequest is the request message for DisableMigration method. */
 export type DisableMigrationRequest = CancelOperationRequest;
@@ -344,20 +319,15 @@ export interface DisableMigrationProjectsLocationsGlobalDomainsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-/** DomainJoinMachineRequest is the request message for DomainJoinMachine method */
-export interface DomainJoinMachineRequest {
+export interface DomainJoinMachineProjectsLocationsGlobalDomainsRequest {
+  /** Required. The domain resource name using the form: projects/{project_id}/locations/global/domains/{domain_name} */
+  domain: string;
   /** Required. Full instance id token of compute engine VM to verify instance identity. More about this: https://cloud.google.com/compute/docs/instances/verifying-instance-identity#request_signature */
   vmIdToken?: string | undefined;
   /** Optional. force if True, forces domain join even if the computer account already exists. */
   force?: boolean | undefined;
   /** Optional. OU name to which the VM needs to be domain joined. If the field is not provided, the VM is joined to the default OU which is created. The default OU for the domain join api is created as GCE Instances under the Cloud OU. Example - OU=GCE Instances,OU=Cloud,DC=ad,DC=test,DC=com If the field is provided, then the custom OU is searched for under GCE Instances OU. Example - if ou_name=test_ou then the VM is domain joined to the following OU: OU=test_ou,OU=GCE Instances,OU=Cloud,DC=ad,DC=test,DC=com if present. If OU is not present under GCE Instances, then error is returned. */
   ouName?: string | undefined;
-}
-export interface DomainJoinMachineProjectsLocationsGlobalDomainsRequest {
-  /** Required. The domain resource name using the form: projects/{project_id}/locations/global/domains/{domain_name} */
-  domain: string;
-  /** Request body */
-  body?: DomainJoinMachineRequest | undefined;
 }
 /** DomainJoinMachineResponse is the response message for DomainJoinMachine method */
 export interface DomainJoinMachineResponse {
@@ -372,33 +342,23 @@ export interface OnPremDomainDetails {
   disableSidFiltering?: boolean | undefined;
 }
 export type OnPremDomainDetailsList = Array<OnPremDomainDetails>;
-/** EnableMigrationRequest is the request message for EnableMigration method. */
-export interface EnableMigrationRequest {
+export interface EnableMigrationProjectsLocationsGlobalDomainsRequest {
+  /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
+  domain: string;
   /** Required. List of the on-prem domains to be migrated. */
   migratingDomains?: OnPremDomainDetailsList | undefined;
   /** Optional. Period after which the migration would be auto disabled. If unspecified, a default timeout of 48h is used. */
   enableDuration?: string | undefined;
 }
-export interface EnableMigrationProjectsLocationsGlobalDomainsRequest {
+export interface ExtendSchemaProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
-  /** Request body */
-  body?: EnableMigrationRequest | undefined;
-}
-/** ExtendSchemaRequest is the request message for ExtendSchema method. */
-export interface ExtendSchemaRequest {
   /** File stored in Cloud Storage bucket and represented in the form projects/{project_id}/buckets/{bucket_name}/objects/{object_name} File should be in the same project as the domain. */
   gcsPath?: string | undefined;
   /** File uploaded as a byte stream input. */
   fileContents?: string | undefined;
   /** Required. Description for Schema Change. */
   description?: string | undefined;
-}
-export interface ExtendSchemaProjectsLocationsGlobalDomainsRequest {
-  /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
-  domain: string;
-  /** Request body */
-  body?: ExtendSchemaRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -473,7 +433,7 @@ export interface LDAPSSettings {
   /** Output only. The certificate used to configure LDAPS. Certificates can be chained with a maximum length of 15. */
   certificate?: Certificate | undefined;
   /** Output only. The current state of this LDAPS settings. */
-  state?: LDAPSSettingsStateEnum | (string & {}) | undefined;
+  state?: LDAPSSettingsStateEnum | undefined;
   /** Output only. Last update time. */
   updateTime?: string | undefined;
   /** Input only. The password used to encrypt the uploaded pfx certificate. */
@@ -502,9 +462,57 @@ export interface GetProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
 }
+/** Represents a managed Microsoft Active Directory domain. If the domain is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
+export interface Domain {
+  /** Output only. The current trusts associated with the domain. */
+  trusts?: TrustList | undefined;
+  /** Required. Locations where domain needs to be provisioned. regions e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block. */
+  locations?: StringList | undefined;
+  /** Optional. Resource labels that can contain user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. The name of delegated administrator account used to perform Active Directory operations. If not specified, `setupadmin` will be used. */
+  admin?: string | undefined;
+  /** Output only. The last update time. */
+  updateTime?: string | undefined;
+  /** Required. The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger. Ranges must be unique and non-overlapping with existing subnets in [Domain].[authorized_networks]. */
+  reservedIpRange?: string | undefined;
+  /** Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
+  name?: string | undefined;
+  /** Output only. The fully-qualified domain name of the exposed domain used by clients to connect to the service. Similar to what would be chosen for an Active Directory set up on an internal network. */
+  fqdn?: string | undefined;
+  /** Optional. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) the domain instance is connected to. Networks can be added using UpdateDomain. The domain is only available on networks listed in `authorized_networks`. If CIDR subnets overlap between networks, domain creation will fail. */
+  authorizedNetworks?: StringList | undefined;
+  /** Output only. The current state of this domain. */
+  state?: DomainStateEnum | undefined;
+  /** Output only. Additional information about the current status of this domain, if available. */
+  statusMessage?: string | undefined;
+  /** Output only. The time the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. Configuration for audit logs. True if audit logs are enabled, else false. Default is audit logs disabled. */
+  auditLogsEnabled?: boolean | undefined;
+}
 export interface GetProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. The backup resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}/backups/{backup_id}` */
   name: string;
+}
+/** Represents a Managed Microsoft Identities backup. */
+export interface Backup {
+  /** Output only. Indicates whether it's an on-demand backup or scheduled. */
+  type?: BackupTypeEnum | undefined;
+  /** Optional. A short description of the backup. */
+  description?: string | undefined;
+  /** Output only. The time the backups was created. */
+  createTime?: string | undefined;
+  /** Output only. Additional information about the current status of this backup, if available. */
+  statusMessage?: string | undefined;
+  /** Output only. Last update time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The current state of the backup. */
+  state?: BackupStateEnum | undefined;
+  /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest {
   /** Required. SqlIntegration resource name using the form: `projects/{project_id}/locations/global/domains/*\/sqlIntegrations/{name}` */
@@ -531,6 +539,25 @@ export interface GetProjectsLocationsGlobalOperationsRequest {
 export interface GetProjectsLocationsGlobalPeeringsRequest {
   /** Required. Peering resource name using the form: `projects/{project_id}/locations/global/peerings/{peering_id}` */
   name: string;
+}
+/** Represents a Managed Microsoft Identities Peering. */
+export interface Peering {
+  /** Output only. The current state of this Peering. */
+  state?: PeeringStateEnum | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The time the instance was created. */
+  createTime?: string | undefined;
+  /** Output only. Last update time. */
+  updateTime?: string | undefined;
+  /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
+  name?: string | undefined;
+  /** Required. Full domain resource path for the Managed AD Domain involved in peering. The resource path should be in the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
+  domainResource?: string | undefined;
+  /** Output only. Additional information about the current status of this peering, if available. */
+  statusMessage?: string | undefined;
+  /** Required. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Caller needs to make sure that CIDR subnets do not overlap between networks, else peering creation will fail. */
+  authorizedNetwork?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
@@ -667,37 +694,78 @@ export interface PatchProjectsLocationsGlobalDomainsRequest {
   updateMask?: string | undefined;
   /** Output only. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
   name: string;
-  /** Request body */
-  body?: Domain | undefined;
+  /** Output only. The current trusts associated with the domain. */
+  trusts?: TrustList | undefined;
+  /** Required. Locations where domain needs to be provisioned. regions e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block. */
+  locations?: StringList | undefined;
+  /** Optional. Resource labels that can contain user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. The name of delegated administrator account used to perform Active Directory operations. If not specified, `setupadmin` will be used. */
+  admin?: string | undefined;
+  /** Output only. The last update time. */
+  updateTime?: string | undefined;
+  /** Required. The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger. Ranges must be unique and non-overlapping with existing subnets in [Domain].[authorized_networks]. */
+  reservedIpRange?: string | undefined;
+  /** Output only. The fully-qualified domain name of the exposed domain used by clients to connect to the service. Similar to what would be chosen for an Active Directory set up on an internal network. */
+  fqdn?: string | undefined;
+  /** Optional. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) the domain instance is connected to. Networks can be added using UpdateDomain. The domain is only available on networks listed in `authorized_networks`. If CIDR subnets overlap between networks, domain creation will fail. */
+  authorizedNetworks?: StringList | undefined;
+  /** Output only. The current state of this domain. */
+  state?: DomainStateEnum | (string & {}) | undefined;
+  /** Output only. Additional information about the current status of this domain, if available. */
+  statusMessage?: string | undefined;
+  /** Output only. The time the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. Configuration for audit logs. True if audit logs are enabled, else false. Default is audit logs disabled. */
+  auditLogsEnabled?: boolean | undefined;
 }
 export interface PatchProjectsLocationsGlobalDomainsBackupsRequest {
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Backup: * `labels` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Backup | undefined;
+  /** Output only. Indicates whether it's an on-demand backup or scheduled. */
+  type?: BackupTypeEnum | (string & {}) | undefined;
+  /** Optional. A short description of the backup. */
+  description?: string | undefined;
+  /** Output only. The time the backups was created. */
+  createTime?: string | undefined;
+  /** Output only. Additional information about the current status of this backup, if available. */
+  statusMessage?: string | undefined;
+  /** Output only. Last update time. */
+  updateTime?: string | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The current state of the backup. */
+  state?: BackupStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsGlobalPeeringsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Peering: * `labels` */
   updateMask?: string | undefined;
   /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
   name: string;
-  /** Request body */
-  body?: Peering | undefined;
-}
-/** Request message for ReconfigureTrust */
-export interface ReconfigureTrustRequest {
-  /** Required. The fully-qualified target domain name which will be in trust with current domain. */
-  targetDomainName?: string | undefined;
-  /** Required. The target DNS server IP addresses to resolve the remote domain involved in the trust. */
-  targetDnsIpAddresses?: StringList | undefined;
+  /** Output only. The current state of this Peering. */
+  state?: PeeringStateEnum | (string & {}) | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. The time the instance was created. */
+  createTime?: string | undefined;
+  /** Output only. Last update time. */
+  updateTime?: string | undefined;
+  /** Required. Full domain resource path for the Managed AD Domain involved in peering. The resource path should be in the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
+  domainResource?: string | undefined;
+  /** Output only. Additional information about the current status of this peering, if available. */
+  statusMessage?: string | undefined;
+  /** Required. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Caller needs to make sure that CIDR subnets do not overlap between networks, else peering creation will fail. */
+  authorizedNetwork?: string | undefined;
 }
 export interface ReconfigureTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: ReconfigureTrustRequest | undefined;
+  /** Required. The fully-qualified target domain name which will be in trust with current domain. */
+  targetDomainName?: string | undefined;
+  /** Required. The target DNS server IP addresses to resolve the remote domain involved in the trust. */
+  targetDnsIpAddresses?: StringList | undefined;
 }
 /** Request message for ResetAdminPassword */
 export type ResetAdminPasswordRequest = CancelOperationRequest;
@@ -712,50 +780,35 @@ export interface ResetAdminPasswordResponse {
   /** A random password. See admin for more information. */
   password?: string | undefined;
 }
-/** RestoreDomainRequest is the request received by RestoreDomain rpc */
-export interface RestoreDomainRequest {
-  /** Required. ID of the backup to be restored */
-  backupId?: string | undefined;
-}
 export interface RestoreProjectsLocationsGlobalDomainsRequest {
   /** Required. resource name for the domain to which the backup belongs */
   name: string;
-  /** Request body */
-  body?: RestoreDomainRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
+  /** Required. ID of the backup to be restored */
+  backupId?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalPeeringsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -765,33 +818,36 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalPeeringsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest {
   /** The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: LDAPSSettings | undefined;
-}
-/** Request message for ValidateTrust */
-export interface ValidateTrustRequest {
-  /** Required. The domain trust to validate trust state for. */
-  trust?: Trust | undefined;
+  /** Input only. The uploaded PKCS12-formatted certificate to configure LDAPS with. It will enable the domain controllers in this domain to accept LDAPS connections (either LDAP over SSL/TLS or the StartTLS operation). A valid certificate chain must form a valid x.509 certificate chain (or be comprised of a single self-signed certificate. It must be encrypted with either: 1) PBES2 + PBKDF2 + AES256 encryption and SHA256 PRF; or 2) pbeWithSHA1And3-KeyTripleDES-CBC Private key must be included for the leaf / single self-signed certificate. Note: For a fqdn your-example-domain.com, the wildcard fqdn is *.your-example-domain.com. Specifically the leaf certificate must have: - Either a blank subject or a subject with CN matching the wildcard fqdn. - Exactly two SANs - the fqdn and wildcard fqdn. - Encipherment and digital key signature key usages. - Server authentication extended key usage (OID=1.3.6.1.5.5.7.3.1) - Private key must be in one of the following formats: RSA, ECDSA, ED25519. - Private key must have appropriate key length: 2048 for RSA, 256 for ECDSA - Signature algorithm of the leaf certificate cannot be MD2, MD5 or SHA1. */
+  certificatePfx?: string | undefined;
+  /** Output only. The certificate used to configure LDAPS. Certificates can be chained with a maximum length of 15. */
+  certificate?: Certificate | undefined;
+  /** Output only. The current state of this LDAPS settings. */
+  state?: LDAPSSettingsStateEnum | (string & {}) | undefined;
+  /** Output only. Last update time. */
+  updateTime?: string | undefined;
+  /** Input only. The password used to encrypt the uploaded pfx certificate. */
+  certificatePassword?: string | undefined;
 }
 export interface ValidateTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
-  /** Request body */
-  body?: ValidateTrustRequest | undefined;
+  /** Required. The domain trust to validate trust state for. */
+  trust?: Trust | undefined;
 }
 export type AttachTrustProjectsLocationsGlobalDomainsError =
   | NotFound
@@ -806,8 +862,8 @@ export const attachTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   AttachTrustProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<AttachTrustProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(148, __c37, 0) as any as S.Schema<AttachTrustProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -828,8 +884,8 @@ export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<
   CancelProjectsLocationsGlobalOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(204, __c51, 0) as any as S.Schema<CancelProjectsLocationsGlobalOperationsRequest>,
-  output: __S(208, __c52, 0) as any as S.Schema<Empty>,
+  input: __S(208, __c52, 0) as any as S.Schema<CancelProjectsLocationsGlobalOperationsRequest>,
+  output: __S(212, __c53, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -851,11 +907,11 @@ export const checkMigrationPermissionProjectsLocationsGlobalDomains: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    212,
-    __c53,
+    216,
+    __c54,
     0,
   ) as any as S.Schema<CheckMigrationPermissionProjectsLocationsGlobalDomainsRequest>,
-  output: __S(215, __c53, 3) as any as S.Schema<CheckMigrationPermissionResponse>,
+  output: __S(219, __c54, 3) as any as S.Schema<CheckMigrationPermissionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -876,8 +932,8 @@ export const createProjectsLocationsGlobalDomains: API.OperationMethod<
   CreateProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c54, 0) as any as S.Schema<CreateProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(220, __c55, 0) as any as S.Schema<CreateProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -898,8 +954,8 @@ export const createProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   CreateProjectsLocationsGlobalDomainsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(228, __c57, 0) as any as S.Schema<CreateProjectsLocationsGlobalDomainsBackupsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(232, __c58, 0) as any as S.Schema<CreateProjectsLocationsGlobalDomainsBackupsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -921,7 +977,7 @@ export const createProjectsLocationsGlobalPeerings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(236, __c59, 0) as any as S.Schema<CreateProjectsLocationsGlobalPeeringsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -943,7 +999,7 @@ export const deleteProjectsLocationsGlobalDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -965,7 +1021,7 @@ export const deleteProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteProjectsLocationsGlobalDomainsBackupsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -987,7 +1043,7 @@ export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DeleteProjectsLocationsGlobalOperationsRequest>,
-  output: __S(208, __c52, 0) as any as S.Schema<Empty>,
+  output: __S(212, __c53, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1009,7 +1065,7 @@ export const deleteProjectsLocationsGlobalPeerings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DeleteProjectsLocationsGlobalPeeringsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1031,7 +1087,7 @@ export const detachTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DetachTrustProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1053,7 +1109,7 @@ export const disableMigrationProjectsLocationsGlobalDomains: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DisableMigrationProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1075,11 +1131,11 @@ export const domainJoinMachineProjectsLocationsGlobalDomains: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25,
+    24,
     __c6,
-    1,
+    0,
   ) as any as S.Schema<DomainJoinMachineProjectsLocationsGlobalDomainsRequest>,
-  output: __S(26, __c6, 2) as any as S.Schema<DomainJoinMachineResponse>,
+  output: __S(25, __c6, 1) as any as S.Schema<DomainJoinMachineResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1100,8 +1156,8 @@ export const enableMigrationProjectsLocationsGlobalDomains: API.OperationMethod<
   EnableMigrationProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31, __c7, 3) as any as S.Schema<EnableMigrationProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(30, __c7, 2) as any as S.Schema<EnableMigrationProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1122,8 +1178,8 @@ export const extendSchemaProjectsLocationsGlobalDomains: API.OperationMethod<
   ExtendSchemaProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c8, 1) as any as S.Schema<ExtendSchemaProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(32, __c8, 0) as any as S.Schema<ExtendSchemaProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1202,7 +1258,7 @@ export const getLdapssettingsProjectsLocationsGlobalDomains: API.OperationMethod
     __c13,
     0,
   ) as any as S.Schema<GetLdapssettingsProjectsLocationsGlobalDomainsRequest>,
-  output: __S(57, __c14, 1) as any as S.Schema<LDAPSSettings>,
+  output: __S(53, __c13, 1) as any as S.Schema<LDAPSSettings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1236,7 +1292,7 @@ export const getProjectsLocationsGlobalDomains: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<GetProjectsLocationsGlobalDomainsRequest>,
-  output: __S(221, __c55, 1) as any as S.Schema<Domain>,
+  output: __S(72, __c18, 0) as any as S.Schema<Domain>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1252,8 +1308,8 @@ export const getProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   GetProjectsLocationsGlobalDomainsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetProjectsLocationsGlobalDomainsBackupsRequest>,
-  output: __S(232, __c58, 0) as any as S.Schema<Backup>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetProjectsLocationsGlobalDomainsBackupsRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1273,11 +1329,11 @@ export const getProjectsLocationsGlobalDomainsSqlIntegrations: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    76,
-    __c19,
+    84,
+    __c21,
     0,
   ) as any as S.Schema<GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest>,
-  output: __S(80, __c20, 0) as any as S.Schema<SqlIntegration>,
+  output: __S(88, __c22, 0) as any as S.Schema<SqlIntegration>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1293,8 +1349,8 @@ export const getProjectsLocationsGlobalOperations: API.OperationMethod<
   GetProjectsLocationsGlobalOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<GetProjectsLocationsGlobalOperationsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(92, __c23, 0) as any as S.Schema<GetProjectsLocationsGlobalOperationsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1310,8 +1366,8 @@ export const getProjectsLocationsGlobalPeerings: API.OperationMethod<
   GetProjectsLocationsGlobalPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<GetProjectsLocationsGlobalPeeringsRequest>,
-  output: __S(240, __c60, 0) as any as S.Schema<Peering>,
+  input: __S(96, __c24, 0) as any as S.Schema<GetProjectsLocationsGlobalPeeringsRequest>,
+  output: __S(100, __c25, 0) as any as S.Schema<Peering>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1328,8 +1384,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(94, __c23, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(106, __c26, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1347,8 +1403,8 @@ export const listProjectsLocationsGlobalDomains: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDomainsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<ListProjectsLocationsGlobalDomainsRequest>,
-  output: __S(98, __c24, 2) as any as S.Schema<ListDomainsResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<ListProjectsLocationsGlobalDomainsRequest>,
+  output: __S(110, __c27, 2) as any as S.Schema<ListDomainsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1366,8 +1422,8 @@ export const listProjectsLocationsGlobalDomainsBackups: API.PaginatedOperationMe
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<ListProjectsLocationsGlobalDomainsBackupsRequest>,
-  output: __S(102, __c25, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<ListProjectsLocationsGlobalDomainsBackupsRequest>,
+  output: __S(114, __c28, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1389,11 +1445,11 @@ export const listProjectsLocationsGlobalDomainsSqlIntegrations: API.PaginatedOpe
   ListSqlIntegrationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    104,
-    __c26,
+    116,
+    __c29,
     0,
   ) as any as S.Schema<ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest>,
-  output: __S(106, __c26, 2) as any as S.Schema<ListSqlIntegrationsResponse>,
+  output: __S(118, __c29, 2) as any as S.Schema<ListSqlIntegrationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1411,8 +1467,8 @@ export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<ListProjectsLocationsGlobalOperationsRequest>,
-  output: __S(110, __c27, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<ListProjectsLocationsGlobalOperationsRequest>,
+  output: __S(122, __c30, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1430,8 +1486,8 @@ export const listProjectsLocationsGlobalPeerings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPeeringsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<ListProjectsLocationsGlobalPeeringsRequest>,
-  output: __S(114, __c28, 2) as any as S.Schema<ListPeeringsResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<ListProjectsLocationsGlobalPeeringsRequest>,
+  output: __S(126, __c31, 2) as any as S.Schema<ListPeeringsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1453,8 +1509,8 @@ export const patchProjectsLocationsGlobalDomains: API.OperationMethod<
   PatchProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<PatchProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(128, __c32, 0) as any as S.Schema<PatchProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1475,8 +1531,8 @@ export const patchProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   PatchProjectsLocationsGlobalDomainsBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<PatchProjectsLocationsGlobalDomainsBackupsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(132, __c33, 0) as any as S.Schema<PatchProjectsLocationsGlobalDomainsBackupsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1497,8 +1553,8 @@ export const patchProjectsLocationsGlobalPeerings: API.OperationMethod<
   PatchProjectsLocationsGlobalPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<PatchProjectsLocationsGlobalPeeringsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(136, __c34, 0) as any as S.Schema<PatchProjectsLocationsGlobalPeeringsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1520,11 +1576,11 @@ export const reconfigureTrustProjectsLocationsGlobalDomains: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    129,
-    __c32,
-    1,
+    140,
+    __c35,
+    0,
   ) as any as S.Schema<ReconfigureTrustProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1546,11 +1602,11 @@ export const resetAdminPasswordProjectsLocationsGlobalDomains: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    132,
-    __c33,
+    144,
+    __c36,
     0,
   ) as any as S.Schema<ResetAdminPasswordProjectsLocationsGlobalDomainsRequest>,
-  output: __S(133, __c33, 1) as any as S.Schema<ResetAdminPasswordResponse>,
+  output: __S(145, __c36, 1) as any as S.Schema<ResetAdminPasswordResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1571,8 +1627,8 @@ export const restoreProjectsLocationsGlobalDomains: API.OperationMethod<
   RestoreProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(161, __c40, 1) as any as S.Schema<RestoreProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(168, __c42, 0) as any as S.Schema<RestoreProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1593,7 +1649,7 @@ export const setIamPolicyProjectsLocationsGlobalDomains: API.OperationMethod<
   SetIamPolicyProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalDomainsRequest>,
+  input: __S(172, __c43, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalDomainsRequest>,
   output: __S(43, __c10, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1616,8 +1672,8 @@ export const setIamPolicyProjectsLocationsGlobalDomainsBackups: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    172,
-    __c43,
+    176,
+    __c44,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest>,
   output: __S(43, __c10, 3) as any as S.Schema<Policy>,
@@ -1641,7 +1697,7 @@ export const setIamPolicyProjectsLocationsGlobalPeerings: API.OperationMethod<
   SetIamPolicyProjectsLocationsGlobalPeeringsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalPeeringsRequest>,
+  input: __S(180, __c45, 0) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalPeeringsRequest>,
   output: __S(43, __c10, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1664,11 +1720,11 @@ export const testIamPermissionsProjectsLocationsGlobalDomains: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    180,
-    __c45,
+    184,
+    __c46,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalDomainsRequest>,
-  output: __S(184, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(188, __c47, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1690,11 +1746,11 @@ export const testIamPermissionsProjectsLocationsGlobalDomainsBackups: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    188,
-    __c47,
+    192,
+    __c48,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest>,
-  output: __S(184, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(188, __c47, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1716,11 +1772,11 @@ export const testIamPermissionsProjectsLocationsGlobalPeerings: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c48,
+    196,
+    __c49,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalPeeringsRequest>,
-  output: __S(184, __c46, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(188, __c47, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1742,11 +1798,11 @@ export const updateLdapssettingsProjectsLocationsGlobalDomains: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    196,
-    __c49,
+    200,
+    __c50,
     0,
   ) as any as S.Schema<UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1767,8 +1823,8 @@ export const validateTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   ValidateTrustProjectsLocationsGlobalDomainsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c50, 0) as any as S.Schema<ValidateTrustProjectsLocationsGlobalDomainsRequest>,
-  output: __S(158, __c39, 2) as any as S.Schema<Operation>,
+  input: __S(204, __c51, 0) as any as S.Schema<ValidateTrustProjectsLocationsGlobalDomainsRequest>,
+  output: __S(166, __c41, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1847,7 +1903,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
+          trust: S.optional(__S(156, __c39, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1864,7 +1920,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c52, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(212, __c53, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1880,16 +1936,10 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          domain: S.String.pipe(T.Label()),
           vmIdToken: S.optional(S.String),
           force: S.optional(S.Boolean),
           ouName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DomainJoinMachineRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c6, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1898,7 +1948,7 @@ function __c6(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DomainJoinMachineProjectsLocationsGlobalDomainsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           domainJoinBlob: S.optional(S.String),
@@ -1920,15 +1970,9 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          domain: S.String.pipe(T.Label()),
           migratingDomains: S.optional(__S(29, __c7, 1)),
           enableDuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnableMigrationRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(30, __c7, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1944,16 +1988,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          domain: S.String.pipe(T.Label()),
           gcsPath: S.optional(S.String),
           fileContents: S.optional(S.String),
           description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExtendSchemaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c8, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1996,7 +2034,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(40, __c10, 0)),
-          members: S.optional(__S(144, __c36, 0)),
+          members: S.optional(__S(152, __c38, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
@@ -2060,20 +2098,6 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetLdapssettingsProjectsLocationsGlobalDomainsRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subjectAlternativeName: S.optional(__S(144, __c36, 0)),
-          subject: S.optional(S.String),
-          issuingCertificate: S.optional(__S(56, __c14, 0)),
-          expireTime: S.optional(S.String),
-          thumbprint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Certificate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -2085,6 +2109,20 @@ function __c14(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "LDAPSSettings" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subjectAlternativeName: S.optional(__S(152, __c38, 0)),
+          subject: S.optional(S.String),
+          issuingCertificate: S.optional(__S(56, __c14, 0)),
+          expireTime: S.optional(S.String),
+          thumbprint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Certificate" });
   }
 }
 function __c15(j: number): any {
@@ -2109,8 +2147,8 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          labels: S.optional(__S(224, __c56, 0)),
-          metadata: S.optional(__S(152, __c38, 0)),
+          labels: S.optional(__S(228, __c57, 0)),
+          metadata: S.optional(__S(160, __c40, 0)),
           name: S.optional(S.String),
           locationId: S.optional(S.String),
         }),
@@ -2138,15 +2176,21 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://managedidentities.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsGlobalDomainsBackupsRequest" });
+          trusts: S.optional(__S(224, __c56, 0)),
+          locations: S.optional(__S(152, __c38, 0)),
+          labels: S.optional(__S(228, __c57, 0)),
+          admin: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          reservedIpRange: S.optional(S.String),
+          name: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          authorizedNetworks: S.optional(__S(152, __c38, 0)),
+          state: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          createTime: S.optional(S.String),
+          auditLogsEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Domain" });
   }
 }
 function __c19(j: number): any {
@@ -2162,7 +2206,7 @@ function __c19(j: number): any {
             baseUrl: "https://managedidentities.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsGlobalDomainsBackupsRequest" });
   }
 }
 function __c20(j: number): any {
@@ -2170,13 +2214,16 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.optional(S.String),
+          description: S.optional(S.String),
           createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          sqlInstance: S.optional(S.String),
+          statusMessage: S.optional(S.String),
           updateTime: S.optional(S.String),
+          labels: S.optional(__S(228, __c57, 0)),
           state: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SqlIntegration" });
+      ).annotate({ identifier: "Backup" });
   }
 }
 function __c21(j: number): any {
@@ -2192,10 +2239,40 @@ function __c21(j: number): any {
             baseUrl: "https://managedidentities.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsGlobalOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest" });
   }
 }
 function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          sqlInstance: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlIntegration" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://managedidentities.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsGlobalOperationsRequest" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2211,7 +2288,24 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGlobalPeeringsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          labels: S.optional(__S(228, __c57, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          domainResource: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          authorizedNetwork: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Peering" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2220,7 +2314,7 @@ function __c23(j: number): any {
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(144, __c36, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(152, __c38, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2235,12 +2329,12 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(93, __c23, 1)),
+          locations: S.optional(__S(105, __c26, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2259,18 +2353,18 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalDomainsRequest" });
     case 1:
-      return S.Array(__S(221, __c55, 1));
+      return S.Array(__S(72, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          domains: S.optional(__S(97, __c24, 1)),
-          unreachable: S.optional(__S(144, __c36, 0)),
+          domains: S.optional(__S(109, __c27, 1)),
+          unreachable: S.optional(__S(152, __c38, 0)),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2289,18 +2383,18 @@ function __c25(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalDomainsBackupsRequest" });
     case 1:
-      return S.Array(__S(232, __c58, 0));
+      return S.Array(__S(80, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(144, __c36, 0)),
-          backups: S.optional(__S(101, __c25, 1)),
+          unreachable: S.optional(__S(152, __c38, 0)),
+          backups: S.optional(__S(113, __c28, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2319,18 +2413,18 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest" });
     case 1:
-      return S.Array(__S(80, __c20, 0));
+      return S.Array(__S(88, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sqlIntegrations: S.optional(__S(105, __c26, 1)),
+          sqlIntegrations: S.optional(__S(117, __c29, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(144, __c36, 0)),
+          unreachable: S.optional(__S(152, __c38, 0)),
         }),
       ).annotate({ identifier: "ListSqlIntegrationsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2349,18 +2443,18 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalOperationsRequest" });
     case 1:
-      return S.Array(__S(158, __c39, 2));
+      return S.Array(__S(166, __c41, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(144, __c36, 0)),
-          operations: S.optional(__S(109, __c27, 1)),
+          unreachable: S.optional(__S(152, __c38, 0)),
+          operations: S.optional(__S(121, __c30, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2379,25 +2473,36 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalPeeringsRequest" });
     case 1:
-      return S.Array(__S(240, __c60, 0));
+      return S.Array(__S(100, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(144, __c36, 0)),
-          peerings: S.optional(__S(113, __c28, 1)),
+          unreachable: S.optional(__S(152, __c38, 0)),
+          peerings: S.optional(__S(125, __c31, 1)),
         }),
       ).annotate({ identifier: "ListPeeringsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(221, __c55, 1).pipe(T.HttpBody())),
+          trusts: S.optional(__S(224, __c56, 0)),
+          locations: S.optional(__S(152, __c38, 0)),
+          labels: S.optional(__S(228, __c57, 0)),
+          admin: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          reservedIpRange: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          authorizedNetworks: S.optional(__S(152, __c38, 0)),
+          state: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          createTime: S.optional(S.String),
+          auditLogsEnabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2408,14 +2513,20 @@ function __c29(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(228, __c57, 0)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2426,14 +2537,20 @@ function __c30(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalDomainsBackupsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c60, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          labels: S.optional(__S(228, __c57, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          domainResource: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          authorizedNetwork: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2444,20 +2561,14 @@ function __c31(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalPeeringsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetDomainName: S.optional(S.String),
-          targetDnsIpAddresses: S.optional(__S(144, __c36, 0)),
-        }),
-      ).annotate({ identifier: "ReconfigureTrustRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(128, __c32, 0).pipe(T.HttpBody())),
+          targetDomainName: S.optional(S.String),
+          targetDnsIpAddresses: S.optional(__S(152, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2468,13 +2579,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ReconfigureTrustProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c52, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(212, __c53, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2491,13 +2602,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ResetAdminPasswordResponse" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
+          trust: S.optional(__S(156, __c39, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2508,23 +2619,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "AttachTrustProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          trust: S.optional(__S(148, __c37, 0)),
-        }),
-      ).annotate({ identifier: "AttachTrustRequest" });
-  }
-}
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2532,7 +2633,7 @@ function __c37(j: number): any {
           updateTime: S.optional(S.String),
           trustHandshakeSecret: S.optional(S.String),
           createTime: S.optional(S.String),
-          targetDnsIpAddresses: S.optional(__S(144, __c36, 0)),
+          targetDnsIpAddresses: S.optional(__S(152, __c38, 0)),
           targetDomainName: S.optional(S.String),
           state: S.optional(S.String),
           lastTrustHeartbeatTime: S.optional(S.String),
@@ -2544,49 +2645,43 @@ function __c37(j: number): any {
       ).annotate({ identifier: "Trust" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(152, __c38, 0));
+      return S.Array(__S(160, __c40, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(156, __c39, 0)),
+          details: S.optional(__S(164, __c41, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(152, __c38, 0)),
-          response: S.optional(__S(152, __c38, 0)),
+          metadata: S.optional(__S(160, __c40, 0)),
+          response: S.optional(__S(160, __c40, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(157, __c39, 1)),
+          error: S.optional(__S(165, __c41, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          backupId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestoreDomainRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c40, 0).pipe(T.HttpBody())),
+          backupId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2597,13 +2692,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "RestoreProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(43, __c10, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2614,23 +2709,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(43, __c10, 3)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(43, __c10, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2641,13 +2726,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c42, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(43, __c10, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2658,13 +2743,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalPeeringsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(152, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2675,23 +2760,23 @@ function __c45(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(144, __c36, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
 function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          permissions: S.optional(__S(152, __c38, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(152, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2702,13 +2787,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(184, __c46, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(152, __c38, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2719,14 +2804,18 @@ function __c48(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsGlobalPeeringsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(57, __c14, 1).pipe(T.HttpBody())),
+          certificatePfx: S.optional(S.String),
+          certificate: S.optional(__S(56, __c14, 0)),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          certificatePassword: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2737,13 +2826,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(140, __c35, 0).pipe(T.HttpBody())),
+          trust: S.optional(__S(156, __c39, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2754,13 +2843,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ValidateTrustProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c52, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(212, __c53, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2771,19 +2860,19 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsGlobalOperationsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          body: S.optional(__S(208, __c52, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(212, __c53, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2800,24 +2889,36 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "OnPremDomainSIDDetails" });
     case 2:
-      return S.Array(__S(213, __c53, 1));
+      return S.Array(__S(217, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          onpremDomains: S.optional(__S(214, __c53, 2)),
+          onpremDomains: S.optional(__S(218, __c54, 2)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckMigrationPermissionResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           domainName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(221, __c55, 1).pipe(T.HttpBody())),
+          trusts: S.optional(__S(224, __c56, 0)),
+          locations: S.optional(__S(152, __c38, 0)),
+          labels: S.optional(__S(228, __c57, 0)),
+          admin: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          reservedIpRange: S.optional(S.String),
+          name: S.optional(S.String),
+          fqdn: S.optional(S.String),
+          authorizedNetworks: S.optional(__S(152, __c38, 0)),
+          state: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          createTime: S.optional(S.String),
+          auditLogsEnabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2828,44 +2929,33 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGlobalDomainsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(148, __c37, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          trusts: S.optional(__S(220, __c55, 0)),
-          locations: S.optional(__S(144, __c36, 0)),
-          labels: S.optional(__S(224, __c56, 0)),
-          admin: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          reservedIpRange: S.optional(S.String),
-          name: S.optional(S.String),
-          fqdn: S.optional(S.String),
-          authorizedNetworks: S.optional(__S(144, __c36, 0)),
-          state: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          createTime: S.optional(S.String),
-          auditLogsEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Domain" });
+      return S.Array(__S(156, __c39, 0));
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           backupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(232, __c58, 0).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(228, __c57, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2876,23 +2966,6 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGlobalDomainsBackupsRequest" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(224, __c56, 0)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Backup" });
-  }
-}
 function __c59(j: number): any {
   switch (j) {
     case 0:
@@ -2900,7 +2973,14 @@ function __c59(j: number): any {
         S.Struct({
           peeringId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c60, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          labels: S.optional(__S(228, __c57, 0)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          domainResource: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+          authorizedNetwork: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2909,23 +2989,6 @@ function __c59(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsGlobalPeeringsRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          labels: S.optional(__S(224, __c56, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          domainResource: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-          authorizedNetwork: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Peering" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

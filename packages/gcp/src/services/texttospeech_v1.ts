@@ -294,8 +294,9 @@ export interface AudioConfig {
   /** Optional. Input only. Speaking pitch, in the range [-20.0, 20.0]. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. */
   pitch?: number | undefined;
 }
-/** The top-level message sent by the client for the `SynthesizeLongAudio` method. */
-export interface SynthesizeLongAudioRequest {
+export interface SynthesizeLongAudioProjectsLocationsRequest {
+  /** The resource states of the request in the form of `projects/*\/locations/*`. */
+  parent: string;
   /** Required. The Synthesizer requires either plain text or SSML as input. */
   input?: SynthesisInput | undefined;
   /** Required. The desired voice of the synthesized audio. */
@@ -304,12 +305,6 @@ export interface SynthesizeLongAudioRequest {
   outputGcsUri?: string | undefined;
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
-}
-export interface SynthesizeLongAudioProjectsLocationsRequest {
-  /** The resource states of the request in the form of `projects/*\/locations/*`. */
-  parent: string;
-  /** Request body */
-  body?: SynthesizeLongAudioRequest | undefined;
 }
 export type SafetySettingThresholdEnum =
   | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
@@ -348,8 +343,7 @@ export interface AdvancedVoiceOptions {
   /** Optional. Input only. Deprecated, use safety_settings instead. If true, relaxes safety filters for Gemini TTS. */
   relaxSafetyFilters?: boolean | undefined;
 }
-/** The top-level message sent by the client for the `SynthesizeSpeech` method. */
-export interface SynthesizeSpeechRequest {
+export interface SynthesizeTextRequest {
   /** Required. The configuration of the synthesized audio. */
   audioConfig?: AudioConfig | undefined;
   /** Required. The Synthesizer requires either plain text or SSML as input. */
@@ -358,10 +352,6 @@ export interface SynthesizeSpeechRequest {
   voice?: VoiceSelectionParams | undefined;
   /** Optional. Advanced voice options. */
   advancedVoiceOptions?: AdvancedVoiceOptions | undefined;
-}
-export interface SynthesizeTextRequest {
-  /** Request body */
-  body?: SynthesizeSpeechRequest | undefined;
 }
 /** The message returned to the client by the `SynthesizeSpeech` method. */
 export interface SynthesizeSpeechResponse {
@@ -468,7 +458,7 @@ export const synthesizeLongAudioProjectsLocations: API.OperationMethod<
   SynthesizeLongAudioProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c9, 1) as any as S.Schema<SynthesizeLongAudioProjectsLocationsRequest>,
+  input: __S(144, __c9, 0) as any as S.Schema<SynthesizeLongAudioProjectsLocationsRequest>,
   output: __S(83, __c5, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -485,8 +475,8 @@ export const synthesizeText: API.OperationMethod<
   SynthesizeTextError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5, __c0, 5) as any as S.Schema<SynthesizeTextRequest>,
-  output: __S(6, __c0, 6) as any as S.Schema<SynthesizeSpeechResponse>,
+  input: __S(4, __c0, 4) as any as S.Schema<SynthesizeTextRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<SynthesizeSpeechResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -528,12 +518,6 @@ function __c0(j: number): any {
           input: S.optional(__S(166, __c10, 6)),
           voice: S.optional(__S(172, __c10, 12)),
           advancedVoiceOptions: S.optional(__S(3, __c0, 3)),
-        }),
-      ).annotate({ identifier: "SynthesizeSpeechRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(4, __c0, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -542,7 +526,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SynthesizeTextRequest" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           audioContent: S.optional(S.String),
@@ -705,17 +689,11 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           input: S.optional(__S(166, __c10, 6)),
           voice: S.optional(__S(172, __c10, 12)),
           outputGcsUri: S.optional(S.String),
           audioConfig: S.optional(__S(173, __c10, 13)),
-        }),
-      ).annotate({ identifier: "SynthesizeLongAudioRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

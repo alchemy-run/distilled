@@ -241,6 +241,18 @@ export interface CustomEmojiPayload {
   /** Required. Input only. The image used for the custom emoji. The payload must be under 256 KB and the dimension of the image must be square and between 64 and 500 pixels. The restrictions are subject to change. */
   fileContent?: string | undefined;
 }
+export interface CreateCustomEmojisRequest {
+  /** Output only. A temporary image URL for the custom emoji, valid for at least 10 minutes. Note that this is not populated in the response when the custom emoji is created. */
+  temporaryImageUri?: string | undefined;
+  /** Identifier. The resource name of the custom emoji, assigned by the server. Format: `customEmojis/{customEmoji}` */
+  name?: string | undefined;
+  /** Optional. Immutable. User-provided name for the custom emoji, which is unique within the organization. Required when the custom emoji is created, output only otherwise. Emoji names must start and end with colons, must be lowercase and can only contain alphanumeric characters, hyphens, and underscores. Hyphens and underscores should be used to separate words and cannot be used consecutively. Example: `:valid-emoji-name:` */
+  emojiName?: string | undefined;
+  /** Optional. Input only. Payload data. Required when the custom emoji is created. */
+  payload?: CustomEmojiPayload | undefined;
+  /** Output only. Unique key for the custom emoji resource. */
+  uid?: string | undefined;
+}
 /** Represents a [custom emoji](https://support.google.com/chat/answer/12800149). */
 export interface CustomEmoji {
   /** Output only. A temporary image URL for the custom emoji, valid for at least 10 minutes. Note that this is not populated in the response when the custom emoji is created. */
@@ -254,15 +266,51 @@ export interface CustomEmoji {
   /** Output only. Unique key for the custom emoji resource. */
   uid?: string | undefined;
 }
-export interface CreateCustomEmojisRequest {
-  /** Request body */
-  body?: CustomEmoji | undefined;
-}
 export interface CreateSpacesRequest {
   /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single space being created. Subsequent requests with the same request ID return the existing space and do not update the space, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a space was already created with the provided request ID, the request returns that space. Note that the returned space might not be fully populated; the API echoes the space in your request with the system-assigned resource name populated. To retrieve the latest metadata for the space, call `GetSpace`. - Reusing an existing request ID with a different authenticated user results in an error. */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Space | undefined;
+  /** Output only. The time when the space will be automatically deleted by the system if it remains in import mode. Each space created in import mode must exit this mode before this expire time using `spaces.completeImport`. This field is only populated for spaces that were created with import mode. */
+  importModeExpireTime?: string | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time the space was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the space was created in the source in order to preserve the original creation time. Only populated in the output when `spaceType` is `GROUP_CHAT` or `SPACE`. */
+  createTime?: string | undefined;
+  /** Identifier. Resource name of the space. Format: `spaces/{space}` Where `{space}` represents the system-assigned ID for the space. You can obtain the space ID by calling the [`spaces.list()`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/list) method or from the space URL. For example, if the space URL is `https://mail.google.com/mail/u/0/#chat/space/AAAAAAAAA`, the space ID is `AAAAAAAAA`. */
+  name?: string | undefined;
+  /** Output only. The count of joined memberships grouped by member type. Populated when the `space_type` is `SPACE`, `DIRECT_MESSAGE` or `GROUP_CHAT`. */
+  membershipCount?: MembershipCount | undefined;
+  /** Output only. The threading state in the Chat space. */
+  spaceThreadingState?: SpaceSpaceThreadingStateEnum | (string & {}) | undefined;
+  /** Output only. Deprecated: Use `spaceThreadingState` instead. Whether messages are threaded in this space. */
+  threaded?: boolean | undefined;
+  /** Output only. Timestamp of the last message in the space. */
+  lastActiveTime?: string | undefined;
+  /** Optional. Whether the space is a DM between a Chat app and a single human. */
+  singleUserBotDm?: boolean | undefined;
+  /** Optional. Specifies the [access setting](https://support.google.com/chat/answer/11971020) of the space. Only populated when the `space_type` is `SPACE`. */
+  accessSettings?: AccessSettings | undefined;
+  /** Optional. Immutable. The customer id of the domain of the space. Required only when creating a space with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and `SpaceType` is `SPACE`, otherwise should not be set. In the format `customers/{customer}`, where `customer` is the `id` from the [Admin SDK customer resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). Private apps can also use the `customers/my_customer` alias to create the space in the same Google Workspace organization as the app. This field isn't populated for direct messages (DMs) or when the space is created by non-Google Workspace users. */
+  customer?: string | undefined;
+  /** Optional. Input only. Predefined space permission settings, input only when creating a space. If the field is not set, a collaboration space is created. After you create the space, settings are populated in the `PermissionSettings` field. Setting predefined permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` or `chat.app.spaces.create` scopes. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  predefinedPermissionSettings?: SpacePredefinedPermissionSettingsEnum | (string & {}) | undefined;
+  /** Output only. Deprecated: Use `space_type` instead. The type of a space. */
+  type?: SpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. The message history state for messages and threads in this space. */
+  spaceHistoryState?: SpaceSpaceHistoryStateEnum | (string & {}) | undefined;
+  /** Optional. Immutable. Whether this space permits any Google Chat user as a member. Input when creating a space in a Google Workspace organization. Omit this field when creating spaces in the following conditions: * The authenticated user uses a consumer account (unmanaged user account). By default, a space created by a consumer account permits any Google Chat user. For existing spaces, this field is output only. */
+  externalUserAllowed?: boolean | undefined;
+  /** Optional. Details about the space including description and rules. */
+  spaceDetails?: SpaceDetails | undefined;
+  /** Optional. The space's display name. Required when [creating a space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/create) with a `spaceType` of `SPACE`. If you receive the error message `ALREADY_EXISTS` when creating a space or updating the `displayName`, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. For direct messages, this field might be empty. Supports up to 128 characters. */
+  displayName?: string | undefined;
+  /** Optional. The type of space. Required when creating a space or updating the space type of a space. Output only for other usage. */
+  spaceType?: SpaceSpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. Whether this space is created in `Import Mode` as part of a data migration into Google Workspace. While spaces are being imported, they aren't visible to users until the import is complete. Creating a space in `Import Mode`requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  importMode?: boolean | undefined;
+  /** Optional. Space permission settings for existing spaces. Input for updating exact space permission settings, where existing permission settings are replaced. Output lists current permission settings. Reading and updating permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` scope. Only populated and settable when the Chat app created the space. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  permissionSettings?: PermissionSettings | undefined;
+  /** Output only. For direct message (DM) spaces with a Chat app, whether the space was created by a Google Workspace administrator. Administrators can install and set up a direct message with a Chat app on behalf of users in their organization. To support admin install, your Chat app must feature direct messaging. */
+  adminInstalled?: boolean | undefined;
+  /** Output only. The URI for a user to access the space. */
+  spaceUri?: string | undefined;
 }
 export type UserTypeEnum = "TYPE_UNSPECIFIED" | "HUMAN" | "BOT";
 /** If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output for a `User` resource (such as in the Messages and Memberships APIs) only populates the `name` and `type` fields for both internal and external users, unless they are members of the space or have prior affinity with the calling user. */
@@ -302,6 +350,28 @@ export type MembershipStateEnum =
   | "JOINED"
   | "INVITED"
   | "NOT_A_MEMBER";
+export interface CreateSpacesMembersRequest {
+  /** Required. The resource name of the space for which to create the membership. Format: spaces/{space} */
+  parent: string;
+  /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). Creating app memberships or creating memberships for users outside the administrator's Google Workspace organization isn't supported using admin access. */
+  useAdminAccess?: boolean | undefined;
+  /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  createTime?: string | undefined;
+  /** Optional. The Google Chat user or app the membership corresponds to. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  member?: User | undefined;
+  /** Optional. Immutable. The deletion time of the membership, such as when a member left or was removed from a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  deleteTime?: string | undefined;
+  /** Optional. The Google Group the membership corresponds to. Reading or mutating memberships for Google Groups requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  groupMember?: Group | undefined;
+  /** Identifier. Resource name of the membership, assigned by the server. Format: `spaces/{space}/members/{member}` */
+  name?: string | undefined;
+  /** Output only. A user's relationship to the Workspace organization that owns the space. In spaces owned by consumer accounts, the affiliation of all members is `EXTERNAL`. */
+  affiliation?: MembershipAffiliationEnum | (string & {}) | undefined;
+  /** Optional. User's role within a Chat space, which determines their permitted actions in the space. This field can only be used as input in `UpdateMembership`. */
+  role?: MembershipRoleEnum | (string & {}) | undefined;
+  /** Output only. State of the membership. */
+  state?: MembershipStateEnum | (string & {}) | undefined;
+}
 /** Represents a membership relation in Google Chat, such as whether a user or Chat app is invited to, part of, or absent from a space. */
 export interface Membership {
   /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
@@ -321,13 +391,13 @@ export interface Membership {
   /** Output only. State of the membership. */
   state?: MembershipStateEnum | (string & {}) | undefined;
 }
-export interface CreateSpacesMembersRequest {
-  /** Required. The resource name of the space for which to create the membership. Format: spaces/{space} */
+export interface CreateSpacesMessagePinsRequest {
+  /** Required. The parent space in which to create the message pin. Format: spaces/{space} */
   parent: string;
-  /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). Creating app memberships or creating memberships for users outside the administrator's Google Workspace organization isn't supported using admin access. */
-  useAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: Membership | undefined;
+  /** Required. Immutable. The resource name of the message that is pinned. Format: `spaces/{space}/messages/{message}` */
+  message?: string | undefined;
+  /** Identifier. The resource name of the message pin. Format: `spaces/{space}/messagePins/{message_pin}` The resource ID component matches the resource ID component of the message. For example, a message with `spaces/AAA/messages/bbb.ccc` corresponds to the message pin with the resource name `spaces/AAA/messagePins/bbb.ccc`. */
+  name?: string | undefined;
 }
 /** A pin on a Chat message. For more information see [Pin a message](https://support.google.com/chat?p=chat-board-hc). */
 export interface MessagePin {
@@ -335,12 +405,6 @@ export interface MessagePin {
   message?: string | undefined;
   /** Identifier. The resource name of the message pin. Format: `spaces/{space}/messagePins/{message_pin}` The resource ID component matches the resource ID component of the message. For example, a message with `spaces/AAA/messages/bbb.ccc` corresponds to the message pin with the resource name `spaces/AAA/messagePins/bbb.ccc`. */
   name?: string | undefined;
-}
-export interface CreateSpacesMessagePinsRequest {
-  /** Required. The parent space in which to create the message pin. Format: spaces/{space} */
-  parent: string;
-  /** Request body */
-  body?: MessagePin | undefined;
 }
 export type CreateSpacesMessagesCreateMessageNotificationOptions_notificationTypeEnum =
   | "NOTIFICATION_TYPE_NONE"
@@ -1643,8 +1707,22 @@ export type MessageMarkupSyntaxEnum =
   | "MARKUP_SYNTAX_UNSPECIFIED"
   | "MARKUP_SYNTAX_CHAT"
   | "MARKUP_SYNTAX_MARKDOWN";
-/** A message in a Google Chat space. */
-export interface Message {
+export interface CreateSpacesMessagesRequest {
+  /** Optional. A custom ID for a message. Lets Chat apps get, update, or delete a message without needing to store the system-assigned ID in the message's resource name (represented in the message `name` field). The value for this field must meet the following requirements: * Begins with `client-`. For example, `client-custom-name` is a valid custom ID, but `custom-name` is not. * Contains up to 63 characters and only lowercase letters, numbers, and hyphens. * Is unique within a space. A Chat app can't use the same custom ID for different messages. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  messageId?: string | undefined;
+  /** The notification type for the message. */
+  "createMessageNotificationOptions.notificationType"?:
+    | CreateSpacesMessagesCreateMessageNotificationOptions_notificationTypeEnum
+    | (string & {})
+    | undefined;
+  /** Required. The resource name of the space in which to create a message. Format: `spaces/{space}` */
+  parent: string;
+  /** Optional. Specifies whether a message starts a thread or replies to one. Only supported in named spaces. When [responding to user interactions](https://developers.google.com/workspace/chat/receive-respond-interactions), this field is ignored. For interactions within a thread, the reply is created in the same thread. Otherwise, the reply is created as a new thread. */
+  messageReplyOption?: CreateSpacesMessagesMessageReplyOptionEnum | (string & {}) | undefined;
+  /** Optional. Deprecated: Use thread.thread_key instead. ID for the thread. Supports up to 4000 characters. To start or add to a thread, create a message and specify a `threadKey` or the thread.name. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  threadKey?: string | undefined;
+  /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single message being created. Subsequent requests with the same request ID return the existing message and do not update the message, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a message was already created with the provided request ID, the request returns that message. Note that the returned message might not be fully populated; the API echoes the message in your request with the system-assigned resource names populated. To retrieve the latest metadata for the message, call `GetMessage`. - Reusing an existing request ID with a different authenticated user results in an error. */
+  requestId?: string | undefined;
   /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
   silent?: boolean | undefined;
   /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
@@ -1704,24 +1782,76 @@ export interface Message {
   /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
   markupSyntax?: MessageMarkupSyntaxEnum | (string & {}) | undefined;
 }
-export interface CreateSpacesMessagesRequest {
-  /** Optional. A custom ID for a message. Lets Chat apps get, update, or delete a message without needing to store the system-assigned ID in the message's resource name (represented in the message `name` field). The value for this field must meet the following requirements: * Begins with `client-`. For example, `client-custom-name` is a valid custom ID, but `custom-name` is not. * Contains up to 63 characters and only lowercase letters, numbers, and hyphens. * Is unique within a space. A Chat app can't use the same custom ID for different messages. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
-  messageId?: string | undefined;
-  /** The notification type for the message. */
-  "createMessageNotificationOptions.notificationType"?:
-    | CreateSpacesMessagesCreateMessageNotificationOptions_notificationTypeEnum
-    | (string & {})
-    | undefined;
-  /** Required. The resource name of the space in which to create a message. Format: `spaces/{space}` */
+/** A message in a Google Chat space. */
+export interface Message {
+  /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
+  silent?: boolean | undefined;
+  /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
+  elements?: Elements | undefined;
+  /** Optional. Plain-text body of the message. The first link to an image, video, or web page generates a [preview chip](https://developers.google.com/workspace/chat/preview-links). You can also [@mention a Google Chat user](https://developers.google.com/workspace/chat/format-messages#messages-@mention), or everyone in the space. To learn about creating text messages, see [Send a message](https://developers.google.com/workspace/chat/create-messages). */
+  text?: string | undefined;
+  /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  name?: string | undefined;
+  /** Optional. A plain-text description of the message's cards, used when the actual cards can't be displayed--for example, mobile notifications. */
+  fallbackText?: string | undefined;
+  /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
+  threadReply?: boolean | undefined;
+  /** Optional. One or more interactive widgets that appear at the bottom of a message. You can add accessory widgets to messages that contain text, cards, or both text and cards. Not supported for messages that contain dialogs. For details, see [Add interactive widgets at the bottom of a message](https://developers.google.com/workspace/chat/create-messages#add-accessory-widgets). Creating a message with accessory widgets requires [app authentication] (https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). */
+  accessoryWidgets?: AccessoryWidgetList | undefined;
+  /** Output only. The time at which the message was last edited by a user. If the message has never been edited, this field is empty. */
+  lastUpdateTime?: string | undefined;
+  /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
+  privateMessageViewer?: User | undefined;
+  /** Output only. The user who created the message. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  sender?: User | undefined;
+  /** Deprecated: Use `cards_v2` instead. Rich, formatted, and interactive cards that you can use to display UI elements such as: formatted texts, buttons, and clickable images. Cards are normally displayed below the plain-text body of the message. `cards` and `cards_v2` can have a maximum size of 32 KB. */
+  cards?: CardList | undefined;
+  /** Output only. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces) `name`. */
+  space?: Space | undefined;
+  /** Output only. The time at which the message was deleted in Google Chat. If the message is never deleted, this field is empty. */
+  deleteTime?: string | undefined;
+  /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
+  argumentText?: string | undefined;
+  /** Output only. Information about a deleted message. A message is deleted when `delete_time` is set. */
+  deletionMetadata?: DeletionMetadata | undefined;
+  /** Optional. Information about a message that another message quotes. When you create a message, you can quote messages within the same thread, or quote a root message to create a new root message. However, you can't quote a message reply from a different thread. When you update a message, you can't add or replace the `quotedMessageMetadata` field, but you can remove it. For example usage, see [Quote another message](https://developers.google.com/workspace/chat/create-messages#quote-a-message). */
+  quotedMessageMetadata?: QuotedMessageMetadata | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time at which the message was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the message was created in the source in order to preserve the original creation time. */
+  createTime?: string | undefined;
+  /** The thread the message belongs to. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  thread?: Thread | undefined;
+  /** Optional. User-uploaded attachment. */
+  attachment?: AttachmentList | undefined;
+  /** Output only. GIF images that are attached to the message. */
+  attachedGifs?: AttachedGifList | undefined;
+  /** Output only. The list of emoji reaction summaries on the message. */
+  emojiReactionSummaries?: EmojiReactionSummaryList | undefined;
+  /** Output only. Annotations can be associated with the plain-text body of the message or with chips that link to Google Workspace resources like Google Docs or Sheets with `start_index` and `length` of 0. */
+  annotations?: AnnotationList | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards). Chat apps can create cards with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). As part of the [Developer Preview Program](https://developers.google.com/workspace/preview), if your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), it can create card messages. If your Chat app is not part of Developer Preview Program, it can't create cards with user authentication. To learn how to create a message that contains cards, see [Send a message](https://developers.google.com/workspace/chat/create-messages). [Card builder](https://addons.gsuite.google.com/uikit/builder) */
+  cardsV2?: CardWithIdList | undefined;
+  /** Optional. A custom ID for the message. You can use field to identify a message, or to get, delete, or update a message. To set a custom ID, specify the [`messageId`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/create#body.QUERY_PARAMETERS.message_id) field when you create the message. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  clientAssignedMessageId?: string | undefined;
+  /** Output only. A URL in the Chat message `text` field that matches a link preview pattern. For more information, see [Preview links](https://developers.google.com/workspace/chat/preview-links). */
+  matchedUrl?: MatchedUrl | undefined;
+  /** Input only. Parameters that a Chat app can use to configure how its response is posted. */
+  actionResponse?: ActionResponse | undefined;
+  /** Output only. Contains the message `text` with markups added to communicate formatting. This field might not capture all formatting visible in the UI, but includes the following: * [Markup syntax](https://developers.google.com/workspace/chat/format-messages) for bold, italic, strikethrough, monospace, monospace block, bulleted list, and block quote. * [User mentions](https://developers.google.com/workspace/chat/format-messages#messages-@mention) using the format ``. * Custom hyperlinks using the format `<{url}|{rendered_text}>` where the first string is the URL and the second is the rendered text--for example, ``. * Custom emoji using the format `:{emoji_name}:`--for example, `:smile:`. This doesn't apply to Unicode emoji, such as `U+1F600` for a grinning face emoji. * Bullet list items using asterisks (`*`)--for example, `* item`. For more information, see [View text formatting sent in a message](https://developers.google.com/workspace/chat/format-messages#view_text_formatting_sent_in_a_message) */
+  formattedText?: string | undefined;
+  /** Output only. Slash command information, if applicable. */
+  slashCommand?: SlashCommand | undefined;
+  /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
+  markupSyntax?: MessageMarkupSyntaxEnum | undefined;
+}
+export interface CreateSpacesMessagesReactionsRequest {
+  /** Required. The message where the reaction is created. Format: `spaces/{space}/messages/{message}` */
   parent: string;
-  /** Optional. Specifies whether a message starts a thread or replies to one. Only supported in named spaces. When [responding to user interactions](https://developers.google.com/workspace/chat/receive-respond-interactions), this field is ignored. For interactions within a thread, the reply is created in the same thread. Otherwise, the reply is created as a new thread. */
-  messageReplyOption?: CreateSpacesMessagesMessageReplyOptionEnum | (string & {}) | undefined;
-  /** Optional. Deprecated: Use thread.thread_key instead. ID for the thread. Supports up to 4000 characters. To start or add to a thread, create a message and specify a `threadKey` or the thread.name. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
-  threadKey?: string | undefined;
-  /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single message being created. Subsequent requests with the same request ID return the existing message and do not update the message, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a message was already created with the provided request ID, the request returns that message. Note that the returned message might not be fully populated; the API echoes the message in your request with the system-assigned resource names populated. To retrieve the latest metadata for the message, call `GetMessage`. - Reusing an existing request ID with a different authenticated user results in an error. */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Message | undefined;
+  /** Identifier. The resource name of the reaction. Format: `spaces/{space}/messages/{message}/reactions/{reaction}` */
+  name?: string | undefined;
+  /** Required. The emoji used in the reaction. */
+  emoji?: Emoji | undefined;
+  /** Output only. The user who created the reaction. */
+  user?: User | undefined;
 }
 /** A reaction to a message. */
 export interface Reaction {
@@ -1732,20 +1862,15 @@ export interface Reaction {
   /** Output only. The user who created the reaction. */
   user?: User | undefined;
 }
-export interface CreateSpacesMessagesReactionsRequest {
-  /** Required. The message where the reaction is created. Format: `spaces/{space}/messages/{message}` */
-  parent: string;
-  /** Request body */
-  body?: Reaction | undefined;
-}
 export type GoogleChatV1SectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
   | "CUSTOM_SECTION"
   | "DEFAULT_DIRECT_MESSAGES"
   | "DEFAULT_SPACES"
   | "DEFAULT_APPS";
-/** Represents a [section](https://support.google.com/chat/answer/16059854) in Google Chat. Sections help users organize their spaces. There are two types of sections: 1. **System Sections:** These are predefined sections managed by Google Chat. Their resource names are fixed, and they cannot be created, deleted, or have their `display_name` modified. Examples include: * `users/{user}/sections/default-direct-messages` * `users/{user}/sections/default-spaces` * `users/{user}/sections/default-apps` 2. **Custom Sections:** These are sections created and managed by the user. Creating a custom section using `CreateSection` **requires** a `display_name`. Custom sections can be updated using `UpdateSection` and deleted using `DeleteSection`. */
-export interface GoogleChatV1Section {
+export interface CreateUsersSectionsRequest {
+  /** Required. The parent resource name where the section is created. Format: `users/{user}` */
+  parent: string;
   /** Optional. The section's display name. Only populated for sections of type `CUSTOM_SECTION`. Supports up to 80 characters. Required when creating a `CUSTOM_SECTION`. */
   displayName?: string | undefined;
   /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
@@ -1755,11 +1880,16 @@ export interface GoogleChatV1Section {
   /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
   sortOrder?: number | undefined;
 }
-export interface CreateUsersSectionsRequest {
-  /** Required. The parent resource name where the section is created. Format: `users/{user}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleChatV1Section | undefined;
+/** Represents a [section](https://support.google.com/chat/answer/16059854) in Google Chat. Sections help users organize their spaces. There are two types of sections: 1. **System Sections:** These are predefined sections managed by Google Chat. Their resource names are fixed, and they cannot be created, deleted, or have their `display_name` modified. Examples include: * `users/{user}/sections/default-direct-messages` * `users/{user}/sections/default-spaces` * `users/{user}/sections/default-apps` 2. **Custom Sections:** These are sections created and managed by the user. Creating a custom section using `CreateSection` **requires** a `display_name`. Custom sections can be updated using `UpdateSection` and deleted using `DeleteSection`. */
+export interface GoogleChatV1Section {
+  /** Optional. The section's display name. Only populated for sections of type `CUSTOM_SECTION`. Supports up to 80 characters. Required when creating a `CUSTOM_SECTION`. */
+  displayName?: string | undefined;
+  /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
+  name?: string | undefined;
+  /** Required. The type of the section. */
+  type?: GoogleChatV1SectionTypeEnum | undefined;
+  /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
+  sortOrder?: number | undefined;
 }
 export interface DeleteCustomEmojisRequest {
   /** Required. Resource name of the custom emoji to delete. Format: `customEmojis/{customEmoji}` You can use the emoji name as an alias for `{customEmoji}`. For example, `customEmojis/:example-emoji:` where `:example-emoji:` is the emoji name for a custom emoji. */
@@ -2067,7 +2197,7 @@ export interface Availability {
   /** Identifier. Resource name of the user's availability. Format: `users/{user}/availability` `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name?: string | undefined;
   /** Output only. The user's current availability state. */
-  state?: AvailabilityStateEnum | (string & {}) | undefined;
+  state?: AvailabilityStateEnum | undefined;
 }
 export interface GetUsersSpacesSpaceNotificationSettingRequest {
   /** Required. Format: users/{user}/spaces/{space}/spaceNotificationSetting - `users/me/spaces/{space}/spaceNotificationSetting`, OR - `users/user@example.com/spaces/{space}/spaceNotificationSetting`, OR - `users/123456789/spaces/{space}/spaceNotificationSetting`. Note: Only the caller's user id or email is allowed in the path. */
@@ -2086,9 +2216,9 @@ export type SpaceNotificationSettingNotificationSettingEnum =
 /** The notification setting of a user in a space. */
 export interface SpaceNotificationSetting {
   /** The space notification mute setting. */
-  muteSetting?: SpaceNotificationSettingMuteSettingEnum | (string & {}) | undefined;
+  muteSetting?: SpaceNotificationSettingMuteSettingEnum | undefined;
   /** The notification setting. */
-  notificationSetting?: SpaceNotificationSettingNotificationSettingEnum | (string & {}) | undefined;
+  notificationSetting?: SpaceNotificationSettingNotificationSettingEnum | undefined;
   /** Identifier. The resource name of the space notification setting. Format: `users/{user}/spaces/{space}/spaceNotificationSetting`. */
   name?: string | undefined;
 }
@@ -2268,18 +2398,13 @@ export interface ListSectionItemsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-/** Request message for the `MarkAsActive` method. */
-export interface MarkAsActiveRequest {
+export interface MarkAsActiveUsersAvailabilityRequest {
+  /** Required. The resource name of the availability to mark as active. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
+  name: string;
   /** The duration from the current time until the ACTIVE state expires. Using a short TTL can effectively reset the user's state to be based on activity after this brief duration. */
   ttl?: string | undefined;
   /** The absolute timestamp when the ACTIVE state expires. */
   expireTime?: string | undefined;
-}
-export interface MarkAsActiveUsersAvailabilityRequest {
-  /** Required. The resource name of the availability to mark as active. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
-  name: string;
-  /** Request body */
-  body?: MarkAsActiveRequest | undefined;
 }
 /** Request message for the `MarkAsAway` method. */
 export type MarkAsAwayRequest = CompleteImportSpaceRequest;
@@ -2289,29 +2414,19 @@ export interface MarkAsAwayUsersAvailabilityRequest {
   /** Request body */
   body?: CompleteImportSpaceRequest | undefined;
 }
-/** Request message for the `MarkAsDoNotDisturb` method. */
-export interface MarkAsDoNotDisturbRequest {
+export interface MarkAsDoNotDisturbUsersAvailabilityRequest {
+  /** Required. The resource name of the availability to mark as Do Not Disturb. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
+  name: string;
   /** The absolute timestamp when the DND state expires. */
   expireTime?: string | undefined;
   /** The duration from the current time until the DND state expires. */
   ttl?: string | undefined;
 }
-export interface MarkAsDoNotDisturbUsersAvailabilityRequest {
-  /** Required. The resource name of the availability to mark as Do Not Disturb. Format: users/{user}/availability `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
-  name: string;
-  /** Request body */
-  body?: MarkAsDoNotDisturbRequest | undefined;
-}
-/** Request message for moving a section item across sections. */
-export interface MoveSectionItemRequest {
-  /** Required. The resource name of the section to move the section item to. Format: `users/{user}/sections/{section}` */
-  targetSection?: string | undefined;
-}
 export interface MoveUsersSectionsItemsRequest {
   /** Required. The resource name of the section item to move. Format: `users/{user}/sections/{section}/items/{item}` */
   name: string;
-  /** Request body */
-  body?: MoveSectionItemRequest | undefined;
+  /** Required. The resource name of the section to move the section item to. Format: `users/{user}/sections/{section}` */
+  targetSection?: string | undefined;
 }
 /** Response message for moving a section item. */
 export interface MoveSectionItemResponse {
@@ -2325,8 +2440,46 @@ export interface PatchSpacesRequest {
   name: string;
   /** Required. The updated field paths, comma separated if there are multiple. You can update the following fields for a space: `space_details`: Updates the space's description and guidelines. You must pass both description and guidelines in the update request as `SpaceDetails`. If you only want to update one of the fields, pass the existing value for the other field. `display_name`: Only supports updating the display name for spaces where `spaceType` field is `SPACE`. If you receive the error message `ALREADY_EXISTS`, try a different value. An existing space within the Google Workspace organization might already use this display name. `space_type`: Only supports changing a `GROUP_CHAT` space type to `SPACE`. Include `display_name` together with `space_type` in the update mask and ensure that the specified space has a non-empty display name and the `SPACE` space type. Including the `space_type` mask and the `SPACE` type in the specified space when updating the display name is optional if the existing space already has the `SPACE` type. Trying to update the space type in other ways results in an invalid argument error. `space_type` is not supported with `useAdminAccess`. `space_history_state`: Updates [space history settings](https://support.google.com/chat/answer/7664687) by turning history on or off for the space. Only supported if history settings are enabled for the Google Workspace organization. To update the space history state, you must omit all other field masks in your request. `space_history_state` is not supported with `useAdminAccess`. `access_settings.audience`: Updates the [access setting](https://support.google.com/chat/answer/11971020) of who can discover the space, join the space, and preview the messages in named space where `spaceType` field is `SPACE`. If the existing space has a target audience, you can remove the audience and restrict space access by omitting a value for this field mask. To update access settings for a space, the authenticating user must be a space manager and omit all other field masks in your request. You can't update this field if the space is in [import mode](https://developers.google.com/workspace/chat/import-data-overview). To learn more, see [Make a space discoverable to specific users](https://developers.google.com/workspace/chat/space-target-audience). `access_settings.audience` is not supported with `useAdminAccess`. `access_settings.access_permission_settings`: Updates the [access permission settings](https://support.google.com/chat/answer/11971020) of who can discover and join the space where `spaceType` field is `SPACE`. Principals allowed to join the space must also be allowed to discover it. To update access permission settings for a space, the authenticating user must be a space manager or assistant manager and omit all other field masks in the request. You can't update this field if the space is in [import mode](https://developers.google.com/workspace/chat/import-data-overview). To learn more, see [Make a space discoverable to specific users](https://developers.google.com/workspace/chat/space-target-audience). `access_settings.access_permission_settings` is not supported with `useAdminAccess`. The supported field masks include: - `access_settings.access_permission_settings.discoverSpaceSetting` - `access_settings.access_permission_settings.joinSpaceSetting` - `access_settings.access_permission_settings.viewSpaceMembershipSetting` `permission_settings`: Supports changing the [permission settings](https://support.google.com/chat/answer/13340792) of a space. When updating permission settings, you can only specify `permissionSettings` field masks; you cannot update other field masks at the same time. The supported field masks include: - `permission_settings.manageMembersAndGroups` - `permission_settings.modifySpaceDetails` - `permission_settings.toggleHistory` - `permission_settings.useAtMentionAll` - `permission_settings.manageApps` - `permission_settings.manageWebhooks` - `permission_settings.replyMessages` - `permission_settings.viewSpaceMembership` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Space | undefined;
+  /** Output only. The time when the space will be automatically deleted by the system if it remains in import mode. Each space created in import mode must exit this mode before this expire time using `spaces.completeImport`. This field is only populated for spaces that were created with import mode. */
+  importModeExpireTime?: string | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time the space was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the space was created in the source in order to preserve the original creation time. Only populated in the output when `spaceType` is `GROUP_CHAT` or `SPACE`. */
+  createTime?: string | undefined;
+  /** Output only. The count of joined memberships grouped by member type. Populated when the `space_type` is `SPACE`, `DIRECT_MESSAGE` or `GROUP_CHAT`. */
+  membershipCount?: MembershipCount | undefined;
+  /** Output only. The threading state in the Chat space. */
+  spaceThreadingState?: SpaceSpaceThreadingStateEnum | (string & {}) | undefined;
+  /** Output only. Deprecated: Use `spaceThreadingState` instead. Whether messages are threaded in this space. */
+  threaded?: boolean | undefined;
+  /** Output only. Timestamp of the last message in the space. */
+  lastActiveTime?: string | undefined;
+  /** Optional. Whether the space is a DM between a Chat app and a single human. */
+  singleUserBotDm?: boolean | undefined;
+  /** Optional. Specifies the [access setting](https://support.google.com/chat/answer/11971020) of the space. Only populated when the `space_type` is `SPACE`. */
+  accessSettings?: AccessSettings | undefined;
+  /** Optional. Immutable. The customer id of the domain of the space. Required only when creating a space with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and `SpaceType` is `SPACE`, otherwise should not be set. In the format `customers/{customer}`, where `customer` is the `id` from the [Admin SDK customer resource](https://developers.google.com/admin-sdk/directory/reference/rest/v1/customers). Private apps can also use the `customers/my_customer` alias to create the space in the same Google Workspace organization as the app. This field isn't populated for direct messages (DMs) or when the space is created by non-Google Workspace users. */
+  customer?: string | undefined;
+  /** Optional. Input only. Predefined space permission settings, input only when creating a space. If the field is not set, a collaboration space is created. After you create the space, settings are populated in the `PermissionSettings` field. Setting predefined permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` or `chat.app.spaces.create` scopes. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  predefinedPermissionSettings?: SpacePredefinedPermissionSettingsEnum | (string & {}) | undefined;
+  /** Output only. Deprecated: Use `space_type` instead. The type of a space. */
+  type?: SpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. The message history state for messages and threads in this space. */
+  spaceHistoryState?: SpaceSpaceHistoryStateEnum | (string & {}) | undefined;
+  /** Optional. Immutable. Whether this space permits any Google Chat user as a member. Input when creating a space in a Google Workspace organization. Omit this field when creating spaces in the following conditions: * The authenticated user uses a consumer account (unmanaged user account). By default, a space created by a consumer account permits any Google Chat user. For existing spaces, this field is output only. */
+  externalUserAllowed?: boolean | undefined;
+  /** Optional. Details about the space including description and rules. */
+  spaceDetails?: SpaceDetails | undefined;
+  /** Optional. The space's display name. Required when [creating a space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces/create) with a `spaceType` of `SPACE`. If you receive the error message `ALREADY_EXISTS` when creating a space or updating the `displayName`, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. For direct messages, this field might be empty. Supports up to 128 characters. */
+  displayName?: string | undefined;
+  /** Optional. The type of space. Required when creating a space or updating the space type of a space. Output only for other usage. */
+  spaceType?: SpaceSpaceTypeEnum | (string & {}) | undefined;
+  /** Optional. Whether this space is created in `Import Mode` as part of a data migration into Google Workspace. While spaces are being imported, they aren't visible to users until the import is complete. Creating a space in `Import Mode`requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  importMode?: boolean | undefined;
+  /** Optional. Space permission settings for existing spaces. Input for updating exact space permission settings, where existing permission settings are replaced. Output lists current permission settings. Reading and updating permission settings supports: - [App authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) with [administrator approval](https://support.google.com/a?p=chat-app-auth) with the `chat.app.spaces` scope. Only populated and settable when the Chat app created the space. - [User authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user) */
+  permissionSettings?: PermissionSettings | undefined;
+  /** Output only. For direct message (DM) spaces with a Chat app, whether the space was created by a Google Workspace administrator. Administrators can install and set up a direct message with a Chat app on behalf of users in their organization. To support admin install, your Chat app must feature direct messaging. */
+  adminInstalled?: boolean | undefined;
+  /** Output only. The URI for a user to access the space. */
+  spaceUri?: string | undefined;
 }
 export interface PatchSpacesMembersRequest {
   /** Identifier. Resource name of the membership, assigned by the server. Format: `spaces/{space}/members/{member}` */
@@ -2335,8 +2488,20 @@ export interface PatchSpacesMembersRequest {
   updateMask?: string | undefined;
   /** Optional. When `true`, the method runs using the user's Google Workspace administrator privileges. The calling user must be a Google Workspace administrator with the [manage chat and spaces conversations privilege](https://support.google.com/a/answer/13369245). Requires the `chat.admin.memberships` [OAuth 2.0 scope](https://developers.google.com/workspace/chat/authenticate-authorize#chat-api-scopes). */
   useAdminAccess?: boolean | undefined;
-  /** Request body */
-  body?: Membership | undefined;
+  /** Optional. Immutable. The creation time of the membership, such as when a member joined or was invited to join a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  createTime?: string | undefined;
+  /** Optional. The Google Chat user or app the membership corresponds to. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  member?: User | undefined;
+  /** Optional. Immutable. The deletion time of the membership, such as when a member left or was removed from a space. This field is output only, except when used to import historical memberships in import mode spaces. */
+  deleteTime?: string | undefined;
+  /** Optional. The Google Group the membership corresponds to. Reading or mutating memberships for Google Groups requires [user authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
+  groupMember?: Group | undefined;
+  /** Output only. A user's relationship to the Workspace organization that owns the space. In spaces owned by consumer accounts, the affiliation of all members is `EXTERNAL`. */
+  affiliation?: MembershipAffiliationEnum | (string & {}) | undefined;
+  /** Optional. User's role within a Chat space, which determines their permitted actions in the space. This field can only be used as input in `UpdateMembership`. */
+  role?: MembershipRoleEnum | (string & {}) | undefined;
+  /** Output only. State of the membership. */
+  state?: MembershipStateEnum | (string & {}) | undefined;
 }
 export interface PatchSpacesMessagesRequest {
   /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
@@ -2345,62 +2510,116 @@ export interface PatchSpacesMessagesRequest {
   allowMissing?: boolean | undefined;
   /** Required. The field paths to update. Separate multiple values with commas or use `*` to update all field paths. Currently supported field paths: - `text` - `attachment` - `cards` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `cards_v2` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `accessory_widgets` (Requires [app authentication](/chat/api/guides/auth/service-accounts).) - `quoted_message_metadata` (Only allows removal of the quoted message.) */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Message | undefined;
+  /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
+  silent?: boolean | undefined;
+  /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
+  elements?: Elements | undefined;
+  /** Optional. Plain-text body of the message. The first link to an image, video, or web page generates a [preview chip](https://developers.google.com/workspace/chat/preview-links). You can also [@mention a Google Chat user](https://developers.google.com/workspace/chat/format-messages#messages-@mention), or everyone in the space. To learn about creating text messages, see [Send a message](https://developers.google.com/workspace/chat/create-messages). */
+  text?: string | undefined;
+  /** Optional. A plain-text description of the message's cards, used when the actual cards can't be displayed--for example, mobile notifications. */
+  fallbackText?: string | undefined;
+  /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
+  threadReply?: boolean | undefined;
+  /** Optional. One or more interactive widgets that appear at the bottom of a message. You can add accessory widgets to messages that contain text, cards, or both text and cards. Not supported for messages that contain dialogs. For details, see [Add interactive widgets at the bottom of a message](https://developers.google.com/workspace/chat/create-messages#add-accessory-widgets). Creating a message with accessory widgets requires [app authentication] (https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). */
+  accessoryWidgets?: AccessoryWidgetList | undefined;
+  /** Output only. The time at which the message was last edited by a user. If the message has never been edited, this field is empty. */
+  lastUpdateTime?: string | undefined;
+  /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
+  privateMessageViewer?: User | undefined;
+  /** Output only. The user who created the message. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  sender?: User | undefined;
+  /** Deprecated: Use `cards_v2` instead. Rich, formatted, and interactive cards that you can use to display UI elements such as: formatted texts, buttons, and clickable images. Cards are normally displayed below the plain-text body of the message. `cards` and `cards_v2` can have a maximum size of 32 KB. */
+  cards?: CardList | undefined;
+  /** Output only. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces) `name`. */
+  space?: Space | undefined;
+  /** Output only. The time at which the message was deleted in Google Chat. If the message is never deleted, this field is empty. */
+  deleteTime?: string | undefined;
+  /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
+  argumentText?: string | undefined;
+  /** Output only. Information about a deleted message. A message is deleted when `delete_time` is set. */
+  deletionMetadata?: DeletionMetadata | undefined;
+  /** Optional. Information about a message that another message quotes. When you create a message, you can quote messages within the same thread, or quote a root message to create a new root message. However, you can't quote a message reply from a different thread. When you update a message, you can't add or replace the `quotedMessageMetadata` field, but you can remove it. For example usage, see [Quote another message](https://developers.google.com/workspace/chat/create-messages#quote-a-message). */
+  quotedMessageMetadata?: QuotedMessageMetadata | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time at which the message was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the message was created in the source in order to preserve the original creation time. */
+  createTime?: string | undefined;
+  /** The thread the message belongs to. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  thread?: Thread | undefined;
+  /** Optional. User-uploaded attachment. */
+  attachment?: AttachmentList | undefined;
+  /** Output only. GIF images that are attached to the message. */
+  attachedGifs?: AttachedGifList | undefined;
+  /** Output only. The list of emoji reaction summaries on the message. */
+  emojiReactionSummaries?: EmojiReactionSummaryList | undefined;
+  /** Output only. Annotations can be associated with the plain-text body of the message or with chips that link to Google Workspace resources like Google Docs or Sheets with `start_index` and `length` of 0. */
+  annotations?: AnnotationList | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards). Chat apps can create cards with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). As part of the [Developer Preview Program](https://developers.google.com/workspace/preview), if your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), it can create card messages. If your Chat app is not part of Developer Preview Program, it can't create cards with user authentication. To learn how to create a message that contains cards, see [Send a message](https://developers.google.com/workspace/chat/create-messages). [Card builder](https://addons.gsuite.google.com/uikit/builder) */
+  cardsV2?: CardWithIdList | undefined;
+  /** Optional. A custom ID for the message. You can use field to identify a message, or to get, delete, or update a message. To set a custom ID, specify the [`messageId`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/create#body.QUERY_PARAMETERS.message_id) field when you create the message. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  clientAssignedMessageId?: string | undefined;
+  /** Output only. A URL in the Chat message `text` field that matches a link preview pattern. For more information, see [Preview links](https://developers.google.com/workspace/chat/preview-links). */
+  matchedUrl?: MatchedUrl | undefined;
+  /** Input only. Parameters that a Chat app can use to configure how its response is posted. */
+  actionResponse?: ActionResponse | undefined;
+  /** Output only. Contains the message `text` with markups added to communicate formatting. This field might not capture all formatting visible in the UI, but includes the following: * [Markup syntax](https://developers.google.com/workspace/chat/format-messages) for bold, italic, strikethrough, monospace, monospace block, bulleted list, and block quote. * [User mentions](https://developers.google.com/workspace/chat/format-messages#messages-@mention) using the format ``. * Custom hyperlinks using the format `<{url}|{rendered_text}>` where the first string is the URL and the second is the rendered text--for example, ``. * Custom emoji using the format `:{emoji_name}:`--for example, `:smile:`. This doesn't apply to Unicode emoji, such as `U+1F600` for a grinning face emoji. * Bullet list items using asterisks (`*`)--for example, `* item`. For more information, see [View text formatting sent in a message](https://developers.google.com/workspace/chat/format-messages#view_text_formatting_sent_in_a_message) */
+  formattedText?: string | undefined;
+  /** Output only. Slash command information, if applicable. */
+  slashCommand?: SlashCommand | undefined;
+  /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
+  markupSyntax?: MessageMarkupSyntaxEnum | (string & {}) | undefined;
 }
 export interface PatchUsersAvailabilityRequest {
   /** Required. The list of fields to update. The only field that can be updated is `custom_status`. */
   updateMask?: string | undefined;
   /** Identifier. Resource name of the user's availability. Format: `users/{user}/availability` `{user}` is the id for the Person in the People API or Admin SDK directory API. For example, `users/123456789`. The user's email address or `me` can also be used as an alias to refer to the caller. For example, `users/user@example.com` or `users/me`. */
   name: string;
-  /** Request body */
-  body?: Availability | undefined;
+  /** Optional. The user's custom status. */
+  customStatus?: CustomStatus | undefined;
+  /** Output only. Metadata if the user state is set to DO_NOT_DISTURB. */
+  doNotDisturbMetadata?: DoNotDisturbMetadata | undefined;
+  /** Output only. The user's current availability state. */
+  state?: AvailabilityStateEnum | (string & {}) | undefined;
 }
 export interface PatchUsersSectionsRequest {
   /** Identifier. Resource name of the section. For system sections, the section ID is a constant string: - DEFAULT_DIRECT_MESSAGES: `users/{user}/sections/default-direct-messages` - DEFAULT_SPACES: `users/{user}/sections/default-spaces` - DEFAULT_APPS: `users/{user}/sections/default-apps` Format: `users/{user}/sections/{section}` */
   name: string;
   /** Required. The mask to specify which fields to update. Currently supported field paths: - `display_name` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleChatV1Section | undefined;
+  /** Optional. The section's display name. Only populated for sections of type `CUSTOM_SECTION`. Supports up to 80 characters. Required when creating a `CUSTOM_SECTION`. */
+  displayName?: string | undefined;
+  /** Required. The type of the section. */
+  type?: GoogleChatV1SectionTypeEnum | (string & {}) | undefined;
+  /** Output only. The order of the section in relation to other sections. Sections with a lower `sort_order` value appear before sections with a higher value. */
+  sortOrder?: number | undefined;
 }
 export interface PatchUsersSpacesSpaceNotificationSettingRequest {
   /** Identifier. The resource name of the space notification setting. Format: `users/{user}/spaces/{space}/spaceNotificationSetting`. */
   name: string;
   /** Required. Supported field paths: - `notification_setting` - `mute_setting` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: SpaceNotificationSetting | undefined;
+  /** The space notification mute setting. */
+  muteSetting?: SpaceNotificationSettingMuteSettingEnum | (string & {}) | undefined;
+  /** The notification setting. */
+  notificationSetting?: SpaceNotificationSettingNotificationSettingEnum | (string & {}) | undefined;
 }
 export type PositionSectionRequestRelativePositionEnum = "POSITION_UNSPECIFIED" | "START" | "END";
-/** Request message for positioning a section. */
-export interface PositionSectionRequest {
+export interface PositionUsersSectionsRequest {
+  /** Required. The resource name of the section to position. Format: `users/{user}/sections/{section}` */
+  name: string;
   /** Optional. The absolute position of the section in the list of sections. The position must be greater than 0. If the position is greater than the number of sections, the section will be appended to the end of the list. This operation inserts the section at the given position and shifts the original section at that position, and those below it, to the next position. */
   sortOrder?: number | undefined;
   /** Optional. The relative position of the section in the list of sections. */
   relativePosition?: PositionSectionRequestRelativePositionEnum | (string & {}) | undefined;
-}
-export interface PositionUsersSectionsRequest {
-  /** Required. The resource name of the section to position. Format: `users/{user}/sections/{section}` */
-  name: string;
-  /** Request body */
-  body?: PositionSectionRequest | undefined;
 }
 /** Response message for positioning a section. */
 export interface PositionSectionResponse {
   /** The updated section. */
   section?: GoogleChatV1Section | undefined;
 }
-/** Request message for ReplaceMessageCards API method. */
-export interface ReplaceMessageCardsRequest {
-  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards) to be included in the message. These cards will replace the existing cards of the message. If empty, the original cards included in the message will be cleared. */
-  cardsV2?: CardWithIdList | undefined;
-}
 export interface ReplaceCardsSpacesMessagesRequest {
   /** Required. The resource name of the message. Format: `spaces/{space}/messages/{message}` */
   name: string;
-  /** Request body */
-  body?: ReplaceMessageCardsRequest | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards) to be included in the message. These cards will replace the existing cards of the message. If empty, the original cards included in the message will be cleared. */
+  cardsV2?: CardWithIdList | undefined;
 }
 /** Response message for ReplaceMessageCards API. */
 export interface ReplaceMessageCardsResponse {}
@@ -2441,8 +2660,9 @@ export type SearchMessagesRequestMarkupSyntaxEnum =
   | "MARKUP_SYNTAX_UNSPECIFIED"
   | "MARKUP_SYNTAX_CHAT"
   | "MARKUP_SYNTAX_MARKDOWN";
-/** Request message for searching messages. */
-export interface SearchMessagesRequest {
+export interface SearchSpacesMessagesRequest {
+  /** Required. The resource name of the space to search within. To search across all spaces the user has access to, set this field to `spaces/-`. Using any other value for `parent` results in an `INVALID_ARGUMENT` error. To limit the search to one or more spaces, use `space.name` or `space.display_name` in the `filter`. */
+  parent: string;
   /** Optional. How the results list is ordered. Supported attributes to order by are: - `create_time`: Sorts the results by the time of the message creation. Default value. - `relevance`: Sorts the results by relevance. [Developer Preview](https://developers.google.com/workspace/preview). The default ordering is `create_time desc`. Only a single order per query (`create_time` or `relevance`) is supported. Only descending order (`desc`) is supported, and it must be specified after the order attribute. */
   orderBy?: string | undefined;
   /** Optional. Specifies what kind of search results view to return. The default is `SEARCH_MESSAGES_VIEW_BASIC`. */
@@ -2455,12 +2675,6 @@ export interface SearchMessagesRequest {
   pageSize?: number | undefined;
   /** Optional. Specifies the desired output syntax for the Chat message `formatted_text` field. */
   markupSyntax?: SearchMessagesRequestMarkupSyntaxEnum | (string & {}) | undefined;
-}
-export interface SearchSpacesMessagesRequest {
-  /** Required. The resource name of the space to search within. To search across all spaces the user has access to, set this field to `spaces/-`. Using any other value for `parent` results in an `INVALID_ARGUMENT` error. To limit the search to one or more spaces, use `space.name` or `space.display_name` in the `filter`. */
-  parent: string;
-  /** Request body */
-  body?: SearchMessagesRequest | undefined;
 }
 export type SearchMessageResultSpaceMuteSettingEnum =
   | "MUTE_SETTING_UNSPECIFIED"
@@ -2483,8 +2697,7 @@ export interface SearchMessagesResponse {
   /** A token that can be used to retrieve the next page. If this field is empty, there are no subsequent pages. */
   nextPageToken?: string | undefined;
 }
-/** Request to create a space and add specified users to it. */
-export interface SetUpSpaceRequest {
+export interface SetupSpacesRequest {
   /** Optional. A unique ID for this request. A random UUID is recommended. Specifying a request ID makes the request idempotent, which ensures that multiple identical requests with the same request ID result in only a single space being created. Subsequent requests with the same request ID return the existing space and do not update the space, even if the requested details differ from the current state. To use this field effectively: - Ensure that subsequent requests are identical and use the same authentication credentials as the original request. - If a space was already created with the provided request ID, the request returns that space. Note that the returned space might not be fully populated; the API echoes the space in your request with the system-assigned resource name populated. To retrieve the latest metadata for the space, call `GetSpace`. - Reusing an existing request ID with a different authenticated user results in an error. */
   requestId?: string | undefined;
   /** Required. The `Space.spaceType` field is required. To create a space, set `Space.spaceType` to `SPACE` and set `Space.displayName`. If you receive the error message `ALREADY_EXISTS` when setting up a space, try a different `displayName`. An existing space within the Google Workspace organization might already use this display name. To create a group chat, set `Space.spaceType` to `GROUP_CHAT`. Don't set `Space.displayName`. To create a 1:1 conversation between humans, set `Space.spaceType` to `DIRECT_MESSAGE` and set `Space.singleUserBotDm` to `false`. Don't set `Space.displayName` or `Space.spaceDetails`. To create an 1:1 conversation between a human and the calling Chat app, set `Space.spaceType` to `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`. Don't set `Space.displayName` or `Space.spaceDetails`. If a `DIRECT_MESSAGE` space already exists, that space is returned instead of creating a new space. */
@@ -2492,17 +2705,13 @@ export interface SetUpSpaceRequest {
   /** Optional. The Google Chat users or groups to invite to join the space. Omit the calling user, as they are added automatically. The set currently allows up to 49 memberships (in addition to the caller). For human membership, the `Membership.member` field must contain a `user` with `name` populated (format: `users/{user}`) and `type` set to `User.Type.HUMAN`. You can only add human users when setting up a space (adding Chat apps is only supported for direct message setup with the calling app). You can also add members using the user's email as an alias for {user}. For example, the `user.name` can be `users/example@gmail.com`. To invite Gmail users or users from external Google Workspace domains, user's email must be used for `{user}`. For Google group membership, the `Membership.group_member` field must contain a `group` with `name` populated (format `groups/{group}`). You can only add Google groups when setting `Space.spaceType` to `SPACE`. Optional when setting `Space.spaceType` to `SPACE`. Required when setting `Space.spaceType` to `GROUP_CHAT`, along with at least two memberships. Required when setting `Space.spaceType` to `DIRECT_MESSAGE` with a human user, along with exactly one membership. Must be empty when creating a 1:1 conversation between a human and the calling Chat app (when setting `Space.spaceType` to `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`). */
   memberships?: MembershipList | undefined;
 }
-export interface SetupSpacesRequest {
-  /** Request body */
-  body?: SetUpSpaceRequest | undefined;
-}
 export interface UpdateSpaceReadStateUsersSpacesRequest {
   /** Required. The field paths to update. Currently supported field paths: - `last_read_time` When the `last_read_time` is before the latest message create time, the space appears as unread in the UI. To mark the space as read, set `last_read_time` to any value later (larger) than the latest message create time. The `last_read_time` is coerced to match the latest message create time. Note that the space read state only affects the read state of messages that are visible in the space's top-level conversation. Replies in threads are unaffected by this timestamp, and instead rely on the thread read state. */
   updateMask?: string | undefined;
   /** Resource name of the space read state. Format: `users/{user}/spaces/{space}/spaceReadState` */
   name: string;
-  /** Request body */
-  body?: SpaceReadState | undefined;
+  /** Optional. The time when the user's space read state was updated. Usually this corresponds with either the timestamp of the last read message, or a timestamp specified by the user to mark the last read position in a space. */
+  lastReadTime?: string | undefined;
 }
 export interface UpdateSpacesMessagesRequest {
   /** Optional. If `true` and the message isn't found, a new message is created and `updateMask` is ignored. The specified message ID must be [client-assigned](https://developers.google.com/workspace/chat/create-messages#name_a_created_message) or the request fails. */
@@ -2511,19 +2720,68 @@ export interface UpdateSpacesMessagesRequest {
   updateMask?: string | undefined;
   /** Identifier. Resource name of the message. Format: `spaces/{space}/messages/{message}` Where `{space}` is the ID of the space where the message is posted and `{message}` is a system-assigned ID for the message. For example, `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`. If you set a custom ID when you create a message, you can use this ID to specify the message in a request by replacing `{message}` with the value from the `clientAssignedMessageId` field. For example, `spaces/AAAAAAAAAAA/messages/client-custom-name`. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
   name: string;
-  /** Request body */
-  body?: Message | undefined;
-}
-/** Request to upload an attachment. */
-export interface UploadAttachmentRequest {
-  /** Required. The filename of the attachment, including the file extension. */
-  filename?: string | undefined;
+  /** Output only. Whether this is a silent message. Silent messages are messages where Chat suppresses push notifications for recipients. */
+  silent?: boolean | undefined;
+  /** Optional. Additional message components, including inline `citations` (where each citation is associated with a specific portion of the message text) and `cited_sources` (which are general references used to generate the response and are not directly linked to specific segments of the text). On input, provide `elements` when creating or updating a message. On output, both `citations` and `cited_sources` are populated when reading a message that contains them. Callers can read structured citation metadata from `elements`, while `formatted_text` also includes inline citation tags or source links depending on `markup_syntax`. These differ from `annotations`, which are output-only and offer supplementary information tied to message fragments or the entire message text. */
+  elements?: Elements | undefined;
+  /** Optional. Plain-text body of the message. The first link to an image, video, or web page generates a [preview chip](https://developers.google.com/workspace/chat/preview-links). You can also [@mention a Google Chat user](https://developers.google.com/workspace/chat/format-messages#messages-@mention), or everyone in the space. To learn about creating text messages, see [Send a message](https://developers.google.com/workspace/chat/create-messages). */
+  text?: string | undefined;
+  /** Optional. A plain-text description of the message's cards, used when the actual cards can't be displayed--for example, mobile notifications. */
+  fallbackText?: string | undefined;
+  /** Output only. When `true`, the message is a response in a reply thread. When `false`, the message is visible in the space's top-level conversation as either the first message of a thread or a message with no threaded replies. If the space doesn't support reply in threads, this field is always `false`. */
+  threadReply?: boolean | undefined;
+  /** Optional. One or more interactive widgets that appear at the bottom of a message. You can add accessory widgets to messages that contain text, cards, or both text and cards. Not supported for messages that contain dialogs. For details, see [Add interactive widgets at the bottom of a message](https://developers.google.com/workspace/chat/create-messages#add-accessory-widgets). Creating a message with accessory widgets requires [app authentication] (https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). */
+  accessoryWidgets?: AccessoryWidgetList | undefined;
+  /** Output only. The time at which the message was last edited by a user. If the message has never been edited, this field is empty. */
+  lastUpdateTime?: string | undefined;
+  /** Optional. Immutable. Input for creating a message, otherwise output only. The user that can view the message. When set, the message is private and only visible to the specified user and the Chat app. To include this field in your request, you must call the Chat API using [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app) and omit the following: * [Attachments](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.attachments) For details, see [Send a message privately](https://developers.google.com/workspace/chat/create-messages#private). */
+  privateMessageViewer?: User | undefined;
+  /** Output only. The user who created the message. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [user](https://developers.google.com/workspace/chat/api/reference/rest/v1/User) `name` and `type` fields for both internal and external users, unless they are members of the space or have a prior affinity, like a direct message (DM) conversation, with the calling user. */
+  sender?: User | undefined;
+  /** Deprecated: Use `cards_v2` instead. Rich, formatted, and interactive cards that you can use to display UI elements such as: formatted texts, buttons, and clickable images. Cards are normally displayed below the plain-text body of the message. `cards` and `cards_v2` can have a maximum size of 32 KB. */
+  cards?: CardList | undefined;
+  /** Output only. If your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), the output only populates the [space](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces) `name`. */
+  space?: Space | undefined;
+  /** Output only. The time at which the message was deleted in Google Chat. If the message is never deleted, this field is empty. */
+  deleteTime?: string | undefined;
+  /** Output only. Plain-text body of the message with all Chat app mentions stripped out. */
+  argumentText?: string | undefined;
+  /** Output only. Information about a deleted message. A message is deleted when `delete_time` is set. */
+  deletionMetadata?: DeletionMetadata | undefined;
+  /** Optional. Information about a message that another message quotes. When you create a message, you can quote messages within the same thread, or quote a root message to create a new root message. However, you can't quote a message reply from a different thread. When you update a message, you can't add or replace the `quotedMessageMetadata` field, but you can remove it. For example usage, see [Quote another message](https://developers.google.com/workspace/chat/create-messages#quote-a-message). */
+  quotedMessageMetadata?: QuotedMessageMetadata | undefined;
+  /** Optional. Immutable. For spaces created in Chat, the time at which the message was created. This field is output only, except when used in import mode spaces. For import mode spaces, set this field to the historical timestamp at which the message was created in the source in order to preserve the original creation time. */
+  createTime?: string | undefined;
+  /** The thread the message belongs to. For example usage, see [Start or reply to a message thread](https://developers.google.com/workspace/chat/create-messages#create-message-thread). */
+  thread?: Thread | undefined;
+  /** Optional. User-uploaded attachment. */
+  attachment?: AttachmentList | undefined;
+  /** Output only. GIF images that are attached to the message. */
+  attachedGifs?: AttachedGifList | undefined;
+  /** Output only. The list of emoji reaction summaries on the message. */
+  emojiReactionSummaries?: EmojiReactionSummaryList | undefined;
+  /** Output only. Annotations can be associated with the plain-text body of the message or with chips that link to Google Workspace resources like Google Docs or Sheets with `start_index` and `length` of 0. */
+  annotations?: AnnotationList | undefined;
+  /** Optional. An array of [cards](https://developers.google.com/workspace/chat/api/reference/rest/v1/cards). Chat apps can create cards with [app authentication](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). As part of the [Developer Preview Program](https://developers.google.com/workspace/preview), if your Chat app [authenticates as a user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user), it can create card messages. If your Chat app is not part of Developer Preview Program, it can't create cards with user authentication. To learn how to create a message that contains cards, see [Send a message](https://developers.google.com/workspace/chat/create-messages). [Card builder](https://addons.gsuite.google.com/uikit/builder) */
+  cardsV2?: CardWithIdList | undefined;
+  /** Optional. A custom ID for the message. You can use field to identify a message, or to get, delete, or update a message. To set a custom ID, specify the [`messageId`](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/create#body.QUERY_PARAMETERS.message_id) field when you create the message. For details, see [Name a message](https://developers.google.com/workspace/chat/create-messages#name_a_created_message). */
+  clientAssignedMessageId?: string | undefined;
+  /** Output only. A URL in the Chat message `text` field that matches a link preview pattern. For more information, see [Preview links](https://developers.google.com/workspace/chat/preview-links). */
+  matchedUrl?: MatchedUrl | undefined;
+  /** Input only. Parameters that a Chat app can use to configure how its response is posted. */
+  actionResponse?: ActionResponse | undefined;
+  /** Output only. Contains the message `text` with markups added to communicate formatting. This field might not capture all formatting visible in the UI, but includes the following: * [Markup syntax](https://developers.google.com/workspace/chat/format-messages) for bold, italic, strikethrough, monospace, monospace block, bulleted list, and block quote. * [User mentions](https://developers.google.com/workspace/chat/format-messages#messages-@mention) using the format ``. * Custom hyperlinks using the format `<{url}|{rendered_text}>` where the first string is the URL and the second is the rendered text--for example, ``. * Custom emoji using the format `:{emoji_name}:`--for example, `:smile:`. This doesn't apply to Unicode emoji, such as `U+1F600` for a grinning face emoji. * Bullet list items using asterisks (`*`)--for example, `* item`. For more information, see [View text formatting sent in a message](https://developers.google.com/workspace/chat/format-messages#view_text_formatting_sent_in_a_message) */
+  formattedText?: string | undefined;
+  /** Output only. Slash command information, if applicable. */
+  slashCommand?: SlashCommand | undefined;
+  /** Optional. Specifies how the server interprets the message `text` field content when creating a message or updating the `text` field of a message. When calling `UpdateMessage`, set `markup_syntax` and `text` on the `Message` resource and include `text` (not `markup_syntax`) in `update_mask`. */
+  markupSyntax?: MessageMarkupSyntaxEnum | (string & {}) | undefined;
 }
 export interface UploadMediaRequest {
   /** Required. Resource name of the Chat space in which the attachment is uploaded. Format "spaces/{space}". */
   parent: string;
-  /** Request body */
-  body?: UploadAttachmentRequest | undefined;
+  /** Required. The filename of the attachment, including the file extension. */
+  filename?: string | undefined;
 }
 /** Response of uploading an attachment. */
 export interface UploadAttachmentResponse {
@@ -3273,7 +3531,7 @@ export const markAsActiveUsersAvailability: API.OperationMethod<
   MarkAsActiveUsersAvailabilityError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c46, 1) as any as S.Schema<MarkAsActiveUsersAvailabilityRequest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<MarkAsActiveUsersAvailabilityRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Availability>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3317,7 +3575,7 @@ export const markAsDoNotDisturbUsersAvailability: API.OperationMethod<
   MarkAsDoNotDisturbUsersAvailabilityError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c48, 1) as any as S.Schema<MarkAsDoNotDisturbUsersAvailabilityRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<MarkAsDoNotDisturbUsersAvailabilityRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Availability>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3339,8 +3597,8 @@ export const moveUsersSectionsItems: API.OperationMethod<
   MoveUsersSectionsItemsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1569, __c49, 1) as any as S.Schema<MoveUsersSectionsItemsRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<MoveSectionItemResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<MoveUsersSectionsItemsRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<MoveSectionItemResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3493,8 +3751,8 @@ export const positionUsersSections: API.OperationMethod<
   PositionUsersSectionsError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1857, __c58, 1) as any as S.Schema<PositionUsersSectionsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<PositionSectionResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<PositionUsersSectionsRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<PositionSectionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3515,7 +3773,7 @@ export const replaceCardsSpacesMessages: API.OperationMethod<
   ReplaceCardsSpacesMessagesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c59, 1) as any as S.Schema<ReplaceCardsSpacesMessagesRequest>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ReplaceCardsSpacesMessagesRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<ReplaceMessageCardsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3556,8 +3814,8 @@ export const searchSpacesMessages: API.OperationMethod<
   SearchSpacesMessagesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1953, __c61, 1) as any as S.Schema<SearchSpacesMessagesRequest>,
-  output: __S(1956, __c61, 4) as any as S.Schema<SearchMessagesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<SearchSpacesMessagesRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<SearchMessagesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3578,7 +3836,7 @@ export const setupSpaces: API.OperationMethod<
   SetupSpacesError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c62, 1) as any as S.Schema<SetupSpacesRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<SetupSpacesRequest>,
   output: __S(1353, __c42, 9) as any as S.Schema<Space>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
@@ -3644,8 +3902,8 @@ export const uploadMedia: API.OperationMethod<
   UploadMediaError,
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2081, __c65, 1) as any as S.Schema<UploadMediaRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<UploadAttachmentResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UploadMediaRequest>,
+  output: __S(2081, __c65, 1) as any as S.Schema<UploadAttachmentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -3660,7 +3918,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          emoji: S.optional(__S(2336, __c73, 0)),
+          user: S.optional(__S(2208, __c69, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3689,7 +3949,10 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          sortOrder: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4535,15 +4798,9 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           ttl: S.optional(S.String),
           expireTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MarkAsActiveRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1472, __c46, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4576,15 +4833,9 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           expireTime: S.optional(S.String),
           ttl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MarkAsDoNotDisturbRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1536, __c48, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4600,14 +4851,8 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targetSection: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MoveSectionItemRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1568, __c49, 0).pipe(T.HttpBody())),
+          targetSection: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4616,7 +4861,7 @@ function __c49(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MoveUsersSectionsItemsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           sectionItem: S.optional(__S(1440, __c45, 0)),
@@ -4632,7 +4877,26 @@ function __c50(j: number): any {
           useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1353, __c42, 9).pipe(T.HttpBody())),
+          importModeExpireTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          membershipCount: S.optional(__S(1344, __c42, 0)),
+          spaceThreadingState: S.optional(S.String),
+          threaded: S.optional(S.Boolean),
+          lastActiveTime: S.optional(S.String),
+          singleUserBotDm: S.optional(S.Boolean),
+          accessSettings: S.optional(__S(1349, __c42, 5)),
+          customer: S.optional(S.String),
+          predefinedPermissionSettings: S.optional(S.String),
+          type: S.optional(S.String),
+          spaceHistoryState: S.optional(S.String),
+          externalUserAllowed: S.optional(S.Boolean),
+          spaceDetails: S.optional(__S(1350, __c42, 6)),
+          displayName: S.optional(S.String),
+          spaceType: S.optional(S.String),
+          importMode: S.optional(S.Boolean),
+          permissionSettings: S.optional(__S(1352, __c42, 8)),
+          adminInstalled: S.optional(S.Boolean),
+          spaceUri: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4647,7 +4911,13 @@ function __c51(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          member: S.optional(__S(2208, __c69, 0)),
+          deleteTime: S.optional(S.String),
+          groupMember: S.optional(__S(1312, __c41, 0)),
+          affiliation: S.optional(S.String),
+          role: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4662,7 +4932,34 @@ function __c52(j: number): any {
           name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2616, __c81, 24).pipe(T.HttpBody())),
+          silent: S.optional(S.Boolean),
+          elements: S.optional(__S(2566, __c80, 6)),
+          text: S.optional(S.String),
+          fallbackText: S.optional(S.String),
+          threadReply: S.optional(S.Boolean),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
+          lastUpdateTime: S.optional(S.String),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2588, __c80, 28)),
+          space: S.optional(__S(1353, __c42, 9)),
+          deleteTime: S.optional(S.String),
+          argumentText: S.optional(S.String),
+          deletionMetadata: S.optional(__S(2589, __c80, 29)),
+          quotedMessageMetadata: S.optional(__S(2603, __c81, 11)),
+          createTime: S.optional(S.String),
+          thread: S.optional(__S(2604, __c81, 12)),
+          attachment: S.optional(__S(2600, __c81, 8)),
+          attachedGifs: S.optional(__S(2606, __c81, 14)),
+          emojiReactionSummaries: S.optional(__S(2608, __c81, 16)),
+          annotations: S.optional(__S(2599, __c81, 7)),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          clientAssignedMessageId: S.optional(S.String),
+          matchedUrl: S.optional(__S(2572, __c80, 12)),
+          actionResponse: S.optional(__S(2614, __c81, 22)),
+          formattedText: S.optional(S.String),
+          slashCommand: S.optional(__S(2615, __c81, 23)),
+          markupSyntax: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4676,7 +4973,9 @@ function __c53(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(866, __c27, 2).pipe(T.HttpBody())),
+          customStatus: S.optional(__S(864, __c27, 0)),
+          doNotDisturbMetadata: S.optional(__S(865, __c27, 1)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4690,7 +4989,9 @@ function __c54(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          type: S.optional(S.String),
+          sortOrder: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4702,7 +5003,11 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(1793, __c56, 1).pipe(T.HttpBody())),
+          temporaryImageUri: S.optional(S.String),
+          name: S.optional(S.String),
+          emojiName: S.optional(S.String),
+          payload: S.optional(__S(1792, __c56, 0)),
+          uid: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4741,7 +5046,8 @@ function __c57(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
+          muteSetting: S.optional(S.String),
+          notificationSetting: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4753,15 +5059,9 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           sortOrder: S.optional(S.Number),
           relativePosition: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PositionSectionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1856, __c58, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4770,7 +5070,7 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PositionUsersSectionsRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           section: S.optional(__S(96, __c3, 0)),
@@ -4783,14 +5083,8 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cardsV2: S.optional(__S(2539, __c79, 11)),
-        }),
-      ).annotate({ identifier: "ReplaceMessageCardsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4835,19 +5129,13 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String),
           view: S.optional(S.String),
           filter: S.optional(S.String),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
           markupSyntax: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchMessagesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4856,7 +5144,7 @@ function __c61(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchSpacesMessagesRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(__S(2616, __c81, 24)),
@@ -4864,12 +5152,12 @@ function __c61(j: number): any {
           spaceMuteSetting: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchMessageResult" });
+    case 2:
+      return S.Array(__S(1953, __c61, 1));
     case 3:
-      return S.Array(__S(1954, __c61, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(1955, __c61, 3)),
+          results: S.optional(__S(1954, __c61, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchMessagesResponse" });
@@ -4883,12 +5171,6 @@ function __c62(j: number): any {
           requestId: S.optional(S.String),
           space: S.optional(__S(1353, __c42, 9)),
           memberships: S.optional(__S(1056, __c33, 0)),
-        }),
-      ).annotate({ identifier: "SetUpSpaceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4906,7 +5188,7 @@ function __c63(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
+          lastReadTime: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4921,7 +5203,34 @@ function __c64(j: number): any {
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2616, __c81, 24).pipe(T.HttpBody())),
+          silent: S.optional(S.Boolean),
+          elements: S.optional(__S(2566, __c80, 6)),
+          text: S.optional(S.String),
+          fallbackText: S.optional(S.String),
+          threadReply: S.optional(S.Boolean),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
+          lastUpdateTime: S.optional(S.String),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2588, __c80, 28)),
+          space: S.optional(__S(1353, __c42, 9)),
+          deleteTime: S.optional(S.String),
+          argumentText: S.optional(S.String),
+          deletionMetadata: S.optional(__S(2589, __c80, 29)),
+          quotedMessageMetadata: S.optional(__S(2603, __c81, 11)),
+          createTime: S.optional(S.String),
+          thread: S.optional(__S(2604, __c81, 12)),
+          attachment: S.optional(__S(2600, __c81, 8)),
+          attachedGifs: S.optional(__S(2606, __c81, 14)),
+          emojiReactionSummaries: S.optional(__S(2608, __c81, 16)),
+          annotations: S.optional(__S(2599, __c81, 7)),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          clientAssignedMessageId: S.optional(S.String),
+          matchedUrl: S.optional(__S(2572, __c80, 12)),
+          actionResponse: S.optional(__S(2614, __c81, 22)),
+          formattedText: S.optional(S.String),
+          slashCommand: S.optional(__S(2615, __c81, 23)),
+          markupSyntax: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4933,14 +5242,8 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filename: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UploadAttachmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2080, __c65, 0).pipe(T.HttpBody())),
+          filename: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4949,7 +5252,7 @@ function __c65(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UploadMediaRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           attachmentDataRef: S.optional(__S(2432, __c76, 0)),
@@ -4963,7 +5266,27 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1353, __c42, 9).pipe(T.HttpBody())),
+          importModeExpireTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          membershipCount: S.optional(__S(1344, __c42, 0)),
+          spaceThreadingState: S.optional(S.String),
+          threaded: S.optional(S.Boolean),
+          lastActiveTime: S.optional(S.String),
+          singleUserBotDm: S.optional(S.Boolean),
+          accessSettings: S.optional(__S(1349, __c42, 5)),
+          customer: S.optional(S.String),
+          predefinedPermissionSettings: S.optional(S.String),
+          type: S.optional(S.String),
+          spaceHistoryState: S.optional(S.String),
+          externalUserAllowed: S.optional(S.Boolean),
+          spaceDetails: S.optional(__S(1350, __c42, 6)),
+          displayName: S.optional(S.String),
+          spaceType: S.optional(S.String),
+          importMode: S.optional(S.Boolean),
+          permissionSettings: S.optional(__S(1352, __c42, 8)),
+          adminInstalled: S.optional(S.Boolean),
+          spaceUri: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "v1/spaces", baseUrl: "https://chat.googleapis.com/" }),
         ),
@@ -4977,7 +5300,14 @@ function __c67(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           useAdminAccess: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(2176, __c68, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          member: S.optional(__S(2208, __c69, 0)),
+          deleteTime: S.optional(S.String),
+          groupMember: S.optional(__S(1312, __c41, 0)),
+          name: S.optional(S.String),
+          affiliation: S.optional(S.String),
+          role: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5027,7 +5357,8 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
+          message: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5060,7 +5391,35 @@ function __c72(j: number): any {
           messageReplyOption: S.optional(S.String.pipe(T.Query())),
           threadKey: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2616, __c81, 24).pipe(T.HttpBody())),
+          silent: S.optional(S.Boolean),
+          elements: S.optional(__S(2566, __c80, 6)),
+          text: S.optional(S.String),
+          name: S.optional(S.String),
+          fallbackText: S.optional(S.String),
+          threadReply: S.optional(S.Boolean),
+          accessoryWidgets: S.optional(__S(2568, __c80, 8)),
+          lastUpdateTime: S.optional(S.String),
+          privateMessageViewer: S.optional(__S(2208, __c69, 0)),
+          sender: S.optional(__S(2208, __c69, 0)),
+          cards: S.optional(__S(2588, __c80, 28)),
+          space: S.optional(__S(1353, __c42, 9)),
+          deleteTime: S.optional(S.String),
+          argumentText: S.optional(S.String),
+          deletionMetadata: S.optional(__S(2589, __c80, 29)),
+          quotedMessageMetadata: S.optional(__S(2603, __c81, 11)),
+          createTime: S.optional(S.String),
+          thread: S.optional(__S(2604, __c81, 12)),
+          attachment: S.optional(__S(2600, __c81, 8)),
+          attachedGifs: S.optional(__S(2606, __c81, 14)),
+          emojiReactionSummaries: S.optional(__S(2608, __c81, 16)),
+          annotations: S.optional(__S(2599, __c81, 7)),
+          cardsV2: S.optional(__S(2539, __c79, 11)),
+          clientAssignedMessageId: S.optional(S.String),
+          matchedUrl: S.optional(__S(2572, __c80, 12)),
+          actionResponse: S.optional(__S(2614, __c81, 22)),
+          formattedText: S.optional(S.String),
+          slashCommand: S.optional(__S(2615, __c81, 23)),
+          markupSyntax: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

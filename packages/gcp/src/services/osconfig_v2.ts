@@ -503,8 +503,13 @@ export interface GoogleCloudOsconfigV2__OrchestrationScope {
   /** Optional. Selectors of the orchestration scope. Each `Selector` entry can specify either a `ResourceHierarchySelector` or a `LocationSelector`, but not both. To filter by both resource hierarchy and location, specify separate `Selector` entries for each selector type. There is a logical AND between each selector defined. When there is no explicit `ResourceHierarchySelector` selector specified, the scope is by default bounded to the parent of the policy orchestrator resource. */
   selectors?: GoogleCloudOsconfigV2_OrchestrationScope_SelectorList | undefined;
 }
-/** A policy orchestrator manages project-level and zone-level policy resources, such as OS policy assignments. It provides methods to create, update, and delete these resources across projects and locations at scale. The policy orchestrator operates as a continuous loop. In each iteration, the orchestrator identifies the set of resources to be modified and progressively applies changes. If the set of resources changes over time (for example, if you add new projects), subsequent iterations address those changes. The orchestrator can either upsert or delete policy resources. For more details, see the `action` and `orchestrated_resource` fields. The policy orchestrator does not manage the lifecycle of the resources it creates. Each iteration is independent and, besides Cloud Logging, the orchestrator retains only a minimal history of past actions. Deleting the orchestrator does not affect previously created resources; these resources remain in their current state. Similarly, removing projects from the orchestrator's scope does not affect existing resources. */
-export interface GoogleCloudOsconfigV2__PolicyOrchestrator {
+export interface CreateFoldersLocationsGlobalPolicyOrchestratorsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
+  parent: string;
+  /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
+  policyOrchestratorId?: string | undefined;
   /** Output only. Timestamp when the policy orchestrator resource was created. */
   createTime?: string | undefined;
   /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
@@ -530,16 +535,6 @@ export interface GoogleCloudOsconfigV2__PolicyOrchestrator {
   /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
   orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
-export interface CreateFoldersLocationsGlobalPolicyOrchestratorsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
-  parent: string;
-  /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
-  policyOrchestratorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
-}
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -560,8 +555,30 @@ export interface CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   parent: string;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
   policyOrchestratorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was created. */
+  createTime?: string | undefined;
+  /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
+  state?: string | undefined;
+  /** Output only. State of the orchestration. */
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
+  name?: string | undefined;
+  /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
+  reconciling?: boolean | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
+  action?: string | undefined;
+  /** Optional. Freeform text describing the purpose of the resource. */
+  description?: string | undefined;
+  /** Required. Resource to be orchestrated by the policy orchestrator. */
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
+  /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
 export interface CreateProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
@@ -570,8 +587,30 @@ export interface CreateProjectsLocationsGlobalPolicyOrchestratorsRequest {
   requestId?: string | undefined;
   /** Required. The logical identifier of the policy orchestrator, with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent. */
   policyOrchestratorId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was created. */
+  createTime?: string | undefined;
+  /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
+  state?: string | undefined;
+  /** Output only. State of the orchestration. */
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
+  name?: string | undefined;
+  /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
+  reconciling?: boolean | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
+  action?: string | undefined;
+  /** Optional. Freeform text describing the purpose of the resource. */
+  description?: string | undefined;
+  /** Required. Resource to be orchestrated by the policy orchestrator. */
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
+  /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
 export interface DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. The current etag of the policy orchestrator. If an etag is provided and does not match the current etag of the policy orchestrator, deletion will be blocked and an ABORTED error will be returned. */
@@ -612,6 +651,33 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export interface GetFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The resource name. */
   name: string;
+}
+/** A policy orchestrator manages project-level and zone-level policy resources, such as OS policy assignments. It provides methods to create, update, and delete these resources across projects and locations at scale. The policy orchestrator operates as a continuous loop. In each iteration, the orchestrator identifies the set of resources to be modified and progressively applies changes. If the set of resources changes over time (for example, if you add new projects), subsequent iterations address those changes. The orchestrator can either upsert or delete policy resources. For more details, see the `action` and `orchestrated_resource` fields. The policy orchestrator does not manage the lifecycle of the resources it creates. Each iteration is independent and, besides Cloud Logging, the orchestrator retains only a minimal history of past actions. Deleting the orchestrator does not affect previously created resources; these resources remain in their current state. Similarly, removing projects from the orchestrator's scope does not affect existing resources. */
+export interface GoogleCloudOsconfigV2__PolicyOrchestrator {
+  /** Output only. Timestamp when the policy orchestrator resource was created. */
+  createTime?: string | undefined;
+  /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
+  state?: string | undefined;
+  /** Output only. State of the orchestration. */
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
+  name?: string | undefined;
+  /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
+  reconciling?: boolean | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
+  action?: string | undefined;
+  /** Optional. Freeform text describing the purpose of the resource. */
+  description?: string | undefined;
+  /** Required. Resource to be orchestrated by the policy orchestrator. */
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
+  /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
 export interface GetFoldersLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -731,24 +797,84 @@ export interface PatchFoldersLocationsGlobalPolicyOrchestratorsRequest {
   name: string;
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was created. */
+  createTime?: string | undefined;
+  /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
+  state?: string | undefined;
+  /** Output only. State of the orchestration. */
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
+  reconciling?: boolean | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
+  action?: string | undefined;
+  /** Optional. Freeform text describing the purpose of the resource. */
+  description?: string | undefined;
+  /** Required. Resource to be orchestrated by the policy orchestrator. */
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
+  /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
 export interface PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was created. */
+  createTime?: string | undefined;
+  /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
+  state?: string | undefined;
+  /** Output only. State of the orchestration. */
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
+  reconciling?: boolean | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
+  action?: string | undefined;
+  /** Optional. Freeform text describing the purpose of the resource. */
+  description?: string | undefined;
+  /** Required. Resource to be orchestrated by the policy orchestrator. */
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
+  /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
 export interface PatchProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Optional. The list of fields to merge into the existing policy orchestrator. A special ["*"] field mask can be used to simply replace the entire resource. Otherwise, for all paths referenced in the mask, following merge rules are used: * output only fields are ignored, * primitive fields are replaced, * repeated fields are replaced, * map fields are merged key by key, * message fields are cleared if not set in the request, otherwise they are merged recursively (in particular - message fields set to an empty message has no side effects) If field mask (or its paths) is not specified, it is automatically inferred from the request using following rules: * primitive fields are listed, if set to a non-default value (as there is no way to distinguish between default and unset value), * map and repeated fields are listed, * `google.protobuf.Any` fields are listed, * other message fields are traversed recursively. Note: implicit mask does not allow clearing fields. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. In the following format: * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudOsconfigV2__PolicyOrchestrator | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was created. */
+  createTime?: string | undefined;
+  /** Optional. State of the orchestrator. Can be updated to change orchestrator behaviour. Allowed values: - `ACTIVE` - orchestrator is actively looking for actions to be taken. - `STOPPED` - orchestrator won't make any changes. Note: There might be more states added in the future. We use string here instead of an enum, to avoid the need of propagating new states to all the client code. */
+  state?: string | undefined;
+  /** Output only. State of the orchestration. */
+  orchestrationState?: GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Labels as key value pairs */
+  labels?: StringMap | undefined;
+  /** Output only. Set to true, if there are ongoing changes being applied by the orchestrator. */
+  reconciling?: boolean | undefined;
+  /** Output only. Timestamp when the policy orchestrator resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. Action to be done by the orchestrator in `projects/{project_id}/zones/{zone_id}` locations defined by the `orchestration_scope`. Allowed values: - `UPSERT` - Orchestrator will create or update target resources. - `DELETE` - Orchestrator will delete target resources, if they exist */
+  action?: string | undefined;
+  /** Optional. Freeform text describing the purpose of the resource. */
+  description?: string | undefined;
+  /** Required. Resource to be orchestrated by the policy orchestrator. */
+  orchestratedResource?: GoogleCloudOsconfigV2__OrchestratedResource | undefined;
+  /** Optional. Defines scope for the orchestration, in context of the enclosing PolicyOrchestrator resource. Scope is expanded into a list of pairs, in which the rollout action will take place. Expansion starts with a Folder resource parenting the PolicyOrchestrator resource: - All the descendant projects are listed. - List of project is cross joined with a list of all available zones. - Resulting list of pairs is filtered according to the selectors. */
+  orchestrationScope?: GoogleCloudOsconfigV2__OrchestrationScope | undefined;
 }
 export type CancelFoldersLocationsOperationsError =
   | NotFound
@@ -764,8 +890,8 @@ export const cancelFoldersLocationsOperations: API.OperationMethod<
   CancelFoldersLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<CancelFoldersLocationsOperationsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Empty>,
+  input: __S(800, __c25, 0) as any as S.Schema<CancelFoldersLocationsOperationsRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -787,8 +913,8 @@ export const cancelOrganizationsLocationsOperations: API.OperationMethod<
   CancelOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Empty>,
+  input: __S(864, __c27, 0) as any as S.Schema<CancelOrganizationsLocationsOperationsRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -810,8 +936,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Empty>,
+  input: __S(896, __c28, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -834,11 +960,11 @@ export const createFoldersLocationsGlobalPolicyOrchestrators: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    896,
-    __c28,
+    928,
+    __c29,
     0,
   ) as any as S.Schema<CreateFoldersLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -861,11 +987,11 @@ export const createOrganizationsLocationsGlobalPolicyOrchestrators: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -892,7 +1018,7 @@ export const createProjectsLocationsGlobalPolicyOrchestrators: API.OperationMeth
     __c0,
     0,
   ) as any as S.Schema<CreateProjectsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -919,7 +1045,7 @@ export const deleteFoldersLocationsGlobalPolicyOrchestrators: API.OperationMetho
     __c1,
     0,
   ) as any as S.Schema<DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -942,7 +1068,7 @@ export const deleteFoldersLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteFoldersLocationsOperationsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Empty>,
+  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -969,7 +1095,7 @@ export const deleteOrganizationsLocationsGlobalPolicyOrchestrators: API.Operatio
     __c3,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -992,7 +1118,7 @@ export const deleteOrganizationsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Empty>,
+  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1019,7 +1145,7 @@ export const deleteProjectsLocationsGlobalPolicyOrchestrators: API.OperationMeth
     __c5,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1042,7 +1168,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<Empty>,
+  output: __S(832, __c26, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1063,7 +1189,7 @@ export const getFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetFoldersLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(1063, __c33, 7) as any as S.Schema<GoogleCloudOsconfigV2__PolicyOrchestrator>,
+  output: __S(256, __c8, 0) as any as S.Schema<GoogleCloudOsconfigV2__PolicyOrchestrator>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1083,8 +1209,8 @@ export const getFoldersLocationsOperations: API.OperationMethod<
   GetFoldersLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetFoldersLocationsOperationsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetFoldersLocationsOperationsRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1105,11 +1231,11 @@ export const getOrganizationsLocationsGlobalPolicyOrchestrators: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    288,
-    __c9,
+    320,
+    __c10,
     0,
   ) as any as S.Schema<GetOrganizationsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(1063, __c33, 7) as any as S.Schema<GoogleCloudOsconfigV2__PolicyOrchestrator>,
+  output: __S(256, __c8, 0) as any as S.Schema<GoogleCloudOsconfigV2__PolicyOrchestrator>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1129,8 +1255,8 @@ export const getOrganizationsLocationsOperations: API.OperationMethod<
   GetOrganizationsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetOrganizationsLocationsOperationsRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1151,11 +1277,11 @@ export const getProjectsLocationsGlobalPolicyOrchestrators: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<GetProjectsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(1063, __c33, 7) as any as S.Schema<GoogleCloudOsconfigV2__PolicyOrchestrator>,
+  output: __S(256, __c8, 0) as any as S.Schema<GoogleCloudOsconfigV2__PolicyOrchestrator>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1175,8 +1301,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1198,13 +1324,13 @@ export const listFoldersLocationsGlobalPolicyOrchestrators: API.PaginatedOperati
   GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    416,
-    __c13,
+    448,
+    __c14,
     0,
   ) as any as S.Schema<ListFoldersLocationsGlobalPolicyOrchestratorsRequest>,
   output: __S(
-    449,
-    __c14,
+    481,
+    __c15,
     1,
   ) as any as S.Schema<GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
@@ -1228,8 +1354,8 @@ export const listFoldersLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListFoldersLocationsOperationsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListFoldersLocationsOperationsRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1252,13 +1378,13 @@ export const listOrganizationsLocationsGlobalPolicyOrchestrators: API.PaginatedO
   GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    544,
-    __c17,
+    576,
+    __c18,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsGlobalPolicyOrchestratorsRequest>,
   output: __S(
-    449,
-    __c14,
+    481,
+    __c15,
     1,
   ) as any as S.Schema<GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
@@ -1282,8 +1408,8 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListOrganizationsLocationsOperationsRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1306,13 +1432,13 @@ export const listProjectsLocationsGlobalPolicyOrchestrators: API.PaginatedOperat
   GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    608,
-    __c19,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<ListProjectsLocationsGlobalPolicyOrchestratorsRequest>,
   output: __S(
-    449,
-    __c14,
+    481,
+    __c15,
     1,
   ) as any as S.Schema<GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
@@ -1336,8 +1462,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1361,11 +1487,11 @@ export const patchFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<PatchFoldersLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1388,11 +1514,11 @@ export const patchOrganizationsLocationsGlobalPolicyOrchestrators: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1415,11 +1541,11 @@ export const patchProjectsLocationsGlobalPolicyOrchestrators: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c23,
+    768,
+    __c24,
     0,
   ) as any as S.Schema<PatchProjectsLocationsGlobalPolicyOrchestratorsRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<Operation>,
+  output: __S(992, __c31, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1436,7 +1562,18 @@ function __c0(j: number): any {
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          name: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1566,11 +1703,20 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
-        ),
-      ).annotate({ identifier: "GetFoldersLocationsOperationsRequest" });
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          name: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
+        }),
+      ).annotate({ identifier: "GoogleCloudOsconfigV2__PolicyOrchestrator" });
   }
 }
 function __c9(j: number): any {
@@ -1582,7 +1728,7 @@ function __c9(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsGlobalPolicyOrchestratorsRequest" });
+      ).annotate({ identifier: "GetFoldersLocationsOperationsRequest" });
   }
 }
 function __c10(j: number): any {
@@ -1594,7 +1740,7 @@ function __c10(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetOrganizationsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
 function __c11(j: number): any {
@@ -1606,7 +1752,7 @@ function __c11(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsGlobalPolicyOrchestratorsRequest" });
+      ).annotate({ identifier: "GetOrganizationsLocationsOperationsRequest" });
   }
 }
 function __c12(j: number): any {
@@ -1618,10 +1764,22 @@ function __c12(j: number): any {
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
 function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "v2/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1641,21 +1799,21 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1063, __c33, 7));
+      return S.Array(__S(256, __c8, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(992, __c31, 0)),
-          policyOrchestrators: S.optional(__S(448, __c14, 0)),
+          unreachable: S.optional(__S(1024, __c32, 0)),
+          policyOrchestrators: S.optional(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudOsconfigV2__ListPolicyOrchestratorsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1675,21 +1833,21 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsOperationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(992, __c31, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(512, __c16, 0)),
-          unreachable: S.optional(__S(992, __c31, 0)),
+          operations: S.optional(__S(544, __c17, 0)),
+          unreachable: S.optional(__S(1024, __c32, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1709,7 +1867,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1729,7 +1887,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1749,7 +1907,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1769,14 +1927,24 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1787,14 +1955,24 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PatchFoldersLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1805,14 +1983,24 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1823,13 +2011,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1840,19 +2028,19 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CancelFoldersLocationsOperationsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1863,13 +2051,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CancelOrganizationsLocationsOperationsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(832, __c26, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1880,7 +2068,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1888,7 +2076,18 @@ function __c28(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          name: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1899,43 +2098,43 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateFoldersLocationsGlobalPolicyOrchestratorsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(960, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(929, __c29, 1)),
+          details: S.optional(__S(961, __c30, 1)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(928, __c29, 0)),
+          metadata: S.optional(__S(960, __c30, 0)),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(928, __c29, 0)),
-          error: S.optional(__S(930, __c29, 2)),
+          response: S.optional(__S(960, __c30, 0)),
+          error: S.optional(__S(962, __c30, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1944,7 +2143,7 @@ function __c32(j: number): any {
           failedActions: S.optional(S.String),
           performedActions: S.optional(S.String),
           iterationId: S.optional(S.String),
-          error: S.optional(__S(930, __c29, 2)),
+          error: S.optional(__S(962, __c30, 2)),
           startTime: S.optional(S.String),
           state: S.optional(S.String),
           progress: S.optional(S.Number),
@@ -1953,8 +2152,8 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          currentIterationState: S.optional(__S(1024, __c32, 0)),
-          previousIterationState: S.optional(__S(1024, __c32, 0)),
+          currentIterationState: S.optional(__S(1056, __c33, 0)),
+          previousIterationState: S.optional(__S(1056, __c33, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudOsconfigV2_PolicyOrchestrator_OrchestrationState" });
     case 2:
@@ -1962,11 +2161,11 @@ function __c32(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1026, __c32, 2)),
+          labels: S.optional(__S(1058, __c33, 2)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentLabelSet" });
     case 4:
-      return S.Array(__S(1027, __c32, 3));
+      return S.Array(__S(1059, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1975,13 +2174,13 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "OSPolicyAssignmentInstanceFilterInventory" });
     case 6:
-      return S.Array(__S(1029, __c32, 5));
+      return S.Array(__S(1061, __c33, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          inclusionLabels: S.optional(__S(1028, __c32, 4)),
-          exclusionLabels: S.optional(__S(1028, __c32, 4)),
-          inventories: S.optional(__S(1030, __c32, 6)),
+          inclusionLabels: S.optional(__S(1060, __c33, 4)),
+          exclusionLabels: S.optional(__S(1060, __c33, 4)),
+          inventories: S.optional(__S(1062, __c33, 6)),
           all: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentInstanceFilter" });
@@ -2004,15 +2203,15 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowInsecure: S.optional(S.Boolean),
-          gcs: S.optional(__S(1032, __c32, 8)),
-          remote: S.optional(__S(1033, __c32, 9)),
+          gcs: S.optional(__S(1064, __c33, 8)),
+          remote: S.optional(__S(1065, __c33, 9)),
           localPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceFile" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          file: S.optional(__S(1034, __c32, 10)),
+          file: S.optional(__S(1066, __c33, 10)),
           permissions: S.optional(S.String),
           state: S.optional(S.String),
           path: S.optional(S.String),
@@ -2023,8 +2222,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           script: S.optional(S.String),
-          args: S.optional(__S(992, __c31, 0)),
-          file: S.optional(__S(1034, __c32, 10)),
+          args: S.optional(__S(1024, __c32, 0)),
+          file: S.optional(__S(1066, __c33, 10)),
           outputFilePath: S.optional(S.String),
           interpreter: S.optional(S.String),
         }),
@@ -2032,22 +2231,22 @@ function __c32(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          enforce: S.optional(__S(1036, __c32, 12)),
-          validate: S.optional(__S(1036, __c32, 12)),
+          enforce: S.optional(__S(1068, __c33, 12)),
+          validate: S.optional(__S(1068, __c33, 12)),
         }),
       ).annotate({ identifier: "OSPolicyResourceExecResource" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1034, __c32, 10)),
+          source: S.optional(__S(1066, __c33, 10)),
           pullDeps: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceDeb" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1034, __c32, 10)),
-          properties: S.optional(__S(992, __c31, 0)),
+          source: S.optional(__S(1066, __c33, 10)),
+          properties: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceMSI" });
     case 16:
@@ -2060,26 +2259,26 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pullDeps: S.optional(S.Boolean),
-          source: S.optional(__S(1034, __c32, 10)),
+          source: S.optional(__S(1066, __c33, 10)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResourceRPM" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          deb: S.optional(__S(1038, __c32, 14)),
-          msi: S.optional(__S(1039, __c32, 15)),
-          googet: S.optional(__S(1040, __c32, 16)),
-          rpm: S.optional(__S(1041, __c32, 17)),
+          deb: S.optional(__S(1070, __c33, 14)),
+          msi: S.optional(__S(1071, __c33, 15)),
+          googet: S.optional(__S(1072, __c33, 16)),
+          rpm: S.optional(__S(1073, __c33, 17)),
           desiredState: S.optional(S.String),
-          apt: S.optional(__S(1040, __c32, 16)),
-          zypper: S.optional(__S(1040, __c32, 16)),
-          yum: S.optional(__S(1040, __c32, 16)),
+          apt: S.optional(__S(1072, __c33, 16)),
+          zypper: S.optional(__S(1072, __c33, 16)),
+          yum: S.optional(__S(1072, __c33, 16)),
         }),
       ).annotate({ identifier: "OSPolicyResourcePackageResource" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          components: S.optional(__S(992, __c31, 0)),
+          components: S.optional(__S(1024, __c32, 0)),
           distribution: S.optional(S.String),
           archiveType: S.optional(S.String),
           gpgKey: S.optional(S.String),
@@ -2092,13 +2291,13 @@ function __c32(j: number): any {
           displayName: S.optional(S.String),
           baseUrl: S.optional(S.String),
           id: S.optional(S.String),
-          gpgKeys: S.optional(__S(992, __c31, 0)),
+          gpgKeys: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResourceYumRepository" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          gpgKeys: S.optional(__S(992, __c31, 0)),
+          gpgKeys: S.optional(__S(1024, __c32, 0)),
           displayName: S.optional(S.String),
           id: S.optional(S.String),
           baseUrl: S.optional(S.String),
@@ -2114,45 +2313,45 @@ function __c32(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          apt: S.optional(__S(1043, __c32, 19)),
-          yum: S.optional(__S(1044, __c32, 20)),
-          zypper: S.optional(__S(1045, __c32, 21)),
-          goo: S.optional(__S(1046, __c32, 22)),
+          apt: S.optional(__S(1075, __c33, 19)),
+          yum: S.optional(__S(1076, __c33, 20)),
+          zypper: S.optional(__S(1077, __c33, 21)),
+          goo: S.optional(__S(1078, __c33, 22)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResource" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          file: S.optional(__S(1035, __c32, 11)),
-          exec: S.optional(__S(1037, __c32, 13)),
-          pkg: S.optional(__S(1042, __c32, 18)),
-          repository: S.optional(__S(1047, __c32, 23)),
+          file: S.optional(__S(1067, __c33, 11)),
+          exec: S.optional(__S(1069, __c33, 13)),
+          pkg: S.optional(__S(1074, __c33, 18)),
+          repository: S.optional(__S(1079, __c33, 23)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResource" });
     case 25:
-      return S.Array(__S(1048, __c32, 24));
+      return S.Array(__S(1080, __c33, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          inventoryFilters: S.optional(__S(1030, __c32, 6)),
-          resources: S.optional(__S(1049, __c32, 25)),
+          inventoryFilters: S.optional(__S(1062, __c33, 6)),
+          resources: S.optional(__S(1081, __c33, 25)),
         }),
       ).annotate({ identifier: "OSPolicyResourceGroup" });
     case 27:
-      return S.Array(__S(1050, __c32, 26));
+      return S.Array(__S(1082, __c33, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
           allowNoResourceGroupMatch: S.optional(S.Boolean),
           mode: S.optional(S.String),
           description: S.optional(S.String),
-          resourceGroups: S.optional(__S(1051, __c32, 27)),
+          resourceGroups: S.optional(__S(1083, __c33, 27)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicy" });
     case 29:
-      return S.Array(__S(1052, __c32, 28));
+      return S.Array(__S(1084, __c33, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -2164,26 +2363,26 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           minWaitDuration: S.optional(S.String),
-          disruptionBudget: S.optional(__S(1054, __c32, 30)),
+          disruptionBudget: S.optional(__S(1086, __c33, 30)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentRollout" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           reconciling: S.optional(S.Boolean),
           rolloutState: S.optional(S.String),
-          instanceFilter: S.optional(__S(1031, __c32, 7)),
+          instanceFilter: S.optional(__S(1063, __c33, 7)),
           deleted: S.optional(S.Boolean),
           revisionCreateTime: S.optional(S.String),
           baseline: S.optional(S.Boolean),
-          osPolicies: S.optional(__S(1053, __c32, 29)),
+          osPolicies: S.optional(__S(1085, __c33, 29)),
           revisionId: S.optional(S.String),
           etag: S.optional(S.String),
-          rollout: S.optional(__S(1055, __c32, 31)),
+          rollout: S.optional(__S(1087, __c33, 31)),
           name: S.optional(S.String),
           uid: S.optional(S.String),
           description: S.optional(S.String),
@@ -2192,21 +2391,21 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          osPolicyAssignmentV1Payload: S.optional(__S(1056, __c33, 0)),
+          osPolicyAssignmentV1Payload: S.optional(__S(1088, __c34, 0)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudOsconfigV2__OrchestratedResource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          includedLocations: S.optional(__S(992, __c31, 0)),
+          includedLocations: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudOsconfigV2_OrchestrationScope_LocationSelector" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          includedFolders: S.optional(__S(992, __c31, 0)),
-          includedProjects: S.optional(__S(992, __c31, 0)),
+          includedFolders: S.optional(__S(1024, __c32, 0)),
+          includedProjects: S.optional(__S(1024, __c32, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudOsconfigV2_OrchestrationScope_ResourceHierarchySelector",
@@ -2214,38 +2413,21 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          locationSelector: S.optional(__S(1058, __c33, 2)),
-          resourceHierarchySelector: S.optional(__S(1059, __c33, 3)),
+          locationSelector: S.optional(__S(1090, __c34, 2)),
+          resourceHierarchySelector: S.optional(__S(1091, __c34, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudOsconfigV2_OrchestrationScope_Selector" });
     case 5:
-      return S.Array(__S(1060, __c33, 4));
+      return S.Array(__S(1092, __c34, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          selectors: S.optional(__S(1061, __c33, 5)),
+          selectors: S.optional(__S(1093, __c34, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudOsconfigV2__OrchestrationScope" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          orchestrationState: S.optional(__S(1025, __c32, 1)),
-          etag: S.optional(S.String),
-          labels: S.optional(__S(1026, __c32, 2)),
-          name: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          action: S.optional(S.String),
-          description: S.optional(S.String),
-          orchestratedResource: S.optional(__S(1057, __c33, 1)),
-          orchestrationScope: S.optional(__S(1062, __c33, 6)),
-        }),
-      ).annotate({ identifier: "GoogleCloudOsconfigV2__PolicyOrchestrator" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2253,7 +2435,18 @@ function __c34(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           policyOrchestratorId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1063, __c33, 7).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          orchestrationState: S.optional(__S(1057, __c33, 1)),
+          etag: S.optional(S.String),
+          labels: S.optional(__S(1058, __c33, 2)),
+          name: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          action: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestratedResource: S.optional(__S(1089, __c34, 1)),
+          orchestrationScope: S.optional(__S(1094, __c34, 6)),
         }).pipe(
           T.Http({
             method: "POST",

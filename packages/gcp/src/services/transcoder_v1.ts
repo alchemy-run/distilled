@@ -711,8 +711,9 @@ export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
-/** Transcoding job resource. */
-export interface Job {
+export interface CreateProjectsLocationsJobsRequest {
+  /** Required. The parent location to create and process this job. Format: `projects/{project}/locations/{location}` */
+  parent: string;
   /** Output only. The current state of the job. */
   state?: JobStateEnum | (string & {}) | undefined;
   /** Job time to live value in days, which will be effective after job completion. Job should be deleted automatically after the given TTL. Enter a value between 1 and 90. The default is 30. */
@@ -746,11 +747,52 @@ export interface Job {
   /** Output only. An error object that describes the reason for the failure. This property is always present when ProcessingState is `FAILED`. */
   error?: Status | undefined;
 }
-export interface CreateProjectsLocationsJobsRequest {
-  /** Required. The parent location to create and process this job. Format: `projects/{project}/locations/{location}` */
+/** Transcoding job resource. */
+export interface Job {
+  /** Output only. The current state of the job. */
+  state?: JobStateEnum | undefined;
+  /** Job time to live value in days, which will be effective after job completion. Job should be deleted automatically after the given TTL. Enter a value between 1 and 90. The default is 30. */
+  ttlAfterCompletionDays?: number | undefined;
+  /** Input only. Specify the `output_uri` to populate an empty `Job.config.output.uri` or `JobTemplate.config.output.uri` when using template. URI for the output file(s). For example, `gs://my-bucket/outputs/`. See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
+  outputUri?: string | undefined;
+  /** The labels associated with this job. You can use these to organize and group your jobs. */
+  labels?: StringMap | undefined;
+  /** Output only. The time the job was created. */
+  createTime?: string | undefined;
+  /** The processing priority of a batch job. This field can only be set for batch mode jobs. The default value is 0. This value cannot be negative. Higher values correspond to higher priorities for the job. */
+  batchModePriority?: number | undefined;
+  /** The processing mode of the job. The default is `PROCESSING_MODE_INTERACTIVE`. */
+  mode?: JobModeEnum | undefined;
+  /** Optional. Insert silence and duplicate frames when timestamp gaps are detected in a given stream. */
+  fillContentGaps?: boolean | undefined;
+  /** Input only. Specify the `template_id` to use for populating `Job.config`. The default is `preset/web-hd`, which is the only supported preset. User defined JobTemplate: `{job_template_id}` */
+  templateId?: string | undefined;
+  /** The resource name of the job. Format: `projects/{project_number}/locations/{location}/jobs/{job}` */
+  name?: string | undefined;
+  /** Output only. The time the transcoding finished. */
+  endTime?: string | undefined;
+  /** Optional. The optimization strategy of the job. The default is `AUTODETECT`. */
+  optimization?: JobOptimizationEnum | undefined;
+  /** The configuration for this job. */
+  config?: JobConfig | undefined;
+  /** Output only. The time the transcoding started. */
+  startTime?: string | undefined;
+  /** Input only. Specify the `input_uri` to populate empty `uri` fields in each element of `Job.config.inputs` or `JobTemplate.config.inputs` when using template. URI of the media. Input files must be at least 5 seconds in duration and stored in Cloud Storage (for example, `gs://bucket/inputs/file.mp4`). See [Supported input and output formats](https://cloud.google.com/transcoder/docs/concepts/supported-input-and-output-formats). */
+  inputUri?: string | undefined;
+  /** Output only. An error object that describes the reason for the failure. This property is always present when ProcessingState is `FAILED`. */
+  error?: Status | undefined;
+}
+export interface CreateProjectsLocationsJobTemplatesRequest {
+  /** Required. The ID to use for the job template, which will become the final component of the job template's resource name. This value should be 4-63 characters, and valid characters must match the regular expression `a-zA-Z*`. */
+  jobTemplateId?: string | undefined;
+  /** Required. The parent location to create this job template. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Request body */
-  body?: Job | undefined;
+  /** The configuration for this template. */
+  config?: JobConfig | undefined;
+  /** The resource name of the job template. Format: `projects/{project_number}/locations/{location}/jobTemplates/{job_template}` */
+  name?: string | undefined;
+  /** The labels associated with this job template. You can use these to organize and group your job templates. */
+  labels?: StringMap | undefined;
 }
 /** Transcoding job template resource. */
 export interface JobTemplate {
@@ -760,14 +802,6 @@ export interface JobTemplate {
   name?: string | undefined;
   /** The labels associated with this job template. You can use these to organize and group your job templates. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsJobTemplatesRequest {
-  /** Required. The ID to use for the job template, which will become the final component of the job template's resource name. This value should be 4-63 characters, and valid characters must match the regular expression `a-zA-Z*`. */
-  jobTemplateId?: string | undefined;
-  /** Required. The parent location to create this job template. Format: `projects/{project}/locations/{location}` */
-  parent: string;
-  /** Request body */
-  body?: JobTemplate | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** If set to true, and the job is not found, the request will succeed but no action will be taken on the server. */
@@ -1062,7 +1096,22 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(195, __c6, 3).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          ttlAfterCompletionDays: S.optional(S.Number),
+          outputUri: S.optional(S.String),
+          labels: S.optional(__S(128, __c4, 0)),
+          createTime: S.optional(S.String),
+          batchModePriority: S.optional(S.Number),
+          mode: S.optional(S.String),
+          fillContentGaps: S.optional(S.Boolean),
+          templateId: S.optional(S.String),
+          name: S.optional(S.String),
+          endTime: S.optional(S.String),
+          optimization: S.optional(S.String),
+          config: S.optional(__S(185, __c5, 25)),
+          startTime: S.optional(S.String),
+          inputUri: S.optional(S.String),
+          error: S.optional(__S(194, __c6, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1578,7 +1627,9 @@ function __c7(j: number): any {
         S.Struct({
           jobTemplateId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
+          config: S.optional(__S(185, __c5, 25)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(128, __c4, 0)),
         }).pipe(
           T.Http({
             method: "POST",

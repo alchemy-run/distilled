@@ -640,8 +640,7 @@ export interface Activities {
   items: ActivityList;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** A notification channel used to watch for resource changes. */
-export interface Channel {
+export interface StopChannelsRequest {
   /** A version-specific identifier for the watched resource. */
   resourceUri?: string | undefined;
   /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
@@ -662,10 +661,6 @@ export interface Channel {
   id?: string | undefined;
   /** The address where notifications are delivered for this channel. */
   address?: string | undefined;
-}
-export interface StopChannelsRequest {
-  /** Request body */
-  body?: Channel | undefined;
 }
 export interface StopChannelsResponse {}
 export type WatchActivitiesApplicationNameEnum =
@@ -716,8 +711,49 @@ export interface WatchActivitiesRequest {
   userKey: string;
   /** Application name for which the events are to be retrieved. */
   applicationName: WatchActivitiesApplicationNameEnum | (string & {});
-  /** Request body */
-  body?: Channel | undefined;
+  /** A version-specific identifier for the watched resource. */
+  resourceUri?: string | undefined;
+  /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
+  payload?: boolean | undefined;
+  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
+  expiration?: string | undefined;
+  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
+  resourceId?: string | undefined;
+  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
+  token?: string | undefined;
+  /** Additional parameters controlling delivery channel behavior. Optional. */
+  params?: StringMap | undefined;
+  /** The type of delivery mechanism used for this channel. The value should be set to `"web_hook"`. */
+  type?: string | undefined;
+  /** Identifies this as a notification channel used to watch for changes to a resource, which is "`api#channel`". */
+  kind?: string | undefined;
+  /** A UUID or similar unique string that identifies this channel. */
+  id?: string | undefined;
+  /** The address where notifications are delivered for this channel. */
+  address?: string | undefined;
+}
+/** A notification channel used to watch for resource changes. */
+export interface Channel {
+  /** A version-specific identifier for the watched resource. */
+  resourceUri?: string | undefined;
+  /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
+  payload?: boolean | undefined;
+  /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
+  expiration?: string | undefined;
+  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
+  resourceId?: string | undefined;
+  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
+  token?: string | undefined;
+  /** Additional parameters controlling delivery channel behavior. Optional. */
+  params?: StringMap | undefined;
+  /** The type of delivery mechanism used for this channel. The value should be set to `"web_hook"`. */
+  type?: string | undefined;
+  /** Identifies this as a notification channel used to watch for changes to a resource, which is "`api#channel`". */
+  kind?: string | undefined;
+  /** A UUID or similar unique string that identifies this channel. */
+  id?: string | undefined;
+  /** The address where notifications are delivered for this channel. */
+  address?: string | undefined;
 }
 export type GetCustomerUsageReportsError = NotFound | Forbidden | GoogleWorkspaceOpError;
 /** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
@@ -831,7 +867,7 @@ export const watchActivities: API.OperationMethod<
   GoogleWorkspaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<WatchActivitiesRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<Channel>,
+  output: __S(257, __c8, 1) as any as S.Schema<Channel>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
@@ -1321,7 +1357,16 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
+          resourceUri: S.optional(S.String),
+          payload: S.optional(S.Boolean),
+          expiration: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          token: S.optional(S.String),
+          params: S.optional(__S(224, __c7, 0)),
+          type: S.optional(S.String),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          address: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1338,21 +1383,6 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resourceUri: S.optional(S.String),
-          payload: S.optional(S.Boolean),
-          expiration: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          token: S.optional(S.String),
-          params: S.optional(__S(224, __c7, 0)),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          address: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Channel" });
   }
 }
 function __c8(j: number): any {
@@ -1372,7 +1402,16 @@ function __c8(j: number): any {
           customerId: S.optional(S.String.pipe(T.Query())),
           userKey: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
-          body: S.optional(__S(225, __c7, 1).pipe(T.HttpBody())),
+          resourceUri: S.optional(S.String),
+          payload: S.optional(S.Boolean),
+          expiration: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          token: S.optional(S.String),
+          params: S.optional(__S(224, __c7, 0)),
+          type: S.optional(S.String),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          address: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1381,6 +1420,21 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "WatchActivitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceUri: S.optional(S.String),
+          payload: S.optional(S.Boolean),
+          expiration: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          token: S.optional(S.String),
+          params: S.optional(__S(224, __c7, 0)),
+          type: S.optional(S.String),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          address: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Channel" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

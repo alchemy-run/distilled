@@ -137,7 +137,7 @@ export interface QueryTemplate {
   /** Optional. Documentation describing the QueryTemplate. */
   documentation?: string | undefined;
   /** Output only. The QueryTemplate lifecycle state. */
-  state?: QueryTemplateStateEnum | (string & {}) | undefined;
+  state?: QueryTemplateStateEnum | undefined;
   /** Output only. Timestamp when the QueryTemplate was created. */
   createTime?: string | undefined;
   /** Output only. Timestamp when the QueryTemplate was last modified. */
@@ -169,8 +169,11 @@ export interface SharingEnvironmentConfig {
   /** Default Analytics Hub data exchange, used for secured data sharing. */
   defaultExchangeConfig?: ApproveQueryTemplateRequest | undefined;
 }
-/** A data exchange is a container that lets you share data. Along with the descriptive information about the data exchange, it contains listings that reference shared datasets. */
-export interface DataExchange {
+export interface CreateProjectsLocationsDataExchangesRequest {
+  /** Required. The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
+  dataExchangeId?: string | undefined;
+  /** Required. The parent resource path of the data exchange. e.g. `projects/myproject/locations/us`. */
+  parent: string;
   /** Optional. Type of discovery on the discovery page for all the listings under this exchange. Updating this field also updates (overwrites) the discovery_type field for all the listings under this exchange. */
   discoveryType?: DataExchangeDiscoveryTypeEnum | (string & {}) | undefined;
   /** Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
@@ -192,13 +195,28 @@ export interface DataExchange {
   /** Optional. Documentation describing the data exchange. */
   documentation?: string | undefined;
 }
-export interface CreateProjectsLocationsDataExchangesRequest {
-  /** Required. The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
-  dataExchangeId?: string | undefined;
-  /** Required. The parent resource path of the data exchange. e.g. `projects/myproject/locations/us`. */
-  parent: string;
-  /** Request body */
-  body?: DataExchange | undefined;
+/** A data exchange is a container that lets you share data. Along with the descriptive information about the data exchange, it contains listings that reference shared datasets. */
+export interface DataExchange {
+  /** Optional. Type of discovery on the discovery page for all the listings under this exchange. Updating this field also updates (overwrites) the discovery_type field for all the listings under this exchange. */
+  discoveryType?: DataExchangeDiscoveryTypeEnum | undefined;
+  /** Output only. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
+  name?: string | undefined;
+  /** Optional. Email or URL of the primary point of contact of the data exchange. Max Length: 1000 bytes. */
+  primaryContact?: string | undefined;
+  /** Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string | undefined;
+  /** Required. Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and must not start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string | undefined;
+  /** Optional. By default, false. If true, the DataExchange has an email sharing mandate enabled. */
+  logLinkedDatasetQueryUserEmail?: boolean | undefined;
+  /** Optional. Description of the data exchange. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string | undefined;
+  /** Optional. Configurable data sharing environment option for a data exchange. */
+  sharingEnvironmentConfig?: SharingEnvironmentConfig | undefined;
+  /** Output only. Number of listings contained in the data exchange. */
+  listingCount?: number | undefined;
+  /** Optional. Documentation describing the data exchange. */
+  documentation?: string | undefined;
 }
 export type StoredProcedureConfigAllowedStoredProcedureTypesItemEnum =
   | "STORED_PROCEDURE_TYPE_UNSPECIFIED"
@@ -341,8 +359,11 @@ export type ListingResourceTypeEnum =
   | "SHARED_RESOURCE_TYPE_UNSPECIFIED"
   | "BIGQUERY_DATASET"
   | "PUBSUB_TOPIC";
-/** A listing is what gets published into a data exchange that a subscriber can subscribe to. It contains a reference to the data source along with descriptive information that will help subscribers find and subscribe the data. */
-export interface Listing {
+export interface CreateProjectsLocationsDataExchangesListingsRequest {
+  /** Required. The parent resource path of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
+  parent: string;
+  /** Required. The ID of the listing to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
+  listingId?: string | undefined;
   /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
   name?: string | undefined;
   /** Optional. If set, stored procedure configuration will be propagated and enforced on the linked dataset. */
@@ -384,21 +405,76 @@ export interface Listing {
   /** Output only. Listing shared asset type. */
   resourceType?: ListingResourceTypeEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsDataExchangesListingsRequest {
-  /** Required. The parent resource path of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
-  parent: string;
-  /** Required. The ID of the listing to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
-  listingId?: string | undefined;
-  /** Request body */
-  body?: Listing | undefined;
+/** A listing is what gets published into a data exchange that a subscriber can subscribe to. It contains a reference to the data source along with descriptive information that will help subscribers find and subscribe the data. */
+export interface Listing {
+  /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
+  name?: string | undefined;
+  /** Optional. If set, stored procedure configuration will be propagated and enforced on the linked dataset. */
+  storedProcedureConfig?: StoredProcedureConfig | undefined;
+  /** Optional. Email or URL of the primary point of contact of the listing. Max Length: 1000 bytes. */
+  primaryContact?: string | undefined;
+  /** Optional. Documentation describing the listing. */
+  documentation?: string | undefined;
+  /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
+  allowOnlyMetadataSharing?: boolean | undefined;
+  /** Optional. Base64 encoded image representing the listing. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the contents of the field are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string | undefined;
+  /** Optional. If set, restricted export configuration will be propagated and enforced on the linked dataset. */
+  restrictedExportConfig?: RestrictedExportConfig | undefined;
+  /** Output only. Commercial info contains the information about the commercial data products associated with the listing. */
+  commercialInfo?: GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo | undefined;
+  /** Optional. Categories of the listing. Up to five categories are allowed. */
+  categories?: ListingCategoriesItemEnumList | undefined;
+  /** Pub/Sub topic source. */
+  pubsubTopic?: PubSubTopicSource | undefined;
+  /** Optional. Type of discovery of the listing on the discovery page. */
+  discoveryType?: ListingDiscoveryTypeEnum | undefined;
+  /** Shared dataset i.e. BigQuery dataset source. */
+  bigqueryDataset?: BigQueryDatasetSource | undefined;
+  /** Optional. By default, false. If true, the Listing has an email sharing mandate enabled. */
+  logLinkedDatasetQueryUserEmail?: boolean | undefined;
+  /** Optional. Details of the data provider who owns the source data. */
+  dataProvider?: DataProvider | undefined;
+  /** Optional. Email or URL of the request access of the listing. Subscribers can use this reference to request access. Max Length: 1000 bytes. */
+  requestAccess?: string | undefined;
+  /** Optional. Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string | undefined;
+  /** Output only. Current state of the listing. */
+  state?: ListingStateEnum | undefined;
+  /** Optional. Details of the publisher who owns the listing and who can share the source data. */
+  publisher?: Publisher | undefined;
+  /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string | undefined;
+  /** Output only. Listing shared asset type. */
+  resourceType?: ListingResourceTypeEnum | undefined;
 }
 export interface CreateProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Required. The parent resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myQueryTemplate`. */
   parent: string;
   /** Required. The ID of the QueryTemplate to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
   queryTemplateId?: string | undefined;
-  /** Request body */
-  body?: QueryTemplate | undefined;
+  /** Optional. Encryption configuration for the query template. If set, the customer-managed KMS key is used to encrypt the query template definition body. */
+  encryptionConfiguration?: EncryptionConfig | undefined;
+  /** Optional. Short description of the QueryTemplate. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string | undefined;
+  /** Output only. The resource name of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/456` */
+  name?: string | undefined;
+  /** Required. Human-readable display name of the QueryTemplate. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string | undefined;
+  /** Optional. Documentation describing the QueryTemplate. */
+  documentation?: string | undefined;
+  /** Output only. The QueryTemplate lifecycle state. */
+  state?: QueryTemplateStateEnum | (string & {}) | undefined;
+  /** Output only. Timestamp when the QueryTemplate was created. */
+  createTime?: string | undefined;
+  /** Output only. Timestamp when the QueryTemplate was last modified. */
+  updateTime?: string | undefined;
+  /** Optional. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
+  primaryContact?: string | undefined;
+  /** Optional. Deprecated: Use `primary_contact` instead. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
+  proposer?: string | undefined;
+  /** Optional. The routine associated with the QueryTemplate. */
+  routine?: Routine | undefined;
 }
 export interface DeleteProjectsLocationsDataExchangesRequest {
   /** Required. The full name of the data exchange resource that you want to delete. For example, `projects/myproject/locations/us/dataExchanges/123`. */
@@ -449,16 +525,11 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyProjectsLocationsDataExchangesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -516,14 +587,14 @@ export interface Policy {
 export interface GetIamPolicyProjectsLocationsDataExchangesListingsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyProjectsLocationsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetProjectsLocationsDataExchangesRequest {
   /** Required. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
@@ -741,24 +812,94 @@ export interface PatchProjectsLocationsDataExchangesRequest {
   name: string;
   /** Required. Field mask specifies the fields to update in the data exchange resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: DataExchange | undefined;
+  /** Optional. Type of discovery on the discovery page for all the listings under this exchange. Updating this field also updates (overwrites) the discovery_type field for all the listings under this exchange. */
+  discoveryType?: DataExchangeDiscoveryTypeEnum | (string & {}) | undefined;
+  /** Optional. Email or URL of the primary point of contact of the data exchange. Max Length: 1000 bytes. */
+  primaryContact?: string | undefined;
+  /** Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string | undefined;
+  /** Required. Human-readable display name of the data exchange. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and must not start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string | undefined;
+  /** Optional. By default, false. If true, the DataExchange has an email sharing mandate enabled. */
+  logLinkedDatasetQueryUserEmail?: boolean | undefined;
+  /** Optional. Description of the data exchange. The description must not contain Unicode non-characters as well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string | undefined;
+  /** Optional. Configurable data sharing environment option for a data exchange. */
+  sharingEnvironmentConfig?: SharingEnvironmentConfig | undefined;
+  /** Output only. Number of listings contained in the data exchange. */
+  listingCount?: number | undefined;
+  /** Optional. Documentation describing the data exchange. */
+  documentation?: string | undefined;
 }
 export interface PatchProjectsLocationsDataExchangesListingsRequest {
   /** Output only. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456` */
   name: string;
   /** Required. Field mask specifies the fields to update in the listing resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Listing | undefined;
+  /** Optional. If set, stored procedure configuration will be propagated and enforced on the linked dataset. */
+  storedProcedureConfig?: StoredProcedureConfig | undefined;
+  /** Optional. Email or URL of the primary point of contact of the listing. Max Length: 1000 bytes. */
+  primaryContact?: string | undefined;
+  /** Optional. Documentation describing the listing. */
+  documentation?: string | undefined;
+  /** Optional. If true, the listing is only available to get the resource metadata. Listing is non subscribable. */
+  allowOnlyMetadataSharing?: boolean | undefined;
+  /** Optional. Base64 encoded image representing the listing. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the contents of the field are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string | undefined;
+  /** Optional. If set, restricted export configuration will be propagated and enforced on the linked dataset. */
+  restrictedExportConfig?: RestrictedExportConfig | undefined;
+  /** Output only. Commercial info contains the information about the commercial data products associated with the listing. */
+  commercialInfo?: GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo | undefined;
+  /** Optional. Categories of the listing. Up to five categories are allowed. */
+  categories?: ListingCategoriesItemEnumList | undefined;
+  /** Pub/Sub topic source. */
+  pubsubTopic?: PubSubTopicSource | undefined;
+  /** Optional. Type of discovery of the listing on the discovery page. */
+  discoveryType?: ListingDiscoveryTypeEnum | (string & {}) | undefined;
+  /** Shared dataset i.e. BigQuery dataset source. */
+  bigqueryDataset?: BigQueryDatasetSource | undefined;
+  /** Optional. By default, false. If true, the Listing has an email sharing mandate enabled. */
+  logLinkedDatasetQueryUserEmail?: boolean | undefined;
+  /** Optional. Details of the data provider who owns the source data. */
+  dataProvider?: DataProvider | undefined;
+  /** Optional. Email or URL of the request access of the listing. Subscribers can use this reference to request access. Max Length: 1000 bytes. */
+  requestAccess?: string | undefined;
+  /** Optional. Short description of the listing. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string | undefined;
+  /** Output only. Current state of the listing. */
+  state?: ListingStateEnum | (string & {}) | undefined;
+  /** Optional. Details of the publisher who owns the listing and who can share the source data. */
+  publisher?: Publisher | undefined;
+  /** Required. Human-readable display name of the listing. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string | undefined;
+  /** Output only. Listing shared asset type. */
+  resourceType?: ListingResourceTypeEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Output only. The resource name of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/456` */
   name: string;
   /** Optional. Field mask specifies the fields to update in the query template resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: QueryTemplate | undefined;
+  /** Optional. Encryption configuration for the query template. If set, the customer-managed KMS key is used to encrypt the query template definition body. */
+  encryptionConfiguration?: EncryptionConfig | undefined;
+  /** Optional. Short description of the QueryTemplate. The description must not contain Unicode non-characters and C0 and C1 control codes except tabs (HT), new lines (LF), carriage returns (CR), and page breaks (FF). Default value is an empty string. Max length: 2000 bytes. */
+  description?: string | undefined;
+  /** Required. Human-readable display name of the QueryTemplate. The display name must contain only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces ( ), ampersands (&) and can't start or end with spaces. Default value is an empty string. Max length: 63 bytes. */
+  displayName?: string | undefined;
+  /** Optional. Documentation describing the QueryTemplate. */
+  documentation?: string | undefined;
+  /** Output only. The QueryTemplate lifecycle state. */
+  state?: QueryTemplateStateEnum | (string & {}) | undefined;
+  /** Output only. Timestamp when the QueryTemplate was created. */
+  createTime?: string | undefined;
+  /** Output only. Timestamp when the QueryTemplate was last modified. */
+  updateTime?: string | undefined;
+  /** Optional. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
+  primaryContact?: string | undefined;
+  /** Optional. Deprecated: Use `primary_contact` instead. Email or URL of the primary point of contact of the QueryTemplate. Max Length: 1000 bytes. */
+  proposer?: string | undefined;
+  /** Optional. The routine associated with the QueryTemplate. */
+  routine?: Routine | undefined;
 }
 /** Message for refreshing a subscription. */
 export type RefreshSubscriptionRequest = ApproveQueryTemplateRequest;
@@ -768,43 +909,37 @@ export interface RefreshProjectsLocationsSubscriptionsRequest {
   /** Request body */
   body?: ApproveQueryTemplateRequest | undefined;
 }
-/** Message for revoking a subscription. */
-export interface RevokeSubscriptionRequest {
-  /** Optional. If the subscription is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid revoking commercial subscriptions accidentally. */
-  revokeCommercial?: boolean | undefined;
-}
 export interface RevokeProjectsLocationsSubscriptionsRequest {
   /** Required. Resource name of the subscription to revoke. e.g. projects/123/locations/us/subscriptions/456 */
   name: string;
-  /** Request body */
-  body?: RevokeSubscriptionRequest | undefined;
+  /** Optional. If the subscription is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid revoking commercial subscriptions accidentally. */
+  revokeCommercial?: boolean | undefined;
 }
 /** Message for response when you revoke a subscription. Empty for now. */
 export interface RevokeSubscriptionResponse {}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsDataExchangesRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsDataExchangesRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsLocationsDataExchangesListingsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 /** Message for submitting a QueryTemplate. */
 export type SubmitQueryTemplateRequest = ApproveQueryTemplateRequest;
@@ -814,8 +949,9 @@ export interface SubmitProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Request body */
   body?: ApproveQueryTemplateRequest | undefined;
 }
-/** Message for subscribing to a Data Exchange. */
-export interface SubscribeDataExchangeRequest {
+export interface SubscribeProjectsLocationsDataExchangesRequest {
+  /** Required. Resource name of the Data Exchange. e.g. `projects/publisherproject/locations/us/dataExchanges/123` */
+  name: string;
   /** Optional. BigQuery destination dataset to create for the subscriber. */
   destinationDataset?: DestinationDataset | undefined;
   /** Required. Name of the subscription to create. e.g. `subscription1` */
@@ -824,12 +960,6 @@ export interface SubscribeDataExchangeRequest {
   destination?: string | undefined;
   /** Email of the subscriber. */
   subscriberContact?: string | undefined;
-}
-export interface SubscribeProjectsLocationsDataExchangesRequest {
-  /** Required. Resource name of the Data Exchange. e.g. `projects/publisherproject/locations/us/dataExchanges/123` */
-  name: string;
-  /** Request body */
-  body?: SubscribeDataExchangeRequest | undefined;
 }
 /** A policy that specifies the conditions for resource expiration (i.e., automatic resource deletion). */
 export interface ExpirationPolicy {
@@ -1044,34 +1174,24 @@ export interface DestinationPubSubSubscription {
   /** Required. Destination Pub/Sub subscription resource. */
   pubsubSubscription?: GooglePubsubV1Subscription | undefined;
 }
-/** Message for subscribing to a listing. */
-export interface SubscribeListingRequest {
+export interface SubscribeProjectsLocationsDataExchangesListingsRequest {
+  /** Required. Resource name of the listing that you want to subscribe to. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456`. */
+  name: string;
   /** Input only. Destination Pub/Sub subscription to create for the subscriber. */
   destinationPubsubSubscription?: DestinationPubSubSubscription | undefined;
   /** Input only. BigQuery destination dataset to create for the subscriber. */
   destinationDataset?: DestinationDataset | undefined;
-}
-export interface SubscribeProjectsLocationsDataExchangesListingsRequest {
-  /** Required. Resource name of the listing that you want to subscribe to. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456`. */
-  name: string;
-  /** Request body */
-  body?: SubscribeListingRequest | undefined;
 }
 /** Message for response when you subscribe to a listing. */
 export interface SubscribeListingResponse {
   /** Subscription object created from this subscribe action. */
   subscription?: Subscription | undefined;
 }
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
-}
 export interface TestIamPermissionsProjectsLocationsDataExchangesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1081,8 +1201,8 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsDataExchangesListingsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type ApproveProjectsLocationsDataExchangesQueryTemplatesError =
   | NotFound
@@ -1098,11 +1218,11 @@ export const approveProjectsLocationsDataExchangesQueryTemplates: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c41,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<ApproveProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1123,8 +1243,8 @@ export const createProjectsLocationsDataExchanges: API.OperationMethod<
   CreateProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<DataExchange>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1146,11 +1266,11 @@ export const createProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1440,
+    __c45,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1550, __c48, 14) as any as S.Schema<Listing>,
+  output: __S(1518, __c47, 14) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1172,11 +1292,11 @@ export const createProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1568,
-    __c49,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1197,8 +1317,8 @@ export const deleteProjectsLocationsDataExchanges: API.OperationMethod<
   DeleteProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1220,7 +1340,7 @@ export const deleteProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1247,7 +1367,7 @@ export const deleteProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
     __c1,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, QueryTemplateNotDrafted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1356,7 +1476,7 @@ export const getProjectsLocationsDataExchanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsDataExchangesRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<DataExchange>,
+  output: __S(1410, __c44, 2) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1373,7 +1493,7 @@ export const getProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1550, __c48, 14) as any as S.Schema<Listing>,
+  output: __S(1518, __c47, 14) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1397,7 +1517,7 @@ export const getProjectsLocationsDataExchangesQueryTemplates: API.OperationMetho
     __c12,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1590,7 +1710,7 @@ export const patchProjectsLocationsDataExchanges: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesRequest>,
-  output: __S(1442, __c45, 2) as any as S.Schema<DataExchange>,
+  output: __S(1410, __c44, 2) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1612,7 +1732,7 @@ export const patchProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1550, __c48, 14) as any as S.Schema<Listing>,
+  output: __S(1518, __c47, 14) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1638,7 +1758,7 @@ export const patchProjectsLocationsDataExchangesQueryTemplates: API.OperationMet
     __c28,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1681,8 +1801,8 @@ export const revokeProjectsLocationsSubscriptions: API.OperationMethod<
   RevokeProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(961, __c30, 1) as any as S.Schema<RevokeProjectsLocationsSubscriptionsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<RevokeSubscriptionResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<RevokeProjectsLocationsSubscriptionsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<RevokeSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1726,8 +1846,8 @@ export const setIamPolicyProjectsLocationsDataExchangesListings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c33,
+    1024,
+    __c32,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDataExchangesListingsRequest>,
   output: __S(231, __c7, 7) as any as S.Schema<Policy>,
@@ -1751,7 +1871,7 @@ export const setIamPolicyProjectsLocationsSubscriptions: API.OperationMethod<
   SetIamPolicyProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSubscriptionsRequest>,
+  input: __S(1056, __c33, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSubscriptionsRequest>,
   output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1774,11 +1894,11 @@ export const submitProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c35,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<SubmitProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1799,7 +1919,7 @@ export const subscribeProjectsLocationsDataExchanges: API.OperationMethod<
   SubscribeProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1153, __c36, 1) as any as S.Schema<SubscribeProjectsLocationsDataExchangesRequest>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SubscribeProjectsLocationsDataExchangesRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1822,11 +1942,11 @@ export const subscribeProjectsLocationsDataExchangesListings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1205,
-    __c37,
-    21,
+    1172,
+    __c36,
+    20,
   ) as any as S.Schema<SubscribeProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1206, __c37, 22) as any as S.Schema<SubscribeListingResponse>,
+  output: __S(1173, __c36, 21) as any as S.Schema<SubscribeListingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1848,11 +1968,11 @@ export const testIamPermissionsProjectsLocationsDataExchanges: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataExchangesRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1216, __c38, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1874,11 +1994,11 @@ export const testIamPermissionsProjectsLocationsDataExchangesListings: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1216, __c38, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1972,7 +2092,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(192, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1991,12 +2111,6 @@ function __c6(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          options: S.optional(__S(192, __c6, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c7(j: number): any {
@@ -2014,7 +2128,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          members: S.optional(__S(1504, __c47, 0)),
+          members: S.optional(__S(1472, __c46, 0)),
           condition: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "Binding" });
@@ -2023,7 +2137,7 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(1504, __c47, 0)),
+          exemptedMembers: S.optional(__S(1472, __c46, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
@@ -2055,7 +2169,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(192, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2072,7 +2186,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(192, __c6, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2161,7 +2275,7 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          replicaLocations: S.optional(__S(1504, __c47, 0)),
+          replicaLocations: S.optional(__S(1472, __c46, 0)),
           friendlyName: S.optional(S.String),
           datasetReference: S.optional(__S(448, __c14, 0)),
           description: S.optional(S.String),
@@ -2250,7 +2364,7 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1442, __c45, 2));
+      return S.Array(__S(1410, __c44, 2));
   }
 }
 function __c18(j: number): any {
@@ -2295,7 +2409,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDataExchangesListingsRequest" });
     case 1:
-      return S.Array(__S(1550, __c48, 14));
+      return S.Array(__S(1518, __c47, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2322,7 +2436,7 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDataExchangesQueryTemplatesRequest" });
     case 1:
-      return S.Array(__S(1378, __c43, 2));
+      return S.Array(__S(1346, __c42, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2420,7 +2534,15 @@ function __c26(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
+          discoveryType: S.optional(S.String),
+          primaryContact: S.optional(S.String),
+          icon: S.optional(S.String),
+          displayName: S.optional(S.String),
+          logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          sharingEnvironmentConfig: S.optional(__S(1409, __c44, 1)),
+          listingCount: S.optional(S.Number),
+          documentation: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2438,7 +2560,25 @@ function __c27(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1550, __c48, 14).pipe(T.HttpBody())),
+          storedProcedureConfig: S.optional(__S(1505, __c47, 1)),
+          primaryContact: S.optional(S.String),
+          documentation: S.optional(S.String),
+          allowOnlyMetadataSharing: S.optional(S.Boolean),
+          icon: S.optional(S.String),
+          restrictedExportConfig: S.optional(__S(1506, __c47, 2)),
+          commercialInfo: S.optional(__S(1508, __c47, 4)),
+          categories: S.optional(__S(1504, __c47, 0)),
+          pubsubTopic: S.optional(__S(1509, __c47, 5)),
+          discoveryType: S.optional(S.String),
+          bigqueryDataset: S.optional(__S(1515, __c47, 11)),
+          logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
+          dataProvider: S.optional(__S(1516, __c47, 12)),
+          requestAccess: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          publisher: S.optional(__S(1517, __c47, 13)),
+          displayName: S.optional(S.String),
+          resourceType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2456,7 +2596,16 @@ function __c28(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1378, __c43, 2).pipe(T.HttpBody())),
+          encryptionConfiguration: S.optional(__S(1344, __c42, 0)),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          documentation: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          primaryContact: S.optional(S.String),
+          proposer: S.optional(S.String),
+          routine: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2473,7 +2622,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2489,14 +2638,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revokeCommercial: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "RevokeSubscriptionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
+          revokeCommercial: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2513,7 +2656,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(231, __c7, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2529,19 +2673,9 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(231, __c7, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2552,13 +2686,14 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(231, __c7, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2569,13 +2704,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsSubscriptionsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2586,22 +2721,16 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SubmitProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           destinationDataset: S.optional(__S(450, __c14, 2)),
           subscription: S.optional(S.String),
           destination: S.optional(S.String),
           subscriberContact: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SubscribeDataExchangeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2612,7 +2741,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SubscribeProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2623,22 +2752,22 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyFields: S.optional(__S(1504, __c47, 0)),
+          keyFields: S.optional(__S(1472, __c46, 0)),
           delimiter: S.optional(S.String),
         }),
       ).annotate({ identifier: "DelimitedKey" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rowKeySchema: S.optional(__S(1344, __c42, 0)),
-          delimitedKey: S.optional(__S(1185, __c37, 1)),
+          rowKeySchema: S.optional(__S(1312, __c41, 0)),
+          delimitedKey: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "ColumnFamilyMapping" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           writeMetadata: S.optional(S.Boolean),
-          columnFamilyMapping: S.optional(__S(1186, __c37, 2)),
+          columnFamilyMapping: S.optional(__S(1154, __c36, 2)),
           serviceAccountEmail: S.optional(S.String),
           appProfileId: S.optional(S.String),
           table: S.optional(S.String),
@@ -2660,11 +2789,11 @@ function __c37(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          noWrapper: S.optional(__S(1188, __c37, 4)),
-          oidcToken: S.optional(__S(1189, __c37, 5)),
+          noWrapper: S.optional(__S(1156, __c36, 4)),
+          oidcToken: S.optional(__S(1157, __c36, 5)),
           attributes: S.optional(__S(449, __c14, 1)),
           pushEndpoint: S.optional(S.String),
-          pubsubWrapper: S.optional(__S(1344, __c42, 0)),
+          pubsubWrapper: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "PushConfig" });
     case 7:
@@ -2686,14 +2815,14 @@ function __c37(j: number): any {
         S.Struct({
           bucket: S.optional(S.String),
           filenameSuffix: S.optional(S.String),
-          textConfig: S.optional(__S(1344, __c42, 0)),
+          textConfig: S.optional(__S(1312, __c41, 0)),
           filenameDatetimeFormat: S.optional(S.String),
           serviceAccountEmail: S.optional(S.String),
           maxDuration: S.optional(S.String),
           filenamePrefix: S.optional(S.String),
           maxBytes: S.optional(S.String),
           maxMessages: S.optional(S.String),
-          avroConfig: S.optional(__S(1192, __c37, 8)),
+          avroConfig: S.optional(__S(1160, __c36, 8)),
         }),
       ).annotate({ identifier: "CloudStorageConfig" });
     case 10:
@@ -2719,7 +2848,7 @@ function __c37(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          unstructuredInference: S.optional(__S(1196, __c37, 12)),
+          unstructuredInference: S.optional(__S(1164, __c36, 12)),
           endpoint: S.optional(S.String),
           serviceAccountEmail: S.optional(S.String),
         }),
@@ -2734,15 +2863,15 @@ function __c37(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          javascriptUdf: S.optional(__S(1195, __c37, 11)),
+          javascriptUdf: S.optional(__S(1163, __c36, 11)),
           disabled: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
-          aiInference: S.optional(__S(1197, __c37, 13)),
-          compression: S.optional(__S(1198, __c37, 14)),
+          aiInference: S.optional(__S(1165, __c36, 13)),
+          compression: S.optional(__S(1166, __c36, 14)),
         }),
       ).annotate({ identifier: "MessageTransform" });
     case 16:
-      return S.Array(__S(1199, __c37, 15));
+      return S.Array(__S(1167, __c36, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -2757,44 +2886,38 @@ function __c37(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          expirationPolicy: S.optional(__S(1184, __c37, 0)),
-          bigtableConfig: S.optional(__S(1187, __c37, 3)),
+          expirationPolicy: S.optional(__S(1152, __c36, 0)),
+          bigtableConfig: S.optional(__S(1155, __c36, 3)),
           detached: S.optional(S.Boolean),
           retainAckedMessages: S.optional(S.Boolean),
           ackDeadlineSeconds: S.optional(S.Number),
           messageRetentionDuration: S.optional(S.String),
           enableExactlyOnceDelivery: S.optional(S.Boolean),
           labels: S.optional(__S(449, __c14, 1)),
-          pushConfig: S.optional(__S(1190, __c37, 6)),
-          retryPolicy: S.optional(__S(1191, __c37, 7)),
+          pushConfig: S.optional(__S(1158, __c36, 6)),
+          retryPolicy: S.optional(__S(1159, __c36, 7)),
           name: S.optional(S.String),
           tags: S.optional(__S(449, __c14, 1)),
-          cloudStorageConfig: S.optional(__S(1193, __c37, 9)),
+          cloudStorageConfig: S.optional(__S(1161, __c36, 9)),
           filter: S.optional(S.String),
-          deadLetterPolicy: S.optional(__S(1194, __c37, 10)),
+          deadLetterPolicy: S.optional(__S(1162, __c36, 10)),
           enableMessageOrdering: S.optional(S.Boolean),
-          messageTransforms: S.optional(__S(1200, __c37, 16)),
-          bigqueryConfig: S.optional(__S(1201, __c37, 17)),
+          messageTransforms: S.optional(__S(1168, __c36, 16)),
+          bigqueryConfig: S.optional(__S(1169, __c36, 17)),
         }),
       ).annotate({ identifier: "GooglePubsubV1Subscription" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          pubsubSubscription: S.optional(__S(1202, __c37, 18)),
+          pubsubSubscription: S.optional(__S(1170, __c36, 18)),
         }),
       ).annotate({ identifier: "DestinationPubSubSubscription" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          destinationPubsubSubscription: S.optional(__S(1203, __c37, 19)),
-          destinationDataset: S.optional(__S(450, __c14, 2)),
-        }),
-      ).annotate({ identifier: "SubscribeListingRequest" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1204, __c37, 20).pipe(T.HttpBody())),
+          destinationPubsubSubscription: S.optional(__S(1171, __c36, 19)),
+          destinationDataset: S.optional(__S(450, __c14, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2803,7 +2926,7 @@ function __c37(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SubscribeProjectsLocationsDataExchangesListingsRequest" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           subscription: S.optional(__S(485, __c15, 5)),
@@ -2811,13 +2934,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "SubscribeListingResponse" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2828,23 +2951,23 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataExchangesRequest" });
   }
 }
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(1472, __c46, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
+  }
+}
 function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(1504, __c47, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2855,13 +2978,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2872,13 +2995,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ApproveProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ApproveQueryTemplateRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2896,7 +3019,7 @@ function __c43(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          encryptionConfiguration: S.optional(__S(1376, __c43, 0)),
+          encryptionConfiguration: S.optional(__S(1344, __c42, 0)),
           description: S.optional(S.String),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -2906,19 +3029,28 @@ function __c43(j: number): any {
           updateTime: S.optional(S.String),
           primaryContact: S.optional(S.String),
           proposer: S.optional(S.String),
-          routine: S.optional(__S(1377, __c43, 1)),
+          routine: S.optional(__S(1345, __c42, 1)),
         }),
       ).annotate({ identifier: "QueryTemplate" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataExchangeId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
+          discoveryType: S.optional(S.String),
+          name: S.optional(S.String),
+          primaryContact: S.optional(S.String),
+          icon: S.optional(S.String),
+          displayName: S.optional(S.String),
+          logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          sharingEnvironmentConfig: S.optional(__S(1409, __c44, 1)),
+          listingCount: S.optional(S.Number),
+          documentation: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2929,7 +3061,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2941,8 +3073,8 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dcrExchangeConfig: S.optional(__S(1440, __c45, 0)),
-          defaultExchangeConfig: S.optional(__S(1344, __c42, 0)),
+          dcrExchangeConfig: S.optional(__S(1408, __c44, 0)),
+          defaultExchangeConfig: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "SharingEnvironmentConfig" });
     case 2:
@@ -2955,21 +3087,40 @@ function __c45(j: number): any {
           displayName: S.optional(S.String),
           logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
           description: S.optional(S.String),
-          sharingEnvironmentConfig: S.optional(__S(1441, __c45, 1)),
+          sharingEnvironmentConfig: S.optional(__S(1409, __c44, 1)),
           listingCount: S.optional(S.Number),
           documentation: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataExchange" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           listingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1550, __c48, 14).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          storedProcedureConfig: S.optional(__S(1505, __c47, 1)),
+          primaryContact: S.optional(S.String),
+          documentation: S.optional(S.String),
+          allowOnlyMetadataSharing: S.optional(S.Boolean),
+          icon: S.optional(S.String),
+          restrictedExportConfig: S.optional(__S(1506, __c47, 2)),
+          commercialInfo: S.optional(__S(1508, __c47, 4)),
+          categories: S.optional(__S(1504, __c47, 0)),
+          pubsubTopic: S.optional(__S(1509, __c47, 5)),
+          discoveryType: S.optional(S.String),
+          bigqueryDataset: S.optional(__S(1515, __c47, 11)),
+          logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
+          dataProvider: S.optional(__S(1516, __c47, 12)),
+          requestAccess: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          publisher: S.optional(__S(1517, __c47, 13)),
+          displayName: S.optional(S.String),
+          resourceType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2980,13 +3131,13 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2994,7 +3145,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          allowedStoredProcedureTypes: S.optional(__S(1536, __c48, 0)),
+          allowedStoredProcedureTypes: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "StoredProcedureConfig" });
     case 2:
@@ -3018,13 +3169,13 @@ function __c48(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cloudMarketplace: S.optional(__S(1539, __c48, 3)),
+          cloudMarketplace: S.optional(__S(1507, __c47, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dataAffinityRegions: S.optional(__S(1504, __c47, 0)),
+          dataAffinityRegions: S.optional(__S(1472, __c46, 0)),
           topic: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubSubTopicSource" });
@@ -3037,7 +3188,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "Replica" });
     case 7:
-      return S.Array(__S(1542, __c48, 6));
+      return S.Array(__S(1510, __c47, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -3054,14 +3205,14 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "SelectedResource" });
     case 10:
-      return S.Array(__S(1545, __c48, 9));
+      return S.Array(__S(1513, __c47, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          effectiveReplicas: S.optional(__S(1543, __c48, 7)),
-          restrictedExportPolicy: S.optional(__S(1544, __c48, 8)),
-          replicaLocations: S.optional(__S(1504, __c47, 0)),
-          selectedResources: S.optional(__S(1546, __c48, 10)),
+          effectiveReplicas: S.optional(__S(1511, __c47, 7)),
+          restrictedExportPolicy: S.optional(__S(1512, __c47, 8)),
+          replicaLocations: S.optional(__S(1472, __c46, 0)),
+          selectedResources: S.optional(__S(1514, __c47, 10)),
           dataset: S.optional(S.String),
         }),
       ).annotate({ identifier: "BigQueryDatasetSource" });
@@ -3083,37 +3234,47 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          storedProcedureConfig: S.optional(__S(1537, __c48, 1)),
+          storedProcedureConfig: S.optional(__S(1505, __c47, 1)),
           primaryContact: S.optional(S.String),
           documentation: S.optional(S.String),
           allowOnlyMetadataSharing: S.optional(S.Boolean),
           icon: S.optional(S.String),
-          restrictedExportConfig: S.optional(__S(1538, __c48, 2)),
-          commercialInfo: S.optional(__S(1540, __c48, 4)),
-          categories: S.optional(__S(1536, __c48, 0)),
-          pubsubTopic: S.optional(__S(1541, __c48, 5)),
+          restrictedExportConfig: S.optional(__S(1506, __c47, 2)),
+          commercialInfo: S.optional(__S(1508, __c47, 4)),
+          categories: S.optional(__S(1504, __c47, 0)),
+          pubsubTopic: S.optional(__S(1509, __c47, 5)),
           discoveryType: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1547, __c48, 11)),
+          bigqueryDataset: S.optional(__S(1515, __c47, 11)),
           logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
-          dataProvider: S.optional(__S(1548, __c48, 12)),
+          dataProvider: S.optional(__S(1516, __c47, 12)),
           requestAccess: S.optional(S.String),
           description: S.optional(S.String),
           state: S.optional(S.String),
-          publisher: S.optional(__S(1549, __c48, 13)),
+          publisher: S.optional(__S(1517, __c47, 13)),
           displayName: S.optional(S.String),
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Listing" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           queryTemplateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1378, __c43, 2).pipe(T.HttpBody())),
+          encryptionConfiguration: S.optional(__S(1344, __c42, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          documentation: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          primaryContact: S.optional(S.String),
+          proposer: S.optional(S.String),
+          routine: S.optional(__S(1345, __c42, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3124,7 +3285,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -99,8 +99,7 @@ export interface UserContext {
   /** Optional. The user's role (e.g., Billing Admin, Project Owner, etc.). */
   role?: string | undefined;
 }
-/** Request for GenerateInsights. */
-export interface GenerateInsightsRequest {
+export interface GenerateInsightsV1betaRequest {
   /** Optional. Filters cost data by service id. Follows https://google.aip.dev/160 for the filter syntax. eg. filter: "service = 'C7E2-9256-1C43'" */
   filter?: string | undefined;
   /** Optional. The billing account or projects to analyze. */
@@ -111,10 +110,6 @@ export interface GenerateInsightsRequest {
   prompt?: string | undefined;
   /** Optional. Overrides the maximum iterations for any selected strategy. */
   overriddenMaxIterationCounts?: number | undefined;
-}
-export interface GenerateInsightsV1betaRequest {
-  /** Request body */
-  body?: GenerateInsightsRequest | undefined;
 }
 export type RejectionReasonEnum = "REASON_UNSPECIFIED" | "EXPLICIT_OUT_OF_SCOPE";
 /** Encapsulates details about why a request was rejected. */
@@ -929,8 +924,8 @@ export const generateInsightsV1beta: API.OperationMethod<
   GenerateInsightsV1betaError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(452, __c14, 4) as any as S.Schema<GenerateInsightsV1betaRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<GenerateInsightsResponse>,
+  input: __S(451, __c14, 3) as any as S.Schema<GenerateInsightsV1betaRequest>,
+  output: __S(479, __c14, 31) as any as S.Schema<GenerateInsightsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -946,10 +941,10 @@ export const getBillingAccountsServices: API.OperationMethod<
   GetBillingAccountsServicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetBillingAccountsServicesRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetBillingAccountsServicesRequest>,
   output: __S(
-    544,
-    __c17,
+    512,
+    __c16,
     0,
   ) as any as S.Schema<GoogleCloudBillingBillingaccountservicesV1betaBillingAccountService>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -967,10 +962,10 @@ export const getBillingAccountsSkuGroups: API.OperationMethod<
   GetBillingAccountsSkuGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetBillingAccountsSkuGroupsRequest>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetBillingAccountsSkuGroupsRequest>,
   output: __S(
-    608,
-    __c19,
+    576,
+    __c18,
     0,
   ) as any as S.Schema<GoogleCloudBillingBillingaccountskugroupsV1betaBillingAccountSkuGroup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -988,10 +983,10 @@ export const getBillingAccountsSkuGroupsSkus: API.OperationMethod<
   GetBillingAccountsSkuGroupsSkusError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetBillingAccountsSkuGroupsSkusRequest>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetBillingAccountsSkuGroupsSkusRequest>,
   output: __S(
-    673,
-    __c21,
+    641,
+    __c20,
     1,
   ) as any as S.Schema<GoogleCloudBillingBillingaccountskugroupskusV1betaBillingAccountSkuGroupSku>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1009,10 +1004,10 @@ export const getBillingAccountsSkus: API.OperationMethod<
   GetBillingAccountsSkusError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetBillingAccountsSkusRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetBillingAccountsSkusRequest>,
   output: __S(
-    801,
-    __c25,
+    769,
+    __c24,
     1,
   ) as any as S.Schema<GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1030,10 +1025,10 @@ export const getBillingAccountsSkusPrice: API.OperationMethod<
   GetBillingAccountsSkusPriceError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetBillingAccountsSkusPriceRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetBillingAccountsSkusPriceRequest>,
   output: __S(
-    904,
-    __c28,
+    872,
+    __c27,
     8,
   ) as any as S.Schema<GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -1052,7 +1047,7 @@ export const getSkuGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetSkuGroupsRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<GoogleCloudBillingSkugroupsV1betaSkuGroup>,
+  output: __S(576, __c18, 0) as any as S.Schema<GoogleCloudBillingSkugroupsV1betaSkuGroup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1312,10 +1307,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          multiRegionalMetadata: S.optional(__S(709, __c22, 5)),
-          globalMetadata: S.optional(__S(736, __c23, 0)),
+          multiRegionalMetadata: S.optional(__S(677, __c21, 5)),
+          globalMetadata: S.optional(__S(704, __c22, 0)),
           type: S.optional(S.String),
-          regionalMetadata: S.optional(__S(710, __c22, 6)),
+          regionalMetadata: S.optional(__S(678, __c21, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingSkugroupskusV1betaGeoTaxonomy" });
     case 1:
@@ -1325,7 +1320,7 @@ function __c2(j: number): any {
           geoTaxonomy: S.optional(__S(64, __c2, 0)),
           service: S.optional(S.String),
           name: S.optional(S.String),
-          productTaxonomy: S.optional(__S(706, __c22, 2)),
+          productTaxonomy: S.optional(__S(674, __c21, 2)),
           skuId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBillingSkugroupskusV1betaSkuGroupSku" });
@@ -1353,8 +1348,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startAmount: S.optional(__S(864, __c27, 0)),
-          listPrice: S.optional(__S(865, __c27, 1)),
+          startAmount: S.optional(__S(832, __c26, 0)),
+          listPrice: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingPricesV1betaRateTier" });
     case 1:
@@ -1371,7 +1366,7 @@ function __c4(j: number): any {
         S.Struct({
           tiers: S.optional(__S(129, __c4, 1)),
           aggregationInfo: S.optional(__S(130, __c4, 2)),
-          unitInfo: S.optional(__S(866, __c27, 2)),
+          unitInfo: S.optional(__S(834, __c26, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingPricesV1betaRate" });
     case 4:
@@ -1402,7 +1397,7 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListBillingAccountsServicesRequest" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1446,7 +1441,7 @@ function __c6(j: number): any {
 function __c7(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(576, __c18, 0));
   }
 }
 function __c8(j: number): any {
@@ -1466,7 +1461,7 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListBillingAccountsSkuGroupsSkusRequest" });
     case 1:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(641, __c20, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1497,7 +1492,7 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListBillingAccountsSkusRequest" });
     case 1:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(769, __c24, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1527,7 +1522,7 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListBillingAccountsSkusPricesRequest" });
     case 1:
-      return S.Array(__S(904, __c28, 8));
+      return S.Array(__S(872, __c27, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1644,12 +1639,6 @@ function __c14(j: number): any {
           userContext: S.optional(__S(450, __c14, 2)),
           prompt: S.optional(S.String),
           overriddenMaxIterationCounts: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GenerateInsightsRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(451, __c14, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1658,14 +1647,14 @@ function __c14(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateInsightsV1betaRequest" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           displayMessage: S.optional(S.String),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rejection" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           linkType: S.optional(S.String),
@@ -1673,17 +1662,17 @@ function __c14(j: number): any {
           label: S.optional(S.String),
         }),
       ).annotate({ identifier: "InteropLink" });
+    case 6:
+      return S.Array(__S(453, __c14, 5));
     case 7:
-      return S.Array(__S(454, __c14, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
         }),
       ).annotate({ identifier: "SuggestedQuery" });
+    case 8:
+      return S.Array(__S(455, __c14, 7));
     case 9:
-      return S.Array(__S(456, __c14, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
           severity: S.optional(S.String),
@@ -1691,50 +1680,50 @@ function __c14(j: number): any {
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Insight" });
+    case 10:
+      return S.Array(__S(457, __c14, 9));
     case 11:
-      return S.Array(__S(458, __c14, 10));
+      return S.suspend(() =>
+        S.Struct({
+          element: S.optional(S.suspend(() => __S(467, __c14, 19))),
+        }),
+      ).annotate({ identifier: "Cloudbilling_Array" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          element: S.optional(S.suspend(() => __S(468, __c14, 20))),
-        }),
-      ).annotate({ identifier: "Cloudbilling_Array" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.suspend(() => __S(467, __c14, 19))),
-          key: S.optional(S.suspend(() => __S(467, __c14, 19))),
+          value: S.optional(S.suspend(() => __S(466, __c14, 18))),
+          key: S.optional(S.suspend(() => __S(466, __c14, 18))),
         }),
       ).annotate({ identifier: "MapEntry" });
+    case 13:
+      return S.Array(__S(460, __c14, 12));
     case 14:
-      return S.Array(__S(461, __c14, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
-          entry: S.optional(__S(462, __c14, 14)),
+          entry: S.optional(__S(461, __c14, 13)),
         }),
       ).annotate({ identifier: "Cloudbilling_Map" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           bitFieldDatetimeSeconds: S.optional(S.String),
           nanos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Datetime" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          end: S.optional(S.suspend(() => __S(466, __c14, 18))),
+          start: S.optional(S.suspend(() => __S(466, __c14, 18))),
+        }),
+      ).annotate({ identifier: "Range" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          end: S.optional(S.suspend(() => __S(467, __c14, 19))),
-          start: S.optional(S.suspend(() => __S(467, __c14, 19))),
-        }),
-      ).annotate({ identifier: "Range" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.suspend(() => __S(468, __c14, 20))),
+          field: S.optional(S.suspend(() => __S(467, __c14, 19))),
         }),
       ).annotate({ identifier: "Struct" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           tokenlistValue: S.optional(S.String),
@@ -1746,17 +1735,17 @@ function __c14(j: number): any {
           uint64Value: S.optional(S.String),
           uuidValue: S.optional(S.String),
           bytesValue: S.optional(S.String),
-          arrayValue: S.optional(__S(460, __c14, 12)),
-          mapValue: S.optional(__S(463, __c14, 15)),
+          arrayValue: S.optional(__S(459, __c14, 11)),
+          mapValue: S.optional(__S(462, __c14, 14)),
           dateValue: S.optional(S.Number),
           ValueProtoSwitchMustHaveADefault: S.optional(S.Boolean),
           stringValue: S.optional(S.String),
           int32Value: S.optional(S.Number),
           timeValue: S.optional(S.String),
-          datetimeValue: S.optional(__S(464, __c14, 16)),
+          datetimeValue: S.optional(__S(463, __c14, 15)),
           intervalValue: S.optional(S.String),
           jsonValue: S.optional(S.String),
-          rangeValue: S.optional(__S(465, __c14, 17)),
+          rangeValue: S.optional(__S(464, __c14, 16)),
           timestampPicoValue: S.optional(S.String),
           timestampValue: S.optional(S.String),
           int64Value: S.optional(S.String),
@@ -1764,37 +1753,37 @@ function __c14(j: number): any {
           boolValue: S.optional(S.Boolean),
           enumValue: S.optional(S.Number),
           geographyValue: S.optional(S.String),
-          structValue: S.optional(__S(466, __c14, 18)),
+          structValue: S.optional(__S(465, __c14, 17)),
         }),
       ).annotate({ identifier: "ValueProto" });
+    case 19:
+      return S.Array(__S(466, __c14, 18));
     case 20:
-      return S.Array(__S(467, __c14, 19));
-    case 21:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(468, __c14, 20)),
+          values: S.optional(__S(467, __c14, 19)),
         }),
       ).annotate({ identifier: "Row" });
+    case 21:
+      return S.Array(__S(468, __c14, 20));
     case 22:
-      return S.Array(__S(469, __c14, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
           column: S.optional(S.String),
         }),
       ).annotate({ identifier: "ColumnInfo" });
+    case 23:
+      return S.Array(__S(470, __c14, 22));
     case 24:
-      return S.Array(__S(471, __c14, 23));
-    case 25:
       return S.suspend(() =>
         S.Struct({
-          rows: S.optional(__S(470, __c14, 22)),
-          columnInfo: S.optional(__S(472, __c14, 24)),
+          rows: S.optional(__S(469, __c14, 21)),
+          columnInfo: S.optional(__S(471, __c14, 23)),
         }),
       ).annotate({ identifier: "BillingData" });
-    case 26:
+    case 25:
       return S.Array(S.String);
-    case 27:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           orderBy: S.optional(S.String),
@@ -1802,11 +1791,11 @@ function __c14(j: number): any {
           filter: S.optional(S.String),
           limit: S.optional(S.Number),
           view: S.optional(S.String),
-          parents: S.optional(__S(474, __c14, 26)),
+          parents: S.optional(__S(473, __c14, 25)),
           groupBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticQueryInfo" });
-    case 28:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           seriesField: S.optional(S.String),
@@ -1818,43 +1807,39 @@ function __c14(j: number): any {
           yAxisField: S.optional(S.String),
         }),
       ).annotate({ identifier: "SuggestedChart" });
-    case 29:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          billingData: S.optional(__S(473, __c14, 25)),
-          queryInfo: S.optional(__S(475, __c14, 27)),
-          suggestedChart: S.optional(__S(476, __c14, 28)),
+          billingData: S.optional(__S(472, __c14, 24)),
+          queryInfo: S.optional(__S(474, __c14, 26)),
+          suggestedChart: S.optional(__S(475, __c14, 27)),
         }),
       ).annotate({ identifier: "DataSet" });
+    case 29:
+      return S.Array(__S(476, __c14, 28));
     case 30:
-      return S.Array(__S(477, __c14, 29));
-    case 31:
       return S.suspend(() =>
         S.Struct({
-          interopLinks: S.optional(__S(455, __c14, 7)),
-          suggestedQueries: S.optional(__S(457, __c14, 9)),
-          insights: S.optional(__S(459, __c14, 11)),
-          dataSets: S.optional(__S(478, __c14, 30)),
+          interopLinks: S.optional(__S(454, __c14, 6)),
+          suggestedQueries: S.optional(__S(456, __c14, 8)),
+          insights: S.optional(__S(458, __c14, 10)),
+          dataSets: S.optional(__S(477, __c14, 29)),
           summary: S.optional(S.String),
           fullAnalysis: S.optional(S.String),
         }),
       ).annotate({ identifier: "FinalResult" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
+    case 31:
       return S.suspend(() =>
         S.Struct({
-          rejection: S.optional(__S(453, __c14, 5)),
+          rejection: S.optional(__S(452, __c14, 4)),
           summaryChunk: S.optional(S.String),
-          finalResult: S.optional(__S(479, __c14, 31)),
+          finalResult: S.optional(__S(478, __c14, 30)),
           thoughtChunk: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenerateInsightsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1870,7 +1855,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsServicesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1884,7 +1869,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1900,7 +1885,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsSkuGroupsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1913,7 +1898,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1929,25 +1914,25 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsSkuGroupsSkusRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          multiRegionalMetadata: S.optional(__S(709, __c22, 5)),
-          regionalMetadata: S.optional(__S(710, __c22, 6)),
-          globalMetadata: S.optional(__S(736, __c23, 0)),
+          multiRegionalMetadata: S.optional(__S(677, __c21, 5)),
+          regionalMetadata: S.optional(__S(678, __c21, 6)),
+          globalMetadata: S.optional(__S(704, __c22, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomy" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          productTaxonomy: S.optional(__S(706, __c22, 2)),
+          productTaxonomy: S.optional(__S(674, __c21, 2)),
           skuId: S.optional(S.String),
           billingAccountService: S.optional(S.String),
           displayName: S.optional(S.String),
-          geoTaxonomy: S.optional(__S(672, __c21, 0)),
+          geoTaxonomy: S.optional(__S(640, __c20, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({
@@ -1955,7 +1940,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1966,11 +1951,11 @@ function __c22(j: number): any {
         identifier: "GoogleCloudBillingBillingaccountskugroupskusV1betaTaxonomyCategory",
       });
     case 1:
-      return S.Array(__S(704, __c22, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          taxonomyCategories: S.optional(__S(705, __c22, 1)),
+          taxonomyCategories: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudBillingBillingaccountskugroupskusV1betaProductTaxonomy",
@@ -1984,11 +1969,11 @@ function __c22(j: number): any {
         identifier: "GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegion",
       });
     case 4:
-      return S.Array(__S(707, __c22, 3));
+      return S.Array(__S(675, __c21, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(708, __c22, 4)),
+          regions: S.optional(__S(676, __c21, 4)),
         }),
       ).annotate({
         identifier: "GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyMultiRegional",
@@ -1996,14 +1981,14 @@ function __c22(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          region: S.optional(__S(707, __c22, 3)),
+          region: S.optional(__S(675, __c21, 3)),
         }),
       ).annotate({
         identifier: "GoogleCloudBillingBillingaccountskugroupskusV1betaGeoTaxonomyRegional",
       });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -2011,7 +1996,7 @@ function __c23(j: number): any {
       });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2027,31 +2012,31 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsSkusRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          globalMetadata: S.optional(__S(736, __c23, 0)),
-          multiRegionalMetadata: S.optional(__S(709, __c22, 5)),
-          regionalMetadata: S.optional(__S(710, __c22, 6)),
+          globalMetadata: S.optional(__S(704, __c22, 0)),
+          multiRegionalMetadata: S.optional(__S(677, __c21, 5)),
+          regionalMetadata: S.optional(__S(678, __c21, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountskusV1betaGeoTaxonomy" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          geoTaxonomy: S.optional(__S(800, __c25, 0)),
+          geoTaxonomy: S.optional(__S(768, __c24, 0)),
           name: S.optional(S.String),
-          productTaxonomy: S.optional(__S(706, __c22, 2)),
+          productTaxonomy: S.optional(__S(674, __c21, 2)),
           skuId: S.optional(S.String),
           billingAccountService: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountskusV1betaBillingAccountSku" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2068,7 +2053,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetBillingAccountsSkusPriceRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2089,25 +2074,25 @@ function __c27(j: number): any {
         S.Struct({
           unitDescription: S.optional(S.String),
           unit: S.optional(S.String),
-          unitQuantity: S.optional(__S(864, __c27, 0)),
+          unitQuantity: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountpricesV1betaUnitInfo" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           skuGroup: S.optional(S.String),
           discountScopeType: S.optional(S.String),
-          discountPercent: S.optional(__S(864, __c27, 0)),
+          discountPercent: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountpricesV1betaFloatingDiscount" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          discountPercent: S.optional(__S(864, __c27, 0)),
+          discountPercent: S.optional(__S(832, __c26, 0)),
           fixTime: S.optional(S.String),
           discountScopeType: S.optional(S.String),
           skuGroup: S.optional(S.String),
@@ -2122,27 +2107,27 @@ function __c28(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fixedPrice: S.optional(__S(736, __c23, 0)),
-          defaultPrice: S.optional(__S(736, __c23, 0)),
+          fixedPrice: S.optional(__S(704, __c22, 0)),
+          defaultPrice: S.optional(__S(704, __c22, 0)),
           type: S.optional(S.String),
-          floatingDiscount: S.optional(__S(896, __c28, 0)),
-          mergedPrice: S.optional(__S(736, __c23, 0)),
-          fixedDiscount: S.optional(__S(897, __c28, 1)),
-          listPriceAsCeiling: S.optional(__S(736, __c23, 0)),
-          migratedPrice: S.optional(__S(898, __c28, 2)),
+          floatingDiscount: S.optional(__S(864, __c27, 0)),
+          mergedPrice: S.optional(__S(704, __c22, 0)),
+          fixedDiscount: S.optional(__S(865, __c27, 1)),
+          listPriceAsCeiling: S.optional(__S(704, __c22, 0)),
+          migratedPrice: S.optional(__S(866, __c27, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountpricesV1betaPriceReason" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          startAmount: S.optional(__S(864, __c27, 0)),
-          contractPrice: S.optional(__S(865, __c27, 1)),
-          effectiveDiscountPercent: S.optional(__S(864, __c27, 0)),
-          listPrice: S.optional(__S(865, __c27, 1)),
+          startAmount: S.optional(__S(832, __c26, 0)),
+          contractPrice: S.optional(__S(833, __c26, 1)),
+          effectiveDiscountPercent: S.optional(__S(832, __c26, 0)),
+          listPrice: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountpricesV1betaRateTier" });
     case 5:
-      return S.Array(__S(900, __c28, 4));
+      return S.Array(__S(868, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2153,19 +2138,19 @@ function __c28(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          tiers: S.optional(__S(901, __c28, 5)),
-          aggregationInfo: S.optional(__S(902, __c28, 6)),
-          unitInfo: S.optional(__S(866, __c27, 2)),
+          tiers: S.optional(__S(869, __c27, 5)),
+          aggregationInfo: S.optional(__S(870, __c27, 6)),
+          unitInfo: S.optional(__S(834, __c26, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountpricesV1betaRate" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          priceReason: S.optional(__S(899, __c28, 3)),
+          priceReason: S.optional(__S(867, __c27, 3)),
           name: S.optional(S.String),
           valueType: S.optional(S.String),
           currencyCode: S.optional(S.String),
-          rate: S.optional(__S(903, __c28, 7)),
+          rate: S.optional(__S(871, __c27, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudBillingBillingaccountpricesV1betaBillingAccountPrice" });
   }

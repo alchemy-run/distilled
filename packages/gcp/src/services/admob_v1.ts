@@ -232,16 +232,11 @@ export interface MediationReportSpec {
   /** Describes the sorting of report rows. The order of the condition in the list defines its precedence; the earlier the condition, the higher its precedence. If no sort conditions are specified, the row ordering is undefined. */
   sortConditions?: MediationReportSpecSortConditionList | undefined;
 }
-/** Request to generate an AdMob Mediation report. */
-export interface GenerateMediationReportRequest {
-  /** Network report specification. */
-  reportSpec?: MediationReportSpec | undefined;
-}
 export interface GenerateAccountsMediationReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
-  /** Request body */
-  body?: GenerateMediationReportRequest | undefined;
+  /** Network report specification. */
+  reportSpec?: MediationReportSpec | undefined;
 }
 /** Groups data helps to treat the generated report. Always sent as a first message in the stream response. */
 export interface ReportHeader {
@@ -421,16 +416,11 @@ export interface NetworkReportSpec {
   /** List of dimensions of the report. The value combination of these dimensions determines the row of the report. If no dimensions are specified, the report returns a single row of requested metrics for the entire account. */
   dimensions?: NetworkReportSpecDimensionsItemEnumList | undefined;
 }
-/** Request to generate an AdMob Network report. */
-export interface GenerateNetworkReportRequest {
-  /** Network report specification. */
-  reportSpec?: NetworkReportSpec | undefined;
-}
 export interface GenerateAccountsNetworkReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
-  /** Request body */
-  body?: GenerateNetworkReportRequest | undefined;
+  /** Network report specification. */
+  reportSpec?: NetworkReportSpec | undefined;
 }
 /** The streaming response for the AdMob Network report where the first response contains the report header, then a stream of row responses, and finally a footer as the last response message. For example: [{ "header": { "dateRange": { "startDate": {"year": 2018, "month": 9, "day": 1}, "endDate": {"year": 2018, "month": 9, "day": 1} }, "localizationSettings": { "currencyCode": "USD", "languageCode": "en-US" } } }, { "row": { "dimensionValues": { "DATE": {"value": "20180918"}, "APP": { "value": "ca-app-pub-8123415297019784~1001342552", displayLabel: "My app name!" } }, "metricValues": { "ESTIMATED_EARNINGS": {"microsValue": 6500000} } } }, { "footer": {"matchingRowCount": 1} }] */
 export interface GenerateNetworkReportResponse {
@@ -562,8 +552,8 @@ export const generateAccountsMediationReport: API.OperationMethod<
   GenerateAccountsMediationReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c0, 6) as any as S.Schema<GenerateAccountsMediationReportRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<GenerateMediationReportResponse>,
+  input: __S(5, __c0, 5) as any as S.Schema<GenerateAccountsMediationReportRequest>,
+  output: __S(6, __c0, 6) as any as S.Schema<GenerateMediationReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -584,8 +574,8 @@ export const generateAccountsNetworkReport: API.OperationMethod<
   GenerateAccountsNetworkReportError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(54, __c3, 6) as any as S.Schema<GenerateAccountsNetworkReportRequest>,
-  output: __S(55, __c3, 7) as any as S.Schema<GenerateNetworkReportResponse>,
+  input: __S(53, __c3, 5) as any as S.Schema<GenerateAccountsNetworkReportRequest>,
+  output: __S(54, __c3, 6) as any as S.Schema<GenerateNetworkReportResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -705,14 +695,8 @@ function __c0(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          reportSpec: S.optional(__S(4, __c0, 4)),
-        }),
-      ).annotate({ identifier: "GenerateMediationReportRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(5, __c0, 5).pipe(T.HttpBody())),
+          reportSpec: S.optional(__S(4, __c0, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -721,7 +705,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsMediationReportRequest" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           header: S.optional(__S(21, __c1, 5)),
@@ -858,14 +842,8 @@ function __c3(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          reportSpec: S.optional(__S(52, __c3, 4)),
-        }),
-      ).annotate({ identifier: "GenerateNetworkReportRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(53, __c3, 5).pipe(T.HttpBody())),
+          reportSpec: S.optional(__S(52, __c3, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -874,7 +852,7 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GenerateAccountsNetworkReportRequest" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           footer: S.optional(__S(29, __c1, 13)),

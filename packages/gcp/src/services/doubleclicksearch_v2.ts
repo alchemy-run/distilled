@@ -150,6 +150,43 @@ export interface ReportRequestTimeRange {
   /** Inclusive date in YYYY-MM-DD format. */
   endDate?: string | undefined;
 }
+export interface GenerateReportsRequest {
+  /** Synchronous report only. A list of columns and directions defining sorting to be performed on the report rows.\ The maximum number of orderings per request is 300. */
+  orderBy?: ReportRequestOrderByItemList | undefined;
+  /** The columns to include in the report. This includes both DoubleClick Search columns and saved columns. For DoubleClick Search columns, only the `columnName` parameter is required. For saved columns only the `savedColumnName` parameter is required. Both `columnName` and `savedColumnName` cannot be set in the same stanza.\ The maximum number of columns per request is 300. */
+  columns?: ReportApiColumnSpecList | undefined;
+  /** A list of filters to be applied to the report.\ The maximum number of filters per request is 300. */
+  filters?: ReportRequestFiltersItemList | undefined;
+  /** The reportScope is a set of IDs that are used to determine which subset of entities will be returned in the report. The full lineage of IDs from the lowest scoped level desired up through agency is required. */
+  reportScope?: ReportRequestReportScope | undefined;
+  /** If metrics are requested in a report, this argument will be used to restrict the metrics to a specific time range. */
+  timeRange?: ReportRequestTimeRange | undefined;
+  /** Asynchronous report only. The maximum number of rows per report file. A large report is split into many files based on this field. Acceptable values are `1000000` to `100000000`, inclusive. */
+  maxRowsPerFile?: number | undefined;
+  /** Determines the type of rows that are returned in the report. For example, if you specify `reportType: keyword`, each row in the report will contain data about a keyword. See the [Types of Reports](/search-ads/v2/report-types/) reference for the columns that are available for each type. */
+  reportType?: string | undefined;
+  /** Synchronous report only. The maximum number of rows to return; additional rows are dropped. Acceptable values are `0` to `10000`, inclusive. Defaults to `10000`. */
+  rowCount?: number | undefined;
+  /** Determines if removed entities should be included in the report. Defaults to `false`. Deprecated, please use `includeRemovedEntities` instead. */
+  includeDeletedEntities?: boolean | undefined;
+  /** Specifies the currency in which monetary will be returned. Possible values are: `usd`, `agency` (valid if the report is scoped to agency or lower), `advertiser` (valid if the report is scoped to * advertiser or lower), or `account` (valid if the report is scoped to engine account or lower). */
+  statisticsCurrency?: string | undefined;
+  /** Determines if removed entities should be included in the report. Defaults to `false`. */
+  includeRemovedEntities?: boolean | undefined;
+  /** If `true`, the report would only be created if all the requested stat data are sourced from a single timezone. Defaults to `false`. */
+  verifySingleTimeZone?: boolean | undefined;
+  /** Format that the report should be returned in. Currently `csv` or `tsv` is supported. */
+  downloadFormat?: string | undefined;
+  /** Synchronous report only. Zero-based index of the first row to return. Acceptable values are `0` to `50000`, inclusive. Defaults to `0`. */
+  startRow?: number | undefined;
+}
+export interface ReportFilesItem {
+  /** Use this url to download the report file. */
+  url?: string | undefined;
+  /** The size of this report file in bytes. */
+  byteCount?: string | undefined;
+}
+export type ReportFilesItemList = Array<ReportFilesItem>;
 /** A request object used to create a DoubleClick Search report. */
 export interface ReportRequest {
   /** Synchronous report only. A list of columns and directions defining sorting to be performed on the report rows.\ The maximum number of orderings per request is 300. */
@@ -181,17 +218,6 @@ export interface ReportRequest {
   /** Synchronous report only. Zero-based index of the first row to return. Acceptable values are `0` to `50000`, inclusive. Defaults to `0`. */
   startRow?: number | undefined;
 }
-export interface GenerateReportsRequest {
-  /** Request body */
-  body?: ReportRequest | undefined;
-}
-export interface ReportFilesItem {
-  /** Use this url to download the report file. */
-  url?: string | undefined;
-  /** The size of this report file in bytes. */
-  byteCount?: string | undefined;
-}
-export type ReportFilesItemList = Array<ReportFilesItem>;
 /** A row in a DoubleClick Search report. */
 export type ReportRow = { [key: string]: unknown | undefined };
 export type ReportRowList = Array<ReportRow>;
@@ -386,8 +412,10 @@ export interface GetReportsRequest {
   reportId: string;
 }
 export interface InsertConversionRequest {
-  /** Request body */
-  body?: ConversionList | undefined;
+  /** Identifies this as a ConversionList resource. Value: the fixed string doubleclicksearch#conversionList. */
+  kind?: string | undefined;
+  /** The conversions being requested. */
+  conversion?: ConversionList_ | undefined;
 }
 export interface ListSavedColumnsRequest {
   /** DS ID of the agency. */
@@ -413,8 +441,34 @@ export interface SavedColumnList {
   kind?: string | undefined;
 }
 export interface RequestReportsRequest {
-  /** Request body */
-  body?: ReportRequest | undefined;
+  /** Synchronous report only. A list of columns and directions defining sorting to be performed on the report rows.\ The maximum number of orderings per request is 300. */
+  orderBy?: ReportRequestOrderByItemList | undefined;
+  /** The columns to include in the report. This includes both DoubleClick Search columns and saved columns. For DoubleClick Search columns, only the `columnName` parameter is required. For saved columns only the `savedColumnName` parameter is required. Both `columnName` and `savedColumnName` cannot be set in the same stanza.\ The maximum number of columns per request is 300. */
+  columns?: ReportApiColumnSpecList | undefined;
+  /** A list of filters to be applied to the report.\ The maximum number of filters per request is 300. */
+  filters?: ReportRequestFiltersItemList | undefined;
+  /** The reportScope is a set of IDs that are used to determine which subset of entities will be returned in the report. The full lineage of IDs from the lowest scoped level desired up through agency is required. */
+  reportScope?: ReportRequestReportScope | undefined;
+  /** If metrics are requested in a report, this argument will be used to restrict the metrics to a specific time range. */
+  timeRange?: ReportRequestTimeRange | undefined;
+  /** Asynchronous report only. The maximum number of rows per report file. A large report is split into many files based on this field. Acceptable values are `1000000` to `100000000`, inclusive. */
+  maxRowsPerFile?: number | undefined;
+  /** Determines the type of rows that are returned in the report. For example, if you specify `reportType: keyword`, each row in the report will contain data about a keyword. See the [Types of Reports](/search-ads/v2/report-types/) reference for the columns that are available for each type. */
+  reportType?: string | undefined;
+  /** Synchronous report only. The maximum number of rows to return; additional rows are dropped. Acceptable values are `0` to `10000`, inclusive. Defaults to `10000`. */
+  rowCount?: number | undefined;
+  /** Determines if removed entities should be included in the report. Defaults to `false`. Deprecated, please use `includeRemovedEntities` instead. */
+  includeDeletedEntities?: boolean | undefined;
+  /** Specifies the currency in which monetary will be returned. Possible values are: `usd`, `agency` (valid if the report is scoped to agency or lower), `advertiser` (valid if the report is scoped to * advertiser or lower), or `account` (valid if the report is scoped to engine account or lower). */
+  statisticsCurrency?: string | undefined;
+  /** Determines if removed entities should be included in the report. Defaults to `false`. */
+  includeRemovedEntities?: boolean | undefined;
+  /** If `true`, the report would only be created if all the requested stat data are sourced from a single timezone. Defaults to `false`. */
+  verifySingleTimeZone?: boolean | undefined;
+  /** Format that the report should be returned in. Currently `csv` or `tsv` is supported. */
+  downloadFormat?: string | undefined;
+  /** Synchronous report only. Zero-based index of the first row to return. Acceptable values are `0` to `50000`, inclusive. Defaults to `0`. */
+  startRow?: number | undefined;
 }
 /** A message containing availability data relevant to DoubleClick Search. */
 export interface Availability {
@@ -434,14 +488,9 @@ export interface Availability {
   segmentationId?: string | undefined;
 }
 export type AvailabilityList = Array<Availability>;
-/** The request to update availability. */
-export interface UpdateAvailabilityRequest {
+export interface UpdateAvailabilityConversionRequest {
   /** The availabilities being requested. */
   availabilities?: AvailabilityList | undefined;
-}
-export interface UpdateAvailabilityConversionRequest {
-  /** Request body */
-  body?: UpdateAvailabilityRequest | undefined;
 }
 /** The response to a update availability request. */
 export interface UpdateAvailabilityResponse {
@@ -449,8 +498,10 @@ export interface UpdateAvailabilityResponse {
   availabilities?: AvailabilityList | undefined;
 }
 export interface UpdateConversionRequest {
-  /** Request body */
-  body?: ConversionList | undefined;
+  /** Identifies this as a ConversionList resource. Value: the fixed string doubleclicksearch#conversionList. */
+  kind?: string | undefined;
+  /** The conversions being requested. */
+  conversion?: ConversionList_ | undefined;
 }
 export type GenerateReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Generates and returns a report immediately. */
@@ -618,8 +669,8 @@ export const updateAvailabilityConversion: API.OperationMethod<
   UpdateAvailabilityConversionError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(51, __c3, 3) as any as S.Schema<UpdateAvailabilityConversionRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<UpdateAvailabilityResponse>,
+  input: __S(50, __c3, 2) as any as S.Schema<UpdateAvailabilityConversionRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<UpdateAvailabilityResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -650,7 +701,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(134, __c8, 6).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          conversion: S.optional(__S(133, __c8, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -700,7 +752,20 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(105, __c6, 9).pipe(T.HttpBody())),
+          orderBy: S.optional(__S(98, __c6, 2)),
+          columns: S.optional(__S(99, __c6, 3)),
+          filters: S.optional(__S(102, __c6, 6)),
+          reportScope: S.optional(__S(103, __c6, 7)),
+          timeRange: S.optional(__S(104, __c6, 8)),
+          maxRowsPerFile: S.optional(S.Number),
+          reportType: S.optional(S.String),
+          rowCount: S.optional(S.Number),
+          includeDeletedEntities: S.optional(S.Boolean),
+          statisticsCurrency: S.optional(S.String),
+          includeRemovedEntities: S.optional(S.Boolean),
+          verifySingleTimeZone: S.optional(S.Boolean),
+          downloadFormat: S.optional(S.String),
+          startRow: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -731,12 +796,6 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           availabilities: S.optional(__S(49, __c3, 1)),
-        }),
-      ).annotate({ identifier: "UpdateAvailabilityRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(50, __c3, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -745,6 +804,12 @@ function __c3(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateAvailabilityConversionRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          availabilities: S.optional(__S(49, __c3, 1)),
+        }),
+      ).annotate({ identifier: "UpdateAvailabilityResponse" });
   }
 }
 function __c4(j: number): any {
@@ -752,7 +817,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(134, __c8, 6).pipe(T.HttpBody())),
+          kind: S.optional(S.String),
+          conversion: S.optional(__S(133, __c8, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -768,7 +834,20 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(105, __c6, 9).pipe(T.HttpBody())),
+          orderBy: S.optional(__S(98, __c6, 2)),
+          columns: S.optional(__S(99, __c6, 3)),
+          filters: S.optional(__S(102, __c6, 6)),
+          reportScope: S.optional(__S(103, __c6, 7)),
+          timeRange: S.optional(__S(104, __c6, 8)),
+          maxRowsPerFile: S.optional(S.Number),
+          reportType: S.optional(S.String),
+          rowCount: S.optional(S.Number),
+          includeDeletedEntities: S.optional(S.Boolean),
+          statisticsCurrency: S.optional(S.String),
+          includeRemovedEntities: S.optional(S.Boolean),
+          verifySingleTimeZone: S.optional(S.Boolean),
+          downloadFormat: S.optional(S.String),
+          startRow: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -843,6 +922,15 @@ function __c6(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          url: S.optional(S.String),
+          byteCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportFilesItem" });
+    case 10:
+      return S.Array(__S(105, __c6, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           orderBy: S.optional(__S(98, __c6, 2)),
           columns: S.optional(__S(99, __c6, 3)),
           filters: S.optional(__S(102, __c6, 6)),
@@ -859,15 +947,6 @@ function __c6(j: number): any {
           startRow: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReportRequest" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-          byteCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportFilesItem" });
-    case 11:
-      return S.Array(__S(106, __c6, 10));
     case 12:
       return S.Record(S.String, S.Unknown);
     case 13:
@@ -878,9 +957,9 @@ function __c6(j: number): any {
           statisticsCurrencyCode: S.optional(S.String),
           kind: S.optional(S.String),
           isReportReady: S.optional(S.Boolean),
-          files: S.optional(__S(107, __c6, 11)),
+          files: S.optional(__S(106, __c6, 10)),
           statisticsTimeZone: S.optional(S.String),
-          request: S.optional(__S(105, __c6, 9)),
+          request: S.optional(__S(107, __c6, 11)),
           rows: S.optional(__S(109, __c6, 13)),
           id: S.optional(S.String),
           rowCount: S.optional(S.Number),

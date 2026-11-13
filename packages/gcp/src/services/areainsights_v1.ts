@@ -178,16 +178,11 @@ export interface Filter {
   /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
   priceLevels?: FilterPriceLevelsItemEnumList | undefined;
 }
-/** Request for the ComputeInsights RPC. */
-export interface ComputeInsightsRequest {
+export interface ComputeInsightsV1Request {
   /** Required. Insights to compute. Currently only INSIGHT_COUNT and INSIGHT_PLACES are supported. */
   insights?: ComputeInsightsRequestInsightsItemEnumList | undefined;
   /** Required. Insight filter. */
   filter?: Filter | undefined;
-}
-export interface ComputeInsightsV1Request {
-  /** Request body */
-  body?: ComputeInsightsRequest | undefined;
 }
 /** Holds information about a place */
 export interface PlaceInsight {
@@ -210,8 +205,8 @@ export const computeInsightsV1: API.OperationMethod<
   ComputeInsightsV1Error,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c0, 13) as any as S.Schema<ComputeInsightsV1Request>,
-  output: __S(15, __c0, 15) as any as S.Schema<ComputeInsightsResponse>,
+  input: __S(12, __c0, 12) as any as S.Schema<ComputeInsightsV1Request>,
+  output: __S(14, __c0, 14) as any as S.Schema<ComputeInsightsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -300,12 +295,6 @@ function __c0(j: number): any {
         S.Struct({
           insights: S.optional(__S(0, __c0, 0)),
           filter: S.optional(__S(11, __c0, 11)),
-        }),
-      ).annotate({ identifier: "ComputeInsightsRequest" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(12, __c0, 12).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -314,13 +303,13 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ComputeInsightsV1Request" });
-    case 14:
+    case 13:
       return S.Array(__S(2, __c0, 2));
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.String),
-          placeInsights: S.optional(__S(14, __c0, 14)),
+          placeInsights: S.optional(__S(13, __c0, 13)),
         }),
       ).annotate({ identifier: "ComputeInsightsResponse" });
   }

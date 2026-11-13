@@ -85,8 +85,11 @@ export class NotFound
 
 export type WorkflowStateEnum = "STATE_UNSPECIFIED" | "ACTIVE";
 export type StringMap = { [key: string]: string | undefined };
-/** Workflow program to be executed by Workflows. */
-export interface Workflow {
+export interface CreateProjectsLocationsWorkflowsRequest {
+  /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
+  workflowId?: string | undefined;
+  /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Output only. State of the workflow deployment. */
   state?: WorkflowStateEnum | (string & {}) | undefined;
   /** Output only. The last update timestamp of the workflow. */
@@ -107,14 +110,6 @@ export interface Workflow {
   description?: string | undefined;
   /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
   serviceAccount?: string | undefined;
-}
-export interface CreateProjectsLocationsWorkflowsRequest {
-  /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
-  workflowId?: string | undefined;
-  /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Request body */
-  body?: Workflow | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -174,6 +169,29 @@ export interface GetProjectsLocationsOperationsRequest {
 export interface GetProjectsLocationsWorkflowsRequest {
   /** Required. Name of the workflow which information should be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
+}
+/** Workflow program to be executed by Workflows. */
+export interface Workflow {
+  /** Output only. State of the workflow deployment. */
+  state?: WorkflowStateEnum | undefined;
+  /** Output only. The last update timestamp of the workflow. */
+  updateTime?: string | undefined;
+  /** Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores and dashes. Label keys must start with a letter. International characters are allowed. */
+  labels?: StringMap | undefined;
+  /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow} */
+  name?: string | undefined;
+  /** Workflow code to be executed. The size limit is 128KB. */
+  sourceContents?: string | undefined;
+  /** Output only. The timestamp that the latest revision of the workflow was created. */
+  revisionCreateTime?: string | undefined;
+  /** Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is "000001-a4d", where the first 6 characters define the zero-padded revision ordinal number. They are followed by a hyphen and 3 hexadecimal random characters. */
+  revisionId?: string | undefined;
+  /** Output only. The timestamp of when the workflow was created. */
+  createTime?: string | undefined;
+  /** Description of the workflow provided by the user. Must be at most 1000 unicode characters long. */
+  description?: string | undefined;
+  /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
+  serviceAccount?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface ListProjectsLocationsRequest {
@@ -245,8 +263,24 @@ export interface PatchProjectsLocationsWorkflowsRequest {
   updateMask?: string | undefined;
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
-  /** Request body */
-  body?: Workflow | undefined;
+  /** Output only. State of the workflow deployment. */
+  state?: WorkflowStateEnum | (string & {}) | undefined;
+  /** Output only. The last update timestamp of the workflow. */
+  updateTime?: string | undefined;
+  /** Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores and dashes. Label keys must start with a letter. International characters are allowed. */
+  labels?: StringMap | undefined;
+  /** Workflow code to be executed. The size limit is 128KB. */
+  sourceContents?: string | undefined;
+  /** Output only. The timestamp that the latest revision of the workflow was created. */
+  revisionCreateTime?: string | undefined;
+  /** Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is "000001-a4d", where the first 6 characters define the zero-padded revision ordinal number. They are followed by a hyphen and 3 hexadecimal random characters. */
+  revisionId?: string | undefined;
+  /** Output only. The timestamp of when the workflow was created. */
+  createTime?: string | undefined;
+  /** Description of the workflow provided by the user. Must be at most 1000 unicode characters long. */
+  description?: string | undefined;
+  /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
+  serviceAccount?: string | undefined;
 }
 export type CreateProjectsLocationsWorkflowsError =
   | NotFound
@@ -283,8 +317,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(41, __c10, 1) as any as S.Schema<Empty>,
+  input: __S(36, __c9, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(37, __c9, 1) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -305,7 +339,7 @@ export const deleteProjectsLocationsWorkflows: API.OperationMethod<
   DeleteProjectsLocationsWorkflowsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<DeleteProjectsLocationsWorkflowsRequest>,
+  input: __S(40, __c10, 0) as any as S.Schema<DeleteProjectsLocationsWorkflowsRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -322,8 +356,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<Location>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -339,7 +373,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -356,8 +390,8 @@ export const getProjectsLocationsWorkflows: API.OperationMethod<
   GetProjectsLocationsWorkflowsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetProjectsLocationsWorkflowsRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<Workflow>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetProjectsLocationsWorkflowsRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<Workflow>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -464,7 +498,7 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(52, __c13, 0));
+      return S.Array(__S(48, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -529,7 +563,7 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsWorkflowsRequest" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(60, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -547,7 +581,15 @@ function __c4(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(32, __c8, 0)),
+          sourceContents: S.optional(S.String),
+          revisionCreateTime: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -565,7 +607,16 @@ function __c5(j: number): any {
         S.Struct({
           workflowId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(36, __c9, 0).pipe(T.HttpBody())),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(32, __c8, 0)),
+          name: S.optional(S.String),
+          sourceContents: S.optional(S.String),
+          revisionCreateTime: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -617,18 +668,17 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          labels: S.optional(__S(32, __c8, 0)),
-          name: S.optional(S.String),
-          sourceContents: S.optional(S.String),
-          revisionCreateTime: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          serviceAccount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Workflow" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1beta/{+name}",
+            baseUrl: "https://workflows.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
 function __c10(j: number): any {
@@ -644,28 +694,10 @@ function __c10(j: number): any {
             baseUrl: "https://workflows.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1beta/{+name}",
-            baseUrl: "https://workflows.googleapis.com/",
-          }),
-        ),
       ).annotate({ identifier: "DeleteProjectsLocationsWorkflowsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -681,7 +713,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -695,7 +727,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "Location" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -711,7 +743,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -725,6 +757,25 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsWorkflowsRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(32, __c8, 0)),
+          name: S.optional(S.String),
+          sourceContents: S.optional(S.String),
+          revisionCreateTime: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
+          serviceAccount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Workflow" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

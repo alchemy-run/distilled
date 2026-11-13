@@ -115,8 +115,9 @@ export interface TimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
   id?: string | undefined;
 }
-/** Representation of an Account. */
-export interface Account {
+export interface CreatePlatformsAccountsRequest {
+  /** Required. Platform to create an account for. Format: platforms/{platform} */
+  parent: string;
   /** Display name of this account. */
   displayName?: string | undefined;
   /** Output only. Creation time of the account. */
@@ -132,11 +133,22 @@ export interface Account {
   /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
   timeZone?: TimeZone | undefined;
 }
-export interface CreatePlatformsAccountsRequest {
-  /** Required. Platform to create an account for. Format: platforms/{platform} */
-  parent: string;
-  /** Request body */
-  body?: Account | undefined;
+/** Representation of an Account. */
+export interface Account {
+  /** Display name of this account. */
+  displayName?: string | undefined;
+  /** Output only. Creation time of the account. */
+  createTime?: string | undefined;
+  /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
+  creationRequestId?: string | undefined;
+  /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
+  regionCode?: string | undefined;
+  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
+  name?: string | undefined;
+  /** Output only. Approval state of the account. */
+  state?: AccountStateEnum | undefined;
+  /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
+  timeZone?: TimeZone | undefined;
 }
 /** Address data. */
 export interface Address {
@@ -172,8 +184,9 @@ export type EventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "LOG_IN_VIA_PLATFORM"
   | "SIGN_UP_VIA_PLATFORM";
-/** A platform sub-account event to record spam signals. */
-export interface Event {
+export interface CreatePlatformsAccountsEventsRequest {
+  /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
+  parent: string;
   /** Required. Information associated with the event. */
   eventInfo?: EventInfo | undefined;
   /** Required. Event timestamp. */
@@ -181,11 +194,14 @@ export interface Event {
   /** Required. Event type. */
   eventType?: EventEventTypeEnum | (string & {}) | undefined;
 }
-export interface CreatePlatformsAccountsEventsRequest {
-  /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
-  parent: string;
-  /** Request body */
-  body?: Event | undefined;
+/** A platform sub-account event to record spam signals. */
+export interface Event {
+  /** Required. Information associated with the event. */
+  eventInfo?: EventInfo | undefined;
+  /** Required. Event timestamp. */
+  eventTime?: string | undefined;
+  /** Required. Event type. */
+  eventType?: EventEventTypeEnum | undefined;
 }
 export type SiteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -193,8 +209,9 @@ export type SiteStateEnum =
   | "GETTING_READY"
   | "READY"
   | "NEEDS_ATTENTION";
-/** Representation of a Site. */
-export interface Site {
+export interface CreatePlatformsAccountsSitesRequest {
+  /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
+  parent: string;
   /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
   domain?: string | undefined;
   /** Output only. State of a site. */
@@ -202,11 +219,14 @@ export interface Site {
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name?: string | undefined;
 }
-export interface CreatePlatformsAccountsSitesRequest {
-  /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
-  parent: string;
-  /** Request body */
-  body?: Site | undefined;
+/** Representation of a Site. */
+export interface Site {
+  /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
+  domain?: string | undefined;
+  /** Output only. State of a site. */
+  state?: SiteStateEnum | undefined;
+  /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
+  name?: string | undefined;
 }
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -331,8 +351,8 @@ export const createPlatformsAccountsEvents: API.OperationMethod<
   CreatePlatformsAccountsEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(43, __c10, 3) as any as S.Schema<CreatePlatformsAccountsEventsRequest>,
-  output: __S(42, __c10, 2) as any as S.Schema<Event>,
+  input: __S(42, __c10, 2) as any as S.Schema<CreatePlatformsAccountsEventsRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<Event>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -657,7 +677,13 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(37, __c9, 1).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          creationRequestId: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          timeZone: S.optional(__S(36, __c9, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -718,16 +744,10 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           eventInfo: S.optional(__S(41, __c10, 1)),
           eventTime: S.optional(S.String),
           eventType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Event" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(42, __c10, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -736,6 +756,14 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreatePlatformsAccountsEventsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          eventInfo: S.optional(__S(41, __c10, 1)),
+          eventTime: S.optional(S.String),
+          eventType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Event" });
   }
 }
 function __c11(j: number): any {
@@ -744,7 +772,9 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c12, 0).pipe(T.HttpBody())),
+          domain: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

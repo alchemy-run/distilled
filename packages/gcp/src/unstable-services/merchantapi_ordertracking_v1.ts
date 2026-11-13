@@ -174,6 +174,30 @@ export interface Price {
   /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
   currencyCode?: string | undefined;
 }
+export interface CreateAccountsOrderTrackingSignalsRequest {
+  /** Output only. The ID that uniquely identifies this order tracking signal. */
+  orderTrackingSignalId?: string | undefined;
+  /** Required. The account of the business for which the order signal is created. Format: accounts/{account} */
+  parent: string;
+  /** Optional. The mapping of the line items to the shipment information. */
+  shipmentLineItemMapping?: ShipmentLineItemMappingList | undefined;
+  /** Required. Information about line items in the order. */
+  lineItems?: LineItemDetailsList | undefined;
+  /** Required. The time when the order was created on the businesses side. Include the year and timezone string, if available. */
+  orderCreatedTime?: DateTime | undefined;
+  /** Required. The shipping information for the order. */
+  shippingInfo?: ShippingInfoList | undefined;
+  /** Optional. The Google Merchant Center ID of this order tracking signal. This value is optional. If left unset, the caller's Merchant Center ID is used. You must request access in order to provide data on behalf of another business. For more information, see [Submitting Order Tracking Signals](/shopping-content/guides/order-tracking-signals). */
+  merchantId?: string | undefined;
+  /** Optional. The delivery postal code, as a continuous string without spaces or dashes, for example "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
+  deliveryPostalCode?: string | undefined;
+  /** Optional. The shipping fee of the order; this value should be set to zero in the case of free shipping. */
+  customerShippingFee?: Price | undefined;
+  /** Required. The ID of the order on the businesses side. This field will be hashed in returned OrderTrackingSignal creation response. */
+  orderId?: string | undefined;
+  /** Optional. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
+  deliveryRegionCode?: string | undefined;
+}
 /** Represents a business trade from which signals are extracted, such as shipping. */
 export interface OrderTrackingSignal {
   /** Optional. The mapping of the line items to the shipment information. */
@@ -197,14 +221,6 @@ export interface OrderTrackingSignal {
   /** Optional. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
   deliveryRegionCode?: string | undefined;
 }
-export interface CreateAccountsOrderTrackingSignalsRequest {
-  /** Output only. The ID that uniquely identifies this order tracking signal. */
-  orderTrackingSignalId?: string | undefined;
-  /** Required. The account of the business for which the order signal is created. Format: accounts/{account} */
-  parent: string;
-  /** Request body */
-  body?: OrderTrackingSignal | undefined;
-}
 export type CreateAccountsOrderTrackingSignalsError =
   | NotFound
   | Forbidden
@@ -218,8 +234,8 @@ export const createAccountsOrderTrackingSignals: API.OperationMethod<
   CreateAccountsOrderTrackingSignalsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11, __c0, 11) as any as S.Schema<CreateAccountsOrderTrackingSignalsRequest>,
-  output: __S(10, __c0, 10) as any as S.Schema<OrderTrackingSignal>,
+  input: __S(10, __c0, 10) as any as S.Schema<CreateAccountsOrderTrackingSignalsRequest>,
+  output: __S(11, __c0, 11) as any as S.Schema<OrderTrackingSignal>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -305,6 +321,28 @@ function __c0(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
+          orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          shipmentLineItemMapping: S.optional(__S(1, __c0, 1)),
+          lineItems: S.optional(__S(4, __c0, 4)),
+          orderCreatedTime: S.optional(__S(6, __c0, 6)),
+          shippingInfo: S.optional(__S(8, __c0, 8)),
+          merchantId: S.optional(S.String),
+          deliveryPostalCode: S.optional(S.String),
+          customerShippingFee: S.optional(__S(9, __c0, 9)),
+          orderId: S.optional(S.String),
+          deliveryRegionCode: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "ordertracking/v1/{+parent}/orderTrackingSignals",
+            baseUrl: "https://merchantapi.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateAccountsOrderTrackingSignalsRequest" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
           shipmentLineItemMapping: S.optional(__S(1, __c0, 1)),
           lineItems: S.optional(__S(4, __c0, 4)),
           orderCreatedTime: S.optional(__S(6, __c0, 6)),
@@ -317,20 +355,6 @@ function __c0(j: number): any {
           deliveryRegionCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrderTrackingSignal" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c0, 10).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "ordertracking/v1/{+parent}/orderTrackingSignals",
-            baseUrl: "https://merchantapi.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateAccountsOrderTrackingSignalsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

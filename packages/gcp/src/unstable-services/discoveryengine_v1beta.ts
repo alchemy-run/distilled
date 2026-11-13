@@ -502,8 +502,9 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec {
     | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-/** Request message for ConversationalSearchService.AnswerQuery method. */
-export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequest {
+export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+  /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
+  servingConfig: string;
   /** Answer generation specification. */
   answerGenerationSpec?:
     | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec
@@ -534,12 +535,6 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryRequest {
   safetySpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
   userLabels?: StringMap | undefined;
-}
-export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
-  /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
-  servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaAnswerAnswerSkippedReasonsItemEnum =
   | "ANSWER_SKIPPED_REASON_UNSPECIFIED"
@@ -1196,7 +1191,7 @@ export interface GoogleCloudDiscoveryengineV1betaSession {
   /** Turns. */
   turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
   /** The state of the session. */
-  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | undefined;
   /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
   labels?: StringList | undefined;
 }
@@ -1212,14 +1207,70 @@ export interface GoogleCloudDiscoveryengineV1betaAnswerQueryResponse {
 export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequest | undefined;
+  /** Answer generation specification. */
+  answerGenerationSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec
+    | undefined;
+  /** Deprecated: This field is deprecated. Streaming Answer API will be supported. Asynchronous mode control. If enabled, the response will be returned with answer/session resource name without final answer. The API users need to do the polling to get the latest status of answer/session by calling ConversationalSearchService.GetAnswer or ConversationalSearchService.GetSession method. */
+  asynchronousMode?: boolean | undefined;
+  /** The session resource name. Not required. When session field is not set, the API is in sessionless mode. We support auto session mode: users can use the wildcard symbol `-` as session ID. A new ID will be automatically generated and assigned. */
+  session?: string | undefined;
+  /** Search specification. */
+  searchSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec | undefined;
+  /** Related questions specification. */
+  relatedQuestionsSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec
+    | undefined;
+  /** Optional. Grounding specification. */
+  groundingSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec | undefined;
+  /** Query understanding specification. */
+  queryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec
+    | undefined;
+  /** Optional. End user specification. */
+  endUserSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec | undefined;
+  /** A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Required. Current user query. */
+  query?: GoogleCloudDiscoveryengineV1betaQuery | undefined;
+  /** Model specification. */
+  safetySpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
 }
 export interface AnswerProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequest | undefined;
+  /** Answer generation specification. */
+  answerGenerationSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec
+    | undefined;
+  /** Deprecated: This field is deprecated. Streaming Answer API will be supported. Asynchronous mode control. If enabled, the response will be returned with answer/session resource name without final answer. The API users need to do the polling to get the latest status of answer/session by calling ConversationalSearchService.GetAnswer or ConversationalSearchService.GetSession method. */
+  asynchronousMode?: boolean | undefined;
+  /** The session resource name. Not required. When session field is not set, the API is in sessionless mode. We support auto session mode: users can use the wildcard symbol `-` as session ID. A new ID will be automatically generated and assigned. */
+  session?: string | undefined;
+  /** Search specification. */
+  searchSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec | undefined;
+  /** Related questions specification. */
+  relatedQuestionsSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec
+    | undefined;
+  /** Optional. Grounding specification. */
+  groundingSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec | undefined;
+  /** Query understanding specification. */
+  queryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec
+    | undefined;
+  /** Optional. End user specification. */
+  endUserSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec | undefined;
+  /** A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Required. Current user query. */
+  query?: GoogleCloudDiscoveryengineV1betaQuery | undefined;
+  /** Model specification. */
+  safetySpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaSiteVerificationInfoSiteVerificationStateEnum =
   | "SITE_VERIFICATION_STATE_UNSPECIFIED"
@@ -1293,16 +1344,11 @@ export interface GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest {
 }
 export type GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequestList =
   Array<GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest>;
-/** Request message for SiteSearchEngineService.BatchCreateTargetSites method. */
-export interface GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest {
-  /** Required. The request message specifying the resources to create. A maximum of 20 TargetSites can be created in a batch. */
-  requests?: GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequestList | undefined;
-}
 export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest | undefined;
+  /** Required. The request message specifying the resources to create. A maximum of 20 TargetSites can be created in a batch. */
+  requests?: GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequestList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
@@ -1320,8 +1366,8 @@ export interface GoogleLongrunningOperation {
 export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest | undefined;
+  /** Required. The request message specifying the resources to create. A maximum of 20 TargetSites can be created in a batch. */
+  requests?: GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequestList | undefined;
 }
 export interface BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** The exact URIs to match by. */
@@ -1411,20 +1457,15 @@ export interface GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequestI
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
 }
-/** Request message for UserLicenseService.BatchUpdateUserLicenses method. */
-export interface GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest {
+export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
+  /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
+  parent: string;
   /** The inline source for the input content for license assignment. */
   inlineSource?:
     | GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequestInlineSource
     | undefined;
   /** Optional. If true, if user licenses removed associated license config, the user license will be deleted. By default which is false, the user license will be updated to unassigned state. */
   deleteUnassignedUserLicenses?: boolean | undefined;
-}
-export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
-  /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.BatchVerifyTargetSites method. */
 export interface GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest {}
@@ -1467,8 +1508,9 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingSpec {
   /** The threshold (in [0,1]) used for determining whether a fact must be cited for a claim in the answer candidate. Choosing a higher threshold will lead to fewer but very strong citations, while choosing a lower threshold may lead to more but somewhat weaker citations. If unset, the threshold will default to 0.6. */
   citationThreshold?: number | undefined;
 }
-/** Request message for GroundedGenerationService.CheckGrounding method. */
-export interface GoogleCloudDiscoveryengineV1betaCheckGroundingRequest {
+export interface CheckProjectsLocationsGroundingConfigsRequest {
+  /** Required. The resource name of the grounding config, such as `projects/*\/locations/global/groundingConfigs/default_grounding_config`. */
+  groundingConfig: string;
   /** List of facts for the grounding check. We support up to 200 facts. */
   facts?: GoogleCloudDiscoveryengineV1betaGroundingFactList | undefined;
   /** Answer candidate to check. It can have a maximum length of 4096 tokens. */
@@ -1477,12 +1519,6 @@ export interface GoogleCloudDiscoveryengineV1betaCheckGroundingRequest {
   groundingSpec?: GoogleCloudDiscoveryengineV1betaCheckGroundingSpec | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
   userLabels?: StringMap | undefined;
-}
-export interface CheckProjectsLocationsGroundingConfigsRequest {
-  /** Required. The resource name of the grounding config, such as `projects/*\/locations/global/groundingConfigs/default_grounding_config`. */
-  groundingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaCheckGroundingRequest | undefined;
 }
 /** Text and citation info for a claim in the answer candidate. */
 export interface GoogleCloudDiscoveryengineV1betaCheckGroundingResponseClaim {
@@ -1681,8 +1717,9 @@ export interface GoogleCloudDiscoveryengineV1betaUserInfo {
   /** User agent as included in the HTTP header. The field must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. This should not be set when using the client side event reporting with GTM or JavaScript tag in UserEventService.CollectUserEvent or if UserEvent.direct_user_request is set. */
   userAgent?: string | undefined;
 }
-/** Request message for CompletionService.AdvancedCompleteQuery method. . */
-export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest {
+export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest {
+  /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
+  completionConfig: string;
   /** Optional. Suggestion types to return. If empty or unspecified, query suggestions are returned. Only one suggestion type is supported at the moment. */
   suggestionTypes?:
     | GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypesItemEnumList
@@ -1705,12 +1742,6 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest {
   userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
   /** Required. The typeahead input used to fetch suggestions. Maximum length is 128 characters. The query can not be empty for most of the suggestion types. If it is empty, an `INVALID_ARGUMENT` error is returned. The exception is when the suggestion_types contains only the type `RECENT_SEARCH`, the query can be an empty string. The is called "zero prefix" feature, which returns user's recently searched queries given the empty query. */
   query?: string | undefined;
-}
-export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest {
-  /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
-  completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponsePersonSuggestionPersonTypeEnum =
   | "PERSON_TYPE_UNSPECIFIED"
@@ -1880,8 +1911,28 @@ export interface GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse {
 export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest | undefined;
+  /** Optional. Suggestion types to return. If empty or unspecified, query suggestions are returned. Only one suggestion type is supported at the moment. */
+  suggestionTypes?:
+    | GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypesItemEnumList
+    | undefined;
+  /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
+  includeTailSuggestions?: boolean | undefined;
+  /** Specifies the autocomplete query model, which only applies to the QUERY SuggestionType. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
+  queryModel?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128 */
+  userPseudoId?: string | undefined;
+  /** Optional. Specification to boost suggestions matching the condition. */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpec | undefined;
+  /** Optional. Experiment ids for this request. */
+  experimentIds?: StringList | undefined;
+  /** Optional. Specification of each suggestion type. */
+  suggestionTypeSpecs?:
+    | GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypeSpecList
+    | undefined;
+  /** Optional. Information about the end user. This should be the same identifier information as UserEvent.user_info and SearchRequest.user_info. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Required. The typeahead input used to fetch suggestions. Maximum length is 128 characters. The query can not be empty for most of the suggestion types. If it is empty, an `INVALID_ARGUMENT` error is returned. The exception is when the suggestion_types contains only the type `RECENT_SEARCH`, the query can be an empty string. The is called "zero prefix" feature, which returns user's recently searched queries given the empty query. */
+  query?: string | undefined;
 }
 export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
@@ -1898,8 +1949,28 @@ export interface CompleteQueryProjectsLocationsDataStoresRequest {
 export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest | undefined;
+  /** Optional. Suggestion types to return. If empty or unspecified, query suggestions are returned. Only one suggestion type is supported at the moment. */
+  suggestionTypes?:
+    | GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypesItemEnumList
+    | undefined;
+  /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
+  includeTailSuggestions?: boolean | undefined;
+  /** Specifies the autocomplete query model, which only applies to the QUERY SuggestionType. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
+  queryModel?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128 */
+  userPseudoId?: string | undefined;
+  /** Optional. Specification to boost suggestions matching the condition. */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpec | undefined;
+  /** Optional. Experiment ids for this request. */
+  experimentIds?: StringList | undefined;
+  /** Optional. Specification of each suggestion type. */
+  suggestionTypeSpecs?:
+    | GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypeSpecList
+    | undefined;
+  /** Optional. Information about the end user. This should be the same identifier information as UserEvent.user_info and SearchRequest.user_info. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Required. The typeahead input used to fetch suggestions. Maximum length is 128 characters. The query can not be empty for most of the suggestion types. If it is empty, an `INVALID_ARGUMENT` error is returned. The exception is when the suggestion_types contains only the type `RECENT_SEARCH`, the query can be an empty string. The is called "zero prefix" feature, which returns user's recently searched queries given the empty query. */
+  query?: string | undefined;
 }
 /** Specification of the prompt to use with the model. */
 export interface GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpecModelPromptSpec {
@@ -2150,8 +2221,9 @@ export interface GoogleCloudDiscoveryengineV1betaConversation {
   /** The state of the Conversation. */
   state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
-/** Request message for ConversationalSearchService.ConverseConversation method. */
-export interface GoogleCloudDiscoveryengineV1betaConverseConversationRequest {
+export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest {
+  /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
+  name: string;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
   userLabels?: StringMap | undefined;
   /** A specification for configuring the summary returned in the response. */
@@ -2170,12 +2242,6 @@ export interface GoogleCloudDiscoveryengineV1betaConverseConversationRequest {
   filter?: string | undefined;
   /** The resource name of the Serving Config to use. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/servingConfigs/{serving_config_id}` If this is not set, the default serving config will be used. */
   servingConfig?: string | undefined;
-}
-export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest {
-  /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConverseConversationRequest | undefined;
 }
 /** Double list. */
 export interface GoogleCloudDiscoveryengineV1betaDoubleList {
@@ -2342,14 +2408,46 @@ export interface GoogleCloudDiscoveryengineV1betaConverseConversationResponse {
 export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConverseConversationRequest | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** A specification for configuring the summary returned in the response. */
+  summarySpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec
+    | undefined;
+  /** The conversation to be used by auto session only. The name field will be ignored as we automatically assign new name for the conversation in auto session. */
+  conversation?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Required. Current user input. */
+  query?: GoogleCloudDiscoveryengineV1betaTextInput | undefined;
+  /** Whether to turn on safe search. */
+  safeSearch?: boolean | undefined;
+  /** Boost specification to boost certain documents in search results which may affect the converse response. For more information on boosting, see [Boosting](https://cloud.google.com/retail/docs/boosting#boost) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. This will be used to filter search results which may affect the summary response. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** The resource name of the Serving Config to use. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/servingConfigs/{serving_config_id}` If this is not set, the default serving config will be used. */
+  servingConfig?: string | undefined;
 }
 export interface ConverseProjectsLocationsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConverseConversationRequest | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** A specification for configuring the summary returned in the response. */
+  summarySpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec
+    | undefined;
+  /** The conversation to be used by auto session only. The name field will be ignored as we automatically assign new name for the conversation in auto session. */
+  conversation?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Required. Current user input. */
+  query?: GoogleCloudDiscoveryengineV1betaTextInput | undefined;
+  /** Whether to turn on safe search. */
+  safeSearch?: boolean | undefined;
+  /** Boost specification to boost certain documents in search results which may affect the converse response. For more information on boosting, see [Boosting](https://cloud.google.com/retail/docs/boosting#boost) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. This will be used to filter search results which may affect the summary response. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** The resource name of the Serving Config to use. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/servingConfigs/{serving_config_id}` If this is not set, the default serving config will be used. */
+  servingConfig?: string | undefined;
 }
 /** The layout parsing configurations for documents. */
 export interface GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfigLayoutParsingConfig {
@@ -2668,8 +2766,19 @@ export interface GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig 
     | GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigThirdPartyOauthConfig
     | undefined;
 }
-/** DataStore captures global settings and configs at the DataStore level. */
-export interface GoogleCloudDiscoveryengineV1betaDataStore {
+export interface CreateProjectsLocationsCollectionsDataStoresRequest {
+  /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
+  createAdvancedSiteSearch?: boolean | undefined;
+  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
+  parent: string;
+  /** Resource name of the CmekConfig to use for protecting this DataStore. */
+  cmekConfigName?: string | undefined;
+  /** Required. The ID to use for the DataStore, which will become the final component of the DataStore's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  dataStoreId?: string | undefined;
+  /** A boolean flag indicating whether to skip the default schema creation for the data store. Only enable this flag if you are certain that the default schema is incompatible with your use case. If set to true, you must manually create a schema for the data store before any documents can be ingested. This flag cannot be specified if `data_store.starting_schema` is specified. */
+  skipDefaultSchemaCreation?: boolean | undefined;
+  /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
+  disableCmek?: boolean | undefined;
   /** Configuration for Document understanding and enrichment. */
   documentProcessingConfig?: GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig | undefined;
   /** Output only. Timestamp the DataStore was created at. */
@@ -2736,29 +2845,33 @@ export interface GoogleCloudDiscoveryengineV1betaDataStore {
   /** Output only. The id of the default Schema associated to this data store. */
   defaultSchemaId?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresRequest {
-  /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
-  createAdvancedSiteSearch?: boolean | undefined;
-  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
-  parent: string;
-  /** Resource name of the CmekConfig to use for protecting this DataStore. */
-  cmekConfigName?: string | undefined;
-  /** Required. The ID to use for the DataStore, which will become the final component of the DataStore's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  dataStoreId?: string | undefined;
-  /** A boolean flag indicating whether to skip the default schema creation for the data store. Only enable this flag if you are certain that the default schema is incompatible with your use case. If set to true, you must manually create a schema for the data store before any documents can be ingested. This flag cannot be specified if `data_store.starting_schema` is specified. */
-  skipDefaultSchemaCreation?: boolean | undefined;
-  /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
-  disableCmek?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDataStore | undefined;
-}
 export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   documentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDocument | undefined;
+  /** Output only. The time when the document was last indexed. If this field is populated, it means the document has been indexed. While documents typically become searchable within seconds of indexing, it can sometimes take up to a few hours. If this field is not populated, it means the document has never been indexed. */
+  indexTime?: string | undefined;
+  /** Output only. The index status of the document. * If document is indexed successfully, the index_time field is populated. * Otherwise, if document is not indexed due to errors, the error_samples field is populated. * Otherwise, if document's index is in progress, the pending_message field is populated. */
+  indexStatus?: GoogleCloudDiscoveryengineV1betaDocumentIndexStatus | undefined;
+  /** The JSON string representation of the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  jsonData?: string | undefined;
+  /** Access control information for the document. */
+  aclInfo?: GoogleCloudDiscoveryengineV1betaDocumentAclInfo | undefined;
+  /** Immutable. The identifier of the document. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. */
+  id?: string | undefined;
+  /** The identifier of the parent document. Currently supports at most two level document hierarchy. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
+  parentDocumentId?: string | undefined;
+  /** Output only. This field is OUTPUT_ONLY. It contains derived data that are not in the original input document. */
+  derivedStructData?: DocumentMap | undefined;
+  /** The structured JSON data for the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  structData?: DocumentMap | undefined;
+  /** The identifier of the schema located in the same data store. */
+  schemaId?: string | undefined;
+  /** The unstructured data linked to this document. Content can only be set and must be set if this document is under a `CONTENT_REQUIRED` data store. */
+  content?: GoogleCloudDiscoveryengineV1betaDocumentContent | undefined;
+  /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
 }
 /** Promotion proto includes uri and other helping information to display the promotion. */
 export interface GoogleCloudDiscoveryengineV1betaSearchLinkPromotion {
@@ -2892,8 +3005,11 @@ export interface GoogleCloudDiscoveryengineV1betaControlFilterAction {
   /** Required. Specifies which data store's documents can be filtered by this control. Full data store name e.g. projects/123/locations/global/collections/default_collection/dataStores/default_data_store */
   dataStore?: string | undefined;
 }
-/** Defines a conditioned behavior to employ during serving. Must be attached to a ServingConfig to be considered at serving time. Permitted actions dependent on `SolutionType`. */
-export interface GoogleCloudDiscoveryengineV1betaControl {
+export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
+  /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
+  controlId?: string | undefined;
+  /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
+  parent: string;
   /** Promote certain links based on predefined trigger queries. */
   promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
   /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
@@ -2920,27 +3036,58 @@ export interface GoogleCloudDiscoveryengineV1betaControl {
   /** Defines a filter-type control Currently not supported by Recommendation */
   filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
-  /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
-  controlId?: string | undefined;
-  /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaControl | undefined;
+/** Defines a conditioned behavior to employ during serving. Must be attached to a ServingConfig to be considered at serving time. Permitted actions dependent on `SolutionType`. */
+export interface GoogleCloudDiscoveryengineV1betaControl {
+  /** Promote certain links based on predefined trigger queries. */
+  promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
+  /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
+  conditions?: GoogleCloudDiscoveryengineV1betaConditionList | undefined;
+  /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
+  associatedServingConfigIds?: StringList | undefined;
+  /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
+  displayName?: string | undefined;
+  /** Treats a group of terms as synonyms of one another. */
+  synonymsAction?: GoogleCloudDiscoveryengineV1betaControlSynonymsAction | undefined;
+  /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
+  name?: string | undefined;
+  /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
+  solutionType?: GoogleCloudDiscoveryengineV1betaControlSolutionTypeEnum | undefined;
+  /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
+  useCases?: GoogleCloudDiscoveryengineV1betaControlUseCasesItemEnumList | undefined;
+  /** Defines a redirect-type control. */
+  redirectAction?: GoogleCloudDiscoveryengineV1betaControlRedirectAction | undefined;
+  /** Defines a boost-type control */
+  boostAction?: GoogleCloudDiscoveryengineV1betaControlBoostAction | undefined;
+  /** Defines a filter-type control Currently not supported by Recommendation */
+  filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Output only. The time the conversation finished. */
+  endTime?: string | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
+  name?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the conversation started. */
+  startTime?: string | undefined;
+  /** Conversation messages. */
+  messages?: GoogleCloudDiscoveryengineV1betaConversationMessageList | undefined;
+  /** The state of the Conversation. */
+  state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
   schemaId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** The structured representation of the schema. */
+  structSchema?: DocumentMap | undefined;
+  /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** The JSON representation of the schema. */
+  jsonSchema?: string | undefined;
 }
 /** Specifies the configurations needed for Media Discovery. Currently we support: * `demote_content_watched`: Threshold for watched content demotion. Customers can specify if using watched content demotion or use viewed detail page. Using the content watched demotion, customers need to specify the watched minutes or percentage exceeds the threshold, the content will be demoted in the recommendation result. * `promote_fresh_content`: cutoff days for fresh content promotion. Customers can specify if using content freshness promotion. If the content was published within the cutoff days, the content will be promoted in the recommendation result. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
 export interface GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig {
@@ -3065,8 +3212,11 @@ export interface GoogleCloudDiscoveryengineV1betaEmbeddingConfig {
   /** Full field path in the schema mapped as embedding field. */
   fieldPath?: string | undefined;
 }
-/** Configures metadata that is used to generate serving time results (e.g. search results or recommendation predictions). The ServingConfig is passed in the search and predict request and generates results. */
-export interface GoogleCloudDiscoveryengineV1betaServingConfig {
+export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+  /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
+  parent: string;
+  /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
+  servingConfigId?: string | undefined;
   /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
   ignoreControlIds?: StringList | undefined;
   /** The MediaConfig of the serving configuration. */
@@ -3117,24 +3267,84 @@ export interface GoogleCloudDiscoveryengineV1betaServingConfig {
   /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
   diversityLevel?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest {
-  /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
-  parent: string;
-  /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
-  servingConfigId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaServingConfig | undefined;
+/** Configures metadata that is used to generate serving time results (e.g. search results or recommendation predictions). The ServingConfig is passed in the search and predict request and generates results. */
+export interface GoogleCloudDiscoveryengineV1betaServingConfig {
+  /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
+  ignoreControlIds?: StringList | undefined;
+  /** The MediaConfig of the serving configuration. */
+  mediaConfig?: GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
+  name?: string | undefined;
+  /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
+  rankingExpression?: string | undefined;
+  /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
+  boostControlIds?: StringList | undefined;
+  /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  replacementControlIds?: StringList | undefined;
+  /** The GenericConfig of the serving configuration. */
+  genericConfig?: GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig | undefined;
+  /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  modelId?: string | undefined;
+  /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  redirectControlIds?: StringList | undefined;
+  /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
+  solutionType?: GoogleCloudDiscoveryengineV1betaServingConfigSolutionTypeEnum | undefined;
+  /** Optional. The specification for answer generation. */
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec | undefined;
+  /** Output only. ServingConfig updated timestamp. */
+  updateTime?: string | undefined;
+  /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  dissociateControlIds?: StringList | undefined;
+  /** Output only. ServingConfig created timestamp. */
+  createTime?: string | undefined;
+  /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  onewaySynonymsControlIds?: StringList | undefined;
+  /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
+  embeddingConfig?: GoogleCloudDiscoveryengineV1betaEmbeddingConfig | undefined;
+  /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  synonymsControlIds?: StringList | undefined;
+  /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
+  filterControlIds?: StringList | undefined;
+  /** Condition promote specifications. Maximum number of specifications is 100. */
+  promoteControlIds?: StringList | undefined;
+  /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  diversityLevel?: string | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSession | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
+  name?: string | undefined;
+  /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
+  pendingAsyncAssistOperationId?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the session started. */
+  startTime?: string | undefined;
+  /** Output only. The time the session finished. */
+  endTime?: string | undefined;
+  /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
+  displayName?: string | undefined;
+  /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
+  isPinned?: boolean | undefined;
+  /** Turns. */
+  turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
+  /** The state of the session. */
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
+  labels?: StringList | undefined;
 }
-/** A sitemap for the SiteSearchEngine. */
-export interface GoogleCloudDiscoveryengineV1betaSitemap {
+export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
+  /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
+  parent: string;
   /** Public URI for the sitemap, e.g. `www.example.com/sitemap.xml`. */
   uri?: string | undefined;
   /** Output only. The sitemap's creation time. */
@@ -3142,17 +3352,32 @@ export interface GoogleCloudDiscoveryengineV1betaSitemap {
   /** Output only. The fully qualified resource name of the sitemap. `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine/sitemaps/*` The `sitemap_id` suffix is system-generated. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
-  /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSitemap | undefined;
-}
 export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaTargetSite | undefined;
+  /** Output only. Site ownership and validity verification status. */
+  siteVerificationInfo?: GoogleCloudDiscoveryengineV1betaSiteVerificationInfo | undefined;
+  /** Immutable. If set to false, a uri_pattern is generated to include all pages whose address contains the provided_uri_pattern. If set to true, an uri_pattern is generated to try to be an exact match of the provided_uri_pattern or just the specific page if the provided_uri_pattern is a specific one. provided_uri_pattern is always normalized to generate the URI pattern to be used by the search engine. */
+  exactMatch?: boolean | undefined;
+  /** Output only. The target site's last updated time. */
+  updateTime?: string | undefined;
+  /** Output only. Indexing status. */
+  indexingStatus?:
+    | GoogleCloudDiscoveryengineV1betaTargetSiteIndexingStatusEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Root domain of the provided_uri_pattern. */
+  rootDomainUri?: string | undefined;
+  /** Required. Input only. The user provided URI pattern from which the `generated_uri_pattern` is generated. */
+  providedUriPattern?: string | undefined;
+  /** Output only. This is system-generated based on the provided_uri_pattern. */
+  generatedUriPattern?: string | undefined;
+  /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
+  name?: string | undefined;
+  /** Output only. Failure reason. */
+  failureReason?: GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason | undefined;
+  /** The type of the target site, e.g., whether the site is to be included or excluded. */
+  type?: GoogleCloudDiscoveryengineV1betaTargetSiteTypeEnum | (string & {}) | undefined;
 }
 /** Common configurations for an Engine. */
 export interface GoogleCloudDiscoveryengineV1betaEngineCommonConfig {
@@ -3455,8 +3680,11 @@ export type GoogleCloudDiscoveryengineV1betaEngineGlobalFeatureToggleStateEnum =
   | "SCHEDULED"
   | "GENERAL"
   | "EARLY";
-/** Metadata that describes the training and serving parameters of an Engine. */
-export interface GoogleCloudDiscoveryengineV1betaEngine {
+export interface CreateProjectsLocationsCollectionsEnginesRequest {
+  /** Required. The ID to use for the Engine, which will become the final component of the Engine's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  engineId?: string | undefined;
+  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
+  parent: string;
   /** Output only. Timestamp the Recommendation Engine was last updated. */
   updateTime?: string | undefined;
   /** Common config spec that specifies the metadata of the engine. */
@@ -3533,14 +3761,6 @@ export interface GoogleCloudDiscoveryengineV1betaEngine {
     | undefined;
   /** Output only. Timestamp the Recommendation Engine was created at. */
   createTime?: string | undefined;
-}
-export interface CreateProjectsLocationsCollectionsEnginesRequest {
-  /** Required. The ID to use for the Engine, which will become the final component of the Engine's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  engineId?: string | undefined;
-  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaEngine | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyModelArmorConfigFailureModeEnum =
   | "FAILURE_MODE_UNSPECIFIED"
@@ -3629,8 +3849,11 @@ export type GoogleCloudDiscoveryengineV1betaAssistantWebGroundingTypeEnum =
   | "WEB_GROUNDING_TYPE_DISABLED"
   | "WEB_GROUNDING_TYPE_GOOGLE_SEARCH"
   | "WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH";
-/** Discovery Engine Assistant resource. */
-export interface GoogleCloudDiscoveryengineV1betaAssistant {
+export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
+  /** Required. The ID to use for the Assistant, which will become the final component of the Assistant's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
+  assistantId?: string | undefined;
+  /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
+  parent: string;
   /** Output only. Represents the time when this Assistant was most recently updated. */
   updateTime?: string | undefined;
   /** Optional. Customer policy for the assistant. */
@@ -3655,43 +3878,156 @@ export interface GoogleCloudDiscoveryengineV1betaAssistant {
   /** Output only. Represents the time when this Assistant was created. */
   createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
-  /** Required. The ID to use for the Assistant, which will become the final component of the Assistant's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
-  assistantId?: string | undefined;
-  /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAssistant | undefined;
+/** Discovery Engine Assistant resource. */
+export interface GoogleCloudDiscoveryengineV1betaAssistant {
+  /** Output only. Represents the time when this Assistant was most recently updated. */
+  updateTime?: string | undefined;
+  /** Optional. Customer policy for the assistant. */
+  customerPolicy?: GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicy | undefined;
+  /** Required. The assistant display name. It must be a UTF-8 encoded string with a length limit of 128 characters. */
+  displayName?: string | undefined;
+  /** Optional. The enabled tools on this assistant. The keys are data connector resource names, in the format `projects/{project}/locations/{location}/collections/{collection}/dataConnector`. The values are the tools that the admin enabled on that connector. Admins can selectively enable tools on any of the connectors that they created in the project. For example: ``` { "projects/my-project/locations/global/collections/jira1/dataConnector": { "toolInfo": [ { "toolName": "create_jira_issue", "toolDisplayName": "Create Jira issue" }, { "toolName": "update_jira_issue", "toolDisplayName": "Update Jira issue" } ] } } ``` */
+  enabledTools?: GoogleCloudDiscoveryengineV1betaAssistantToolListMap | undefined;
+  /** Optional. This field controls the default web grounding toggle for end users if `web_grounding_type` is set to `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`. By default, this field is set to false. If `web_grounding_type` is `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`, end users will have web grounding enabled by default on UI. If true, grounding toggle will be disabled by default on UI. End users can still enable web grounding in the UI if web grounding is enabled. */
+  defaultWebGroundingToggleOff?: boolean | undefined;
+  /** Optional. Configuration for the generation of the assistant response. */
+  generationConfig?: GoogleCloudDiscoveryengineV1betaAssistantGenerationConfig | undefined;
+  /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** Optional. The type of web grounding to use. */
+  webGroundingType?: GoogleCloudDiscoveryengineV1betaAssistantWebGroundingTypeEnum | undefined;
+  /** Optional. Description for additional information. Expected to be shown on the configuration UI, not to the users of the assistant. */
+  description?: string | undefined;
+  /** Output only. Represents the time when this Assistant was created. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesControlsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaControl | undefined;
+  /** Promote certain links based on predefined trigger queries. */
+  promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
+  /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
+  conditions?: GoogleCloudDiscoveryengineV1betaConditionList | undefined;
+  /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
+  associatedServingConfigIds?: StringList | undefined;
+  /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
+  displayName?: string | undefined;
+  /** Treats a group of terms as synonyms of one another. */
+  synonymsAction?: GoogleCloudDiscoveryengineV1betaControlSynonymsAction | undefined;
+  /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
+  name?: string | undefined;
+  /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaControlSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
+  useCases?: GoogleCloudDiscoveryengineV1betaControlUseCasesItemEnumList | undefined;
+  /** Defines a redirect-type control. */
+  redirectAction?: GoogleCloudDiscoveryengineV1betaControlRedirectAction | undefined;
+  /** Defines a boost-type control */
+  boostAction?: GoogleCloudDiscoveryengineV1betaControlBoostAction | undefined;
+  /** Defines a filter-type control Currently not supported by Recommendation */
+  filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Output only. The time the conversation finished. */
+  endTime?: string | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
+  name?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the conversation started. */
+  startTime?: string | undefined;
+  /** Conversation messages. */
+  messages?: GoogleCloudDiscoveryengineV1betaConversationMessageList | undefined;
+  /** The state of the Conversation. */
+  state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaServingConfig | undefined;
+  /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
+  ignoreControlIds?: StringList | undefined;
+  /** The MediaConfig of the serving configuration. */
+  mediaConfig?: GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
+  name?: string | undefined;
+  /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
+  rankingExpression?: string | undefined;
+  /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
+  boostControlIds?: StringList | undefined;
+  /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  replacementControlIds?: StringList | undefined;
+  /** The GenericConfig of the serving configuration. */
+  genericConfig?: GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig | undefined;
+  /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  modelId?: string | undefined;
+  /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  redirectControlIds?: StringList | undefined;
+  /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaServingConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The specification for answer generation. */
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec | undefined;
+  /** Output only. ServingConfig updated timestamp. */
+  updateTime?: string | undefined;
+  /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  dissociateControlIds?: StringList | undefined;
+  /** Output only. ServingConfig created timestamp. */
+  createTime?: string | undefined;
+  /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  onewaySynonymsControlIds?: StringList | undefined;
+  /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
+  embeddingConfig?: GoogleCloudDiscoveryengineV1betaEmbeddingConfig | undefined;
+  /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  synonymsControlIds?: StringList | undefined;
+  /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
+  filterControlIds?: StringList | undefined;
+  /** Condition promote specifications. Maximum number of specifications is 100. */
+  promoteControlIds?: StringList | undefined;
+  /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  diversityLevel?: string | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSession | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
+  name?: string | undefined;
+  /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
+  pendingAsyncAssistOperationId?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the session started. */
+  startTime?: string | undefined;
+  /** Output only. The time the session finished. */
+  endTime?: string | undefined;
+  /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
+  displayName?: string | undefined;
+  /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
+  isPinned?: boolean | undefined;
+  /** Turns. */
+  turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
+  /** The state of the session. */
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
+  labels?: StringList | undefined;
 }
 export interface CreateProjectsLocationsDataStoresRequest {
   /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
@@ -3706,66 +4042,276 @@ export interface CreateProjectsLocationsDataStoresRequest {
   cmekConfigName?: string | undefined;
   /** Required. The ID to use for the DataStore, which will become the final component of the DataStore's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
   dataStoreId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDataStore | undefined;
+  /** Configuration for Document understanding and enrichment. */
+  documentProcessingConfig?: GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig | undefined;
+  /** Output only. Timestamp the DataStore was created at. */
+  createTime?: string | undefined;
+  /** Immutable. The fully qualified resource name of the associated IdentityMappingStore. This field can only be set for acl_enabled DataStores with `THIRD_PARTY` or `GSUITE` IdP. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. */
+  identityMappingStore?: string | undefined;
+  /** Optional. Stores serving config at DataStore level. */
+  servingConfigDataStore?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore
+    | undefined;
+  /** Optional. Configuration for configurable billing approach. See */
+  configurableBillingApproach?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreConfigurableBillingApproachEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Configuration for Natural Language Query Understanding. */
+  naturalLanguageQueryUnderstandingConfig?:
+    | GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandingConfig
+    | undefined;
+  /** Required. The data store display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** The solutions that the data store enrolls. Available solutions for each industry_vertical: * `MEDIA`: `SOLUTION_TYPE_RECOMMENDATION` and `SOLUTION_TYPE_SEARCH`. * `SITE_SEARCH`: `SOLUTION_TYPE_SEARCH` is automatically enrolled. Other solutions cannot be enrolled. */
+  solutionTypes?: GoogleCloudDiscoveryengineV1betaDataStoreSolutionTypesItemEnumList | undefined;
+  /** Language info for DataStore. */
+  languageInfo?: GoogleCloudDiscoveryengineV1betaLanguageInfo | undefined;
+  /** Output only. CMEK-related information for the DataStore. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Config to store data store type configuration for workspace data. This must be set when DataStore.content_config is set as DataStore.ContentConfig.GOOGLE_WORKSPACE. */
+  workspaceConfig?: GoogleCloudDiscoveryengineV1betaWorkspaceConfig | undefined;
+  /** Immutable. The content config of the data store. If this field is unset, the server behavior defaults to ContentConfig.NO_CONTENT. */
+  contentConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreContentConfigEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If set, this DataStore is an Infobot FAQ DataStore. */
+  isInfobotFaqDataStore?: boolean | undefined;
+  /** Output only. Data size estimation for billing. */
+  billingEstimation?: GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation | undefined;
+  /** Optional. Configuration for `HEALTHCARE_FHIR` vertical. */
+  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig | undefined;
+  /** Optional. Configuration for advanced site search. */
+  advancedSiteSearchConfig?: GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig | undefined;
+  /** Output only. The timestamp when configurable_billing_approach was last updated. */
+  configurableBillingApproachUpdateTime?: string | undefined;
+  /** Optional. Specifies the data protection policy for the data store. */
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1betaDataProtectionPolicy | undefined;
+  /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** Immutable. Whether data in the DataStore has ACL information. If set to `true`, the source data must have ACL. ACL will be ingested when data is ingested by DocumentService.ImportDocuments methods. When ACL is enabled for the DataStore, Document can't be accessed by calling DocumentService.GetDocument or DocumentService.ListDocuments. Currently ACL is only supported in `GENERIC` industry vertical with non-`PUBLIC_WEBSITE` content config. */
+  aclEnabled?: boolean | undefined;
+  /** The start schema to use for this DataStore when provisioning it. If unset, a default vertical specialized schema will be used. This field is only used by CreateDataStore API, and will be ignored if used in other APIs. This field will be omitted from all API responses including CreateDataStore API. To retrieve a schema of a DataStore, use SchemaService.GetSchema API instead. The provided schema will be validated against certain rules on schema. Learn more from [this doc](https://cloud.google.com/generative-ai-app-builder/docs/provide-schema). */
+  startingSchema?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** Immutable. The industry vertical that the data store registers. */
+  industryVertical?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreIndustryVerticalEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If set, this DataStore is a federated search DataStore. */
+  federatedSearchConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig
+    | undefined;
+  /** Input only. The KMS key to be used to protect this DataStore at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the DataStore will be protected by the KMS key, as indicated in the cmek_config field. */
+  kmsKeyName?: string | undefined;
+  /** Output only. The id of the default Schema associated to this data store. */
+  defaultSchemaId?: string | undefined;
 }
 export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   documentId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDocument | undefined;
+  /** Output only. The time when the document was last indexed. If this field is populated, it means the document has been indexed. While documents typically become searchable within seconds of indexing, it can sometimes take up to a few hours. If this field is not populated, it means the document has never been indexed. */
+  indexTime?: string | undefined;
+  /** Output only. The index status of the document. * If document is indexed successfully, the index_time field is populated. * Otherwise, if document is not indexed due to errors, the error_samples field is populated. * Otherwise, if document's index is in progress, the pending_message field is populated. */
+  indexStatus?: GoogleCloudDiscoveryengineV1betaDocumentIndexStatus | undefined;
+  /** The JSON string representation of the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  jsonData?: string | undefined;
+  /** Access control information for the document. */
+  aclInfo?: GoogleCloudDiscoveryengineV1betaDocumentAclInfo | undefined;
+  /** Immutable. The identifier of the document. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. */
+  id?: string | undefined;
+  /** The identifier of the parent document. Currently supports at most two level document hierarchy. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
+  parentDocumentId?: string | undefined;
+  /** Output only. This field is OUTPUT_ONLY. It contains derived data that are not in the original input document. */
+  derivedStructData?: DocumentMap | undefined;
+  /** The structured JSON data for the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  structData?: DocumentMap | undefined;
+  /** The identifier of the schema located in the same data store. */
+  schemaId?: string | undefined;
+  /** The unstructured data linked to this document. Content can only be set and must be set if this document is under a `CONTENT_REQUIRED` data store. */
+  content?: GoogleCloudDiscoveryengineV1betaDocumentContent | undefined;
+  /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsDataStoresControlsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaControl | undefined;
+  /** Promote certain links based on predefined trigger queries. */
+  promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
+  /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
+  conditions?: GoogleCloudDiscoveryengineV1betaConditionList | undefined;
+  /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
+  associatedServingConfigIds?: StringList | undefined;
+  /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
+  displayName?: string | undefined;
+  /** Treats a group of terms as synonyms of one another. */
+  synonymsAction?: GoogleCloudDiscoveryengineV1betaControlSynonymsAction | undefined;
+  /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
+  name?: string | undefined;
+  /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaControlSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
+  useCases?: GoogleCloudDiscoveryengineV1betaControlUseCasesItemEnumList | undefined;
+  /** Defines a redirect-type control. */
+  redirectAction?: GoogleCloudDiscoveryengineV1betaControlRedirectAction | undefined;
+  /** Defines a boost-type control */
+  boostAction?: GoogleCloudDiscoveryengineV1betaControlBoostAction | undefined;
+  /** Defines a filter-type control Currently not supported by Recommendation */
+  filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
 export interface CreateProjectsLocationsDataStoresConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Output only. The time the conversation finished. */
+  endTime?: string | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
+  name?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the conversation started. */
+  startTime?: string | undefined;
+  /** Conversation messages. */
+  messages?: GoogleCloudDiscoveryengineV1betaConversationMessageList | undefined;
+  /** The state of the Conversation. */
+  state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSchemasRequest {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
   schemaId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** The structured representation of the schema. */
+  structSchema?: DocumentMap | undefined;
+  /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** The JSON representation of the schema. */
+  jsonSchema?: string | undefined;
 }
 export interface CreateProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string | undefined;
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaServingConfig | undefined;
+  /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
+  ignoreControlIds?: StringList | undefined;
+  /** The MediaConfig of the serving configuration. */
+  mediaConfig?: GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
+  name?: string | undefined;
+  /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
+  rankingExpression?: string | undefined;
+  /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
+  boostControlIds?: StringList | undefined;
+  /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  replacementControlIds?: StringList | undefined;
+  /** The GenericConfig of the serving configuration. */
+  genericConfig?: GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig | undefined;
+  /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  modelId?: string | undefined;
+  /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  redirectControlIds?: StringList | undefined;
+  /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaServingConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The specification for answer generation. */
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec | undefined;
+  /** Output only. ServingConfig updated timestamp. */
+  updateTime?: string | undefined;
+  /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  dissociateControlIds?: StringList | undefined;
+  /** Output only. ServingConfig created timestamp. */
+  createTime?: string | undefined;
+  /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  onewaySynonymsControlIds?: StringList | undefined;
+  /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
+  embeddingConfig?: GoogleCloudDiscoveryengineV1betaEmbeddingConfig | undefined;
+  /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  synonymsControlIds?: StringList | undefined;
+  /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
+  filterControlIds?: StringList | undefined;
+  /** Condition promote specifications. Maximum number of specifications is 100. */
+  promoteControlIds?: StringList | undefined;
+  /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  diversityLevel?: string | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
   sessionId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSession | undefined;
+  /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
+  name?: string | undefined;
+  /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
+  pendingAsyncAssistOperationId?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the session started. */
+  startTime?: string | undefined;
+  /** Output only. The time the session finished. */
+  endTime?: string | undefined;
+  /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
+  displayName?: string | undefined;
+  /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
+  isPinned?: boolean | undefined;
+  /** Turns. */
+  turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
+  /** The state of the session. */
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
+  labels?: StringList | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSitemap | undefined;
+  /** Public URI for the sitemap, e.g. `www.example.com/sitemap.xml`. */
+  uri?: string | undefined;
+  /** Output only. The sitemap's creation time. */
+  createTime?: string | undefined;
+  /** Output only. The fully qualified resource name of the sitemap. `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine/sitemaps/*` The `sitemap_id` suffix is system-generated. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaTargetSite | undefined;
+  /** Output only. Site ownership and validity verification status. */
+  siteVerificationInfo?: GoogleCloudDiscoveryengineV1betaSiteVerificationInfo | undefined;
+  /** Immutable. If set to false, a uri_pattern is generated to include all pages whose address contains the provided_uri_pattern. If set to true, an uri_pattern is generated to try to be an exact match of the provided_uri_pattern or just the specific page if the provided_uri_pattern is a specific one. provided_uri_pattern is always normalized to generate the URI pattern to be used by the search engine. */
+  exactMatch?: boolean | undefined;
+  /** Output only. The target site's last updated time. */
+  updateTime?: string | undefined;
+  /** Output only. Indexing status. */
+  indexingStatus?:
+    | GoogleCloudDiscoveryengineV1betaTargetSiteIndexingStatusEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Root domain of the provided_uri_pattern. */
+  rootDomainUri?: string | undefined;
+  /** Required. Input only. The user provided URI pattern from which the `generated_uri_pattern` is generated. */
+  providedUriPattern?: string | undefined;
+  /** Output only. This is system-generated based on the provided_uri_pattern. */
+  generatedUriPattern?: string | undefined;
+  /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
+  name?: string | undefined;
+  /** Output only. Failure reason. */
+  failureReason?: GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason | undefined;
+  /** The type of the target site, e.g., whether the site is to be included or excluded. */
+  type?: GoogleCloudDiscoveryengineV1betaTargetSiteTypeEnum | (string & {}) | undefined;
 }
 /** A schema field to be used for Search As You Type scoring on this request. Overrides any data-store-level Search As You Type field configuration for the duration of the request. */
 export interface GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpecField {
@@ -4125,8 +4671,9 @@ export type GoogleCloudDiscoveryengineV1betaEvaluationStateEnum =
   | "RUNNING"
   | "SUCCEEDED"
   | "FAILED";
-/** An evaluation is a single execution (or run) of an evaluation process. It encapsulates the state of the evaluation and the resulting data. */
-export interface GoogleCloudDiscoveryengineV1betaEvaluation {
+export interface CreateProjectsLocationsEvaluationsRequest {
+  /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Output only. Timestamp the Evaluation was created at. */
   createTime?: string | undefined;
   /** Required. The specification of the evaluation. */
@@ -4144,21 +4691,6 @@ export interface GoogleCloudDiscoveryengineV1betaEvaluation {
   /** Identifier. The full resource name of the Evaluation, in the format of `projects/{project}/locations/{location}/evaluations/{evaluation}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name?: string | undefined;
 }
-export interface CreateProjectsLocationsEvaluationsRequest {
-  /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaEvaluation | undefined;
-}
-/** Identity Mapping Store which contains Identity Mapping Entries. */
-export interface GoogleCloudDiscoveryengineV1betaIdentityMappingStore {
-  /** Output only. CMEK-related information for the Identity Mapping Store. */
-  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
-  /** Immutable. The full resource name of the identity mapping store. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string | undefined;
-  /** Input only. The KMS key to be used to protect this Identity Mapping Store at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the Identity Mapping Store will be protected by the KMS key, as indicated in the cmek_config field. */
-  kmsKeyName?: string | undefined;
-}
 export interface CreateProjectsLocationsIdentityMappingStoresRequest {
   /** Resource name of the CmekConfig to use for protecting this Identity Mapping Store. */
   cmekConfigName?: string | undefined;
@@ -4168,8 +4700,21 @@ export interface CreateProjectsLocationsIdentityMappingStoresRequest {
   disableCmek?: boolean | undefined;
   /** Required. The ID of the Identity Mapping Store to create. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 63 characters. */
   identityMappingStoreId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaIdentityMappingStore | undefined;
+  /** Output only. CMEK-related information for the Identity Mapping Store. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Immutable. The full resource name of the identity mapping store. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** Input only. The KMS key to be used to protect this Identity Mapping Store at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the Identity Mapping Store will be protected by the KMS key, as indicated in the cmek_config field. */
+  kmsKeyName?: string | undefined;
+}
+/** Identity Mapping Store which contains Identity Mapping Entries. */
+export interface GoogleCloudDiscoveryengineV1betaIdentityMappingStore {
+  /** Output only. CMEK-related information for the Identity Mapping Store. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Immutable. The full resource name of the identity mapping store. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** Input only. The KMS key to be used to protect this Identity Mapping Store at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the Identity Mapping Store will be protected by the KMS key, as indicated in the cmek_config field. */
+  kmsKeyName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaLicenseConfigSubscriptionTierEnum =
   | "SUBSCRIPTION_TIER_UNSPECIFIED"
@@ -4201,8 +4746,11 @@ export type GoogleCloudDiscoveryengineV1betaLicenseConfigSubscriptionTermEnum =
   | "SUBSCRIPTION_TERM_ONE_YEAR"
   | "SUBSCRIPTION_TERM_THREE_YEARS"
   | "SUBSCRIPTION_TERM_CUSTOM";
-/** Information about users' licenses. */
-export interface GoogleCloudDiscoveryengineV1betaLicenseConfig {
+export interface CreateProjectsLocationsLicenseConfigsRequest {
+  /** Optional. The ID to use for the LicenseConfig, which will become the final component of the LicenseConfig's resource name. We are using the tier (product edition) name as the license config id such as `search` or `search_and_assistant`. */
+  licenseConfigId?: string | undefined;
+  /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Required. Number of licenses purchased. */
   licenseCount?: string | undefined;
   /** Required. Subscription tier information for the license config. */
@@ -4236,13 +4784,48 @@ export interface GoogleCloudDiscoveryengineV1betaLicenseConfig {
   /** Output only. The date when the subscription is terminated earlier than the expiration date. */
   earlyTerminationDate?: GoogleTypeDate | undefined;
 }
-export interface CreateProjectsLocationsLicenseConfigsRequest {
-  /** Optional. The ID to use for the LicenseConfig, which will become the final component of the LicenseConfig's resource name. We are using the tier (product edition) name as the license config id such as `search` or `search_and_assistant`. */
-  licenseConfigId?: string | undefined;
+/** Information about users' licenses. */
+export interface GoogleCloudDiscoveryengineV1betaLicenseConfig {
+  /** Required. Number of licenses purchased. */
+  licenseCount?: string | undefined;
+  /** Required. Subscription tier information for the license config. */
+  subscriptionTier?: GoogleCloudDiscoveryengineV1betaLicenseConfigSubscriptionTierEnum | undefined;
+  /** Optional. Whether the license config should be auto renewed when it reaches the end date. */
+  autoRenew?: boolean | undefined;
+  /** Output only. Indication of whether the subscription is terminated earlier than the expiration date. */
+  earlyTerminated?: boolean | undefined;
+  /** Required. The start date. */
+  startDate?: GoogleTypeDate | undefined;
+  /** Optional. Whether the license config is for free trial. */
+  freeTrial?: boolean | undefined;
+  /** Output only. The state of the license config. */
+  state?: GoogleCloudDiscoveryengineV1betaLicenseConfigStateEnum | undefined;
+  /** Optional. The planed end date. */
+  endDate?: GoogleTypeDate | undefined;
+  /** Required. Subscription term. */
+  subscriptionTerm?: GoogleCloudDiscoveryengineV1betaLicenseConfigSubscriptionTermEnum | undefined;
+  /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
+  name?: string | undefined;
+  /** Optional. Timestamp of the most recent user-initiated update (seat count change or subscription term change). Unlike `update_time`, this field is only stamped when a customer explicitly updates the license (e.g. via the UI), and is not touched by system-driven writes (subscription pipeline, BALC propagation, etc.). */
+  lastUserUpdateTime?: string | undefined;
+  /** Output only. Whether the license config is for Gemini bundle. */
+  geminiBundle?: boolean | undefined;
+  /** Output only. The date when the subscription is terminated earlier than the expiration date. */
+  earlyTerminationDate?: GoogleTypeDate | undefined;
+}
+export interface CreateProjectsLocationsSampleQuerySetsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaLicenseConfig | undefined;
+  /** Required. The ID to use for the SampleQuerySet, which will become the final component of the SampleQuerySet.name. If the caller does not have permission to create the SampleQuerySet, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerySets with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  sampleQuerySetId?: string | undefined;
+  /** Identifier. The full resource name of the SampleQuerySet, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** Output only. Timestamp the SampleQuerySet was created at. */
+  createTime?: string | undefined;
+  /** Required. The sample query set display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. */
+  displayName?: string | undefined;
+  /** The description of the SampleQuerySet. */
+  description?: string | undefined;
 }
 /** A SampleQuerySet is the parent resource of SampleQuery, and contains the configurations shared by all SampleQuery under it. */
 export interface GoogleCloudDiscoveryengineV1betaSampleQuerySet {
@@ -4254,14 +4837,6 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQuerySet {
   displayName?: string | undefined;
   /** The description of the SampleQuerySet. */
   description?: string | undefined;
-}
-export interface CreateProjectsLocationsSampleQuerySetsRequest {
-  /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. The ID to use for the SampleQuerySet, which will become the final component of the SampleQuerySet.name. If the caller does not have permission to create the SampleQuerySet, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerySets with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  sampleQuerySetId?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSampleQuerySet | undefined;
 }
 /** Defines the parameters of the query's expected outcome. */
 export interface GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntryTarget {
@@ -4281,6 +4856,18 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry {
   /** Required. The query. */
   query?: string | undefined;
 }
+export interface CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest {
+  /** Required. The ID to use for the SampleQuery, which will become the final component of the SampleQuery.name. If the caller does not have permission to create the SampleQuery, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerys with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  sampleQueryId?: string | undefined;
+  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. */
+  parent: string;
+  /** Output only. Timestamp the SampleQuery was created at. */
+  createTime?: string | undefined;
+  /** The query entry. */
+  queryEntry?: GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry | undefined;
+  /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+}
 /** Sample Query captures metadata to be used for evaluation. */
 export interface GoogleCloudDiscoveryengineV1betaSampleQuery {
   /** Output only. Timestamp the SampleQuery was created at. */
@@ -4289,14 +4876,6 @@ export interface GoogleCloudDiscoveryengineV1betaSampleQuery {
   queryEntry?: GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry | undefined;
   /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest {
-  /** Required. The ID to use for the SampleQuery, which will become the final component of the SampleQuery.name. If the caller does not have permission to create the SampleQuery, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerys with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  sampleQueryId?: string | undefined;
-  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSampleQuery | undefined;
 }
 export interface DeleteProjectsLocationsCmekConfigsRequest {
   /** Required. The resource name of the CmekConfig to delete, such as `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
@@ -4425,8 +5004,9 @@ export interface DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchE
   /** Request body */
   body?: GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest | undefined;
 }
-/** Request message for LicenseConfigService.DistributeLicenseConfig method. */
-export interface GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigRequest {
+export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
+  /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
+  billingAccountLicenseConfig: string;
   /** Required. The target GCP project region to distribute the license config to. */
   location?: string | undefined;
   /** Optional. Distribute seats to this license config instead of creating a new one. If not specified, a new license config will be created from the billing account license config. */
@@ -4435,12 +5015,6 @@ export interface GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigRequest 
   licenseCount?: string | undefined;
   /** Required. The target GCP project number to distribute the license config to. */
   projectNumber?: string | undefined;
-}
-export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
-  /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
-  billingAccountLicenseConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.DistributeLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigResponse {
@@ -4486,6 +5060,15 @@ export interface FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSite
   parent: string;
   /** The Sitemap uris. */
   "matcher.urisMatcher.uris"?: StringList | undefined;
+}
+/** A sitemap for the SiteSearchEngine. */
+export interface GoogleCloudDiscoveryengineV1betaSitemap {
+  /** Public URI for the sitemap, e.g. `www.example.com/sitemap.xml`. */
+  uri?: string | undefined;
+  /** Output only. The sitemap's creation time. */
+  createTime?: string | undefined;
+  /** Output only. The fully qualified resource name of the sitemap. `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine/sitemaps/*` The `sitemap_id` suffix is system-generated. */
+  name?: string | undefined;
 }
 /** Contains a Sitemap and its metadata. */
 export interface GoogleCloudDiscoveryengineV1betaFetchSitemapsResponseSitemapMetadata {
@@ -4598,6 +5181,67 @@ export interface GetProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. */
   name: string;
 }
+/** DataStore captures global settings and configs at the DataStore level. */
+export interface GoogleCloudDiscoveryengineV1betaDataStore {
+  /** Configuration for Document understanding and enrichment. */
+  documentProcessingConfig?: GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig | undefined;
+  /** Output only. Timestamp the DataStore was created at. */
+  createTime?: string | undefined;
+  /** Immutable. The fully qualified resource name of the associated IdentityMappingStore. This field can only be set for acl_enabled DataStores with `THIRD_PARTY` or `GSUITE` IdP. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. */
+  identityMappingStore?: string | undefined;
+  /** Optional. Stores serving config at DataStore level. */
+  servingConfigDataStore?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore
+    | undefined;
+  /** Optional. Configuration for configurable billing approach. See */
+  configurableBillingApproach?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreConfigurableBillingApproachEnum
+    | undefined;
+  /** Optional. Configuration for Natural Language Query Understanding. */
+  naturalLanguageQueryUnderstandingConfig?:
+    | GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandingConfig
+    | undefined;
+  /** Required. The data store display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** The solutions that the data store enrolls. Available solutions for each industry_vertical: * `MEDIA`: `SOLUTION_TYPE_RECOMMENDATION` and `SOLUTION_TYPE_SEARCH`. * `SITE_SEARCH`: `SOLUTION_TYPE_SEARCH` is automatically enrolled. Other solutions cannot be enrolled. */
+  solutionTypes?: GoogleCloudDiscoveryengineV1betaDataStoreSolutionTypesItemEnumList | undefined;
+  /** Language info for DataStore. */
+  languageInfo?: GoogleCloudDiscoveryengineV1betaLanguageInfo | undefined;
+  /** Output only. CMEK-related information for the DataStore. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Config to store data store type configuration for workspace data. This must be set when DataStore.content_config is set as DataStore.ContentConfig.GOOGLE_WORKSPACE. */
+  workspaceConfig?: GoogleCloudDiscoveryengineV1betaWorkspaceConfig | undefined;
+  /** Immutable. The content config of the data store. If this field is unset, the server behavior defaults to ContentConfig.NO_CONTENT. */
+  contentConfig?: GoogleCloudDiscoveryengineV1betaDataStoreContentConfigEnum | undefined;
+  /** Optional. If set, this DataStore is an Infobot FAQ DataStore. */
+  isInfobotFaqDataStore?: boolean | undefined;
+  /** Output only. Data size estimation for billing. */
+  billingEstimation?: GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation | undefined;
+  /** Optional. Configuration for `HEALTHCARE_FHIR` vertical. */
+  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig | undefined;
+  /** Optional. Configuration for advanced site search. */
+  advancedSiteSearchConfig?: GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig | undefined;
+  /** Output only. The timestamp when configurable_billing_approach was last updated. */
+  configurableBillingApproachUpdateTime?: string | undefined;
+  /** Optional. Specifies the data protection policy for the data store. */
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1betaDataProtectionPolicy | undefined;
+  /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+  /** Immutable. Whether data in the DataStore has ACL information. If set to `true`, the source data must have ACL. ACL will be ingested when data is ingested by DocumentService.ImportDocuments methods. When ACL is enabled for the DataStore, Document can't be accessed by calling DocumentService.GetDocument or DocumentService.ListDocuments. Currently ACL is only supported in `GENERIC` industry vertical with non-`PUBLIC_WEBSITE` content config. */
+  aclEnabled?: boolean | undefined;
+  /** The start schema to use for this DataStore when provisioning it. If unset, a default vertical specialized schema will be used. This field is only used by CreateDataStore API, and will be ignored if used in other APIs. This field will be omitted from all API responses including CreateDataStore API. To retrieve a schema of a DataStore, use SchemaService.GetSchema API instead. The provided schema will be validated against certain rules on schema. Learn more from [this doc](https://cloud.google.com/generative-ai-app-builder/docs/provide-schema). */
+  startingSchema?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** Immutable. The industry vertical that the data store registers. */
+  industryVertical?: GoogleCloudDiscoveryengineV1betaDataStoreIndustryVerticalEnum | undefined;
+  /** Optional. If set, this DataStore is a federated search DataStore. */
+  federatedSearchConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig
+    | undefined;
+  /** Input only. The KMS key to be used to protect this DataStore at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the DataStore will be protected by the KMS key, as indicated in the cmek_config field. */
+  kmsKeyName?: string | undefined;
+  /** Output only. The id of the default Schema associated to this data store. */
+  defaultSchemaId?: string | undefined;
+}
 export interface GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
   name: string;
@@ -4659,6 +5303,79 @@ export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTarget
 export interface GetProjectsLocationsCollectionsEnginesRequest {
   /** Required. Full resource name of Engine, such as `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   name: string;
+}
+/** Metadata that describes the training and serving parameters of an Engine. */
+export interface GoogleCloudDiscoveryengineV1betaEngine {
+  /** Output only. Timestamp the Recommendation Engine was last updated. */
+  updateTime?: string | undefined;
+  /** Common config spec that specifies the metadata of the engine. */
+  commonConfig?: GoogleCloudDiscoveryengineV1betaEngineCommonConfig | undefined;
+  /** Optional. Immutable. This the application type which this engine resource represents. NOTE: this is a new concept independ of existing industry vertical or solution type. */
+  appType?: GoogleCloudDiscoveryengineV1betaEngineAppTypeEnum | undefined;
+  /** Optional. Maps a connector ID (e.g., "hybrid-github", "shopify") to tenant-specific information required for that connector. The structure of the tenant information string is connector-dependent. */
+  connectorTenantInfo?: StringMap | undefined;
+  /** Optional. The data stores associated with this engine. For SOLUTION_TYPE_SEARCH and SOLUTION_TYPE_RECOMMENDATION type of engines, they can only associate with at most one data store. If solution_type is SOLUTION_TYPE_CHAT, multiple DataStores in the same Collection can be associated here. Note that when used in CreateEngineRequest, one DataStore id must be provided as the system will use it for necessary initializations. */
+  dataStoreIds?: StringList | undefined;
+  /** Optional. Per-feature access policies, keyed by feature toggle name (see `features`). A feature with no entry is available to every user when it is on. Only features that support access policies are accepted. */
+  featurePolicies?: GoogleCloudDiscoveryengineV1betaEngineFeaturePolicyMap | undefined;
+  /** Optional. Whether to disable analytics for searches performed on this engine. */
+  disableAnalytics?: boolean | undefined;
+  /** Output only. The complete, server-resolved state of every known feature toggle. Unlike `features`, which stores only explicit admin overrides, this map always contains an entry for every toggle. Clients should read toggle state from this field. */
+  effectiveFeatures?:
+    | GoogleCloudDiscoveryengineV1betaEngineEffectiveFeaturesValueEnumMap
+    | undefined;
+  /** Optional. Feature config for the engine to opt in or opt out of features. Supported keys: * `*`: all features, if it's present, all other feature state settings are ignored. * `agent-gallery` * `no-code-agent-builder` * `prompt-gallery` * `model-selector` * `notebook-lm` * `people-search` * `people-search-org-chart` * `bi-directional-audio` * `speech-to-text` * `feedback` * `session-sharing` * `personalization-memory` * `personalization-suggested-highlights` * `mobile-app-access` * `disable-agent-sharing` * `disable-image-generation` * `disable-video-generation` * `music-generation` * `speech-generation` * `disable-onedrive-upload` * `disable-talk-to-content` * `disable-google-drive-upload` * `disable-welcome-emails` * `disable-canvas` * `canvas-workspace` * `canvas-app-builder` * `skills` * `skill-sharing` * `skill-sharing-without-admin-approval` * `skill-security-scan` * `disable-projects` * `sobi` * `enable-end-user-sharing-with-groups` * `single-agent-orchestration` * `multi-agent-orchestration` * `cross-product-intelligence` * `workflow-agents` * `in-app-notifications` * `code-extraction` * `remote-vm` * `license-tier-badge` * `canvas-app-sharing` * `agent-marketplace` * `agent-scheduling` * `preview-agents` * `plugins` */
+  features?: GoogleCloudDiscoveryengineV1betaEngineFeaturesValueEnumMap | undefined;
+  /** Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
+  name?: string | undefined;
+  /** Optional. Configurations for the Knowledge Graph. Only applicable if solution_type is SOLUTION_TYPE_SEARCH. */
+  knowledgeGraphConfig?: GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfig | undefined;
+  /** Output only. CMEK-related information for the Engine. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Output only. Whether the project is allowed to set `global_feature_toggle_state` to `DELAYED`. */
+  delayedGlobalFeatureToggleStateAllowed?: boolean | undefined;
+  /** Output only. The Agent registry containing the agents, MCP servers and tools associated with this engine. Derived server-side from the linked Agent Gateway's registry. */
+  associatedAgentRegistry?: string | undefined;
+  /** Required. The solutions of the engine. */
+  solutionType?: GoogleCloudDiscoveryengineV1betaEngineSolutionTypeEnum | undefined;
+  /** Optional. Maps a model name to its specific configuration for this engine. This allows admin users to turn on/off individual models. This only stores models whose states are overridden by the admin. When the state is unspecified, or model_configs is empty for this model, the system will decide if this model should be available or not based on the default configuration. For example, a preview model should be disabled by default if the admin has not chosen to enable it. */
+  modelConfigs?: GoogleCloudDiscoveryengineV1betaEngineModelConfigsValueEnumMap | undefined;
+  /** Optional. The agent gateway setting for the engine. */
+  agentGatewaySetting?: GoogleCloudDiscoveryengineV1betaAgentGatewaySetting | undefined;
+  /** Optional. Configuration for configurable billing approach. */
+  configurableBillingApproach?:
+    | GoogleCloudDiscoveryengineV1betaEngineConfigurableBillingApproachEnum
+    | undefined;
+  /** Optional. Observability config for the engine. */
+  observabilityConfig?: GoogleCloudDiscoveryengineV1betaObservabilityConfig | undefined;
+  /** Output only. Additional information of the Chat Engine. Only applicable if solution_type is SOLUTION_TYPE_CHAT. */
+  chatEngineMetadata?: GoogleCloudDiscoveryengineV1betaEngineChatEngineMetadata | undefined;
+  /** Configurations for the Search Engine. Only applicable if solution_type is SOLUTION_TYPE_SEARCH. */
+  searchEngineConfig?: GoogleCloudDiscoveryengineV1betaEngineSearchEngineConfig | undefined;
+  /** Optional. The visibility of marketplace agents in the agent gallery. */
+  marketplaceAgentVisibility?:
+    | GoogleCloudDiscoveryengineV1betaEngineMarketplaceAgentVisibilityEnum
+    | undefined;
+  /** Optional. The industry vertical that the engine registers. The restriction of the Engine industry vertical is based on DataStore: Vertical on Engine has to match vertical of the DataStore linked to the engine. */
+  industryVertical?: GoogleCloudDiscoveryengineV1betaEngineIndustryVerticalEnum | undefined;
+  /** Optional. The emails of the procurement contacts. */
+  procurementContactEmails?: StringList | undefined;
+  /** Configurations for the Media Engine. Only applicable on the data stores with solution_type SOLUTION_TYPE_RECOMMENDATION and IndustryVertical.MEDIA vertical. */
+  mediaRecommendationEngineConfig?:
+    | GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig
+    | undefined;
+  /** Optional. Non-empty default. Session config for the engine. */
+  sessionConfig?: GoogleCloudDiscoveryengineV1betaSessionConfig | undefined;
+  /** Configurations for the Chat Engine. Only applicable if solution_type is SOLUTION_TYPE_CHAT. */
+  chatEngineConfig?: GoogleCloudDiscoveryengineV1betaEngineChatEngineConfig | undefined;
+  /** Required. The display name of the engine. Should be human readable. UTF-8 encoded string with limit of 1024 characters. */
+  displayName?: string | undefined;
+  /** Optional. Controls the global feature toggle state for the engine. */
+  globalFeatureToggleState?:
+    | GoogleCloudDiscoveryengineV1betaEngineGlobalFeatureToggleStateEnum
+    | undefined;
+  /** Output only. Timestamp the Recommendation Engine was created at. */
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. Resource name of Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
@@ -4752,6 +5469,25 @@ export interface GetProjectsLocationsEvaluationsRequest {
   /** Required. Full resource name of Evaluation, such as `projects/{project}/locations/{location}/evaluations/{evaluation}`. If the caller does not have permission to access the Evaluation, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested Evaluation does not exist, a NOT_FOUND error is returned. */
   name: string;
 }
+/** An evaluation is a single execution (or run) of an evaluation process. It encapsulates the state of the evaluation and the resulting data. */
+export interface GoogleCloudDiscoveryengineV1betaEvaluation {
+  /** Output only. Timestamp the Evaluation was created at. */
+  createTime?: string | undefined;
+  /** Required. The specification of the evaluation. */
+  evaluationSpec?: GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpec | undefined;
+  /** Output only. The error that occurred during evaluation. Only populated when the evaluation's state is FAILED. */
+  error?: GoogleRpcStatus | undefined;
+  /** Output only. The metrics produced by the evaluation, averaged across all SampleQuerys in the SampleQuerySet. Only populated when the evaluation's state is SUCCEEDED. */
+  qualityMetrics?: GoogleCloudDiscoveryengineV1betaQualityMetrics | undefined;
+  /** Output only. Timestamp the Evaluation was completed at. */
+  endTime?: string | undefined;
+  /** Output only. A sample of errors encountered while processing the request. */
+  errorSamples?: GoogleRpcStatusList | undefined;
+  /** Output only. The state of the evaluation. */
+  state?: GoogleCloudDiscoveryengineV1betaEvaluationStateEnum | undefined;
+  /** Identifier. The full resource name of the Evaluation, in the format of `projects/{project}/locations/{location}/evaluations/{evaluation}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsEvaluationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4840,18 +5576,13 @@ export interface GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestIn
   /** A maximum of 10000 entries can be imported at one time */
   identityMappingEntries?: GoogleCloudDiscoveryengineV1betaIdentityMappingEntryList | undefined;
 }
-/** Request message for IdentityMappingStoreService.ImportIdentityMappings */
-export interface GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequest {
+export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
+  /** Required. The name of the Identity Mapping Store to import Identity Mapping Entries to. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
+  identityMappingStore: string;
   /** The inline source to import identity mapping entries from. */
   inlineSource?:
     | GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestInlineSource
     | undefined;
-}
-export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
-  /** Required. The name of the Identity Mapping Store to import Identity Mapping Entries to. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
-  identityMappingStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequest | undefined;
 }
 /** Firestore source import data from. */
 export interface GoogleCloudDiscoveryengineV1betaFirestoreSource {
@@ -5039,8 +5770,9 @@ export interface GoogleCloudDiscoveryengineV1betaAlloyDbSource {
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the AlloyDB export to a specific Cloud Storage directory. Ensure that the AlloyDB service account has the necessary Cloud Storage Admin permissions to access the specified Cloud Storage directory. */
   gcsStagingDir?: string | undefined;
 }
-/** Request message for Import methods. */
-export interface GoogleCloudDiscoveryengineV1betaImportDocumentsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+  /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
+  parent: string;
   /** Optional. Whether to force refresh the unstructured content of the documents. If set to `true`, the content part of the documents will be refreshed regardless of the update status of the referencing content. */
   forceRefreshContent?: boolean | undefined;
   /** Firestore input source. */
@@ -5075,12 +5807,6 @@ export interface GoogleCloudDiscoveryengineV1betaImportDocumentsRequest {
   /** AlloyDB input source. */
   alloyDbSource?: GoogleCloudDiscoveryengineV1betaAlloyDbSource | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
-  /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportDocumentsRequest | undefined;
-}
 /** Autocomplete suggestions that are imported from Customer. */
 export interface GoogleCloudDiscoveryengineV1betaCompletionSuggestion {
   /** BCP-47 language code of this suggestion. */
@@ -5105,8 +5831,9 @@ export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequ
   /** Required. A list of all denylist entries to import. Max of 1000 items. */
   suggestions?: GoogleCloudDiscoveryengineV1betaCompletionSuggestionList | undefined;
 }
-/** Request message for CompletionService.ImportCompletionSuggestions method. */
-export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
+  /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
+  parent: string;
   /** The Inline source for suggestion entries. */
   inlineSource?:
     | GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequestInlineSource
@@ -5117,12 +5844,6 @@ export interface GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequ
   errorConfig?: GoogleCloudDiscoveryengineV1betaImportErrorConfig | undefined;
   /** Cloud Storage location for the input content. */
   gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
-}
-export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
-  /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntryMatchOperatorEnum =
   | "MATCH_OPERATOR_UNSPECIFIED"
@@ -5145,20 +5866,15 @@ export interface GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntries
   /** Required. A list of all denylist entries to import. Max of 1000 items. */
   entries?: GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntryList | undefined;
 }
-/** Request message for CompletionService.ImportSuggestionDenyListEntries method. */
-export interface GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
+  /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
+  parent: string;
   /** The Inline source for the input content for suggestion deny list entries. */
   inlineSource?:
     | GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequestInlineSource
     | undefined;
   /** Cloud Storage location for the input content. Only 1 file can be specified that contains all entries to import. Supported values `gcs_source.schema` for autocomplete suggestion deny list entry imports: * `suggestion_deny_list` (default): One JSON [SuggestionDenyListEntry] per line. */
   gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
-}
-export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
-  /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest | undefined;
 }
 /** Media-specific user event information. */
 export interface GoogleCloudDiscoveryengineV1betaMediaInfo {
@@ -5395,8 +6111,9 @@ export interface GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSo
   /** Required. A list of user events to import. Recommended max of 10k items. */
   userEvents?: GoogleCloudDiscoveryengineV1betaUserEventList | undefined;
 }
-/** Request message for the ImportUserEvents request. */
-export interface GoogleCloudDiscoveryengineV1betaImportUserEventsRequest {
+export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
+  /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
+  parent: string;
   /** BigQuery input source. */
   bigquerySource?: GoogleCloudDiscoveryengineV1betaBigQuerySource | undefined;
   /** Cloud Storage location for the input content. */
@@ -5406,35 +6123,78 @@ export interface GoogleCloudDiscoveryengineV1betaImportUserEventsRequest {
   /** The desired location of errors incurred during the Import. Cannot be set for inline user event imports. */
   errorConfig?: GoogleCloudDiscoveryengineV1betaImportErrorConfig | undefined;
 }
-export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
-  /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequest | undefined;
-}
 export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportDocumentsRequest | undefined;
+  /** Optional. Whether to force refresh the unstructured content of the documents. If set to `true`, the content part of the documents will be refreshed regardless of the update status of the referencing content. */
+  forceRefreshContent?: boolean | undefined;
+  /** Firestore input source. */
+  firestoreSource?: GoogleCloudDiscoveryengineV1betaFirestoreSource | undefined;
+  /** The mode of reconciliation between existing documents and the documents to be imported. Defaults to ReconciliationMode.INCREMENTAL. */
+  reconciliationMode?:
+    | GoogleCloudDiscoveryengineV1betaImportDocumentsRequestReconciliationModeEnum
+    | (string & {})
+    | undefined;
+  /** Cloud Bigtable input source. */
+  bigtableSource?: GoogleCloudDiscoveryengineV1betaBigtableSource | undefined;
+  /** Whether to automatically generate IDs for the documents if absent. If set to `true`, Document.ids are automatically generated based on the hash of the payload, where IDs may not be consistent during multiple imports. In which case ReconciliationMode.FULL is highly recommended to avoid duplicate contents. If unset or set to `false`, Document.ids have to be specified using id_field, otherwise, documents without IDs fail to be imported. Supported data sources: * GcsSource. GcsSource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * BigQuerySource. BigQuerySource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * SpannerSource. * CloudSqlSource. * FirestoreSource. * BigtableSource. */
+  autoGenerateIds?: boolean | undefined;
+  /** Indicates which fields in the provided imported documents to update. If not set, the default is to update all fields. */
+  updateMask?: string | undefined;
+  /** The Inline source for the input content for documents. */
+  inlineSource?: GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource | undefined;
+  /** BigQuery input source. */
+  bigquerySource?: GoogleCloudDiscoveryengineV1betaBigQuerySource | undefined;
+  /** The desired location of errors incurred during the Import. */
+  errorConfig?: GoogleCloudDiscoveryengineV1betaImportErrorConfig | undefined;
+  /** Cloud Storage location for the input content. */
+  gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
+  /** FhirStore input source. */
+  fhirStoreSource?: GoogleCloudDiscoveryengineV1betaFhirStoreSource | undefined;
+  /** The field indicates the ID field or column to be used as unique IDs of the documents. For GcsSource it is the key of the JSON field. For instance, `my_id` for JSON `{"my_id": "some_uuid"}`. For others, it may be the column name of the table where the unique ids are stored. The values of the JSON field or the table column are used as the Document.ids. The JSON field or the table column must be of string type, and the values must be set as valid strings conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with 1-63 characters. Otherwise, documents without valid IDs fail to be imported. Only set this field when auto_generate_ids is unset or set as `false`. Otherwise, an INVALID_ARGUMENT error is thrown. If it is unset, a default value `_id` is used when importing from the allowed data sources. Supported data sources: * GcsSource. GcsSource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * BigQuerySource. BigQuerySource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * SpannerSource. * CloudSqlSource. * BigtableSource. */
+  idField?: string | undefined;
+  /** Cloud SQL input source. */
+  cloudSqlSource?: GoogleCloudDiscoveryengineV1betaCloudSqlSource | undefined;
+  /** Spanner input source. */
+  spannerSource?: GoogleCloudDiscoveryengineV1betaSpannerSource | undefined;
+  /** AlloyDB input source. */
+  alloyDbSource?: GoogleCloudDiscoveryengineV1betaAlloyDbSource | undefined;
 }
 export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest | undefined;
+  /** The Inline source for suggestion entries. */
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequestInlineSource
+    | undefined;
+  /** BigQuery input source. */
+  bigquerySource?: GoogleCloudDiscoveryengineV1betaBigQuerySource | undefined;
+  /** The desired location of errors incurred during the Import. */
+  errorConfig?: GoogleCloudDiscoveryengineV1betaImportErrorConfig | undefined;
+  /** Cloud Storage location for the input content. */
+  gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
 }
 export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest | undefined;
+  /** The Inline source for the input content for suggestion deny list entries. */
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequestInlineSource
+    | undefined;
+  /** Cloud Storage location for the input content. Only 1 file can be specified that contains all entries to import. Supported values `gcs_source.schema` for autocomplete suggestion deny list entry imports: * `suggestion_deny_list` (default): One JSON [SuggestionDenyListEntry] per line. */
+  gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
 }
 export interface ImportProjectsLocationsDataStoresUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequest | undefined;
+  /** BigQuery input source. */
+  bigquerySource?: GoogleCloudDiscoveryengineV1betaBigQuerySource | undefined;
+  /** Cloud Storage location for the input content. */
+  gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
+  /** The Inline source for the input content for UserEvents. */
+  inlineSource?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource | undefined;
+  /** The desired location of errors incurred during the Import. Cannot be set for inline user event imports. */
+  errorConfig?: GoogleCloudDiscoveryengineV1betaImportErrorConfig | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaSampleQueryList =
   Array<GoogleCloudDiscoveryengineV1betaSampleQuery>;
@@ -5443,8 +6203,9 @@ export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequestInlin
   /** Required. A list of SampleQuerys to import. Max of 1000 items. */
   sampleQueries?: GoogleCloudDiscoveryengineV1betaSampleQueryList | undefined;
 }
-/** Request message for SampleQueryService.ImportSampleQueries method. */
-export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest {
+export interface ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest {
+  /** Required. The parent sample query set resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. If the caller does not have permission to list SampleQuerys under this sample query set, regardless of whether or not this sample query set exists, a `PERMISSION_DENIED` error is returned. */
+  parent: string;
   /** BigQuery input source. */
   bigquerySource?: GoogleCloudDiscoveryengineV1betaBigQuerySource | undefined;
   /** The Inline source for sample query entries. */
@@ -5454,17 +6215,17 @@ export interface GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest {
   /** Cloud Storage location for the input content. */
   gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
 }
-export interface ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest {
-  /** Required. The parent sample query set resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. If the caller does not have permission to list SampleQuerys under this sample query set, regardless of whether or not this sample query set exists, a `PERMISSION_DENIED` error is returned. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest | undefined;
-}
 export interface ImportProjectsLocationsUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequest | undefined;
+  /** BigQuery input source. */
+  bigquerySource?: GoogleCloudDiscoveryengineV1betaBigQuerySource | undefined;
+  /** Cloud Storage location for the input content. */
+  gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
+  /** The Inline source for the input content for UserEvents. */
+  inlineSource?: GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource | undefined;
+  /** The desired location of errors incurred during the Import. Cannot be set for inline user event imports. */
+  errorConfig?: GoogleCloudDiscoveryengineV1betaImportErrorConfig | undefined;
 }
 export interface ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to list Identity Mapping Entries in. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
@@ -6170,16 +6931,11 @@ export interface GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse {
     | GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponseEvaluationResultList
     | undefined;
 }
-/** Request message for CrawlRateManagementService.ObtainCrawlRate method. */
-export interface GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest {
-  /** Required. The scope of the crawl rate that the user wants to monitor. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
-  crawlRateScope?: string | undefined;
-}
 export interface ObtainCrawlRateProjectsLocationsRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest | undefined;
+  /** Required. The scope of the crawl rate that the user wants to monitor. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
+  crawlRateScope?: string | undefined;
 }
 /** An object representing a resource that can be used for monitoring, logging, billing, or other purposes. Examples include virtual machine instances, databases, and storage devices such as disks. The `type` field identifies a MonitoredResourceDescriptor object that describes the resource's schema. Information in the `labels` field identifies the actual resource and its attributes according to the schema. For example, a particular Compute Engine VM instance could be represented by the following object, because the MonitoredResourceDescriptor for `"gce_instance"` has labels `"project_id"`, `"instance_id"` and `"zone"`: { "type": "gce_instance", "labels": { "project_id": "my-project", "instance_id": "12345678901234", "zone": "us-central1-a" }} */
 export interface GoogleApiMonitoredResource {
@@ -6375,16 +7131,92 @@ export interface PatchProjectsLocationsCmekConfigsRequest {
   setDefault?: boolean | undefined;
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Optional. Single-regional CMEKs that are required for some VAIS features. */
+  singleRegionKeys?: GoogleCloudDiscoveryengineV1betaSingleRegionKeyList | undefined;
+  /** Output only. The timestamp of the last key rotation. */
+  lastRotationTimestampMicros?: string | undefined;
+  /** Output only. KMS key version resource name which will be used to encrypt resources `/cryptoKeyVersions/{keyVersion}`. */
+  kmsKeyVersion?: string | undefined;
+  /** Output only. The default CmekConfig for the Customer. */
+  isDefault?: boolean | undefined;
+  /** Output only. Whether the NotebookLM Corpus is ready to be used. */
+  notebooklmState?:
+    | GoogleCloudDiscoveryengineV1betaCmekConfigNotebooklmStateEnum
+    | (string & {})
+    | undefined;
+  /** Required. KMS key resource name which will be used to encrypt resources `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{keyId}`. */
+  kmsKey?: string | undefined;
+  /** Output only. The states of the CmekConfig. */
+  state?: GoogleCloudDiscoveryengineV1betaCmekConfigStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresRequest {
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDataStore | undefined;
+  /** Configuration for Document understanding and enrichment. */
+  documentProcessingConfig?: GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig | undefined;
+  /** Output only. Timestamp the DataStore was created at. */
+  createTime?: string | undefined;
+  /** Immutable. The fully qualified resource name of the associated IdentityMappingStore. This field can only be set for acl_enabled DataStores with `THIRD_PARTY` or `GSUITE` IdP. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. */
+  identityMappingStore?: string | undefined;
+  /** Optional. Stores serving config at DataStore level. */
+  servingConfigDataStore?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore
+    | undefined;
+  /** Optional. Configuration for configurable billing approach. See */
+  configurableBillingApproach?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreConfigurableBillingApproachEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Configuration for Natural Language Query Understanding. */
+  naturalLanguageQueryUnderstandingConfig?:
+    | GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandingConfig
+    | undefined;
+  /** Required. The data store display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** The solutions that the data store enrolls. Available solutions for each industry_vertical: * `MEDIA`: `SOLUTION_TYPE_RECOMMENDATION` and `SOLUTION_TYPE_SEARCH`. * `SITE_SEARCH`: `SOLUTION_TYPE_SEARCH` is automatically enrolled. Other solutions cannot be enrolled. */
+  solutionTypes?: GoogleCloudDiscoveryengineV1betaDataStoreSolutionTypesItemEnumList | undefined;
+  /** Language info for DataStore. */
+  languageInfo?: GoogleCloudDiscoveryengineV1betaLanguageInfo | undefined;
+  /** Output only. CMEK-related information for the DataStore. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Config to store data store type configuration for workspace data. This must be set when DataStore.content_config is set as DataStore.ContentConfig.GOOGLE_WORKSPACE. */
+  workspaceConfig?: GoogleCloudDiscoveryengineV1betaWorkspaceConfig | undefined;
+  /** Immutable. The content config of the data store. If this field is unset, the server behavior defaults to ContentConfig.NO_CONTENT. */
+  contentConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreContentConfigEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If set, this DataStore is an Infobot FAQ DataStore. */
+  isInfobotFaqDataStore?: boolean | undefined;
+  /** Output only. Data size estimation for billing. */
+  billingEstimation?: GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation | undefined;
+  /** Optional. Configuration for `HEALTHCARE_FHIR` vertical. */
+  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig | undefined;
+  /** Optional. Configuration for advanced site search. */
+  advancedSiteSearchConfig?: GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig | undefined;
+  /** Output only. The timestamp when configurable_billing_approach was last updated. */
+  configurableBillingApproachUpdateTime?: string | undefined;
+  /** Optional. Specifies the data protection policy for the data store. */
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1betaDataProtectionPolicy | undefined;
+  /** Immutable. Whether data in the DataStore has ACL information. If set to `true`, the source data must have ACL. ACL will be ingested when data is ingested by DocumentService.ImportDocuments methods. When ACL is enabled for the DataStore, Document can't be accessed by calling DocumentService.GetDocument or DocumentService.ListDocuments. Currently ACL is only supported in `GENERIC` industry vertical with non-`PUBLIC_WEBSITE` content config. */
+  aclEnabled?: boolean | undefined;
+  /** The start schema to use for this DataStore when provisioning it. If unset, a default vertical specialized schema will be used. This field is only used by CreateDataStore API, and will be ignored if used in other APIs. This field will be omitted from all API responses including CreateDataStore API. To retrieve a schema of a DataStore, use SchemaService.GetSchema API instead. The provided schema will be validated against certain rules on schema. Learn more from [this doc](https://cloud.google.com/generative-ai-app-builder/docs/provide-schema). */
+  startingSchema?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** Immutable. The industry vertical that the data store registers. */
+  industryVertical?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreIndustryVerticalEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If set, this DataStore is a federated search DataStore. */
+  federatedSearchConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig
+    | undefined;
+  /** Input only. The KMS key to be used to protect this DataStore at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the DataStore will be protected by the KMS key, as indicated in the cmek_config field. */
+  kmsKeyName?: string | undefined;
+  /** Output only. The id of the default Schema associated to this data store. */
+  defaultSchemaId?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** If set to `true` and the Document is not found, a new Document is be created. */
@@ -6393,110 +7225,481 @@ export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsReq
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDocument | undefined;
+  /** Output only. The time when the document was last indexed. If this field is populated, it means the document has been indexed. While documents typically become searchable within seconds of indexing, it can sometimes take up to a few hours. If this field is not populated, it means the document has never been indexed. */
+  indexTime?: string | undefined;
+  /** Output only. The index status of the document. * If document is indexed successfully, the index_time field is populated. * Otherwise, if document is not indexed due to errors, the error_samples field is populated. * Otherwise, if document's index is in progress, the pending_message field is populated. */
+  indexStatus?: GoogleCloudDiscoveryengineV1betaDocumentIndexStatus | undefined;
+  /** The JSON string representation of the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  jsonData?: string | undefined;
+  /** Access control information for the document. */
+  aclInfo?: GoogleCloudDiscoveryengineV1betaDocumentAclInfo | undefined;
+  /** Immutable. The identifier of the document. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. */
+  id?: string | undefined;
+  /** The identifier of the parent document. Currently supports at most two level document hierarchy. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
+  parentDocumentId?: string | undefined;
+  /** Output only. This field is OUTPUT_ONLY. It contains derived data that are not in the original input document. */
+  derivedStructData?: DocumentMap | undefined;
+  /** The structured JSON data for the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  structData?: DocumentMap | undefined;
+  /** The identifier of the schema located in the same data store. */
+  schemaId?: string | undefined;
+  /** The unstructured data linked to this document. Content can only be set and must be set if this document is under a `CONTENT_REQUIRED` data store. */
+  content?: GoogleCloudDiscoveryengineV1betaDocumentContent | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaControl | undefined;
+  /** Promote certain links based on predefined trigger queries. */
+  promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
+  /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
+  conditions?: GoogleCloudDiscoveryengineV1betaConditionList | undefined;
+  /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
+  associatedServingConfigIds?: StringList | undefined;
+  /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
+  displayName?: string | undefined;
+  /** Treats a group of terms as synonyms of one another. */
+  synonymsAction?: GoogleCloudDiscoveryengineV1betaControlSynonymsAction | undefined;
+  /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaControlSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
+  useCases?: GoogleCloudDiscoveryengineV1betaControlUseCasesItemEnumList | undefined;
+  /** Defines a redirect-type control. */
+  redirectAction?: GoogleCloudDiscoveryengineV1betaControlRedirectAction | undefined;
+  /** Defines a boost-type control */
+  boostAction?: GoogleCloudDiscoveryengineV1betaControlBoostAction | undefined;
+  /** Defines a filter-type control Currently not supported by Recommendation */
+  filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Output only. The time the conversation finished. */
+  endTime?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the conversation started. */
+  startTime?: string | undefined;
+  /** Conversation messages. */
+  messages?: GoogleCloudDiscoveryengineV1betaConversationMessageList | undefined;
+  /** The state of the Conversation. */
+  state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** The structured representation of the schema. */
+  structSchema?: DocumentMap | undefined;
+  /** The JSON representation of the schema. */
+  jsonSchema?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaServingConfig | undefined;
+  /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
+  ignoreControlIds?: StringList | undefined;
+  /** The MediaConfig of the serving configuration. */
+  mediaConfig?: GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig | undefined;
+  /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
+  rankingExpression?: string | undefined;
+  /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
+  boostControlIds?: StringList | undefined;
+  /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  replacementControlIds?: StringList | undefined;
+  /** The GenericConfig of the serving configuration. */
+  genericConfig?: GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig | undefined;
+  /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  modelId?: string | undefined;
+  /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  redirectControlIds?: StringList | undefined;
+  /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaServingConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The specification for answer generation. */
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec | undefined;
+  /** Output only. ServingConfig updated timestamp. */
+  updateTime?: string | undefined;
+  /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  dissociateControlIds?: StringList | undefined;
+  /** Output only. ServingConfig created timestamp. */
+  createTime?: string | undefined;
+  /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  onewaySynonymsControlIds?: StringList | undefined;
+  /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
+  embeddingConfig?: GoogleCloudDiscoveryengineV1betaEmbeddingConfig | undefined;
+  /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  synonymsControlIds?: StringList | undefined;
+  /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
+  filterControlIds?: StringList | undefined;
+  /** Condition promote specifications. Maximum number of specifications is 100. */
+  promoteControlIds?: StringList | undefined;
+  /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  diversityLevel?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSession | undefined;
+  /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
+  pendingAsyncAssistOperationId?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the session started. */
+  startTime?: string | undefined;
+  /** Output only. The time the session finished. */
+  endTime?: string | undefined;
+  /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
+  displayName?: string | undefined;
+  /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
+  isPinned?: boolean | undefined;
+  /** Turns. */
+  turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
+  /** The state of the session. */
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
+  labels?: StringList | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaTargetSite | undefined;
+  /** Output only. Site ownership and validity verification status. */
+  siteVerificationInfo?: GoogleCloudDiscoveryengineV1betaSiteVerificationInfo | undefined;
+  /** Immutable. If set to false, a uri_pattern is generated to include all pages whose address contains the provided_uri_pattern. If set to true, an uri_pattern is generated to try to be an exact match of the provided_uri_pattern or just the specific page if the provided_uri_pattern is a specific one. provided_uri_pattern is always normalized to generate the URI pattern to be used by the search engine. */
+  exactMatch?: boolean | undefined;
+  /** Output only. The target site's last updated time. */
+  updateTime?: string | undefined;
+  /** Output only. Indexing status. */
+  indexingStatus?:
+    | GoogleCloudDiscoveryengineV1betaTargetSiteIndexingStatusEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Root domain of the provided_uri_pattern. */
+  rootDomainUri?: string | undefined;
+  /** Required. Input only. The user provided URI pattern from which the `generated_uri_pattern` is generated. */
+  providedUriPattern?: string | undefined;
+  /** Output only. This is system-generated based on the provided_uri_pattern. */
+  generatedUriPattern?: string | undefined;
+  /** Output only. Failure reason. */
+  failureReason?: GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason | undefined;
+  /** The type of the target site, e.g., whether the site is to be included or excluded. */
+  type?: GoogleCloudDiscoveryengineV1betaTargetSiteTypeEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesRequest {
   /** Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
   name: string;
   /** Indicates which fields in the provided Engine to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaEngine | undefined;
+  /** Output only. Timestamp the Recommendation Engine was last updated. */
+  updateTime?: string | undefined;
+  /** Common config spec that specifies the metadata of the engine. */
+  commonConfig?: GoogleCloudDiscoveryengineV1betaEngineCommonConfig | undefined;
+  /** Optional. Immutable. This the application type which this engine resource represents. NOTE: this is a new concept independ of existing industry vertical or solution type. */
+  appType?: GoogleCloudDiscoveryengineV1betaEngineAppTypeEnum | (string & {}) | undefined;
+  /** Optional. Maps a connector ID (e.g., "hybrid-github", "shopify") to tenant-specific information required for that connector. The structure of the tenant information string is connector-dependent. */
+  connectorTenantInfo?: StringMap | undefined;
+  /** Optional. The data stores associated with this engine. For SOLUTION_TYPE_SEARCH and SOLUTION_TYPE_RECOMMENDATION type of engines, they can only associate with at most one data store. If solution_type is SOLUTION_TYPE_CHAT, multiple DataStores in the same Collection can be associated here. Note that when used in CreateEngineRequest, one DataStore id must be provided as the system will use it for necessary initializations. */
+  dataStoreIds?: StringList | undefined;
+  /** Optional. Per-feature access policies, keyed by feature toggle name (see `features`). A feature with no entry is available to every user when it is on. Only features that support access policies are accepted. */
+  featurePolicies?: GoogleCloudDiscoveryengineV1betaEngineFeaturePolicyMap | undefined;
+  /** Optional. Whether to disable analytics for searches performed on this engine. */
+  disableAnalytics?: boolean | undefined;
+  /** Output only. The complete, server-resolved state of every known feature toggle. Unlike `features`, which stores only explicit admin overrides, this map always contains an entry for every toggle. Clients should read toggle state from this field. */
+  effectiveFeatures?:
+    | GoogleCloudDiscoveryengineV1betaEngineEffectiveFeaturesValueEnumMap
+    | undefined;
+  /** Optional. Feature config for the engine to opt in or opt out of features. Supported keys: * `*`: all features, if it's present, all other feature state settings are ignored. * `agent-gallery` * `no-code-agent-builder` * `prompt-gallery` * `model-selector` * `notebook-lm` * `people-search` * `people-search-org-chart` * `bi-directional-audio` * `speech-to-text` * `feedback` * `session-sharing` * `personalization-memory` * `personalization-suggested-highlights` * `mobile-app-access` * `disable-agent-sharing` * `disable-image-generation` * `disable-video-generation` * `music-generation` * `speech-generation` * `disable-onedrive-upload` * `disable-talk-to-content` * `disable-google-drive-upload` * `disable-welcome-emails` * `disable-canvas` * `canvas-workspace` * `canvas-app-builder` * `skills` * `skill-sharing` * `skill-sharing-without-admin-approval` * `skill-security-scan` * `disable-projects` * `sobi` * `enable-end-user-sharing-with-groups` * `single-agent-orchestration` * `multi-agent-orchestration` * `cross-product-intelligence` * `workflow-agents` * `in-app-notifications` * `code-extraction` * `remote-vm` * `license-tier-badge` * `canvas-app-sharing` * `agent-marketplace` * `agent-scheduling` * `preview-agents` * `plugins` */
+  features?: GoogleCloudDiscoveryengineV1betaEngineFeaturesValueEnumMap | undefined;
+  /** Optional. Configurations for the Knowledge Graph. Only applicable if solution_type is SOLUTION_TYPE_SEARCH. */
+  knowledgeGraphConfig?: GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfig | undefined;
+  /** Output only. CMEK-related information for the Engine. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Output only. Whether the project is allowed to set `global_feature_toggle_state` to `DELAYED`. */
+  delayedGlobalFeatureToggleStateAllowed?: boolean | undefined;
+  /** Output only. The Agent registry containing the agents, MCP servers and tools associated with this engine. Derived server-side from the linked Agent Gateway's registry. */
+  associatedAgentRegistry?: string | undefined;
+  /** Required. The solutions of the engine. */
+  solutionType?: GoogleCloudDiscoveryengineV1betaEngineSolutionTypeEnum | (string & {}) | undefined;
+  /** Optional. Maps a model name to its specific configuration for this engine. This allows admin users to turn on/off individual models. This only stores models whose states are overridden by the admin. When the state is unspecified, or model_configs is empty for this model, the system will decide if this model should be available or not based on the default configuration. For example, a preview model should be disabled by default if the admin has not chosen to enable it. */
+  modelConfigs?: GoogleCloudDiscoveryengineV1betaEngineModelConfigsValueEnumMap | undefined;
+  /** Optional. The agent gateway setting for the engine. */
+  agentGatewaySetting?: GoogleCloudDiscoveryengineV1betaAgentGatewaySetting | undefined;
+  /** Optional. Configuration for configurable billing approach. */
+  configurableBillingApproach?:
+    | GoogleCloudDiscoveryengineV1betaEngineConfigurableBillingApproachEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Observability config for the engine. */
+  observabilityConfig?: GoogleCloudDiscoveryengineV1betaObservabilityConfig | undefined;
+  /** Output only. Additional information of the Chat Engine. Only applicable if solution_type is SOLUTION_TYPE_CHAT. */
+  chatEngineMetadata?: GoogleCloudDiscoveryengineV1betaEngineChatEngineMetadata | undefined;
+  /** Configurations for the Search Engine. Only applicable if solution_type is SOLUTION_TYPE_SEARCH. */
+  searchEngineConfig?: GoogleCloudDiscoveryengineV1betaEngineSearchEngineConfig | undefined;
+  /** Optional. The visibility of marketplace agents in the agent gallery. */
+  marketplaceAgentVisibility?:
+    | GoogleCloudDiscoveryengineV1betaEngineMarketplaceAgentVisibilityEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The industry vertical that the engine registers. The restriction of the Engine industry vertical is based on DataStore: Vertical on Engine has to match vertical of the DataStore linked to the engine. */
+  industryVertical?:
+    | GoogleCloudDiscoveryengineV1betaEngineIndustryVerticalEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The emails of the procurement contacts. */
+  procurementContactEmails?: StringList | undefined;
+  /** Configurations for the Media Engine. Only applicable on the data stores with solution_type SOLUTION_TYPE_RECOMMENDATION and IndustryVertical.MEDIA vertical. */
+  mediaRecommendationEngineConfig?:
+    | GoogleCloudDiscoveryengineV1betaEngineMediaRecommendationEngineConfig
+    | undefined;
+  /** Optional. Non-empty default. Session config for the engine. */
+  sessionConfig?: GoogleCloudDiscoveryengineV1betaSessionConfig | undefined;
+  /** Configurations for the Chat Engine. Only applicable if solution_type is SOLUTION_TYPE_CHAT. */
+  chatEngineConfig?: GoogleCloudDiscoveryengineV1betaEngineChatEngineConfig | undefined;
+  /** Required. The display name of the engine. Should be human readable. UTF-8 encoded string with limit of 1024 characters. */
+  displayName?: string | undefined;
+  /** Optional. Controls the global feature toggle state for the engine. */
+  globalFeatureToggleState?:
+    | GoogleCloudDiscoveryengineV1betaEngineGlobalFeatureToggleStateEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Timestamp the Recommendation Engine was created at. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** The list of fields to update. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAssistant | undefined;
+  /** Output only. Represents the time when this Assistant was most recently updated. */
+  updateTime?: string | undefined;
+  /** Optional. Customer policy for the assistant. */
+  customerPolicy?: GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicy | undefined;
+  /** Required. The assistant display name. It must be a UTF-8 encoded string with a length limit of 128 characters. */
+  displayName?: string | undefined;
+  /** Optional. The enabled tools on this assistant. The keys are data connector resource names, in the format `projects/{project}/locations/{location}/collections/{collection}/dataConnector`. The values are the tools that the admin enabled on that connector. Admins can selectively enable tools on any of the connectors that they created in the project. For example: ``` { "projects/my-project/locations/global/collections/jira1/dataConnector": { "toolInfo": [ { "toolName": "create_jira_issue", "toolDisplayName": "Create Jira issue" }, { "toolName": "update_jira_issue", "toolDisplayName": "Update Jira issue" } ] } } ``` */
+  enabledTools?: GoogleCloudDiscoveryengineV1betaAssistantToolListMap | undefined;
+  /** Optional. This field controls the default web grounding toggle for end users if `web_grounding_type` is set to `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`. By default, this field is set to false. If `web_grounding_type` is `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`, end users will have web grounding enabled by default on UI. If true, grounding toggle will be disabled by default on UI. End users can still enable web grounding in the UI if web grounding is enabled. */
+  defaultWebGroundingToggleOff?: boolean | undefined;
+  /** Optional. Configuration for the generation of the assistant response. */
+  generationConfig?: GoogleCloudDiscoveryengineV1betaAssistantGenerationConfig | undefined;
+  /** Optional. The type of web grounding to use. */
+  webGroundingType?:
+    | GoogleCloudDiscoveryengineV1betaAssistantWebGroundingTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Description for additional information. Expected to be shown on the configuration UI, not to the users of the assistant. */
+  description?: string | undefined;
+  /** Output only. Represents the time when this Assistant was created. */
+  createTime?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesControlsRequest {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaControl | undefined;
+  /** Promote certain links based on predefined trigger queries. */
+  promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
+  /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
+  conditions?: GoogleCloudDiscoveryengineV1betaConditionList | undefined;
+  /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
+  associatedServingConfigIds?: StringList | undefined;
+  /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
+  displayName?: string | undefined;
+  /** Treats a group of terms as synonyms of one another. */
+  synonymsAction?: GoogleCloudDiscoveryengineV1betaControlSynonymsAction | undefined;
+  /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaControlSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
+  useCases?: GoogleCloudDiscoveryengineV1betaControlUseCasesItemEnumList | undefined;
+  /** Defines a redirect-type control. */
+  redirectAction?: GoogleCloudDiscoveryengineV1betaControlRedirectAction | undefined;
+  /** Defines a boost-type control */
+  boostAction?: GoogleCloudDiscoveryengineV1betaControlBoostAction | undefined;
+  /** Defines a filter-type control Currently not supported by Recommendation */
+  filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Output only. The time the conversation finished. */
+  endTime?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the conversation started. */
+  startTime?: string | undefined;
+  /** Conversation messages. */
+  messages?: GoogleCloudDiscoveryengineV1betaConversationMessageList | undefined;
+  /** The state of the Conversation. */
+  state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaServingConfig | undefined;
+  /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
+  ignoreControlIds?: StringList | undefined;
+  /** The MediaConfig of the serving configuration. */
+  mediaConfig?: GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig | undefined;
+  /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
+  rankingExpression?: string | undefined;
+  /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
+  boostControlIds?: StringList | undefined;
+  /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  replacementControlIds?: StringList | undefined;
+  /** The GenericConfig of the serving configuration. */
+  genericConfig?: GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig | undefined;
+  /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  modelId?: string | undefined;
+  /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  redirectControlIds?: StringList | undefined;
+  /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaServingConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The specification for answer generation. */
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec | undefined;
+  /** Output only. ServingConfig updated timestamp. */
+  updateTime?: string | undefined;
+  /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  dissociateControlIds?: StringList | undefined;
+  /** Output only. ServingConfig created timestamp. */
+  createTime?: string | undefined;
+  /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  onewaySynonymsControlIds?: StringList | undefined;
+  /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
+  embeddingConfig?: GoogleCloudDiscoveryengineV1betaEmbeddingConfig | undefined;
+  /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  synonymsControlIds?: StringList | undefined;
+  /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
+  filterControlIds?: StringList | undefined;
+  /** Condition promote specifications. Maximum number of specifications is 100. */
+  promoteControlIds?: StringList | undefined;
+  /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  diversityLevel?: string | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSession | undefined;
+  /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
+  pendingAsyncAssistOperationId?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the session started. */
+  startTime?: string | undefined;
+  /** Output only. The time the session finished. */
+  endTime?: string | undefined;
+  /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
+  displayName?: string | undefined;
+  /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
+  isPinned?: boolean | undefined;
+  /** Turns. */
+  turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
+  /** The state of the session. */
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
+  labels?: StringList | undefined;
 }
 export interface PatchProjectsLocationsDataStoresRequest {
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDataStore | undefined;
+  /** Configuration for Document understanding and enrichment. */
+  documentProcessingConfig?: GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig | undefined;
+  /** Output only. Timestamp the DataStore was created at. */
+  createTime?: string | undefined;
+  /** Immutable. The fully qualified resource name of the associated IdentityMappingStore. This field can only be set for acl_enabled DataStores with `THIRD_PARTY` or `GSUITE` IdP. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. */
+  identityMappingStore?: string | undefined;
+  /** Optional. Stores serving config at DataStore level. */
+  servingConfigDataStore?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreServingConfigDataStore
+    | undefined;
+  /** Optional. Configuration for configurable billing approach. See */
+  configurableBillingApproach?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreConfigurableBillingApproachEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Configuration for Natural Language Query Understanding. */
+  naturalLanguageQueryUnderstandingConfig?:
+    | GoogleCloudDiscoveryengineV1betaNaturalLanguageQueryUnderstandingConfig
+    | undefined;
+  /** Required. The data store display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** The solutions that the data store enrolls. Available solutions for each industry_vertical: * `MEDIA`: `SOLUTION_TYPE_RECOMMENDATION` and `SOLUTION_TYPE_SEARCH`. * `SITE_SEARCH`: `SOLUTION_TYPE_SEARCH` is automatically enrolled. Other solutions cannot be enrolled. */
+  solutionTypes?: GoogleCloudDiscoveryengineV1betaDataStoreSolutionTypesItemEnumList | undefined;
+  /** Language info for DataStore. */
+  languageInfo?: GoogleCloudDiscoveryengineV1betaLanguageInfo | undefined;
+  /** Output only. CMEK-related information for the DataStore. */
+  cmekConfig?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Config to store data store type configuration for workspace data. This must be set when DataStore.content_config is set as DataStore.ContentConfig.GOOGLE_WORKSPACE. */
+  workspaceConfig?: GoogleCloudDiscoveryengineV1betaWorkspaceConfig | undefined;
+  /** Immutable. The content config of the data store. If this field is unset, the server behavior defaults to ContentConfig.NO_CONTENT. */
+  contentConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreContentConfigEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If set, this DataStore is an Infobot FAQ DataStore. */
+  isInfobotFaqDataStore?: boolean | undefined;
+  /** Output only. Data size estimation for billing. */
+  billingEstimation?: GoogleCloudDiscoveryengineV1betaDataStoreBillingEstimation | undefined;
+  /** Optional. Configuration for `HEALTHCARE_FHIR` vertical. */
+  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1betaHealthcareFhirConfig | undefined;
+  /** Optional. Configuration for advanced site search. */
+  advancedSiteSearchConfig?: GoogleCloudDiscoveryengineV1betaAdvancedSiteSearchConfig | undefined;
+  /** Output only. The timestamp when configurable_billing_approach was last updated. */
+  configurableBillingApproachUpdateTime?: string | undefined;
+  /** Optional. Specifies the data protection policy for the data store. */
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1betaDataProtectionPolicy | undefined;
+  /** Immutable. Whether data in the DataStore has ACL information. If set to `true`, the source data must have ACL. ACL will be ingested when data is ingested by DocumentService.ImportDocuments methods. When ACL is enabled for the DataStore, Document can't be accessed by calling DocumentService.GetDocument or DocumentService.ListDocuments. Currently ACL is only supported in `GENERIC` industry vertical with non-`PUBLIC_WEBSITE` content config. */
+  aclEnabled?: boolean | undefined;
+  /** The start schema to use for this DataStore when provisioning it. If unset, a default vertical specialized schema will be used. This field is only used by CreateDataStore API, and will be ignored if used in other APIs. This field will be omitted from all API responses including CreateDataStore API. To retrieve a schema of a DataStore, use SchemaService.GetSchema API instead. The provided schema will be validated against certain rules on schema. Learn more from [this doc](https://cloud.google.com/generative-ai-app-builder/docs/provide-schema). */
+  startingSchema?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** Immutable. The industry vertical that the data store registers. */
+  industryVertical?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreIndustryVerticalEnum
+    | (string & {})
+    | undefined;
+  /** Optional. If set, this DataStore is a federated search DataStore. */
+  federatedSearchConfig?:
+    | GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig
+    | undefined;
+  /** Input only. The KMS key to be used to protect this DataStore at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the DataStore will be protected by the KMS key, as indicated in the cmek_config field. */
+  kmsKeyName?: string | undefined;
+  /** Output only. The id of the default Schema associated to this data store. */
+  defaultSchemaId?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
@@ -6505,86 +7708,255 @@ export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
   updateMask?: string | undefined;
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaDocument | undefined;
+  /** Output only. The time when the document was last indexed. If this field is populated, it means the document has been indexed. While documents typically become searchable within seconds of indexing, it can sometimes take up to a few hours. If this field is not populated, it means the document has never been indexed. */
+  indexTime?: string | undefined;
+  /** Output only. The index status of the document. * If document is indexed successfully, the index_time field is populated. * Otherwise, if document is not indexed due to errors, the error_samples field is populated. * Otherwise, if document's index is in progress, the pending_message field is populated. */
+  indexStatus?: GoogleCloudDiscoveryengineV1betaDocumentIndexStatus | undefined;
+  /** The JSON string representation of the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  jsonData?: string | undefined;
+  /** Access control information for the document. */
+  aclInfo?: GoogleCloudDiscoveryengineV1betaDocumentAclInfo | undefined;
+  /** Immutable. The identifier of the document. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. */
+  id?: string | undefined;
+  /** The identifier of the parent document. Currently supports at most two level document hierarchy. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
+  parentDocumentId?: string | undefined;
+  /** Output only. This field is OUTPUT_ONLY. It contains derived data that are not in the original input document. */
+  derivedStructData?: DocumentMap | undefined;
+  /** The structured JSON data for the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
+  structData?: DocumentMap | undefined;
+  /** The identifier of the schema located in the same data store. */
+  schemaId?: string | undefined;
+  /** The unstructured data linked to this document. Content can only be set and must be set if this document is under a `CONTENT_REQUIRED` data store. */
+  content?: GoogleCloudDiscoveryengineV1betaDocumentContent | undefined;
 }
 export interface PatchProjectsLocationsDataStoresControlsRequest {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaControl | undefined;
+  /** Promote certain links based on predefined trigger queries. */
+  promoteAction?: GoogleCloudDiscoveryengineV1betaControlPromoteAction | undefined;
+  /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
+  conditions?: GoogleCloudDiscoveryengineV1betaConditionList | undefined;
+  /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
+  associatedServingConfigIds?: StringList | undefined;
+  /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
+  displayName?: string | undefined;
+  /** Treats a group of terms as synonyms of one another. */
+  synonymsAction?: GoogleCloudDiscoveryengineV1betaControlSynonymsAction | undefined;
+  /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaControlSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
+  useCases?: GoogleCloudDiscoveryengineV1betaControlUseCasesItemEnumList | undefined;
+  /** Defines a redirect-type control. */
+  redirectAction?: GoogleCloudDiscoveryengineV1betaControlRedirectAction | undefined;
+  /** Defines a boost-type control */
+  boostAction?: GoogleCloudDiscoveryengineV1betaControlBoostAction | undefined;
+  /** Defines a filter-type control Currently not supported by Recommendation */
+  filterAction?: GoogleCloudDiscoveryengineV1betaControlFilterAction | undefined;
 }
 export interface PatchProjectsLocationsDataStoresConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaConversation | undefined;
+  /** Output only. The time the conversation finished. */
+  endTime?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the conversation started. */
+  startTime?: string | undefined;
+  /** Conversation messages. */
+  messages?: GoogleCloudDiscoveryengineV1betaConversationMessageList | undefined;
+  /** The state of the Conversation. */
+  state?: GoogleCloudDiscoveryengineV1betaConversationStateEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSchemasRequest {
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSchema | undefined;
+  /** The structured representation of the schema. */
+  structSchema?: DocumentMap | undefined;
+  /** The JSON representation of the schema. */
+  jsonSchema?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresServingConfigsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaServingConfig | undefined;
+  /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
+  ignoreControlIds?: StringList | undefined;
+  /** The MediaConfig of the serving configuration. */
+  mediaConfig?: GoogleCloudDiscoveryengineV1betaServingConfigMediaConfig | undefined;
+  /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
+  rankingExpression?: string | undefined;
+  /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
+  boostControlIds?: StringList | undefined;
+  /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  replacementControlIds?: StringList | undefined;
+  /** The GenericConfig of the serving configuration. */
+  genericConfig?: GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig | undefined;
+  /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  modelId?: string | undefined;
+  /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  redirectControlIds?: StringList | undefined;
+  /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1betaServingConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The specification for answer generation. */
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec | undefined;
+  /** Output only. ServingConfig updated timestamp. */
+  updateTime?: string | undefined;
+  /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  dissociateControlIds?: StringList | undefined;
+  /** Output only. ServingConfig created timestamp. */
+  createTime?: string | undefined;
+  /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  onewaySynonymsControlIds?: StringList | undefined;
+  /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
+  displayName?: string | undefined;
+  /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
+  embeddingConfig?: GoogleCloudDiscoveryengineV1betaEmbeddingConfig | undefined;
+  /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
+  synonymsControlIds?: StringList | undefined;
+  /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
+  filterControlIds?: StringList | undefined;
+  /** Condition promote specifications. Maximum number of specifications is 100. */
+  promoteControlIds?: StringList | undefined;
+  /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
+  diversityLevel?: string | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSessionsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSession | undefined;
+  /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
+  pendingAsyncAssistOperationId?: string | undefined;
+  /** A unique identifier for tracking users. */
+  userPseudoId?: string | undefined;
+  /** Output only. The time the session started. */
+  startTime?: string | undefined;
+  /** Output only. The time the session finished. */
+  endTime?: string | undefined;
+  /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
+  displayName?: string | undefined;
+  /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
+  isPinned?: boolean | undefined;
+  /** Turns. */
+  turns?: GoogleCloudDiscoveryengineV1betaSessionTurnList | undefined;
+  /** The state of the session. */
+  state?: GoogleCloudDiscoveryengineV1betaSessionStateEnum | (string & {}) | undefined;
+  /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
+  labels?: StringList | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaTargetSite | undefined;
+  /** Output only. Site ownership and validity verification status. */
+  siteVerificationInfo?: GoogleCloudDiscoveryengineV1betaSiteVerificationInfo | undefined;
+  /** Immutable. If set to false, a uri_pattern is generated to include all pages whose address contains the provided_uri_pattern. If set to true, an uri_pattern is generated to try to be an exact match of the provided_uri_pattern or just the specific page if the provided_uri_pattern is a specific one. provided_uri_pattern is always normalized to generate the URI pattern to be used by the search engine. */
+  exactMatch?: boolean | undefined;
+  /** Output only. The target site's last updated time. */
+  updateTime?: string | undefined;
+  /** Output only. Indexing status. */
+  indexingStatus?:
+    | GoogleCloudDiscoveryengineV1betaTargetSiteIndexingStatusEnum
+    | (string & {})
+    | undefined;
+  /** Output only. Root domain of the provided_uri_pattern. */
+  rootDomainUri?: string | undefined;
+  /** Required. Input only. The user provided URI pattern from which the `generated_uri_pattern` is generated. */
+  providedUriPattern?: string | undefined;
+  /** Output only. This is system-generated based on the provided_uri_pattern. */
+  generatedUriPattern?: string | undefined;
+  /** Output only. Failure reason. */
+  failureReason?: GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason | undefined;
+  /** The type of the target site, e.g., whether the site is to be included or excluded. */
+  type?: GoogleCloudDiscoveryengineV1betaTargetSiteTypeEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsLicenseConfigsRequest {
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
   name: string;
   /** Optional. Indicates which fields in the provided LicenseConfig to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaLicenseConfig | undefined;
+  /** Required. Number of licenses purchased. */
+  licenseCount?: string | undefined;
+  /** Required. Subscription tier information for the license config. */
+  subscriptionTier?:
+    | GoogleCloudDiscoveryengineV1betaLicenseConfigSubscriptionTierEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Whether the license config should be auto renewed when it reaches the end date. */
+  autoRenew?: boolean | undefined;
+  /** Output only. Indication of whether the subscription is terminated earlier than the expiration date. */
+  earlyTerminated?: boolean | undefined;
+  /** Required. The start date. */
+  startDate?: GoogleTypeDate | undefined;
+  /** Optional. Whether the license config is for free trial. */
+  freeTrial?: boolean | undefined;
+  /** Output only. The state of the license config. */
+  state?: GoogleCloudDiscoveryengineV1betaLicenseConfigStateEnum | (string & {}) | undefined;
+  /** Optional. The planed end date. */
+  endDate?: GoogleTypeDate | undefined;
+  /** Required. Subscription term. */
+  subscriptionTerm?:
+    | GoogleCloudDiscoveryengineV1betaLicenseConfigSubscriptionTermEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Timestamp of the most recent user-initiated update (seat count change or subscription term change). Unlike `update_time`, this field is only stamped when a customer explicitly updates the license (e.g. via the UI), and is not touched by system-driven writes (subscription pipeline, BALC propagation, etc.). */
+  lastUserUpdateTime?: string | undefined;
+  /** Output only. Whether the license config is for Gemini bundle. */
+  geminiBundle?: boolean | undefined;
+  /** Output only. The date when the subscription is terminated earlier than the expiration date. */
+  earlyTerminationDate?: GoogleTypeDate | undefined;
 }
 export interface PatchProjectsLocationsSampleQuerySetsRequest {
   /** Identifier. The full resource name of the SampleQuerySet, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided imported 'sample query set' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSampleQuerySet | undefined;
+  /** Output only. Timestamp the SampleQuerySet was created at. */
+  createTime?: string | undefined;
+  /** Required. The sample query set display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. */
+  displayName?: string | undefined;
+  /** The description of the SampleQuerySet. */
+  description?: string | undefined;
 }
 export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest {
   /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided imported 'simple query' to update. If not set, will by default update all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSampleQuery | undefined;
+  /** Output only. Timestamp the SampleQuery was created at. */
+  createTime?: string | undefined;
+  /** The query entry. */
+  queryEntry?: GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry | undefined;
 }
 export interface PatchProjectsLocationsUserStoresRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
   /** Immutable. The full resource name of the User Store, in the format of `projects/{project}/locations/{location}/userStores/{user_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaUserStore | undefined;
+  /** Optional. Whether to enable license auto register for users in this User Store. If true, new users will automatically register under the default license config as long as the default license config has seats left. */
+  enableLicenseAutoRegister?: boolean | undefined;
+  /** The display name of the User Store. */
+  displayName?: string | undefined;
+  /** Optional. The default subscription LicenseConfig for the UserStore, if UserStore.enable_license_auto_register is true, new users will automatically register under the default subscription. If default LicenseConfig doesn't have remaining license seats left, new users will not be assigned with license and will be blocked for Vertex AI Search features. This is used if `license_assignment_tier_rules` is not configured. */
+  defaultLicenseConfig?: string | undefined;
+  /** Optional. Whether to enable license auto update for users in this User Store. If true, users with expired licenses will automatically be updated to use the default license config as long as the default license config has seats left. */
+  enableExpiredLicenseAutoUpdate?: boolean | undefined;
 }
 /** Request for pausing training of an engine. */
 export type GoogleCloudDiscoveryengineV1betaPauseEngineRequest =
@@ -6606,8 +7978,9 @@ export type GoogleCloudDiscoveryengineV1betaProvisionProjectRequestProvisionInte
   | "PROVISION_INTENT_UNSPECIFIED"
   | "PROVISION_INTENT_SOBI"
   | "PROVISION_INTENT_LEGACY";
-/** Request for ProjectService.ProvisionProject method. */
-export interface GoogleCloudDiscoveryengineV1betaProvisionProjectRequest {
+export interface ProvisionProjectsRequest {
+  /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
+  name: string;
   /** Required. The version of the [Terms for data use](https://cloud.google.com/retail/data-use-terms) that caller has read and would like to give consent to. Acceptable version is `2022-11-23`, and this may change over time. */
   dataUseTermsVersion?: string | undefined;
   /** Optional. Parameters for Agentspace. */
@@ -6622,25 +7995,31 @@ export interface GoogleCloudDiscoveryengineV1betaProvisionProjectRequest {
   /** Optional. The identity provider for this location. When provided, the location's AclConfig is set from it as part of provisioning. */
   idpConfig?: GoogleCloudDiscoveryengineV1betaIdpConfig | undefined;
 }
-export interface ProvisionProjectsRequest {
-  /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaProvisionProjectRequest | undefined;
-}
 export interface ProvisionProjectsLocationsRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaProvisionProjectRequest | undefined;
+  /** Required. The version of the [Terms for data use](https://cloud.google.com/retail/data-use-terms) that caller has read and would like to give consent to. Acceptable version is `2022-11-23`, and this may change over time. */
+  dataUseTermsVersion?: string | undefined;
+  /** Optional. Parameters for Agentspace. */
+  saasParams?: GoogleCloudDiscoveryengineV1betaProvisionProjectRequestSaasParams | undefined;
+  /** Optional. The caller states whether the provisioning is for the new or the classic Gemini Enterprise experience. */
+  provisionIntent?:
+    | GoogleCloudDiscoveryengineV1betaProvisionProjectRequestProvisionIntentEnum
+    | (string & {})
+    | undefined;
+  /** Required. Set to `true` to specify that caller has read and would like to give consent to the [Terms for data use](https://cloud.google.com/retail/data-use-terms). */
+  acceptDataUseTerms?: boolean | undefined;
+  /** Optional. The identity provider for this location. When provided, the location's AclConfig is set from it as part of provisioning. */
+  idpConfig?: GoogleCloudDiscoveryengineV1betaIdpConfig | undefined;
 }
 /** The inline source to purge identity mapping entries from. */
 export interface GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequestInlineSource {
   /** A maximum of 10000 entries can be purged at one time */
   identityMappingEntries?: GoogleCloudDiscoveryengineV1betaIdentityMappingEntryList | undefined;
 }
-/** Request message for IdentityMappingStoreService.PurgeIdentityMappings */
-export interface GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest {
+export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
+  /** Required. The name of the Identity Mapping Store to purge Identity Mapping Entries from. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
+  identityMappingStore: string;
   /** The inline source to purge identity mapping entries from. */
   inlineSource?:
     | GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequestInlineSource
@@ -6649,12 +8028,6 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest {
   filter?: string | undefined;
   /** Actually performs the purge. If `force` is set to false, return the expected purge count without deleting any identity mappings. This field is only supported for purge with filter. For input source this field is ignored and data will be purged regardless of the value of this field. */
   force?: boolean | undefined;
-}
-export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
-  /** Required. The name of the Identity Mapping Store to purge Identity Mapping Entries from. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
-  identityMappingStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest | undefined;
 }
 /** Configuration of destination for Purge related errors. */
 export interface GoogleCloudDiscoveryengineV1betaPurgeErrorConfig {
@@ -6666,8 +8039,9 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSour
   /** Required. A list of full resource name of documents to purge. In the format `projects/*\/locations/*\/collections/*\/dataStores/*\/branches/*\/documents/*`. Recommended max of 100 items. */
   documents?: StringList | undefined;
 }
-/** Request message for DocumentService.PurgeDocuments method. */
-export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest {
+export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
+  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
+  parent: string;
   /** Cloud Storage location for the input content. Supported `data_schema`: * `document_id`: One valid Document.id per line. */
   gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
   /** Actually performs the purge. If `force` is set to false, return the expected purge count without deleting any documents. */
@@ -6678,12 +8052,6 @@ export interface GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest {
   filter?: string | undefined;
   /** Inline source for the input content for purge. */
   inlineSource?: GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSource | undefined;
-}
-export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
-  /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest | undefined;
 }
 /** Request message for CompletionService.PurgeCompletionSuggestions method. */
 export type GoogleCloudDiscoveryengineV1betaPurgeCompletionSuggestionsRequest =
@@ -6703,24 +8071,27 @@ export interface PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEn
   /** Request body */
   body?: GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest | undefined;
 }
-/** Request message for PurgeUserEvents method. */
-export interface GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest {
+export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
+  /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
+  parent: string;
   /** Required. The filter string to specify the events to be deleted with a length limit of 5,000 characters. The eligible fields for filtering are: * `eventType`: Double quoted UserEvent.event_type string. * `eventTime`: in ISO 8601 "zulu" format. * `userPseudoId`: Double quoted string. Specifying this will delete all events associated with a visitor. * `userId`: Double quoted string. Specifying this will delete all events associated with a user. Note: This API only supports purging a max range of 30 days. Examples: * Deleting all events in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z"` * Deleting specific eventType in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z" eventType = "search"` * Deleting all events for a specific visitor in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z" userPseudoId = "visitor1024"` * Deleting the past 30 days of events inside a DataStore: `*` The filtering fields are assumed to have an implicit AND. */
   filter?: string | undefined;
   /** The `force` field is currently not supported. Purge user event requests will permanently delete all purgeable events. Once the development is complete: If `force` is set to false, the method will return the expected purge count without deleting any user events. This field will default to false if not included in the request. */
   force?: boolean | undefined;
 }
-export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
-  /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest | undefined;
-}
 export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest | undefined;
+  /** Cloud Storage location for the input content. Supported `data_schema`: * `document_id`: One valid Document.id per line. */
+  gcsSource?: GoogleCloudDiscoveryengineV1betaGcsSource | undefined;
+  /** Actually performs the purge. If `force` is set to false, return the expected purge count without deleting any documents. */
+  force?: boolean | undefined;
+  /** The desired location of errors incurred during the purge. */
+  errorConfig?: GoogleCloudDiscoveryengineV1betaPurgeErrorConfig | undefined;
+  /** Required. Filter matching documents to purge. Only currently supported value is `*` (all items). */
+  filter?: string | undefined;
+  /** Inline source for the input content for purge. */
+  inlineSource?: GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSource | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
@@ -6737,8 +8108,10 @@ export interface PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesReques
 export interface PurgeProjectsLocationsDataStoresUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest | undefined;
+  /** Required. The filter string to specify the events to be deleted with a length limit of 5,000 characters. The eligible fields for filtering are: * `eventType`: Double quoted UserEvent.event_type string. * `eventTime`: in ISO 8601 "zulu" format. * `userPseudoId`: Double quoted string. Specifying this will delete all events associated with a visitor. * `userId`: Double quoted string. Specifying this will delete all events associated with a user. Note: This API only supports purging a max range of 30 days. Examples: * Deleting all events in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z"` * Deleting specific eventType in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z" eventType = "search"` * Deleting all events for a specific visitor in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z" userPseudoId = "visitor1024"` * Deleting the past 30 days of events inside a DataStore: `*` The filtering fields are assumed to have an implicit AND. */
+  filter?: string | undefined;
+  /** The `force` field is currently not supported. Purge user event requests will permanently delete all purgeable events. Once the development is complete: If `force` is set to false, the method will return the expected purge count without deleting any user events. This field will default to false if not included in the request. */
+  force?: boolean | undefined;
 }
 /** Record message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1betaRankingRecord {
@@ -6753,8 +8126,9 @@ export interface GoogleCloudDiscoveryengineV1betaRankingRecord {
 }
 export type GoogleCloudDiscoveryengineV1betaRankingRecordList =
   Array<GoogleCloudDiscoveryengineV1betaRankingRecord>;
-/** Request message for RankService.Rank method. */
-export interface GoogleCloudDiscoveryengineV1betaRankRequest {
+export interface RankProjectsLocationsRankingConfigsRequest {
+  /** Required. The resource name of the rank service config, such as `projects/{project_num}/locations/{location}/rankingConfigs/default_ranking_config`. */
+  rankingConfig: string;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
   userLabels?: StringMap | undefined;
   /** Required. A list of records to rank. */
@@ -6768,19 +8142,14 @@ export interface GoogleCloudDiscoveryengineV1betaRankRequest {
   /** The number of results to return. If this is unset or no bigger than zero, returns all results. */
   topN?: number | undefined;
 }
-export interface RankProjectsLocationsRankingConfigsRequest {
-  /** Required. The resource name of the rank service config, such as `projects/{project_num}/locations/{location}/rankingConfigs/default_ranking_config`. */
-  rankingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRankRequest | undefined;
-}
 /** Response message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1betaRankResponse {
   /** A list of records sorted by descending score. */
   records?: GoogleCloudDiscoveryengineV1betaRankingRecordList | undefined;
 }
-/** Request message for Recommend method. */
-export interface GoogleCloudDiscoveryengineV1betaRecommendRequest {
+export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest {
+  /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
+  servingConfig: string;
   /** Required. Context about the user, what they are looking at and what action they took to trigger the Recommend request. Note that this user event detail won't be ingested to userEvent logs. Thus, a separate userEvent write request is required for event logging. Don't set UserEvent.user_pseudo_id or UserEvent.user_info.user_id to the same fixed ID for different users. If you are trying to receive non-personalized recommendations (not recommended; this can negatively impact model performance), instead set UserEvent.user_pseudo_id to a random unique ID and leave UserEvent.user_info.user_id unset. */
   userEvent?: GoogleCloudDiscoveryengineV1betaUserEvent | undefined;
   /** Use validate only mode for this recommendation query. If set to `true`, a fake model is used that returns arbitrary Document IDs. Note that the validate only mode should only be used for testing the API, or if the model is not ready. */
@@ -6793,12 +8162,6 @@ export interface GoogleCloudDiscoveryengineV1betaRecommendRequest {
   params?: DocumentMap | undefined;
   /** Maximum number of results to return. Set this property to the number of recommendation results needed. If zero, the service chooses a reasonable default. The maximum allowed value is 100. Values above 100 are set to 100. */
   pageSize?: number | undefined;
-}
-export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest {
-  /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
-  servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRecommendRequest | undefined;
 }
 /** RecommendationResult represents a generic recommendation result with associated metadata. */
 export interface GoogleCloudDiscoveryengineV1betaRecommendResponseRecommendationResult {
@@ -6825,47 +8188,60 @@ export interface GoogleCloudDiscoveryengineV1betaRecommendResponse {
 export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRecommendRequest | undefined;
+  /** Required. Context about the user, what they are looking at and what action they took to trigger the Recommend request. Note that this user event detail won't be ingested to userEvent logs. Thus, a separate userEvent write request is required for event logging. Don't set UserEvent.user_pseudo_id or UserEvent.user_info.user_id to the same fixed ID for different users. If you are trying to receive non-personalized recommendations (not recommended; this can negatively impact model performance), instead set UserEvent.user_pseudo_id to a random unique ID and leave UserEvent.user_info.user_id unset. */
+  userEvent?: GoogleCloudDiscoveryengineV1betaUserEvent | undefined;
+  /** Use validate only mode for this recommendation query. If set to `true`, a fake model is used that returns arbitrary Document IDs. Note that the validate only mode should only be used for testing the API, or if the model is not ready. */
+  validateOnly?: boolean | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Filter for restricting recommendation results with a length limit of 5,000 characters. Currently, only filter expressions on the `filter_tags` attribute is supported. Examples: * `(filter_tags: ANY("Red", "Blue") OR filter_tags: ANY("Hot", "Cold"))` * `(filter_tags: ANY("Red", "Blue")) AND NOT (filter_tags: ANY("Green"))` If `attributeFilteringSyntax` is set to true under the `params` field, then attribute-based expressions are expected instead of the above described tag-based syntax. Examples: * (language: ANY("en", "es")) AND NOT (categories: ANY("Movie")) * (available: true) AND (language: ANY("en", "es")) OR (categories: ANY("Movie")) If your filter blocks all results, the API returns generic (unfiltered) popular Documents. If you only want results strictly matching the filters, set `strictFiltering` to `true` in RecommendRequest.params to receive empty results instead. Note that the API never returns Documents with `storageStatus` as `EXPIRED` or `DELETED` regardless of filter choices. */
+  filter?: string | undefined;
+  /** Additional domain specific parameters for the recommendations. Allowed values: * `returnDocument`: Boolean. If set to `true`, the associated Document object is returned in RecommendResponse.RecommendationResult.document. * `returnScore`: Boolean. If set to true, the recommendation score corresponding to each returned Document is set in RecommendResponse.RecommendationResult.metadata. The given score indicates the probability of a Document conversion given the user's context and history. * `strictFiltering`: Boolean. True by default. If set to `false`, the service returns generic (unfiltered) popular Documents instead of empty if your filter blocks all recommendation results. * `diversityLevel`: String. Default empty. If set to be non-empty, then it needs to be one of: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` This gives request-level control and adjusts recommendation results based on Document category. * `attributeFilteringSyntax`: Boolean. False by default. If set to true, the `filter` field is interpreted according to the new, attribute-based syntax. */
+  params?: DocumentMap | undefined;
+  /** Maximum number of results to return. Set this property to the number of recommendation results needed. If zero, the service chooses a reasonable default. The maximum allowed value is 100. Values above 100 are set to 100. */
+  pageSize?: number | undefined;
 }
 export interface RecommendProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRecommendRequest | undefined;
+  /** Required. Context about the user, what they are looking at and what action they took to trigger the Recommend request. Note that this user event detail won't be ingested to userEvent logs. Thus, a separate userEvent write request is required for event logging. Don't set UserEvent.user_pseudo_id or UserEvent.user_info.user_id to the same fixed ID for different users. If you are trying to receive non-personalized recommendations (not recommended; this can negatively impact model performance), instead set UserEvent.user_pseudo_id to a random unique ID and leave UserEvent.user_info.user_id unset. */
+  userEvent?: GoogleCloudDiscoveryengineV1betaUserEvent | undefined;
+  /** Use validate only mode for this recommendation query. If set to `true`, a fake model is used that returns arbitrary Document IDs. Note that the validate only mode should only be used for testing the API, or if the model is not ready. */
+  validateOnly?: boolean | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Filter for restricting recommendation results with a length limit of 5,000 characters. Currently, only filter expressions on the `filter_tags` attribute is supported. Examples: * `(filter_tags: ANY("Red", "Blue") OR filter_tags: ANY("Hot", "Cold"))` * `(filter_tags: ANY("Red", "Blue")) AND NOT (filter_tags: ANY("Green"))` If `attributeFilteringSyntax` is set to true under the `params` field, then attribute-based expressions are expected instead of the above described tag-based syntax. Examples: * (language: ANY("en", "es")) AND NOT (categories: ANY("Movie")) * (available: true) AND (language: ANY("en", "es")) OR (categories: ANY("Movie")) If your filter blocks all results, the API returns generic (unfiltered) popular Documents. If you only want results strictly matching the filters, set `strictFiltering` to `true` in RecommendRequest.params to receive empty results instead. Note that the API never returns Documents with `storageStatus` as `EXPIRED` or `DELETED` regardless of filter choices. */
+  filter?: string | undefined;
+  /** Additional domain specific parameters for the recommendations. Allowed values: * `returnDocument`: Boolean. If set to `true`, the associated Document object is returned in RecommendResponse.RecommendationResult.document. * `returnScore`: Boolean. If set to true, the recommendation score corresponding to each returned Document is set in RecommendResponse.RecommendationResult.metadata. The given score indicates the probability of a Document conversion given the user's context and history. * `strictFiltering`: Boolean. True by default. If set to `false`, the service returns generic (unfiltered) popular Documents instead of empty if your filter blocks all recommendation results. * `diversityLevel`: String. Default empty. If set to be non-empty, then it needs to be one of: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` This gives request-level control and adjusts recommendation results based on Document category. * `attributeFilteringSyntax`: Boolean. False by default. If set to true, the `filter` field is interpreted according to the new, attribute-based syntax. */
+  params?: DocumentMap | undefined;
+  /** Maximum number of results to return. Set this property to the number of recommendation results needed. If zero, the service chooses a reasonable default. The maximum allowed value is 100. Values above 100 are set to 100. */
+  pageSize?: number | undefined;
 }
-/** Request message for SiteSearchEngineService.RecrawlUris method. */
-export interface GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest {
+export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
+  /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
+  siteSearchEngine: string;
   /** Required. List of URIs to crawl. At most 10K URIs are supported, otherwise an INVALID_ARGUMENT error is thrown. Each URI should match at least one TargetSite in `site_search_engine`. */
   uris?: StringList | undefined;
   /** Optional. Credential id to use for crawling. */
   siteCredential?: string | undefined;
 }
-export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
-  /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
-  siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest | undefined;
-}
 export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest | undefined;
-}
-/** Request message for CrawlRateManagementService.RemoveDedicatedCrawlRate method. The user can remove the dedicated crawl rate for a crawl_rate_scope they own, and Google will fall back to organic crawl, and the crawl rate will be determined by Google. */
-export interface GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest {
-  /** Required. The scope of the crawl rate change. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
-  crawlRateScope?: string | undefined;
+  /** Required. List of URIs to crawl. At most 10K URIs are supported, otherwise an INVALID_ARGUMENT error is thrown. Each URI should match at least one TargetSite in `site_search_engine`. */
+  uris?: StringList | undefined;
+  /** Optional. Credential id to use for crawling. */
+  siteCredential?: string | undefined;
 }
 export interface RemoveDedicatedCrawlRateProjectsLocationsRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRemoveDedicatedCrawlRateRequest | undefined;
+  /** Required. The scope of the crawl rate change. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
+  crawlRateScope?: string | undefined;
 }
-/** Request message for CompletionService.RemoveSuggestion method. */
-export interface GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest {
+export interface RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest {
+  /** Required. The completion_config of the parent engine resource name for which the search history suggestion is to be removed, such as `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
+  completionConfig: string;
   /** Remove all search history suggestions for the user. */
   removeAllSearchHistorySuggestions?: boolean | undefined;
   /** Required. Time at which the suggestion was removed. If not set, the current time will be used. */
@@ -6876,12 +8252,6 @@ export interface GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest {
   userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
   /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128. */
   userPseudoId?: string | undefined;
-}
-export interface RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest {
-  /** Required. The completion_config of the parent engine resource name for which the search history suggestion is to be removed, such as `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
-  completionConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest | undefined;
 }
 /** Response message for CompletionService.RemoveSuggestion method. */
 export interface GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse {}
@@ -6894,20 +8264,15 @@ export interface ResumeProjectsLocationsCollectionsEnginesRequest {
   /** Request body */
   body?: GoogleCloudDiscoveryengineV1betaBatchVerifyTargetSitesRequest | undefined;
 }
-/** Request message for LicenseConfigService.RetractLicenseConfig method. */
-export interface GoogleCloudDiscoveryengineV1betaRetractLicenseConfigRequest {
+export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
+  /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
+  billingAccountLicenseConfig: string;
   /** Optional. The number of licenses to retract. Only used when full_retract is false. */
   licenseCount?: string | undefined;
   /** Optional. If set to true, retract the entire license config. Otherwise, retract the specified license count. */
   fullRetract?: boolean | undefined;
   /** Required. Full resource name of LicenseConfig. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config_id}`. */
   licenseConfig?: string | undefined;
-}
-export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
-  /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
-  billingAccountLicenseConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaRetractLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.RetractLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1betaRetractLicenseConfigResponse {
@@ -6917,8 +8282,106 @@ export interface GoogleCloudDiscoveryengineV1betaRetractLicenseConfigResponse {
 export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSearchRequest | undefined;
+  /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec
+    | undefined;
+  /** Whether to turn on safe search. This is only supported for website search. */
+  safeSearch?: boolean | undefined;
+  /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
+  pageSize?: number | undefined;
+  /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
+  orderBy?: string | undefined;
+  /** Raw image query. */
+  imageQuery?: GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery | undefined;
+  /** The query expansion specification that specifies the conditions under which query expansion occurs. */
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec | undefined;
+  /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec
+    | undefined;
+  /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
+  pageCategories?: StringList | undefined;
+  /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
+  params?: DocumentMap | undefined;
+  /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
+  session?: string | undefined;
+  /** A specification for configuring the behavior of content search. */
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec | undefined;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpecList | undefined;
+  /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  pageToken?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
+  /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
+  canonicalFilter?: string | undefined;
+  /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
+  rankingExpression?: string | undefined;
+  /** The spell correction specification that specifies the mode under which spell correction takes effect. */
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec
+    | undefined;
+  /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
+  numResultsPerDataStore?: number | undefined;
+  /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  facetSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecList | undefined;
+  /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
+  oneBoxPageSize?: number | undefined;
+  /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
+  relevanceThreshold?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpecList | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Optional. Optional configuration for the Custom Ranking feature. */
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams
+    | undefined;
+  /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec | undefined;
+  /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
+  branch?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
+  languageCode?: string | undefined;
+  /** Optional. Config for display feature, like match highlighting on search results. */
+  displaySpec?: GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
+  entity?: string | undefined;
+  /** Optional. The backend to use for the ranking expression evaluation. */
+  rankingExpressionBackend?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRankingExpressionBackendEnum
+    | (string & {})
+    | undefined;
+  /** Session specification. Can be used only when `session` is set. */
+  sessionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec | undefined;
+  /** Raw search query. */
+  query?: string | undefined;
+  /** Optional. The specification for returning the relevance score. */
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec | undefined;
+  /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
+  embeddingSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec | undefined;
+  /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
+  offset?: number | undefined;
+  /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
+  regionCode?: string | undefined;
 }
 /** Information describing query expansion including whether expansion has occurred. */
 export interface GoogleCloudDiscoveryengineV1betaSearchResponseQueryExpansionInfo {
@@ -7150,32 +8613,522 @@ export interface GoogleCloudDiscoveryengineV1betaSearchResponse {
 export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSearchRequest | undefined;
+  /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec
+    | undefined;
+  /** Whether to turn on safe search. This is only supported for website search. */
+  safeSearch?: boolean | undefined;
+  /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
+  pageSize?: number | undefined;
+  /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
+  orderBy?: string | undefined;
+  /** Raw image query. */
+  imageQuery?: GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery | undefined;
+  /** The query expansion specification that specifies the conditions under which query expansion occurs. */
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec | undefined;
+  /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec
+    | undefined;
+  /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
+  pageCategories?: StringList | undefined;
+  /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
+  params?: DocumentMap | undefined;
+  /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
+  session?: string | undefined;
+  /** A specification for configuring the behavior of content search. */
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec | undefined;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpecList | undefined;
+  /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  pageToken?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
+  /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
+  canonicalFilter?: string | undefined;
+  /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
+  rankingExpression?: string | undefined;
+  /** The spell correction specification that specifies the mode under which spell correction takes effect. */
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec
+    | undefined;
+  /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
+  numResultsPerDataStore?: number | undefined;
+  /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  facetSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecList | undefined;
+  /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
+  oneBoxPageSize?: number | undefined;
+  /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
+  relevanceThreshold?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpecList | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Optional. Optional configuration for the Custom Ranking feature. */
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams
+    | undefined;
+  /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec | undefined;
+  /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
+  branch?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
+  languageCode?: string | undefined;
+  /** Optional. Config for display feature, like match highlighting on search results. */
+  displaySpec?: GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
+  entity?: string | undefined;
+  /** Optional. The backend to use for the ranking expression evaluation. */
+  rankingExpressionBackend?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRankingExpressionBackendEnum
+    | (string & {})
+    | undefined;
+  /** Session specification. Can be used only when `session` is set. */
+  sessionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec | undefined;
+  /** Raw search query. */
+  query?: string | undefined;
+  /** Optional. The specification for returning the relevance score. */
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec | undefined;
+  /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
+  embeddingSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec | undefined;
+  /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
+  offset?: number | undefined;
+  /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
+  regionCode?: string | undefined;
 }
 export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSearchRequest | undefined;
+  /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec
+    | undefined;
+  /** Whether to turn on safe search. This is only supported for website search. */
+  safeSearch?: boolean | undefined;
+  /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
+  pageSize?: number | undefined;
+  /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
+  orderBy?: string | undefined;
+  /** Raw image query. */
+  imageQuery?: GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery | undefined;
+  /** The query expansion specification that specifies the conditions under which query expansion occurs. */
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec | undefined;
+  /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec
+    | undefined;
+  /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
+  pageCategories?: StringList | undefined;
+  /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
+  params?: DocumentMap | undefined;
+  /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
+  session?: string | undefined;
+  /** A specification for configuring the behavior of content search. */
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec | undefined;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpecList | undefined;
+  /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  pageToken?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
+  /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
+  canonicalFilter?: string | undefined;
+  /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
+  rankingExpression?: string | undefined;
+  /** The spell correction specification that specifies the mode under which spell correction takes effect. */
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec
+    | undefined;
+  /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
+  numResultsPerDataStore?: number | undefined;
+  /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  facetSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecList | undefined;
+  /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
+  oneBoxPageSize?: number | undefined;
+  /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
+  relevanceThreshold?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpecList | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Optional. Optional configuration for the Custom Ranking feature. */
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams
+    | undefined;
+  /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec | undefined;
+  /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
+  branch?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
+  languageCode?: string | undefined;
+  /** Optional. Config for display feature, like match highlighting on search results. */
+  displaySpec?: GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
+  entity?: string | undefined;
+  /** Optional. The backend to use for the ranking expression evaluation. */
+  rankingExpressionBackend?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRankingExpressionBackendEnum
+    | (string & {})
+    | undefined;
+  /** Session specification. Can be used only when `session` is set. */
+  sessionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec | undefined;
+  /** Raw search query. */
+  query?: string | undefined;
+  /** Optional. The specification for returning the relevance score. */
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec | undefined;
+  /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
+  embeddingSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec | undefined;
+  /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
+  offset?: number | undefined;
+  /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
+  regionCode?: string | undefined;
 }
 export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSearchRequest | undefined;
+  /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec
+    | undefined;
+  /** Whether to turn on safe search. This is only supported for website search. */
+  safeSearch?: boolean | undefined;
+  /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
+  pageSize?: number | undefined;
+  /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
+  orderBy?: string | undefined;
+  /** Raw image query. */
+  imageQuery?: GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery | undefined;
+  /** The query expansion specification that specifies the conditions under which query expansion occurs. */
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec | undefined;
+  /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec
+    | undefined;
+  /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
+  pageCategories?: StringList | undefined;
+  /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
+  params?: DocumentMap | undefined;
+  /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
+  session?: string | undefined;
+  /** A specification for configuring the behavior of content search. */
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec | undefined;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpecList | undefined;
+  /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  pageToken?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
+  /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
+  canonicalFilter?: string | undefined;
+  /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
+  rankingExpression?: string | undefined;
+  /** The spell correction specification that specifies the mode under which spell correction takes effect. */
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec
+    | undefined;
+  /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
+  numResultsPerDataStore?: number | undefined;
+  /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  facetSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecList | undefined;
+  /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
+  oneBoxPageSize?: number | undefined;
+  /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
+  relevanceThreshold?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpecList | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Optional. Optional configuration for the Custom Ranking feature. */
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams
+    | undefined;
+  /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec | undefined;
+  /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
+  branch?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
+  languageCode?: string | undefined;
+  /** Optional. Config for display feature, like match highlighting on search results. */
+  displaySpec?: GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
+  entity?: string | undefined;
+  /** Optional. The backend to use for the ranking expression evaluation. */
+  rankingExpressionBackend?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRankingExpressionBackendEnum
+    | (string & {})
+    | undefined;
+  /** Session specification. Can be used only when `session` is set. */
+  sessionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec | undefined;
+  /** Raw search query. */
+  query?: string | undefined;
+  /** Optional. The specification for returning the relevance score. */
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec | undefined;
+  /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
+  embeddingSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec | undefined;
+  /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
+  offset?: number | undefined;
+  /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
+  regionCode?: string | undefined;
 }
 export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSearchRequest | undefined;
+  /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec
+    | undefined;
+  /** Whether to turn on safe search. This is only supported for website search. */
+  safeSearch?: boolean | undefined;
+  /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
+  pageSize?: number | undefined;
+  /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
+  orderBy?: string | undefined;
+  /** Raw image query. */
+  imageQuery?: GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery | undefined;
+  /** The query expansion specification that specifies the conditions under which query expansion occurs. */
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec | undefined;
+  /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec
+    | undefined;
+  /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
+  pageCategories?: StringList | undefined;
+  /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
+  params?: DocumentMap | undefined;
+  /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
+  session?: string | undefined;
+  /** A specification for configuring the behavior of content search. */
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec | undefined;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpecList | undefined;
+  /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  pageToken?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
+  /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
+  canonicalFilter?: string | undefined;
+  /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
+  rankingExpression?: string | undefined;
+  /** The spell correction specification that specifies the mode under which spell correction takes effect. */
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec
+    | undefined;
+  /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
+  numResultsPerDataStore?: number | undefined;
+  /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  facetSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecList | undefined;
+  /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
+  oneBoxPageSize?: number | undefined;
+  /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
+  relevanceThreshold?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpecList | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Optional. Optional configuration for the Custom Ranking feature. */
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams
+    | undefined;
+  /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec | undefined;
+  /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
+  branch?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
+  languageCode?: string | undefined;
+  /** Optional. Config for display feature, like match highlighting on search results. */
+  displaySpec?: GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
+  entity?: string | undefined;
+  /** Optional. The backend to use for the ranking expression evaluation. */
+  rankingExpressionBackend?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRankingExpressionBackendEnum
+    | (string & {})
+    | undefined;
+  /** Session specification. Can be used only when `session` is set. */
+  sessionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec | undefined;
+  /** Raw search query. */
+  query?: string | undefined;
+  /** Optional. The specification for returning the relevance score. */
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec | undefined;
+  /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
+  embeddingSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec | undefined;
+  /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
+  offset?: number | undefined;
+  /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
+  regionCode?: string | undefined;
 }
 export interface SearchProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSearchRequest | undefined;
+  /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpec
+    | undefined;
+  /** Whether to turn on safe search. This is only supported for website search. */
+  safeSearch?: boolean | undefined;
+  /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
+  pageSize?: number | undefined;
+  /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
+  orderBy?: string | undefined;
+  /** Raw image query. */
+  imageQuery?: GoogleCloudDiscoveryengineV1betaSearchRequestImageQuery | undefined;
+  /** The query expansion specification that specifies the conditions under which query expansion occurs. */
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestQueryExpansionSpec | undefined;
+  /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec
+    | undefined;
+  /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
+  boostSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec | undefined;
+  /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
+  pageCategories?: StringList | undefined;
+  /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
+  params?: DocumentMap | undefined;
+  /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestPersonalizationSpec
+    | undefined;
+  /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
+  session?: string | undefined;
+  /** A specification for configuring the behavior of content search. */
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec | undefined;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpecList | undefined;
+  /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  pageToken?: string | undefined;
+  /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
+  /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
+  canonicalFilter?: string | undefined;
+  /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
+  rankingExpression?: string | undefined;
+  /** The spell correction specification that specifies the mode under which spell correction takes effect. */
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestSpellCorrectionSpec
+    | undefined;
+  /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
+  numResultsPerDataStore?: number | undefined;
+  /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  facetSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecList | undefined;
+  /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
+  oneBoxPageSize?: number | undefined;
+  /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
+  relevanceThreshold?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpecList | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
+  /** Optional. Optional configuration for the Custom Ranking feature. */
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams
+    | undefined;
+  /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSearchAddonSpec | undefined;
+  /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
+  branch?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
+  languageCode?: string | undefined;
+  /** Optional. Config for display feature, like match highlighting on search results. */
+  displaySpec?: GoogleCloudDiscoveryengineV1betaSearchRequestDisplaySpec | undefined;
+  /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
+  filter?: string | undefined;
+  /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
+  entity?: string | undefined;
+  /** Optional. The backend to use for the ranking expression evaluation. */
+  rankingExpressionBackend?:
+    | GoogleCloudDiscoveryengineV1betaSearchRequestRankingExpressionBackendEnum
+    | (string & {})
+    | undefined;
+  /** Session specification. Can be used only when `session` is set. */
+  sessionSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestSessionSpec | undefined;
+  /** Raw search query. */
+  query?: string | undefined;
+  /** Optional. The specification for returning the relevance score. */
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceScoreSpec | undefined;
+  /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
+  embeddingSpec?: GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec | undefined;
+  /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
+  offset?: number | undefined;
+  /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
+  regionCode?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequestCrawlTypeEnum =
   | "CRAWL_TYPE_UNSPECIFIED"
@@ -7185,8 +9138,9 @@ export type GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequestModeEnum
   | "MODE_UNSPECIFIED"
   | "AUTOMATIC"
   | "EXPLICIT";
-/** Request message for CrawlRateManagementService.SetDedicatedCrawlRate method. The user can set the crawl rate for a crawl_rate_scope they own. They can set up an overall crawl rate, or set up a user-triggered crawl rate and a auto-refresh crawl rate separately. If an overall crawl rate is set, Vertex AI will automatically splits crawl_rate into user-triggered and auto-refresh. */
-export interface GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest {
+export interface SetDedicatedCrawlRateProjectsLocationsRequest {
+  /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
+  location: string;
   /** Optional. The crawl QPS set by the user. It is not guaranteed that Vertex crawl bot will crawl at this QPS. If the crawl rate is too high, the real QPS may be lower than the value set by the user to avoid overloading the user's website. */
   crawlRate?: number | undefined;
   /** Optional. Whether it's the crawl rate of user-triggered or auto-refresh. */
@@ -7202,52 +9156,125 @@ export interface GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest {
   /** Required. The scope of the crawl rate that the user wants to config. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
   crawlRateScope?: string | undefined;
 }
-export interface SetDedicatedCrawlRateProjectsLocationsRequest {
-  /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
-  location: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface GoogleIamV1SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: GoogleIamV1Policy | undefined;
-}
 export interface SetIamPolicyProjectsLocationsCollectionsDataStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: GoogleIamV1Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: GoogleIamV1Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDataStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: GoogleIamV1Policy | undefined;
 }
 export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequest | undefined;
+  /** Answer generation specification. */
+  answerGenerationSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec
+    | undefined;
+  /** Deprecated: This field is deprecated. Streaming Answer API will be supported. Asynchronous mode control. If enabled, the response will be returned with answer/session resource name without final answer. The API users need to do the polling to get the latest status of answer/session by calling ConversationalSearchService.GetAnswer or ConversationalSearchService.GetSession method. */
+  asynchronousMode?: boolean | undefined;
+  /** The session resource name. Not required. When session field is not set, the API is in sessionless mode. We support auto session mode: users can use the wildcard symbol `-` as session ID. A new ID will be automatically generated and assigned. */
+  session?: string | undefined;
+  /** Search specification. */
+  searchSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec | undefined;
+  /** Related questions specification. */
+  relatedQuestionsSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec
+    | undefined;
+  /** Optional. Grounding specification. */
+  groundingSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec | undefined;
+  /** Query understanding specification. */
+  queryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec
+    | undefined;
+  /** Optional. End user specification. */
+  endUserSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec | undefined;
+  /** A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Required. Current user query. */
+  query?: GoogleCloudDiscoveryengineV1betaQuery | undefined;
+  /** Model specification. */
+  safetySpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
 }
 export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequest | undefined;
+  /** Answer generation specification. */
+  answerGenerationSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec
+    | undefined;
+  /** Deprecated: This field is deprecated. Streaming Answer API will be supported. Asynchronous mode control. If enabled, the response will be returned with answer/session resource name without final answer. The API users need to do the polling to get the latest status of answer/session by calling ConversationalSearchService.GetAnswer or ConversationalSearchService.GetSession method. */
+  asynchronousMode?: boolean | undefined;
+  /** The session resource name. Not required. When session field is not set, the API is in sessionless mode. We support auto session mode: users can use the wildcard symbol `-` as session ID. A new ID will be automatically generated and assigned. */
+  session?: string | undefined;
+  /** Search specification. */
+  searchSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec | undefined;
+  /** Related questions specification. */
+  relatedQuestionsSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec
+    | undefined;
+  /** Optional. Grounding specification. */
+  groundingSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec | undefined;
+  /** Query understanding specification. */
+  queryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec
+    | undefined;
+  /** Optional. End user specification. */
+  endUserSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec | undefined;
+  /** A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Required. Current user query. */
+  query?: GoogleCloudDiscoveryengineV1betaQuery | undefined;
+  /** Model specification. */
+  safetySpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
 }
 export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequest | undefined;
+  /** Answer generation specification. */
+  answerGenerationSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec
+    | undefined;
+  /** Deprecated: This field is deprecated. Streaming Answer API will be supported. Asynchronous mode control. If enabled, the response will be returned with answer/session resource name without final answer. The API users need to do the polling to get the latest status of answer/session by calling ConversationalSearchService.GetAnswer or ConversationalSearchService.GetSession method. */
+  asynchronousMode?: boolean | undefined;
+  /** The session resource name. Not required. When session field is not set, the API is in sessionless mode. We support auto session mode: users can use the wildcard symbol `-` as session ID. A new ID will be automatically generated and assigned. */
+  session?: string | undefined;
+  /** Search specification. */
+  searchSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec | undefined;
+  /** Related questions specification. */
+  relatedQuestionsSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestRelatedQuestionsSpec
+    | undefined;
+  /** Optional. Grounding specification. */
+  groundingSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestGroundingSpec | undefined;
+  /** Query understanding specification. */
+  queryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec
+    | undefined;
+  /** Optional. End user specification. */
+  endUserSpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec | undefined;
+  /** A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  userPseudoId?: string | undefined;
+  /** Required. Current user query. */
+  query?: GoogleCloudDiscoveryengineV1betaQuery | undefined;
+  /** Model specification. */
+  safetySpec?: GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec | undefined;
+  /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
+  userLabels?: StringMap | undefined;
 }
 /** User metadata of the request. */
 export interface GoogleCloudDiscoveryengineV1betaAssistUserMetadata {
@@ -7304,8 +9331,9 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequestGenerationSp
   /** Optional. The Vertex AI model_id used for the generative model. If not set, the default Assistant model will be used. */
   modelId?: string | undefined;
 }
-/** Request for the AssistantService.StreamAssist method. */
-export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequest {
+export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest {
+  /** Required. The resource name of the Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
+  name: string;
   /** Optional. Current user query. Empty query is only supported if `file_ids` are provided. In this case, the answer will be generated based on those context files. */
   query?: GoogleCloudDiscoveryengineV1betaQuery | undefined;
   /** Optional. Information about the user initiating the query. */
@@ -7318,12 +9346,6 @@ export interface GoogleCloudDiscoveryengineV1betaStreamAssistRequest {
   session?: string | undefined;
   /** Optional. Specification of the generation configuration for the request. */
   generationSpec?: GoogleCloudDiscoveryengineV1betaStreamAssistRequestGenerationSpec | undefined;
-}
-export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest {
-  /** Required. The resource name of the Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaStreamAssistRequest | undefined;
 }
 /** Information about the session. */
 export interface GoogleCloudDiscoveryengineV1betaStreamAssistResponseSessionInfo {
@@ -7376,8 +9398,9 @@ export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelRequestGcsTrain
   /** The Cloud Storage corpus data which could be associated in train data. The data path format is `gs:///`. A newline delimited jsonl/ndjson file. For search-tuning model, each line should have the _id, title and text. Example: `{"_id": "doc1", title: "relevant doc", "text": "relevant text"}` */
   corpusDataPath?: string | undefined;
 }
-/** Request message for SearchTuningService.TrainCustomModel method. */
-export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest {
+export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
+  /** Required. The resource name of the Data Store, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to train the models. */
+  dataStore: string;
   /** Model to be trained. Supported values are: * **search-tuning**: Fine tuning the search system based on data provided. */
   modelType?: string | undefined;
   /** If not provided, a UUID will be generated. */
@@ -7388,12 +9411,6 @@ export interface GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest {
   gcsTrainingInput?:
     | GoogleCloudDiscoveryengineV1betaTrainCustomModelRequestGcsTrainingInput
     | undefined;
-}
-export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
-  /** Required. The resource name of the Data Store, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to train the models. */
-  dataStore: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest | undefined;
 }
 /** Request to manually start a tuning process now (instead of waiting for the periodically scheduled tuning to happen). */
 export type GoogleCloudDiscoveryengineV1betaTuneEngineRequest =
@@ -7407,40 +9424,193 @@ export interface TuneProjectsLocationsCollectionsEnginesRequest {
 export interface UpdateAclConfigProjectsLocationsRequest {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaAclConfig | undefined;
+  /** Identity provider config. */
+  idpConfig?: GoogleCloudDiscoveryengineV1betaIdpConfig | undefined;
 }
 export interface UpdateCmekConfigProjectsLocationsRequest {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
   setDefault?: boolean | undefined;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaCmekConfig | undefined;
+  /** Optional. Single-regional CMEKs that are required for some VAIS features. */
+  singleRegionKeys?: GoogleCloudDiscoveryengineV1betaSingleRegionKeyList | undefined;
+  /** Output only. The timestamp of the last key rotation. */
+  lastRotationTimestampMicros?: string | undefined;
+  /** Output only. KMS key version resource name which will be used to encrypt resources `/cryptoKeyVersions/{keyVersion}`. */
+  kmsKeyVersion?: string | undefined;
+  /** Output only. The default CmekConfig for the Customer. */
+  isDefault?: boolean | undefined;
+  /** Output only. Whether the NotebookLM Corpus is ready to be used. */
+  notebooklmState?:
+    | GoogleCloudDiscoveryengineV1betaCmekConfigNotebooklmStateEnum
+    | (string & {})
+    | undefined;
+  /** Required. KMS key resource name which will be used to encrypt resources `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{keyId}`. */
+  kmsKey?: string | undefined;
+  /** Output only. The states of the CmekConfig. */
+  state?: GoogleCloudDiscoveryengineV1betaCmekConfigStateEnum | (string & {}) | undefined;
 }
 export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaUserEvent | undefined;
+  /** Optional. Represents the entity for customers that may run multiple different entities, domains, sites or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. We recommend that you set `entity` to get better per-entity search, completion, and prediction results. */
+  entity?: string | undefined;
+  /** Media-specific info. */
+  mediaInfo?: GoogleCloudDiscoveryengineV1betaMediaInfo | undefined;
+  /** Should set to true if the request is made directly from the end user, in which case the UserEvent.user_info.user_agent can be populated from the HTTP request. This flag should be set only if the API request is made directly from the end user such as a mobile app (and not if a gateway or a server is processing and pushing the user events). This should not be set when using the JavaScript tag in UserEventService.CollectUserEvent. */
+  directUserRequest?: boolean | undefined;
+  /** Optional. Conversion type. Required if UserEvent.event_type is `conversion`. This is a customer-defined conversion name in lowercase letters or numbers separated by "-", such as "watch", "good-visit" etc. Do not set the field if UserEvent.event_type is not `conversion`. This mixes the custom conversion event with predefined events like `search`, `view-item` etc. */
+  conversionType?: string | undefined;
+  /** CompletionService.CompleteQuery details related to the event. This field should be set for `search` event when autocomplete function is enabled and the user clicks a suggestion for search. */
+  completionInfo?: GoogleCloudDiscoveryengineV1betaCompletionInfo | undefined;
+  /** Required. User event type. Allowed values are: Generic values: * `search`: Search for Documents. * `view-item`: Detailed page view of a Document. * `view-item-list`: View of a panel or ordered list of Documents. * `view-home-page`: View of the home page. * `view-category-page`: View of a category page, e.g. Home > Men > Jeans Retail-related values: * `add-to-cart`: Add an item(s) to cart, e.g. in Retail online shopping * `purchase`: Purchase an item(s) Media-related values: * `media-play`: Start/resume watching a video, playing a song, etc. * `media-complete`: Finished or stopped midway through a video, song, etc. Custom conversion value: * `conversion`: Customer defined conversion event. */
+  eventType?: string | undefined;
+  /** Information about the end user. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** A unique identifier for tracking a visitor session with a length limit of 128 bytes. A session is an aggregation of an end user behavior in a time span. A general guideline to populate the session_id: 1. If user has no activity for 30 min, a new session_id should be assigned. 2. The session_id should be unique across users, suggest use uuid or add UserEvent.user_pseudo_id as prefix. */
+  sessionId?: string | undefined;
+  /** Token to attribute an API response to user action(s) to trigger the event. Highly recommended for user events that are the result of RecommendationService.Recommend. This field enables accurate attribution of recommendation model performance. The value must be one of: * RecommendResponse.attribution_token for events that are the result of RecommendationService.Recommend. * SearchResponse.attribution_token for events that are the result of SearchService.Search. This token enables us to accurately attribute page view or conversion completion back to the event and the particular predict response containing this clicked/purchased product. If user clicks on product K in the recommendation results, pass RecommendResponse.attribution_token as a URL parameter to product K's page. When recording events on product K's page, log the RecommendResponse.attribution_token to this field. */
+  attributionToken?: string | undefined;
+  /** The transaction metadata (if any) associated with this user event. */
+  transactionInfo?: GoogleCloudDiscoveryengineV1betaTransactionInfo | undefined;
+  /** SearchService.Search details related to the event. This field should be set for `search` event. */
+  searchInfo?: GoogleCloudDiscoveryengineV1betaSearchInfo | undefined;
+  /** A list of identifiers for the independent experiment groups this user event belongs to. This is used to distinguish between user events associated with different experiment setups. */
+  tagIds?: StringList | undefined;
+  /** The DataStore resource full name, of the form `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. Optional. Only required for user events whose data store can't by determined by UserEvent.engine or UserEvent.documents. If data store is set in the parent of write/import/collect user event requests, this field can be omitted. */
+  dataStore?: string | undefined;
+  /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor log in/out of the website. Do not set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. The field should not contain PII or user-data. We recommend to use Google Analytics [Client ID](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for this field. */
+  userPseudoId?: string | undefined;
+  /** List of Documents associated with this user event. This field is optional except for the following event types: * `view-item` * `add-to-cart` * `purchase` * `media-play` * `media-complete` In a `search` event, this field represents the documents returned to the end user on the current page (the end user may have not finished browsing the whole page yet). When a new page is returned to the end user, after pagination/filtering/ordering even for the same query, a new `search` event with different UserEvent.documents is desired. */
+  documents?: GoogleCloudDiscoveryengineV1betaDocumentInfoList | undefined;
+  /** Optional. Extra user event features to include in the recommendation model. These attributes must NOT contain data that needs to be parsed or processed further, e.g. JSON or other encodings. If you provide custom attributes for ingested user events, also include them in the user events that you associate with prediction requests. Custom attribute formatting must be consistent between imported events and events provided with prediction requests. This lets the Discovery Engine API use those custom attributes when training models and serving predictions, which helps improve recommendation quality. This field needs to pass all below criteria, otherwise an `INVALID_ARGUMENT` error is returned: * The key must be a UTF-8 encoded string with a length limit of 5,000 characters. * For text attributes, at most 400 values are allowed. Empty values are not allowed. Each value must be a UTF-8 encoded string with a length limit of 256 characters. * For number attributes, at most 400 values are allowed. For product recommendations, an example of extra user information is `traffic_channel`, which is how a user arrives at the site. Users can arrive at the site by coming to the site directly, coming through Google search, or in other ways. */
+  attributes?: GoogleCloudDiscoveryengineV1betaCustomAttributeMap | undefined;
+  /** Panel metadata associated with this user event. */
+  panel?: GoogleCloudDiscoveryengineV1betaPanelInfo | undefined;
+  /** Optional. This field is optional except for the `add-feedback` event types. */
+  feedback?: GoogleCloudDiscoveryengineV1betaFeedback | undefined;
+  /** Only required for UserEventService.ImportUserEvents method. Timestamp of when the user event happened. */
+  eventTime?: string | undefined;
+  /** The promotion IDs if this is an event associated with promotions. Currently, this field is restricted to at most one ID. */
+  promotionIds?: StringList | undefined;
+  /** The Engine resource name, in the form of `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. Optional. Only required for Engine produced user events. For example, user events from blended search. */
+  engine?: string | undefined;
+  /** Optional. The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. One example is for `search` events, the associated SearchRequest may contain a filter expression in SearchRequest.filter conforming to https://google.aip.dev/160#filtering. Similarly, for `view-item-list` events that are generated from a RecommendRequest, this field may be populated directly from RecommendRequest.filter conforming to https://google.aip.dev/160#filtering. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  filter?: string | undefined;
+  /** Page metadata such as categories and other critical information for certain event types such as `view-category-page`. */
+  pageInfo?: GoogleCloudDiscoveryengineV1betaPageInfo | undefined;
+  /** Optional. List of panels associated with this event. Used for page-level impression data. */
+  panels?: GoogleCloudDiscoveryengineV1betaPanelInfoList | undefined;
 }
 export interface WriteProjectsLocationsDataStoresUserEventsRequest {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaUserEvent | undefined;
+  /** Optional. Represents the entity for customers that may run multiple different entities, domains, sites or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. We recommend that you set `entity` to get better per-entity search, completion, and prediction results. */
+  entity?: string | undefined;
+  /** Media-specific info. */
+  mediaInfo?: GoogleCloudDiscoveryengineV1betaMediaInfo | undefined;
+  /** Should set to true if the request is made directly from the end user, in which case the UserEvent.user_info.user_agent can be populated from the HTTP request. This flag should be set only if the API request is made directly from the end user such as a mobile app (and not if a gateway or a server is processing and pushing the user events). This should not be set when using the JavaScript tag in UserEventService.CollectUserEvent. */
+  directUserRequest?: boolean | undefined;
+  /** Optional. Conversion type. Required if UserEvent.event_type is `conversion`. This is a customer-defined conversion name in lowercase letters or numbers separated by "-", such as "watch", "good-visit" etc. Do not set the field if UserEvent.event_type is not `conversion`. This mixes the custom conversion event with predefined events like `search`, `view-item` etc. */
+  conversionType?: string | undefined;
+  /** CompletionService.CompleteQuery details related to the event. This field should be set for `search` event when autocomplete function is enabled and the user clicks a suggestion for search. */
+  completionInfo?: GoogleCloudDiscoveryengineV1betaCompletionInfo | undefined;
+  /** Required. User event type. Allowed values are: Generic values: * `search`: Search for Documents. * `view-item`: Detailed page view of a Document. * `view-item-list`: View of a panel or ordered list of Documents. * `view-home-page`: View of the home page. * `view-category-page`: View of a category page, e.g. Home > Men > Jeans Retail-related values: * `add-to-cart`: Add an item(s) to cart, e.g. in Retail online shopping * `purchase`: Purchase an item(s) Media-related values: * `media-play`: Start/resume watching a video, playing a song, etc. * `media-complete`: Finished or stopped midway through a video, song, etc. Custom conversion value: * `conversion`: Customer defined conversion event. */
+  eventType?: string | undefined;
+  /** Information about the end user. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** A unique identifier for tracking a visitor session with a length limit of 128 bytes. A session is an aggregation of an end user behavior in a time span. A general guideline to populate the session_id: 1. If user has no activity for 30 min, a new session_id should be assigned. 2. The session_id should be unique across users, suggest use uuid or add UserEvent.user_pseudo_id as prefix. */
+  sessionId?: string | undefined;
+  /** Token to attribute an API response to user action(s) to trigger the event. Highly recommended for user events that are the result of RecommendationService.Recommend. This field enables accurate attribution of recommendation model performance. The value must be one of: * RecommendResponse.attribution_token for events that are the result of RecommendationService.Recommend. * SearchResponse.attribution_token for events that are the result of SearchService.Search. This token enables us to accurately attribute page view or conversion completion back to the event and the particular predict response containing this clicked/purchased product. If user clicks on product K in the recommendation results, pass RecommendResponse.attribution_token as a URL parameter to product K's page. When recording events on product K's page, log the RecommendResponse.attribution_token to this field. */
+  attributionToken?: string | undefined;
+  /** The transaction metadata (if any) associated with this user event. */
+  transactionInfo?: GoogleCloudDiscoveryengineV1betaTransactionInfo | undefined;
+  /** SearchService.Search details related to the event. This field should be set for `search` event. */
+  searchInfo?: GoogleCloudDiscoveryengineV1betaSearchInfo | undefined;
+  /** A list of identifiers for the independent experiment groups this user event belongs to. This is used to distinguish between user events associated with different experiment setups. */
+  tagIds?: StringList | undefined;
+  /** The DataStore resource full name, of the form `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. Optional. Only required for user events whose data store can't by determined by UserEvent.engine or UserEvent.documents. If data store is set in the parent of write/import/collect user event requests, this field can be omitted. */
+  dataStore?: string | undefined;
+  /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor log in/out of the website. Do not set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. The field should not contain PII or user-data. We recommend to use Google Analytics [Client ID](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for this field. */
+  userPseudoId?: string | undefined;
+  /** List of Documents associated with this user event. This field is optional except for the following event types: * `view-item` * `add-to-cart` * `purchase` * `media-play` * `media-complete` In a `search` event, this field represents the documents returned to the end user on the current page (the end user may have not finished browsing the whole page yet). When a new page is returned to the end user, after pagination/filtering/ordering even for the same query, a new `search` event with different UserEvent.documents is desired. */
+  documents?: GoogleCloudDiscoveryengineV1betaDocumentInfoList | undefined;
+  /** Optional. Extra user event features to include in the recommendation model. These attributes must NOT contain data that needs to be parsed or processed further, e.g. JSON or other encodings. If you provide custom attributes for ingested user events, also include them in the user events that you associate with prediction requests. Custom attribute formatting must be consistent between imported events and events provided with prediction requests. This lets the Discovery Engine API use those custom attributes when training models and serving predictions, which helps improve recommendation quality. This field needs to pass all below criteria, otherwise an `INVALID_ARGUMENT` error is returned: * The key must be a UTF-8 encoded string with a length limit of 5,000 characters. * For text attributes, at most 400 values are allowed. Empty values are not allowed. Each value must be a UTF-8 encoded string with a length limit of 256 characters. * For number attributes, at most 400 values are allowed. For product recommendations, an example of extra user information is `traffic_channel`, which is how a user arrives at the site. Users can arrive at the site by coming to the site directly, coming through Google search, or in other ways. */
+  attributes?: GoogleCloudDiscoveryengineV1betaCustomAttributeMap | undefined;
+  /** Panel metadata associated with this user event. */
+  panel?: GoogleCloudDiscoveryengineV1betaPanelInfo | undefined;
+  /** Optional. This field is optional except for the `add-feedback` event types. */
+  feedback?: GoogleCloudDiscoveryengineV1betaFeedback | undefined;
+  /** Only required for UserEventService.ImportUserEvents method. Timestamp of when the user event happened. */
+  eventTime?: string | undefined;
+  /** The promotion IDs if this is an event associated with promotions. Currently, this field is restricted to at most one ID. */
+  promotionIds?: StringList | undefined;
+  /** The Engine resource name, in the form of `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. Optional. Only required for Engine produced user events. For example, user events from blended search. */
+  engine?: string | undefined;
+  /** Optional. The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. One example is for `search` events, the associated SearchRequest may contain a filter expression in SearchRequest.filter conforming to https://google.aip.dev/160#filtering. Similarly, for `view-item-list` events that are generated from a RecommendRequest, this field may be populated directly from RecommendRequest.filter conforming to https://google.aip.dev/160#filtering. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  filter?: string | undefined;
+  /** Page metadata such as categories and other critical information for certain event types such as `view-category-page`. */
+  pageInfo?: GoogleCloudDiscoveryengineV1betaPageInfo | undefined;
+  /** Optional. List of panels associated with this event. Used for page-level impression data. */
+  panels?: GoogleCloudDiscoveryengineV1betaPanelInfoList | undefined;
 }
 export interface WriteProjectsLocationsUserEventsRequest {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: GoogleCloudDiscoveryengineV1betaUserEvent | undefined;
+  /** Optional. Represents the entity for customers that may run multiple different entities, domains, sites or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. We recommend that you set `entity` to get better per-entity search, completion, and prediction results. */
+  entity?: string | undefined;
+  /** Media-specific info. */
+  mediaInfo?: GoogleCloudDiscoveryengineV1betaMediaInfo | undefined;
+  /** Should set to true if the request is made directly from the end user, in which case the UserEvent.user_info.user_agent can be populated from the HTTP request. This flag should be set only if the API request is made directly from the end user such as a mobile app (and not if a gateway or a server is processing and pushing the user events). This should not be set when using the JavaScript tag in UserEventService.CollectUserEvent. */
+  directUserRequest?: boolean | undefined;
+  /** Optional. Conversion type. Required if UserEvent.event_type is `conversion`. This is a customer-defined conversion name in lowercase letters or numbers separated by "-", such as "watch", "good-visit" etc. Do not set the field if UserEvent.event_type is not `conversion`. This mixes the custom conversion event with predefined events like `search`, `view-item` etc. */
+  conversionType?: string | undefined;
+  /** CompletionService.CompleteQuery details related to the event. This field should be set for `search` event when autocomplete function is enabled and the user clicks a suggestion for search. */
+  completionInfo?: GoogleCloudDiscoveryengineV1betaCompletionInfo | undefined;
+  /** Required. User event type. Allowed values are: Generic values: * `search`: Search for Documents. * `view-item`: Detailed page view of a Document. * `view-item-list`: View of a panel or ordered list of Documents. * `view-home-page`: View of the home page. * `view-category-page`: View of a category page, e.g. Home > Men > Jeans Retail-related values: * `add-to-cart`: Add an item(s) to cart, e.g. in Retail online shopping * `purchase`: Purchase an item(s) Media-related values: * `media-play`: Start/resume watching a video, playing a song, etc. * `media-complete`: Finished or stopped midway through a video, song, etc. Custom conversion value: * `conversion`: Customer defined conversion event. */
+  eventType?: string | undefined;
+  /** Information about the end user. */
+  userInfo?: GoogleCloudDiscoveryengineV1betaUserInfo | undefined;
+  /** A unique identifier for tracking a visitor session with a length limit of 128 bytes. A session is an aggregation of an end user behavior in a time span. A general guideline to populate the session_id: 1. If user has no activity for 30 min, a new session_id should be assigned. 2. The session_id should be unique across users, suggest use uuid or add UserEvent.user_pseudo_id as prefix. */
+  sessionId?: string | undefined;
+  /** Token to attribute an API response to user action(s) to trigger the event. Highly recommended for user events that are the result of RecommendationService.Recommend. This field enables accurate attribution of recommendation model performance. The value must be one of: * RecommendResponse.attribution_token for events that are the result of RecommendationService.Recommend. * SearchResponse.attribution_token for events that are the result of SearchService.Search. This token enables us to accurately attribute page view or conversion completion back to the event and the particular predict response containing this clicked/purchased product. If user clicks on product K in the recommendation results, pass RecommendResponse.attribution_token as a URL parameter to product K's page. When recording events on product K's page, log the RecommendResponse.attribution_token to this field. */
+  attributionToken?: string | undefined;
+  /** The transaction metadata (if any) associated with this user event. */
+  transactionInfo?: GoogleCloudDiscoveryengineV1betaTransactionInfo | undefined;
+  /** SearchService.Search details related to the event. This field should be set for `search` event. */
+  searchInfo?: GoogleCloudDiscoveryengineV1betaSearchInfo | undefined;
+  /** A list of identifiers for the independent experiment groups this user event belongs to. This is used to distinguish between user events associated with different experiment setups. */
+  tagIds?: StringList | undefined;
+  /** The DataStore resource full name, of the form `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. Optional. Only required for user events whose data store can't by determined by UserEvent.engine or UserEvent.documents. If data store is set in the parent of write/import/collect user event requests, this field can be omitted. */
+  dataStore?: string | undefined;
+  /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor log in/out of the website. Do not set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. The field should not contain PII or user-data. We recommend to use Google Analytics [Client ID](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for this field. */
+  userPseudoId?: string | undefined;
+  /** List of Documents associated with this user event. This field is optional except for the following event types: * `view-item` * `add-to-cart` * `purchase` * `media-play` * `media-complete` In a `search` event, this field represents the documents returned to the end user on the current page (the end user may have not finished browsing the whole page yet). When a new page is returned to the end user, after pagination/filtering/ordering even for the same query, a new `search` event with different UserEvent.documents is desired. */
+  documents?: GoogleCloudDiscoveryengineV1betaDocumentInfoList | undefined;
+  /** Optional. Extra user event features to include in the recommendation model. These attributes must NOT contain data that needs to be parsed or processed further, e.g. JSON or other encodings. If you provide custom attributes for ingested user events, also include them in the user events that you associate with prediction requests. Custom attribute formatting must be consistent between imported events and events provided with prediction requests. This lets the Discovery Engine API use those custom attributes when training models and serving predictions, which helps improve recommendation quality. This field needs to pass all below criteria, otherwise an `INVALID_ARGUMENT` error is returned: * The key must be a UTF-8 encoded string with a length limit of 5,000 characters. * For text attributes, at most 400 values are allowed. Empty values are not allowed. Each value must be a UTF-8 encoded string with a length limit of 256 characters. * For number attributes, at most 400 values are allowed. For product recommendations, an example of extra user information is `traffic_channel`, which is how a user arrives at the site. Users can arrive at the site by coming to the site directly, coming through Google search, or in other ways. */
+  attributes?: GoogleCloudDiscoveryengineV1betaCustomAttributeMap | undefined;
+  /** Panel metadata associated with this user event. */
+  panel?: GoogleCloudDiscoveryengineV1betaPanelInfo | undefined;
+  /** Optional. This field is optional except for the `add-feedback` event types. */
+  feedback?: GoogleCloudDiscoveryengineV1betaFeedback | undefined;
+  /** Only required for UserEventService.ImportUserEvents method. Timestamp of when the user event happened. */
+  eventTime?: string | undefined;
+  /** The promotion IDs if this is an event associated with promotions. Currently, this field is restricted to at most one ID. */
+  promotionIds?: StringList | undefined;
+  /** The Engine resource name, in the form of `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. Optional. Only required for Engine produced user events. For example, user events from blended search. */
+  engine?: string | undefined;
+  /** Optional. The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. One example is for `search` events, the associated SearchRequest may contain a filter expression in SearchRequest.filter conforming to https://google.aip.dev/160#filtering. Similarly, for `view-item-list` events that are generated from a RecommendRequest, this field may be populated directly from RecommendRequest.filter conforming to https://google.aip.dev/160#filtering. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
+  filter?: string | undefined;
+  /** Page metadata such as categories and other critical information for certain event types such as `view-category-page`. */
+  pageInfo?: GoogleCloudDiscoveryengineV1betaPageInfo | undefined;
+  /** Optional. List of panels associated with this event. Used for page-level impression data. */
+  panels?: GoogleCloudDiscoveryengineV1betaPanelInfoList | undefined;
 }
 export type AnswerProjectsLocationsCollectionsDataStoresServingConfigsError =
   | NotFound
@@ -7456,14 +9626,14 @@ export const answerProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8512,
-    __c266,
+    8448,
+    __c264,
     0,
   ) as any as S.Schema<AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
   output: __S(
-    8765,
-    __c273,
-    29,
+    8700,
+    __c271,
+    28,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7486,14 +9656,14 @@ export const answerProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9440,
-    __c295,
+    9376,
+    __c293,
     0,
   ) as any as S.Schema<AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest>,
   output: __S(
-    8765,
-    __c273,
-    29,
+    8700,
+    __c271,
+    28,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7516,14 +9686,14 @@ export const answerProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10016,
-    __c313,
+    9952,
+    __c311,
     0,
   ) as any as S.Schema<AnswerProjectsLocationsDataStoresServingConfigsRequest>,
   output: __S(
-    8765,
-    __c273,
-    29,
+    8700,
+    __c271,
+    28,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7546,11 +9716,11 @@ export const batchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTa
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10368,
-    __c324,
+    10304,
+    __c322,
     0,
   ) as any as S.Schema<BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7572,11 +9742,11 @@ export const batchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSites: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10816,
-    __c338,
+    10784,
+    __c337,
     0,
   ) as any as S.Schema<BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7596,13 +9766,13 @@ export const batchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBran
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11232,
-    __c351,
+    11200,
+    __c350,
     0,
   ) as any as S.Schema<BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest>,
   output: __S(
-    11267,
-    __c352,
+    11235,
+    __c351,
     3,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7629,8 +9799,8 @@ export const batchGetDocumentsMetadataProjectsLocationsDataStoresBranches: API.O
     0,
   ) as any as S.Schema<BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest>,
   output: __S(
-    11267,
-    __c352,
+    11235,
+    __c351,
     3,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7654,11 +9824,11 @@ export const batchUpdateUserLicensesProjectsLocationsUserStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    354,
+    353,
     __c11,
-    2,
+    1,
   ) as any as S.Schema<BatchUpdateUserLicensesProjectsLocationsUserStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7680,11 +9850,11 @@ export const batchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSea
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c23,
+    768,
+    __c24,
     0,
   ) as any as S.Schema<BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7706,11 +9876,11 @@ export const cancelProjectsLocationsCollectionsDataStoresBranchesOperations: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1120,
-    __c35,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7732,11 +9902,11 @@ export const cancelProjectsLocationsDataStoresBranchesOperations: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1472,
-    __c46,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<CancelProjectsLocationsDataStoresBranchesOperationsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7757,11 +9927,11 @@ export const checkProjectsLocationsGroundingConfigs: API.OperationMethod<
   CheckProjectsLocationsGroundingConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1860, __c58, 4) as any as S.Schema<CheckProjectsLocationsGroundingConfigsRequest>,
+  input: __S(1923, __c60, 3) as any as S.Schema<CheckProjectsLocationsGroundingConfigsRequest>,
   output: __S(
-    1867,
-    __c58,
-    11,
+    1930,
+    __c60,
+    10,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCheckGroundingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7782,11 +9952,11 @@ export const collectProjectsLocationsCollectionsDataStoresUserEvents: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2592,
-    __c81,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<CollectProjectsLocationsCollectionsDataStoresUserEventsRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<GoogleApiHttpBody>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GoogleApiHttpBody>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7803,11 +9973,11 @@ export const collectProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3136,
-    __c98,
+    3200,
+    __c100,
     0,
   ) as any as S.Schema<CollectProjectsLocationsDataStoresUserEventsRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<GoogleApiHttpBody>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GoogleApiHttpBody>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7823,8 +9993,8 @@ export const collectProjectsLocationsUserEvents: API.OperationMethod<
   CollectProjectsLocationsUserEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<CollectProjectsLocationsUserEventsRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<GoogleApiHttpBody>,
+  input: __S(3648, __c114, 0) as any as S.Schema<CollectProjectsLocationsUserEventsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GoogleApiHttpBody>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -7844,13 +10014,13 @@ export const completeQueryProjectsLocationsCollectionsDataStores: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3936,
-    __c123,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<CompleteQueryProjectsLocationsCollectionsDataStoresRequest>,
   output: __S(
-    3970,
-    __c124,
+    4034,
+    __c126,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCompleteQueryResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7874,14 +10044,14 @@ export const completeQueryProjectsLocationsCollectionsDataStoresCompletionConfig
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest>,
   output: __S(
-    4366,
-    __c136,
-    14,
+    4429,
+    __c138,
+    13,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7904,14 +10074,14 @@ export const completeQueryProjectsLocationsCollectionsEnginesCompletionConfig: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4832,
-    __c151,
+    4864,
+    __c152,
     0,
   ) as any as S.Schema<CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest>,
   output: __S(
-    4366,
-    __c136,
-    14,
+    4429,
+    __c138,
+    13,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7928,10 +10098,10 @@ export const completeQueryProjectsLocationsDataStores: API.OperationMethod<
   CompleteQueryProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<CompleteQueryProjectsLocationsDataStoresRequest>,
+  input: __S(5216, __c163, 0) as any as S.Schema<CompleteQueryProjectsLocationsDataStoresRequest>,
   output: __S(
-    3970,
-    __c124,
+    4034,
+    __c126,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCompleteQueryResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -7955,14 +10125,14 @@ export const completeQueryProjectsLocationsDataStoresCompletionConfig: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5536,
-    __c173,
+    5568,
+    __c174,
     0,
   ) as any as S.Schema<CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest>,
   output: __S(
-    4366,
-    __c136,
-    14,
+    4429,
+    __c138,
+    13,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7985,14 +10155,14 @@ export const converseProjectsLocationsCollectionsDataStoresConversations: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5920,
-    __c185,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<ConverseProjectsLocationsCollectionsDataStoresConversationsRequest>,
   output: __S(
-    5953,
-    __c186,
-    1,
+    5984,
+    __c187,
+    0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConverseConversationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8020,9 +10190,9 @@ export const converseProjectsLocationsCollectionsEnginesConversations: API.Opera
     0,
   ) as any as S.Schema<ConverseProjectsLocationsCollectionsEnginesConversationsRequest>,
   output: __S(
-    5953,
-    __c186,
-    1,
+    5984,
+    __c187,
+    0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConverseConversationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8045,14 +10215,14 @@ export const converseProjectsLocationsDataStoresConversations: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6944,
-    __c217,
+    6912,
+    __c216,
     0,
   ) as any as S.Schema<ConverseProjectsLocationsDataStoresConversationsRequest>,
   output: __S(
-    5953,
-    __c186,
-    1,
+    5984,
+    __c187,
+    0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConverseConversationResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8075,11 +10245,11 @@ export const createProjectsLocationsCollectionsDataStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7328,
-    __c229,
+    7264,
+    __c227,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8101,11 +10271,11 @@ export const createProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7840,
-    __c245,
+    7808,
+    __c244,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
-  output: __S(4391, __c137, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
+  output: __S(4455, __c139, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8127,11 +10297,11 @@ export const createProjectsLocationsCollectionsDataStoresControls: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7872,
-    __c246,
+    7840,
+    __c245,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8153,11 +10323,11 @@ export const createProjectsLocationsCollectionsDataStoresConversations: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8000,
-    __c250,
+    7968,
+    __c249,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8179,11 +10349,11 @@ export const createProjectsLocationsCollectionsDataStoresSchemas: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8032,
-    __c251,
+    8000,
+    __c250,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresSchemasRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8205,11 +10375,11 @@ export const createProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8064,
-    __c252,
+    8032,
+    __c251,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8231,11 +10401,11 @@ export const createProjectsLocationsCollectionsDataStoresSessions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8160,
-    __c255,
+    8128,
+    __c254,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8257,11 +10427,11 @@ export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8192,
-    __c256,
+    8160,
+    __c255,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8283,11 +10453,11 @@ export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8256,
-    __c258,
+    8192,
+    __c256,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8308,8 +10478,8 @@ export const createProjectsLocationsCollectionsEngines: API.OperationMethod<
   CreateProjectsLocationsCollectionsEnginesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(8224, __c257, 0) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8331,11 +10501,11 @@ export const createProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8384,
-    __c262,
+    8320,
+    __c260,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesAssistantsRequest>,
-  output: __S(8426, __c263, 10) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAssistant>,
+  output: __S(8362, __c261, 10) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAssistant>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8357,11 +10527,11 @@ export const createProjectsLocationsCollectionsEnginesControls: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8448,
-    __c264,
+    8384,
+    __c262,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8383,11 +10553,11 @@ export const createProjectsLocationsCollectionsEnginesConversations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8480,
-    __c265,
+    8416,
+    __c263,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8409,11 +10579,11 @@ export const createProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9120,
-    __c285,
+    9056,
+    __c283,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8435,11 +10605,11 @@ export const createProjectsLocationsCollectionsEnginesSessions: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9152,
-    __c286,
+    9088,
+    __c284,
     0,
   ) as any as S.Schema<CreateProjectsLocationsCollectionsEnginesSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8460,8 +10630,8 @@ export const createProjectsLocationsDataStores: API.OperationMethod<
   CreateProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<CreateProjectsLocationsDataStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(9120, __c285, 0) as any as S.Schema<CreateProjectsLocationsDataStoresRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8483,11 +10653,11 @@ export const createProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9216,
-    __c288,
+    9152,
+    __c286,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataStoresBranchesDocumentsRequest>,
-  output: __S(4391, __c137, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
+  output: __S(4455, __c139, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8508,8 +10678,8 @@ export const createProjectsLocationsDataStoresControls: API.OperationMethod<
   CreateProjectsLocationsDataStoresControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<CreateProjectsLocationsDataStoresControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  input: __S(9184, __c287, 0) as any as S.Schema<CreateProjectsLocationsDataStoresControlsRequest>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8531,11 +10701,11 @@ export const createProjectsLocationsDataStoresConversations: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9280,
-    __c290,
+    9216,
+    __c288,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataStoresConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8556,8 +10726,8 @@ export const createProjectsLocationsDataStoresSchemas: API.OperationMethod<
   CreateProjectsLocationsDataStoresSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<CreateProjectsLocationsDataStoresSchemasRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(9248, __c289, 0) as any as S.Schema<CreateProjectsLocationsDataStoresSchemasRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8579,11 +10749,11 @@ export const createProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9344,
-    __c292,
+    9280,
+    __c290,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataStoresServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8604,8 +10774,8 @@ export const createProjectsLocationsDataStoresSessions: API.OperationMethod<
   CreateProjectsLocationsDataStoresSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<CreateProjectsLocationsDataStoresSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  input: __S(9312, __c291, 0) as any as S.Schema<CreateProjectsLocationsDataStoresSessionsRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8627,11 +10797,11 @@ export const createProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9408,
-    __c294,
+    9344,
+    __c292,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8653,11 +10823,11 @@ export const createProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9472,
-    __c296,
+    9408,
+    __c294,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8678,8 +10848,8 @@ export const createProjectsLocationsEvaluations: API.OperationMethod<
   CreateProjectsLocationsEvaluationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<CreateProjectsLocationsEvaluationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(9440, __c295, 0) as any as S.Schema<CreateProjectsLocationsEvaluationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8701,13 +10871,13 @@ export const createProjectsLocationsIdentityMappingStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9632,
-    __c301,
+    9568,
+    __c299,
     0,
   ) as any as S.Schema<CreateProjectsLocationsIdentityMappingStoresRequest>,
   output: __S(
-    9664,
-    __c302,
+    9600,
+    __c300,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaIdentityMappingStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -8730,8 +10900,8 @@ export const createProjectsLocationsLicenseConfigs: API.OperationMethod<
   CreateProjectsLocationsLicenseConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<CreateProjectsLocationsLicenseConfigsRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig>,
+  input: __S(9632, __c301, 0) as any as S.Schema<CreateProjectsLocationsLicenseConfigsRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8752,8 +10922,8 @@ export const createProjectsLocationsSampleQuerySets: API.OperationMethod<
   CreateProjectsLocationsSampleQuerySetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<CreateProjectsLocationsSampleQuerySetsRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet>,
+  input: __S(9696, __c303, 0) as any as S.Schema<CreateProjectsLocationsSampleQuerySetsRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8775,11 +10945,11 @@ export const createProjectsLocationsSampleQuerySetsSampleQueries: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9824,
-    __c307,
+    9760,
+    __c305,
     0,
   ) as any as S.Schema<CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest>,
-  output: __S(9859, __c308, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery>,
+  output: __S(9795, __c306, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8800,8 +10970,8 @@ export const deleteProjectsLocationsCmekConfigs: API.OperationMethod<
   DeleteProjectsLocationsCmekConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<DeleteProjectsLocationsCmekConfigsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(9824, __c307, 0) as any as S.Schema<DeleteProjectsLocationsCmekConfigsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8823,11 +10993,11 @@ export const deleteProjectsLocationsCollectionsDataStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9920,
-    __c310,
+    9856,
+    __c308,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8849,11 +11019,11 @@ export const deleteProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9952,
-    __c311,
+    9888,
+    __c309,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8875,11 +11045,11 @@ export const deleteProjectsLocationsCollectionsDataStoresControls: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9984,
-    __c312,
+    9920,
+    __c310,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresControlsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8901,11 +11071,11 @@ export const deleteProjectsLocationsCollectionsDataStoresConversations: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10048,
-    __c314,
+    9984,
+    __c312,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresConversationsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8927,11 +11097,11 @@ export const deleteProjectsLocationsCollectionsDataStoresSchemas: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10080,
-    __c315,
+    10016,
+    __c313,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresSchemasRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8953,11 +11123,11 @@ export const deleteProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10112,
-    __c316,
+    10048,
+    __c314,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8979,11 +11149,11 @@ export const deleteProjectsLocationsCollectionsDataStoresSessions: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10144,
-    __c317,
+    10080,
+    __c315,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresSessionsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9005,11 +11175,11 @@ export const deleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10176,
-    __c318,
+    10112,
+    __c316,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9031,11 +11201,11 @@ export const deleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10208,
-    __c319,
+    10144,
+    __c317,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9056,8 +11226,8 @@ export const deleteProjectsLocationsCollectionsEngines: API.OperationMethod<
   DeleteProjectsLocationsCollectionsEnginesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(10176, __c318, 0) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9079,11 +11249,11 @@ export const deleteProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10272,
-    __c321,
+    10208,
+    __c319,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesAssistantsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9105,11 +11275,11 @@ export const deleteProjectsLocationsCollectionsEnginesControls: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10304,
-    __c322,
+    10240,
+    __c320,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesControlsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9131,11 +11301,11 @@ export const deleteProjectsLocationsCollectionsEnginesConversations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10336,
-    __c323,
+    10272,
+    __c321,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesConversationsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9157,11 +11327,11 @@ export const deleteProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10496,
-    __c328,
+    10464,
+    __c327,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9183,11 +11353,11 @@ export const deleteProjectsLocationsCollectionsEnginesSessions: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10528,
-    __c329,
+    10496,
+    __c328,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsCollectionsEnginesSessionsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9208,8 +11378,8 @@ export const deleteProjectsLocationsDataStores: API.OperationMethod<
   DeleteProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(10528, __c329, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9231,11 +11401,11 @@ export const deleteProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10592,
-    __c331,
+    10560,
+    __c330,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataStoresBranchesDocumentsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9256,8 +11426,8 @@ export const deleteProjectsLocationsDataStoresControls: API.OperationMethod<
   DeleteProjectsLocationsDataStoresControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresControlsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(10592, __c331, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresControlsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9279,11 +11449,11 @@ export const deleteProjectsLocationsDataStoresConversations: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10656,
-    __c333,
+    10624,
+    __c332,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataStoresConversationsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9304,8 +11474,8 @@ export const deleteProjectsLocationsDataStoresSchemas: API.OperationMethod<
   DeleteProjectsLocationsDataStoresSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresSchemasRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(10656, __c333, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresSchemasRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9327,11 +11497,11 @@ export const deleteProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10720,
-    __c335,
+    10688,
+    __c334,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataStoresServingConfigsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9352,8 +11522,8 @@ export const deleteProjectsLocationsDataStoresSessions: API.OperationMethod<
   DeleteProjectsLocationsDataStoresSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresSessionsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(10720, __c335, 0) as any as S.Schema<DeleteProjectsLocationsDataStoresSessionsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9375,11 +11545,11 @@ export const deleteProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10784,
-    __c337,
+    10752,
+    __c336,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9401,11 +11571,11 @@ export const deleteProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10848,
-    __c339,
+    10816,
+    __c338,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9427,11 +11597,11 @@ export const deleteProjectsLocationsIdentityMappingStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10880,
-    __c340,
+    10848,
+    __c339,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsIdentityMappingStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9452,8 +11622,8 @@ export const deleteProjectsLocationsSampleQuerySets: API.OperationMethod<
   DeleteProjectsLocationsSampleQuerySetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<DeleteProjectsLocationsSampleQuerySetsRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  input: __S(10880, __c340, 0) as any as S.Schema<DeleteProjectsLocationsSampleQuerySetsRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9475,11 +11645,11 @@ export const deleteProjectsLocationsSampleQuerySetsSampleQueries: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10944,
-    __c342,
+    10912,
+    __c341,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsSampleQuerySetsSampleQueriesRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GoogleProtobufEmpty>,
+  output: __S(800, __c25, 0) as any as S.Schema<GoogleProtobufEmpty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9501,11 +11671,11 @@ export const disableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSite
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    10976,
-    __c343,
+    10944,
+    __c342,
     0,
   ) as any as S.Schema<DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9527,11 +11697,11 @@ export const disableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngin
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11008,
-    __c344,
+    10976,
+    __c343,
     0,
   ) as any as S.Schema<DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9553,13 +11723,13 @@ export const distributeLicenseConfigBillingAccountsBillingAccountLicenseConfigs:
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11041,
-    __c345,
-    1,
+    11008,
+    __c344,
+    0,
   ) as any as S.Schema<DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest>,
   output: __S(
-    11072,
-    __c346,
+    11040,
+    __c345,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -9583,11 +11753,11 @@ export const enableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteS
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11104,
-    __c347,
+    11072,
+    __c346,
     0,
   ) as any as S.Schema<EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9609,11 +11779,11 @@ export const enableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11136,
-    __c348,
+    11104,
+    __c347,
     0,
   ) as any as S.Schema<EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9634,13 +11804,13 @@ export const fetchDomainVerificationStatusProjectsLocationsCollectionsDataStores
   GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    11168,
-    __c349,
+    11136,
+    __c348,
     0,
   ) as any as S.Schema<FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest>,
   output: __S(
-    11201,
-    __c350,
+    11169,
+    __c349,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaFetchDomainVerificationStatusResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -9663,14 +11833,14 @@ export const fetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11296,
-    __c353,
+    11264,
+    __c352,
     0,
   ) as any as S.Schema<FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest>,
   output: __S(
-    11330,
-    __c354,
-    2,
+    11299,
+    __c353,
+    3,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -9691,14 +11861,14 @@ export const fetchProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11360,
-    __c355,
+    11328,
+    __c354,
     0,
   ) as any as S.Schema<FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest>,
   output: __S(
-    11330,
-    __c354,
-    2,
+    11299,
+    __c353,
+    3,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -9715,8 +11885,8 @@ export const getAclConfigProjectsLocations: API.OperationMethod<
   GetAclConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11392, __c356, 0) as any as S.Schema<GetAclConfigProjectsLocationsRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAclConfig>,
+  input: __S(11360, __c355, 0) as any as S.Schema<GetAclConfigProjectsLocationsRequest>,
+  output: __S(11424, __c357, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAclConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9732,8 +11902,8 @@ export const getCmekConfigProjectsLocations: API.OperationMethod<
   GetCmekConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<GetCmekConfigProjectsLocationsRequest>,
-  output: __S(7426, __c232, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCmekConfig>,
+  input: __S(11456, __c358, 0) as any as S.Schema<GetCmekConfigProjectsLocationsRequest>,
+  output: __S(7360, __c230, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCmekConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9753,11 +11923,11 @@ export const getIamPolicyProjectsLocationsCollectionsDataStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11520,
-    __c360,
+    11488,
+    __c359,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(11555, __c361, 3) as any as S.Schema<GoogleIamV1Policy>,
+  output: __S(11523, __c360, 3) as any as S.Schema<GoogleIamV1Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9777,11 +11947,11 @@ export const getIamPolicyProjectsLocationsCollectionsEngines: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11584,
-    __c362,
+    11552,
+    __c361,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(11555, __c361, 3) as any as S.Schema<GoogleIamV1Policy>,
+  output: __S(11523, __c360, 3) as any as S.Schema<GoogleIamV1Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9797,8 +11967,8 @@ export const getIamPolicyProjectsLocationsDataStores: API.OperationMethod<
   GetIamPolicyProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDataStoresRequest>,
-  output: __S(11555, __c361, 3) as any as S.Schema<GoogleIamV1Policy>,
+  input: __S(11584, __c362, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDataStoresRequest>,
+  output: __S(11523, __c360, 3) as any as S.Schema<GoogleIamV1Policy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9814,8 +11984,8 @@ export const getProjectsLocationsCmekConfigs: API.OperationMethod<
   GetProjectsLocationsCmekConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<GetProjectsLocationsCmekConfigsRequest>,
-  output: __S(7426, __c232, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCmekConfig>,
+  input: __S(11616, __c363, 0) as any as S.Schema<GetProjectsLocationsCmekConfigsRequest>,
+  output: __S(7360, __c230, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaCmekConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9835,11 +12005,11 @@ export const getProjectsLocationsCollectionsDataConnectorOperations: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11680,
-    __c365,
+    11648,
+    __c364,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataConnectorOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9855,8 +12025,8 @@ export const getProjectsLocationsCollectionsDataStores: API.OperationMethod<
   GetProjectsLocationsCollectionsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(7507, __c234, 19) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
+  input: __S(11680, __c365, 0) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresRequest>,
+  output: __S(11712, __c366, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9880,7 +12050,7 @@ export const getProjectsLocationsCollectionsDataStoresBranchesDocuments: API.Ope
     __c1,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
-  output: __S(4391, __c137, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
+  output: __S(4455, __c139, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9904,7 +12074,7 @@ export const getProjectsLocationsCollectionsDataStoresBranchesOperations: API.Op
     __c2,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9928,7 +12098,7 @@ export const getProjectsLocationsCollectionsDataStoresControls: API.OperationMet
     __c3,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9952,7 +12122,7 @@ export const getProjectsLocationsCollectionsDataStoresConversations: API.Operati
     __c4,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9976,7 +12146,7 @@ export const getProjectsLocationsCollectionsDataStoresModelsOperations: API.Oper
     __c5,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10000,7 +12170,7 @@ export const getProjectsLocationsCollectionsDataStoresOperations: API.OperationM
     __c6,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10024,7 +12194,7 @@ export const getProjectsLocationsCollectionsDataStoresSchemas: API.OperationMeth
     __c7,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSchemasRequest>,
-  output: __S(7360, __c230, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSchema>,
+  output: __S(7424, __c232, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSchema>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10048,7 +12218,7 @@ export const getProjectsLocationsCollectionsDataStoresSchemasOperations: API.Ope
     __c8,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10072,7 +12242,7 @@ export const getProjectsLocationsCollectionsDataStoresServingConfigs: API.Operat
     __c9,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10096,7 +12266,7 @@ export const getProjectsLocationsCollectionsDataStoresSessions: API.OperationMet
     __c10,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10120,7 +12290,7 @@ export const getProjectsLocationsCollectionsDataStoresSessionsAnswers: API.Opera
     __c13,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest>,
-  output: __S(8799, __c274, 31) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswer>,
+  output: __S(8735, __c272, 31) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10144,7 +12314,7 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations
     __c14,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10168,7 +12338,7 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
     __c15,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10467, __c327, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaTargetSite>,
+  output: __S(10432, __c326, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaTargetSite>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10192,7 +12362,7 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
     __c16,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10209,7 +12379,7 @@ export const getProjectsLocationsCollectionsEngines: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(8373, __c261, 21) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
+  output: __S(576, __c18, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10229,11 +12399,11 @@ export const getProjectsLocationsCollectionsEnginesAssistants: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    576,
-    __c18,
+    608,
+    __c19,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesAssistantsRequest>,
-  output: __S(8426, __c263, 10) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAssistant>,
+  output: __S(8362, __c261, 10) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAssistant>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10253,11 +12423,11 @@ export const getProjectsLocationsCollectionsEnginesAssistantsAgentsOperations: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    608,
-    __c19,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10274,11 +12444,11 @@ export const getProjectsLocationsCollectionsEnginesControls: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    640,
-    __c20,
+    672,
+    __c21,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10298,11 +12468,11 @@ export const getProjectsLocationsCollectionsEnginesConversations: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c21,
+    704,
+    __c22,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10322,11 +12492,11 @@ export const getProjectsLocationsCollectionsEnginesOperations: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    704,
-    __c22,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10346,11 +12516,11 @@ export const getProjectsLocationsCollectionsEnginesServingConfigs: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    832,
+    __c26,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10367,11 +12537,11 @@ export const getProjectsLocationsCollectionsEnginesSessions: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10391,11 +12561,11 @@ export const getProjectsLocationsCollectionsEnginesSessionsAnswers: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest>,
-  output: __S(8799, __c274, 31) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswer>,
+  output: __S(8735, __c272, 31) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10411,8 +12581,8 @@ export const getProjectsLocationsCollectionsOperations: API.OperationMethod<
   GetProjectsLocationsCollectionsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetProjectsLocationsCollectionsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetProjectsLocationsCollectionsOperationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10428,8 +12598,8 @@ export const getProjectsLocationsDataStores: API.OperationMethod<
   GetProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetProjectsLocationsDataStoresRequest>,
-  output: __S(7507, __c234, 19) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsDataStoresRequest>,
+  output: __S(11712, __c366, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10449,11 +12619,11 @@ export const getProjectsLocationsDataStoresBranchesDocuments: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataStoresBranchesDocumentsRequest>,
-  output: __S(4391, __c137, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
+  output: __S(4455, __c139, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10473,11 +12643,11 @@ export const getProjectsLocationsDataStoresBranchesOperations: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    1024,
+    __c32,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataStoresBranchesOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10493,8 +12663,8 @@ export const getProjectsLocationsDataStoresControls: API.OperationMethod<
   GetProjectsLocationsDataStoresControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsLocationsDataStoresControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsDataStoresControlsRequest>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10510,8 +12680,8 @@ export const getProjectsLocationsDataStoresConversations: API.OperationMethod<
   GetProjectsLocationsDataStoresConversationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsDataStoresConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetProjectsLocationsDataStoresConversationsRequest>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10528,11 +12698,11 @@ export const getProjectsLocationsDataStoresModelsOperations: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataStoresModelsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10548,8 +12718,8 @@ export const getProjectsLocationsDataStoresOperations: API.OperationMethod<
   GetProjectsLocationsDataStoresOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetProjectsLocationsDataStoresOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetProjectsLocationsDataStoresOperationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10565,8 +12735,8 @@ export const getProjectsLocationsDataStoresSchemas: API.OperationMethod<
   GetProjectsLocationsDataStoresSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetProjectsLocationsDataStoresSchemasRequest>,
-  output: __S(7360, __c230, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSchema>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetProjectsLocationsDataStoresSchemasRequest>,
+  output: __S(7424, __c232, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSchema>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10583,11 +12753,11 @@ export const getProjectsLocationsDataStoresServingConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataStoresServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10603,8 +12773,8 @@ export const getProjectsLocationsDataStoresSessions: API.OperationMethod<
   GetProjectsLocationsDataStoresSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetProjectsLocationsDataStoresSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetProjectsLocationsDataStoresSessionsRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10621,11 +12791,11 @@ export const getProjectsLocationsDataStoresSessionsAnswers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataStoresSessionsAnswersRequest>,
-  output: __S(8799, __c274, 31) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswer>,
+  output: __S(8735, __c272, 31) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10645,11 +12815,11 @@ export const getProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c41,
+    1344,
+    __c42,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10467, __c327, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaTargetSite>,
+  output: __S(10432, __c326, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaTargetSite>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10665,8 +12835,8 @@ export const getProjectsLocationsEvaluations: API.OperationMethod<
   GetProjectsLocationsEvaluationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsLocationsEvaluationsRequest>,
-  output: __S(9538, __c298, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEvaluation>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsEvaluationsRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEvaluation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10682,8 +12852,8 @@ export const getProjectsLocationsEvaluationsOperations: API.OperationMethod<
   GetProjectsLocationsEvaluationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsEvaluationsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsLocationsEvaluationsOperationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10699,10 +12869,10 @@ export const getProjectsLocationsIdentityMappingStores: API.OperationMethod<
   GetProjectsLocationsIdentityMappingStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsLocationsIdentityMappingStoresRequest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsLocationsIdentityMappingStoresRequest>,
   output: __S(
-    9664,
-    __c302,
+    9600,
+    __c300,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaIdentityMappingStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -10724,11 +12894,11 @@ export const getProjectsLocationsIdentityMappingStoresOperations: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1504,
+    __c47,
     0,
   ) as any as S.Schema<GetProjectsLocationsIdentityMappingStoresOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10744,8 +12914,8 @@ export const getProjectsLocationsLicenseConfigs: API.OperationMethod<
   GetProjectsLocationsLicenseConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsLocationsLicenseConfigsRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsLocationsLicenseConfigsRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10761,8 +12931,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10778,8 +12948,8 @@ export const getProjectsLocationsPodcastsOperations: API.OperationMethod<
   GetProjectsLocationsPodcastsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsLocationsPodcastsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetProjectsLocationsPodcastsOperationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10795,8 +12965,8 @@ export const getProjectsLocationsSampleQuerySets: API.OperationMethod<
   GetProjectsLocationsSampleQuerySetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetProjectsLocationsSampleQuerySetsRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetProjectsLocationsSampleQuerySetsRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10813,11 +12983,11 @@ export const getProjectsLocationsSampleQuerySetsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    1696,
+    __c53,
     0,
   ) as any as S.Schema<GetProjectsLocationsSampleQuerySetsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10837,11 +13007,11 @@ export const getProjectsLocationsSampleQuerySetsSampleQueries: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1728,
+    __c54,
     0,
   ) as any as S.Schema<GetProjectsLocationsSampleQuerySetsSampleQueriesRequest>,
-  output: __S(9859, __c308, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery>,
+  output: __S(9795, __c306, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10857,8 +13027,8 @@ export const getProjectsLocationsUserStores: API.OperationMethod<
   GetProjectsLocationsUserStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetProjectsLocationsUserStoresRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserStore>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetProjectsLocationsUserStoresRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserStore>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10874,8 +13044,8 @@ export const getProjectsOperations: API.OperationMethod<
   GetProjectsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetProjectsOperationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetProjectsOperationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10895,11 +13065,11 @@ export const getSiteSearchEngineProjectsLocationsCollectionsDataStores: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1792,
-    __c56,
+    1856,
+    __c58,
     0,
   ) as any as S.Schema<GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSiteSearchEngine>,
+  output: __S(8256, __c258, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSiteSearchEngine>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10916,11 +13086,11 @@ export const getSiteSearchEngineProjectsLocationsDataStores: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1824,
-    __c57,
+    1888,
+    __c59,
     0,
   ) as any as S.Schema<GetSiteSearchEngineProjectsLocationsDataStoresRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSiteSearchEngine>,
+  output: __S(8256, __c258, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSiteSearchEngine>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10942,11 +13112,11 @@ export const importIdentityMappingsProjectsLocationsIdentityMappingStores: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1889,
-    __c59,
-    1,
+    1952,
+    __c61,
+    0,
   ) as any as S.Schema<ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10968,11 +13138,11 @@ export const importProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c62,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -10994,11 +13164,11 @@ export const importProjectsLocationsCollectionsDataStoresCompletionSuggestions: 
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2176,
-    __c68,
+    2240,
+    __c70,
     0,
   ) as any as S.Schema<ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11020,11 +13190,11 @@ export const importProjectsLocationsCollectionsDataStoresSuggestionDenyListEntri
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2240,
-    __c70,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11046,11 +13216,11 @@ export const importProjectsLocationsCollectionsDataStoresUserEvents: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2304,
-    __c72,
+    2368,
+    __c74,
     0,
   ) as any as S.Schema<ImportProjectsLocationsCollectionsDataStoresUserEventsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11072,11 +13242,11 @@ export const importProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2400,
-    __c75,
+    2464,
+    __c77,
     0,
   ) as any as S.Schema<ImportProjectsLocationsDataStoresBranchesDocumentsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11098,11 +13268,11 @@ export const importProjectsLocationsDataStoresCompletionSuggestions: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2432,
-    __c76,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<ImportProjectsLocationsDataStoresCompletionSuggestionsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11124,11 +13294,11 @@ export const importProjectsLocationsDataStoresSuggestionDenyListEntries: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c77,
+    2528,
+    __c79,
     0,
   ) as any as S.Schema<ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11149,8 +13319,8 @@ export const importProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   ImportProjectsLocationsDataStoresUserEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ImportProjectsLocationsDataStoresUserEventsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ImportProjectsLocationsDataStoresUserEventsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11172,11 +13342,11 @@ export const importProjectsLocationsSampleQuerySetsSampleQueries: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2530,
-    __c79,
-    2,
+    2593,
+    __c81,
+    1,
   ) as any as S.Schema<ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11197,8 +13367,8 @@ export const importProjectsLocationsUserEvents: API.OperationMethod<
   ImportProjectsLocationsUserEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ImportProjectsLocationsUserEventsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ImportProjectsLocationsUserEventsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11219,13 +13389,13 @@ export const listIdentityMappingsProjectsLocationsIdentityMappingStores: API.Pag
   GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2688,
-    __c84,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest>,
   output: __S(
-    2689,
-    __c84,
+    2753,
+    __c86,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11244,10 +13414,10 @@ export const listProjectsLocationsCmekConfigs: API.OperationMethod<
   ListProjectsLocationsCmekConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListProjectsLocationsCmekConfigsRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListProjectsLocationsCmekConfigsRequest>,
   output: __S(
-    2722,
-    __c85,
+    2786,
+    __c87,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11270,11 +13440,11 @@ export const listProjectsLocationsCollectionsDataConnectorOperations: API.Pagina
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2752,
-    __c86,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataConnectorOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11292,10 +13462,10 @@ export const listProjectsLocationsCollectionsDataStores: API.PaginatedOperationM
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListDataStoresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresRequest>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresRequest>,
   output: __S(
-    2849,
-    __c89,
+    2913,
+    __c91,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListDataStoresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11319,13 +13489,13 @@ export const listProjectsLocationsCollectionsDataStoresBranchesDocuments: API.Pa
   GoogleCloudDiscoveryengineV1betaListDocumentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2880,
-    __c90,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
   output: __S(
-    2912,
-    __c91,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListDocumentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11349,11 +13519,11 @@ export const listProjectsLocationsCollectionsDataStoresBranchesOperations: API.P
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2944,
-    __c92,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11375,13 +13545,13 @@ export const listProjectsLocationsCollectionsDataStoresControls: API.PaginatedOp
   GoogleCloudDiscoveryengineV1betaListControlsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2976,
-    __c93,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresControlsRequest>,
   output: __S(
-    3009,
-    __c94,
+    3073,
+    __c96,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListControlsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11405,13 +13575,13 @@ export const listProjectsLocationsCollectionsDataStoresConversations: API.Pagina
   GoogleCloudDiscoveryengineV1betaListConversationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3040,
-    __c95,
+    3104,
+    __c97,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresConversationsRequest>,
   output: __S(
-    3073,
-    __c96,
+    3137,
+    __c98,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListConversationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11434,13 +13604,13 @@ export const listProjectsLocationsCollectionsDataStoresCustomModels: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    3168,
+    __c99,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresCustomModelsRequest>,
   output: __S(
-    3108,
-    __c97,
+    3172,
+    __c99,
     4,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListCustomModelsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11463,11 +13633,11 @@ export const listProjectsLocationsCollectionsDataStoresModelsOperations: API.Pag
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3168,
-    __c99,
+    3232,
+    __c101,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11489,11 +13659,11 @@ export const listProjectsLocationsCollectionsDataStoresOperations: API.Paginated
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3200,
-    __c100,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11515,13 +13685,13 @@ export const listProjectsLocationsCollectionsDataStoresSchemas: API.PaginatedOpe
   GoogleCloudDiscoveryengineV1betaListSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3232,
-    __c101,
+    3296,
+    __c103,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresSchemasRequest>,
   output: __S(
-    3265,
-    __c102,
+    3329,
+    __c104,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11545,11 +13715,11 @@ export const listProjectsLocationsCollectionsDataStoresSchemasOperations: API.Pa
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3296,
-    __c103,
+    3360,
+    __c105,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11571,13 +13741,13 @@ export const listProjectsLocationsCollectionsDataStoresServingConfigs: API.Pagin
   GoogleCloudDiscoveryengineV1betaListServingConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3328,
-    __c104,
+    3392,
+    __c106,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
   output: __S(
-    3361,
-    __c105,
+    3425,
+    __c107,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListServingConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11601,13 +13771,13 @@ export const listProjectsLocationsCollectionsDataStoresSessions: API.PaginatedOp
   GoogleCloudDiscoveryengineV1betaListSessionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3392,
-    __c106,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresSessionsRequest>,
   output: __S(
-    3425,
-    __c107,
+    3489,
+    __c109,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSessionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11631,11 +13801,11 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineOperation
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3456,
-    __c108,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11657,13 +13827,13 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   GoogleCloudDiscoveryengineV1betaListTargetSitesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3488,
-    __c109,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest>,
   output: __S(
-    11201,
-    __c350,
+    11169,
+    __c349,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListTargetSitesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11687,11 +13857,11 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3520,
-    __c110,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11709,10 +13879,10 @@ export const listProjectsLocationsCollectionsEngines: API.PaginatedOperationMeth
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListEnginesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ListProjectsLocationsCollectionsEnginesRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListProjectsLocationsCollectionsEnginesRequest>,
   output: __S(
-    3554,
-    __c111,
+    3618,
+    __c113,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListEnginesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11736,13 +13906,13 @@ export const listProjectsLocationsCollectionsEnginesAssistants: API.PaginatedOpe
   GoogleCloudDiscoveryengineV1betaListAssistantsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3616,
-    __c113,
+    3680,
+    __c115,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsEnginesAssistantsRequest>,
   output: __S(
-    3618,
-    __c113,
+    3682,
+    __c115,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListAssistantsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11766,13 +13936,13 @@ export const listProjectsLocationsCollectionsEnginesControls: API.PaginatedOpera
   GoogleCloudDiscoveryengineV1betaListControlsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3648,
-    __c114,
+    3712,
+    __c116,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsEnginesControlsRequest>,
   output: __S(
-    3009,
-    __c94,
+    3073,
+    __c96,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListControlsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11796,13 +13966,13 @@ export const listProjectsLocationsCollectionsEnginesConversations: API.Paginated
   GoogleCloudDiscoveryengineV1betaListConversationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3680,
-    __c115,
+    3744,
+    __c117,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsEnginesConversationsRequest>,
   output: __S(
-    3073,
-    __c96,
+    3137,
+    __c98,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListConversationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11826,11 +13996,11 @@ export const listProjectsLocationsCollectionsEnginesOperations: API.PaginatedOpe
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3712,
-    __c116,
+    3776,
+    __c118,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsEnginesOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11852,13 +14022,13 @@ export const listProjectsLocationsCollectionsEnginesServingConfigs: API.Paginate
   GoogleCloudDiscoveryengineV1betaListServingConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3744,
-    __c117,
+    3808,
+    __c119,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsEnginesServingConfigsRequest>,
   output: __S(
-    3361,
-    __c105,
+    3425,
+    __c107,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListServingConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11882,13 +14052,13 @@ export const listProjectsLocationsCollectionsEnginesSessions: API.PaginatedOpera
   GoogleCloudDiscoveryengineV1betaListSessionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3776,
-    __c118,
+    3840,
+    __c120,
     0,
   ) as any as S.Schema<ListProjectsLocationsCollectionsEnginesSessionsRequest>,
   output: __S(
-    3425,
-    __c107,
+    3489,
+    __c109,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSessionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11908,8 +14078,8 @@ export const listProjectsLocationsCollectionsOperations: API.PaginatedOperationM
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListProjectsLocationsCollectionsOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ListProjectsLocationsCollectionsOperationsRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -11927,10 +14097,10 @@ export const listProjectsLocationsDataStores: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListDataStoresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListProjectsLocationsDataStoresRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListProjectsLocationsDataStoresRequest>,
   output: __S(
-    2849,
-    __c89,
+    2913,
+    __c91,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListDataStoresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11954,13 +14124,13 @@ export const listProjectsLocationsDataStoresBranchesDocuments: API.PaginatedOper
   GoogleCloudDiscoveryengineV1betaListDocumentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3872,
-    __c121,
+    3936,
+    __c123,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataStoresBranchesDocumentsRequest>,
   output: __S(
-    2912,
-    __c91,
+    2976,
+    __c93,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListDocumentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -11984,11 +14154,11 @@ export const listProjectsLocationsDataStoresBranchesOperations: API.PaginatedOpe
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    3904,
-    __c122,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataStoresBranchesOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12006,10 +14176,10 @@ export const listProjectsLocationsDataStoresControls: API.PaginatedOperationMeth
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListControlsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListProjectsLocationsDataStoresControlsRequest>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListProjectsLocationsDataStoresControlsRequest>,
   output: __S(
-    3009,
-    __c94,
+    3073,
+    __c96,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListControlsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12030,13 +14200,13 @@ export const listProjectsLocationsDataStoresConversations: API.PaginatedOperatio
   GoogleCloudDiscoveryengineV1betaListConversationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4032,
-    __c126,
+    4096,
+    __c128,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataStoresConversationsRequest>,
   output: __S(
-    3073,
-    __c96,
+    3137,
+    __c98,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListConversationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12060,11 +14230,11 @@ export const listProjectsLocationsDataStoresModelsOperations: API.PaginatedOpera
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4064,
-    __c127,
+    4128,
+    __c129,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataStoresModelsOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12082,8 +14252,8 @@ export const listProjectsLocationsDataStoresOperations: API.PaginatedOperationMe
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListProjectsLocationsDataStoresOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<ListProjectsLocationsDataStoresOperationsRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12101,10 +14271,10 @@ export const listProjectsLocationsDataStoresSchemas: API.PaginatedOperationMetho
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListSchemasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ListProjectsLocationsDataStoresSchemasRequest>,
+  input: __S(4192, __c131, 0) as any as S.Schema<ListProjectsLocationsDataStoresSchemasRequest>,
   output: __S(
-    3265,
-    __c102,
+    3329,
+    __c104,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSchemasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12125,13 +14295,13 @@ export const listProjectsLocationsDataStoresServingConfigs: API.PaginatedOperati
   GoogleCloudDiscoveryengineV1betaListServingConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4160,
-    __c130,
+    4224,
+    __c132,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataStoresServingConfigsRequest>,
   output: __S(
-    3361,
-    __c105,
+    3425,
+    __c107,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListServingConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12151,10 +14321,10 @@ export const listProjectsLocationsDataStoresSessions: API.PaginatedOperationMeth
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListSessionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListProjectsLocationsDataStoresSessionsRequest>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ListProjectsLocationsDataStoresSessionsRequest>,
   output: __S(
-    3425,
-    __c107,
+    3489,
+    __c109,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSessionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12178,13 +14348,13 @@ export const listProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Pag
   GoogleCloudDiscoveryengineV1betaListTargetSitesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4224,
-    __c132,
+    4288,
+    __c134,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest>,
   output: __S(
-    11201,
-    __c350,
+    11169,
+    __c349,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListTargetSitesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12204,10 +14374,10 @@ export const listProjectsLocationsEvaluations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListEvaluationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<ListProjectsLocationsEvaluationsRequest>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListProjectsLocationsEvaluationsRequest>,
   output: __S(
-    4258,
-    __c133,
+    4322,
+    __c135,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListEvaluationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12227,10 +14397,10 @@ export const listProjectsLocationsIdentityMappingStores: API.PaginatedOperationM
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListProjectsLocationsIdentityMappingStoresRequest>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListProjectsLocationsIdentityMappingStoresRequest>,
   output: __S(
-    4290,
-    __c134,
+    4354,
+    __c136,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12254,11 +14424,11 @@ export const listProjectsLocationsIdentityMappingStoresOperations: API.Paginated
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4480,
-    __c140,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<ListProjectsLocationsIdentityMappingStoresOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12276,10 +14446,10 @@ export const listProjectsLocationsLicenseConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListLicenseConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListProjectsLocationsLicenseConfigsRequest>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsLicenseConfigsRequest>,
   output: __S(
-    4514,
-    __c141,
+    4578,
+    __c143,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListLicenseConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12299,8 +14469,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12318,10 +14488,10 @@ export const listProjectsLocationsSampleQuerySets: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListProjectsLocationsSampleQuerySetsRequest>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListProjectsLocationsSampleQuerySetsRequest>,
   output: __S(
-    4578,
-    __c143,
+    4642,
+    __c145,
     2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12345,13 +14515,13 @@ export const listProjectsLocationsSampleQuerySetsSampleQueries: API.PaginatedOpe
   GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4608,
-    __c144,
+    4672,
+    __c146,
     0,
   ) as any as S.Schema<ListProjectsLocationsSampleQuerySetsSampleQueriesRequest>,
   output: __S(
-    4609,
-    __c144,
+    4673,
+    __c146,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12374,13 +14544,13 @@ export const listProjectsLocationsUserStoresLicenseConfigsUsageStats: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4640,
-    __c145,
+    4704,
+    __c147,
     0,
   ) as any as S.Schema<ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest>,
   output: __S(
-    4643,
-    __c145,
+    4707,
+    __c147,
     3,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12400,13 +14570,13 @@ export const listProjectsLocationsUserStoresUserLicenses: API.PaginatedOperation
   GoogleCloudDiscoveryengineV1betaListUserLicensesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    4672,
-    __c146,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<ListProjectsLocationsUserStoresUserLicensesRequest>,
   output: __S(
-    4673,
-    __c146,
+    4737,
+    __c148,
     1,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListUserLicensesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12426,8 +14596,8 @@ export const listProjectsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   GoogleLongrunningListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListProjectsOperationsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ListProjectsOperationsRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<GoogleLongrunningListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12445,10 +14615,10 @@ export const listResultsProjectsLocationsEvaluations: API.PaginatedOperationMeth
   GcpOpContext,
   GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListResultsProjectsLocationsEvaluationsRequest>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListResultsProjectsLocationsEvaluationsRequest>,
   output: __S(
-    4739,
-    __c148,
+    4803,
+    __c150,
     3,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
@@ -12472,10 +14642,10 @@ export const obtainCrawlRateProjectsLocations: API.OperationMethod<
   ObtainCrawlRateProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ObtainCrawlRateProjectsLocationsRequest>,
+  input: __S(4832, __c151, 0) as any as S.Schema<ObtainCrawlRateProjectsLocationsRequest>,
   output: __S(
-    4786,
-    __c149,
+    4850,
+    __c151,
     18,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -12498,8 +14668,8 @@ export const patchProjectsLocationsCmekConfigs: API.OperationMethod<
   PatchProjectsLocationsCmekConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<PatchProjectsLocationsCmekConfigsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(4896, __c153, 0) as any as S.Schema<PatchProjectsLocationsCmekConfigsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12521,11 +14691,11 @@ export const patchProjectsLocationsCollectionsDataStores: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4896,
-    __c153,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(7507, __c234, 19) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
+  output: __S(11712, __c366, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12547,11 +14717,11 @@ export const patchProjectsLocationsCollectionsDataStoresBranchesDocuments: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4928,
-    __c154,
+    4960,
+    __c155,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
-  output: __S(4391, __c137, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
+  output: __S(4455, __c139, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12573,11 +14743,11 @@ export const patchProjectsLocationsCollectionsDataStoresControls: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4960,
-    __c155,
+    4992,
+    __c156,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12599,11 +14769,11 @@ export const patchProjectsLocationsCollectionsDataStoresConversations: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4992,
-    __c156,
+    5024,
+    __c157,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12625,11 +14795,11 @@ export const patchProjectsLocationsCollectionsDataStoresSchemas: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5024,
-    __c157,
+    5056,
+    __c158,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresSchemasRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12651,11 +14821,11 @@ export const patchProjectsLocationsCollectionsDataStoresServingConfigs: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5056,
-    __c158,
+    5088,
+    __c159,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12677,11 +14847,11 @@ export const patchProjectsLocationsCollectionsDataStoresSessions: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5088,
-    __c159,
+    5120,
+    __c160,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12703,11 +14873,11 @@ export const patchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSi
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5120,
-    __c160,
+    5152,
+    __c161,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12728,8 +14898,8 @@ export const patchProjectsLocationsCollectionsEngines: API.OperationMethod<
   PatchProjectsLocationsCollectionsEnginesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(8373, __c261, 21) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
+  input: __S(5184, __c162, 0) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12751,11 +14921,11 @@ export const patchProjectsLocationsCollectionsEnginesAssistants: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5216,
-    __c163,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesAssistantsRequest>,
-  output: __S(8426, __c263, 10) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAssistant>,
+  output: __S(8362, __c261, 10) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAssistant>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12777,11 +14947,11 @@ export const patchProjectsLocationsCollectionsEnginesControls: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5248,
-    __c164,
+    5280,
+    __c165,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12803,11 +14973,11 @@ export const patchProjectsLocationsCollectionsEnginesConversations: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5280,
-    __c165,
+    5312,
+    __c166,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12829,11 +14999,11 @@ export const patchProjectsLocationsCollectionsEnginesServingConfigs: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5312,
-    __c166,
+    5344,
+    __c167,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12855,11 +15025,11 @@ export const patchProjectsLocationsCollectionsEnginesSessions: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5344,
-    __c167,
+    5376,
+    __c168,
     0,
   ) as any as S.Schema<PatchProjectsLocationsCollectionsEnginesSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12880,8 +15050,8 @@ export const patchProjectsLocationsDataStores: API.OperationMethod<
   PatchProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<PatchProjectsLocationsDataStoresRequest>,
-  output: __S(7507, __c234, 19) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
+  input: __S(5408, __c169, 0) as any as S.Schema<PatchProjectsLocationsDataStoresRequest>,
+  output: __S(11712, __c366, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDataStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12903,11 +15073,11 @@ export const patchProjectsLocationsDataStoresBranchesDocuments: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5408,
-    __c169,
+    5440,
+    __c170,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDataStoresBranchesDocumentsRequest>,
-  output: __S(4391, __c137, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
+  output: __S(4455, __c139, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaDocument>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12928,8 +15098,8 @@ export const patchProjectsLocationsDataStoresControls: API.OperationMethod<
   PatchProjectsLocationsDataStoresControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<PatchProjectsLocationsDataStoresControlsRequest>,
-  output: __S(7949, __c248, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
+  input: __S(5472, __c171, 0) as any as S.Schema<PatchProjectsLocationsDataStoresControlsRequest>,
+  output: __S(7917, __c247, 13) as any as S.Schema<GoogleCloudDiscoveryengineV1betaControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12951,11 +15121,11 @@ export const patchProjectsLocationsDataStoresConversations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5472,
-    __c171,
+    5504,
+    __c172,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDataStoresConversationsRequest>,
-  output: __S(6023, __c188, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
+  output: __S(6055, __c189, 7) as any as S.Schema<GoogleCloudDiscoveryengineV1betaConversation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12976,8 +15146,8 @@ export const patchProjectsLocationsDataStoresSchemas: API.OperationMethod<
   PatchProjectsLocationsDataStoresSchemasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<PatchProjectsLocationsDataStoresSchemasRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(5536, __c173, 0) as any as S.Schema<PatchProjectsLocationsDataStoresSchemasRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -12999,11 +15169,11 @@ export const patchProjectsLocationsDataStoresServingConfigs: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5568,
-    __c174,
+    5600,
+    __c175,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDataStoresServingConfigsRequest>,
-  output: __S(8101, __c253, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
+  output: __S(8069, __c252, 5) as any as S.Schema<GoogleCloudDiscoveryengineV1betaServingConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13024,8 +15194,8 @@ export const patchProjectsLocationsDataStoresSessions: API.OperationMethod<
   PatchProjectsLocationsDataStoresSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<PatchProjectsLocationsDataStoresSessionsRequest>,
-  output: __S(8834, __c276, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
+  input: __S(5632, __c176, 0) as any as S.Schema<PatchProjectsLocationsDataStoresSessionsRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSession>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13047,11 +15217,11 @@ export const patchProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5632,
-    __c176,
+    5664,
+    __c177,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13072,8 +15242,8 @@ export const patchProjectsLocationsLicenseConfigs: API.OperationMethod<
   PatchProjectsLocationsLicenseConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<PatchProjectsLocationsLicenseConfigsRequest>,
-  output: __S(9728, __c304, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig>,
+  input: __S(5696, __c178, 0) as any as S.Schema<PatchProjectsLocationsLicenseConfigsRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaLicenseConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13094,8 +15264,8 @@ export const patchProjectsLocationsSampleQuerySets: API.OperationMethod<
   PatchProjectsLocationsSampleQuerySetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<PatchProjectsLocationsSampleQuerySetsRequest>,
-  output: __S(9792, __c306, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet>,
+  input: __S(5728, __c179, 0) as any as S.Schema<PatchProjectsLocationsSampleQuerySetsRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuerySet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13117,11 +15287,11 @@ export const patchProjectsLocationsSampleQuerySetsSampleQueries: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5728,
-    __c179,
+    5760,
+    __c180,
     0,
   ) as any as S.Schema<PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest>,
-  output: __S(9859, __c308, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery>,
+  output: __S(9795, __c306, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSampleQuery>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13142,8 +15312,8 @@ export const patchProjectsLocationsUserStores: API.OperationMethod<
   PatchProjectsLocationsUserStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<PatchProjectsLocationsUserStoresRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserStore>,
+  input: __S(5792, __c181, 0) as any as S.Schema<PatchProjectsLocationsUserStoresRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserStore>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13164,8 +15334,8 @@ export const pauseProjectsLocationsCollectionsEngines: API.OperationMethod<
   PauseProjectsLocationsCollectionsEnginesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<PauseProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(8373, __c261, 21) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
+  input: __S(5824, __c182, 0) as any as S.Schema<PauseProjectsLocationsCollectionsEnginesRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13181,8 +15351,8 @@ export const provisionProjects: API.OperationMethod<
   ProvisionProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<ProvisionProjectsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(5856, __c183, 0) as any as S.Schema<ProvisionProjectsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13203,8 +15373,8 @@ export const provisionProjectsLocations: API.OperationMethod<
   ProvisionProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<ProvisionProjectsLocationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(5920, __c185, 0) as any as S.Schema<ProvisionProjectsLocationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13226,11 +15396,11 @@ export const purgeIdentityMappingsProjectsLocationsIdentityMappingStores: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6113,
-    __c191,
-    1,
+    6144,
+    __c192,
+    0,
   ) as any as S.Schema<PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13252,11 +15422,11 @@ export const purgeProjectsLocationsCollectionsDataStoresBranchesDocuments: API.O
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6144,
-    __c192,
+    6176,
+    __c193,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13278,11 +15448,11 @@ export const purgeProjectsLocationsCollectionsDataStoresCompletionSuggestions: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6208,
-    __c194,
+    6240,
+    __c195,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13304,11 +15474,11 @@ export const purgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntrie
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6240,
-    __c195,
+    6272,
+    __c196,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13330,11 +15500,11 @@ export const purgeProjectsLocationsCollectionsDataStoresUserEvents: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6272,
-    __c196,
+    6304,
+    __c197,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13360,7 +15530,7 @@ export const purgeProjectsLocationsDataStoresBranchesDocuments: API.OperationMet
     __c198,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsDataStoresBranchesDocumentsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13386,7 +15556,7 @@ export const purgeProjectsLocationsDataStoresCompletionSuggestions: API.Operatio
     __c199,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13412,7 +15582,7 @@ export const purgeProjectsLocationsDataStoresSuggestionDenyListEntries: API.Oper
     __c200,
     0,
   ) as any as S.Schema<PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13434,7 +15604,7 @@ export const purgeProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<PurgeProjectsLocationsDataStoresUserEventsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13455,8 +15625,8 @@ export const rankProjectsLocationsRankingConfigs: API.OperationMethod<
   RankProjectsLocationsRankingConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6467, __c202, 3) as any as S.Schema<RankProjectsLocationsRankingConfigsRequest>,
-  output: __S(6468, __c202, 4) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRankResponse>,
+  input: __S(6466, __c202, 2) as any as S.Schema<RankProjectsLocationsRankingConfigsRequest>,
+  output: __S(6467, __c202, 3) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRankResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13483,9 +15653,9 @@ export const recommendProjectsLocationsCollectionsDataStoresServingConfigs: API.
     0,
   ) as any as S.Schema<RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
   output: __S(
-    6563,
+    6562,
     __c205,
-    3,
+    2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRecommendResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -13513,9 +15683,9 @@ export const recommendProjectsLocationsCollectionsEnginesServingConfigs: API.Ope
     0,
   ) as any as S.Schema<RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest>,
   output: __S(
-    6563,
+    6562,
     __c205,
-    3,
+    2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRecommendResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -13543,9 +15713,9 @@ export const recommendProjectsLocationsDataStoresServingConfigs: API.OperationMe
     0,
   ) as any as S.Schema<RecommendProjectsLocationsDataStoresServingConfigsRequest>,
   output: __S(
-    6563,
+    6562,
     __c205,
-    3,
+    2,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRecommendResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -13572,7 +15742,7 @@ export const recrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngine: 
     __c208,
     0,
   ) as any as S.Schema<RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13594,11 +15764,11 @@ export const recrawlUrisProjectsLocationsDataStoresSiteSearchEngine: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6720,
-    __c210,
+    6688,
+    __c209,
     0,
   ) as any as S.Schema<RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13619,8 +15789,8 @@ export const removeDedicatedCrawlRateProjectsLocations: API.OperationMethod<
   RemoveDedicatedCrawlRateProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<RemoveDedicatedCrawlRateProjectsLocationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(6720, __c210, 0) as any as S.Schema<RemoveDedicatedCrawlRateProjectsLocationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13642,13 +15812,13 @@ export const removeSuggestionProjectsLocationsCollectionsEnginesCompletionConfig
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6785,
-    __c212,
-    1,
+    6752,
+    __c211,
+    0,
   ) as any as S.Schema<RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest>,
   output: __S(
-    768,
-    __c24,
+    800,
+    __c25,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRemoveSuggestionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -13671,8 +15841,8 @@ export const resumeProjectsLocationsCollectionsEngines: API.OperationMethod<
   ResumeProjectsLocationsCollectionsEnginesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<ResumeProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(8373, __c261, 21) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
+  input: __S(6784, __c212, 0) as any as S.Schema<ResumeProjectsLocationsCollectionsEnginesRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaEngine>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13694,13 +15864,13 @@ export const retractLicenseConfigBillingAccountsBillingAccountLicenseConfigs: AP
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6849,
-    __c214,
-    1,
+    6816,
+    __c213,
+    0,
   ) as any as S.Schema<RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest>,
   output: __S(
-    11072,
-    __c346,
+    11040,
+    __c345,
     0,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaRetractLicenseConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -13724,11 +15894,11 @@ export const searchLiteProjectsLocationsCollectionsDataStoresServingConfigs: API
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6880,
-    __c215,
+    6848,
+    __c214,
     0,
   ) as any as S.Schema<SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
-  output: __S(6934, __c216, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
+  output: __S(6902, __c215, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13750,11 +15920,11 @@ export const searchLiteProjectsLocationsCollectionsEnginesServingConfigs: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6976,
-    __c218,
+    6944,
+    __c217,
     0,
   ) as any as S.Schema<SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest>,
-  output: __S(6934, __c216, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
+  output: __S(6902, __c215, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13776,11 +15946,11 @@ export const searchLiteProjectsLocationsDataStoresServingConfigs: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7008,
-    __c219,
+    6976,
+    __c218,
     0,
   ) as any as S.Schema<SearchLiteProjectsLocationsDataStoresServingConfigsRequest>,
-  output: __S(6934, __c216, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
+  output: __S(6902, __c215, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13802,11 +15972,11 @@ export const searchProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7040,
-    __c220,
+    7008,
+    __c219,
     0,
   ) as any as S.Schema<SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
-  output: __S(6934, __c216, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
+  output: __S(6902, __c215, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13828,11 +15998,11 @@ export const searchProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7072,
-    __c221,
+    7040,
+    __c220,
     0,
   ) as any as S.Schema<SearchProjectsLocationsCollectionsEnginesServingConfigsRequest>,
-  output: __S(6934, __c216, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
+  output: __S(6902, __c215, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13854,11 +16024,11 @@ export const searchProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7104,
-    __c222,
+    7072,
+    __c221,
     0,
   ) as any as S.Schema<SearchProjectsLocationsDataStoresServingConfigsRequest>,
-  output: __S(6934, __c216, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
+  output: __S(6902, __c215, 22) as any as S.Schema<GoogleCloudDiscoveryengineV1betaSearchResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13879,8 +16049,8 @@ export const setDedicatedCrawlRateProjectsLocations: API.OperationMethod<
   SetDedicatedCrawlRateProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7137, __c223, 1) as any as S.Schema<SetDedicatedCrawlRateProjectsLocationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(7104, __c222, 0) as any as S.Schema<SetDedicatedCrawlRateProjectsLocationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13902,11 +16072,11 @@ export const setIamPolicyProjectsLocationsCollectionsDataStores: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7168,
-    __c224,
+    7136,
+    __c223,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(11555, __c361, 3) as any as S.Schema<GoogleIamV1Policy>,
+  output: __S(11523, __c360, 3) as any as S.Schema<GoogleIamV1Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13928,11 +16098,11 @@ export const setIamPolicyProjectsLocationsCollectionsEngines: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7232,
-    __c226,
+    7168,
+    __c224,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(11555, __c361, 3) as any as S.Schema<GoogleIamV1Policy>,
+  output: __S(11523, __c360, 3) as any as S.Schema<GoogleIamV1Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13953,8 +16123,8 @@ export const setIamPolicyProjectsLocationsDataStores: API.OperationMethod<
   SetIamPolicyProjectsLocationsDataStoresError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataStoresRequest>,
-  output: __S(11555, __c361, 3) as any as S.Schema<GoogleIamV1Policy>,
+  input: __S(7200, __c225, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataStoresRequest>,
+  output: __S(11523, __c360, 3) as any as S.Schema<GoogleIamV1Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13976,14 +16146,14 @@ export const streamAnswerProjectsLocationsCollectionsDataStoresServingConfigs: A
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7296,
-    __c228,
+    7232,
+    __c226,
     0,
   ) as any as S.Schema<StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest>,
   output: __S(
-    8765,
-    __c273,
-    29,
+    8700,
+    __c271,
+    28,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -14006,14 +16176,14 @@ export const streamAnswerProjectsLocationsCollectionsEnginesServingConfigs: API.
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7520,
-    __c235,
+    7488,
+    __c234,
     0,
   ) as any as S.Schema<StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest>,
   output: __S(
-    8765,
-    __c273,
-    29,
+    8700,
+    __c271,
+    28,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -14036,14 +16206,14 @@ export const streamAnswerProjectsLocationsDataStoresServingConfigs: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7552,
-    __c236,
+    7520,
+    __c235,
     0,
   ) as any as S.Schema<StreamAnswerProjectsLocationsDataStoresServingConfigsRequest>,
   output: __S(
-    8765,
-    __c273,
-    29,
+    8700,
+    __c271,
+    28,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAnswerQueryResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -14066,14 +16236,14 @@ export const streamAssistProjectsLocationsCollectionsEnginesAssistants: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7592,
-    __c237,
-    8,
+    7559,
+    __c236,
+    7,
   ) as any as S.Schema<StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest>,
   output: __S(
-    7598,
-    __c237,
-    14,
+    7565,
+    __c236,
+    13,
   ) as any as S.Schema<GoogleCloudDiscoveryengineV1betaStreamAssistResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -14096,11 +16266,11 @@ export const trainCustomModelProjectsLocationsCollectionsDataStores: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7618,
-    __c238,
-    2,
+    7585,
+    __c237,
+    1,
   ) as any as S.Schema<TrainCustomModelProjectsLocationsCollectionsDataStoresRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14121,8 +16291,8 @@ export const tuneProjectsLocationsCollectionsEngines: API.OperationMethod<
   TuneProjectsLocationsCollectionsEnginesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<TuneProjectsLocationsCollectionsEnginesRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(7616, __c238, 0) as any as S.Schema<TuneProjectsLocationsCollectionsEnginesRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14143,8 +16313,8 @@ export const updateAclConfigProjectsLocations: API.OperationMethod<
   UpdateAclConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<UpdateAclConfigProjectsLocationsRequest>,
-  output: __S(11456, __c358, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAclConfig>,
+  input: __S(7648, __c239, 0) as any as S.Schema<UpdateAclConfigProjectsLocationsRequest>,
+  output: __S(11424, __c357, 0) as any as S.Schema<GoogleCloudDiscoveryengineV1betaAclConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14165,8 +16335,8 @@ export const updateCmekConfigProjectsLocations: API.OperationMethod<
   UpdateCmekConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<UpdateCmekConfigProjectsLocationsRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(7680, __c240, 0) as any as S.Schema<UpdateCmekConfigProjectsLocationsRequest>,
+  output: __S(10368, __c324, 0) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14188,11 +16358,11 @@ export const writeProjectsLocationsCollectionsDataStoresUserEvents: API.Operatio
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7744,
-    __c242,
+    7712,
+    __c241,
     0,
   ) as any as S.Schema<WriteProjectsLocationsCollectionsDataStoresUserEventsRequest>,
-  output: __S(2382, __c74, 14) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserEvent>,
+  output: __S(2446, __c76, 14) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserEvent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14213,8 +16383,8 @@ export const writeProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   WriteProjectsLocationsDataStoresUserEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<WriteProjectsLocationsDataStoresUserEventsRequest>,
-  output: __S(2382, __c74, 14) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserEvent>,
+  input: __S(7744, __c242, 0) as any as S.Schema<WriteProjectsLocationsDataStoresUserEventsRequest>,
+  output: __S(2446, __c76, 14) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserEvent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14235,8 +16405,8 @@ export const writeProjectsLocationsUserEvents: API.OperationMethod<
   WriteProjectsLocationsUserEventsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<WriteProjectsLocationsUserEventsRequest>,
-  output: __S(2382, __c74, 14) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserEvent>,
+  input: __S(7776, __c243, 0) as any as S.Schema<WriteProjectsLocationsUserEventsRequest>,
+  output: __S(2446, __c76, 14) as any as S.Schema<GoogleCloudDiscoveryengineV1betaUserEvent>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -14251,8 +16421,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          "matcher.urisMatcher.uris": S.optional(__S(9088, __c284, 0).pipe(T.Query())),
-          "matcher.fhirMatcher.fhirResources": S.optional(__S(9088, __c284, 0).pipe(T.Query())),
+          "matcher.urisMatcher.uris": S.optional(__S(9024, __c282, 0).pipe(T.Query())),
+          "matcher.fhirMatcher.fhirResources": S.optional(__S(9024, __c282, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14448,15 +16618,9 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           inlineSource: S.optional(__S(352, __c11, 0)),
           deleteUnassignedUserLicenses: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaBatchUpdateUserLicensesRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(353, __c11, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14577,6 +16741,45 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateTime: S.optional(S.String),
+          commonConfig: S.optional(__S(8288, __c259, 0)),
+          appType: S.optional(S.String),
+          connectorTenantInfo: S.optional(__S(8512, __c266, 0)),
+          dataStoreIds: S.optional(__S(9024, __c282, 0)),
+          featurePolicies: S.optional(__S(8292, __c259, 4)),
+          disableAnalytics: S.optional(S.Boolean),
+          effectiveFeatures: S.optional(__S(8293, __c259, 5)),
+          features: S.optional(__S(8293, __c259, 5)),
+          name: S.optional(S.String),
+          knowledgeGraphConfig: S.optional(__S(8295, __c259, 7)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          delayedGlobalFeatureToggleStateAllowed: S.optional(S.Boolean),
+          associatedAgentRegistry: S.optional(S.String),
+          solutionType: S.optional(S.String),
+          modelConfigs: S.optional(__S(8293, __c259, 5)),
+          agentGatewaySetting: S.optional(__S(8296, __c259, 8)),
+          configurableBillingApproach: S.optional(S.String),
+          observabilityConfig: S.optional(__S(8297, __c259, 9)),
+          chatEngineMetadata: S.optional(__S(8298, __c259, 10)),
+          searchEngineConfig: S.optional(__S(8299, __c259, 11)),
+          marketplaceAgentVisibility: S.optional(S.String),
+          industryVertical: S.optional(S.String),
+          procurementContactEmails: S.optional(__S(9024, __c282, 0)),
+          mediaRecommendationEngineConfig: S.optional(__S(8304, __c259, 16)),
+          sessionConfig: S.optional(__S(8306, __c259, 18)),
+          chatEngineConfig: S.optional(__S(8308, __c259, 20)),
+          displayName: S.optional(S.String),
+          globalFeatureToggleState: S.optional(S.String),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEngine" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -14588,7 +16791,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesAssistantsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14606,7 +16809,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14622,7 +16825,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesControlsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14638,7 +16841,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesConversationsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14654,13 +16857,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesOperationsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14674,7 +16877,7 @@ function __c23(j: number): any {
       });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -14682,7 +16885,7 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14698,7 +16901,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14715,7 +16918,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesSessionsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14731,7 +16934,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14747,7 +16950,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsOperationsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14763,7 +16966,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14779,7 +16982,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresBranchesDocumentsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14795,7 +16998,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresBranchesOperationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14811,7 +17014,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresControlsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14827,7 +17030,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresConversationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14843,13 +17046,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresModelsOperationsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14860,22 +17063,6 @@ function __c35(j: number): any {
       ).annotate({
         identifier: "CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest",
       });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta/{+name}",
-            baseUrl: "https://discoveryengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsDataStoresOperationsRequest" });
   }
 }
 function __c37(j: number): any {
@@ -14891,7 +17078,7 @@ function __c37(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDataStoresSchemasRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDataStoresOperationsRequest" });
   }
 }
 function __c38(j: number): any {
@@ -14907,10 +17094,26 @@ function __c38(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDataStoresServingConfigsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDataStoresSchemasRequest" });
   }
 }
 function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta/{+name}",
+            baseUrl: "https://discoveryengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsDataStoresServingConfigsRequest" });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14927,7 +17130,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresSessionsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14943,7 +17146,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataStoresSessionsAnswersRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14961,7 +17164,7 @@ function __c41(j: number): any {
       });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14977,36 +17180,21 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsEvaluationsRequest" });
   }
 }
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta/{+name}",
-            baseUrl: "https://discoveryengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsEvaluationsOperationsRequest" });
-  }
-}
 function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta/{+name}",
-            baseUrl: "https://discoveryengine.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsIdentityMappingStoresRequest" });
+          createTime: S.optional(S.String),
+          evaluationSpec: S.optional(__S(9474, __c296, 2)),
+          error: S.optional(__S(8992, __c281, 0)),
+          qualityMetrics: S.optional(__S(9505, __c297, 1)),
+          endTime: S.optional(S.String),
+          errorSamples: S.optional(__S(4480, __c140, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEvaluation" });
   }
 }
 function __c45(j: number): any {
@@ -15022,7 +17210,7 @@ function __c45(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsIdentityMappingStoresOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsEvaluationsOperationsRequest" });
   }
 }
 function __c46(j: number): any {
@@ -15031,15 +17219,14 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "v1beta/{+name}:cancel",
+            method: "GET",
+            uri: "v1beta/{+name}",
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "CancelProjectsLocationsDataStoresBranchesOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIdentityMappingStoresRequest" });
   }
 }
 function __c47(j: number): any {
@@ -15055,7 +17242,7 @@ function __c47(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsLicenseConfigsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsIdentityMappingStoresOperationsRequest" });
   }
 }
 function __c48(j: number): any {
@@ -15064,14 +17251,15 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "v1beta/{+name}",
+            method: "POST",
+            uri: "v1beta/{+name}:cancel",
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
+      ).annotate({ identifier: "CancelProjectsLocationsDataStoresBranchesOperationsRequest" });
   }
 }
 function __c49(j: number): any {
@@ -15087,7 +17275,7 @@ function __c49(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsPodcastsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsLicenseConfigsRequest" });
   }
 }
 function __c50(j: number): any {
@@ -15103,7 +17291,7 @@ function __c50(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSampleQuerySetsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
 function __c51(j: number): any {
@@ -15119,7 +17307,7 @@ function __c51(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSampleQuerySetsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsPodcastsOperationsRequest" });
   }
 }
 function __c52(j: number): any {
@@ -15135,7 +17323,7 @@ function __c52(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSampleQuerySetsSampleQueriesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsSampleQuerySetsRequest" });
   }
 }
 function __c53(j: number): any {
@@ -15151,7 +17339,7 @@ function __c53(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsUserStoresRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsSampleQuerySetsOperationsRequest" });
   }
 }
 function __c54(j: number): any {
@@ -15159,13 +17347,15 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enableLicenseAutoRegister: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          defaultLicenseConfig: S.optional(S.String),
-          enableExpiredLicenseAutoUpdate: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaUserStore" });
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta/{+name}",
+            baseUrl: "https://discoveryengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSampleQuerySetsSampleQueriesRequest" });
   }
 }
 function __c55(j: number): any {
@@ -15181,10 +17371,40 @@ function __c55(j: number): any {
             baseUrl: "https://discoveryengine.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsUserStoresRequest" });
   }
 }
 function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enableLicenseAutoRegister: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          defaultLicenseConfig: S.optional(S.String),
+          enableExpiredLicenseAutoUpdate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaUserStore" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta/{+name}",
+            baseUrl: "https://discoveryengine.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsOperationsRequest" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15202,7 +17422,7 @@ function __c56(j: number): any {
       });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15218,17 +17438,17 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetSiteSearchEngineProjectsLocationsDataStoresRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(8576, __c268, 0)),
+          attributes: S.optional(__S(8512, __c266, 0)),
           factText: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaGroundingFact" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15239,17 +17459,11 @@ function __c58(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          facts: S.optional(__S(1857, __c58, 1)),
-          answerCandidate: S.optional(S.String),
-          groundingSpec: S.optional(__S(1858, __c58, 2)),
-          userLabels: S.optional(__S(8576, __c268, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCheckGroundingRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           groundingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(1859, __c58, 3).pipe(T.HttpBody())),
+          facts: S.optional(__S(1921, __c60, 1)),
+          answerCandidate: S.optional(S.String),
+          groundingSpec: S.optional(__S(1922, __c60, 2)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15258,34 +17472,34 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CheckProjectsLocationsGroundingConfigsRequest" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           endPos: S.optional(S.Number),
-          citationIndices: S.optional(__S(8544, __c267, 0)),
+          citationIndices: S.optional(__S(8480, __c265, 0)),
           score: S.optional(S.Number),
           groundingCheckRequired: S.optional(S.Boolean),
           claimText: S.optional(S.String),
           startPos: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCheckGroundingResponseClaim" });
+    case 5:
+      return S.Array(__S(1924, __c60, 4));
     case 6:
-      return S.Array(__S(1861, __c58, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           chunkText: S.optional(S.String),
           index: S.optional(S.Number),
-          sourceMetadata: S.optional(__S(8576, __c268, 0)),
+          sourceMetadata: S.optional(__S(8512, __c266, 0)),
           title: S.optional(S.String),
           source: S.optional(S.String),
           domain: S.optional(S.String),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaFactChunk" });
+    case 7:
+      return S.Array(__S(1926, __c60, 6));
     case 8:
-      return S.Array(__S(1863, __c58, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
           chunkText: S.optional(S.String),
@@ -15293,32 +17507,26 @@ function __c58(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaCheckGroundingResponseCheckGroundingFactChunk",
       });
+    case 9:
+      return S.Array(__S(1928, __c60, 8));
     case 10:
-      return S.Array(__S(1865, __c58, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
-          claims: S.optional(__S(1862, __c58, 6)),
-          citedChunks: S.optional(__S(1864, __c58, 8)),
-          citedFacts: S.optional(__S(1866, __c58, 10)),
+          claims: S.optional(__S(1925, __c60, 5)),
+          citedChunks: S.optional(__S(1927, __c60, 7)),
+          citedFacts: S.optional(__S(1929, __c60, 9)),
           supportScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCheckGroundingResponse" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inlineSource: S.optional(__S(1952, __c61, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           identityMappingStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
+          inlineSource: S.optional(__S(2016, __c63, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15331,7 +17539,7 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15343,28 +17551,42 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaIdentityMappingEntry" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(1984, __c62, 0));
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identityMappingEntries: S.optional(__S(1921, __c60, 1)),
+          identityMappingEntries: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaImportIdentityMappingsRequestInlineSource",
       });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2124, __c66, 12).pipe(T.HttpBody())),
+          forceRefreshContent: S.optional(S.Boolean),
+          firestoreSource: S.optional(__S(2176, __c68, 0)),
+          reconciliationMode: S.optional(S.String),
+          bigtableSource: S.optional(__S(2182, __c68, 6)),
+          autoGenerateIds: S.optional(S.Boolean),
+          updateMask: S.optional(S.String),
+          inlineSource: S.optional(__S(2183, __c68, 7)),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          fhirStoreSource: S.optional(__S(2184, __c68, 8)),
+          idField: S.optional(S.String),
+          cloudSqlSource: S.optional(__S(2185, __c68, 9)),
+          spannerSource: S.optional(__S(2186, __c68, 10)),
+          alloyDbSource: S.optional(__S(2187, __c68, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15377,18 +17599,18 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inputUris: S.optional(__S(9088, __c284, 0)),
+          inputUris: S.optional(__S(9024, __c282, 0)),
           dataSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaGcsSource" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15397,13 +17619,13 @@ function __c64(j: number): any {
           projectId: S.optional(S.String),
           datasetId: S.optional(S.String),
           tableId: S.optional(S.String),
-          partitionDate: S.optional(__S(8896, __c278, 0)),
+          partitionDate: S.optional(__S(8832, __c276, 0)),
           gcsStagingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaBigQuerySource" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15413,7 +17635,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaImportErrorConfig" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15434,12 +17656,12 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumn" });
     case 2:
-      return S.Array(__S(2113, __c66, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           fieldName: S.optional(S.String),
-          columns: S.optional(__S(2114, __c66, 2)),
+          columns: S.optional(__S(2178, __c68, 2)),
           encoding: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -15447,12 +17669,12 @@ function __c66(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaBigtableOptionsBigtableColumnFamily",
       });
     case 4:
-      return S.Record(S.String, __S(2115, __c66, 3));
+      return S.Record(S.String, __S(2179, __c68, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           keyFieldName: S.optional(S.String),
-          families: S.optional(__S(2116, __c66, 4)),
+          families: S.optional(__S(2180, __c68, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaBigtableOptions" });
     case 6:
@@ -15461,13 +17683,13 @@ function __c66(j: number): any {
           instanceId: S.optional(S.String),
           tableId: S.optional(S.String),
           projectId: S.optional(S.String),
-          bigtableOptions: S.optional(__S(2117, __c66, 5)),
+          bigtableOptions: S.optional(__S(2181, __c68, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaBigtableSource" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          documents: S.optional(__S(2144, __c67, 0)),
+          documents: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource",
@@ -15477,7 +17699,7 @@ function __c66(j: number): any {
         S.Struct({
           fhirStore: S.optional(S.String),
           gcsStagingDir: S.optional(S.String),
-          resourceTypes: S.optional(__S(9088, __c284, 0)),
+          resourceTypes: S.optional(__S(9024, __c282, 0)),
           updateFromLatestPredefinedSchema: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaFhirStoreSource" });
@@ -15513,41 +17735,24 @@ function __c66(j: number): any {
           gcsStagingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAlloyDbSource" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          forceRefreshContent: S.optional(S.Boolean),
-          firestoreSource: S.optional(__S(2112, __c66, 0)),
-          reconciliationMode: S.optional(S.String),
-          bigtableSource: S.optional(__S(2118, __c66, 6)),
-          autoGenerateIds: S.optional(S.Boolean),
-          updateMask: S.optional(S.String),
-          inlineSource: S.optional(__S(2119, __c66, 7)),
-          bigquerySource: S.optional(__S(2048, __c64, 0)),
-          errorConfig: S.optional(__S(2080, __c65, 0)),
-          gcsSource: S.optional(__S(2016, __c63, 0)),
-          fhirStoreSource: S.optional(__S(2120, __c66, 8)),
-          idField: S.optional(S.String),
-          cloudSqlSource: S.optional(__S(2121, __c66, 9)),
-          spannerSource: S.optional(__S(2122, __c66, 10)),
-          alloyDbSource: S.optional(__S(2123, __c66, 11)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaImportDocumentsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4391, __c137, 7));
+      return S.Array(__S(4455, __c139, 7));
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2211, __c69, 3).pipe(T.HttpBody())),
+          inlineSource: S.optional(__S(2274, __c71, 2)),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15560,13 +17765,13 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           languageCode: S.optional(S.String),
-          alternativePhrases: S.optional(__S(9088, __c284, 0)),
+          alternativePhrases: S.optional(__S(9024, __c282, 0)),
           globalScore: S.optional(S.Number),
           groupId: S.optional(S.String),
           frequency: S.optional(S.String),
@@ -15575,36 +17780,26 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCompletionSuggestion" });
     case 1:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          suggestions: S.optional(__S(2209, __c69, 1)),
+          suggestions: S.optional(__S(2273, __c71, 1)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequestInlineSource",
       });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          inlineSource: S.optional(__S(2210, __c69, 2)),
-          bigquerySource: S.optional(__S(2048, __c64, 0)),
-          errorConfig: S.optional(__S(2080, __c65, 0)),
-          gcsSource: S.optional(__S(2016, __c63, 0)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudDiscoveryengineV1betaImportCompletionSuggestionsRequest",
-      });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2275, __c71, 3).pipe(T.HttpBody())),
+          inlineSource: S.optional(__S(2338, __c73, 2)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15617,7 +17812,7 @@ function __c70(j: number): any {
       });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15627,34 +17822,28 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSuggestionDenyListEntry" });
     case 1:
-      return S.Array(__S(2272, __c71, 0));
+      return S.Array(__S(2336, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2273, __c71, 1)),
+          entries: S.optional(__S(2337, __c73, 1)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequestInlineSource",
       });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          inlineSource: S.optional(__S(2274, __c71, 2)),
-          gcsSource: S.optional(__S(2016, __c63, 0)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudDiscoveryengineV1betaImportSuggestionDenyListEntriesRequest",
-      });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2338, __c73, 2).pipe(T.HttpBody())),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          inlineSource: S.optional(__S(2401, __c75, 1)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15665,30 +17854,21 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsCollectionsDataStoresUserEventsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2382, __c74, 14));
+      return S.Array(__S(2446, __c76, 14));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userEvents: S.optional(__S(2336, __c73, 0)),
+          userEvents: S.optional(__S(2400, __c75, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource",
       });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          bigquerySource: S.optional(__S(2048, __c64, 0)),
-          gcsSource: S.optional(__S(2016, __c63, 0)),
-          inlineSource: S.optional(__S(2337, __c73, 1)),
-          errorConfig: S.optional(__S(2080, __c65, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaImportUserEventsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15730,28 +17910,28 @@ function __c74(j: number): any {
           uri: S.optional(S.String),
           quantity: S.optional(S.Number),
           id: S.optional(S.String),
-          promotionIds: S.optional(__S(9088, __c284, 0)),
+          promotionIds: S.optional(__S(9024, __c282, 0)),
           joined: S.optional(S.Boolean),
           conversionValue: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDocumentInfo" });
     case 5:
-      return S.Array(__S(2372, __c74, 4));
+      return S.Array(__S(2436, __c76, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(__S(9088, __c284, 0)),
-          numbers: S.optional(__S(8544, __c267, 0)),
+          text: S.optional(__S(9024, __c282, 0)),
+          numbers: S.optional(__S(8480, __c265, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCustomAttribute" });
     case 7:
-      return S.Record(S.String, __S(2374, __c74, 6));
+      return S.Record(S.String, __S(2438, __c76, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           panelId: S.optional(S.String),
           totalPanels: S.optional(S.Number),
-          documents: S.optional(__S(2373, __c74, 5)),
+          documents: S.optional(__S(2437, __c76, 5)),
           displayName: S.optional(S.String),
           panelPosition: S.optional(S.Number),
         }),
@@ -15767,7 +17947,7 @@ function __c74(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(8800, __c275, 0)),
+          query: S.optional(__S(8736, __c273, 0)),
           trajectoryId: S.optional(S.String),
           taskName: S.optional(S.String),
           stepSeqNum: S.optional(S.String),
@@ -15782,13 +17962,13 @@ function __c74(j: number): any {
         S.Struct({
           componentVersion: S.optional(S.String),
           comment: S.optional(S.String),
-          reasons: S.optional(__S(8608, __c269, 0)),
-          modelArmorDisputeInfo: S.optional(__S(2377, __c74, 9)),
+          reasons: S.optional(__S(8544, __c267, 0)),
+          modelArmorDisputeInfo: S.optional(__S(2441, __c76, 9)),
           feedbackType: S.optional(S.String),
           feedbackSource: S.optional(S.String),
           dataTermsAccepted: S.optional(S.Boolean),
           llmModelVersion: S.optional(S.String),
-          conversationInfo: S.optional(__S(2378, __c74, 10)),
+          conversationInfo: S.optional(__S(2442, __c76, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaFeedback" });
     case 12:
@@ -15801,45 +17981,59 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaPageInfo" });
     case 13:
-      return S.Array(__S(2376, __c74, 8));
+      return S.Array(__S(2440, __c76, 8));
     case 14:
       return S.suspend(() =>
         S.Struct({
           entity: S.optional(S.String),
-          mediaInfo: S.optional(__S(2368, __c74, 0)),
+          mediaInfo: S.optional(__S(2432, __c76, 0)),
           directUserRequest: S.optional(S.Boolean),
           conversionType: S.optional(S.String),
-          completionInfo: S.optional(__S(2369, __c74, 1)),
+          completionInfo: S.optional(__S(2433, __c76, 1)),
           eventType: S.optional(S.String),
-          userInfo: S.optional(__S(4450, __c139, 2)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
           sessionId: S.optional(S.String),
           attributionToken: S.optional(S.String),
-          transactionInfo: S.optional(__S(2370, __c74, 2)),
-          searchInfo: S.optional(__S(2371, __c74, 3)),
-          tagIds: S.optional(__S(9088, __c284, 0)),
+          transactionInfo: S.optional(__S(2434, __c76, 2)),
+          searchInfo: S.optional(__S(2435, __c76, 3)),
+          tagIds: S.optional(__S(9024, __c282, 0)),
           dataStore: S.optional(S.String),
           userPseudoId: S.optional(S.String),
-          documents: S.optional(__S(2373, __c74, 5)),
-          attributes: S.optional(__S(2375, __c74, 7)),
-          panel: S.optional(__S(2376, __c74, 8)),
-          feedback: S.optional(__S(2379, __c74, 11)),
+          documents: S.optional(__S(2437, __c76, 5)),
+          attributes: S.optional(__S(2439, __c76, 7)),
+          panel: S.optional(__S(2440, __c76, 8)),
+          feedback: S.optional(__S(2443, __c76, 11)),
           eventTime: S.optional(S.String),
-          promotionIds: S.optional(__S(9088, __c284, 0)),
+          promotionIds: S.optional(__S(9024, __c282, 0)),
           engine: S.optional(S.String),
           filter: S.optional(S.String),
-          pageInfo: S.optional(__S(2380, __c74, 12)),
-          panels: S.optional(__S(2381, __c74, 13)),
+          pageInfo: S.optional(__S(2444, __c76, 12)),
+          panels: S.optional(__S(2445, __c76, 13)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaUserEvent" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2124, __c66, 12).pipe(T.HttpBody())),
+          forceRefreshContent: S.optional(S.Boolean),
+          firestoreSource: S.optional(__S(2176, __c68, 0)),
+          reconciliationMode: S.optional(S.String),
+          bigtableSource: S.optional(__S(2182, __c68, 6)),
+          autoGenerateIds: S.optional(S.Boolean),
+          updateMask: S.optional(S.String),
+          inlineSource: S.optional(__S(2183, __c68, 7)),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          fhirStoreSource: S.optional(__S(2184, __c68, 8)),
+          idField: S.optional(S.String),
+          cloudSqlSource: S.optional(__S(2185, __c68, 9)),
+          spannerSource: S.optional(__S(2186, __c68, 10)),
+          alloyDbSource: S.optional(__S(2187, __c68, 11)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15850,13 +18044,16 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsDataStoresBranchesDocumentsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2211, __c69, 3).pipe(T.HttpBody())),
+          inlineSource: S.optional(__S(2274, __c71, 2)),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15867,13 +18064,14 @@ function __c76(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsDataStoresCompletionSuggestionsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2275, __c71, 3).pipe(T.HttpBody())),
+          inlineSource: S.optional(__S(2338, __c73, 2)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15886,13 +18084,16 @@ function __c77(j: number): any {
       });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2338, __c73, 2).pipe(T.HttpBody())),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          inlineSource: S.optional(__S(2401, __c75, 1)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15903,12 +18104,12 @@ function __c78(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsDataStoresUserEventsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sampleQueries: S.optional(__S(2560, __c80, 0)),
+          sampleQueries: S.optional(__S(2624, __c82, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequestInlineSource",
@@ -15916,17 +18117,11 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bigquerySource: S.optional(__S(2048, __c64, 0)),
-          inlineSource: S.optional(__S(2528, __c79, 0)),
-          errorConfig: S.optional(__S(2080, __c65, 0)),
-          gcsSource: S.optional(__S(2016, __c63, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaImportSampleQueriesRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2529, __c79, 1).pipe(T.HttpBody())),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          inlineSource: S.optional(__S(2592, __c81, 0)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15937,13 +18132,13 @@ function __c79(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9859, __c308, 3));
+      return S.Array(__S(9795, __c306, 3));
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15962,25 +18157,28 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CollectProjectsLocationsCollectionsDataStoresUserEventsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           contentType: S.optional(S.String),
-          extensions: S.optional(__S(8992, __c281, 0)),
+          extensions: S.optional(__S(8928, __c279, 0)),
           data: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleApiHttpBody" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2338, __c73, 2).pipe(T.HttpBody())),
+          bigquerySource: S.optional(__S(2112, __c66, 0)),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          inlineSource: S.optional(__S(2401, __c75, 1)),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15991,7 +18189,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "ImportProjectsLocationsUserEventsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16013,12 +18211,12 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          identityMappingEntries: S.optional(__S(1921, __c60, 1)),
+          identityMappingEntries: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListIdentityMappingsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16033,16 +18231,16 @@ function __c85(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCmekConfigsRequest" });
     case 1:
-      return S.Array(__S(7426, __c232, 2));
+      return S.Array(__S(7360, __c230, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          cmekConfigs: S.optional(__S(2721, __c85, 1)),
+          cmekConfigs: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListCmekConfigsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16062,21 +18260,21 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataConnectorOperationsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(10368, __c324, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(9088, __c284, 0)),
-          operations: S.optional(__S(2784, __c87, 0)),
+          unreachable: S.optional(__S(9024, __c282, 0)),
+          operations: S.optional(__S(2848, __c89, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16095,20 +18293,20 @@ function __c88(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7507, __c234, 19));
+      return S.Array(__S(11712, __c366, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dataStores: S.optional(__S(2848, __c89, 0)),
+          dataStores: S.optional(__S(2912, __c91, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListDataStoresResponse" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16128,18 +18326,18 @@ function __c90(j: number): any {
       });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          documents: S.optional(__S(2144, __c67, 0)),
+          documents: S.optional(__S(2208, __c69, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListDocumentsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16161,7 +18359,7 @@ function __c92(j: number): any {
       });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16180,20 +18378,20 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresControlsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7949, __c248, 13));
+      return S.Array(__S(7917, __c247, 13));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          controls: S.optional(__S(3008, __c94, 0)),
+          controls: S.optional(__S(3072, __c96, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListControlsResponse" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16213,20 +18411,20 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresConversationsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6023, __c188, 7));
+      return S.Array(__S(6055, __c189, 7));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          conversations: S.optional(__S(3072, __c96, 0)),
+          conversations: S.optional(__S(3136, __c98, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListConversationsResponse" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16247,7 +18445,7 @@ function __c97(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           createTime: S.optional(S.String),
-          metrics: S.optional(__S(3105, __c97, 1)),
+          metrics: S.optional(__S(3169, __c99, 1)),
           modelVersion: S.optional(S.String),
           errorMessage: S.optional(S.String),
           modelState: S.optional(S.String),
@@ -16256,16 +18454,16 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCustomTuningModel" });
     case 3:
-      return S.Array(__S(3106, __c97, 2));
+      return S.Array(__S(3170, __c99, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          models: S.optional(__S(3107, __c97, 3)),
+          models: S.optional(__S(3171, __c99, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListCustomModelsResponse" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16284,7 +18482,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CollectProjectsLocationsDataStoresUserEventsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16306,7 +18504,7 @@ function __c99(j: number): any {
       });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16326,7 +18524,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresOperationsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16344,20 +18542,20 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresSchemasRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7360, __c230, 0));
+      return S.Array(__S(7424, __c232, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemas: S.optional(__S(3264, __c102, 0)),
+          schemas: S.optional(__S(3328, __c104, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListSchemasResponse" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16379,7 +18577,7 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16397,20 +18595,20 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresServingConfigsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8101, __c253, 5));
+      return S.Array(__S(8069, __c252, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          servingConfigs: S.optional(__S(3360, __c105, 0)),
+          servingConfigs: S.optional(__S(3424, __c107, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListServingConfigsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16430,20 +18628,20 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsDataStoresSessionsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8834, __c276, 2));
+      return S.Array(__S(8770, __c274, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(__S(3424, __c107, 0)),
+          sessions: S.optional(__S(3488, __c109, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListSessionsResponse" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16465,7 +18663,7 @@ function __c108(j: number): any {
       });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16485,7 +18683,7 @@ function __c109(j: number): any {
       });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16508,7 +18706,7 @@ function __c110(j: number): any {
       });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16526,17 +18724,17 @@ function __c111(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesRequest" });
     case 1:
-      return S.Array(__S(8373, __c261, 21));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          engines: S.optional(__S(3553, __c111, 1)),
+          engines: S.optional(__S(3617, __c113, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListEnginesResponse" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16555,7 +18753,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CollectProjectsLocationsUserEventsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16572,17 +18770,17 @@ function __c113(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesAssistantsRequest" });
     case 1:
-      return S.Array(__S(8426, __c263, 10));
+      return S.Array(__S(8362, __c261, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          assistants: S.optional(__S(3617, __c113, 1)),
+          assistants: S.optional(__S(3681, __c115, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListAssistantsResponse" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16601,7 +18799,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesControlsRequest" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16621,7 +18819,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesConversationsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16641,7 +18839,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesOperationsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16659,7 +18857,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16679,7 +18877,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsEnginesSessionsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16699,7 +18897,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsCollectionsOperationsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16718,7 +18916,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresRequest" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16736,7 +18934,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresBranchesDocumentsRequest" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16756,7 +18954,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresBranchesOperationsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16776,29 +18974,29 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CompleteQueryProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           suggestion: S.optional(S.String),
-          completableFieldPaths: S.optional(__S(9088, __c284, 0)),
+          completableFieldPaths: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaCompleteQueryResponseQuerySuggestion",
       });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(4032, __c126, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           tailMatchTriggered: S.optional(S.Boolean),
-          querySuggestions: S.optional(__S(3969, __c124, 1)),
+          querySuggestions: S.optional(__S(4033, __c126, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCompleteQueryResponse" });
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16817,7 +19015,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresControlsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16837,7 +19035,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresConversationsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16857,7 +19055,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresModelsOperationsRequest" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16877,7 +19075,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresOperationsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16895,7 +19093,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresSchemasRequest" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16913,7 +19111,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16933,7 +19131,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataStoresSessionsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16953,7 +19151,7 @@ function __c132(j: number): any {
       });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16970,17 +19168,17 @@ function __c133(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsEvaluationsRequest" });
     case 1:
-      return S.Array(__S(9538, __c298, 2));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          evaluations: S.optional(__S(4257, __c133, 1)),
+          evaluations: S.optional(__S(4321, __c135, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListEvaluationsResponse" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16997,25 +19195,33 @@ function __c134(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsIdentityMappingStoresRequest" });
     case 1:
-      return S.Array(__S(9664, __c302, 0));
+      return S.Array(__S(9600, __c300, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          identityMappingStores: S.optional(__S(4289, __c134, 1)),
+          identityMappingStores: S.optional(__S(4353, __c136, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaListIdentityMappingStoresResponse",
       });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
+          suggestionTypes: S.optional(__S(8544, __c267, 0)),
+          includeTailSuggestions: S.optional(S.Boolean),
+          queryModel: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          boostSpec: S.optional(__S(4418, __c138, 2)),
+          experimentIds: S.optional(__S(9024, __c282, 0)),
+          suggestionTypeSpecs: S.optional(__S(4420, __c138, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          query: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17028,7 +19234,7 @@ function __c135(j: number): any {
       });
   }
 }
-function __c136(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17041,11 +19247,11 @@ function __c136(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpec",
       });
     case 1:
-      return S.Array(__S(4352, __c136, 0));
+      return S.Array(__S(4416, __c138, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          conditionBoostSpecs: S.optional(__S(4353, __c136, 1)),
+          conditionBoostSpecs: S.optional(__S(4417, __c138, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestBoostSpec",
@@ -17061,22 +19267,8 @@ function __c136(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequestSuggestionTypeSpec",
       });
     case 4:
-      return S.Array(__S(4355, __c136, 3));
+      return S.Array(__S(4419, __c138, 3));
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          suggestionTypes: S.optional(__S(8608, __c269, 0)),
-          includeTailSuggestions: S.optional(S.Boolean),
-          queryModel: S.optional(S.String),
-          userPseudoId: S.optional(S.String),
-          boostSpec: S.optional(__S(4354, __c136, 2)),
-          experimentIds: S.optional(__S(9088, __c284, 0)),
-          suggestionTypeSpecs: S.optional(__S(4356, __c136, 4)),
-          userInfo: S.optional(__S(4450, __c139, 2)),
-          query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryRequest" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           suggestion: S.optional(S.String),
@@ -17085,14 +19277,14 @@ function __c136(j: number): any {
           score: S.optional(S.Number),
           destinationUri: S.optional(S.String),
           displayPhotoUri: S.optional(S.String),
-          document: S.optional(__S(4391, __c137, 7)),
+          document: S.optional(__S(4455, __c139, 7)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponsePersonSuggestion",
       });
+    case 6:
+      return S.Array(__S(4421, __c138, 5));
     case 7:
-      return S.Array(__S(4358, __c136, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           recentSearchTime: S.optional(S.String),
@@ -17103,28 +19295,28 @@ function __c136(j: number): any {
         identifier:
           "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseRecentSearchSuggestion",
       });
+    case 8:
+      return S.Array(__S(4423, __c138, 7));
     case 9:
-      return S.Array(__S(4360, __c136, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          completableFieldPaths: S.optional(__S(9088, __c284, 0)),
-          dataStore: S.optional(__S(9088, __c284, 0)),
+          completableFieldPaths: S.optional(__S(9024, __c282, 0)),
+          dataStore: S.optional(__S(9024, __c282, 0)),
           suggestion: S.optional(S.String),
           score: S.optional(S.Number),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseQuerySuggestion",
       });
+    case 10:
+      return S.Array(__S(4425, __c138, 9));
     case 11:
-      return S.Array(__S(4362, __c136, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
           contentType: S.optional(S.String),
           suggestion: S.optional(S.String),
           dataStore: S.optional(S.String),
-          document: S.optional(__S(4391, __c137, 7)),
+          document: S.optional(__S(4455, __c139, 7)),
           iconUri: S.optional(S.String),
           destinationUri: S.optional(S.String),
           score: S.optional(S.Number),
@@ -17133,28 +19325,28 @@ function __c136(j: number): any {
         identifier:
           "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponseContentSuggestion",
       });
+    case 12:
+      return S.Array(__S(4427, __c138, 11));
     case 13:
-      return S.Array(__S(4364, __c136, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           tailMatchTriggered: S.optional(S.Boolean),
-          peopleSuggestions: S.optional(__S(4359, __c136, 7)),
-          recentSearchSuggestions: S.optional(__S(4361, __c136, 9)),
-          querySuggestions: S.optional(__S(4363, __c136, 11)),
-          contentSuggestions: S.optional(__S(4365, __c136, 13)),
+          peopleSuggestions: S.optional(__S(4422, __c138, 6)),
+          recentSearchSuggestions: S.optional(__S(4424, __c138, 8)),
+          querySuggestions: S.optional(__S(4426, __c138, 10)),
+          contentSuggestions: S.optional(__S(4428, __c138, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAdvancedCompleteQueryResponse" });
   }
 }
-function __c137(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pendingMessage: S.optional(S.String),
           indexTime: S.optional(S.String),
-          errorSamples: S.optional(__S(4416, __c138, 0)),
+          errorSamples: S.optional(__S(4480, __c140, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDocumentIndexStatus" });
     case 1:
@@ -17166,22 +19358,22 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaPrincipal" });
     case 2:
-      return S.Array(__S(4385, __c137, 1));
+      return S.Array(__S(4449, __c139, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          principals: S.optional(__S(4386, __c137, 2)),
+          principals: S.optional(__S(4450, __c139, 2)),
           idpWide: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaDocumentAclInfoAccessRestriction",
       });
     case 4:
-      return S.Array(__S(4387, __c137, 3));
+      return S.Array(__S(4451, __c139, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          readers: S.optional(__S(4388, __c137, 4)),
+          readers: S.optional(__S(4452, __c139, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDocumentAclInfo" });
     case 6:
@@ -17196,27 +19388,27 @@ function __c137(j: number): any {
       return S.suspend(() =>
         S.Struct({
           indexTime: S.optional(S.String),
-          indexStatus: S.optional(__S(4384, __c137, 0)),
+          indexStatus: S.optional(__S(4448, __c139, 0)),
           jsonData: S.optional(S.String),
-          aclInfo: S.optional(__S(4389, __c137, 5)),
+          aclInfo: S.optional(__S(4453, __c139, 5)),
           id: S.optional(S.String),
           parentDocumentId: S.optional(S.String),
-          derivedStructData: S.optional(__S(9024, __c282, 0)),
-          structData: S.optional(__S(9024, __c282, 0)),
+          derivedStructData: S.optional(__S(8960, __c280, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
           schemaId: S.optional(S.String),
-          content: S.optional(__S(4390, __c137, 6)),
+          content: S.optional(__S(4454, __c139, 6)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDocument" });
   }
 }
-function __c138(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9056, __c283, 0));
+      return S.Array(__S(8992, __c281, 0));
   }
 }
-function __c139(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17229,13 +19421,13 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           address: S.optional(S.String),
-          point: S.optional(__S(4448, __c139, 0)),
+          point: S.optional(__S(4512, __c141, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaUserInfoPreciseLocation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          preciseLocation: S.optional(__S(4449, __c139, 1)),
+          preciseLocation: S.optional(__S(4513, __c141, 1)),
           timeZone: S.optional(S.String),
           userId: S.optional(S.String),
           userAgent: S.optional(S.String),
@@ -17243,7 +19435,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaUserInfo" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17263,7 +19455,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsIdentityMappingStoresOperationsRequest" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17281,17 +19473,17 @@ function __c141(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsLicenseConfigsRequest" });
     case 1:
-      return S.Array(__S(9728, __c304, 0));
+      return S.Array(__S(9664, __c302, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          licenseConfigs: S.optional(__S(4513, __c141, 1)),
+          licenseConfigs: S.optional(__S(4577, __c143, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListLicenseConfigsResponse" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17311,7 +19503,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17328,17 +19520,17 @@ function __c143(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSampleQuerySetsRequest" });
     case 1:
-      return S.Array(__S(9792, __c306, 0));
+      return S.Array(__S(9728, __c304, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          sampleQuerySets: S.optional(__S(4577, __c143, 1)),
+          sampleQuerySets: S.optional(__S(4641, __c145, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListSampleQuerySetsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17357,13 +19549,13 @@ function __c144(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sampleQueries: S.optional(__S(2560, __c80, 0)),
+          sampleQueries: S.optional(__S(2624, __c82, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListSampleQueriesResponse" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17385,18 +19577,18 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaLicenseConfigUsageStats" });
     case 2:
-      return S.Array(__S(4641, __c145, 1));
+      return S.Array(__S(4705, __c147, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          licenseConfigUsageStats: S.optional(__S(4642, __c145, 2)),
+          licenseConfigUsageStats: S.optional(__S(4706, __c147, 2)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaListLicenseConfigsUsageStatsResponse",
       });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17423,7 +19615,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListUserLicensesResponse" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17443,7 +19635,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ListProjectsOperationsRequest" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17462,30 +19654,30 @@ function __c148(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sampleQuery: S.optional(__S(9859, __c308, 3)),
-          qualityMetrics: S.optional(__S(9569, __c299, 1)),
+          sampleQuery: S.optional(__S(9795, __c306, 3)),
+          qualityMetrics: S.optional(__S(9505, __c297, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponseEvaluationResult",
       });
     case 2:
-      return S.Array(__S(4737, __c148, 1));
+      return S.Array(__S(4801, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          evaluationResults: S.optional(__S(4738, __c148, 2)),
+          evaluationResults: S.optional(__S(4802, __c150, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaListEvaluationResultsResponse" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(4800, __c150, 0).pipe(T.HttpBody())),
+          crawlRateScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17498,14 +19690,14 @@ function __c149(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          labels: S.optional(__S(8576, __c268, 0)),
+          labels: S.optional(__S(8512, __c266, 0)),
         }),
       ).annotate({ identifier: "GoogleApiMonitoredResource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userLabels: S.optional(__S(8576, __c268, 0)),
-          systemLabels: S.optional(__S(9024, __c282, 0)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          systemLabels: S.optional(__S(8960, __c280, 0)),
         }),
       ).annotate({ identifier: "GoogleApiMonitoredResourceMetadata" });
     case 3:
@@ -17534,37 +19726,37 @@ function __c149(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          bounds: S.optional(__S(8544, __c267, 0)),
+          bounds: S.optional(__S(8480, __c265, 0)),
         }),
       ).annotate({ identifier: "GoogleApiDistributionBucketOptionsExplicit" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          exponentialBuckets: S.optional(__S(4772, __c149, 4)),
-          linearBuckets: S.optional(__S(4773, __c149, 5)),
-          explicitBuckets: S.optional(__S(4774, __c149, 6)),
+          exponentialBuckets: S.optional(__S(4836, __c151, 4)),
+          linearBuckets: S.optional(__S(4837, __c151, 5)),
+          explicitBuckets: S.optional(__S(4838, __c151, 6)),
         }),
       ).annotate({ identifier: "GoogleApiDistributionBucketOptions" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          attachments: S.optional(__S(8992, __c281, 0)),
+          attachments: S.optional(__S(8928, __c279, 0)),
           timestamp: S.optional(S.String),
           value: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleApiDistributionExemplar" });
     case 9:
-      return S.Array(__S(4776, __c149, 8));
+      return S.Array(__S(4840, __c151, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(4771, __c149, 3)),
+          range: S.optional(__S(4835, __c151, 3)),
           sumOfSquaredDeviation: S.optional(S.Number),
-          bucketOptions: S.optional(__S(4775, __c149, 7)),
+          bucketOptions: S.optional(__S(4839, __c151, 7)),
           count: S.optional(S.String),
-          bucketCounts: S.optional(__S(9088, __c284, 0)),
+          bucketCounts: S.optional(__S(9024, __c282, 0)),
           mean: S.optional(S.Number),
-          exemplars: S.optional(__S(4777, __c149, 9)),
+          exemplars: S.optional(__S(4841, __c151, 9)),
         }),
       ).annotate({ identifier: "GoogleApiDistribution" });
     case 11:
@@ -17572,7 +19764,7 @@ function __c149(j: number): any {
         S.Struct({
           int64Value: S.optional(S.String),
           boolValue: S.optional(S.Boolean),
-          distributionValue: S.optional(__S(4778, __c149, 10)),
+          distributionValue: S.optional(__S(4842, __c151, 10)),
           doubleValue: S.optional(S.Number),
           stringValue: S.optional(S.String),
         }),
@@ -17580,75 +19772,73 @@ function __c149(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          interval: S.optional(__S(7904, __c247, 0)),
-          value: S.optional(__S(4779, __c149, 11)),
+          interval: S.optional(__S(7872, __c246, 0)),
+          value: S.optional(__S(4843, __c151, 11)),
         }),
       ).annotate({ identifier: "GoogleMonitoringV3Point" });
     case 13:
-      return S.Array(__S(4780, __c149, 12));
+      return S.Array(__S(4844, __c151, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          resource: S.optional(__S(4769, __c149, 1)),
+          resource: S.optional(__S(4833, __c151, 1)),
           valueType: S.optional(S.String),
-          metadata: S.optional(__S(4770, __c149, 2)),
+          metadata: S.optional(__S(4834, __c151, 2)),
           metricKind: S.optional(S.String),
           unit: S.optional(S.String),
-          metric: S.optional(__S(4769, __c149, 1)),
-          points: S.optional(__S(4781, __c149, 13)),
+          metric: S.optional(__S(4833, __c151, 1)),
+          points: S.optional(__S(4845, __c151, 13)),
         }),
       ).annotate({ identifier: "GoogleMonitoringV3TimeSeries" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          qpsTimeSeries: S.optional(__S(4782, __c149, 14)),
+          qpsTimeSeries: S.optional(__S(4846, __c151, 14)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCrawlRateTimeSeries" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          autoRefreshCrawlRate: S.optional(__S(4783, __c149, 15)),
-          userTriggeredCrawlErrorRate: S.optional(__S(4783, __c149, 15)),
-          userTriggeredCrawlRate: S.optional(__S(4783, __c149, 15)),
-          autoRefreshCrawlErrorRate: S.optional(__S(4783, __c149, 15)),
+          autoRefreshCrawlRate: S.optional(__S(4847, __c151, 15)),
+          userTriggeredCrawlErrorRate: S.optional(__S(4847, __c151, 15)),
+          userTriggeredCrawlRate: S.optional(__S(4847, __c151, 15)),
+          autoRefreshCrawlErrorRate: S.optional(__S(4847, __c151, 15)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDedicatedCrawlRateTimeSeries" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          googleOrganicCrawlRate: S.optional(__S(4783, __c149, 15)),
-          vertexAiOrganicCrawlRate: S.optional(__S(4783, __c149, 15)),
+          googleOrganicCrawlRate: S.optional(__S(4847, __c151, 15)),
+          vertexAiOrganicCrawlRate: S.optional(__S(4847, __c151, 15)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaOrganicCrawlRateTimeSeries" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          dedicatedCrawlRateTimeSeries: S.optional(__S(4784, __c149, 16)),
-          error: S.optional(__S(9056, __c283, 0)),
+          dedicatedCrawlRateTimeSeries: S.optional(__S(4848, __c151, 16)),
+          error: S.optional(__S(8992, __c281, 0)),
           state: S.optional(S.String),
-          organicCrawlRateTimeSeries: S.optional(__S(4785, __c149, 17)),
+          organicCrawlRateTimeSeries: S.optional(__S(4849, __c151, 17)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaObtainCrawlRateResponse" });
   }
 }
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          crawlRateScope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaObtainCrawlRateRequest" });
-  }
-}
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
+          suggestionTypes: S.optional(__S(8544, __c267, 0)),
+          includeTailSuggestions: S.optional(S.Boolean),
+          queryModel: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          boostSpec: S.optional(__S(4418, __c138, 2)),
+          experimentIds: S.optional(__S(9024, __c282, 0)),
+          suggestionTypeSpecs: S.optional(__S(4420, __c138, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          query: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17661,14 +19851,20 @@ function __c151(j: number): any {
       });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           setDefault: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7426, __c232, 2).pipe(T.HttpBody())),
+          singleRegionKeys: S.optional(__S(7329, __c229, 1)),
+          lastRotationTimestampMicros: S.optional(S.String),
+          kmsKeyVersion: S.optional(S.String),
+          isDefault: S.optional(S.Boolean),
+          notebooklmState: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17679,14 +19875,37 @@ function __c152(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCmekConfigsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7507, __c234, 19).pipe(T.HttpBody())),
+          documentProcessingConfig: S.optional(__S(7462, __c233, 6)),
+          createTime: S.optional(S.String),
+          identityMappingStore: S.optional(S.String),
+          servingConfigDataStore: S.optional(__S(7463, __c233, 7)),
+          configurableBillingApproach: S.optional(S.String),
+          naturalLanguageQueryUnderstandingConfig: S.optional(__S(7296, __c228, 0)),
+          displayName: S.optional(S.String),
+          solutionTypes: S.optional(__S(8544, __c267, 0)),
+          languageInfo: S.optional(__S(7464, __c233, 8)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          workspaceConfig: S.optional(__S(7465, __c233, 9)),
+          contentConfig: S.optional(S.String),
+          isInfobotFaqDataStore: S.optional(S.Boolean),
+          billingEstimation: S.optional(__S(7466, __c233, 10)),
+          healthcareFhirConfig: S.optional(__S(7467, __c233, 11)),
+          advancedSiteSearchConfig: S.optional(__S(7468, __c233, 12)),
+          configurableBillingApproachUpdateTime: S.optional(S.String),
+          dataProtectionPolicy: S.optional(__S(7393, __c231, 1)),
+          aclEnabled: S.optional(S.Boolean),
+          startingSchema: S.optional(__S(7424, __c232, 0)),
+          industryVertical: S.optional(S.String),
+          federatedSearchConfig: S.optional(__S(7474, __c233, 18)),
+          kmsKeyName: S.optional(S.String),
+          defaultSchemaId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17697,7 +19916,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17705,7 +19924,16 @@ function __c154(j: number): any {
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(4391, __c137, 7).pipe(T.HttpBody())),
+          indexTime: S.optional(S.String),
+          indexStatus: S.optional(__S(4448, __c139, 0)),
+          jsonData: S.optional(S.String),
+          aclInfo: S.optional(__S(4453, __c139, 5)),
+          id: S.optional(S.String),
+          parentDocumentId: S.optional(S.String),
+          derivedStructData: S.optional(__S(8960, __c280, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
+          schemaId: S.optional(S.String),
+          content: S.optional(__S(4454, __c139, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17718,14 +19946,23 @@ function __c154(j: number): any {
       });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7949, __c248, 13).pipe(T.HttpBody())),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
+          solutionType: S.optional(S.String),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17736,14 +19973,18 @@ function __c155(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsDataStoresControlsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6023, __c188, 7).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          messages: S.optional(__S(6054, __c189, 6)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17754,14 +19995,15 @@ function __c156(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsDataStoresConversationsRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(7360, __c230, 0).pipe(T.HttpBody())),
+          structSchema: S.optional(__S(8960, __c280, 0)),
+          jsonSchema: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17772,14 +20014,34 @@ function __c157(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsDataStoresSchemasRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8101, __c253, 5).pipe(T.HttpBody())),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
+          rankingExpression: S.optional(S.String),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
+          modelId: S.optional(S.String),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
+          solutionType: S.optional(S.String),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
+          updateTime: S.optional(S.String),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
+          createTime: S.optional(S.String),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
+          diversityLevel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17792,14 +20054,22 @@ function __c158(j: number): any {
       });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8834, __c276, 2).pipe(T.HttpBody())),
+          pendingAsyncAssistOperationId: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isPinned: S.optional(S.Boolean),
+          turns: S.optional(__S(8769, __c274, 1)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17810,13 +20080,21 @@ function __c159(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsDataStoresSessionsRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10467, __c327, 3).pipe(T.HttpBody())),
+          siteVerificationInfo: S.optional(__S(10400, __c325, 0)),
+          exactMatch: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          indexingStatus: S.optional(S.String),
+          rootDomainUri: S.optional(S.String),
+          providedUriPattern: S.optional(S.String),
+          generatedUriPattern: S.optional(S.String),
+          failureReason: S.optional(__S(10402, __c325, 2)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17829,14 +20107,42 @@ function __c160(j: number): any {
       });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8373, __c261, 21).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          commonConfig: S.optional(__S(8288, __c259, 0)),
+          appType: S.optional(S.String),
+          connectorTenantInfo: S.optional(__S(8512, __c266, 0)),
+          dataStoreIds: S.optional(__S(9024, __c282, 0)),
+          featurePolicies: S.optional(__S(8292, __c259, 4)),
+          disableAnalytics: S.optional(S.Boolean),
+          effectiveFeatures: S.optional(__S(8293, __c259, 5)),
+          features: S.optional(__S(8293, __c259, 5)),
+          knowledgeGraphConfig: S.optional(__S(8295, __c259, 7)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          delayedGlobalFeatureToggleStateAllowed: S.optional(S.Boolean),
+          associatedAgentRegistry: S.optional(S.String),
+          solutionType: S.optional(S.String),
+          modelConfigs: S.optional(__S(8293, __c259, 5)),
+          agentGatewaySetting: S.optional(__S(8296, __c259, 8)),
+          configurableBillingApproach: S.optional(S.String),
+          observabilityConfig: S.optional(__S(8297, __c259, 9)),
+          chatEngineMetadata: S.optional(__S(8298, __c259, 10)),
+          searchEngineConfig: S.optional(__S(8299, __c259, 11)),
+          marketplaceAgentVisibility: S.optional(S.String),
+          industryVertical: S.optional(S.String),
+          procurementContactEmails: S.optional(__S(9024, __c282, 0)),
+          mediaRecommendationEngineConfig: S.optional(__S(8304, __c259, 16)),
+          sessionConfig: S.optional(__S(8306, __c259, 18)),
+          chatEngineConfig: S.optional(__S(8308, __c259, 20)),
+          displayName: S.optional(S.String),
+          globalFeatureToggleState: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17847,7 +20153,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17867,14 +20173,22 @@ function __c162(j: number): any {
       ).annotate({ identifier: "CompleteQueryProjectsLocationsDataStoresRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8426, __c263, 10).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          customerPolicy: S.optional(__S(8355, __c261, 3)),
+          displayName: S.optional(S.String),
+          enabledTools: S.optional(__S(8359, __c261, 7)),
+          defaultWebGroundingToggleOff: S.optional(S.Boolean),
+          generationConfig: S.optional(__S(8361, __c261, 9)),
+          webGroundingType: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17885,14 +20199,23 @@ function __c163(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsEnginesAssistantsRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7949, __c248, 13).pipe(T.HttpBody())),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
+          solutionType: S.optional(S.String),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17903,14 +20226,18 @@ function __c164(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsEnginesControlsRequest" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6023, __c188, 7).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          messages: S.optional(__S(6054, __c189, 6)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17921,14 +20248,34 @@ function __c165(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsEnginesConversationsRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8101, __c253, 5).pipe(T.HttpBody())),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
+          rankingExpression: S.optional(S.String),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
+          modelId: S.optional(S.String),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
+          solutionType: S.optional(S.String),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
+          updateTime: S.optional(S.String),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
+          createTime: S.optional(S.String),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
+          diversityLevel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17939,14 +20286,22 @@ function __c166(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(8834, __c276, 2).pipe(T.HttpBody())),
+          pendingAsyncAssistOperationId: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isPinned: S.optional(S.Boolean),
+          turns: S.optional(__S(8769, __c274, 1)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17957,14 +20312,37 @@ function __c167(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsCollectionsEnginesSessionsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7507, __c234, 19).pipe(T.HttpBody())),
+          documentProcessingConfig: S.optional(__S(7462, __c233, 6)),
+          createTime: S.optional(S.String),
+          identityMappingStore: S.optional(S.String),
+          servingConfigDataStore: S.optional(__S(7463, __c233, 7)),
+          configurableBillingApproach: S.optional(S.String),
+          naturalLanguageQueryUnderstandingConfig: S.optional(__S(7296, __c228, 0)),
+          displayName: S.optional(S.String),
+          solutionTypes: S.optional(__S(8544, __c267, 0)),
+          languageInfo: S.optional(__S(7464, __c233, 8)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          workspaceConfig: S.optional(__S(7465, __c233, 9)),
+          contentConfig: S.optional(S.String),
+          isInfobotFaqDataStore: S.optional(S.Boolean),
+          billingEstimation: S.optional(__S(7466, __c233, 10)),
+          healthcareFhirConfig: S.optional(__S(7467, __c233, 11)),
+          advancedSiteSearchConfig: S.optional(__S(7468, __c233, 12)),
+          configurableBillingApproachUpdateTime: S.optional(S.String),
+          dataProtectionPolicy: S.optional(__S(7393, __c231, 1)),
+          aclEnabled: S.optional(S.Boolean),
+          startingSchema: S.optional(__S(7424, __c232, 0)),
+          industryVertical: S.optional(S.String),
+          federatedSearchConfig: S.optional(__S(7474, __c233, 18)),
+          kmsKeyName: S.optional(S.String),
+          defaultSchemaId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17975,7 +20353,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17983,7 +20361,16 @@ function __c169(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(4391, __c137, 7).pipe(T.HttpBody())),
+          indexTime: S.optional(S.String),
+          indexStatus: S.optional(__S(4448, __c139, 0)),
+          jsonData: S.optional(S.String),
+          aclInfo: S.optional(__S(4453, __c139, 5)),
+          id: S.optional(S.String),
+          parentDocumentId: S.optional(S.String),
+          derivedStructData: S.optional(__S(8960, __c280, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
+          schemaId: S.optional(S.String),
+          content: S.optional(__S(4454, __c139, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -17994,14 +20381,23 @@ function __c169(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresBranchesDocumentsRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7949, __c248, 13).pipe(T.HttpBody())),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
+          solutionType: S.optional(S.String),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18012,14 +20408,18 @@ function __c170(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresControlsRequest" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(6023, __c188, 7).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          messages: S.optional(__S(6054, __c189, 6)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18030,14 +20430,15 @@ function __c171(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresConversationsRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7360, __c230, 0).pipe(T.HttpBody())),
+          structSchema: S.optional(__S(8960, __c280, 0)),
+          jsonSchema: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18048,13 +20449,21 @@ function __c172(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresSchemasRequest" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(4357, __c136, 5).pipe(T.HttpBody())),
+          suggestionTypes: S.optional(__S(8544, __c267, 0)),
+          includeTailSuggestions: S.optional(S.Boolean),
+          queryModel: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          boostSpec: S.optional(__S(4418, __c138, 2)),
+          experimentIds: S.optional(__S(9024, __c282, 0)),
+          suggestionTypeSpecs: S.optional(__S(4420, __c138, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          query: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18065,14 +20474,34 @@ function __c173(j: number): any {
       ).annotate({ identifier: "CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8101, __c253, 5).pipe(T.HttpBody())),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
+          rankingExpression: S.optional(S.String),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
+          modelId: S.optional(S.String),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
+          solutionType: S.optional(S.String),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
+          updateTime: S.optional(S.String),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
+          createTime: S.optional(S.String),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
+          diversityLevel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18083,14 +20512,22 @@ function __c174(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8834, __c276, 2).pipe(T.HttpBody())),
+          pendingAsyncAssistOperationId: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isPinned: S.optional(S.Boolean),
+          turns: S.optional(__S(8769, __c274, 1)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18101,13 +20538,21 @@ function __c175(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataStoresSessionsRequest" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(10467, __c327, 3).pipe(T.HttpBody())),
+          siteVerificationInfo: S.optional(__S(10400, __c325, 0)),
+          exactMatch: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          indexingStatus: S.optional(S.String),
+          rootDomainUri: S.optional(S.String),
+          providedUriPattern: S.optional(S.String),
+          generatedUriPattern: S.optional(S.String),
+          failureReason: S.optional(__S(10402, __c325, 2)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18120,14 +20565,25 @@ function __c176(j: number): any {
       });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
+          licenseCount: S.optional(S.String),
+          subscriptionTier: S.optional(S.String),
+          autoRenew: S.optional(S.Boolean),
+          earlyTerminated: S.optional(S.Boolean),
+          startDate: S.optional(__S(8832, __c276, 0)),
+          freeTrial: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          endDate: S.optional(__S(8832, __c276, 0)),
+          subscriptionTerm: S.optional(S.String),
+          lastUserUpdateTime: S.optional(S.String),
+          geminiBundle: S.optional(S.Boolean),
+          earlyTerminationDate: S.optional(__S(8832, __c276, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18138,14 +20594,16 @@ function __c177(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsLicenseConfigsRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9792, __c306, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18156,14 +20614,15 @@ function __c178(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSampleQuerySetsRequest" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9859, __c308, 3).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          queryEntry: S.optional(__S(9794, __c306, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18174,14 +20633,17 @@ function __c179(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1728, __c54, 0).pipe(T.HttpBody())),
+          enableLicenseAutoRegister: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          defaultLicenseConfig: S.optional(S.String),
+          enableExpiredLicenseAutoUpdate: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -18192,13 +20654,13 @@ function __c180(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsUserStoresRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18209,13 +20671,17 @@ function __c181(j: number): any {
       ).annotate({ identifier: "PauseProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5857, __c183, 1).pipe(T.HttpBody())),
+          dataUseTermsVersion: S.optional(S.String),
+          saasParams: S.optional(__S(5888, __c184, 0)),
+          provisionIntent: S.optional(S.String),
+          acceptDataUseTerms: S.optional(S.Boolean),
+          idpConfig: S.optional(__S(11393, __c356, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18226,7 +20692,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "ProvisionProjectsRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18237,25 +20703,19 @@ function __c183(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaProvisionProjectRequestSaasParams",
       });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          dataUseTermsVersion: S.optional(S.String),
-          saasParams: S.optional(__S(5856, __c183, 0)),
-          provisionIntent: S.optional(S.String),
-          acceptDataUseTerms: S.optional(S.Boolean),
-          idpConfig: S.optional(__S(11425, __c357, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaProvisionProjectRequest" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5857, __c183, 1).pipe(T.HttpBody())),
+          dataUseTermsVersion: S.optional(S.String),
+          saasParams: S.optional(__S(5888, __c184, 0)),
+          provisionIntent: S.optional(S.String),
+          acceptDataUseTerms: S.optional(S.Boolean),
+          idpConfig: S.optional(__S(11393, __c356, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18266,13 +20726,20 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ProvisionProjectsLocationsRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5952, __c186, 0).pipe(T.HttpBody())),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          summarySpec: S.optional(__S(6113, __c191, 1)),
+          conversation: S.optional(__S(6055, __c189, 7)),
+          query: S.optional(__S(6049, __c189, 1)),
+          safeSearch: S.optional(S.Boolean),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          filter: S.optional(S.String),
+          servingConfig: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18285,42 +20752,29 @@ function __c185(j: number): any {
       });
   }
 }
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userLabels: S.optional(__S(8576, __c268, 0)),
-          summarySpec: S.optional(__S(6081, __c190, 1)),
-          conversation: S.optional(__S(6023, __c188, 7)),
-          query: S.optional(__S(6017, __c188, 1)),
-          safeSearch: S.optional(S.Boolean),
-          boostSpec: S.optional(__S(8709, __c272, 5)),
-          filter: S.optional(S.String),
-          servingConfig: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConverseConversationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          searchResults: S.optional(__S(5999, __c187, 15)),
-          conversation: S.optional(__S(6023, __c188, 7)),
-          reply: S.optional(__S(6020, __c188, 4)),
-          relatedQuestions: S.optional(__S(9088, __c284, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConverseConversationResponse" });
-  }
-}
 function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(8544, __c267, 0)),
+          searchResults: S.optional(__S(6031, __c188, 15)),
+          conversation: S.optional(__S(6055, __c189, 7)),
+          reply: S.optional(__S(6052, __c189, 4)),
+          relatedQuestions: S.optional(__S(9024, __c282, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConverseConversationResponse" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(8480, __c265, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDoubleList" });
     case 1:
-      return S.Record(S.String, __S(5984, __c187, 0));
+      return S.Record(S.String, __S(6016, __c188, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18332,13 +20786,13 @@ function __c187(j: number): any {
           "GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRankSignalsCustomSignal",
       });
     case 3:
-      return S.Array(__S(5986, __c187, 2));
+      return S.Array(__S(6018, __c188, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           defaultRank: S.optional(S.Number),
-          customSignals: S.optional(__S(5987, __c187, 3)),
-          precomputedExpressionValues: S.optional(__S(8544, __c267, 0)),
+          customSignals: S.optional(__S(6019, __c188, 3)),
+          precomputedExpressionValues: S.optional(__S(8480, __c265, 0)),
           semanticSimilarityScore: S.optional(S.Number),
           pctrRank: S.optional(S.Number),
           keywordSimilarityScore: S.optional(S.Number),
@@ -18353,19 +20807,19 @@ function __c187(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          retrievalSources: S.optional(__S(8608, __c269, 0)),
+          retrievalSources: S.optional(__S(8544, __c267, 0)),
           semanticRelevanceScore: S.optional(S.Number),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSearchResultRetrievalSignals",
       });
     case 6:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5997, __c187, 13)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6029, __c188, 13)));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          previousChunks: S.optional(__S(5990, __c187, 6)),
-          nextChunks: S.optional(__S(5990, __c187, 6)),
+          previousChunks: S.optional(__S(6022, __c188, 6)),
+          nextChunks: S.optional(__S(6022, __c188, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaChunkChunkMetadata" });
     case 8:
@@ -18374,7 +20828,7 @@ function __c187(j: number): any {
           title: S.optional(S.String),
           uri: S.optional(S.String),
           mimeType: S.optional(S.String),
-          structData: S.optional(__S(9024, __c282, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaChunkDocumentMetadata" });
     case 9:
@@ -18395,55 +20849,55 @@ function __c187(j: number): any {
       return S.suspend(() =>
         S.Struct({
           imageId: S.optional(S.String),
-          structuredContent: S.optional(__S(5994, __c187, 10)),
+          structuredContent: S.optional(__S(6026, __c188, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaChunkAnnotationMetadata" });
     case 12:
-      return S.Array(__S(5995, __c187, 11));
+      return S.Array(__S(6027, __c188, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          dataUrls: S.optional(__S(9088, __c284, 0)),
+          dataUrls: S.optional(__S(9024, __c282, 0)),
           name: S.optional(S.String),
-          derivedStructData: S.optional(__S(9024, __c282, 0)),
-          chunkMetadata: S.optional(__S(5991, __c187, 7)),
+          derivedStructData: S.optional(__S(8960, __c280, 0)),
+          chunkMetadata: S.optional(__S(6023, __c188, 7)),
           id: S.optional(S.String),
-          documentMetadata: S.optional(__S(5992, __c187, 8)),
+          documentMetadata: S.optional(__S(6024, __c188, 8)),
           relevanceScore: S.optional(S.Number),
-          annotationContents: S.optional(__S(9088, __c284, 0)),
+          annotationContents: S.optional(__S(9024, __c282, 0)),
           content: S.optional(S.String),
-          pageSpan: S.optional(__S(5993, __c187, 9)),
-          annotationMetadata: S.optional(__S(5996, __c187, 12)),
+          pageSpan: S.optional(__S(6025, __c188, 9)),
+          annotationMetadata: S.optional(__S(6028, __c188, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaChunk" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          modelScores: S.optional(__S(5985, __c187, 1)),
-          rankSignals: S.optional(__S(5988, __c187, 4)),
-          retrievalSignals: S.optional(__S(5989, __c187, 5)),
-          document: S.optional(__S(4391, __c137, 7)),
-          chunk: S.optional(__S(5997, __c187, 13)),
+          modelScores: S.optional(__S(6017, __c188, 1)),
+          rankSignals: S.optional(__S(6020, __c188, 4)),
+          retrievalSignals: S.optional(__S(6021, __c188, 5)),
+          document: S.optional(__S(4455, __c139, 7)),
+          chunk: S.optional(__S(6029, __c188, 13)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSearchResult" });
     case 15:
-      return S.Array(__S(5998, __c187, 14));
+      return S.Array(__S(6030, __c188, 14));
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contextDocuments: S.optional(__S(9088, __c284, 0)),
+          contextDocuments: S.optional(__S(9024, __c282, 0)),
           activeDocument: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConversationContext" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          context: S.optional(__S(6016, __c188, 0)),
+          context: S.optional(__S(6048, __c189, 0)),
           input: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaTextInput" });
@@ -18457,25 +20911,25 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaReplyReference" });
     case 3:
-      return S.Array(__S(6018, __c188, 2));
+      return S.Array(__S(6050, __c189, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           reply: S.optional(S.String),
-          references: S.optional(__S(6019, __c188, 3)),
-          summary: S.optional(__S(6059, __c189, 11)),
+          references: S.optional(__S(6051, __c189, 3)),
+          summary: S.optional(__S(6091, __c190, 11)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaReply" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          userInput: S.optional(__S(6017, __c188, 1)),
-          reply: S.optional(__S(6020, __c188, 4)),
+          userInput: S.optional(__S(6049, __c189, 1)),
+          reply: S.optional(__S(6052, __c189, 4)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConversationMessage" });
     case 6:
-      return S.Array(__S(6021, __c188, 5));
+      return S.Array(__S(6053, __c189, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -18483,19 +20937,19 @@ function __c188(j: number): any {
           name: S.optional(S.String),
           userPseudoId: S.optional(S.String),
           startTime: S.optional(S.String),
-          messages: S.optional(__S(6022, __c188, 6)),
+          messages: S.optional(__S(6054, __c189, 6)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConversation" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scores: S.optional(__S(8544, __c267, 0)),
-          categories: S.optional(__S(9088, __c284, 0)),
+          scores: S.optional(__S(8480, __c265, 0)),
+          categories: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummarySafetyAttributes",
@@ -18504,25 +20958,25 @@ function __c189(j: number): any {
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
-          blobAttachmentIndexes: S.optional(__S(9088, __c284, 0)),
+          blobAttachmentIndexes: S.optional(__S(9024, __c282, 0)),
           pageIdentifier: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReferenceChunkContent",
       });
     case 2:
-      return S.Array(__S(6049, __c189, 1));
+      return S.Array(__S(6081, __c190, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           document: S.optional(S.String),
           title: S.optional(S.String),
-          chunkContents: S.optional(__S(6050, __c189, 2)),
+          chunkContents: S.optional(__S(6082, __c190, 2)),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummaryReference" });
     case 4:
-      return S.Array(__S(6051, __c189, 3));
+      return S.Array(__S(6083, __c190, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -18532,21 +20986,21 @@ function __c189(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationSource",
       });
     case 6:
-      return S.Array(__S(6053, __c189, 5));
+      return S.Array(__S(6085, __c190, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           startIndex: S.optional(S.String),
           endIndex: S.optional(S.String),
-          sources: S.optional(__S(6054, __c189, 6)),
+          sources: S.optional(__S(6086, __c190, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitation" });
     case 8:
-      return S.Array(__S(6055, __c189, 7));
+      return S.Array(__S(6087, __c190, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          citations: S.optional(__S(6056, __c189, 8)),
+          citations: S.optional(__S(6088, __c190, 8)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummaryCitationMetadata",
@@ -18554,10 +21008,10 @@ function __c189(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(6052, __c189, 4)),
-          citationMetadata: S.optional(__S(6057, __c189, 9)),
+          references: S.optional(__S(6084, __c190, 4)),
+          citationMetadata: S.optional(__S(6089, __c190, 9)),
           summary: S.optional(S.String),
-          blobAttachments: S.optional(__S(8642, __c270, 2)),
+          blobAttachments: S.optional(__S(8578, __c268, 2)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummarySummaryWithMetadata",
@@ -18565,15 +21019,15 @@ function __c189(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          summarySkippedReasons: S.optional(__S(8608, __c269, 0)),
+          summarySkippedReasons: S.optional(__S(8544, __c267, 0)),
           summaryText: S.optional(S.String),
-          safetyAttributes: S.optional(__S(6048, __c189, 0)),
-          summaryWithMetadata: S.optional(__S(6058, __c189, 10)),
+          safetyAttributes: S.optional(__S(6080, __c190, 0)),
+          summaryWithMetadata: S.optional(__S(6090, __c190, 10)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseSummary" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18587,7 +21041,7 @@ function __c190(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          modelPromptSpec: S.optional(__S(8673, __c271, 1)),
+          modelPromptSpec: S.optional(__S(8609, __c269, 1)),
           includeCitations: S.optional(S.Boolean),
           useSemanticChunks: S.optional(S.Boolean),
           ignoreLowRelevantContent: S.optional(S.Boolean),
@@ -18596,29 +21050,23 @@ function __c190(j: number): any {
           summaryResultCount: S.optional(S.Number),
           ignoreAdversarialQuery: S.optional(S.Boolean),
           ignoreNonSummarySeekingQuery: S.optional(S.Boolean),
-          modelSpec: S.optional(__S(6080, __c190, 0)),
-          multimodalSpec: S.optional(__S(8672, __c271, 0)),
+          modelSpec: S.optional(__S(6112, __c191, 0)),
+          multimodalSpec: S.optional(__S(8608, __c269, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpecSummarySpec",
       });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inlineSource: S.optional(__S(1952, __c61, 0)),
+          identityMappingStore: S.String.pipe(T.Label()),
+          inlineSource: S.optional(__S(2016, __c63, 0)),
           filter: S.optional(S.String),
           force: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaPurgeIdentityMappingsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          identityMappingStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(6112, __c191, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18631,13 +21079,17 @@ function __c191(j: number): any {
       });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6177, __c193, 1).pipe(T.HttpBody())),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          force: S.optional(S.Boolean),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          filter: S.optional(S.String),
+          inlineSource: S.optional(__S(6208, __c194, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18650,35 +21102,25 @@ function __c192(j: number): any {
       });
   }
 }
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          documents: S.optional(__S(9088, __c284, 0)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSource",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          gcsSource: S.optional(__S(2016, __c63, 0)),
-          force: S.optional(S.Boolean),
-          errorConfig: S.optional(__S(2080, __c65, 0)),
-          filter: S.optional(S.String),
-          inlineSource: S.optional(__S(6176, __c193, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest" });
-  }
-}
 function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          documents: S.optional(__S(9024, __c282, 0)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequestInlineSource",
+      });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18691,13 +21133,13 @@ function __c194(j: number): any {
       });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18710,13 +21152,14 @@ function __c195(j: number): any {
       });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
+          filter: S.optional(S.String),
+          force: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18727,24 +21170,17 @@ function __c196(j: number): any {
       ).annotate({ identifier: "PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest" });
   }
 }
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(S.String),
-          force: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaPurgeUserEventsRequest" });
-  }
-}
 function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6177, __c193, 1).pipe(T.HttpBody())),
+          gcsSource: S.optional(__S(2080, __c65, 0)),
+          force: S.optional(S.Boolean),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          filter: S.optional(S.String),
+          inlineSource: S.optional(__S(6208, __c194, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18761,7 +21197,7 @@ function __c199(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18778,7 +21214,7 @@ function __c200(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18797,7 +21233,8 @@ function __c201(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6304, __c197, 0).pipe(T.HttpBody())),
+          filter: S.optional(S.String),
+          force: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18824,19 +21261,13 @@ function __c202(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userLabels: S.optional(__S(8576, __c268, 0)),
+          rankingConfig: S.String.pipe(T.Label()),
+          userLabels: S.optional(__S(8512, __c266, 0)),
           records: S.optional(__S(6465, __c202, 1)),
           ignoreRecordDetailsInResponse: S.optional(S.Boolean),
           query: S.optional(S.String),
           model: S.optional(S.String),
           topN: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaRankRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rankingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6466, __c202, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18845,7 +21276,7 @@ function __c202(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RankProjectsLocationsRankingConfigsRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           records: S.optional(__S(6465, __c202, 1)),
@@ -18859,7 +21290,14 @@ function __c203(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5952, __c186, 0).pipe(T.HttpBody())),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          summarySpec: S.optional(__S(6113, __c191, 1)),
+          conversation: S.optional(__S(6055, __c189, 7)),
+          query: S.optional(__S(6049, __c189, 1)),
+          safeSearch: S.optional(S.Boolean),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          filter: S.optional(S.String),
+          servingConfig: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18876,7 +21314,12 @@ function __c204(j: number): any {
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6560, __c205, 0).pipe(T.HttpBody())),
+          userEvent: S.optional(__S(2446, __c76, 14)),
+          validateOnly: S.optional(S.Boolean),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          filter: S.optional(S.String),
+          params: S.optional(__S(8960, __c280, 0)),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18894,33 +21337,22 @@ function __c205(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userEvent: S.optional(__S(2382, __c74, 14)),
-          validateOnly: S.optional(S.Boolean),
-          userLabels: S.optional(__S(8576, __c268, 0)),
-          filter: S.optional(S.String),
-          params: S.optional(__S(9024, __c282, 0)),
-          pageSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaRecommendRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          document: S.optional(__S(4391, __c137, 7)),
+          document: S.optional(__S(4455, __c139, 7)),
           id: S.optional(S.String),
-          metadata: S.optional(__S(9024, __c282, 0)),
+          metadata: S.optional(__S(8960, __c280, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaRecommendResponseRecommendationResult",
       });
+    case 1:
+      return S.Array(__S(6560, __c205, 0));
     case 2:
-      return S.Array(__S(6561, __c205, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           validateOnly: S.optional(S.Boolean),
           attributionToken: S.optional(S.String),
-          results: S.optional(__S(6562, __c205, 2)),
-          missingIds: S.optional(__S(9088, __c284, 0)),
+          results: S.optional(__S(6561, __c205, 1)),
+          missingIds: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaRecommendResponse" });
   }
@@ -18931,7 +21363,12 @@ function __c206(j: number): any {
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6560, __c205, 0).pipe(T.HttpBody())),
+          userEvent: S.optional(__S(2446, __c76, 14)),
+          validateOnly: S.optional(S.Boolean),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          filter: S.optional(S.String),
+          params: S.optional(__S(8960, __c280, 0)),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18950,7 +21387,12 @@ function __c207(j: number): any {
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6560, __c205, 0).pipe(T.HttpBody())),
+          userEvent: S.optional(__S(2446, __c76, 14)),
+          validateOnly: S.optional(S.Boolean),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          filter: S.optional(S.String),
+          params: S.optional(__S(8960, __c280, 0)),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18967,7 +21409,8 @@ function __c208(j: number): any {
       return S.suspend(() =>
         S.Struct({
           siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(6688, __c209, 0).pipe(T.HttpBody())),
+          uris: S.optional(__S(9024, __c282, 0)),
+          siteCredential: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18985,19 +21428,9 @@ function __c209(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uris: S.optional(__S(9088, __c284, 0)),
-          siteCredential: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaRecrawlUrisRequest" });
-  }
-}
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(6688, __c209, 0).pipe(T.HttpBody())),
+          uris: S.optional(__S(9024, __c282, 0)),
+          siteCredential: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19008,13 +21441,13 @@ function __c210(j: number): any {
       ).annotate({ identifier: "RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest" });
   }
 }
-function __c211(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(4800, __c150, 0).pipe(T.HttpBody())),
+          crawlRateScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19025,23 +21458,17 @@ function __c211(j: number): any {
       ).annotate({ identifier: "RemoveDedicatedCrawlRateProjectsLocationsRequest" });
   }
 }
-function __c212(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          completionConfig: S.String.pipe(T.Label()),
           removeAllSearchHistorySuggestions: S.optional(S.Boolean),
           removeTime: S.optional(S.String),
           searchHistorySuggestion: S.optional(S.String),
-          userInfo: S.optional(__S(4450, __c139, 2)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
           userPseudoId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaRemoveSuggestionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          completionConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6784, __c212, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19054,13 +21481,13 @@ function __c212(j: number): any {
       });
   }
 }
-function __c213(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19071,21 +21498,15 @@ function __c213(j: number): any {
       ).annotate({ identifier: "ResumeProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c214(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          billingAccountLicenseConfig: S.String.pipe(T.Label()),
           licenseCount: S.optional(S.String),
           fullRetract: S.optional(S.Boolean),
           licenseConfig: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaRetractLicenseConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          billingAccountLicenseConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(6848, __c214, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19098,13 +21519,53 @@ function __c214(j: number): any {
       });
   }
 }
-function __c215(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9622, __c300, 22).pipe(T.HttpBody())),
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19117,7 +21578,7 @@ function __c215(j: number): any {
       });
   }
 }
-function __c216(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19146,22 +21607,22 @@ function __c216(j: number): any {
           "GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResultRefinementAttribute",
       });
     case 3:
-      return S.Array(__S(6914, __c216, 2));
+      return S.Array(__S(6882, __c215, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          followUpQuestions: S.optional(__S(9088, __c284, 0)),
-          refinementAttributes: S.optional(__S(6915, __c216, 3)),
+          followUpQuestions: S.optional(__S(9024, __c282, 0)),
+          refinementAttributes: S.optional(__S(6883, __c215, 3)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseGuidedSearchResult",
       });
     case 5:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6922, __c216, 10)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6890, __c215, 10)));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          expressions: S.optional(__S(6917, __c216, 5)),
+          expressions: S.optional(__S(6885, __c215, 5)),
         }),
       ).annotate({
         identifier:
@@ -19172,7 +21633,7 @@ function __c216(j: number): any {
         S.Struct({
           querySegment: S.optional(S.String),
           fieldName: S.optional(S.String),
-          values: S.optional(__S(9088, __c284, 0)),
+          values: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({
         identifier:
@@ -19206,11 +21667,11 @@ function __c216(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          orExpr: S.optional(__S(6918, __c216, 6)),
-          stringConstraint: S.optional(__S(6919, __c216, 7)),
-          numberConstraint: S.optional(__S(6920, __c216, 8)),
-          andExpr: S.optional(__S(6918, __c216, 6)),
-          geolocationConstraint: S.optional(__S(6921, __c216, 9)),
+          orExpr: S.optional(__S(6886, __c215, 6)),
+          stringConstraint: S.optional(__S(6887, __c215, 7)),
+          numberConstraint: S.optional(__S(6888, __c215, 8)),
+          andExpr: S.optional(__S(6886, __c215, 6)),
+          geolocationConstraint: S.optional(__S(6889, __c215, 9)),
         }),
       ).annotate({
         identifier:
@@ -19219,7 +21680,7 @@ function __c216(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(__S(6922, __c216, 10)),
+          expression: S.optional(__S(6890, __c215, 10)),
         }),
       ).annotate({
         identifier:
@@ -19229,8 +21690,8 @@ function __c216(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rewrittenQuery: S.optional(S.String),
-          structuredExtractedFilter: S.optional(__S(6923, __c216, 11)),
-          classifiedIntents: S.optional(__S(9088, __c284, 0)),
+          structuredExtractedFilter: S.optional(__S(6891, __c215, 11)),
+          classifiedIntents: S.optional(__S(9024, __c282, 0)),
           extractedFilters: S.optional(S.String),
         }),
       ).annotate({
@@ -19238,36 +21699,36 @@ function __c216(j: number): any {
           "GoogleCloudDiscoveryengineV1betaSearchResponseNaturalLanguageQueryUnderstandingInfo",
       });
     case 13:
-      return S.Array(__S(7968, __c249, 0));
+      return S.Array(__S(7936, __c248, 0));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          searchResults: S.optional(__S(5999, __c187, 15)),
+          searchResults: S.optional(__S(6031, __c188, 15)),
           oneBoxType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseOneBoxResult" });
     case 15:
-      return S.Array(__S(6926, __c216, 14));
+      return S.Array(__S(6894, __c215, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           count: S.optional(S.String),
-          interval: S.optional(__S(9607, __c300, 7)),
+          interval: S.optional(__S(9543, __c298, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseFacetFacetValue" });
     case 17:
-      return S.Array(__S(6928, __c216, 16));
+      return S.Array(__S(6896, __c215, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(6929, __c216, 17)),
+          values: S.optional(__S(6897, __c215, 17)),
           key: S.optional(S.String),
           dynamicFacet: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseFacet" });
     case 19:
-      return S.Array(__S(6930, __c216, 18));
+      return S.Array(__S(6898, __c215, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -19278,39 +21739,46 @@ function __c216(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaSearchResponseGeoSearchDebugInfo",
       });
     case 21:
-      return S.Array(__S(6932, __c216, 20));
+      return S.Array(__S(6900, __c215, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          queryExpansionInfo: S.optional(__S(6912, __c216, 0)),
+          queryExpansionInfo: S.optional(__S(6880, __c215, 0)),
           suggestedQuery: S.optional(S.String),
-          appliedControls: S.optional(__S(9088, __c284, 0)),
-          sessionInfo: S.optional(__S(6913, __c216, 1)),
-          guidedSearchResult: S.optional(__S(6916, __c216, 4)),
+          appliedControls: S.optional(__S(9024, __c282, 0)),
+          sessionInfo: S.optional(__S(6881, __c215, 1)),
+          guidedSearchResult: S.optional(__S(6884, __c215, 4)),
           attributionToken: S.optional(S.String),
           totalSize: S.optional(S.Number),
-          naturalLanguageQueryUnderstandingInfo: S.optional(__S(6924, __c216, 12)),
-          searchLinkPromotions: S.optional(__S(6925, __c216, 13)),
+          naturalLanguageQueryUnderstandingInfo: S.optional(__S(6892, __c215, 12)),
+          searchLinkPromotions: S.optional(__S(6893, __c215, 13)),
           nextPageToken: S.optional(S.String),
-          oneBoxResults: S.optional(__S(6927, __c216, 15)),
+          oneBoxResults: S.optional(__S(6895, __c215, 15)),
           semanticState: S.optional(S.String),
-          facets: S.optional(__S(6931, __c216, 19)),
-          summary: S.optional(__S(6059, __c189, 11)),
-          geoSearchDebugInfo: S.optional(__S(6933, __c216, 21)),
+          facets: S.optional(__S(6899, __c215, 19)),
+          summary: S.optional(__S(6091, __c190, 11)),
+          geoSearchDebugInfo: S.optional(__S(6901, __c215, 21)),
           redirectUri: S.optional(S.String),
-          results: S.optional(__S(5999, __c187, 15)),
+          results: S.optional(__S(6031, __c188, 15)),
           correctedQuery: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchResponse" });
   }
 }
-function __c217(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(5952, __c186, 0).pipe(T.HttpBody())),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          summarySpec: S.optional(__S(6113, __c191, 1)),
+          conversation: S.optional(__S(6055, __c189, 7)),
+          query: S.optional(__S(6049, __c189, 1)),
+          safeSearch: S.optional(S.Boolean),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          filter: S.optional(S.String),
+          servingConfig: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19321,13 +21789,53 @@ function __c217(j: number): any {
       ).annotate({ identifier: "ConverseProjectsLocationsDataStoresConversationsRequest" });
   }
 }
-function __c218(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9622, __c300, 22).pipe(T.HttpBody())),
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19340,13 +21848,53 @@ function __c218(j: number): any {
       });
   }
 }
-function __c219(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9622, __c300, 22).pipe(T.HttpBody())),
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19357,13 +21905,53 @@ function __c219(j: number): any {
       ).annotate({ identifier: "SearchLiteProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c220(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9622, __c300, 22).pipe(T.HttpBody())),
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19376,13 +21964,53 @@ function __c220(j: number): any {
       });
   }
 }
-function __c221(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9622, __c300, 22).pipe(T.HttpBody())),
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19393,13 +22021,53 @@ function __c221(j: number): any {
       ).annotate({ identifier: "SearchProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c222(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(9622, __c300, 22).pipe(T.HttpBody())),
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19410,22 +22078,16 @@ function __c222(j: number): any {
       ).annotate({ identifier: "SearchProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c223(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          location: S.String.pipe(T.Label()),
           crawlRate: S.optional(S.Number),
           crawlType: S.optional(S.String),
           mode: S.optional(S.String),
           crawlRateScope: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSetDedicatedCrawlRateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          body: S.optional(__S(7136, __c223, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19436,13 +22098,13 @@ function __c223(j: number): any {
       ).annotate({ identifier: "SetDedicatedCrawlRateProjectsLocationsRequest" });
   }
 }
-function __c224(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7200, __c225, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(11523, __c360, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19453,23 +22115,13 @@ function __c224(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c225(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(11555, __c361, 3)),
-        }),
-      ).annotate({ identifier: "GoogleIamV1SetIamPolicyRequest" });
-  }
-}
-function __c226(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7200, __c225, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(11523, __c360, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19480,13 +22132,13 @@ function __c226(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c227(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(7200, __c225, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(11523, __c360, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19497,13 +22149,24 @@ function __c227(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDataStoresRequest" });
   }
 }
-function __c228(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(8764, __c273, 28).pipe(T.HttpBody())),
+          answerGenerationSpec: S.optional(__S(8673, __c271, 1)),
+          asynchronousMode: S.optional(S.Boolean),
+          session: S.optional(S.String),
+          searchSpec: S.optional(__S(8685, __c271, 13)),
+          relatedQuestionsSpec: S.optional(__S(8686, __c271, 14)),
+          groundingSpec: S.optional(__S(8687, __c271, 15)),
+          queryUnderstandingSpec: S.optional(__S(8691, __c271, 19)),
+          endUserSpec: S.optional(__S(8696, __c271, 24)),
+          userPseudoId: S.optional(S.String),
+          query: S.optional(__S(8736, __c273, 0)),
+          safetySpec: S.optional(__S(8699, __c271, 27)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19516,7 +22179,7 @@ function __c228(j: number): any {
       });
   }
 }
-function __c229(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19527,7 +22190,31 @@ function __c229(j: number): any {
           dataStoreId: S.optional(S.String.pipe(T.Query())),
           skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
           disableCmek: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(7507, __c234, 19).pipe(T.HttpBody())),
+          documentProcessingConfig: S.optional(__S(7462, __c233, 6)),
+          createTime: S.optional(S.String),
+          identityMappingStore: S.optional(S.String),
+          servingConfigDataStore: S.optional(__S(7463, __c233, 7)),
+          configurableBillingApproach: S.optional(S.String),
+          naturalLanguageQueryUnderstandingConfig: S.optional(__S(7296, __c228, 0)),
+          displayName: S.optional(S.String),
+          solutionTypes: S.optional(__S(8544, __c267, 0)),
+          languageInfo: S.optional(__S(7464, __c233, 8)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          workspaceConfig: S.optional(__S(7465, __c233, 9)),
+          contentConfig: S.optional(S.String),
+          isInfobotFaqDataStore: S.optional(S.Boolean),
+          billingEstimation: S.optional(__S(7466, __c233, 10)),
+          healthcareFhirConfig: S.optional(__S(7467, __c233, 11)),
+          advancedSiteSearchConfig: S.optional(__S(7468, __c233, 12)),
+          configurableBillingApproachUpdateTime: S.optional(S.String),
+          dataProtectionPolicy: S.optional(__S(7393, __c231, 1)),
+          name: S.optional(S.String),
+          aclEnabled: S.optional(S.Boolean),
+          startingSchema: S.optional(__S(7424, __c232, 0)),
+          industryVertical: S.optional(S.String),
+          federatedSearchConfig: S.optional(__S(7474, __c233, 18)),
+          kmsKeyName: S.optional(S.String),
+          defaultSchemaId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19538,19 +22225,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c230(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          structSchema: S.optional(__S(9024, __c282, 0)),
-          name: S.optional(S.String),
-          jsonSchema: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSchema" });
-  }
-}
-function __c231(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19562,7 +22237,7 @@ function __c231(j: number): any {
       });
   }
 }
-function __c232(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19571,11 +22246,15 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSingleRegionKey" });
     case 1:
-      return S.Array(__S(7424, __c232, 0));
-    case 2:
+      return S.Array(__S(7328, __c229, 0));
+  }
+}
+function __c230(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          singleRegionKeys: S.optional(__S(7425, __c232, 1)),
+          singleRegionKeys: S.optional(__S(7329, __c229, 1)),
           lastRotationTimestampMicros: S.optional(S.String),
           kmsKeyVersion: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
@@ -19587,7 +22266,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCmekConfig" });
   }
 }
-function __c233(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19601,22 +22280,34 @@ function __c233(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sensitiveDataProtectionPolicy: S.optional(__S(7456, __c233, 0)),
+          sensitiveDataProtectionPolicy: S.optional(__S(7392, __c231, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDataProtectionPolicy" });
   }
 }
-function __c234(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          structuredContentTypes: S.optional(__S(9088, __c284, 0)),
+          structSchema: S.optional(__S(8960, __c280, 0)),
+          name: S.optional(S.String),
+          jsonSchema: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSchema" });
+  }
+}
+function __c233(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          structuredContentTypes: S.optional(__S(9024, __c282, 0)),
           enableLlmLayoutParsing: S.optional(S.Boolean),
           enableTableAnnotation: S.optional(S.Boolean),
-          excludeHtmlIds: S.optional(__S(9088, __c284, 0)),
-          excludeHtmlClasses: S.optional(__S(9088, __c284, 0)),
-          excludeHtmlElements: S.optional(__S(9088, __c284, 0)),
+          excludeHtmlIds: S.optional(__S(9024, __c282, 0)),
+          excludeHtmlClasses: S.optional(__S(9024, __c282, 0)),
+          excludeHtmlElements: S.optional(__S(9024, __c282, 0)),
           enableImageAnnotation: S.optional(S.Boolean),
           enableGetProcessedDocument: S.optional(S.Boolean),
         }),
@@ -19627,7 +22318,7 @@ function __c234(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enhancedDocumentElements: S.optional(__S(9088, __c284, 0)),
+          enhancedDocumentElements: S.optional(__S(9024, __c282, 0)),
           useNativeText: S.optional(S.Boolean),
         }),
       ).annotate({
@@ -19637,15 +22328,15 @@ function __c234(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          layoutParsingConfig: S.optional(__S(7488, __c234, 0)),
-          digitalParsingConfig: S.optional(__S(768, __c24, 0)),
-          ocrParsingConfig: S.optional(__S(7489, __c234, 1)),
+          layoutParsingConfig: S.optional(__S(7456, __c233, 0)),
+          digitalParsingConfig: S.optional(__S(800, __c25, 0)),
+          ocrParsingConfig: S.optional(__S(7457, __c233, 1)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigParsingConfig",
       });
     case 3:
-      return S.Record(S.String, __S(7490, __c234, 2));
+      return S.Record(S.String, __S(7458, __c233, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -19659,7 +22350,7 @@ function __c234(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          layoutBasedChunkingConfig: S.optional(__S(7492, __c234, 4)),
+          layoutBasedChunkingConfig: S.optional(__S(7460, __c233, 4)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaDocumentProcessingConfigChunkingConfig",
@@ -19668,9 +22359,9 @@ function __c234(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          parsingConfigOverrides: S.optional(__S(7491, __c234, 3)),
-          chunkingConfig: S.optional(__S(7493, __c234, 5)),
-          defaultParsingConfig: S.optional(__S(7490, __c234, 2)),
+          parsingConfigOverrides: S.optional(__S(7459, __c233, 3)),
+          chunkingConfig: S.optional(__S(7461, __c233, 5)),
+          defaultParsingConfig: S.optional(__S(7458, __c233, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDocumentProcessingConfig" });
     case 7:
@@ -19711,7 +22402,7 @@ function __c234(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          initialFilterGroups: S.optional(__S(9088, __c284, 0)),
+          initialFilterGroups: S.optional(__S(9024, __c282, 0)),
           enableStaticIndexingForBatchIngestion: S.optional(S.Boolean),
           enableConfigurableSchema: S.optional(S.Boolean),
         }),
@@ -19749,9 +22440,9 @@ function __c234(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          alloydbConnectionConfig: S.optional(__S(7501, __c234, 13)),
-          returnedFields: S.optional(__S(9088, __c284, 0)),
-          alloydbAiNlConfig: S.optional(__S(7502, __c234, 14)),
+          alloydbConnectionConfig: S.optional(__S(7469, __c233, 13)),
+          returnedFields: S.optional(__S(9024, __c282, 0)),
+          alloydbAiNlConfig: S.optional(__S(7470, __c233, 14)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfigAlloyDbConfig",
@@ -19759,7 +22450,7 @@ function __c234(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          notebooks: S.optional(__S(9088, __c284, 0)),
+          notebooks: S.optional(__S(9024, __c282, 0)),
           searchConfig: S.optional(S.String),
         }),
       ).annotate({
@@ -19779,50 +22470,31 @@ function __c234(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          alloyDbConfig: S.optional(__S(7503, __c234, 15)),
-          notebooklmConfig: S.optional(__S(7504, __c234, 16)),
-          thirdPartyOauthConfig: S.optional(__S(7505, __c234, 17)),
+          alloyDbConfig: S.optional(__S(7471, __c233, 15)),
+          notebooklmConfig: S.optional(__S(7472, __c233, 16)),
+          thirdPartyOauthConfig: S.optional(__S(7473, __c233, 17)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDataStoreFederatedSearchConfig" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          documentProcessingConfig: S.optional(__S(7494, __c234, 6)),
-          createTime: S.optional(S.String),
-          identityMappingStore: S.optional(S.String),
-          servingConfigDataStore: S.optional(__S(7495, __c234, 7)),
-          configurableBillingApproach: S.optional(S.String),
-          naturalLanguageQueryUnderstandingConfig: S.optional(__S(7392, __c231, 0)),
-          displayName: S.optional(S.String),
-          solutionTypes: S.optional(__S(8608, __c269, 0)),
-          languageInfo: S.optional(__S(7496, __c234, 8)),
-          cmekConfig: S.optional(__S(7426, __c232, 2)),
-          workspaceConfig: S.optional(__S(7497, __c234, 9)),
-          contentConfig: S.optional(S.String),
-          isInfobotFaqDataStore: S.optional(S.Boolean),
-          billingEstimation: S.optional(__S(7498, __c234, 10)),
-          healthcareFhirConfig: S.optional(__S(7499, __c234, 11)),
-          advancedSiteSearchConfig: S.optional(__S(7500, __c234, 12)),
-          configurableBillingApproachUpdateTime: S.optional(S.String),
-          dataProtectionPolicy: S.optional(__S(7457, __c233, 1)),
-          name: S.optional(S.String),
-          aclEnabled: S.optional(S.Boolean),
-          startingSchema: S.optional(__S(7360, __c230, 0)),
-          industryVertical: S.optional(S.String),
-          federatedSearchConfig: S.optional(__S(7506, __c234, 18)),
-          kmsKeyName: S.optional(S.String),
-          defaultSchemaId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDataStore" });
   }
 }
-function __c235(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(8764, __c273, 28).pipe(T.HttpBody())),
+          answerGenerationSpec: S.optional(__S(8673, __c271, 1)),
+          asynchronousMode: S.optional(S.Boolean),
+          session: S.optional(S.String),
+          searchSpec: S.optional(__S(8685, __c271, 13)),
+          relatedQuestionsSpec: S.optional(__S(8686, __c271, 14)),
+          groundingSpec: S.optional(__S(8687, __c271, 15)),
+          queryUnderstandingSpec: S.optional(__S(8691, __c271, 19)),
+          endUserSpec: S.optional(__S(8696, __c271, 24)),
+          userPseudoId: S.optional(S.String),
+          query: S.optional(__S(8736, __c273, 0)),
+          safetySpec: S.optional(__S(8699, __c271, 27)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19835,13 +22507,24 @@ function __c235(j: number): any {
       });
   }
 }
-function __c236(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(8764, __c273, 28).pipe(T.HttpBody())),
+          answerGenerationSpec: S.optional(__S(8673, __c271, 1)),
+          asynchronousMode: S.optional(S.Boolean),
+          session: S.optional(S.String),
+          searchSpec: S.optional(__S(8685, __c271, 13)),
+          relatedQuestionsSpec: S.optional(__S(8686, __c271, 14)),
+          groundingSpec: S.optional(__S(8687, __c271, 15)),
+          queryUnderstandingSpec: S.optional(__S(8691, __c271, 19)),
+          endUserSpec: S.optional(__S(8696, __c271, 24)),
+          userPseudoId: S.optional(S.String),
+          query: S.optional(__S(8736, __c273, 0)),
+          safetySpec: S.optional(__S(8699, __c271, 27)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19852,7 +22535,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "StreamAnswerProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c237(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19864,7 +22547,7 @@ function __c237(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataStoreSpecs: S.optional(__S(8961, __c280, 1)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
           filter: S.optional(S.String),
         }),
       ).annotate({
@@ -19874,10 +22557,10 @@ function __c237(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          videoGenerationSpec: S.optional(__S(768, __c24, 0)),
-          vertexAiSearchSpec: S.optional(__S(7585, __c237, 1)),
-          imageGenerationSpec: S.optional(__S(768, __c24, 0)),
-          webGroundingSpec: S.optional(__S(768, __c24, 0)),
+          videoGenerationSpec: S.optional(__S(800, __c25, 0)),
+          vertexAiSearchSpec: S.optional(__S(7553, __c236, 1)),
+          imageGenerationSpec: S.optional(__S(800, __c25, 0)),
+          webGroundingSpec: S.optional(__S(800, __c25, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistRequestToolsSpec" });
     case 3:
@@ -19889,11 +22572,11 @@ function __c237(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistRequestAgentsSpecAgentSpec",
       });
     case 4:
-      return S.Array(__S(7587, __c237, 3));
+      return S.Array(__S(7555, __c236, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          agentSpecs: S.optional(__S(7588, __c237, 4)),
+          agentSpecs: S.optional(__S(7556, __c236, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistRequestAgentsSpec" });
     case 6:
@@ -19907,19 +22590,13 @@ function __c237(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(8800, __c275, 0)),
-          userMetadata: S.optional(__S(7584, __c237, 0)),
-          toolsSpec: S.optional(__S(7586, __c237, 2)),
-          agentsSpec: S.optional(__S(7589, __c237, 5)),
-          session: S.optional(S.String),
-          generationSpec: S.optional(__S(7590, __c237, 6)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistRequest" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(7591, __c237, 7).pipe(T.HttpBody())),
+          query: S.optional(__S(8736, __c273, 0)),
+          userMetadata: S.optional(__S(7552, __c236, 0)),
+          toolsSpec: S.optional(__S(7554, __c236, 2)),
+          agentsSpec: S.optional(__S(7557, __c236, 5)),
+          session: S.optional(S.String),
+          generationSpec: S.optional(__S(7558, __c236, 6)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19930,13 +22607,13 @@ function __c237(j: number): any {
       ).annotate({
         identifier: "StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest",
       });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           session: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistResponseSessionInfo" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
@@ -19945,9 +22622,9 @@ function __c237(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistResponseInvokedSkill",
       });
+    case 10:
+      return S.Array(__S(7561, __c236, 9));
     case 11:
-      return S.Array(__S(7594, __c237, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
@@ -19956,22 +22633,22 @@ function __c237(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistResponseConnectorAuthError",
       });
+    case 12:
+      return S.Array(__S(7563, __c236, 11));
     case 13:
-      return S.Array(__S(7596, __c237, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
-          sessionInfo: S.optional(__S(7593, __c237, 9)),
-          invokedSkills: S.optional(__S(7595, __c237, 11)),
-          connectorAuthErrors: S.optional(__S(7597, __c237, 13)),
+          sessionInfo: S.optional(__S(7560, __c236, 8)),
+          invokedSkills: S.optional(__S(7562, __c236, 10)),
+          connectorAuthErrors: S.optional(__S(7564, __c236, 12)),
           assistToken: S.optional(S.String),
-          invocationTools: S.optional(__S(9088, __c284, 0)),
-          answer: S.optional(__S(8888, __c277, 24)),
+          invocationTools: S.optional(__S(9024, __c282, 0)),
+          answer: S.optional(__S(8824, __c275, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaStreamAssistResponse" });
   }
 }
-function __c238(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19987,17 +22664,11 @@ function __c238(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          dataStore: S.String.pipe(T.Label()),
           modelType: S.optional(S.String),
           modelId: S.optional(S.String),
-          errorConfig: S.optional(__S(2080, __c65, 0)),
-          gcsTrainingInput: S.optional(__S(7616, __c238, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaTrainCustomModelRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dataStore: S.String.pipe(T.Label()),
-          body: S.optional(__S(7617, __c238, 1).pipe(T.HttpBody())),
+          errorConfig: S.optional(__S(2144, __c67, 0)),
+          gcsTrainingInput: S.optional(__S(7584, __c237, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20008,13 +22679,13 @@ function __c238(j: number): any {
       ).annotate({ identifier: "TrainCustomModelProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c239(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20025,13 +22696,13 @@ function __c239(j: number): any {
       ).annotate({ identifier: "TuneProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c240(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11456, __c358, 0).pipe(T.HttpBody())),
+          idpConfig: S.optional(__S(11393, __c356, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -20042,14 +22713,20 @@ function __c240(j: number): any {
       ).annotate({ identifier: "UpdateAclConfigProjectsLocationsRequest" });
   }
 }
-function __c241(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           setDefault: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(7426, __c232, 2).pipe(T.HttpBody())),
+          singleRegionKeys: S.optional(__S(7329, __c229, 1)),
+          lastRotationTimestampMicros: S.optional(S.String),
+          kmsKeyVersion: S.optional(S.String),
+          isDefault: S.optional(S.Boolean),
+          notebooklmState: S.optional(S.String),
+          kmsKey: S.optional(S.String),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -20060,14 +22737,37 @@ function __c241(j: number): any {
       ).annotate({ identifier: "UpdateCmekConfigProjectsLocationsRequest" });
   }
 }
-function __c242(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           writeAsync: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2382, __c74, 14).pipe(T.HttpBody())),
+          entity: S.optional(S.String),
+          mediaInfo: S.optional(__S(2432, __c76, 0)),
+          directUserRequest: S.optional(S.Boolean),
+          conversionType: S.optional(S.String),
+          completionInfo: S.optional(__S(2433, __c76, 1)),
+          eventType: S.optional(S.String),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          sessionId: S.optional(S.String),
+          attributionToken: S.optional(S.String),
+          transactionInfo: S.optional(__S(2434, __c76, 2)),
+          searchInfo: S.optional(__S(2435, __c76, 3)),
+          tagIds: S.optional(__S(9024, __c282, 0)),
+          dataStore: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          documents: S.optional(__S(2437, __c76, 5)),
+          attributes: S.optional(__S(2439, __c76, 7)),
+          panel: S.optional(__S(2440, __c76, 8)),
+          feedback: S.optional(__S(2443, __c76, 11)),
+          eventTime: S.optional(S.String),
+          promotionIds: S.optional(__S(9024, __c282, 0)),
+          engine: S.optional(S.String),
+          filter: S.optional(S.String),
+          pageInfo: S.optional(__S(2444, __c76, 12)),
+          panels: S.optional(__S(2445, __c76, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20078,14 +22778,37 @@ function __c242(j: number): any {
       ).annotate({ identifier: "WriteProjectsLocationsCollectionsDataStoresUserEventsRequest" });
   }
 }
-function __c243(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           writeAsync: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2382, __c74, 14).pipe(T.HttpBody())),
+          entity: S.optional(S.String),
+          mediaInfo: S.optional(__S(2432, __c76, 0)),
+          directUserRequest: S.optional(S.Boolean),
+          conversionType: S.optional(S.String),
+          completionInfo: S.optional(__S(2433, __c76, 1)),
+          eventType: S.optional(S.String),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          sessionId: S.optional(S.String),
+          attributionToken: S.optional(S.String),
+          transactionInfo: S.optional(__S(2434, __c76, 2)),
+          searchInfo: S.optional(__S(2435, __c76, 3)),
+          tagIds: S.optional(__S(9024, __c282, 0)),
+          dataStore: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          documents: S.optional(__S(2437, __c76, 5)),
+          attributes: S.optional(__S(2439, __c76, 7)),
+          panel: S.optional(__S(2440, __c76, 8)),
+          feedback: S.optional(__S(2443, __c76, 11)),
+          eventTime: S.optional(S.String),
+          promotionIds: S.optional(__S(9024, __c282, 0)),
+          engine: S.optional(S.String),
+          filter: S.optional(S.String),
+          pageInfo: S.optional(__S(2444, __c76, 12)),
+          panels: S.optional(__S(2445, __c76, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20096,14 +22819,37 @@ function __c243(j: number): any {
       ).annotate({ identifier: "WriteProjectsLocationsDataStoresUserEventsRequest" });
   }
 }
-function __c244(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           writeAsync: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2382, __c74, 14).pipe(T.HttpBody())),
+          entity: S.optional(S.String),
+          mediaInfo: S.optional(__S(2432, __c76, 0)),
+          directUserRequest: S.optional(S.Boolean),
+          conversionType: S.optional(S.String),
+          completionInfo: S.optional(__S(2433, __c76, 1)),
+          eventType: S.optional(S.String),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          sessionId: S.optional(S.String),
+          attributionToken: S.optional(S.String),
+          transactionInfo: S.optional(__S(2434, __c76, 2)),
+          searchInfo: S.optional(__S(2435, __c76, 3)),
+          tagIds: S.optional(__S(9024, __c282, 0)),
+          dataStore: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          documents: S.optional(__S(2437, __c76, 5)),
+          attributes: S.optional(__S(2439, __c76, 7)),
+          panel: S.optional(__S(2440, __c76, 8)),
+          feedback: S.optional(__S(2443, __c76, 11)),
+          eventTime: S.optional(S.String),
+          promotionIds: S.optional(__S(9024, __c282, 0)),
+          engine: S.optional(S.String),
+          filter: S.optional(S.String),
+          pageInfo: S.optional(__S(2444, __c76, 12)),
+          panels: S.optional(__S(2445, __c76, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20114,14 +22860,24 @@ function __c244(j: number): any {
       ).annotate({ identifier: "WriteProjectsLocationsUserEventsRequest" });
   }
 }
-function __c245(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           documentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4391, __c137, 7).pipe(T.HttpBody())),
+          indexTime: S.optional(S.String),
+          indexStatus: S.optional(__S(4448, __c139, 0)),
+          jsonData: S.optional(S.String),
+          aclInfo: S.optional(__S(4453, __c139, 5)),
+          id: S.optional(S.String),
+          parentDocumentId: S.optional(S.String),
+          derivedStructData: S.optional(__S(8960, __c280, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
+          schemaId: S.optional(S.String),
+          content: S.optional(__S(4454, __c139, 6)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20134,14 +22890,24 @@ function __c245(j: number): any {
       });
   }
 }
-function __c246(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           controlId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(7949, __c248, 13).pipe(T.HttpBody())),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
+          name: S.optional(S.String),
+          solutionType: S.optional(S.String),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20152,7 +22918,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsDataStoresControlsRequest" });
   }
 }
-function __c247(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20163,17 +22929,17 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConditionTimeRange" });
   }
 }
-function __c248(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataStore: S.optional(S.String),
-          searchLinkPromotion: S.optional(__S(7968, __c249, 0)),
+          searchLinkPromotion: S.optional(__S(7936, __c248, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaControlPromoteAction" });
     case 1:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20182,21 +22948,21 @@ function __c248(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaConditionQueryTerm" });
     case 3:
-      return S.Array(__S(7938, __c248, 2));
+      return S.Array(__S(7906, __c247, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           queryRegex: S.optional(S.String),
-          activeTimeRange: S.optional(__S(7937, __c248, 1)),
-          queryTerms: S.optional(__S(7939, __c248, 3)),
+          activeTimeRange: S.optional(__S(7905, __c247, 1)),
+          queryTerms: S.optional(__S(7907, __c247, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCondition" });
     case 5:
-      return S.Array(__S(7940, __c248, 4));
+      return S.Array(__S(7908, __c247, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          synonyms: S.optional(__S(9088, __c284, 0)),
+          synonyms: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaControlSynonymsAction" });
     case 7:
@@ -20216,14 +22982,14 @@ function __c248(j: number): any {
           "GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolationBoostSpecControlPoint",
       });
     case 9:
-      return S.Array(__S(7944, __c248, 8));
+      return S.Array(__S(7912, __c247, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           fieldName: S.optional(S.String),
           interpolationType: S.optional(S.String),
           attributeType: S.optional(S.String),
-          controlPoints: S.optional(__S(7945, __c248, 9)),
+          controlPoints: S.optional(__S(7913, __c247, 9)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaControlBoostActionInterpolationBoostSpec",
@@ -20231,7 +22997,7 @@ function __c248(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          interpolationBoostSpec: S.optional(__S(7946, __c248, 10)),
+          interpolationBoostSpec: S.optional(__S(7914, __c247, 10)),
           filter: S.optional(S.String),
           fixedBoost: S.optional(S.Number),
           boost: S.optional(S.Number),
@@ -20248,22 +23014,22 @@ function __c248(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          promoteAction: S.optional(__S(7936, __c248, 0)),
-          conditions: S.optional(__S(7941, __c248, 5)),
-          associatedServingConfigIds: S.optional(__S(9088, __c284, 0)),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
           displayName: S.optional(S.String),
-          synonymsAction: S.optional(__S(7942, __c248, 6)),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
           name: S.optional(S.String),
           solutionType: S.optional(S.String),
-          useCases: S.optional(__S(8608, __c269, 0)),
-          redirectAction: S.optional(__S(7943, __c248, 7)),
-          boostAction: S.optional(__S(7947, __c248, 11)),
-          filterAction: S.optional(__S(7948, __c248, 12)),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaControl" });
   }
 }
-function __c249(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20278,13 +23044,18 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchLinkPromotion" });
   }
 }
-function __c250(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6023, __c188, 7).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          name: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          messages: S.optional(__S(6054, __c189, 6)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20297,14 +23068,16 @@ function __c250(j: number): any {
       });
   }
 }
-function __c251(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           schemaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7360, __c230, 0).pipe(T.HttpBody())),
+          structSchema: S.optional(__S(8960, __c280, 0)),
+          name: S.optional(S.String),
+          jsonSchema: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20315,14 +23088,35 @@ function __c251(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsDataStoresSchemasRequest" });
   }
 }
-function __c252(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           servingConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8101, __c253, 5).pipe(T.HttpBody())),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
+          name: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
+          modelId: S.optional(S.String),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
+          solutionType: S.optional(S.String),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
+          updateTime: S.optional(S.String),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
+          createTime: S.optional(S.String),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
+          diversityLevel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20335,7 +23129,7 @@ function __c252(j: number): any {
       });
   }
 }
-function __c253(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20350,7 +23144,7 @@ function __c253(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contentSearchSpec: S.optional(__S(8131, __c254, 3)),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaServingConfigGenericConfig" });
     case 2:
@@ -20371,7 +23165,7 @@ function __c253(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          userDefinedClassifierSpec: S.optional(__S(8098, __c253, 2)),
+          userDefinedClassifierSpec: S.optional(__S(8066, __c252, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerGenerationSpec" });
     case 4:
@@ -20383,33 +23177,33 @@ function __c253(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ignoreControlIds: S.optional(__S(9088, __c284, 0)),
-          mediaConfig: S.optional(__S(8096, __c253, 0)),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
           name: S.optional(S.String),
           rankingExpression: S.optional(S.String),
-          boostControlIds: S.optional(__S(9088, __c284, 0)),
-          personalizationSpec: S.optional(__S(7392, __c231, 0)),
-          replacementControlIds: S.optional(__S(9088, __c284, 0)),
-          genericConfig: S.optional(__S(8097, __c253, 1)),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
           modelId: S.optional(S.String),
-          redirectControlIds: S.optional(__S(9088, __c284, 0)),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
           solutionType: S.optional(S.String),
-          answerGenerationSpec: S.optional(__S(8099, __c253, 3)),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
           updateTime: S.optional(S.String),
-          dissociateControlIds: S.optional(__S(9088, __c284, 0)),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
           createTime: S.optional(S.String),
-          onewaySynonymsControlIds: S.optional(__S(9088, __c284, 0)),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
           displayName: S.optional(S.String),
-          embeddingConfig: S.optional(__S(8100, __c253, 4)),
-          synonymsControlIds: S.optional(__S(9088, __c284, 0)),
-          filterControlIds: S.optional(__S(9088, __c284, 0)),
-          promoteControlIds: S.optional(__S(9088, __c284, 0)),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
           diversityLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaServingConfig" });
   }
 }
-function __c254(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20446,23 +23240,32 @@ function __c254(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          summarySpec: S.optional(__S(6081, __c190, 1)),
-          extractiveContentSpec: S.optional(__S(8128, __c254, 0)),
+          summarySpec: S.optional(__S(6113, __c191, 1)),
+          extractiveContentSpec: S.optional(__S(8096, __c253, 0)),
           searchResultMode: S.optional(S.String),
-          snippetSpec: S.optional(__S(8129, __c254, 1)),
-          chunkSpec: S.optional(__S(8130, __c254, 2)),
+          snippetSpec: S.optional(__S(8097, __c253, 1)),
+          chunkSpec: S.optional(__S(8098, __c253, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestContentSearchSpec" });
   }
 }
-function __c255(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           sessionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8834, __c276, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          pendingAsyncAssistOperationId: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isPinned: S.optional(S.Boolean),
+          turns: S.optional(__S(8769, __c274, 1)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20473,13 +23276,15 @@ function __c255(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsDataStoresSessionsRequest" });
   }
 }
-function __c256(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8224, __c257, 0).pipe(T.HttpBody())),
+          uri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20492,25 +23297,22 @@ function __c256(j: number): any {
       });
   }
 }
-function __c257(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uri: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSitemap" });
-  }
-}
-function __c258(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10467, __c327, 3).pipe(T.HttpBody())),
+          siteVerificationInfo: S.optional(__S(10400, __c325, 0)),
+          exactMatch: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          indexingStatus: S.optional(S.String),
+          rootDomainUri: S.optional(S.String),
+          providedUriPattern: S.optional(S.String),
+          generatedUriPattern: S.optional(S.String),
+          name: S.optional(S.String),
+          failureReason: S.optional(__S(10402, __c325, 2)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20524,14 +23326,43 @@ function __c258(j: number): any {
       });
   }
 }
-function __c259(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           engineId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8373, __c261, 21).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          commonConfig: S.optional(__S(8288, __c259, 0)),
+          appType: S.optional(S.String),
+          connectorTenantInfo: S.optional(__S(8512, __c266, 0)),
+          dataStoreIds: S.optional(__S(9024, __c282, 0)),
+          featurePolicies: S.optional(__S(8292, __c259, 4)),
+          disableAnalytics: S.optional(S.Boolean),
+          effectiveFeatures: S.optional(__S(8293, __c259, 5)),
+          features: S.optional(__S(8293, __c259, 5)),
+          name: S.optional(S.String),
+          knowledgeGraphConfig: S.optional(__S(8295, __c259, 7)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          delayedGlobalFeatureToggleStateAllowed: S.optional(S.Boolean),
+          associatedAgentRegistry: S.optional(S.String),
+          solutionType: S.optional(S.String),
+          modelConfigs: S.optional(__S(8293, __c259, 5)),
+          agentGatewaySetting: S.optional(__S(8296, __c259, 8)),
+          configurableBillingApproach: S.optional(S.String),
+          observabilityConfig: S.optional(__S(8297, __c259, 9)),
+          chatEngineMetadata: S.optional(__S(8298, __c259, 10)),
+          searchEngineConfig: S.optional(__S(8299, __c259, 11)),
+          marketplaceAgentVisibility: S.optional(S.String),
+          industryVertical: S.optional(S.String),
+          procurementContactEmails: S.optional(__S(9024, __c282, 0)),
+          mediaRecommendationEngineConfig: S.optional(__S(8304, __c259, 16)),
+          sessionConfig: S.optional(__S(8306, __c259, 18)),
+          chatEngineConfig: S.optional(__S(8308, __c259, 20)),
+          displayName: S.optional(S.String),
+          globalFeatureToggleState: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20542,7 +23373,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c260(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20554,7 +23385,7 @@ function __c260(j: number): any {
       });
   }
 }
-function __c261(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20572,17 +23403,17 @@ function __c261(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEngineFeaturePolicyMember" });
     case 2:
-      return S.Array(__S(8353, __c261, 1));
+      return S.Array(__S(8289, __c259, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          deniedMembers: S.optional(__S(8354, __c261, 2)),
+          deniedMembers: S.optional(__S(8290, __c259, 2)),
           defaultAccess: S.optional(S.String),
-          allowedMembers: S.optional(__S(8354, __c261, 2)),
+          allowedMembers: S.optional(__S(8290, __c259, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEngineFeaturePolicy" });
     case 4:
-      return S.Record(S.String, __S(8355, __c261, 3));
+      return S.Record(S.String, __S(8291, __c259, 3));
     case 5:
       return S.Record(S.String, S.String);
     case 6:
@@ -20599,17 +23430,17 @@ function __c261(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          privateKnowledgeGraphTypes: S.optional(__S(9088, __c284, 0)),
+          privateKnowledgeGraphTypes: S.optional(__S(9024, __c282, 0)),
           enableCloudKnowledgeGraph: S.optional(S.Boolean),
-          cloudKnowledgeGraphTypes: S.optional(__S(9088, __c284, 0)),
+          cloudKnowledgeGraphTypes: S.optional(__S(9024, __c282, 0)),
           enablePrivateKnowledgeGraph: S.optional(S.Boolean),
-          featureConfig: S.optional(__S(8358, __c261, 6)),
+          featureConfig: S.optional(__S(8294, __c259, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEngineKnowledgeGraphConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          defaultEgressAgentGateway: S.optional(__S(8320, __c260, 0)),
+          defaultEgressAgentGateway: S.optional(__S(8256, __c258, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAgentGatewaySetting" });
     case 9:
@@ -20628,7 +23459,7 @@ function __c261(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          searchAddOns: S.optional(__S(8608, __c269, 0)),
+          searchAddOns: S.optional(__S(8544, __c267, 0)),
           requiredSubscriptionTier: S.optional(S.String),
           searchTier: S.optional(S.String),
         }),
@@ -20664,8 +23495,8 @@ function __c261(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          mostPopularConfig: S.optional(__S(8365, __c261, 13)),
-          recommendedForYouConfig: S.optional(__S(8366, __c261, 14)),
+          mostPopularConfig: S.optional(__S(8301, __c259, 13)),
+          recommendedForYouConfig: S.optional(__S(8302, __c259, 14)),
         }),
       ).annotate({
         identifier:
@@ -20676,8 +23507,8 @@ function __c261(j: number): any {
         S.Struct({
           trainingState: S.optional(S.String),
           type: S.optional(S.String),
-          optimizationObjectiveConfig: S.optional(__S(8364, __c261, 12)),
-          engineFeaturesConfig: S.optional(__S(8367, __c261, 15)),
+          optimizationObjectiveConfig: S.optional(__S(8300, __c259, 12)),
+          engineFeaturesConfig: S.optional(__S(8303, __c259, 15)),
           optimizationObjective: S.optional(S.String),
         }),
       ).annotate({
@@ -20692,7 +23523,7 @@ function __c261(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          sessionTtl: S.optional(__S(8369, __c261, 17)),
+          sessionTtl: S.optional(__S(8305, __c259, 17)),
           sessionManagementPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSessionConfig" });
@@ -20710,56 +23541,30 @@ function __c261(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          agentCreationConfig: S.optional(__S(8371, __c261, 19)),
+          agentCreationConfig: S.optional(__S(8307, __c259, 19)),
           allowCrossRegion: S.optional(S.Boolean),
           dialogflowAgentToLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEngineChatEngineConfig" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          commonConfig: S.optional(__S(8352, __c261, 0)),
-          appType: S.optional(S.String),
-          connectorTenantInfo: S.optional(__S(8576, __c268, 0)),
-          dataStoreIds: S.optional(__S(9088, __c284, 0)),
-          featurePolicies: S.optional(__S(8356, __c261, 4)),
-          disableAnalytics: S.optional(S.Boolean),
-          effectiveFeatures: S.optional(__S(8357, __c261, 5)),
-          features: S.optional(__S(8357, __c261, 5)),
-          name: S.optional(S.String),
-          knowledgeGraphConfig: S.optional(__S(8359, __c261, 7)),
-          cmekConfig: S.optional(__S(7426, __c232, 2)),
-          delayedGlobalFeatureToggleStateAllowed: S.optional(S.Boolean),
-          associatedAgentRegistry: S.optional(S.String),
-          solutionType: S.optional(S.String),
-          modelConfigs: S.optional(__S(8357, __c261, 5)),
-          agentGatewaySetting: S.optional(__S(8360, __c261, 8)),
-          configurableBillingApproach: S.optional(S.String),
-          observabilityConfig: S.optional(__S(8361, __c261, 9)),
-          chatEngineMetadata: S.optional(__S(8362, __c261, 10)),
-          searchEngineConfig: S.optional(__S(8363, __c261, 11)),
-          marketplaceAgentVisibility: S.optional(S.String),
-          industryVertical: S.optional(S.String),
-          procurementContactEmails: S.optional(__S(9088, __c284, 0)),
-          mediaRecommendationEngineConfig: S.optional(__S(8368, __c261, 16)),
-          sessionConfig: S.optional(__S(8370, __c261, 18)),
-          chatEngineConfig: S.optional(__S(8372, __c261, 20)),
-          displayName: S.optional(S.String),
-          globalFeatureToggleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEngine" });
   }
 }
-function __c262(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           assistantId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8426, __c263, 10).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          customerPolicy: S.optional(__S(8355, __c261, 3)),
+          displayName: S.optional(S.String),
+          enabledTools: S.optional(__S(8359, __c261, 7)),
+          defaultWebGroundingToggleOff: S.optional(S.Boolean),
+          generationConfig: S.optional(__S(8361, __c261, 9)),
+          name: S.optional(S.String),
+          webGroundingType: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20770,7 +23575,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsEnginesAssistantsRequest" });
   }
 }
-function __c263(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20793,13 +23598,13 @@ function __c263(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicyBannedPhrase",
       });
     case 2:
-      return S.Array(__S(8417, __c263, 1));
+      return S.Array(__S(8353, __c261, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dataProtectionPolicy: S.optional(__S(7457, __c233, 1)),
-          modelArmorConfig: S.optional(__S(8416, __c263, 0)),
-          bannedPhrases: S.optional(__S(8418, __c263, 2)),
+          dataProtectionPolicy: S.optional(__S(7393, __c231, 1)),
+          modelArmorConfig: S.optional(__S(8352, __c261, 0)),
+          bannedPhrases: S.optional(__S(8354, __c261, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistantCustomerPolicy" });
     case 4:
@@ -20810,15 +23615,15 @@ function __c263(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistantToolInfo" });
     case 5:
-      return S.Array(__S(8420, __c263, 4));
+      return S.Array(__S(8356, __c261, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          toolInfo: S.optional(__S(8421, __c263, 5)),
+          toolInfo: S.optional(__S(8357, __c261, 5)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistantToolList" });
     case 7:
-      return S.Record(S.String, __S(8422, __c263, 6));
+      return S.Record(S.String, __S(8358, __c261, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -20830,21 +23635,21 @@ function __c263(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          allowedModelIds: S.optional(__S(9088, __c284, 0)),
+          allowedModelIds: S.optional(__S(9024, __c282, 0)),
           defaultLanguage: S.optional(S.String),
           defaultModelId: S.optional(S.String),
-          systemInstruction: S.optional(__S(8424, __c263, 8)),
+          systemInstruction: S.optional(__S(8360, __c261, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistantGenerationConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          customerPolicy: S.optional(__S(8419, __c263, 3)),
+          customerPolicy: S.optional(__S(8355, __c261, 3)),
           displayName: S.optional(S.String),
-          enabledTools: S.optional(__S(8423, __c263, 7)),
+          enabledTools: S.optional(__S(8359, __c261, 7)),
           defaultWebGroundingToggleOff: S.optional(S.Boolean),
-          generationConfig: S.optional(__S(8425, __c263, 9)),
+          generationConfig: S.optional(__S(8361, __c261, 9)),
           name: S.optional(S.String),
           webGroundingType: S.optional(S.String),
           description: S.optional(S.String),
@@ -20853,14 +23658,24 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistant" });
   }
 }
-function __c264(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           controlId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7949, __c248, 13).pipe(T.HttpBody())),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
+          name: S.optional(S.String),
+          solutionType: S.optional(S.String),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20871,13 +23686,18 @@ function __c264(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsEnginesControlsRequest" });
   }
 }
-function __c265(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6023, __c188, 7).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          name: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          messages: S.optional(__S(6054, __c189, 6)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20888,13 +23708,24 @@ function __c265(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsEnginesConversationsRequest" });
   }
 }
-function __c266(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(8764, __c273, 28).pipe(T.HttpBody())),
+          answerGenerationSpec: S.optional(__S(8673, __c271, 1)),
+          asynchronousMode: S.optional(S.Boolean),
+          session: S.optional(S.String),
+          searchSpec: S.optional(__S(8685, __c271, 13)),
+          relatedQuestionsSpec: S.optional(__S(8686, __c271, 14)),
+          groundingSpec: S.optional(__S(8687, __c271, 15)),
+          queryUnderstandingSpec: S.optional(__S(8691, __c271, 19)),
+          endUserSpec: S.optional(__S(8696, __c271, 24)),
+          userPseudoId: S.optional(S.String),
+          query: S.optional(__S(8736, __c273, 0)),
+          safetySpec: S.optional(__S(8699, __c271, 27)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20907,25 +23738,25 @@ function __c266(j: number): any {
       });
   }
 }
-function __c267(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c268(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c269(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c270(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20937,15 +23768,15 @@ function __c270(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(8640, __c270, 0)),
+          data: S.optional(__S(8576, __c268, 0)),
           attributionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerBlobAttachment" });
     case 2:
-      return S.Array(__S(8641, __c270, 1));
+      return S.Array(__S(8577, __c268, 1));
   }
 }
-function __c271(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20967,7 +23798,7 @@ function __c271(j: number): any {
       });
   }
 }
-function __c272(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20980,14 +23811,14 @@ function __c272(j: number): any {
           "GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint",
       });
     case 1:
-      return S.Array(__S(8704, __c272, 0));
+      return S.Array(__S(8640, __c270, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           interpolationType: S.optional(S.String),
           fieldName: S.optional(S.String),
           attributeType: S.optional(S.String),
-          controlPoints: S.optional(__S(8705, __c272, 1)),
+          controlPoints: S.optional(__S(8641, __c270, 1)),
         }),
       ).annotate({
         identifier:
@@ -20997,23 +23828,23 @@ function __c272(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(S.String),
-          boostControlSpec: S.optional(__S(8706, __c272, 2)),
+          boostControlSpec: S.optional(__S(8642, __c270, 2)),
           boost: S.optional(S.Number),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpecConditionBoostSpec",
       });
     case 4:
-      return S.Array(__S(8707, __c272, 3));
+      return S.Array(__S(8643, __c270, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          conditionBoostSpecs: S.optional(__S(8708, __c272, 4)),
+          conditionBoostSpecs: S.optional(__S(8644, __c270, 4)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestBoostSpec" });
   }
 }
-function __c273(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21028,14 +23859,14 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ignoreJailBreakingQuery: S.optional(S.Boolean),
-          multimodalSpec: S.optional(__S(8672, __c271, 0)),
+          multimodalSpec: S.optional(__S(8608, __c269, 0)),
           ignoreNonAnswerSeekingQuery: S.optional(S.Boolean),
           ignoreLowRelevantContent: S.optional(S.Boolean),
           includeCitations: S.optional(S.Boolean),
-          promptSpec: S.optional(__S(8673, __c271, 1)),
+          promptSpec: S.optional(__S(8609, __c269, 1)),
           answerLanguageCode: S.optional(S.String),
           ignoreAdversarialQuery: S.optional(S.Boolean),
-          modelSpec: S.optional(__S(8736, __c273, 0)),
+          modelSpec: S.optional(__S(8672, __c271, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestAnswerGenerationSpec",
@@ -21051,7 +23882,7 @@ function __c273(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContext",
       });
     case 3:
-      return S.Array(__S(8738, __c273, 2));
+      return S.Array(__S(8674, __c271, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -21063,16 +23894,16 @@ function __c273(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegment",
       });
     case 5:
-      return S.Array(__S(8740, __c273, 4));
+      return S.Array(__S(8676, __c271, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          documentContexts: S.optional(__S(8739, __c273, 3)),
+          documentContexts: S.optional(__S(8675, __c271, 3)),
           title: S.optional(S.String),
           uri: S.optional(S.String),
-          extractiveSegments: S.optional(__S(8741, __c273, 5)),
+          extractiveSegments: S.optional(__S(8677, __c271, 5)),
           document: S.optional(S.String),
-          extractiveAnswers: S.optional(__S(8739, __c273, 3)),
+          extractiveAnswers: S.optional(__S(8675, __c271, 3)),
         }),
       ).annotate({
         identifier:
@@ -21091,7 +23922,7 @@ function __c273(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          documentMetadata: S.optional(__S(8743, __c273, 7)),
+          documentMetadata: S.optional(__S(8679, __c271, 7)),
           content: S.optional(S.String),
           chunk: S.optional(S.String),
         }),
@@ -21102,19 +23933,19 @@ function __c273(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          unstructuredDocumentInfo: S.optional(__S(8742, __c273, 6)),
-          chunkInfo: S.optional(__S(8744, __c273, 8)),
+          unstructuredDocumentInfo: S.optional(__S(8678, __c271, 6)),
+          chunkInfo: S.optional(__S(8680, __c271, 8)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultListSearchResult",
       });
     case 10:
-      return S.Array(__S(8745, __c273, 9));
+      return S.Array(__S(8681, __c271, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          searchResults: S.optional(__S(8746, __c273, 10)),
+          searchResults: S.optional(__S(8682, __c271, 10)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchResultList",
@@ -21124,11 +23955,11 @@ function __c273(j: number): any {
         S.Struct({
           maxReturnResults: S.optional(S.Number),
           orderBy: S.optional(S.String),
-          dataStoreSpecs: S.optional(__S(8961, __c280, 1)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
           filter: S.optional(S.String),
           searchResultMode: S.optional(S.String),
-          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8928, __c279, 0)),
-          boostSpec: S.optional(__S(8709, __c272, 5)),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpecSearchParams",
@@ -21136,8 +23967,8 @@ function __c273(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          searchResultList: S.optional(__S(8747, __c273, 11)),
-          searchParams: S.optional(__S(8748, __c273, 12)),
+          searchResultList: S.optional(__S(8683, __c271, 11)),
+          searchParams: S.optional(__S(8684, __c271, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSearchSpec" });
     case 14:
@@ -21158,7 +23989,7 @@ function __c273(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          types: S.optional(__S(8608, __c269, 0)),
+          types: S.optional(__S(8544, __c267, 0)),
         }),
       ).annotate({
         identifier:
@@ -21177,7 +24008,7 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           disable: S.optional(S.Boolean),
-          modelSpec: S.optional(__S(8753, __c273, 17)),
+          modelSpec: S.optional(__S(8689, __c271, 17)),
           maxRephraseSteps: S.optional(S.Number),
         }),
       ).annotate({
@@ -21188,8 +24019,8 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           disableSpellCorrection: S.optional(S.Boolean),
-          queryClassificationSpec: S.optional(__S(8752, __c273, 16)),
-          queryRephraserSpec: S.optional(__S(8754, __c273, 18)),
+          queryClassificationSpec: S.optional(__S(8688, __c271, 16)),
+          queryRephraserSpec: S.optional(__S(8690, __c271, 18)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestQueryUnderstandingSpec",
@@ -21207,7 +24038,7 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
-          documentMetadata: S.optional(__S(8756, __c273, 20)),
+          documentMetadata: S.optional(__S(8692, __c271, 20)),
         }),
       ).annotate({
         identifier:
@@ -21216,17 +24047,17 @@ function __c273(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          chunkInfo: S.optional(__S(8757, __c273, 21)),
+          chunkInfo: S.optional(__S(8693, __c271, 21)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpecEndUserMetaData",
       });
     case 23:
-      return S.Array(__S(8758, __c273, 22));
+      return S.Array(__S(8694, __c271, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          endUserMetadata: S.optional(__S(8759, __c273, 23)),
+          endUserMetadata: S.optional(__S(8695, __c271, 23)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestEndUserSpec" });
     case 25:
@@ -21239,42 +24070,25 @@ function __c273(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpecSafetySetting",
       });
     case 26:
-      return S.Array(__S(8761, __c273, 25));
+      return S.Array(__S(8697, __c271, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
           enable: S.optional(S.Boolean),
-          safetySettings: S.optional(__S(8762, __c273, 26)),
+          safetySettings: S.optional(__S(8698, __c271, 26)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequestSafetySpec" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          answerGenerationSpec: S.optional(__S(8737, __c273, 1)),
-          asynchronousMode: S.optional(S.Boolean),
-          session: S.optional(S.String),
-          searchSpec: S.optional(__S(8749, __c273, 13)),
-          relatedQuestionsSpec: S.optional(__S(8750, __c273, 14)),
-          groundingSpec: S.optional(__S(8751, __c273, 15)),
-          queryUnderstandingSpec: S.optional(__S(8755, __c273, 19)),
-          endUserSpec: S.optional(__S(8760, __c273, 24)),
-          userPseudoId: S.optional(S.String),
-          query: S.optional(__S(8800, __c275, 0)),
-          safetySpec: S.optional(__S(8763, __c273, 27)),
-          userLabels: S.optional(__S(8576, __c268, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryRequest" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          session: S.optional(__S(8834, __c276, 2)),
+          session: S.optional(__S(8770, __c274, 2)),
           answerQueryToken: S.optional(S.String),
-          answer: S.optional(__S(8799, __c274, 31)),
+          answer: S.optional(__S(8735, __c272, 31)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryResponse" });
   }
 }
-function __c274(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21293,7 +24107,7 @@ function __c274(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResultSnippetInfo",
       });
     case 2:
-      return S.Array(__S(8769, __c274, 1));
+      return S.Array(__S(8705, __c272, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -21306,52 +24120,52 @@ function __c274(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResultChunkInfo",
       });
     case 4:
-      return S.Array(__S(8771, __c274, 3));
+      return S.Array(__S(8707, __c272, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           document: S.optional(S.String),
           title: S.optional(S.String),
-          snippetInfo: S.optional(__S(8770, __c274, 2)),
+          snippetInfo: S.optional(__S(8706, __c272, 2)),
           uri: S.optional(S.String),
-          structData: S.optional(__S(9024, __c282, 0)),
-          chunkInfo: S.optional(__S(8772, __c274, 4)),
+          structData: S.optional(__S(8960, __c280, 0)),
+          chunkInfo: S.optional(__S(8708, __c272, 4)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerStepActionObservationSearchResult",
       });
     case 6:
-      return S.Array(__S(8773, __c274, 5));
+      return S.Array(__S(8709, __c272, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          searchResults: S.optional(__S(8774, __c274, 6)),
+          searchResults: S.optional(__S(8710, __c272, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerStepActionObservation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          searchAction: S.optional(__S(8768, __c274, 0)),
-          observation: S.optional(__S(8775, __c274, 7)),
+          searchAction: S.optional(__S(8704, __c272, 0)),
+          observation: S.optional(__S(8711, __c272, 7)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerStepAction" });
     case 9:
-      return S.Array(__S(8776, __c274, 8));
+      return S.Array(__S(8712, __c272, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           description: S.optional(S.String),
           thought: S.optional(S.String),
-          actions: S.optional(__S(8777, __c274, 9)),
+          actions: S.optional(__S(8713, __c272, 9)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerStep" });
     case 11:
-      return S.Array(__S(8778, __c274, 10));
+      return S.Array(__S(8714, __c272, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          structData: S.optional(__S(9024, __c282, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
           title: S.optional(S.String),
           document: S.optional(S.String),
           uri: S.optional(S.String),
@@ -21363,7 +24177,7 @@ function __c274(j: number): any {
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
-          blobAttachmentIndexes: S.optional(__S(9088, __c284, 0)),
+          blobAttachmentIndexes: S.optional(__S(9024, __c282, 0)),
           relevanceScore: S.optional(S.Number),
           pageIdentifier: S.optional(S.String),
         }),
@@ -21372,15 +24186,15 @@ function __c274(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocumentInfoChunkContent",
       });
     case 14:
-      return S.Array(__S(8781, __c274, 13));
+      return S.Array(__S(8717, __c272, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
           title: S.optional(S.String),
-          structData: S.optional(__S(9024, __c282, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
           document: S.optional(S.String),
-          chunkContents: S.optional(__S(8782, __c274, 14)),
+          chunkContents: S.optional(__S(8718, __c272, 14)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAnswerReferenceUnstructuredDocumentInfo",
@@ -21388,7 +24202,7 @@ function __c274(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          structData: S.optional(__S(9024, __c282, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
           pageIdentifier: S.optional(S.String),
           uri: S.optional(S.String),
           title: S.optional(S.String),
@@ -21403,20 +24217,20 @@ function __c274(j: number): any {
           content: S.optional(S.String),
           relevanceScore: S.optional(S.Number),
           chunk: S.optional(S.String),
-          blobAttachmentIndexes: S.optional(__S(9088, __c284, 0)),
-          documentMetadata: S.optional(__S(8784, __c274, 16)),
+          blobAttachmentIndexes: S.optional(__S(9024, __c282, 0)),
+          documentMetadata: S.optional(__S(8720, __c272, 16)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerReferenceChunkInfo" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          structuredDocumentInfo: S.optional(__S(8780, __c274, 12)),
-          unstructuredDocumentInfo: S.optional(__S(8783, __c274, 15)),
-          chunkInfo: S.optional(__S(8785, __c274, 17)),
+          structuredDocumentInfo: S.optional(__S(8716, __c272, 12)),
+          unstructuredDocumentInfo: S.optional(__S(8719, __c272, 15)),
+          chunkInfo: S.optional(__S(8721, __c272, 17)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerReference" });
     case 19:
-      return S.Array(__S(8786, __c274, 18));
+      return S.Array(__S(8722, __c272, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -21429,7 +24243,7 @@ function __c274(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSafetyRating" });
     case 21:
-      return S.Array(__S(8788, __c274, 20));
+      return S.Array(__S(8724, __c272, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -21441,11 +24255,11 @@ function __c274(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfoQueryClassificationInfo",
       });
     case 23:
-      return S.Array(__S(8790, __c274, 22));
+      return S.Array(__S(8726, __c272, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          queryClassificationInfo: S.optional(__S(8791, __c274, 23)),
+          queryClassificationInfo: S.optional(__S(8727, __c272, 23)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerQueryUnderstandingInfo" });
     case 25:
@@ -21455,52 +24269,52 @@ function __c274(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerCitationSource" });
     case 26:
-      return S.Array(__S(8793, __c274, 25));
+      return S.Array(__S(8729, __c272, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
           startIndex: S.optional(S.String),
-          sources: S.optional(__S(8794, __c274, 26)),
+          sources: S.optional(__S(8730, __c272, 26)),
           endIndex: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerCitation" });
     case 28:
-      return S.Array(__S(8795, __c274, 27));
+      return S.Array(__S(8731, __c272, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
           startIndex: S.optional(S.String),
           endIndex: S.optional(S.String),
-          sources: S.optional(__S(8794, __c274, 26)),
+          sources: S.optional(__S(8730, __c272, 26)),
           groundingCheckRequired: S.optional(S.Boolean),
           groundingScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswerGroundingSupport" });
     case 30:
-      return S.Array(__S(8797, __c274, 29));
+      return S.Array(__S(8733, __c272, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          answerSkippedReasons: S.optional(__S(8608, __c269, 0)),
+          answerSkippedReasons: S.optional(__S(8544, __c267, 0)),
           createTime: S.optional(S.String),
           groundingScore: S.optional(S.Number),
-          steps: S.optional(__S(8779, __c274, 11)),
-          references: S.optional(__S(8787, __c274, 19)),
+          steps: S.optional(__S(8715, __c272, 11)),
+          references: S.optional(__S(8723, __c272, 19)),
           answerText: S.optional(S.String),
-          safetyRatings: S.optional(__S(8789, __c274, 21)),
+          safetyRatings: S.optional(__S(8725, __c272, 21)),
           state: S.optional(S.String),
-          queryUnderstandingInfo: S.optional(__S(8792, __c274, 24)),
-          citations: S.optional(__S(8796, __c274, 28)),
-          blobAttachments: S.optional(__S(8642, __c270, 2)),
-          groundingSupports: S.optional(__S(8798, __c274, 30)),
+          queryUnderstandingInfo: S.optional(__S(8728, __c272, 24)),
+          citations: S.optional(__S(8732, __c272, 28)),
+          blobAttachments: S.optional(__S(8578, __c268, 2)),
+          groundingSupports: S.optional(__S(8734, __c272, 30)),
           name: S.optional(S.String),
-          relatedQuestions: S.optional(__S(9088, __c284, 0)),
+          relatedQuestions: S.optional(__S(9024, __c282, 0)),
           completeTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAnswer" });
   }
 }
-function __c275(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21511,21 +24325,21 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaQuery" });
   }
 }
-function __c276(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          queryConfig: S.optional(__S(8576, __c268, 0)),
-          query: S.optional(__S(8800, __c275, 0)),
+          queryConfig: S.optional(__S(8512, __c266, 0)),
+          query: S.optional(__S(8736, __c273, 0)),
           answer: S.optional(S.String),
           live: S.optional(S.Boolean),
-          detailedAnswer: S.optional(__S(8799, __c274, 31)),
-          detailedAssistAnswer: S.optional(__S(8888, __c277, 24)),
+          detailedAnswer: S.optional(__S(8735, __c272, 31)),
+          detailedAssistAnswer: S.optional(__S(8824, __c275, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSessionTurn" });
     case 1:
-      return S.Array(__S(8832, __c276, 0));
+      return S.Array(__S(8768, __c274, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21536,14 +24350,14 @@ function __c276(j: number): any {
           endTime: S.optional(S.String),
           displayName: S.optional(S.String),
           isPinned: S.optional(S.Boolean),
-          turns: S.optional(__S(8833, __c276, 1)),
+          turns: S.optional(__S(8769, __c274, 1)),
           state: S.optional(S.String),
-          labels: S.optional(__S(9088, __c284, 0)),
+          labels: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSession" });
   }
 }
-function __c277(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21577,10 +24391,10 @@ function __c277(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          file: S.optional(__S(8864, __c277, 0)),
-          executableCode: S.optional(__S(8865, __c277, 1)),
-          inlineData: S.optional(__S(8866, __c277, 2)),
-          codeExecutionResult: S.optional(__S(8867, __c277, 3)),
+          file: S.optional(__S(8800, __c275, 0)),
+          executableCode: S.optional(__S(8801, __c275, 1)),
+          inlineData: S.optional(__S(8802, __c275, 2)),
+          codeExecutionResult: S.optional(__S(8803, __c275, 3)),
           role: S.optional(S.String),
           thought: S.optional(S.Boolean),
           text: S.optional(S.String),
@@ -21591,25 +24405,25 @@ function __c277(j: number): any {
         S.Struct({
           uri: S.optional(S.String),
           title: S.optional(S.String),
-          publicationDate: S.optional(__S(8896, __c278, 0)),
+          publicationDate: S.optional(__S(8832, __c276, 0)),
           startIndex: S.optional(S.Number),
           endIndex: S.optional(S.Number),
           license: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCitation" });
     case 6:
-      return S.Array(__S(8869, __c277, 5));
+      return S.Array(__S(8805, __c275, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          citations: S.optional(__S(8870, __c277, 6)),
+          citations: S.optional(__S(8806, __c275, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCitationMetadata" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           endIndex: S.optional(S.String),
-          referenceIndices: S.optional(__S(8544, __c267, 0)),
+          referenceIndices: S.optional(__S(8480, __c265, 0)),
           startIndex: S.optional(S.String),
           text: S.optional(S.String),
           groundingScore: S.optional(S.Number),
@@ -21619,11 +24433,11 @@ function __c277(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataSegment",
       });
     case 9:
-      return S.Array(__S(8872, __c277, 8));
+      return S.Array(__S(8808, __c275, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          referenceIndices: S.optional(__S(8544, __c267, 0)),
+          referenceIndices: S.optional(__S(8480, __c265, 0)),
           contentId: S.optional(S.String),
         }),
       ).annotate({
@@ -21631,7 +24445,7 @@ function __c277(j: number): any {
           "GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataVisualSegment",
       });
     case 11:
-      return S.Array(__S(8874, __c277, 10));
+      return S.Array(__S(8810, __c275, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -21650,23 +24464,23 @@ function __c277(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          chunkMetadata: S.optional(__S(9024, __c282, 0)),
+          chunkMetadata: S.optional(__S(8960, __c280, 0)),
           content: S.optional(S.String),
           codeSnippet: S.optional(S.String),
-          documentMetadata: S.optional(__S(8876, __c277, 12)),
+          documentMetadata: S.optional(__S(8812, __c275, 12)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadataReference",
       });
     case 14:
-      return S.Array(__S(8877, __c277, 13));
+      return S.Array(__S(8813, __c275, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          segments: S.optional(__S(8873, __c277, 9)),
-          visualSegments: S.optional(__S(8875, __c277, 11)),
-          references: S.optional(__S(8878, __c277, 14)),
+          segments: S.optional(__S(8809, __c275, 9)),
+          visualSegments: S.optional(__S(8811, __c275, 11)),
+          references: S.optional(__S(8814, __c275, 14)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaAssistantGroundedContentTextGroundingMetadata",
@@ -21674,24 +24488,24 @@ function __c277(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(8868, __c277, 4)),
-          citationMetadata: S.optional(__S(8871, __c277, 7)),
-          textGroundingMetadata: S.optional(__S(8879, __c277, 15)),
+          content: S.optional(__S(8804, __c275, 4)),
+          citationMetadata: S.optional(__S(8807, __c275, 7)),
+          textGroundingMetadata: S.optional(__S(8815, __c275, 15)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistantGroundedContent" });
     case 17:
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
-          groundedContent: S.optional(__S(8880, __c277, 16)),
+          groundedContent: S.optional(__S(8816, __c275, 16)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistAnswerReply" });
     case 18:
-      return S.Array(__S(8881, __c277, 17));
+      return S.Array(__S(8817, __c275, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          bannedPhrases: S.optional(__S(9088, __c284, 0)),
+          bannedPhrases: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({
         identifier:
@@ -21700,7 +24514,7 @@ function __c277(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(9056, __c283, 0)),
+          error: S.optional(__S(8992, __c281, 0)),
           modelArmorViolation: S.optional(S.String),
         }),
       ).annotate({
@@ -21710,19 +24524,19 @@ function __c277(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          bannedPhraseEnforcementResult: S.optional(__S(8883, __c277, 19)),
-          modelArmorEnforcementResult: S.optional(__S(8884, __c277, 20)),
+          bannedPhraseEnforcementResult: S.optional(__S(8819, __c275, 19)),
+          modelArmorEnforcementResult: S.optional(__S(8820, __c275, 20)),
         }),
       ).annotate({
         identifier:
           "GoogleCloudDiscoveryengineV1betaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult",
       });
     case 22:
-      return S.Array(__S(8885, __c277, 21));
+      return S.Array(__S(8821, __c275, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          policyResults: S.optional(__S(8886, __c277, 22)),
+          policyResults: S.optional(__S(8822, __c275, 22)),
           verdict: S.optional(S.String),
           violationSource: S.optional(S.String),
         }),
@@ -21732,18 +24546,18 @@ function __c277(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          assistSkippedReasons: S.optional(__S(8608, __c269, 0)),
-          replies: S.optional(__S(8882, __c277, 18)),
+          assistSkippedReasons: S.optional(__S(8544, __c267, 0)),
+          replies: S.optional(__S(8818, __c275, 18)),
           state: S.optional(S.String),
           name: S.optional(S.String),
-          customerPolicyEnforcementResult: S.optional(__S(8887, __c277, 23)),
-          connectorDisplayNames: S.optional(__S(8576, __c268, 0)),
-          toolDisplayNames: S.optional(__S(8576, __c268, 0)),
+          customerPolicyEnforcementResult: S.optional(__S(8823, __c275, 23)),
+          connectorDisplayNames: S.optional(__S(8512, __c266, 0)),
+          toolDisplayNames: S.optional(__S(8512, __c266, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAssistAnswer" });
   }
 }
-function __c278(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21755,15 +24569,15 @@ function __c278(j: number): any {
       ).annotate({ identifier: "GoogleTypeDate" });
   }
 }
-function __c279(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedFieldNames: S.optional(__S(9088, __c284, 0)),
+          allowedFieldNames: S.optional(__S(9024, __c282, 0)),
           extractedFilterBehavior: S.optional(S.String),
           filterExtractionCondition: S.optional(S.String),
-          geoSearchQueryDetectionFieldNames: S.optional(__S(9088, __c284, 0)),
+          geoSearchQueryDetectionFieldNames: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({
         identifier:
@@ -21771,7 +24585,7 @@ function __c279(j: number): any {
       });
   }
 }
-function __c280(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21779,24 +24593,42 @@ function __c280(j: number): any {
           filter: S.optional(S.String),
           dataStore: S.optional(S.String),
           numResults: S.optional(S.Number),
-          boostSpec: S.optional(__S(8709, __c272, 5)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
           customSearchOperators: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestDataStoreSpec" });
     case 1:
+      return S.Array(__S(8896, __c278, 0));
+  }
+}
+function __c279(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(__S(8960, __c280, 0));
+  }
+}
+function __c280(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c281(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9024, __c282, 0));
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(8928, __c279, 0)),
+        }),
+      ).annotate({ identifier: "GoogleRpcStatus" });
   }
 }
 function __c282(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.String);
   }
 }
 function __c283(j: number): any {
@@ -21804,27 +24636,30 @@ function __c283(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          code: S.optional(S.Number),
-          details: S.optional(__S(8992, __c281, 0)),
-        }),
-      ).annotate({ identifier: "GoogleRpcStatus" });
-  }
-}
-function __c284(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c285(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           servingConfigId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8101, __c253, 5).pipe(T.HttpBody())),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
+          name: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
+          modelId: S.optional(S.String),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
+          solutionType: S.optional(S.String),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
+          updateTime: S.optional(S.String),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
+          createTime: S.optional(S.String),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
+          diversityLevel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21835,14 +24670,23 @@ function __c285(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c286(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           sessionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8834, __c276, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          pendingAsyncAssistOperationId: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isPinned: S.optional(S.Boolean),
+          turns: S.optional(__S(8769, __c274, 1)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21853,7 +24697,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsCollectionsEnginesSessionsRequest" });
   }
 }
-function __c287(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21864,7 +24708,31 @@ function __c287(j: number): any {
           skipDefaultSchemaCreation: S.optional(S.Boolean.pipe(T.Query())),
           cmekConfigName: S.optional(S.String.pipe(T.Query())),
           dataStoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7507, __c234, 19).pipe(T.HttpBody())),
+          documentProcessingConfig: S.optional(__S(7462, __c233, 6)),
+          createTime: S.optional(S.String),
+          identityMappingStore: S.optional(S.String),
+          servingConfigDataStore: S.optional(__S(7463, __c233, 7)),
+          configurableBillingApproach: S.optional(S.String),
+          naturalLanguageQueryUnderstandingConfig: S.optional(__S(7296, __c228, 0)),
+          displayName: S.optional(S.String),
+          solutionTypes: S.optional(__S(8544, __c267, 0)),
+          languageInfo: S.optional(__S(7464, __c233, 8)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          workspaceConfig: S.optional(__S(7465, __c233, 9)),
+          contentConfig: S.optional(S.String),
+          isInfobotFaqDataStore: S.optional(S.Boolean),
+          billingEstimation: S.optional(__S(7466, __c233, 10)),
+          healthcareFhirConfig: S.optional(__S(7467, __c233, 11)),
+          advancedSiteSearchConfig: S.optional(__S(7468, __c233, 12)),
+          configurableBillingApproachUpdateTime: S.optional(S.String),
+          dataProtectionPolicy: S.optional(__S(7393, __c231, 1)),
+          name: S.optional(S.String),
+          aclEnabled: S.optional(S.Boolean),
+          startingSchema: S.optional(__S(7424, __c232, 0)),
+          industryVertical: S.optional(S.String),
+          federatedSearchConfig: S.optional(__S(7474, __c233, 18)),
+          kmsKeyName: S.optional(S.String),
+          defaultSchemaId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21875,14 +24743,24 @@ function __c287(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresRequest" });
   }
 }
-function __c288(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           documentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(4391, __c137, 7).pipe(T.HttpBody())),
+          indexTime: S.optional(S.String),
+          indexStatus: S.optional(__S(4448, __c139, 0)),
+          jsonData: S.optional(S.String),
+          aclInfo: S.optional(__S(4453, __c139, 5)),
+          id: S.optional(S.String),
+          parentDocumentId: S.optional(S.String),
+          derivedStructData: S.optional(__S(8960, __c280, 0)),
+          structData: S.optional(__S(8960, __c280, 0)),
+          schemaId: S.optional(S.String),
+          content: S.optional(__S(4454, __c139, 6)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21893,14 +24771,24 @@ function __c288(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresBranchesDocumentsRequest" });
   }
 }
-function __c289(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           controlId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7949, __c248, 13).pipe(T.HttpBody())),
+          promoteAction: S.optional(__S(7904, __c247, 0)),
+          conditions: S.optional(__S(7909, __c247, 5)),
+          associatedServingConfigIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          synonymsAction: S.optional(__S(7910, __c247, 6)),
+          name: S.optional(S.String),
+          solutionType: S.optional(S.String),
+          useCases: S.optional(__S(8544, __c267, 0)),
+          redirectAction: S.optional(__S(7911, __c247, 7)),
+          boostAction: S.optional(__S(7915, __c247, 11)),
+          filterAction: S.optional(__S(7916, __c247, 12)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21911,13 +24799,18 @@ function __c289(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresControlsRequest" });
   }
 }
-function __c290(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(6023, __c188, 7).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          name: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          messages: S.optional(__S(6054, __c189, 6)),
+          state: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21928,14 +24821,16 @@ function __c290(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresConversationsRequest" });
   }
 }
-function __c291(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           schemaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(7360, __c230, 0).pipe(T.HttpBody())),
+          structSchema: S.optional(__S(8960, __c280, 0)),
+          name: S.optional(S.String),
+          jsonSchema: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21946,14 +24841,35 @@ function __c291(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresSchemasRequest" });
   }
 }
-function __c292(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfigId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8101, __c253, 5).pipe(T.HttpBody())),
+          ignoreControlIds: S.optional(__S(9024, __c282, 0)),
+          mediaConfig: S.optional(__S(8064, __c252, 0)),
+          name: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          boostControlIds: S.optional(__S(9024, __c282, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          replacementControlIds: S.optional(__S(9024, __c282, 0)),
+          genericConfig: S.optional(__S(8065, __c252, 1)),
+          modelId: S.optional(S.String),
+          redirectControlIds: S.optional(__S(9024, __c282, 0)),
+          solutionType: S.optional(S.String),
+          answerGenerationSpec: S.optional(__S(8067, __c252, 3)),
+          updateTime: S.optional(S.String),
+          dissociateControlIds: S.optional(__S(9024, __c282, 0)),
+          createTime: S.optional(S.String),
+          onewaySynonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          displayName: S.optional(S.String),
+          embeddingConfig: S.optional(__S(8068, __c252, 4)),
+          synonymsControlIds: S.optional(__S(9024, __c282, 0)),
+          filterControlIds: S.optional(__S(9024, __c282, 0)),
+          promoteControlIds: S.optional(__S(9024, __c282, 0)),
+          diversityLevel: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21964,14 +24880,23 @@ function __c292(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c293(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           sessionId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(8834, __c276, 2).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          pendingAsyncAssistOperationId: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isPinned: S.optional(S.Boolean),
+          turns: S.optional(__S(8769, __c274, 1)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(9024, __c282, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21982,13 +24907,15 @@ function __c293(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataStoresSessionsRequest" });
   }
 }
-function __c294(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(8224, __c257, 0).pipe(T.HttpBody())),
+          uri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22001,13 +24928,24 @@ function __c294(j: number): any {
       });
   }
 }
-function __c295(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(8764, __c273, 28).pipe(T.HttpBody())),
+          answerGenerationSpec: S.optional(__S(8673, __c271, 1)),
+          asynchronousMode: S.optional(S.Boolean),
+          session: S.optional(S.String),
+          searchSpec: S.optional(__S(8685, __c271, 13)),
+          relatedQuestionsSpec: S.optional(__S(8686, __c271, 14)),
+          groundingSpec: S.optional(__S(8687, __c271, 15)),
+          queryUnderstandingSpec: S.optional(__S(8691, __c271, 19)),
+          endUserSpec: S.optional(__S(8696, __c271, 24)),
+          userPseudoId: S.optional(S.String),
+          query: S.optional(__S(8736, __c273, 0)),
+          safetySpec: S.optional(__S(8699, __c271, 27)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22018,13 +24956,22 @@ function __c295(j: number): any {
       ).annotate({ identifier: "AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c296(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10467, __c327, 3).pipe(T.HttpBody())),
+          siteVerificationInfo: S.optional(__S(10400, __c325, 0)),
+          exactMatch: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          indexingStatus: S.optional(S.String),
+          rootDomainUri: S.optional(S.String),
+          providedUriPattern: S.optional(S.String),
+          generatedUriPattern: S.optional(S.String),
+          name: S.optional(S.String),
+          failureReason: S.optional(__S(10402, __c325, 2)),
+          type: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22037,13 +24984,20 @@ function __c296(j: number): any {
       });
   }
 }
-function __c297(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9538, __c298, 2).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          evaluationSpec: S.optional(__S(9474, __c296, 2)),
+          error: S.optional(__S(8992, __c281, 0)),
+          qualityMetrics: S.optional(__S(9505, __c297, 1)),
+          endTime: S.optional(S.String),
+          errorSamples: S.optional(__S(4480, __c140, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22054,9 +25008,56 @@ function __c297(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsEvaluationsRequest" });
   }
 }
-function __c298(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          searchAsYouTypeSpec: S.optional(__S(9538, __c298, 2)),
+          safeSearch: S.optional(S.Boolean),
+          pageSize: S.optional(S.Number),
+          orderBy: S.optional(S.String),
+          imageQuery: S.optional(__S(9539, __c298, 3)),
+          queryExpansionSpec: S.optional(__S(9540, __c298, 4)),
+          userInfo: S.optional(__S(4514, __c141, 2)),
+          relevanceFilterSpec: S.optional(__S(9542, __c298, 6)),
+          boostSpec: S.optional(__S(8645, __c270, 5)),
+          pageCategories: S.optional(__S(9024, __c282, 0)),
+          servingConfig: S.optional(S.String),
+          params: S.optional(__S(8960, __c280, 0)),
+          personalizationSpec: S.optional(__S(7296, __c228, 0)),
+          session: S.optional(S.String),
+          contentSearchSpec: S.optional(__S(8099, __c253, 3)),
+          dataStoreSpecs: S.optional(__S(8897, __c278, 1)),
+          pageToken: S.optional(S.String),
+          userPseudoId: S.optional(S.String),
+          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8864, __c277, 0)),
+          canonicalFilter: S.optional(S.String),
+          rankingExpression: S.optional(S.String),
+          spellCorrectionSpec: S.optional(__S(7296, __c228, 0)),
+          numResultsPerDataStore: S.optional(S.Number),
+          facetSpecs: S.optional(__S(9547, __c298, 11)),
+          oneBoxPageSize: S.optional(S.Number),
+          relevanceThreshold: S.optional(S.String),
+          crowdingSpecs: S.optional(__S(9549, __c298, 13)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
+          customRankingParams: S.optional(__S(9550, __c298, 14)),
+          searchAddonSpec: S.optional(__S(9551, __c298, 15)),
+          branch: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          displaySpec: S.optional(__S(9552, __c298, 16)),
+          filter: S.optional(S.String),
+          entity: S.optional(S.String),
+          rankingExpressionBackend: S.optional(S.String),
+          sessionSpec: S.optional(__S(9553, __c298, 17)),
+          query: S.optional(S.String),
+          relevanceScoreSpec: S.optional(__S(9554, __c298, 18)),
+          embeddingSpec: S.optional(__S(9557, __c298, 21)),
+          offset: S.optional(S.Number),
+          regionCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequest" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           sampleQuerySet: S.optional(S.String),
@@ -22064,29 +25065,16 @@ function __c298(j: number): any {
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpecQuerySetSpec",
       });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          searchRequest: S.optional(__S(9622, __c300, 22)),
-          querySetSpec: S.optional(__S(9536, __c298, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          evaluationSpec: S.optional(__S(9537, __c298, 1)),
-          error: S.optional(__S(9056, __c283, 0)),
-          qualityMetrics: S.optional(__S(9569, __c299, 1)),
-          endTime: S.optional(S.String),
-          errorSamples: S.optional(__S(4416, __c138, 0)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
+          searchRequest: S.optional(__S(9472, __c296, 0)),
+          querySetSpec: S.optional(__S(9473, __c296, 1)),
         }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEvaluation" });
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaEvaluationEvaluationSpec" });
   }
 }
-function __c299(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22100,16 +25088,16 @@ function __c299(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          docNdcg: S.optional(__S(9568, __c299, 0)),
-          docRecall: S.optional(__S(9568, __c299, 0)),
-          pageNdcg: S.optional(__S(9568, __c299, 0)),
-          docPrecision: S.optional(__S(9568, __c299, 0)),
-          pageRecall: S.optional(__S(9568, __c299, 0)),
+          docNdcg: S.optional(__S(9504, __c297, 0)),
+          docRecall: S.optional(__S(9504, __c297, 0)),
+          pageNdcg: S.optional(__S(9504, __c297, 0)),
+          docPrecision: S.optional(__S(9504, __c297, 0)),
+          pageRecall: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaQualityMetrics" });
   }
 }
-function __c300(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22121,12 +25109,12 @@ function __c300(j: number): any {
         identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestSearchAsYouTypeSpecField",
       });
     case 1:
-      return S.Array(__S(9600, __c300, 0));
+      return S.Array(__S(9536, __c298, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           scoreThreshold: S.optional(S.Number),
-          fields: S.optional(__S(9601, __c300, 1)),
+          fields: S.optional(__S(9537, __c298, 1)),
           condition: S.optional(S.String),
         }),
       ).annotate({
@@ -22158,8 +25146,8 @@ function __c300(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          keywordSearchThreshold: S.optional(__S(9605, __c300, 5)),
-          semanticSearchThreshold: S.optional(__S(9605, __c300, 5)),
+          keywordSearchThreshold: S.optional(__S(9541, __c298, 5)),
+          semanticSearchThreshold: S.optional(__S(9541, __c298, 5)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestRelevanceFilterSpec",
@@ -22174,17 +25162,17 @@ function __c300(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaInterval" });
     case 8:
-      return S.Array(__S(9607, __c300, 7));
+      return S.Array(__S(9543, __c298, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          intervals: S.optional(__S(9608, __c300, 8)),
-          prefixes: S.optional(__S(9088, __c284, 0)),
+          intervals: S.optional(__S(9544, __c298, 8)),
+          prefixes: S.optional(__S(9024, __c282, 0)),
           caseInsensitive: S.optional(S.Boolean),
           orderBy: S.optional(S.String),
-          restrictedValues: S.optional(__S(9088, __c284, 0)),
-          contains: S.optional(__S(9088, __c284, 0)),
+          restrictedValues: S.optional(__S(9024, __c282, 0)),
+          contains: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpecFacetKey" });
     case 10:
@@ -22192,12 +25180,12 @@ function __c300(j: number): any {
         S.Struct({
           enableDynamicPosition: S.optional(S.Boolean),
           limit: S.optional(S.Number),
-          facetKey: S.optional(__S(9609, __c300, 9)),
-          excludedFilterKeys: S.optional(__S(9088, __c284, 0)),
+          facetKey: S.optional(__S(9545, __c298, 9)),
+          excludedFilterKeys: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestFacetSpec" });
     case 11:
-      return S.Array(__S(9610, __c300, 10));
+      return S.Array(__S(9546, __c298, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -22207,11 +25195,11 @@ function __c300(j: number): any {
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestCrowdingSpec" });
     case 13:
-      return S.Array(__S(9612, __c300, 12));
+      return S.Array(__S(9548, __c298, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          expressionsToPrecompute: S.optional(__S(9088, __c284, 0)),
+          expressionsToPrecompute: S.optional(__S(9024, __c282, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestCustomRankingParams",
@@ -22247,69 +25235,22 @@ function __c300(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fieldPath: S.optional(S.String),
-          vector: S.optional(__S(8544, __c267, 0)),
+          vector: S.optional(__S(8480, __c265, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpecEmbeddingVector",
       });
     case 20:
-      return S.Array(__S(9619, __c300, 19));
+      return S.Array(__S(9555, __c298, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          embeddingVectors: S.optional(__S(9620, __c300, 20)),
+          embeddingVectors: S.optional(__S(9556, __c298, 20)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequestEmbeddingSpec" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          searchAsYouTypeSpec: S.optional(__S(9602, __c300, 2)),
-          safeSearch: S.optional(S.Boolean),
-          pageSize: S.optional(S.Number),
-          orderBy: S.optional(S.String),
-          imageQuery: S.optional(__S(9603, __c300, 3)),
-          queryExpansionSpec: S.optional(__S(9604, __c300, 4)),
-          userInfo: S.optional(__S(4450, __c139, 2)),
-          relevanceFilterSpec: S.optional(__S(9606, __c300, 6)),
-          boostSpec: S.optional(__S(8709, __c272, 5)),
-          pageCategories: S.optional(__S(9088, __c284, 0)),
-          servingConfig: S.optional(S.String),
-          params: S.optional(__S(9024, __c282, 0)),
-          personalizationSpec: S.optional(__S(7392, __c231, 0)),
-          session: S.optional(S.String),
-          contentSearchSpec: S.optional(__S(8131, __c254, 3)),
-          dataStoreSpecs: S.optional(__S(8961, __c280, 1)),
-          pageToken: S.optional(S.String),
-          userPseudoId: S.optional(S.String),
-          naturalLanguageQueryUnderstandingSpec: S.optional(__S(8928, __c279, 0)),
-          canonicalFilter: S.optional(S.String),
-          rankingExpression: S.optional(S.String),
-          spellCorrectionSpec: S.optional(__S(7392, __c231, 0)),
-          numResultsPerDataStore: S.optional(S.Number),
-          facetSpecs: S.optional(__S(9611, __c300, 11)),
-          oneBoxPageSize: S.optional(S.Number),
-          relevanceThreshold: S.optional(S.String),
-          crowdingSpecs: S.optional(__S(9613, __c300, 13)),
-          userLabels: S.optional(__S(8576, __c268, 0)),
-          customRankingParams: S.optional(__S(9614, __c300, 14)),
-          searchAddonSpec: S.optional(__S(9615, __c300, 15)),
-          branch: S.optional(S.String),
-          languageCode: S.optional(S.String),
-          displaySpec: S.optional(__S(9616, __c300, 16)),
-          filter: S.optional(S.String),
-          entity: S.optional(S.String),
-          rankingExpressionBackend: S.optional(S.String),
-          sessionSpec: S.optional(__S(9617, __c300, 17)),
-          query: S.optional(S.String),
-          relevanceScoreSpec: S.optional(__S(9618, __c300, 18)),
-          embeddingSpec: S.optional(__S(9621, __c300, 21)),
-          offset: S.optional(S.Number),
-          regionCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSearchRequest" });
   }
 }
-function __c301(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22318,7 +25259,9 @@ function __c301(j: number): any {
           parent: S.String.pipe(T.Label()),
           disableCmek: S.optional(S.Boolean.pipe(T.Query())),
           identityMappingStoreId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9664, __c302, 0).pipe(T.HttpBody())),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          name: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22329,26 +25272,38 @@ function __c301(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsIdentityMappingStoresRequest" });
   }
 }
-function __c302(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cmekConfig: S.optional(__S(7426, __c232, 2)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
           name: S.optional(S.String),
           kmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaIdentityMappingStore" });
   }
 }
-function __c303(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           licenseConfigId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9728, __c304, 0).pipe(T.HttpBody())),
+          licenseCount: S.optional(S.String),
+          subscriptionTier: S.optional(S.String),
+          autoRenew: S.optional(S.Boolean),
+          earlyTerminated: S.optional(S.Boolean),
+          startDate: S.optional(__S(8832, __c276, 0)),
+          freeTrial: S.optional(S.Boolean),
+          state: S.optional(S.String),
+          endDate: S.optional(__S(8832, __c276, 0)),
+          subscriptionTerm: S.optional(S.String),
+          name: S.optional(S.String),
+          lastUserUpdateTime: S.optional(S.String),
+          geminiBundle: S.optional(S.Boolean),
+          earlyTerminationDate: S.optional(__S(8832, __c276, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22359,7 +25314,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsLicenseConfigsRequest" });
   }
 }
-function __c304(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22368,27 +25323,30 @@ function __c304(j: number): any {
           subscriptionTier: S.optional(S.String),
           autoRenew: S.optional(S.Boolean),
           earlyTerminated: S.optional(S.Boolean),
-          startDate: S.optional(__S(8896, __c278, 0)),
+          startDate: S.optional(__S(8832, __c276, 0)),
           freeTrial: S.optional(S.Boolean),
           state: S.optional(S.String),
-          endDate: S.optional(__S(8896, __c278, 0)),
+          endDate: S.optional(__S(8832, __c276, 0)),
           subscriptionTerm: S.optional(S.String),
           name: S.optional(S.String),
           lastUserUpdateTime: S.optional(S.String),
           geminiBundle: S.optional(S.Boolean),
-          earlyTerminationDate: S.optional(__S(8896, __c278, 0)),
+          earlyTerminationDate: S.optional(__S(8832, __c276, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaLicenseConfig" });
   }
 }
-function __c305(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           sampleQuerySetId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(9792, __c306, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22399,7 +25357,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSampleQuerySetsRequest" });
   }
 }
-function __c306(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22412,14 +25370,16 @@ function __c306(j: number): any {
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSampleQuerySet" });
   }
 }
-function __c307(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sampleQueryId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(9859, __c308, 3).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          queryEntry: S.optional(__S(9794, __c306, 2)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22430,22 +25390,22 @@ function __c307(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest" });
   }
 }
-function __c308(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           score: S.optional(S.Number),
           uri: S.optional(S.String),
-          pageNumbers: S.optional(__S(8544, __c267, 0)),
+          pageNumbers: S.optional(__S(8480, __c265, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntryTarget" });
     case 1:
-      return S.Array(__S(9856, __c308, 0));
+      return S.Array(__S(9792, __c306, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          targets: S.optional(__S(9857, __c308, 1)),
+          targets: S.optional(__S(9793, __c306, 1)),
           query: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSampleQueryQueryEntry" });
@@ -22453,13 +25413,13 @@ function __c308(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
-          queryEntry: S.optional(__S(9858, __c308, 2)),
+          queryEntry: S.optional(__S(9794, __c306, 2)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSampleQuery" });
   }
 }
-function __c309(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22475,7 +25435,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCmekConfigsRequest" });
   }
 }
-function __c310(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22491,7 +25451,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c311(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22509,7 +25469,7 @@ function __c311(j: number): any {
       });
   }
 }
-function __c312(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22525,13 +25485,24 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsDataStoresControlsRequest" });
   }
 }
-function __c313(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(8764, __c273, 28).pipe(T.HttpBody())),
+          answerGenerationSpec: S.optional(__S(8673, __c271, 1)),
+          asynchronousMode: S.optional(S.Boolean),
+          session: S.optional(S.String),
+          searchSpec: S.optional(__S(8685, __c271, 13)),
+          relatedQuestionsSpec: S.optional(__S(8686, __c271, 14)),
+          groundingSpec: S.optional(__S(8687, __c271, 15)),
+          queryUnderstandingSpec: S.optional(__S(8691, __c271, 19)),
+          endUserSpec: S.optional(__S(8696, __c271, 24)),
+          userPseudoId: S.optional(S.String),
+          query: S.optional(__S(8736, __c273, 0)),
+          safetySpec: S.optional(__S(8699, __c271, 27)),
+          userLabels: S.optional(__S(8512, __c266, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22542,7 +25513,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "AnswerProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c314(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22560,7 +25531,7 @@ function __c314(j: number): any {
       });
   }
 }
-function __c315(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22576,7 +25547,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsDataStoresSchemasRequest" });
   }
 }
-function __c316(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22594,7 +25565,7 @@ function __c316(j: number): any {
       });
   }
 }
-function __c317(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22610,7 +25581,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsDataStoresSessionsRequest" });
   }
 }
-function __c318(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22628,7 +25599,7 @@ function __c318(j: number): any {
       });
   }
 }
-function __c319(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22647,7 +25618,7 @@ function __c319(j: number): any {
       });
   }
 }
-function __c320(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22663,7 +25634,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c321(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22679,7 +25650,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsEnginesAssistantsRequest" });
   }
 }
-function __c322(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22695,7 +25666,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsEnginesControlsRequest" });
   }
 }
-function __c323(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22711,13 +25682,13 @@ function __c323(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsEnginesConversationsRequest" });
   }
 }
-function __c324(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10402, __c325, 2).pipe(T.HttpBody())),
+          requests: S.optional(__S(10337, __c323, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22731,40 +25702,34 @@ function __c324(j: number): any {
       });
   }
 }
-function __c325(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.optional(S.String),
-          targetSite: S.optional(__S(10467, __c327, 3)),
+          targetSite: S.optional(__S(10432, __c326, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaCreateTargetSiteRequest" });
     case 1:
-      return S.Array(__S(10400, __c325, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          requests: S.optional(__S(10401, __c325, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaBatchCreateTargetSitesRequest" });
+      return S.Array(__S(10336, __c323, 0));
   }
 }
-function __c326(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(9024, __c282, 0)),
+          response: S.optional(__S(8960, __c280, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(9056, __c283, 0)),
+          error: S.optional(__S(8992, __c281, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(9024, __c282, 0)),
+          metadata: S.optional(__S(8960, __c280, 0)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c327(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22784,13 +25749,17 @@ function __c327(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          quotaFailure: S.optional(__S(10465, __c327, 1)),
+          quotaFailure: S.optional(__S(10401, __c325, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaTargetSiteFailureReason" });
-    case 3:
+  }
+}
+function __c326(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          siteVerificationInfo: S.optional(__S(10464, __c327, 0)),
+          siteVerificationInfo: S.optional(__S(10400, __c325, 0)),
           exactMatch: S.optional(S.Boolean),
           updateTime: S.optional(S.String),
           indexingStatus: S.optional(S.String),
@@ -22798,13 +25767,13 @@ function __c327(j: number): any {
           providedUriPattern: S.optional(S.String),
           generatedUriPattern: S.optional(S.String),
           name: S.optional(S.String),
-          failureReason: S.optional(__S(10466, __c327, 2)),
+          failureReason: S.optional(__S(10402, __c325, 2)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaTargetSite" });
   }
 }
-function __c328(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22820,7 +25789,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest" });
   }
 }
-function __c329(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22836,7 +25805,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsCollectionsEnginesSessionsRequest" });
   }
 }
-function __c330(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22852,7 +25821,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresRequest" });
   }
 }
-function __c331(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22868,7 +25837,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresBranchesDocumentsRequest" });
   }
 }
-function __c332(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22884,7 +25853,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresControlsRequest" });
   }
 }
-function __c333(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22900,7 +25869,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresConversationsRequest" });
   }
 }
-function __c334(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22916,7 +25885,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresSchemasRequest" });
   }
 }
-function __c335(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22932,7 +25901,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresServingConfigsRequest" });
   }
 }
-function __c336(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22948,7 +25917,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDataStoresSessionsRequest" });
   }
 }
-function __c337(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22966,13 +25935,13 @@ function __c337(j: number): any {
       });
   }
 }
-function __c338(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(10402, __c325, 2).pipe(T.HttpBody())),
+          requests: S.optional(__S(10337, __c323, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22985,7 +25954,7 @@ function __c338(j: number): any {
       });
   }
 }
-function __c339(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23003,7 +25972,7 @@ function __c339(j: number): any {
       });
   }
 }
-function __c340(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23019,7 +25988,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsIdentityMappingStoresRequest" });
   }
 }
-function __c341(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23035,7 +26004,7 @@ function __c341(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSampleQuerySetsRequest" });
   }
 }
-function __c342(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23051,13 +26020,13 @@ function __c342(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSampleQuerySetsSampleQueriesRequest" });
   }
 }
-function __c343(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23071,13 +26040,13 @@ function __c343(j: number): any {
       });
   }
 }
-function __c344(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23090,22 +26059,16 @@ function __c344(j: number): any {
       });
   }
 }
-function __c345(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          billingAccountLicenseConfig: S.String.pipe(T.Label()),
           location: S.optional(S.String),
           licenseConfigId: S.optional(S.String),
           licenseCount: S.optional(S.String),
           projectNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          billingAccountLicenseConfig: S.String.pipe(T.Label()),
-          body: S.optional(__S(11040, __c345, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23118,23 +26081,23 @@ function __c345(j: number): any {
       });
   }
 }
+function __c345(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          licenseConfig: S.optional(__S(9664, __c302, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigResponse" });
+  }
+}
 function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          licenseConfig: S.optional(__S(9728, __c304, 0)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDistributeLicenseConfigResponse" });
-  }
-}
-function __c347(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23148,13 +26111,13 @@ function __c347(j: number): any {
       });
   }
 }
-function __c348(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           siteSearchEngine: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(800, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -23167,7 +26130,7 @@ function __c348(j: number): any {
       });
   }
 }
-function __c349(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23188,15 +26151,15 @@ function __c349(j: number): any {
       });
   }
 }
-function __c350(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10467, __c327, 3));
+      return S.Array(__S(10432, __c326, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          targetSites: S.optional(__S(11200, __c350, 0)),
+          targetSites: S.optional(__S(11168, __c349, 0)),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({
@@ -23204,14 +26167,14 @@ function __c350(j: number): any {
       });
   }
 }
-function __c351(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "matcher.urisMatcher.uris": S.optional(__S(9088, __c284, 0).pipe(T.Query())),
+          "matcher.urisMatcher.uris": S.optional(__S(9024, __c282, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          "matcher.fhirMatcher.fhirResources": S.optional(__S(9088, __c284, 0).pipe(T.Query())),
+          "matcher.fhirMatcher.fhirResources": S.optional(__S(9024, __c282, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -23225,7 +26188,7 @@ function __c351(j: number): any {
       });
   }
 }
-function __c352(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23240,7 +26203,7 @@ function __c352(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          matcherValue: S.optional(__S(11264, __c352, 0)),
+          matcherValue: S.optional(__S(11232, __c351, 0)),
           dataIngestionSource: S.optional(S.String),
           state: S.optional(S.String),
           lastRefreshedTime: S.optional(S.String),
@@ -23250,24 +26213,24 @@ function __c352(j: number): any {
           "GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponseDocumentMetadata",
       });
     case 2:
-      return S.Array(__S(11265, __c352, 1));
+      return S.Array(__S(11233, __c351, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          documentsMetadata: S.optional(__S(11266, __c352, 2)),
+          documentsMetadata: S.optional(__S(11234, __c351, 2)),
         }),
       ).annotate({
         identifier: "GoogleCloudDiscoveryengineV1betaBatchGetDocumentsMetadataResponse",
       });
   }
 }
-function __c353(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          "matcher.urisMatcher.uris": S.optional(__S(9088, __c284, 0).pipe(T.Query())),
+          "matcher.urisMatcher.uris": S.optional(__S(9024, __c282, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -23280,32 +26243,40 @@ function __c353(j: number): any {
       });
   }
 }
+function __c353(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaSitemap" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sitemap: S.optional(__S(11296, __c353, 0)),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudDiscoveryengineV1betaFetchSitemapsResponseSitemapMetadata",
+      });
+    case 2:
+      return S.Array(__S(11297, __c353, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sitemapsMetadata: S.optional(__S(11298, __c353, 2)),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse" });
+  }
+}
 function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sitemap: S.optional(__S(8224, __c257, 0)),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudDiscoveryengineV1betaFetchSitemapsResponseSitemapMetadata",
-      });
-    case 1:
-      return S.Array(__S(11328, __c354, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          sitemapsMetadata: S.optional(__S(11329, __c354, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaFetchSitemapsResponse" });
-  }
-}
-function __c355(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          "matcher.urisMatcher.uris": S.optional(__S(9088, __c284, 0).pipe(T.Query())),
+          "matcher.urisMatcher.uris": S.optional(__S(9024, __c282, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -23317,7 +26288,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest" });
   }
 }
-function __c356(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23333,7 +26304,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "GetAclConfigProjectsLocationsRequest" });
   }
 }
-function __c357(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23344,24 +26315,24 @@ function __c357(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          externalIdpConfig: S.optional(__S(11424, __c357, 0)),
+          externalIdpConfig: S.optional(__S(11392, __c356, 0)),
           idpType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaIdpConfig" });
   }
 }
-function __c358(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idpConfig: S.optional(__S(11425, __c357, 1)),
+          idpConfig: S.optional(__S(11393, __c356, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaAclConfig" });
   }
 }
-function __c359(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23377,7 +26348,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "GetCmekConfigProjectsLocationsRequest" });
   }
 }
-function __c360(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23394,7 +26365,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsCollectionsDataStoresRequest" });
   }
 }
-function __c361(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23408,24 +26379,24 @@ function __c361(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(11552, __c361, 0)),
-          members: S.optional(__S(9088, __c284, 0)),
+          condition: S.optional(__S(11520, __c360, 0)),
+          members: S.optional(__S(9024, __c282, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
     case 2:
-      return S.Array(__S(11553, __c361, 1));
+      return S.Array(__S(11521, __c360, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           etag: S.optional(S.String),
           version: S.optional(S.Number),
-          bindings: S.optional(__S(11554, __c361, 2)),
+          bindings: S.optional(__S(11522, __c360, 2)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
   }
 }
-function __c362(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23442,7 +26413,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsCollectionsEnginesRequest" });
   }
 }
-function __c363(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23459,7 +26430,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDataStoresRequest" });
   }
 }
-function __c364(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23475,7 +26446,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCmekConfigsRequest" });
   }
 }
-function __c365(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23491,7 +26462,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsCollectionsDataConnectorOperationsRequest" });
   }
 }
-function __c366(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23505,6 +26476,40 @@ function __c366(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsCollectionsDataStoresRequest" });
+  }
+}
+function __c366(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          documentProcessingConfig: S.optional(__S(7462, __c233, 6)),
+          createTime: S.optional(S.String),
+          identityMappingStore: S.optional(S.String),
+          servingConfigDataStore: S.optional(__S(7463, __c233, 7)),
+          configurableBillingApproach: S.optional(S.String),
+          naturalLanguageQueryUnderstandingConfig: S.optional(__S(7296, __c228, 0)),
+          displayName: S.optional(S.String),
+          solutionTypes: S.optional(__S(8544, __c267, 0)),
+          languageInfo: S.optional(__S(7464, __c233, 8)),
+          cmekConfig: S.optional(__S(7360, __c230, 0)),
+          workspaceConfig: S.optional(__S(7465, __c233, 9)),
+          contentConfig: S.optional(S.String),
+          isInfobotFaqDataStore: S.optional(S.Boolean),
+          billingEstimation: S.optional(__S(7466, __c233, 10)),
+          healthcareFhirConfig: S.optional(__S(7467, __c233, 11)),
+          advancedSiteSearchConfig: S.optional(__S(7468, __c233, 12)),
+          configurableBillingApproachUpdateTime: S.optional(S.String),
+          dataProtectionPolicy: S.optional(__S(7393, __c231, 1)),
+          name: S.optional(S.String),
+          aclEnabled: S.optional(S.Boolean),
+          startingSchema: S.optional(__S(7424, __c232, 0)),
+          industryVertical: S.optional(S.String),
+          federatedSearchConfig: S.optional(__S(7474, __c233, 18)),
+          kmsKeyName: S.optional(S.String),
+          defaultSchemaId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleCloudDiscoveryengineV1betaDataStore" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

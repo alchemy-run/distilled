@@ -120,18 +120,13 @@ export interface CustomClass {
   /** The resource name of the custom class. */
   name?: string | undefined;
 }
-/** Message sent by the client for the `CreateCustomClass` method. */
-export interface CreateCustomClassRequest {
+export interface CreateProjectsLocationsCustomClassesRequest {
+  /** Required. The parent resource where this custom class will be created. Format: `projects/{project}/locations/{location}/customClasses` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
+  parent: string;
   /** Required. The ID to use for the custom class, which will become the final component of the custom class' resource name. This value should restrict to letters, numbers, and hyphens, with the first character a letter, the last a letter or a number, and be 4-63 characters. */
   customClassId?: string | undefined;
   /** Required. The custom class to create. */
   customClass?: CustomClass | undefined;
-}
-export interface CreateProjectsLocationsCustomClassesRequest {
-  /** Required. The parent resource where this custom class will be created. Format: `projects/{project}/locations/{location}/customClasses` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
-  parent: string;
-  /** Request body */
-  body?: CreateCustomClassRequest | undefined;
 }
 /** A phrases containing words and phrase "hints" so that the speech recognition is more likely to recognize them. This can be used to improve the accuracy for specific words and phrases, for example, if specific commands are typically spoken by the user. This can also be used to add additional words to the vocabulary of the recognizer. See [usage limits](https://cloud.google.com/speech-to-text/quotas#content). List items can also include pre-built or custom classes containing groups of words that represent common concepts that occur in natural language. For example, rather than providing a phrase hint for every month of the year (e.g. "i was born in january", "i was born in febuary", ...), use the pre-built `$MONTH` class improves the likelihood of correctly transcribing audio that includes months (e.g. "i was born in $month"). To refer to pre-built classes, use the class' symbol prepended with `$` e.g. `$MONTH`. To refer to custom classes that were defined inline in the request, set the class's `custom_class_id` to a string unique to all class resources and inline classes. Then use the class' id wrapped in $`{...}` e.g. "${my-months}". To refer to custom classes resources, use the class' id wrapped in `${}` (e.g. `${my-months}`). Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
 export interface Phrase {
@@ -171,18 +166,13 @@ export interface PhraseSet {
   /** Hint Boost. Positive value will increase the probability that a specific phrase will be recognized over other similar sounding phrases. The higher the boost, the higher the chance of false positive recognition as well. Negative boost values would correspond to anti-biasing. Anti-biasing is not enabled, so negative boost will simply be ignored. Though `boost` can accept a wide range of positive values, most use cases are best served with values between 0 (exclusive) and 20. We recommend using a binary search approach to finding the optimal value for your use case as well as adding phrases both with and without boost to your requests. */
   boost?: number | undefined;
 }
-/** Message sent by the client for the `CreatePhraseSet` method. */
-export interface CreatePhraseSetRequest {
+export interface CreateProjectsLocationsPhraseSetsRequest {
+  /** Required. The parent resource where this phrase set will be created. Format: `projects/{project}/locations/{location}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
+  parent: string;
   /** Required. The phrase set to create. */
   phraseSet?: PhraseSet | undefined;
   /** Required. The ID to use for the phrase set, which will become the final component of the phrase set's resource name. This value should restrict to letters, numbers, and hyphens, with the first character a letter, the last a letter or a number, and be 4-63 characters. */
   phraseSetId?: string | undefined;
-}
-export interface CreateProjectsLocationsPhraseSetsRequest {
-  /** Required. The parent resource where this phrase set will be created. Format: `projects/{project}/locations/{location}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
-  parent: string;
-  /** Request body */
-  body?: CreatePhraseSetRequest | undefined;
 }
 export interface DeleteProjectsLocationsCustomClassesRequest {
   /** Required. The name of the custom class to delete. Format: `projects/{project}/locations/{location}/customClasses/{custom_class}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
@@ -447,8 +437,7 @@ export interface RecognitionConfig {
   /** The spoken emoji behavior for the call If not set, uses default behavior based on model of choice If 'true', adds spoken emoji formatting for the request. This will replace spoken emojis with the corresponding Unicode symbols in the final transcript. If 'false', spoken emojis are not replaced. */
   enableSpokenEmojis?: boolean | undefined;
 }
-/** The top-level message sent by the client for the `LongRunningRecognize` method. */
-export interface LongRunningRecognizeRequest {
+export interface LongrunningrecognizeSpeechRequest {
   /** Required. The audio data to be recognized. */
   audio?: RecognitionAudio | undefined;
   /** Optional. Specifies an optional destination for the recognition results. */
@@ -456,36 +445,71 @@ export interface LongRunningRecognizeRequest {
   /** Required. Provides information to the recognizer that specifies how to process the request. */
   config?: RecognitionConfig | undefined;
 }
-export interface LongrunningrecognizeSpeechRequest {
-  /** Request body */
-  body?: LongRunningRecognizeRequest | undefined;
-}
 export interface PatchProjectsLocationsCustomClassesRequest {
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
   /** The resource name of the custom class. */
   name: string;
-  /** Request body */
-  body?: CustomClass | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields. This may be sent on update, undelete, and delete requests to ensure the client has an up-to-date value before proceeding. This field is not used. */
+  etag?: string | undefined;
+  /** Output only. User-settable, human-readable name for the CustomClass. Must be 63 characters or less. This field is not used. */
+  displayName?: string | undefined;
+  /** A collection of class items. */
+  items?: ClassItemList | undefined;
+  /** If this custom class is a resource, the custom_class_id is the resource id of the CustomClass. Case sensitive. */
+  customClassId?: string | undefined;
+  /** Output only. System-assigned unique identifier for the CustomClass. This field is not used. */
+  uid?: string | undefined;
+  /** Output only. The CustomClass lifecycle state. This field is not used. */
+  state?: CustomClassStateEnum | (string & {}) | undefined;
+  /** Output only. The time at which this resource was requested for deletion. This field is not used. */
+  deleteTime?: string | undefined;
+  /** Output only. The [KMS key name](https://cloud.google.com/kms/docs/resource-hierarchy#keys) with which the content of the ClassItem is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. */
+  kmsKeyName?: string | undefined;
+  /** Output only. The time at which this resource will be purged. This field is not used. */
+  expireTime?: string | undefined;
+  /** Output only. Allows users to store small amounts of arbitrary data. Both the key and the value must be 63 characters or less each. At most 100 annotations. This field is not used. */
+  annotations?: StringMap | undefined;
+  /** Output only. Whether or not this CustomClass is in the process of being updated. This field is not used. */
+  reconciling?: boolean | undefined;
+  /** Output only. The [KMS key version name](https://cloud.google.com/kms/docs/resource-hierarchy#key_versions) with which content of the ClassItem is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}`. */
+  kmsKeyVersionName?: string | undefined;
 }
 export interface PatchProjectsLocationsPhraseSetsRequest {
   /** The resource name of the phrase set. */
   name: string;
   /** The list of fields to be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: PhraseSet | undefined;
+  /** Output only. Whether or not this PhraseSet is in the process of being updated. This field is not used. */
+  reconciling?: boolean | undefined;
+  /** Output only. Allows users to store small amounts of arbitrary data. Both the key and the value must be 63 characters or less each. At most 100 annotations. This field is not used. */
+  annotations?: StringMap | undefined;
+  /** A list of word and phrases. */
+  phrases?: PhraseList | undefined;
+  /** Output only. The CustomClass lifecycle state. This field is not used. */
+  state?: PhraseSetStateEnum | (string & {}) | undefined;
+  /** Output only. System-assigned unique identifier for the PhraseSet. This field is not used. */
+  uid?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields. This may be sent on update, undelete, and delete requests to ensure the client has an up-to-date value before proceeding. This field is not used. */
+  etag?: string | undefined;
+  /** Output only. The [KMS key name](https://cloud.google.com/kms/docs/resource-hierarchy#keys) with which the content of the PhraseSet is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. */
+  kmsKeyName?: string | undefined;
+  /** Output only. The time at which this resource will be purged. This field is not used. */
+  expireTime?: string | undefined;
+  /** Output only. User-settable, human-readable name for the PhraseSet. Must be 63 characters or less. This field is not used. */
+  displayName?: string | undefined;
+  /** Output only. The time at which this resource was requested for deletion. This field is not used. */
+  deleteTime?: string | undefined;
+  /** Output only. The [KMS key version name](https://cloud.google.com/kms/docs/resource-hierarchy#key_versions) with which content of the PhraseSet is encrypted. The expected format is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}/cryptoKeyVersions/{crypto_key_version}`. */
+  kmsKeyVersionName?: string | undefined;
+  /** Hint Boost. Positive value will increase the probability that a specific phrase will be recognized over other similar sounding phrases. The higher the boost, the higher the chance of false positive recognition as well. Negative boost values would correspond to anti-biasing. Anti-biasing is not enabled, so negative boost will simply be ignored. Though `boost` can accept a wide range of positive values, most use cases are best served with values between 0 (exclusive) and 20. We recommend using a binary search approach to finding the optimal value for your use case as well as adding phrases both with and without boost to your requests. */
+  boost?: number | undefined;
 }
-/** The top-level message sent by the client for the `Recognize` method. */
-export interface RecognizeRequest {
+export interface RecognizeSpeechRequest {
   /** Required. Provides information to the recognizer that specifies how to process the request. */
   config?: RecognitionConfig | undefined;
   /** Required. The audio data to be recognized. */
   audio?: RecognitionAudio | undefined;
-}
-export interface RecognizeSpeechRequest {
-  /** Request body */
-  body?: RecognizeRequest | undefined;
 }
 /** Word-specific information for recognized words. */
 export interface WordInfo {
@@ -558,7 +582,7 @@ export const createProjectsLocationsCustomClasses: API.OperationMethod<
   CreateProjectsLocationsCustomClassesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c12, 1) as any as S.Schema<CreateProjectsLocationsCustomClassesRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateProjectsLocationsCustomClassesRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<CustomClass>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -580,7 +604,7 @@ export const createProjectsLocationsPhraseSets: API.OperationMethod<
   CreateProjectsLocationsPhraseSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c15, 1) as any as S.Schema<CreateProjectsLocationsPhraseSetsRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateProjectsLocationsPhraseSetsRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<PhraseSet>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -754,7 +778,7 @@ export const longrunningrecognizeSpeech: API.OperationMethod<
   LongrunningrecognizeSpeechError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(114, __c7, 2) as any as S.Schema<LongrunningrecognizeSpeechRequest>,
+  input: __S(113, __c7, 1) as any as S.Schema<LongrunningrecognizeSpeechRequest>,
   output: __S(339, __c21, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -815,8 +839,8 @@ export const recognizeSpeech: API.OperationMethod<
   RecognizeSpeechError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c11, 1) as any as S.Schema<RecognizeSpeechRequest>,
-  output: __S(185, __c11, 9) as any as S.Schema<RecognizeResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<RecognizeSpeechRequest>,
+  output: __S(184, __c11, 8) as any as S.Schema<RecognizeResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -949,12 +973,6 @@ function __c7(j: number): any {
           audio: S.optional(__S(128, __c8, 0)),
           outputConfig: S.optional(__S(112, __c7, 0)),
           config: S.optional(__S(138, __c8, 10)),
-        }),
-      ).annotate({ identifier: "LongRunningRecognizeRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(113, __c7, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1070,7 +1088,18 @@ function __c9(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(226, __c14, 2).pipe(T.HttpBody())),
+          etag: S.optional(S.String),
+          displayName: S.optional(S.String),
+          items: S.optional(__S(225, __c14, 1)),
+          customClassId: S.optional(S.String),
+          uid: S.optional(S.String),
+          state: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          annotations: S.optional(__S(208, __c13, 0)),
+          reconciling: S.optional(S.Boolean),
+          kmsKeyVersionName: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://speech.googleapis.com/" }),
         ),
@@ -1084,7 +1113,18 @@ function __c10(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(258, __c16, 2).pipe(T.HttpBody())),
+          reconciling: S.optional(S.Boolean),
+          annotations: S.optional(__S(208, __c13, 0)),
+          phrases: S.optional(__S(257, __c16, 1)),
+          state: S.optional(S.String),
+          uid: S.optional(S.String),
+          etag: S.optional(S.String),
+          kmsKeyName: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          kmsKeyVersionName: S.optional(S.String),
+          boost: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://speech.googleapis.com/" }),
         ),
@@ -1098,12 +1138,6 @@ function __c11(j: number): any {
         S.Struct({
           config: S.optional(__S(138, __c8, 10)),
           audio: S.optional(__S(128, __c8, 0)),
-        }),
-      ).annotate({ identifier: "RecognizeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(176, __c11, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1112,7 +1146,7 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RecognizeSpeechRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
@@ -1123,42 +1157,42 @@ function __c11(j: number): any {
           speakerTag: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WordInfo" });
+    case 2:
+      return S.Array(__S(177, __c11, 1));
     case 3:
-      return S.Array(__S(178, __c11, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           confidence: S.optional(S.Number),
           transcript: S.optional(S.String),
-          words: S.optional(__S(179, __c11, 3)),
+          words: S.optional(__S(178, __c11, 2)),
         }),
       ).annotate({ identifier: "SpeechRecognitionAlternative" });
+    case 4:
+      return S.Array(__S(179, __c11, 3));
     case 5:
-      return S.Array(__S(180, __c11, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
           resultEndTime: S.optional(S.String),
-          alternatives: S.optional(__S(181, __c11, 5)),
+          alternatives: S.optional(__S(180, __c11, 4)),
           languageCode: S.optional(S.String),
           channelTag: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SpeechRecognitionResult" });
+    case 6:
+      return S.Array(__S(181, __c11, 5));
     case 7:
-      return S.Array(__S(182, __c11, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           adaptationTimeout: S.optional(S.Boolean),
           timeoutMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpeechAdaptationInfo" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(183, __c11, 7)),
+          results: S.optional(__S(182, __c11, 6)),
           usingLegacyModels: S.optional(S.Boolean),
-          speechAdaptationInfo: S.optional(__S(184, __c11, 8)),
+          speechAdaptationInfo: S.optional(__S(183, __c11, 7)),
           totalBilledTime: S.optional(S.String),
           requestId: S.optional(S.String),
         }),
@@ -1170,15 +1204,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           customClassId: S.optional(S.String),
           customClass: S.optional(__S(226, __c14, 2)),
-        }),
-      ).annotate({ identifier: "CreateCustomClassRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1230,15 +1258,9 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           phraseSet: S.optional(__S(258, __c16, 2)),
           phraseSetId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreatePhraseSetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(240, __c15, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

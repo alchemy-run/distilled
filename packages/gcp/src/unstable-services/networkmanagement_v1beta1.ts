@@ -127,8 +127,11 @@ export type VpcFlowLogsConfigCrossProjectMetadataEnum =
   | "CROSS_PROJECT_METADATA_UNSPECIFIED"
   | "CROSS_PROJECT_METADATA_ENABLED"
   | "CROSS_PROJECT_METADATA_DISABLED";
-/** A configuration to generate VPC Flow Logs. */
-export interface VpcFlowLogsConfig {
+export interface CreateOrganizationsLocationsVpcFlowLogsConfigsRequest {
+  /** Required. The parent resource of the VpcFlowLogsConfig to create, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global` - For organization-level resources: `organizations/{organization_id}/locations/global` */
+  parent: string;
+  /** Required. ID of the `VpcFlowLogsConfig`. */
+  vpcFlowLogsConfigId?: string | undefined;
   /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
   subnet?: string | undefined;
   /** Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name} */
@@ -165,14 +168,6 @@ export interface VpcFlowLogsConfig {
   crossProjectMetadata?: VpcFlowLogsConfigCrossProjectMetadataEnum | (string & {}) | undefined;
   /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name?: string | undefined;
-}
-export interface CreateOrganizationsLocationsVpcFlowLogsConfigsRequest {
-  /** Required. The parent resource of the VpcFlowLogsConfig to create, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global` - For organization-level resources: `organizations/{organization_id}/locations/global` */
-  parent: string;
-  /** Required. ID of the `VpcFlowLogsConfig`. */
-  vpcFlowLogsConfigId?: string | undefined;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -1453,8 +1448,11 @@ export interface Endpoint {
   /** DNS endpoint of [Google Kubernetes Engine cluster control plane](https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-architecture). Requires gke_master_cluster to be set, can't be used simultaneoulsly with ip_address or network. Applicable only to destination endpoint. */
   fqdn?: string | undefined;
 }
-/** A Connectivity Test for a network reachability analysis. */
-export interface ConnectivityTest {
+export interface CreateProjectsLocationsGlobalConnectivityTestsRequest {
+  /** Required. The parent resource of the Connectivity Test to create: `projects/{project_id}/locations/global` */
+  parent: string;
+  /** Required. The logical name of the Connectivity Test in your project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the customer project */
+  testId?: string | undefined;
   /** Output only. The display name of a Connectivity Test. */
   displayName?: string | undefined;
   /** Output only. The probing details of this test from the latest run, present for applicable tests only. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
@@ -1486,21 +1484,47 @@ export interface ConnectivityTest {
   /** IP Protocol of the test. When not provided, "TCP" is assumed. */
   protocol?: string | undefined;
 }
-export interface CreateProjectsLocationsGlobalConnectivityTestsRequest {
-  /** Required. The parent resource of the Connectivity Test to create: `projects/{project_id}/locations/global` */
-  parent: string;
-  /** Required. The logical name of the Connectivity Test in your project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-40 characters. * Must end with a number or a letter. * Must be unique within the customer project */
-  testId?: string | undefined;
-  /** Request body */
-  body?: ConnectivityTest | undefined;
-}
 export interface CreateProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Required. ID of the `VpcFlowLogsConfig`. */
   vpcFlowLogsConfigId?: string | undefined;
   /** Required. The parent resource of the VpcFlowLogsConfig to create, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global` - For organization-level resources: `organizations/{organization_id}/locations/global` */
   parent: string;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
+  /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
+  subnet?: string | undefined;
+  /** Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name} */
+  interconnectAttachment?: string | undefined;
+  /** Optional. The user-supplied description of the VPC Flow Logs configuration. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** Optional. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. */
+  state?: VpcFlowLogsConfigStateEnum | (string & {}) | undefined;
+  /** Optional. Configures whether connection logging is enabled for VPC Flow Logs. */
+  connectionLogging?: VpcFlowLogsConfigConnectionLoggingEnum | (string & {}) | undefined;
+  /** Optional. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. */
+  metadataFields?: StringList | undefined;
+  /** Optional. Export filter used to define which VPC Flow Logs should be logged. */
+  filterExpr?: string | undefined;
+  /** Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name} */
+  network?: string | undefined;
+  /** Output only. The time the config was updated. */
+  updateTime?: string | undefined;
+  /** Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name} */
+  vpnTunnel?: string | undefined;
+  /** Output only. The time the config was created. */
+  createTime?: string | undefined;
+  /** Optional. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0. */
+  flowSampling?: number | undefined;
+  /** Optional. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. */
+  aggregationInterval?: VpcFlowLogsConfigAggregationIntervalEnum | (string & {}) | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. Describes the state of the configured target resource for diagnostic purposes. */
+  targetResourceState?: VpcFlowLogsConfigTargetResourceStateEnum | (string & {}) | undefined;
+  /** Optional. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. */
+  metadata?: VpcFlowLogsConfigMetadataEnum | (string & {}) | undefined;
+  /** Optional. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. */
+  crossProjectMetadata?: VpcFlowLogsConfigCrossProjectMetadataEnum | (string & {}) | undefined;
+  /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
+  name?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1689,6 +1713,45 @@ export interface GetOrganizationsLocationsVpcFlowLogsConfigsRequest {
   /** Required. The resource name of the VpcFlowLogsConfig, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level resources: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
 }
+/** A configuration to generate VPC Flow Logs. */
+export interface VpcFlowLogsConfig {
+  /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
+  subnet?: string | undefined;
+  /** Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name} */
+  interconnectAttachment?: string | undefined;
+  /** Optional. The user-supplied description of the VPC Flow Logs configuration. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** Optional. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. */
+  state?: VpcFlowLogsConfigStateEnum | undefined;
+  /** Optional. Configures whether connection logging is enabled for VPC Flow Logs. */
+  connectionLogging?: VpcFlowLogsConfigConnectionLoggingEnum | undefined;
+  /** Optional. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. */
+  metadataFields?: StringList | undefined;
+  /** Optional. Export filter used to define which VPC Flow Logs should be logged. */
+  filterExpr?: string | undefined;
+  /** Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name} */
+  network?: string | undefined;
+  /** Output only. The time the config was updated. */
+  updateTime?: string | undefined;
+  /** Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name} */
+  vpnTunnel?: string | undefined;
+  /** Output only. The time the config was created. */
+  createTime?: string | undefined;
+  /** Optional. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0. */
+  flowSampling?: number | undefined;
+  /** Optional. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. */
+  aggregationInterval?: VpcFlowLogsConfigAggregationIntervalEnum | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. Describes the state of the configured target resource for diagnostic purposes. */
+  targetResourceState?: VpcFlowLogsConfigTargetResourceStateEnum | undefined;
+  /** Optional. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. */
+  metadata?: VpcFlowLogsConfigMetadataEnum | undefined;
+  /** Optional. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. */
+  crossProjectMetadata?: VpcFlowLogsConfigCrossProjectMetadataEnum | undefined;
+  /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1696,6 +1759,39 @@ export interface GetProjectsLocationsRequest {
 export interface GetProjectsLocationsGlobalConnectivityTestsRequest {
   /** Required. `ConnectivityTest` resource name using the form: `projects/{project_id}/locations/global/connectivityTests/{test_id}` */
   name: string;
+}
+/** A Connectivity Test for a network reachability analysis. */
+export interface ConnectivityTest {
+  /** Output only. The display name of a Connectivity Test. */
+  displayName?: string | undefined;
+  /** Output only. The probing details of this test from the latest run, present for applicable tests only. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
+  probingDetails?: ProbingDetails | undefined;
+  /** Output only. The reachability details of this test from the latest run for the return path. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
+  returnReachabilityDetails?: ReachabilityDetails | undefined;
+  /** Output only. The reachability details of this test from the latest run. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
+  reachabilityDetails?: ReachabilityDetails | undefined;
+  /** Other projects that may be relevant for reachability analysis. This is applicable to scenarios where a test can cross project boundaries. */
+  relatedProjects?: StringList | undefined;
+  /** The user-supplied description of the Connectivity Test. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** Output only. The time the test's configuration was updated. */
+  updateTime?: string | undefined;
+  /** Whether run analysis for the return path from destination to source. Default value is false. */
+  roundTrip?: boolean | undefined;
+  /** Required. Source specification of the Connectivity Test. You can use a combination of source IP address, URI of a supported endpoint, project ID, or VPC network to identify the source location. Reachability analysis might proceed even if the source location is ambiguous. However, the test result might include endpoints or use a source that you don't intend to test. */
+  source?: Endpoint | undefined;
+  /** Identifier. Unique name of the resource using the form: `projects/{project_id}/locations/global/connectivityTests/{test}` */
+  name?: string | undefined;
+  /** Whether the analysis should skip firewall checking. Default value is false. */
+  bypassFirewallChecks?: boolean | undefined;
+  /** Output only. The time the test was created. */
+  createTime?: string | undefined;
+  /** Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Required. Destination specification of the Connectivity Test. You can use a combination of destination IP address, URI of a supported endpoint, project ID, or VPC network to identify the destination location. Reachability analysis proceeds even if the destination location is ambiguous. However, the test result might include endpoints or use a destination that you don't intend to test. */
+  destination?: Endpoint | undefined;
+  /** IP Protocol of the test. When not provided, "TCP" is assumed. */
+  protocol?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource. */
@@ -1832,24 +1928,114 @@ export interface PatchOrganizationsLocationsVpcFlowLogsConfigsRequest {
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For example, to change the state of the configuration to ENABLED, specify `update_mask` = `"state"`, and the `vpc_flow_logs_config` would be: `vpc_flow_logs_config = { name = "projects/my-project/locations/global/vpcFlowLogsConfigs/my-config" state = "ENABLED" }` */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
+  /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
+  subnet?: string | undefined;
+  /** Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name} */
+  interconnectAttachment?: string | undefined;
+  /** Optional. The user-supplied description of the VPC Flow Logs configuration. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** Optional. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. */
+  state?: VpcFlowLogsConfigStateEnum | (string & {}) | undefined;
+  /** Optional. Configures whether connection logging is enabled for VPC Flow Logs. */
+  connectionLogging?: VpcFlowLogsConfigConnectionLoggingEnum | (string & {}) | undefined;
+  /** Optional. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. */
+  metadataFields?: StringList | undefined;
+  /** Optional. Export filter used to define which VPC Flow Logs should be logged. */
+  filterExpr?: string | undefined;
+  /** Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name} */
+  network?: string | undefined;
+  /** Output only. The time the config was updated. */
+  updateTime?: string | undefined;
+  /** Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name} */
+  vpnTunnel?: string | undefined;
+  /** Output only. The time the config was created. */
+  createTime?: string | undefined;
+  /** Optional. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0. */
+  flowSampling?: number | undefined;
+  /** Optional. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. */
+  aggregationInterval?: VpcFlowLogsConfigAggregationIntervalEnum | (string & {}) | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. Describes the state of the configured target resource for diagnostic purposes. */
+  targetResourceState?: VpcFlowLogsConfigTargetResourceStateEnum | (string & {}) | undefined;
+  /** Optional. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. */
+  metadata?: VpcFlowLogsConfigMetadataEnum | (string & {}) | undefined;
+  /** Optional. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. */
+  crossProjectMetadata?: VpcFlowLogsConfigCrossProjectMetadataEnum | (string & {}) | undefined;
 }
 export interface PatchProjectsLocationsGlobalConnectivityTestsRequest {
   /** Identifier. Unique name of the resource using the form: `projects/{project_id}/locations/global/connectivityTests/{test}` */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ConnectivityTest | undefined;
+  /** Output only. The display name of a Connectivity Test. */
+  displayName?: string | undefined;
+  /** Output only. The probing details of this test from the latest run, present for applicable tests only. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
+  probingDetails?: ProbingDetails | undefined;
+  /** Output only. The reachability details of this test from the latest run for the return path. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
+  returnReachabilityDetails?: ReachabilityDetails | undefined;
+  /** Output only. The reachability details of this test from the latest run. The details are updated when creating a new test, updating an existing test, or triggering a one-time rerun of an existing test. */
+  reachabilityDetails?: ReachabilityDetails | undefined;
+  /** Other projects that may be relevant for reachability analysis. This is applicable to scenarios where a test can cross project boundaries. */
+  relatedProjects?: StringList | undefined;
+  /** The user-supplied description of the Connectivity Test. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** Output only. The time the test's configuration was updated. */
+  updateTime?: string | undefined;
+  /** Whether run analysis for the return path from destination to source. Default value is false. */
+  roundTrip?: boolean | undefined;
+  /** Required. Source specification of the Connectivity Test. You can use a combination of source IP address, URI of a supported endpoint, project ID, or VPC network to identify the source location. Reachability analysis might proceed even if the source location is ambiguous. However, the test result might include endpoints or use a source that you don't intend to test. */
+  source?: Endpoint | undefined;
+  /** Whether the analysis should skip firewall checking. Default value is false. */
+  bypassFirewallChecks?: boolean | undefined;
+  /** Output only. The time the test was created. */
+  createTime?: string | undefined;
+  /** Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Required. Destination specification of the Connectivity Test. You can use a combination of destination IP address, URI of a supported endpoint, project ID, or VPC network to identify the destination location. Reachability analysis proceeds even if the destination location is ambiguous. However, the test result might include endpoints or use a destination that you don't intend to test. */
+  destination?: Endpoint | undefined;
+  /** IP Protocol of the test. When not provided, "TCP" is assumed. */
+  protocol?: string | undefined;
 }
 export interface PatchProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For example, to change the state of the configuration to ENABLED, specify `update_mask` = `"state"`, and the `vpc_flow_logs_config` would be: `vpc_flow_logs_config = { name = "projects/my-project/locations/global/vpcFlowLogsConfigs/my-config" state = "ENABLED" }` */
   updateMask?: string | undefined;
   /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
-  /** Request body */
-  body?: VpcFlowLogsConfig | undefined;
+  /** Traffic will be logged from VMs within the subnetwork. Format: projects/{project_id}/regions/{region}/subnetworks/{name} */
+  subnet?: string | undefined;
+  /** Traffic will be logged from the Interconnect Attachment. Format: projects/{project_id}/regions/{region}/interconnectAttachments/{name} */
+  interconnectAttachment?: string | undefined;
+  /** Optional. The user-supplied description of the VPC Flow Logs configuration. Maximum of 512 characters. */
+  description?: string | undefined;
+  /** Optional. The state of the VPC Flow Log configuration. Default value is ENABLED. When creating a new configuration, it must be enabled. Setting state=DISABLED will pause the log generation for this config. */
+  state?: VpcFlowLogsConfigStateEnum | (string & {}) | undefined;
+  /** Optional. Configures whether connection logging is enabled for VPC Flow Logs. */
+  connectionLogging?: VpcFlowLogsConfigConnectionLoggingEnum | (string & {}) | undefined;
+  /** Optional. Custom metadata fields to include in the reported VPC flow logs. Can only be specified if "metadata" was set to CUSTOM_METADATA. */
+  metadataFields?: StringList | undefined;
+  /** Optional. Export filter used to define which VPC Flow Logs should be logged. */
+  filterExpr?: string | undefined;
+  /** Traffic will be logged from VMs, VPN tunnels and Interconnect Attachments within the network. Format: projects/{project_id}/global/networks/{name} */
+  network?: string | undefined;
+  /** Output only. The time the config was updated. */
+  updateTime?: string | undefined;
+  /** Traffic will be logged from the VPN Tunnel. Format: projects/{project_id}/regions/{region}/vpnTunnels/{name} */
+  vpnTunnel?: string | undefined;
+  /** Output only. The time the config was created. */
+  createTime?: string | undefined;
+  /** Optional. The value of the field must be in (0, 1]. The sampling rate of VPC Flow Logs where 1.0 means all collected logs are reported. Setting the sampling rate to 0.0 is not allowed. If you want to disable VPC Flow Logs, use the state field instead. Default value is 1.0. */
+  flowSampling?: number | undefined;
+  /** Optional. The aggregation interval for the logs. Default value is INTERVAL_5_SEC. */
+  aggregationInterval?: VpcFlowLogsConfigAggregationIntervalEnum | (string & {}) | undefined;
+  /** Optional. Resource labels to represent user-provided metadata. */
+  labels?: StringMap | undefined;
+  /** Output only. Describes the state of the configured target resource for diagnostic purposes. */
+  targetResourceState?: VpcFlowLogsConfigTargetResourceStateEnum | (string & {}) | undefined;
+  /** Optional. Configures whether all, none or a subset of metadata fields should be added to the reported VPC flow logs. Default value is INCLUDE_ALL_METADATA. */
+  metadata?: VpcFlowLogsConfigMetadataEnum | (string & {}) | undefined;
+  /** Optional. Determines whether to include cross project annotations in the logs. This field is available only for organization configurations. If not specified in org configs will be set to CROSS_PROJECT_METADATA_ENABLED. */
+  crossProjectMetadata?: VpcFlowLogsConfigCrossProjectMetadataEnum | (string & {}) | undefined;
 }
 export interface QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Page token from an earlier query, as returned in `next_page_token`. */
@@ -1878,29 +2064,19 @@ export interface RerunProjectsLocationsGlobalConnectivityTestsRequest {
   /** Request body */
   body?: CancelOperationRequest | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
-}
 export interface TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -1921,11 +2097,11 @@ export const cancelOrganizationsLocationsGlobalOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c33,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<CancelOrganizationsLocationsGlobalOperationsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<Empty>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1946,8 +2122,8 @@ export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<
   CancelProjectsLocationsGlobalOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CancelProjectsLocationsGlobalOperationsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CancelProjectsLocationsGlobalOperationsRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1969,11 +2145,11 @@ export const createOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1152,
-    __c36,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1995,11 +2171,11 @@ export const createProjectsLocationsGlobalConnectivityTests: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1376,
-    __c43,
+    1408,
+    __c44,
     0,
   ) as any as S.Schema<CreateProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2020,8 +2196,8 @@ export const createProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   CreateProjectsLocationsVpcFlowLogsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<CreateProjectsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  input: __S(1504, __c47, 0) as any as S.Schema<CreateProjectsLocationsVpcFlowLogsConfigsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2043,11 +2219,11 @@ export const deleteOrganizationsLocationsGlobalOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsGlobalOperationsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<Empty>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2069,7 +2245,7 @@ export const deleteOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2091,7 +2267,7 @@ export const deleteProjectsLocationsGlobalConnectivityTests: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2113,7 +2289,7 @@ export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsGlobalOperationsRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<Empty>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2135,7 +2311,7 @@ export const deleteProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteProjectsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2219,7 +2395,7 @@ export const getOrganizationsLocationsGlobalOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetOrganizationsLocationsGlobalOperationsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2236,7 +2412,7 @@ export const getOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetOrganizationsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<VpcFlowLogsConfig>,
+  output: __S(352, __c11, 0) as any as S.Schema<VpcFlowLogsConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2252,7 +2428,7 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -2269,8 +2445,8 @@ export const getProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
   GetProjectsLocationsGlobalConnectivityTestsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(1463, __c45, 23) as any as S.Schema<ConnectivityTest>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsGlobalConnectivityTestsRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<ConnectivityTest>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2286,8 +2462,8 @@ export const getProjectsLocationsGlobalOperations: API.OperationMethod<
   GetProjectsLocationsGlobalOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsGlobalOperationsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetProjectsLocationsGlobalOperationsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2303,8 +2479,8 @@ export const getProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   GetProjectsLocationsVpcFlowLogsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetProjectsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<VpcFlowLogsConfig>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetProjectsLocationsVpcFlowLogsConfigsRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<VpcFlowLogsConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2321,8 +2497,8 @@ export const listOrganizationsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListOrganizationsLocationsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListLocationsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ListOrganizationsLocationsRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2340,8 +2516,8 @@ export const listOrganizationsLocationsGlobalOperations: API.PaginatedOperationM
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListOrganizationsLocationsGlobalOperationsRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListOrganizationsLocationsGlobalOperationsRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2359,8 +2535,8 @@ export const listOrganizationsLocationsVpcFlowLogsConfigs: API.PaginatedOperatio
   GcpOpContext,
   ListVpcFlowLogsConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<ListOrganizationsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<ListVpcFlowLogsConfigsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListOrganizationsLocationsVpcFlowLogsConfigsRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<ListVpcFlowLogsConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2378,8 +2554,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListLocationsResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2397,8 +2573,8 @@ export const listProjectsLocationsGlobalConnectivityTests: API.PaginatedOperatio
   GcpOpContext,
   ListConnectivityTestsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListConnectivityTestsResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsGlobalConnectivityTestsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<ListConnectivityTestsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2416,8 +2592,8 @@ export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListProjectsLocationsGlobalOperationsRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<ListOperationsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListProjectsLocationsGlobalOperationsRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2435,8 +2611,8 @@ export const listProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMeth
   GcpOpContext,
   ListVpcFlowLogsConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListProjectsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<ListVpcFlowLogsConfigsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListProjectsLocationsVpcFlowLogsConfigsRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<ListVpcFlowLogsConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2459,11 +2635,11 @@ export const patchOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c26,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<PatchOrganizationsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2485,11 +2661,11 @@ export const patchProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    928,
+    __c29,
     0,
   ) as any as S.Schema<PatchProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2510,8 +2686,8 @@ export const patchProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   PatchProjectsLocationsVpcFlowLogsConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<PatchProjectsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  input: __S(960, __c30, 0) as any as S.Schema<PatchProjectsLocationsVpcFlowLogsConfigsRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2532,11 +2708,11 @@ export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.
   QueryOrgVpcFlowLogsConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    928,
-    __c29,
+    992,
+    __c31,
     0,
   ) as any as S.Schema<QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<QueryOrgVpcFlowLogsConfigsResponse>,
+  output: __S(993, __c31, 1) as any as S.Schema<QueryOrgVpcFlowLogsConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2559,11 +2735,11 @@ export const rerunProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c30,
+    1024,
+    __c32,
     0,
   ) as any as S.Schema<RerunProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<Operation>,
+  output: __S(1312, __c41, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2585,9 +2761,9 @@ export const setIamPolicyProjectsLocationsGlobalConnectivityTests: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    993,
-    __c31,
-    1,
+    1056,
+    __c33,
+    0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest>,
   output: __S(199, __c6, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
@@ -2611,11 +2787,11 @@ export const testIamPermissionsProjectsLocationsGlobalConnectivityTests: API.Ope
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1025,
-    __c32,
-    1,
+    1088,
+    __c34,
+    0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1089, __c34, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2716,7 +2892,7 @@ function __c4(j: number): any {
           flowSampling: S.optional(S.Number),
           aggregationInterval: S.optional(S.String),
           filterExpr: S.optional(S.String),
-          metadataFields: S.optional(__S(1280, __c40, 0)),
+          metadataFields: S.optional(__S(1344, __c42, 0)),
           interconnectAttachment: S.optional(S.String),
           state: S.optional(S.String),
           metadata: S.optional(S.String),
@@ -2733,7 +2909,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1280, __c40, 0)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
           effectiveFlowLogsConfigs: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "ShowEffectiveFlowLogsConfigsResponse" });
@@ -2762,7 +2938,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(1280, __c40, 0)),
+          exemptedMembers: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
@@ -2789,7 +2965,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           condition: S.optional(__S(196, __c6, 4)),
-          members: S.optional(__S(1280, __c40, 0)),
+          members: S.optional(__S(1344, __c42, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
@@ -2827,9 +3003,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1312, __c41, 0)),
+          labels: S.optional(__S(1376, __c43, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(1184, __c37, 0)),
+          metadata: S.optional(__S(1248, __c39, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
@@ -2873,15 +3049,26 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1beta1/{+name}",
-            baseUrl: "https://networkmanagement.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsRequest" });
+          subnet: S.optional(S.String),
+          interconnectAttachment: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          connectionLogging: S.optional(S.String),
+          metadataFields: S.optional(__S(1344, __c42, 0)),
+          filterExpr: S.optional(S.String),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          vpnTunnel: S.optional(S.String),
+          createTime: S.optional(S.String),
+          flowSampling: S.optional(S.Number),
+          aggregationInterval: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          targetResourceState: S.optional(S.String),
+          metadata: S.optional(S.String),
+          crossProjectMetadata: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcFlowLogsConfig" });
   }
 }
 function __c12(j: number): any {
@@ -2897,7 +3084,7 @@ function __c12(j: number): any {
             baseUrl: "https://networkmanagement.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsGlobalConnectivityTestsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
 function __c13(j: number): any {
@@ -2913,10 +3100,50 @@ function __c13(j: number): any {
             baseUrl: "https://networkmanagement.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsGlobalOperationsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsGlobalConnectivityTestsRequest" });
   }
 }
 function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          probingDetails: S.optional(__S(1447, __c45, 7)),
+          returnReachabilityDetails: S.optional(__S(1492, __c46, 20)),
+          reachabilityDetails: S.optional(__S(1492, __c46, 20)),
+          relatedProjects: S.optional(__S(1344, __c42, 0)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          roundTrip: S.optional(S.Boolean),
+          source: S.optional(__S(1494, __c46, 22)),
+          name: S.optional(S.String),
+          bypassFirewallChecks: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          destination: S.optional(__S(1494, __c46, 22)),
+          protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectivityTest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1beta1/{+name}",
+            baseUrl: "https://networkmanagement.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsGlobalOperationsRequest" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2932,13 +3159,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(1280, __c40, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1344, __c42, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -2952,7 +3179,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(256, __c8, 0));
@@ -2960,12 +3187,12 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(512, __c16, 0)),
+          locations: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2985,21 +3212,21 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsGlobalOperationsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(576, __c18, 0)),
+          operations: S.optional(__S(640, __c20, 0)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1280, __c40, 0)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3019,31 +3246,31 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1280, __c40, 0)),
-          vpcFlowLogsConfigs: S.optional(__S(672, __c21, 0)),
-        }),
-      ).annotate({ identifier: "ListVpcFlowLogsConfigsResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1344, __c42, 0));
-  }
-}
 function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(1344, __c42, 0)),
+          vpcFlowLogsConfigs: S.optional(__S(736, __c23, 0)),
+        }),
+      ).annotate({ identifier: "ListVpcFlowLogsConfigsResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(352, __c11, 0));
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(1280, __c40, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1344, __c42, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -3057,7 +3284,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3076,18 +3303,18 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGlobalConnectivityTestsRequest" });
     case 1:
-      return S.Array(__S(1463, __c45, 23));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1280, __c40, 0)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
           nextPageToken: S.optional(S.String),
-          resources: S.optional(__S(737, __c23, 1)),
+          resources: S.optional(__S(801, __c25, 1)),
         }),
       ).annotate({ identifier: "ListConnectivityTestsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3107,7 +3334,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsGlobalOperationsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3127,14 +3354,30 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          subnet: S.optional(S.String),
+          interconnectAttachment: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          connectionLogging: S.optional(S.String),
+          metadataFields: S.optional(__S(1344, __c42, 0)),
+          filterExpr: S.optional(S.String),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          vpnTunnel: S.optional(S.String),
+          createTime: S.optional(S.String),
+          flowSampling: S.optional(S.Number),
+          aggregationInterval: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          targetResourceState: S.optional(S.String),
+          metadata: S.optional(S.String),
+          crossProjectMetadata: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3145,14 +3388,27 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1463, __c45, 23).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          probingDetails: S.optional(__S(1447, __c45, 7)),
+          returnReachabilityDetails: S.optional(__S(1492, __c46, 20)),
+          reachabilityDetails: S.optional(__S(1492, __c46, 20)),
+          relatedProjects: S.optional(__S(1344, __c42, 0)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          roundTrip: S.optional(S.Boolean),
+          source: S.optional(__S(1494, __c46, 22)),
+          bypassFirewallChecks: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          destination: S.optional(__S(1494, __c46, 22)),
+          protocol: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3163,14 +3419,30 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGlobalConnectivityTestsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          subnet: S.optional(S.String),
+          interconnectAttachment: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          connectionLogging: S.optional(S.String),
+          metadataFields: S.optional(__S(1344, __c42, 0)),
+          filterExpr: S.optional(S.String),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          vpnTunnel: S.optional(S.String),
+          createTime: S.optional(S.String),
+          flowSampling: S.optional(S.Number),
+          aggregationInterval: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          targetResourceState: S.optional(S.String),
+          metadata: S.optional(S.String),
+          crossProjectMetadata: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3181,7 +3453,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3203,20 +3475,20 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1280, __c40, 0)),
-          vpcFlowLogsConfigs: S.optional(__S(672, __c21, 0)),
+          unreachable: S.optional(__S(1344, __c42, 0)),
+          vpcFlowLogsConfigs: S.optional(__S(736, __c23, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryOrgVpcFlowLogsConfigsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3227,20 +3499,14 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RerunProjectsLocationsGlobalConnectivityTestsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resource: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String),
           policy: S.optional(__S(199, __c6, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3251,19 +3517,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(1280, __c40, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(1344, __c42, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3274,15 +3534,21 @@ function __c32(j: number): any {
       ).annotate({
         identifier: "TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest",
       });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(1344, __c42, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3293,19 +3559,19 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CancelOrganizationsLocationsGlobalOperationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3316,14 +3582,31 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsGlobalOperationsRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           vpcFlowLogsConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          subnet: S.optional(S.String),
+          interconnectAttachment: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          connectionLogging: S.optional(S.String),
+          metadataFields: S.optional(__S(1344, __c42, 0)),
+          filterExpr: S.optional(S.String),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          vpnTunnel: S.optional(S.String),
+          createTime: S.optional(S.String),
+          flowSampling: S.optional(S.Number),
+          aggregationInterval: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          targetResourceState: S.optional(S.String),
+          metadata: S.optional(S.String),
+          crossProjectMetadata: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3334,87 +3617,74 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1216, __c38, 0)),
+          details: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "Status" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          metadata: S.optional(__S(1184, __c37, 0)),
-          name: S.optional(S.String),
-          error: S.optional(__S(1217, __c38, 1)),
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(1184, __c37, 0)),
-        }),
-      ).annotate({ identifier: "Operation" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.optional(__S(1248, __c39, 0)),
+          name: S.optional(S.String),
+          error: S.optional(__S(1281, __c40, 1)),
+          done: S.optional(S.Boolean),
+          response: S.optional(__S(1248, __c39, 0)),
+        }),
+      ).annotate({ identifier: "Operation" });
   }
 }
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subnet: S.optional(S.String),
-          interconnectAttachment: S.optional(S.String),
-          description: S.optional(S.String),
-          state: S.optional(S.String),
-          connectionLogging: S.optional(S.String),
-          metadataFields: S.optional(__S(1280, __c40, 0)),
-          filterExpr: S.optional(S.String),
-          network: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          vpnTunnel: S.optional(S.String),
-          createTime: S.optional(S.String),
-          flowSampling: S.optional(S.Number),
-          aggregationInterval: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
-          targetResourceState: S.optional(S.String),
-          metadata: S.optional(S.String),
-          crossProjectMetadata: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VpcFlowLogsConfig" });
+      return S.Array(S.String);
   }
 }
 function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           testId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1463, __c45, 23).pipe(T.HttpBody())),
+          displayName: S.optional(S.String),
+          probingDetails: S.optional(__S(1447, __c45, 7)),
+          returnReachabilityDetails: S.optional(__S(1492, __c46, 20)),
+          reachabilityDetails: S.optional(__S(1492, __c46, 20)),
+          relatedProjects: S.optional(__S(1344, __c42, 0)),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          roundTrip: S.optional(S.Boolean),
+          source: S.optional(__S(1494, __c46, 22)),
+          name: S.optional(S.String),
+          bypassFirewallChecks: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          destination: S.optional(__S(1494, __c46, 22)),
+          protocol: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3425,7 +3695,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsGlobalConnectivityTestsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3454,40 +3724,40 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "LatencyPercentile" });
     case 3:
-      return S.Array(__S(1410, __c44, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          latencyPercentiles: S.optional(__S(1411, __c44, 3)),
+          latencyPercentiles: S.optional(__S(1443, __c45, 3)),
         }),
       ).annotate({ identifier: "LatencyDistribution" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           sentProbeCount: S.optional(S.Number),
-          destinationEgressLocation: S.optional(__S(1409, __c44, 1)),
+          destinationEgressLocation: S.optional(__S(1441, __c45, 1)),
           result: S.optional(S.String),
-          probingLatency: S.optional(__S(1412, __c44, 4)),
+          probingLatency: S.optional(__S(1444, __c45, 4)),
           destinationRouter: S.optional(S.String),
           successfulProbeCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SingleEdgeResponse" });
     case 6:
-      return S.Array(__S(1413, __c44, 5));
+      return S.Array(__S(1445, __c45, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1217, __c38, 1)),
+          error: S.optional(__S(1281, __c40, 1)),
           probedAllDevices: S.optional(S.Boolean),
           result: S.optional(S.String),
           verifyTime: S.optional(S.String),
           successfulProbeCount: S.optional(S.Number),
-          endpointInfo: S.optional(__S(1408, __c44, 0)),
-          destinationEgressLocation: S.optional(__S(1409, __c44, 1)),
+          endpointInfo: S.optional(__S(1440, __c45, 0)),
+          destinationEgressLocation: S.optional(__S(1441, __c45, 1)),
           sentProbeCount: S.optional(S.Number),
           abortCause: S.optional(S.String),
-          probingLatency: S.optional(__S(1412, __c44, 4)),
-          edgeResponses: S.optional(__S(1414, __c44, 6)),
+          probingLatency: S.optional(__S(1444, __c45, 4)),
+          edgeResponses: S.optional(__S(1446, __c45, 6)),
         }),
       ).annotate({ identifier: "ProbingDetails" });
     case 8:
@@ -3549,7 +3819,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          networkTags: S.optional(__S(1280, __c40, 0)),
+          networkTags: S.optional(__S(1344, __c42, 0)),
           serviceAccount: S.optional(S.String),
           pscNetworkAttachmentUri: S.optional(S.String),
           displayName: S.optional(S.String),
@@ -3680,14 +3950,14 @@ function __c44(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          srcPortRanges: S.optional(__S(1280, __c40, 0)),
+          srcPortRanges: S.optional(__S(1344, __c42, 0)),
           nccHubRouteUri: S.optional(S.String),
           uri: S.optional(S.String),
           originatingRouteDisplayName: S.optional(S.String),
-          instanceTags: S.optional(__S(1280, __c40, 0)),
+          instanceTags: S.optional(__S(1344, __c42, 0)),
           nccSpokeUri: S.optional(S.String),
           originatingRouteUri: S.optional(S.String),
-          protocols: S.optional(__S(1280, __c40, 0)),
+          protocols: S.optional(__S(1344, __c42, 0)),
           nextHopUri: S.optional(S.String),
           routeType: S.optional(S.String),
           advertisedRouteNextHopUri: S.optional(S.String),
@@ -3699,7 +3969,7 @@ function __c44(j: number): any {
           advertisedRouteSourceRouterUri: S.optional(S.String),
           destIpRange: S.optional(S.String),
           nextHopNetworkUri: S.optional(S.String),
-          destPortRanges: S.optional(__S(1280, __c40, 0)),
+          destPortRanges: S.optional(__S(1344, __c42, 0)),
           displayName: S.optional(S.String),
           nccHubUri: S.optional(S.String),
           region: S.optional(S.String),
@@ -3717,7 +3987,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.optional(S.String),
-          projectsMissingPermission: S.optional(__S(1280, __c40, 0)),
+          projectsMissingPermission: S.optional(__S(1344, __c42, 0)),
           cause: S.optional(S.String),
           ipAddress: S.optional(S.String),
         }),
@@ -3744,7 +4014,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "VpnTunnelInfo" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3752,18 +4022,18 @@ function __c45(j: number): any {
           displayName: S.optional(S.String),
           uri: S.optional(S.String),
           healthCheckFirewallState: S.optional(S.String),
-          healthCheckAllowingFirewallRules: S.optional(__S(1280, __c40, 0)),
-          healthCheckBlockingFirewallRules: S.optional(__S(1280, __c40, 0)),
+          healthCheckAllowingFirewallRules: S.optional(__S(1344, __c42, 0)),
+          healthCheckBlockingFirewallRules: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "LoadBalancerBackend" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1472, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           healthCheckUri: S.optional(S.String),
           loadBalancerType: S.optional(S.String),
-          backends: S.optional(__S(1441, __c45, 1)),
+          backends: S.optional(__S(1473, __c46, 1)),
           backendUri: S.optional(S.String),
           backendType: S.optional(S.String),
         }),
@@ -3773,7 +4043,7 @@ function __c45(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(1443, __c45, 3)),
+          resourceTypes: S.optional(__S(1475, __c46, 3)),
         }),
       ).annotate({ identifier: "ViewerPermissionMissingInfo" });
     case 5:
@@ -3798,7 +4068,7 @@ function __c45(j: number): any {
           policyUri: S.optional(S.String),
           firewallRuleType: S.optional(S.String),
           policy: S.optional(S.String),
-          targetTags: S.optional(__S(1280, __c40, 0)),
+          targetTags: S.optional(__S(1344, __c42, 0)),
           direction: S.optional(S.String),
           targetType: S.optional(S.String),
           priority: S.optional(S.Number),
@@ -3807,7 +4077,7 @@ function __c45(j: number): any {
           uri: S.optional(S.String),
           action: S.optional(S.String),
           policyPriority: S.optional(S.Number),
-          targetServiceAccounts: S.optional(__S(1280, __c40, 0)),
+          targetServiceAccounts: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "FirewallInfo" });
     case 7:
@@ -3910,71 +4180,71 @@ function __c45(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          cloudRunJob: S.optional(__S(1416, __c44, 8)),
-          endpoint: S.optional(__S(1408, __c44, 0)),
-          forward: S.optional(__S(1417, __c44, 9)),
-          vpnGateway: S.optional(__S(1418, __c44, 10)),
+          cloudRunJob: S.optional(__S(1448, __c45, 8)),
+          endpoint: S.optional(__S(1440, __c45, 0)),
+          forward: S.optional(__S(1449, __c45, 9)),
+          vpnGateway: S.optional(__S(1450, __c45, 10)),
           projectId: S.optional(S.String),
-          redisInstance: S.optional(__S(1419, __c44, 11)),
+          redisInstance: S.optional(__S(1451, __c45, 11)),
           state: S.optional(S.String),
-          redisCluster: S.optional(__S(1420, __c44, 12)),
-          datastreamPrivateConnection: S.optional(__S(1421, __c44, 13)),
-          instance: S.optional(__S(1422, __c44, 14)),
+          redisCluster: S.optional(__S(1452, __c45, 12)),
+          datastreamPrivateConnection: S.optional(__S(1453, __c45, 13)),
+          instance: S.optional(__S(1454, __c45, 14)),
           causesDrop: S.optional(S.Boolean),
-          storageBucket: S.optional(__S(1423, __c44, 15)),
-          drop: S.optional(__S(1424, __c44, 16)),
-          cloudFunction: S.optional(__S(1425, __c44, 17)),
-          gkeMaster: S.optional(__S(1426, __c44, 18)),
-          gkeNetworkPolicy: S.optional(__S(1427, __c44, 19)),
-          cloudSqlInstance: S.optional(__S(1428, __c44, 20)),
-          deliver: S.optional(__S(1429, __c44, 21)),
-          forwardingRule: S.optional(__S(1430, __c44, 22)),
-          vpcConnector: S.optional(__S(1416, __c44, 8)),
-          gkePod: S.optional(__S(1431, __c44, 23)),
-          cloudRunRevision: S.optional(__S(1432, __c44, 24)),
-          ngfwPacketInspection: S.optional(__S(1433, __c44, 25)),
-          serverlessExternalConnection: S.optional(__S(1434, __c44, 26)),
-          route: S.optional(__S(1435, __c44, 27)),
-          ipMasqueradingSkipped: S.optional(__S(1436, __c44, 28)),
-          abort: S.optional(__S(1437, __c44, 29)),
-          serverlessNeg: S.optional(__S(1438, __c44, 30)),
-          vpnTunnel: S.optional(__S(1439, __c44, 31)),
-          loadBalancer: S.optional(__S(1442, __c45, 2)),
-          viewerPermissionMissingInfo: S.optional(__S(1444, __c45, 4)),
-          proxyConnection: S.optional(__S(1445, __c45, 5)),
+          storageBucket: S.optional(__S(1455, __c45, 15)),
+          drop: S.optional(__S(1456, __c45, 16)),
+          cloudFunction: S.optional(__S(1457, __c45, 17)),
+          gkeMaster: S.optional(__S(1458, __c45, 18)),
+          gkeNetworkPolicy: S.optional(__S(1459, __c45, 19)),
+          cloudSqlInstance: S.optional(__S(1460, __c45, 20)),
+          deliver: S.optional(__S(1461, __c45, 21)),
+          forwardingRule: S.optional(__S(1462, __c45, 22)),
+          vpcConnector: S.optional(__S(1448, __c45, 8)),
+          gkePod: S.optional(__S(1463, __c45, 23)),
+          cloudRunRevision: S.optional(__S(1464, __c45, 24)),
+          ngfwPacketInspection: S.optional(__S(1465, __c45, 25)),
+          serverlessExternalConnection: S.optional(__S(1466, __c45, 26)),
+          route: S.optional(__S(1467, __c45, 27)),
+          ipMasqueradingSkipped: S.optional(__S(1468, __c45, 28)),
+          abort: S.optional(__S(1469, __c45, 29)),
+          serverlessNeg: S.optional(__S(1470, __c45, 30)),
+          vpnTunnel: S.optional(__S(1471, __c45, 31)),
+          loadBalancer: S.optional(__S(1474, __c46, 2)),
+          viewerPermissionMissingInfo: S.optional(__S(1476, __c46, 4)),
+          proxyConnection: S.optional(__S(1477, __c46, 5)),
           description: S.optional(S.String),
-          firewall: S.optional(__S(1446, __c45, 6)),
-          network: S.optional(__S(1447, __c45, 7)),
-          gkeNetworkPolicySkipped: S.optional(__S(1448, __c45, 8)),
-          directVpcEgressConnection: S.optional(__S(1449, __c45, 9)),
-          googleService: S.optional(__S(1450, __c45, 10)),
-          nat: S.optional(__S(1451, __c45, 11)),
-          hybridSubnet: S.optional(__S(1452, __c45, 12)),
-          interconnectAttachment: S.optional(__S(1453, __c45, 13)),
-          appEngineVersion: S.optional(__S(1454, __c45, 14)),
-          loadBalancerBackendInfo: S.optional(__S(1455, __c45, 15)),
-          dmsPrivateConnection: S.optional(__S(1421, __c44, 13)),
+          firewall: S.optional(__S(1478, __c46, 6)),
+          network: S.optional(__S(1479, __c46, 7)),
+          gkeNetworkPolicySkipped: S.optional(__S(1480, __c46, 8)),
+          directVpcEgressConnection: S.optional(__S(1481, __c46, 9)),
+          googleService: S.optional(__S(1482, __c46, 10)),
+          nat: S.optional(__S(1483, __c46, 11)),
+          hybridSubnet: S.optional(__S(1484, __c46, 12)),
+          interconnectAttachment: S.optional(__S(1485, __c46, 13)),
+          appEngineVersion: S.optional(__S(1486, __c46, 14)),
+          loadBalancerBackendInfo: S.optional(__S(1487, __c46, 15)),
+          dmsPrivateConnection: S.optional(__S(1453, __c45, 13)),
         }),
       ).annotate({ identifier: "Step" });
     case 17:
-      return S.Array(__S(1456, __c45, 16));
+      return S.Array(__S(1488, __c46, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           forwardTraceId: S.optional(S.Number),
-          endpointInfo: S.optional(__S(1408, __c44, 0)),
-          steps: S.optional(__S(1457, __c45, 17)),
+          endpointInfo: S.optional(__S(1440, __c45, 0)),
+          steps: S.optional(__S(1489, __c46, 17)),
         }),
       ).annotate({ identifier: "Trace" });
     case 19:
-      return S.Array(__S(1458, __c45, 18));
+      return S.Array(__S(1490, __c46, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
           verifyTime: S.optional(S.String),
           result: S.optional(S.String),
-          traces: S.optional(__S(1459, __c45, 19)),
-          error: S.optional(__S(1217, __c38, 1)),
+          traces: S.optional(__S(1491, __c46, 19)),
+          error: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "ReachabilityDetails" });
     case 21:
@@ -3994,14 +4264,14 @@ function __c45(j: number): any {
           datastreamPrivateConnection: S.optional(S.String),
           loadBalancerType: S.optional(S.String),
           projectId: S.optional(S.String),
-          cloudFunction: S.optional(__S(1421, __c44, 13)),
-          cloudRunRevision: S.optional(__S(1461, __c45, 21)),
+          cloudFunction: S.optional(__S(1453, __c45, 13)),
+          cloudRunRevision: S.optional(__S(1493, __c46, 21)),
           dmsPrivateConnection: S.optional(S.String),
           port: S.optional(S.Number),
           cloudSqlInstance: S.optional(S.String),
           gkePod: S.optional(S.String),
           instance: S.optional(S.String),
-          appEngineVersion: S.optional(__S(1421, __c44, 13)),
+          appEngineVersion: S.optional(__S(1453, __c45, 13)),
           cloudRunJob: S.optional(S.String),
           redisInstance: S.optional(S.String),
           forwardingRuleTarget: S.optional(S.String),
@@ -4011,36 +4281,33 @@ function __c45(j: number): any {
           fqdn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Endpoint" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          probingDetails: S.optional(__S(1415, __c44, 7)),
-          returnReachabilityDetails: S.optional(__S(1460, __c45, 20)),
-          reachabilityDetails: S.optional(__S(1460, __c45, 20)),
-          relatedProjects: S.optional(__S(1280, __c40, 0)),
-          description: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          roundTrip: S.optional(S.Boolean),
-          source: S.optional(__S(1462, __c45, 22)),
-          name: S.optional(S.String),
-          bypassFirewallChecks: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(1312, __c41, 0)),
-          destination: S.optional(__S(1462, __c45, 22)),
-          protocol: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectivityTest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           vpcFlowLogsConfigId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
+          subnet: S.optional(S.String),
+          interconnectAttachment: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          connectionLogging: S.optional(S.String),
+          metadataFields: S.optional(__S(1344, __c42, 0)),
+          filterExpr: S.optional(S.String),
+          network: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          vpnTunnel: S.optional(S.String),
+          createTime: S.optional(S.String),
+          flowSampling: S.optional(S.Number),
+          aggregationInterval: S.optional(S.String),
+          labels: S.optional(__S(1376, __c43, 0)),
+          targetResourceState: S.optional(S.String),
+          metadata: S.optional(S.String),
+          crossProjectMetadata: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4051,7 +4318,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsVpcFlowLogsConfigsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

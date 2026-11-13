@@ -89,20 +89,15 @@ export interface AssetList {
   /** Required. A list of asset IDs */
   assetIds?: StringList | undefined;
 }
-/** A request to add assets to a group. */
-export interface AddAssetsToGroupRequest {
+export interface AddAssetsProjectsLocationsGroupsRequest {
+  /** Required. Group reference. */
+  group: string;
   /** Optional. When this value is set to `false` and one of the given assets is already an existing member of the group, the operation fails with an `Already Exists` error. When set to `true` this situation is silently ignored by the server. Default value is `false`. */
   allowExisting?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. List of assets to be added. The maximum number of assets that can be added in a single request is 2000. */
   assets?: AssetList | undefined;
-}
-export interface AddAssetsProjectsLocationsGroupsRequest {
-  /** Required. Group reference. */
-  group: string;
-  /** Request body */
-  body?: AddAssetsToGroupRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -154,20 +149,15 @@ export interface Aggregation {
   histogram?: AggregationHistogram | undefined;
 }
 export type AggregationList = Array<Aggregation>;
-/** A request to aggregate one or more values. */
-export interface AggregateAssetsValuesRequest {
+export interface AggregateValuesProjectsLocationsAssetsRequest {
+  /** Required. Parent value for `AggregateAssetsValuesRequest`. */
+  parent: string;
   /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
   showHidden?: boolean | undefined;
   /** Optional. The aggregation will be performed on assets that match the provided filter. */
   filter?: string | undefined;
   /** Array of aggregations to perform. Up to 25 aggregations can be defined. */
   aggregations?: AggregationList | undefined;
-}
-export interface AggregateValuesProjectsLocationsAssetsRequest {
-  /** Required. Parent value for `AggregateAssetsValuesRequest`. */
-  parent: string;
-  /** Request body */
-  body?: AggregateAssetsValuesRequest | undefined;
 }
 /** A histogram bucket with a lower and upper bound, and a count of items with a field value between those bounds. The lower bound is inclusive and the upper bound is exclusive. Lower bound may be -infinity and upper bound may be infinity. */
 export interface AggregationResultHistogramBucket {
@@ -219,20 +209,15 @@ export interface CascadingRule {
   cascadeLogicalDbs?: AggregationCount | undefined;
 }
 export type CascadingRuleList = Array<CascadingRule>;
-/** A request to delete a list of asset. */
-export interface BatchDeleteAssetsRequest {
+export interface BatchDeleteProjectsLocationsAssetsRequest {
+  /** Required. Parent value for batch asset delete. */
+  parent: string;
   /** Optional. When this value is set to `true` the request is a no-op for non-existing assets. See https://google.aip.dev/135#delete-if-existing for additional details. Default value is `false`. */
   allowMissing?: boolean | undefined;
   /** Optional. Optional cascading rules for deleting related assets. */
   cascadingRules?: CascadingRuleList | undefined;
   /** Required. The IDs of the assets to delete. A maximum of 1000 assets can be deleted in a batch. Format: projects/{project}/locations/{location}/assets/{name}. */
   names?: StringList | undefined;
-}
-export interface BatchDeleteProjectsLocationsAssetsRequest {
-  /** Required. Parent value for batch asset delete. */
-  parent: string;
-  /** Request body */
-  body?: BatchDeleteAssetsRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -1727,16 +1712,11 @@ export interface UpdateAssetRequest {
   updateMask?: string | undefined;
 }
 export type UpdateAssetRequestList = Array<UpdateAssetRequest>;
-/** A request to update a list of assets. */
-export interface BatchUpdateAssetsRequest {
-  /** Required. The request message specifying the resources to update. A maximum of 1000 assets can be modified in a batch. */
-  requests?: UpdateAssetRequestList | undefined;
-}
 export interface BatchUpdateProjectsLocationsAssetsRequest {
   /** Required. Parent value for batch asset update. */
   parent: string;
-  /** Request body */
-  body?: BatchUpdateAssetsRequest | undefined;
+  /** Required. The request message specifying the resources to update. A maximum of 1000 assets can be modified in a batch. */
+  requests?: UpdateAssetRequestList | undefined;
 }
 export type AssetList_ = Array<Asset>;
 /** Response for updating a list of assets. */
@@ -1839,8 +1819,13 @@ export interface SignedUriDestination {
   /** Required. The file format to export. */
   fileFormat?: SignedUriDestinationFileFormatEnum | (string & {}) | undefined;
 }
-/** Assets export job message. */
-export interface AssetsExportJob {
+export interface CreateProjectsLocationsAssetsExportJobsRequest {
+  /** Required. The parent resource where the assts export job will be created. */
+  parent: string;
+  /** Required. The ID to use for the asset export job. */
+  assetsExportJobId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. Resource update time. */
   updateTime?: string | undefined;
   /** Export asset inventory details. */
@@ -1864,16 +1849,6 @@ export interface AssetsExportJob {
   /** Optional. Labels as key value pairs. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
   labels?: StringMap | undefined;
 }
-export interface CreateProjectsLocationsAssetsExportJobsRequest {
-  /** Required. The parent resource where the assts export job will be created. */
-  parent: string;
-  /** Required. The ID to use for the asset export job. */
-  assetsExportJobId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: AssetsExportJob | undefined;
-}
 export type StatusList = Array<Status>;
 /** Discovery client recommended version. */
 export interface DiscoveryClientDiscoveryClientRecommendedVersion {
@@ -1890,8 +1865,13 @@ export type DiscoveryClientStateEnum =
   | "OFFLINE"
   | "DEGRADED"
   | "EXPIRED";
-/** Represents an installed Migration Center Discovery Client instance. */
-export interface DiscoveryClient {
+export interface CreateProjectsLocationsDiscoveryClientsRequest {
+  /** Required. Parent resource. */
+  parent: string;
+  /** Required. User specified ID for the discovery client. It will become the last component of the discovery client name. The ID must be unique within the project, is restricted to lower-cased letters and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  discoveryClientId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. Service account used by the discovery client for various operation. */
   serviceAccount?: string | undefined;
   /** Output only. Identifier. Full name of this discovery client. */
@@ -1925,18 +1905,13 @@ export interface DiscoveryClient {
   /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
   updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsDiscoveryClientsRequest {
-  /** Required. Parent resource. */
-  parent: string;
-  /** Required. User specified ID for the discovery client. It will become the last component of the discovery client name. The ID must be unique within the project, is restricted to lower-cased letters and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  discoveryClientId?: string | undefined;
+export interface CreateProjectsLocationsGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DiscoveryClient | undefined;
-}
-/** A resource that represents an asset group. The purpose of an asset group is to bundle a set of assets that have something in common, while allowing users to add annotations to the group. An asset can belong to multiple groups. */
-export interface Group {
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. User specified ID for the group. It will become the last component of the group name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  groupId?: string | undefined;
   /** Output only. The timestamp when the group was created. */
   createTime?: string | undefined;
   /** Output only. The timestamp when the group was last updated. */
@@ -1949,16 +1924,6 @@ export interface Group {
   name?: string | undefined;
   /** Labels as key value pairs. */
   labels?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsGroupsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Required. User specified ID for the group. It will become the last component of the group name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  groupId?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
 }
 /** Error details for a CSV file. */
 export interface ImportRowErrorCsvErrorDetails {
@@ -2087,8 +2052,13 @@ export interface InlinePayloadInfo {
   /** List of payload files. */
   payload?: PayloadFileList | undefined;
 }
-/** A resource that represents the background job that imports asset frames. */
-export interface ImportJob {
+export interface CreateProjectsLocationsImportJobsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. ID of the import job. */
+  importJobId?: string | undefined;
   /** Output only. The full name of the import job. */
   name?: string | undefined;
   /** Output only. The timestamp when the import job was last updated. */
@@ -2114,16 +2084,6 @@ export interface ImportJob {
   /** User-friendly display name. Maximum length is 63 characters. */
   displayName?: string | undefined;
 }
-export interface CreateProjectsLocationsImportJobsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Required. ID of the import job. */
-  importJobId?: string | undefined;
-  /** Request body */
-  body?: ImportJob | undefined;
-}
 export type ImportDataFileStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
 /** A resource that contains a URI to which a data file can be uploaded. */
 export interface UploadFileInfo {
@@ -2143,8 +2103,13 @@ export type ImportDataFileFormatEnum =
   | "IMPORT_JOB_FORMAT_EXPORTED_AZURE_CSV"
   | "IMPORT_JOB_FORMAT_MANUAL_CSV"
   | "IMPORT_JOB_FORMAT_DATABASE_ZIP";
-/** A resource that represents a payload file in an import job. */
-export interface ImportDataFile {
+export interface CreateProjectsLocationsImportJobsImportDataFilesRequest {
+  /** Required. The ID of the new data file. */
+  importDataFileId?: string | undefined;
+  /** Required. Name of the parent of the ImportDataFile. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. The timestamp when the file was created. */
   createTime?: string | undefined;
   /** Output only. The state of the import data file. */
@@ -2157,16 +2122,6 @@ export interface ImportDataFile {
   format?: ImportDataFileFormatEnum | (string & {}) | undefined;
   /** Optional. User-friendly display name. Maximum length is 256 characters. */
   displayName?: string | undefined;
-}
-export interface CreateProjectsLocationsImportJobsImportDataFilesRequest {
-  /** Required. The ID of the new data file. */
-  importDataFileId?: string | undefined;
-  /** Required. Name of the parent of the ImportDataFile. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: ImportDataFile | undefined;
 }
 export type DatabasePreferencesCloudSqlCommonSizingOptimizationStrategyEnum =
   | "SIZING_OPTIMIZATION_STRATEGY_UNSPECIFIED"
@@ -2504,8 +2459,12 @@ export interface VirtualMachinePreferences {
   /** Target product for assets using this preference set. Specify either target product or business goal, but not both. */
   targetProduct?: VirtualMachinePreferencesTargetProductEnum | (string & {}) | undefined;
 }
-/** The preferences that apply to all assets in a given context. */
-export interface PreferenceSet {
+export interface CreateProjectsLocationsPreferenceSetsRequest {
+  preferenceSetId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
   /** Optional. A set of preferences that applies to all databases in the context. */
   databasePreferences?: DatabasePreferences | undefined;
   /** A description of the preference set. */
@@ -2523,15 +2482,6 @@ export interface PreferenceSet {
   /** Optional. Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If unspecified, VirtualMachinePreferences.RegionPreferences is used. */
   regionPreferences?: RegionPreferences | undefined;
 }
-export interface CreateProjectsLocationsPreferenceSetsRequest {
-  preferenceSetId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Request body */
-  body?: PreferenceSet | undefined;
-}
 /** Represents a combination of a group with a preference set. */
 export interface ReportConfigGroupPreferenceSetAssignment {
   /** Required. Name of the Preference Set. */
@@ -2541,8 +2491,13 @@ export interface ReportConfigGroupPreferenceSetAssignment {
 }
 export type ReportConfigGroupPreferenceSetAssignmentList =
   Array<ReportConfigGroupPreferenceSetAssignment>;
-/** The groups and associated preference sets on which we can generate reports. */
-export interface ReportConfig {
+export interface CreateProjectsLocationsReportConfigsRequest {
+  /** Required. User specified ID for the report config. It will become the last component of the report config name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  reportConfigId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
   /** Free-text description. */
   description?: string | undefined;
   /** User-friendly display name. Maximum length is 63 characters. */
@@ -2555,16 +2510,6 @@ export interface ReportConfig {
   updateTime?: string | undefined;
   /** Output only. Name of resource. */
   name?: string | undefined;
-}
-export interface CreateProjectsLocationsReportConfigsRequest {
-  /** Required. User specified ID for the report config. It will become the last component of the report config name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  reportConfigId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Request body */
-  body?: ReportConfig | undefined;
 }
 export type ReportTypeEnum = "TYPE_UNSPECIFIED" | "TOTAL_COST_OF_OWNERSHIP";
 /** Utilization Chart is a specific type of visualization which displays a metric classified into "Used" and "Free" buckets. */
@@ -2653,6 +2598,25 @@ export interface Money {
   currencyCode?: string | undefined;
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
   nanos?: number | undefined;
+}
+/** The preferences that apply to all assets in a given context. */
+export interface PreferenceSet {
+  /** Optional. A set of preferences that applies to all databases in the context. */
+  databasePreferences?: DatabasePreferences | undefined;
+  /** A description of the preference set. */
+  description?: string | undefined;
+  /** A set of preferences that applies to all virtual machines in the context. */
+  virtualMachinePreferences?: VirtualMachinePreferences | undefined;
+  /** Output only. Name of the PreferenceSet. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the preference set was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the preference set was last updated. */
+  updateTime?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Optional. Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If unspecified, VirtualMachinePreferences.RegionPreferences is used. */
+  regionPreferences?: RegionPreferences | undefined;
 }
 /** A VMWare Engine Node */
 export interface ReportSummaryVMWareNode {
@@ -2820,8 +2784,13 @@ export interface ReportSummary {
   virtualMachineStats?: ReportSummaryAssetAggregateStats | undefined;
 }
 export type ReportStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "SUCCEEDED" | "FAILED";
-/** Report represents a point-in-time rendering of the ReportConfig results. */
-export interface Report {
+export interface CreateProjectsLocationsReportConfigsReportsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. User specified id for the report. It will become the last component of the report name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  reportId?: string | undefined;
   /** Report type. */
   type?: ReportTypeEnum | (string & {}) | undefined;
   /** Free-text description. */
@@ -2838,16 +2807,6 @@ export interface Report {
   state?: ReportStateEnum | (string & {}) | undefined;
   /** User-friendly display name. Maximum length is 63 characters. */
   displayName?: string | undefined;
-}
-export interface CreateProjectsLocationsReportConfigsReportsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Required. User specified id for the report. It will become the last component of the report name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  reportId?: string | undefined;
-  /** Request body */
-  body?: Report | undefined;
 }
 /** Contains the result of the report export. */
 export interface ReportExportExecutionResult {
@@ -2874,15 +2833,6 @@ export interface ReportExportExecution {
   startTime?: string | undefined;
 }
 export type ReportExportExecutionList = Array<ReportExportExecution>;
-/** Report export job message. */
-export interface ReportExportJob {
-  /** Output only. Recent not expired executions of the export report job. */
-  recentExecutions?: ReportExportExecutionList | undefined;
-  /** Export with a SignedUri. */
-  signedUriDestination?: SignedUriDestination | undefined;
-  /** Output only. Identifier. Resource name. */
-  name?: string | undefined;
-}
 export interface CreateProjectsLocationsReportConfigsReportsReportExportJobsRequest {
   /** Required. The ID to use for the report export job. */
   reportExportJobId?: string | undefined;
@@ -2890,8 +2840,12 @@ export interface CreateProjectsLocationsReportConfigsReportsReportExportJobsRequ
   requestId?: string | undefined;
   /** Required. The parent resource where this export job will be created. */
   parent: string;
-  /** Request body */
-  body?: ReportExportJob | undefined;
+  /** Output only. Recent not expired executions of the export report job. */
+  recentExecutions?: ReportExportExecutionList | undefined;
+  /** Export with a SignedUri. */
+  signedUriDestination?: SignedUriDestination | undefined;
+  /** Output only. Identifier. Resource name. */
+  name?: string | undefined;
 }
 export type SourceTypeEnum =
   | "SOURCE_TYPE_UNKNOWN"
@@ -2901,8 +2855,13 @@ export type SourceTypeEnum =
   | "SOURCE_TYPE_CUSTOM"
   | "SOURCE_TYPE_DISCOVERY_CLIENT";
 export type SourceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETING" | "INVALID";
-/** Source represents an object from which asset information is streamed to Migration Center. */
-export interface Source {
+export interface CreateProjectsLocationsSourcesRequest {
+  /** Required. User specified ID for the source. It will become the last component of the source name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
+  sourceId?: string | undefined;
+  /** Required. Value for parent. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Output only. The number of frames that were reported by the source and contained errors. */
   errorFrameCount?: number | undefined;
   /** Output only. The full name of the source. */
@@ -2925,16 +2884,6 @@ export interface Source {
   updateTime?: string | undefined;
   /** If `true`, the source is managed by other service(s). */
   isManaged?: boolean | undefined;
-}
-export interface CreateProjectsLocationsSourcesRequest {
-  /** Required. User specified ID for the source. It will become the last component of the source name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  sourceId?: string | undefined;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
 }
 export interface DeleteProjectsLocationsAssetsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -3040,13 +2989,88 @@ export interface GetProjectsLocationsAssetsExportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
 }
+/** Assets export job message. */
+export interface AssetsExportJob {
+  /** Output only. Resource update time. */
+  updateTime?: string | undefined;
+  /** Export asset inventory details. */
+  inventory?: AggregationCount | undefined;
+  /** Output only. Identifier. Resource name. */
+  name?: string | undefined;
+  /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
+  showHidden?: boolean | undefined;
+  /** Export data regarding asset network dependencies. */
+  networkDependencies?: AggregationCount | undefined;
+  /** Export asset with performance data. */
+  performanceData?: AssetsExportJobPerformanceData | undefined;
+  /** Output only. Recent non expired executions of the job. */
+  recentExecutions?: AssetsExportJobExecutionList | undefined;
+  /** Output only. Resource creation time. */
+  createTime?: string | undefined;
+  /** Optional. Conditions for selecting assets to export. */
+  condition?: AssetsExportJobExportCondition | undefined;
+  /** Export to Cloud Storage files downloadable using signed URIs. */
+  signedUriDestination?: SignedUriDestination | undefined;
+  /** Optional. Labels as key value pairs. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
+  labels?: StringMap | undefined;
+}
 export interface GetProjectsLocationsDiscoveryClientsRequest {
   /** Required. The discovery client name. */
   name: string;
 }
+/** Represents an installed Migration Center Discovery Client instance. */
+export interface DiscoveryClient {
+  /** Required. Service account used by the discovery client for various operation. */
+  serviceAccount?: string | undefined;
+  /** Output only. Identifier. Full name of this discovery client. */
+  name?: string | undefined;
+  /** Output only. This field is intended for internal use. */
+  signalsEndpoint?: string | undefined;
+  /** Output only. Errors affecting client functionality. */
+  errors?: StatusList | undefined;
+  /** Output only. The recommended versions of the discovery client. */
+  recommendedVersions?: DiscoveryClientDiscoveryClientRecommendedVersionList | undefined;
+  /** Optional. Free text display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Required. Full name of the source object associated with this discovery client. */
+  source?: string | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the discovery client was first created. */
+  createTime?: string | undefined;
+  /** Optional. Client expiration time in UTC. If specified, the backend will not accept new frames after this time. */
+  expireTime?: string | undefined;
+  /** Output only. Current state of the discovery client. */
+  state?: DiscoveryClientStateEnum | undefined;
+  /** Output only. Last heartbeat time. Healthy clients are expected to send heartbeats regularly (normally every few minutes). */
+  heartbeatTime?: string | undefined;
+  /** Output only. Client version, as reported in recent heartbeat. */
+  version?: string | undefined;
+  /** Optional. Free text description. Maximum length is 1000 characters. */
+  description?: string | undefined;
+  /** Optional. Input only. Client time-to-live. If specified, the backend will not accept new frames after this time. This field is input only. The derived expiration time is provided as output through the `expire_time` field. */
+  ttl?: string | undefined;
+  /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
+  updateTime?: string | undefined;
+}
 export interface GetProjectsLocationsGroupsRequest {
   /** Required. Name of the resource. */
   name: string;
+}
+/** A resource that represents an asset group. The purpose of an asset group is to bundle a set of assets that have something in common, while allowing users to add annotations to the group. An asset can belong to multiple groups. */
+export interface Group {
+  /** Output only. The timestamp when the group was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the group was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. User-friendly display name. */
+  displayName?: string | undefined;
+  /** Optional. The description of the group. */
+  description?: string | undefined;
+  /** Output only. The name of the group. */
+  name?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
 export type GetProjectsLocationsImportJobsViewEnum =
   | "IMPORT_JOB_VIEW_UNSPECIFIED"
@@ -3058,9 +3082,51 @@ export interface GetProjectsLocationsImportJobsRequest {
   /** Optional. The level of details of the import job. Default value is FULL. */
   view?: GetProjectsLocationsImportJobsViewEnum | (string & {}) | undefined;
 }
+/** A resource that represents the background job that imports asset frames. */
+export interface ImportJob {
+  /** Output only. The full name of the import job. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the import job was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The report with the validation results of the import job. */
+  validationReport?: ValidationReport | undefined;
+  /** Output only. The report with the results of running the import job. */
+  executionReport?: ExecutionReport | undefined;
+  /** Output only. The timestamp when the import job was completed. */
+  completeTime?: string | undefined;
+  /** Output only. The timestamp when the import job was created. */
+  createTime?: string | undefined;
+  /** Output only. The state of the import job. */
+  state?: ImportJobStateEnum | undefined;
+  /** The payload is in Google Cloud Storage. */
+  gcsPayload?: GCSPayloadInfo | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** The payload is included in the request, mainly used for small import jobs. */
+  inlinePayload?: InlinePayloadInfo | undefined;
+  /** Required. Reference to a source. */
+  assetSource?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+}
 export interface GetProjectsLocationsImportJobsImportDataFilesRequest {
   /** Required. Name of the ImportDataFile. */
   name: string;
+}
+/** A resource that represents a payload file in an import job. */
+export interface ImportDataFile {
+  /** Output only. The timestamp when the file was created. */
+  createTime?: string | undefined;
+  /** Output only. The state of the import data file. */
+  state?: ImportDataFileStateEnum | undefined;
+  /** Information about a file that is uploaded to a storage service. */
+  uploadFileInfo?: UploadFileInfo | undefined;
+  /** Output only. The name of the file. */
+  name?: string | undefined;
+  /** Required. The payload format. */
+  format?: ImportDataFileFormatEnum | undefined;
+  /** Optional. User-friendly display name. Maximum length is 256 characters. */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -3095,6 +3161,21 @@ export interface GetProjectsLocationsReportConfigsRequest {
   /** Required. Name of the resource. */
   name: string;
 }
+/** The groups and associated preference sets on which we can generate reports. */
+export interface ReportConfig {
+  /** Free-text description. */
+  description?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Required. Collection of combinations of groups and preference sets. */
+  groupPreferencesetAssignments?: ReportConfigGroupPreferenceSetAssignmentList | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the resource was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Name of resource. */
+  name?: string | undefined;
+}
 export type GetProjectsLocationsReportConfigsReportsViewEnum =
   | "REPORT_VIEW_UNSPECIFIED"
   | "REPORT_VIEW_BASIC"
@@ -3106,13 +3187,66 @@ export interface GetProjectsLocationsReportConfigsReportsRequest {
   /** Determines what information to retrieve for the Report. */
   view?: GetProjectsLocationsReportConfigsReportsViewEnum | (string & {}) | undefined;
 }
+/** Report represents a point-in-time rendering of the ReportConfig results. */
+export interface Report {
+  /** Report type. */
+  type?: ReportTypeEnum | undefined;
+  /** Free-text description. */
+  description?: string | undefined;
+  /** Output only. Creation timestamp. */
+  createTime?: string | undefined;
+  /** Output only. Last update timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. Name of resource. */
+  name?: string | undefined;
+  /** Output only. Summary view of the Report. */
+  summary?: ReportSummary | undefined;
+  /** Report creation state. */
+  state?: ReportStateEnum | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+}
 export interface GetProjectsLocationsReportConfigsReportsReportExportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
 }
+/** Report export job message. */
+export interface ReportExportJob {
+  /** Output only. Recent not expired executions of the export report job. */
+  recentExecutions?: ReportExportExecutionList | undefined;
+  /** Export with a SignedUri. */
+  signedUriDestination?: SignedUriDestination | undefined;
+  /** Output only. Identifier. Resource name. */
+  name?: string | undefined;
+}
 export interface GetProjectsLocationsSourcesRequest {
   /** Required. Name of the resource. */
   name: string;
+}
+/** Source represents an object from which asset information is streamed to Migration Center. */
+export interface Source {
+  /** Output only. The number of frames that were reported by the source and contained errors. */
+  errorFrameCount?: number | undefined;
+  /** Output only. The full name of the source. */
+  name?: string | undefined;
+  /** Free-text description. */
+  description?: string | undefined;
+  /** The information confidence of the source. The higher the value, the higher the confidence. */
+  priority?: number | undefined;
+  /** Output only. Number of frames that are still being processed. */
+  pendingFrameCount?: number | undefined;
+  /** User-friendly display name. */
+  displayName?: string | undefined;
+  /** Output only. The timestamp when the source was created. */
+  createTime?: string | undefined;
+  /** Data source type. */
+  type?: SourceTypeEnum | undefined;
+  /** Output only. The state of the source. */
+  state?: SourceStateEnum | undefined;
+  /** Output only. The timestamp when the source was last updated. */
+  updateTime?: string | undefined;
+  /** If `true`, the source is managed by other service(s). */
+  isManaged?: boolean | undefined;
 }
 export type GetProjectsLocationsSourcesErrorFramesViewEnum =
   | "ERROR_FRAME_VIEW_UNSPECIFIED"
@@ -3632,8 +3766,100 @@ export interface PatchProjectsLocationsAssetsRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Asset | undefined;
+  /** Output only. Asset information specific for logical databases. */
+  databaseDetails?: DatabaseDetails | undefined;
+  /** Output only. Asset information specific for AwsAthenaWorkGroupDetails */
+  awsAthenaWorkGroupDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS VPCs. */
+  awsVpcDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AwsRoute53HostedZoneDetails */
+  awsRoute53HostedZoneDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AwsEcrRepositoryDetails */
+  awsEcrRepositoryDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AwsFirehoseDetails */
+  awsFirehoseDetails?: AggregationCount | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Asset information specific for AWS EBS Volumes. */
+  awsEbsVolumeDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS S3 buckets. */
+  awsS3BucketDetails?: AwsS3BucketDetails | undefined;
+  /** Optional. Indicates if the asset is hidden. */
+  hidden?: boolean | undefined;
+  /** Output only. Asset information specific for AwsEmrClusterDetails */
+  awsEmrClusterDetails?: AggregationCount | undefined;
+  /** Performance data for the asset. */
+  performanceData?: AssetPerformanceData | undefined;
+  /** Output only. Asset information specific for AWS EFS file systems. */
+  awsEfsFileSystemDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS Elastic Network Interfaces. */
+  awsElasticNetworkInterfaceDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS Batch Compute Environments. */
+  awsBatchComputeEnvironmentDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for database deployments. */
+  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
+  /** Output only. The timestamp when the asset was created. */
+  createTime?: string | undefined;
+  /** Output only. Asset information specific for AWS Lambda functions. */
+  awsLambdaFunctionDetails?: AggregationCount | undefined;
+  /** Output only. Details about the hosting provider of the asset. */
+  hostingProviderDetails?: HostingProviderDetails | undefined;
+  /** Output only. Asset information specific for AWS Elastic IP Addresses. */
+  awsElasticIpAddressDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS Redshift */
+  awsRedshiftDetails?: AggregationCount | undefined;
+  /** Optional. Generic structured asset attributes. */
+  structuredAttributes?: DocumentMap | undefined;
+  /** Output only. Asset information specific for AWS Load Balancers. */
+  awsElbLoadBalancerDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AwsGlueJobDetails */
+  awsGlueJobDetails?: AggregationCount | undefined;
+  /** Output only. Server generated human readable name of the asset. */
+  title?: string | undefined;
+  /** Output only. Asset information specific for AWS Internet Gateways. */
+  awsInternetGatewayDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS CloudFront distributions. */
+  awsCloudFrontDistributionDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS Application Load Balancers. */
+  awsApplicationLoadBalancerDetails?: AggregationCount | undefined;
+  /** Optional. An optional reason for marking this asset as hidden. */
+  hideReason?: string | undefined;
+  /** Output only. Asset information specific for virtual machines. */
+  machineDetails?: MachineDetails | undefined;
+  /** Output only. The timestamp when the asset was marked as hidden. */
+  hideTime?: string | undefined;
+  /** Generic asset attributes. */
+  attributes?: StringMap | undefined;
+  /** Output only. The list of groups that the asset is assigned to. */
+  assignedGroups?: StringList | undefined;
+  /** Output only. Asset information specific for AWS EKS clusters. */
+  awsEksClusterDetails?: AggregationCount | undefined;
+  /** Output only. The list of insights associated with the asset. */
+  insightList?: InsightList | undefined;
+  /** Output only. Asset information specific for AwsNatGatewayDetails */
+  awsNatGatewayDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS DynamoDB tables. */
+  awsDynamodbTableDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS AppSync GraphQL APIs. */
+  awsAppSyncGraphqlApiDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for virtual machines. */
+  virtualMachineDetails?: VirtualMachineDetails | undefined;
+  /** Output only. Asset information specific for AWS API Gateway REST APIs. */
+  awsApiGatewayRestApiDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AwsAutoscalingGroupDetails */
+  awsAutoscalingGroupDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AwsKinesisStreamDetails */
+  awsKinesisStreamDetails?: AggregationCount | undefined;
+  /** Output only. The timestamp when the asset was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. Asset information specific for AWS ECS clusters. */
+  awsEcsClusterDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS SNS Topics. */
+  awsSnsTopicDetails?: AggregationCount | undefined;
+  /** Output only. Asset information specific for AWS ElastiCache Clusters. */
+  awsElasticacheClusterDetails?: AggregationCount | undefined;
+  /** Output only. The list of sources contributing to the asset. */
+  sources?: StringList | undefined;
 }
 export interface PatchProjectsLocationsDiscoveryClientsRequest {
   /** Required. Update mask is used to specify the fields to be overwritten in the `DiscoveryClient` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
@@ -3642,8 +3868,36 @@ export interface PatchProjectsLocationsDiscoveryClientsRequest {
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: DiscoveryClient | undefined;
+  /** Required. Service account used by the discovery client for various operation. */
+  serviceAccount?: string | undefined;
+  /** Output only. This field is intended for internal use. */
+  signalsEndpoint?: string | undefined;
+  /** Output only. Errors affecting client functionality. */
+  errors?: StatusList | undefined;
+  /** Output only. The recommended versions of the discovery client. */
+  recommendedVersions?: DiscoveryClientDiscoveryClientRecommendedVersionList | undefined;
+  /** Optional. Free text display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Required. Full name of the source object associated with this discovery client. */
+  source?: string | undefined;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Output only. Time when the discovery client was first created. */
+  createTime?: string | undefined;
+  /** Optional. Client expiration time in UTC. If specified, the backend will not accept new frames after this time. */
+  expireTime?: string | undefined;
+  /** Output only. Current state of the discovery client. */
+  state?: DiscoveryClientStateEnum | (string & {}) | undefined;
+  /** Output only. Last heartbeat time. Healthy clients are expected to send heartbeats regularly (normally every few minutes). */
+  heartbeatTime?: string | undefined;
+  /** Output only. Client version, as reported in recent heartbeat. */
+  version?: string | undefined;
+  /** Optional. Free text description. Maximum length is 1000 characters. */
+  description?: string | undefined;
+  /** Optional. Input only. Client time-to-live. If specified, the backend will not accept new frames after this time. This field is input only. The derived expiration time is provided as output through the `expire_time` field. */
+  ttl?: string | undefined;
+  /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
+  updateTime?: string | undefined;
 }
 export interface PatchProjectsLocationsGroupsRequest {
   /** Output only. The name of the group. */
@@ -3652,8 +3906,16 @@ export interface PatchProjectsLocationsGroupsRequest {
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Group` resource by the update. The values specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Group | undefined;
+  /** Output only. The timestamp when the group was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the group was last updated. */
+  updateTime?: string | undefined;
+  /** Optional. User-friendly display name. */
+  displayName?: string | undefined;
+  /** Optional. The description of the group. */
+  description?: string | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
 }
 export interface PatchProjectsLocationsImportJobsRequest {
   /** Output only. The full name of the import job. */
@@ -3662,8 +3924,28 @@ export interface PatchProjectsLocationsImportJobsRequest {
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: ImportJob | undefined;
+  /** Output only. The timestamp when the import job was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The report with the validation results of the import job. */
+  validationReport?: ValidationReport | undefined;
+  /** Output only. The report with the results of running the import job. */
+  executionReport?: ExecutionReport | undefined;
+  /** Output only. The timestamp when the import job was completed. */
+  completeTime?: string | undefined;
+  /** Output only. The timestamp when the import job was created. */
+  createTime?: string | undefined;
+  /** Output only. The state of the import job. */
+  state?: ImportJobStateEnum | (string & {}) | undefined;
+  /** The payload is in Google Cloud Storage. */
+  gcsPayload?: GCSPayloadInfo | undefined;
+  /** Labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** The payload is included in the request, mainly used for small import jobs. */
+  inlinePayload?: InlinePayloadInfo | undefined;
+  /** Required. Reference to a source. */
+  assetSource?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
 }
 export interface PatchProjectsLocationsPreferenceSetsRequest {
   /** Output only. Name of the PreferenceSet. */
@@ -3672,8 +3954,20 @@ export interface PatchProjectsLocationsPreferenceSetsRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: PreferenceSet | undefined;
+  /** Optional. A set of preferences that applies to all databases in the context. */
+  databasePreferences?: DatabasePreferences | undefined;
+  /** A description of the preference set. */
+  description?: string | undefined;
+  /** A set of preferences that applies to all virtual machines in the context. */
+  virtualMachinePreferences?: VirtualMachinePreferences | undefined;
+  /** Output only. The timestamp when the preference set was created. */
+  createTime?: string | undefined;
+  /** Output only. The timestamp when the preference set was last updated. */
+  updateTime?: string | undefined;
+  /** User-friendly display name. Maximum length is 63 characters. */
+  displayName?: string | undefined;
+  /** Optional. Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. If unspecified, VirtualMachinePreferences.RegionPreferences is used. */
+  regionPreferences?: RegionPreferences | undefined;
 }
 export interface PatchProjectsLocationsSourcesRequest {
   /** Output only. The full name of the source. */
@@ -3682,11 +3976,30 @@ export interface PatchProjectsLocationsSourcesRequest {
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Request body */
-  body?: Source | undefined;
+  /** Output only. The number of frames that were reported by the source and contained errors. */
+  errorFrameCount?: number | undefined;
+  /** Free-text description. */
+  description?: string | undefined;
+  /** The information confidence of the source. The higher the value, the higher the confidence. */
+  priority?: number | undefined;
+  /** Output only. Number of frames that are still being processed. */
+  pendingFrameCount?: number | undefined;
+  /** User-friendly display name. */
+  displayName?: string | undefined;
+  /** Output only. The timestamp when the source was created. */
+  createTime?: string | undefined;
+  /** Data source type. */
+  type?: SourceTypeEnum | (string & {}) | undefined;
+  /** Output only. The state of the source. */
+  state?: SourceStateEnum | (string & {}) | undefined;
+  /** Output only. The timestamp when the source was last updated. */
+  updateTime?: string | undefined;
+  /** If `true`, the source is managed by other service(s). */
+  isManaged?: boolean | undefined;
 }
-/** A request to remove assets from a group. */
-export interface RemoveAssetsFromGroupRequest {
+export interface RemoveAssetsProjectsLocationsGroupsRequest {
+  /** Required. Group reference. */
+  group: string;
   /** Optional. When this value is set to `false` and one of the given assets is not an existing member of the group, the operation fails with a `Not Found` error. When set to `true` this situation is silently ignored by the server. Default value is `false`. */
   allowMissing?: boolean | undefined;
   /** Required. List of assets to be removed. The maximum number of assets that can be removed in a single request is 1000. */
@@ -3694,67 +4007,42 @@ export interface RemoveAssetsFromGroupRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
 }
-export interface RemoveAssetsProjectsLocationsGroupsRequest {
-  /** Required. Group reference. */
-  group: string;
-  /** Request body */
-  body?: RemoveAssetsFromGroupRequest | undefined;
-}
 export type AssetFrameList = Array<AssetFrame>;
-/** Collection of frame data. */
-export interface Frames {
-  /** A repeated field of asset data. */
-  framesData?: AssetFrameList | undefined;
-}
 export interface ReportAssetFramesProjectsLocationsAssetsRequest {
   /** Required. Parent of the resource. */
   parent: string;
   /** Required. Reference to a source. */
   source?: string | undefined;
-  /** Request body */
-  body?: Frames | undefined;
+  /** A repeated field of asset data. */
+  framesData?: AssetFrameList | undefined;
 }
 /** A response to a call to `ReportAssetFrame`. */
 export interface ReportAssetFramesResponse {}
-/** A request to run an assets export job. */
-export interface RunAssetsExportJobRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-}
 export interface RunProjectsLocationsAssetsExportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
-/** A request to run an import job. */
-export type RunImportJobRequest = RunAssetsExportJobRequest;
 export interface RunProjectsLocationsImportJobsRequest {
   /** Required. The name of the import job to run. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
-/** A request to run a report export job. */
-export type RunReportExportJobRequest = RunAssetsExportJobRequest;
 export interface RunProjectsLocationsReportConfigsReportsReportExportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
-}
-/** A request to send a discovery client heartbeat. */
-export interface SendDiscoveryClientHeartbeatRequest {
-  /** Optional. Errors affecting client functionality. */
-  errors?: StatusList | undefined;
-  /** Optional. Client application version. */
-  version?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface SendHeartbeatProjectsLocationsDiscoveryClientsRequest {
   /** Required. The discovery client name. */
   name: string;
-  /** Request body */
-  body?: SendDiscoveryClientHeartbeatRequest | undefined;
+  /** Optional. Errors affecting client functionality. */
+  errors?: StatusList | undefined;
+  /** Optional. Client application version. */
+  version?: string | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Settings` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
@@ -3763,16 +4051,18 @@ export interface UpdateSettingsProjectsLocationsRequest {
   requestId?: string | undefined;
   /** Output only. The name of the resource. */
   name: string;
-  /** Request body */
-  body?: Settings | undefined;
+  /** Customer consent for Google sales to access their Cloud Migration Center project. */
+  customerConsentForGoogleSalesToAccessMigrationCenter?: boolean | undefined;
+  /** Disable Cloud Logging for the Migration Center API. Users are billed for the logs. */
+  disableCloudLogging?: boolean | undefined;
+  /** The preference set used by default for a project. */
+  preferenceSet?: string | undefined;
 }
-/** A request to validate an import job. */
-export type ValidateImportJobRequest = RunAssetsExportJobRequest;
 export interface ValidateProjectsLocationsImportJobsRequest {
   /** Required. The name of the import job to validate. */
   name: string;
-  /** Request body */
-  body?: RunAssetsExportJobRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type AddAssetsProjectsLocationsGroupsError =
   | NotFound
@@ -3787,8 +4077,8 @@ export const addAssetsProjectsLocationsGroups: API.OperationMethod<
   AddAssetsProjectsLocationsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1313, __c41, 1) as any as S.Schema<AddAssetsProjectsLocationsGroupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(1440, __c45, 0) as any as S.Schema<AddAssetsProjectsLocationsGroupsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3809,8 +4099,8 @@ export const aggregateValuesProjectsLocationsAssets: API.OperationMethod<
   AggregateValuesProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1957, __c61, 5) as any as S.Schema<AggregateValuesProjectsLocationsAssetsRequest>,
-  output: __S(1965, __c61, 13) as any as S.Schema<AggregateAssetsValuesResponse>,
+  input: __S(2180, __c68, 4) as any as S.Schema<AggregateValuesProjectsLocationsAssetsRequest>,
+  output: __S(2188, __c68, 12) as any as S.Schema<AggregateAssetsValuesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3831,8 +4121,8 @@ export const batchDeleteProjectsLocationsAssets: API.OperationMethod<
   BatchDeleteProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2403, __c75, 3) as any as S.Schema<BatchDeleteProjectsLocationsAssetsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(2626, __c82, 2) as any as S.Schema<BatchDeleteProjectsLocationsAssetsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3853,8 +4143,8 @@ export const batchUpdateProjectsLocationsAssets: API.OperationMethod<
   BatchUpdateProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2755, __c86, 3) as any as S.Schema<BatchUpdateProjectsLocationsAssetsRequest>,
-  output: __S(2756, __c86, 4) as any as S.Schema<BatchUpdateAssetsResponse>,
+  input: __S(2978, __c93, 2) as any as S.Schema<BatchUpdateProjectsLocationsAssetsRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<BatchUpdateAssetsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3875,8 +4165,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(3392, __c106, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3897,8 +4187,8 @@ export const createProjectsLocationsAssetsExportJobs: API.OperationMethod<
   CreateProjectsLocationsAssetsExportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateProjectsLocationsAssetsExportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(3424, __c107, 0) as any as S.Schema<CreateProjectsLocationsAssetsExportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3920,7 +4210,7 @@ export const createProjectsLocationsDiscoveryClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsDiscoveryClientsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3942,7 +4232,7 @@ export const createProjectsLocationsGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateProjectsLocationsGroupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3963,8 +4253,8 @@ export const createProjectsLocationsImportJobs: API.OperationMethod<
   CreateProjectsLocationsImportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateProjectsLocationsImportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsLocationsImportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3986,11 +4276,11 @@ export const createProjectsLocationsImportJobsImportDataFiles: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
-    __c7,
+    192,
+    __c6,
     0,
   ) as any as S.Schema<CreateProjectsLocationsImportJobsImportDataFilesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4011,8 +4301,8 @@ export const createProjectsLocationsPreferenceSets: API.OperationMethod<
   CreateProjectsLocationsPreferenceSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<CreateProjectsLocationsPreferenceSetsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateProjectsLocationsPreferenceSetsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4033,8 +4323,8 @@ export const createProjectsLocationsReportConfigs: API.OperationMethod<
   CreateProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateProjectsLocationsReportConfigsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateProjectsLocationsReportConfigsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4055,8 +4345,8 @@ export const createProjectsLocationsReportConfigsReports: API.OperationMethod<
   CreateProjectsLocationsReportConfigsReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateProjectsLocationsReportConfigsReportsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateProjectsLocationsReportConfigsReportsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4082,7 +4372,7 @@ export const createProjectsLocationsReportConfigsReportsReportExportJobs: API.Op
     __c15,
     0,
   ) as any as S.Schema<CreateProjectsLocationsReportConfigsReportsReportExportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4104,7 +4394,7 @@ export const createProjectsLocationsSources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreateProjectsLocationsSourcesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4125,8 +4415,8 @@ export const deleteProjectsLocationsAssets: API.OperationMethod<
   DeleteProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsLocationsAssetsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsLocationsAssetsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4147,8 +4437,8 @@ export const deleteProjectsLocationsAssetsExportJobs: API.OperationMethod<
   DeleteProjectsLocationsAssetsExportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteProjectsLocationsAssetsExportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsLocationsAssetsExportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4169,8 +4459,8 @@ export const deleteProjectsLocationsDiscoveryClients: API.OperationMethod<
   DeleteProjectsLocationsDiscoveryClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteProjectsLocationsDiscoveryClientsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(640, __c20, 0) as any as S.Schema<DeleteProjectsLocationsDiscoveryClientsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4191,8 +4481,8 @@ export const deleteProjectsLocationsGroups: API.OperationMethod<
   DeleteProjectsLocationsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteProjectsLocationsGroupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteProjectsLocationsGroupsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4213,8 +4503,8 @@ export const deleteProjectsLocationsImportJobs: API.OperationMethod<
   DeleteProjectsLocationsImportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteProjectsLocationsImportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteProjectsLocationsImportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4236,11 +4526,11 @@ export const deleteProjectsLocationsImportJobsImportDataFiles: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c24,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsImportJobsImportDataFilesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4261,8 +4551,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4283,8 +4573,8 @@ export const deleteProjectsLocationsPreferenceSets: API.OperationMethod<
   DeleteProjectsLocationsPreferenceSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsLocationsPreferenceSetsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteProjectsLocationsPreferenceSetsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4305,8 +4595,8 @@ export const deleteProjectsLocationsReportConfigs: API.OperationMethod<
   DeleteProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsReportConfigsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsLocationsReportConfigsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4327,8 +4617,8 @@ export const deleteProjectsLocationsReportConfigsReports: API.OperationMethod<
   DeleteProjectsLocationsReportConfigsReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteProjectsLocationsReportConfigsReportsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsReportConfigsReportsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4350,11 +4640,11 @@ export const deleteProjectsLocationsReportConfigsReportsReportExportJobs: API.Op
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    928,
-    __c29,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsReportConfigsReportsReportExportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4375,8 +4665,8 @@ export const deleteProjectsLocationsSources: API.OperationMethod<
   DeleteProjectsLocationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteProjectsLocationsSourcesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteProjectsLocationsSourcesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4392,8 +4682,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(1024, __c32, 0) as any as S.Schema<Location>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4409,8 +4699,8 @@ export const getProjectsLocationsAssets: API.OperationMethod<
   GetProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsAssetsRequest>,
-  output: __S(2938, __c91, 26) as any as S.Schema<Asset>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsLocationsAssetsRequest>,
+  output: __S(3162, __c98, 26) as any as S.Schema<Asset>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4426,8 +4716,8 @@ export const getProjectsLocationsAssetsExportJobs: API.OperationMethod<
   GetProjectsLocationsAssetsExportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetProjectsLocationsAssetsExportJobsRequest>,
-  output: __S(3301, __c103, 5) as any as S.Schema<AssetsExportJob>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsLocationsAssetsExportJobsRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<AssetsExportJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4444,7 +4734,7 @@ export const getProjectsLocationsDiscoveryClients: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetProjectsLocationsDiscoveryClientsRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<DiscoveryClient>,
+  output: __S(1152, __c36, 0) as any as S.Schema<DiscoveryClient>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4460,8 +4750,8 @@ export const getProjectsLocationsGroups: API.OperationMethod<
   GetProjectsLocationsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetProjectsLocationsGroupsRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<Group>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetProjectsLocationsGroupsRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<Group>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4477,8 +4767,8 @@ export const getProjectsLocationsImportJobs: API.OperationMethod<
   GetProjectsLocationsImportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetProjectsLocationsImportJobsRequest>,
-  output: __S(207, __c6, 15) as any as S.Schema<ImportJob>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetProjectsLocationsImportJobsRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<ImportJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4495,11 +4785,11 @@ export const getProjectsLocationsImportJobsImportDataFiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1216,
-    __c38,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GetProjectsLocationsImportJobsImportDataFilesRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<ImportDataFile>,
+  output: __S(1344, __c42, 0) as any as S.Schema<ImportDataFile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4515,8 +4805,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GetProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4532,8 +4822,8 @@ export const getProjectsLocationsPreferenceSets: API.OperationMethod<
   GetProjectsLocationsPreferenceSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetProjectsLocationsPreferenceSetsRequest>,
-  output: __S(341, __c10, 21) as any as S.Schema<PreferenceSet>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsLocationsPreferenceSetsRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PreferenceSet>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4549,8 +4839,8 @@ export const getProjectsLocationsRelations: API.OperationMethod<
   GetProjectsLocationsRelationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsLocationsRelationsRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<Relation>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetProjectsLocationsRelationsRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<Relation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4566,8 +4856,8 @@ export const getProjectsLocationsReportConfigs: API.OperationMethod<
   GetProjectsLocationsReportConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsLocationsReportConfigsRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<ReportConfig>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetProjectsLocationsReportConfigsRequest>,
+  output: __S(1728, __c54, 0) as any as S.Schema<ReportConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4583,8 +4873,8 @@ export const getProjectsLocationsReportConfigsReports: API.OperationMethod<
   GetProjectsLocationsReportConfigsReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetProjectsLocationsReportConfigsReportsRequest>,
-  output: __S(474, __c14, 26) as any as S.Schema<Report>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetProjectsLocationsReportConfigsReportsRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<Report>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4604,11 +4894,11 @@ export const getProjectsLocationsReportConfigsReportsReportExportJobs: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1632,
-    __c51,
+    1824,
+    __c57,
     0,
   ) as any as S.Schema<GetProjectsLocationsReportConfigsReportsReportExportJobsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<ReportExportJob>,
+  output: __S(1856, __c58, 0) as any as S.Schema<ReportExportJob>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4624,8 +4914,8 @@ export const getProjectsLocationsSources: API.OperationMethod<
   GetProjectsLocationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetProjectsLocationsSourcesRequest>,
-  output: __S(576, __c18, 0) as any as S.Schema<Source>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetProjectsLocationsSourcesRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<Source>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4641,8 +4931,8 @@ export const getProjectsLocationsSourcesErrorFrames: API.OperationMethod<
   GetProjectsLocationsSourcesErrorFramesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetProjectsLocationsSourcesErrorFramesRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<ErrorFrame>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetProjectsLocationsSourcesErrorFramesRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<ErrorFrame>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4658,8 +4948,8 @@ export const getSettingsProjectsLocations: API.OperationMethod<
   GetSettingsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetSettingsProjectsLocationsRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<Settings>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetSettingsProjectsLocationsRequest>,
+  output: __S(2049, __c64, 1) as any as S.Schema<Settings>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4676,8 +4966,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4695,8 +4985,8 @@ export const listProjectsLocationsAssets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAssetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsAssetsRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<ListAssetsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsAssetsRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<ListAssetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4714,8 +5004,8 @@ export const listProjectsLocationsAssetsExportJobs: API.PaginatedOperationMethod
   GcpOpContext,
   ListAssetsExportJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsLocationsAssetsExportJobsRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<ListAssetsExportJobsResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListProjectsLocationsAssetsExportJobsRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ListAssetsExportJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4733,8 +5023,8 @@ export const listProjectsLocationsDiscoveryClients: API.PaginatedOperationMethod
   GcpOpContext,
   ListDiscoveryClientsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsLocationsDiscoveryClientsRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListDiscoveryClientsResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListProjectsLocationsDiscoveryClientsRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<ListDiscoveryClientsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4752,8 +5042,8 @@ export const listProjectsLocationsGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListGroupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListProjectsLocationsGroupsRequest>,
-  output: __S(2114, __c66, 2) as any as S.Schema<ListGroupsResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListProjectsLocationsGroupsRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<ListGroupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4771,8 +5061,8 @@ export const listProjectsLocationsImportJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListImportJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListProjectsLocationsImportJobsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListImportJobsResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListProjectsLocationsImportJobsRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<ListImportJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4791,11 +5081,11 @@ export const listProjectsLocationsImportJobsImportDataFiles: API.PaginatedOperat
   ListImportDataFilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2176,
-    __c68,
+    2400,
+    __c75,
     0,
   ) as any as S.Schema<ListProjectsLocationsImportJobsImportDataFilesRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<ListImportDataFilesResponse>,
+  output: __S(2402, __c75, 2) as any as S.Schema<ListImportDataFilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4813,8 +5103,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListProjectsLocationsOperationsRequest>,
+  output: __S(2434, __c76, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4832,8 +5122,8 @@ export const listProjectsLocationsPreferenceSets: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPreferenceSetsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListProjectsLocationsPreferenceSetsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListPreferenceSetsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListProjectsLocationsPreferenceSetsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<ListPreferenceSetsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4851,8 +5141,8 @@ export const listProjectsLocationsRelations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListRelationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListProjectsLocationsRelationsRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<ListRelationsResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListProjectsLocationsRelationsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<ListRelationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4870,8 +5160,8 @@ export const listProjectsLocationsReportConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListReportConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListProjectsLocationsReportConfigsRequest>,
-  output: __S(2306, __c72, 2) as any as S.Schema<ListReportConfigsResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListProjectsLocationsReportConfigsRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<ListReportConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4889,8 +5179,8 @@ export const listProjectsLocationsReportConfigsReports: API.PaginatedOperationMe
   GcpOpContext,
   ListReportsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListProjectsLocationsReportConfigsReportsRequest>,
-  output: __S(2338, __c73, 2) as any as S.Schema<ListReportsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListProjectsLocationsReportConfigsReportsRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<ListReportsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4912,11 +5202,11 @@ export const listProjectsLocationsReportConfigsReportsReportExportJobs: API.Pagi
   ListReportExportJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2368,
-    __c74,
+    2592,
+    __c81,
     0,
   ) as any as S.Schema<ListProjectsLocationsReportConfigsReportsReportExportJobsRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<ListReportExportJobsResponse>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ListReportExportJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4934,8 +5224,8 @@ export const listProjectsLocationsSources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListProjectsLocationsSourcesRequest>,
-  output: __S(2434, __c76, 2) as any as S.Schema<ListSourcesResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListProjectsLocationsSourcesRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<ListSourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4953,8 +5243,8 @@ export const listProjectsLocationsSourcesErrorFrames: API.PaginatedOperationMeth
   GcpOpContext,
   ListErrorFramesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListProjectsLocationsSourcesErrorFramesRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<ListErrorFramesResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListProjectsLocationsSourcesErrorFramesRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<ListErrorFramesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4976,8 +5266,8 @@ export const patchProjectsLocationsAssets: API.OperationMethod<
   PatchProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PatchProjectsLocationsAssetsRequest>,
-  output: __S(2938, __c91, 26) as any as S.Schema<Asset>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PatchProjectsLocationsAssetsRequest>,
+  output: __S(3162, __c98, 26) as any as S.Schema<Asset>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4998,8 +5288,8 @@ export const patchProjectsLocationsDiscoveryClients: API.OperationMethod<
   PatchProjectsLocationsDiscoveryClientsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PatchProjectsLocationsDiscoveryClientsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PatchProjectsLocationsDiscoveryClientsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5020,8 +5310,8 @@ export const patchProjectsLocationsGroups: API.OperationMethod<
   PatchProjectsLocationsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchProjectsLocationsGroupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PatchProjectsLocationsGroupsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5042,8 +5332,8 @@ export const patchProjectsLocationsImportJobs: API.OperationMethod<
   PatchProjectsLocationsImportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchProjectsLocationsImportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(2816, __c88, 0) as any as S.Schema<PatchProjectsLocationsImportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5064,8 +5354,8 @@ export const patchProjectsLocationsPreferenceSets: API.OperationMethod<
   PatchProjectsLocationsPreferenceSetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<PatchProjectsLocationsPreferenceSetsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(2848, __c89, 0) as any as S.Schema<PatchProjectsLocationsPreferenceSetsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5086,8 +5376,8 @@ export const patchProjectsLocationsSources: API.OperationMethod<
   PatchProjectsLocationsSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<PatchProjectsLocationsSourcesRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(2880, __c90, 0) as any as S.Schema<PatchProjectsLocationsSourcesRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5108,8 +5398,8 @@ export const removeAssetsProjectsLocationsGroups: API.OperationMethod<
   RemoveAssetsProjectsLocationsGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2689, __c84, 1) as any as S.Schema<RemoveAssetsProjectsLocationsGroupsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(2912, __c91, 0) as any as S.Schema<RemoveAssetsProjectsLocationsGroupsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5130,8 +5420,8 @@ export const reportAssetFramesProjectsLocationsAssets: API.OperationMethod<
   ReportAssetFramesProjectsLocationsAssetsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2722, __c85, 2) as any as S.Schema<ReportAssetFramesProjectsLocationsAssetsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<ReportAssetFramesResponse>,
+  input: __S(2945, __c92, 1) as any as S.Schema<ReportAssetFramesProjectsLocationsAssetsRequest>,
+  output: __S(2208, __c69, 0) as any as S.Schema<ReportAssetFramesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5152,8 +5442,8 @@ export const runProjectsLocationsAssetsExportJobs: API.OperationMethod<
   RunProjectsLocationsAssetsExportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<RunProjectsLocationsAssetsExportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(3200, __c100, 0) as any as S.Schema<RunProjectsLocationsAssetsExportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5174,8 +5464,8 @@ export const runProjectsLocationsImportJobs: API.OperationMethod<
   RunProjectsLocationsImportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<RunProjectsLocationsImportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(3232, __c101, 0) as any as S.Schema<RunProjectsLocationsImportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5197,11 +5487,11 @@ export const runProjectsLocationsReportConfigsReportsReportExportJobs: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3072,
-    __c96,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<RunProjectsLocationsReportConfigsReportsReportExportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5223,11 +5513,11 @@ export const sendHeartbeatProjectsLocationsDiscoveryClients: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3105,
-    __c97,
-    1,
+    3296,
+    __c103,
+    0,
   ) as any as S.Schema<SendHeartbeatProjectsLocationsDiscoveryClientsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5248,8 +5538,8 @@ export const updateSettingsProjectsLocations: API.OperationMethod<
   UpdateSettingsProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateSettingsProjectsLocationsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(3328, __c104, 0) as any as S.Schema<UpdateSettingsProjectsLocationsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5270,8 +5560,8 @@ export const validateProjectsLocationsImportJobs: API.OperationMethod<
   ValidateProjectsLocationsImportJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ValidateProjectsLocationsImportJobsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<Operation>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ValidateProjectsLocationsImportJobsRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5288,7 +5578,22 @@ function __c0(j: number): any {
           parent: S.String.pipe(T.Label()),
           discoveryClientId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
+          serviceAccount: S.optional(S.String),
+          name: S.optional(S.String),
+          signalsEndpoint: S.optional(S.String),
+          errors: S.optional(__S(64, __c2, 0)),
+          recommendedVersions: S.optional(__S(33, __c1, 1)),
+          displayName: S.optional(S.String),
+          source: S.optional(S.String),
+          labels: S.optional(__S(2272, __c71, 0)),
+          createTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          state: S.optional(S.String),
+          heartbeatTime: S.optional(S.String),
+          version: S.optional(S.String),
+          description: S.optional(S.String),
+          ttl: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5310,33 +5615,12 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DiscoveryClientDiscoveryClientRecommendedVersion" });
     case 1:
       return S.Array(__S(32, __c1, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          serviceAccount: S.optional(S.String),
-          name: S.optional(S.String),
-          signalsEndpoint: S.optional(S.String),
-          errors: S.optional(__S(64, __c2, 0)),
-          recommendedVersions: S.optional(__S(33, __c1, 1)),
-          displayName: S.optional(S.String),
-          source: S.optional(S.String),
-          labels: S.optional(__S(2048, __c64, 0)),
-          createTime: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          state: S.optional(S.String),
-          heartbeatTime: S.optional(S.String),
-          version: S.optional(S.String),
-          description: S.optional(S.String),
-          ttl: S.optional(S.String),
-          updateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DiscoveryClient" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1569, __c49, 1));
   }
 }
 function __c3(j: number): any {
@@ -5347,7 +5631,12 @@ function __c3(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           groupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2272, __c71, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5363,25 +5652,21 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "Group" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           importJobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(207, __c6, 15).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          validationReport: S.optional(__S(169, __c5, 9)),
+          executionReport: S.optional(__S(170, __c5, 10)),
+          completeTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          gcsPayload: S.optional(__S(171, __c5, 11)),
+          labels: S.optional(__S(2272, __c71, 0)),
+          inlinePayload: S.optional(__S(174, __c5, 14)),
+          assetSource: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5392,7 +5677,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsImportJobsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5404,7 +5689,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filePath: S.optional(S.String),
-          csvError: S.optional(__S(192, __c6, 0)),
+          csvError: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "ImportRowErrorArchiveErrorDetails" });
     case 2:
@@ -5422,47 +5707,47 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ImportError" });
     case 4:
-      return S.Array(__S(195, __c6, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          csvError: S.optional(__S(192, __c6, 0)),
+          csvError: S.optional(__S(160, __c5, 0)),
           assetTitle: S.optional(S.String),
           vmName: S.optional(S.String),
-          archiveError: S.optional(__S(193, __c6, 1)),
+          archiveError: S.optional(__S(161, __c5, 1)),
           vmUuid: S.optional(S.String),
-          xlsxError: S.optional(__S(194, __c6, 2)),
-          errors: S.optional(__S(196, __c6, 4)),
+          xlsxError: S.optional(__S(162, __c5, 2)),
+          errors: S.optional(__S(164, __c5, 4)),
           rowNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ImportRowError" });
     case 6:
-      return S.Array(__S(197, __c6, 5));
+      return S.Array(__S(165, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          rowErrors: S.optional(__S(198, __c6, 6)),
+          rowErrors: S.optional(__S(166, __c5, 6)),
           partialReport: S.optional(S.Boolean),
           fileName: S.optional(S.String),
-          fileErrors: S.optional(__S(196, __c6, 4)),
+          fileErrors: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "FileValidationReport" });
     case 8:
-      return S.Array(__S(199, __c6, 7));
+      return S.Array(__S(167, __c5, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fileValidations: S.optional(__S(200, __c6, 8)),
-          jobErrors: S.optional(__S(196, __c6, 4)),
+          fileValidations: S.optional(__S(168, __c5, 8)),
+          jobErrors: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "ValidationReport" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           framesReported: S.optional(S.Number),
-          executionErrors: S.optional(__S(201, __c6, 9)),
+          executionErrors: S.optional(__S(169, __c5, 9)),
           totalRowsCount: S.optional(S.Number),
-          jobErrors: S.optional(__S(196, __c6, 4)),
+          jobErrors: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "ExecutionReport" });
     case 11:
@@ -5480,34 +5765,17 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "PayloadFile" });
     case 13:
-      return S.Array(__S(204, __c6, 12));
+      return S.Array(__S(172, __c5, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           format: S.optional(S.String),
-          payload: S.optional(__S(205, __c6, 13)),
+          payload: S.optional(__S(173, __c5, 13)),
         }),
       ).annotate({ identifier: "InlinePayloadInfo" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          validationReport: S.optional(__S(201, __c6, 9)),
-          executionReport: S.optional(__S(202, __c6, 10)),
-          completeTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          gcsPayload: S.optional(__S(203, __c6, 11)),
-          labels: S.optional(__S(2048, __c64, 0)),
-          inlinePayload: S.optional(__S(206, __c6, 14)),
-          assetSource: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportJob" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5515,7 +5783,12 @@ function __c7(j: number): any {
           importDataFileId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(257, __c8, 1).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          uploadFileInfo: S.optional(__S(224, __c7, 0)),
+          name: S.optional(S.String),
+          format: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5526,30 +5799,19 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsImportJobsImportDataFilesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(2048, __c64, 0)),
+          headers: S.optional(__S(2272, __c71, 0)),
           uriExpirationTime: S.optional(S.String),
           signedUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadFileInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          uploadFileInfo: S.optional(__S(256, __c8, 0)),
-          name: S.optional(S.String),
-          format: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ImportDataFile" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5557,7 +5819,14 @@ function __c9(j: number): any {
           preferenceSetId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(341, __c10, 21).pipe(T.HttpBody())),
+          databasePreferences: S.optional(__S(292, __c9, 4)),
+          description: S.optional(S.String),
+          virtualMachinePreferences: S.optional(__S(308, __c9, 20)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          regionPreferences: S.optional(__S(301, __c9, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5568,7 +5837,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsPreferenceSetsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5584,29 +5853,29 @@ function __c10(j: number): any {
           zoneAvailability: S.optional(S.String),
           edition: S.optional(S.String),
           persistentDiskType: S.optional(S.String),
-          backup: S.optional(__S(320, __c10, 0)),
+          backup: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "DatabasePreferencesCloudSqlCommon" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          common: S.optional(__S(321, __c10, 1)),
+          common: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "DatabasePreferencesCloudSqlPostgreSql" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           multithreading: S.optional(S.String),
-          common: S.optional(__S(321, __c10, 1)),
+          common: S.optional(__S(289, __c9, 1)),
           versionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabasePreferencesCloudSqlSqlServer" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          postgresqlToCloudSqlForPostgresqlPreferences: S.optional(__S(322, __c10, 2)),
-          mssqlToCloudSqlForSqlServerPreferences: S.optional(__S(323, __c10, 3)),
-          mysqlToCloudSqlForMysqlPreferences: S.optional(__S(322, __c10, 2)),
+          postgresqlToCloudSqlForPostgresqlPreferences: S.optional(__S(290, __c9, 2)),
+          mssqlToCloudSqlForSqlServerPreferences: S.optional(__S(291, __c9, 3)),
+          mysqlToCloudSqlForMysqlPreferences: S.optional(__S(290, __c9, 2)),
         }),
       ).annotate({ identifier: "DatabasePreferences" });
     case 5:
@@ -5622,11 +5891,11 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "MachineSeries" });
     case 7:
-      return S.Array(__S(326, __c10, 6));
+      return S.Array(__S(294, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          allowedMachineSeries: S.optional(__S(327, __c10, 7)),
+          allowedMachineSeries: S.optional(__S(295, __c9, 7)),
         }),
       ).annotate({ identifier: "MachinePreferences" });
     case 9:
@@ -5639,20 +5908,20 @@ function __c10(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          slesForSap: S.optional(__S(329, __c10, 9)),
-          windows: S.optional(__S(329, __c10, 9)),
-          sles: S.optional(__S(329, __c10, 9)),
-          rhel: S.optional(__S(329, __c10, 9)),
+          slesForSap: S.optional(__S(297, __c9, 9)),
+          windows: S.optional(__S(297, __c9, 9)),
+          sles: S.optional(__S(297, __c9, 9)),
+          rhel: S.optional(__S(297, __c9, 9)),
         }),
       ).annotate({ identifier: "OperatingSystemPricingPreferences" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           multithreading: S.optional(S.String),
-          machinePreferences: S.optional(__S(328, __c10, 8)),
+          machinePreferences: S.optional(__S(296, __c9, 8)),
           licenseType: S.optional(S.String),
           persistentDiskType: S.optional(S.String),
-          osPricingPreferences: S.optional(__S(330, __c10, 10)),
+          osPricingPreferences: S.optional(__S(298, __c9, 10)),
         }),
       ).annotate({ identifier: "ComputeEnginePreferences" });
     case 12:
@@ -5666,7 +5935,7 @@ function __c10(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          preferredRegions: S.optional(__S(1344, __c42, 0)),
+          preferredRegions: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "RegionPreferences" });
     case 14:
@@ -5676,15 +5945,15 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "SoleTenantNodeType" });
     case 15:
-      return S.Array(__S(334, __c10, 14));
+      return S.Array(__S(302, __c9, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           commitmentPlan: S.optional(S.String),
           hostMaintenancePolicy: S.optional(S.String),
           cpuOvercommitRatio: S.optional(S.Number),
-          osPricingPreferences: S.optional(__S(330, __c10, 10)),
-          nodeTypes: S.optional(__S(335, __c10, 15)),
+          osPricingPreferences: S.optional(__S(298, __c9, 10)),
+          nodeTypes: S.optional(__S(303, __c9, 15)),
         }),
       ).annotate({ identifier: "SoleTenancyPreferences" });
     case 17:
@@ -5692,7 +5961,7 @@ function __c10(j: number): any {
         S.Struct({
           protectedNodes: S.optional(S.String),
           storageOnlyNodes: S.optional(S.String),
-          allowedMachineSeries: S.optional(__S(327, __c10, 7)),
+          allowedMachineSeries: S.optional(__S(295, __c9, 7)),
         }),
       ).annotate({ identifier: "VMwareEngineMachinePreferences" });
     case 18:
@@ -5704,7 +5973,7 @@ function __c10(j: number): any {
           serviceType: S.optional(S.String),
           licenseDiscountPercentage: S.optional(S.Number),
           cpuOvercommitRatio: S.optional(S.Number),
-          machinePreferences: S.optional(__S(337, __c10, 17)),
+          machinePreferences: S.optional(__S(305, __c9, 17)),
         }),
       ).annotate({ identifier: "VmwareEnginePreferences" });
     case 19:
@@ -5719,34 +5988,21 @@ function __c10(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          networkCostParameters: S.optional(__S(325, __c10, 5)),
-          computeEnginePreferences: S.optional(__S(331, __c10, 11)),
+          networkCostParameters: S.optional(__S(293, __c9, 5)),
+          computeEnginePreferences: S.optional(__S(299, __c9, 11)),
           commitmentPlan: S.optional(S.String),
-          estimatedUsage: S.optional(__S(332, __c10, 12)),
-          regionPreferences: S.optional(__S(333, __c10, 13)),
-          soleTenancyPreferences: S.optional(__S(336, __c10, 16)),
+          estimatedUsage: S.optional(__S(300, __c9, 12)),
+          regionPreferences: S.optional(__S(301, __c9, 13)),
+          soleTenancyPreferences: S.optional(__S(304, __c9, 16)),
           sizingOptimizationStrategy: S.optional(S.String),
-          vmwareEnginePreferences: S.optional(__S(338, __c10, 18)),
-          sizingOptimizationCustomParameters: S.optional(__S(339, __c10, 19)),
+          vmwareEnginePreferences: S.optional(__S(306, __c9, 18)),
+          sizingOptimizationCustomParameters: S.optional(__S(307, __c9, 19)),
           targetProduct: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachinePreferences" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          databasePreferences: S.optional(__S(324, __c10, 4)),
-          description: S.optional(S.String),
-          virtualMachinePreferences: S.optional(__S(340, __c10, 20)),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          regionPreferences: S.optional(__S(333, __c10, 13)),
-        }),
-      ).annotate({ identifier: "PreferenceSet" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5754,7 +6010,12 @@ function __c11(j: number): any {
           reportConfigId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(386, __c12, 2).pipe(T.HttpBody())),
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          groupPreferencesetAssignments: S.optional(__S(353, __c11, 1)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5765,7 +6026,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsReportConfigsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5775,21 +6036,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ReportConfigGroupPreferenceSetAssignment" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          displayName: S.optional(S.String),
-          groupPreferencesetAssignments: S.optional(__S(385, __c12, 1)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportConfig" });
+      return S.Array(__S(352, __c11, 0));
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5797,7 +6047,14 @@ function __c13(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           reportId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(474, __c14, 26).pipe(T.HttpBody())),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          summary: S.optional(__S(473, __c14, 25)),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5806,6 +6063,23 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateProjectsLocationsReportConfigsReportsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          databasePreferences: S.optional(__S(292, __c9, 4)),
+          description: S.optional(S.String),
+          virtualMachinePreferences: S.optional(__S(308, __c9, 20)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          regionPreferences: S.optional(__S(301, __c9, 13)),
+        }),
+      ).annotate({ identifier: "PreferenceSet" });
   }
 }
 function __c14(j: number): any {
@@ -5888,7 +6162,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeCount: S.optional(S.String),
-          vmwareNode: S.optional(__S(326, __c10, 6)),
+          vmwareNode: S.optional(__S(294, __c9, 6)),
           allocatedAssetCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummaryVMWareNodeAllocation" });
@@ -5898,7 +6172,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allocatedAssetCount: S.optional(S.String),
-          allocatedRegions: S.optional(__S(1344, __c42, 0)),
+          allocatedRegions: S.optional(__S(1472, __c46, 0)),
           nodeAllocations: S.optional(__S(459, __c14, 11)),
         }),
       ).annotate({ identifier: "ReportSummaryVMWareEngineFinding" });
@@ -5906,7 +6180,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeCount: S.optional(S.String),
-          node: S.optional(__S(334, __c10, 14)),
+          node: S.optional(__S(302, __c9, 14)),
           allocatedAssetCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummarySoleTenantNodeAllocation" });
@@ -5917,7 +6191,7 @@ function __c14(j: number): any {
         S.Struct({
           nodeAllocations: S.optional(__S(462, __c14, 14)),
           allocatedAssetCount: S.optional(S.String),
-          allocatedRegions: S.optional(__S(1344, __c42, 0)),
+          allocatedRegions: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "ReportSummarySoleTenantFinding" });
     case 16:
@@ -5925,7 +6199,7 @@ function __c14(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          machineSeries: S.optional(__S(326, __c10, 6)),
+          machineSeries: S.optional(__S(294, __c9, 6)),
           allocatedAssetCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportSummaryMachineSeriesAllocation" });
@@ -5934,7 +6208,7 @@ function __c14(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          allocatedRegions: S.optional(__S(1344, __c42, 0)),
+          allocatedRegions: S.optional(__S(1472, __c46, 0)),
           allocatedAssetCount: S.optional(S.String),
           allocatedDiskTypes: S.optional(__S(464, __c14, 16)),
           machineSeriesAllocations: S.optional(__S(466, __c14, 18)),
@@ -5952,11 +6226,11 @@ function __c14(j: number): any {
         S.Struct({
           monthlyCostTotal: S.optional(__S(457, __c14, 9)),
           description: S.optional(S.String),
-          machinePreferences: S.optional(__S(340, __c10, 20)),
+          machinePreferences: S.optional(__S(308, __c9, 20)),
           monthlyCostPortableVmwareLicense: S.optional(__S(457, __c14, 9)),
           monthlyCostOsLicense: S.optional(__S(457, __c14, 9)),
           monthlyCostStorage: S.optional(__S(457, __c14, 9)),
-          preferenceSet: S.optional(__S(341, __c10, 21)),
+          preferenceSet: S.optional(__S(416, __c13, 0)),
           vmwareEngineFinding: S.optional(__S(460, __c14, 12)),
           monthlyCostOther: S.optional(__S(457, __c14, 9)),
           soleTenantFinding: S.optional(__S(463, __c14, 15)),
@@ -5999,19 +6273,6 @@ function __c14(j: number): any {
           virtualMachineStats: S.optional(__S(456, __c14, 8)),
         }),
       ).annotate({ identifier: "ReportSummary" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          summary: S.optional(__S(473, __c14, 25)),
-          state: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Report" });
   }
 }
 function __c15(j: number): any {
@@ -6022,7 +6283,9 @@ function __c15(j: number): any {
           reportExportJobId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(515, __c16, 3).pipe(T.HttpBody())),
+          recentExecutions: S.optional(__S(514, __c16, 2)),
+          signedUriDestination: S.optional(__S(3464, __c108, 8)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6040,9 +6303,9 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          signedUris: S.optional(__S(3266, __c102, 2)),
-          error: S.optional(__S(1441, __c45, 1)),
-          outputFiles: S.optional(__S(3271, __c102, 7)),
+          signedUris: S.optional(__S(3458, __c108, 2)),
+          error: S.optional(__S(1569, __c49, 1)),
+          outputFiles: S.optional(__S(3463, __c108, 7)),
         }),
       ).annotate({ identifier: "ReportExportExecutionResult" });
     case 1:
@@ -6058,14 +6321,6 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ReportExportExecution" });
     case 2:
       return S.Array(__S(513, __c16, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          recentExecutions: S.optional(__S(514, __c16, 2)),
-          signedUriDestination: S.optional(__S(3272, __c102, 8)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportExportJob" });
   }
 }
 function __c17(j: number): any {
@@ -6076,22 +6331,6 @@ function __c17(j: number): any {
           sourceId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v1alpha1/{+parent}/sources",
-            baseUrl: "https://migrationcenter.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsLocationsSourcesRequest" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           errorFrameCount: S.optional(S.Number),
           name: S.optional(S.String),
           description: S.optional(S.String),
@@ -6103,11 +6342,17 @@ function __c18(j: number): any {
           state: S.optional(S.String),
           updateTime: S.optional(S.String),
           isManaged: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Source" });
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v1alpha1/{+parent}/sources",
+            baseUrl: "https://migrationcenter.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsLocationsSourcesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6124,7 +6369,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAssetsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6140,7 +6385,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsAssetsExportJobsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6157,7 +6402,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsDiscoveryClientsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6174,7 +6419,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsGroupsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6192,7 +6437,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsImportJobsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6209,7 +6454,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsImportJobsImportDataFilesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6225,7 +6470,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6242,7 +6487,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsPreferenceSetsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6260,7 +6505,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsReportConfigsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6277,7 +6522,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsReportConfigsReportsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6296,7 +6541,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6313,7 +6558,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSourcesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6329,21 +6574,21 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(2048, __c64, 0)),
+          labels: S.optional(__S(2272, __c71, 0)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(1408, __c44, 0)),
+          metadata: S.optional(__S(1536, __c48, 0)),
           locationId: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6360,7 +6605,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsAssetsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6374,6 +6619,26 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetProjectsLocationsAssetsExportJobsRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          inventory: S.optional(__S(2208, __c69, 0)),
+          name: S.optional(S.String),
+          showHidden: S.optional(S.Boolean),
+          networkDependencies: S.optional(__S(2208, __c69, 0)),
+          performanceData: S.optional(__S(3488, __c109, 0)),
+          recentExecutions: S.optional(__S(3491, __c109, 3)),
+          createTime: S.optional(S.String),
+          condition: S.optional(__S(3492, __c109, 4)),
+          signedUriDestination: S.optional(__S(3464, __c108, 8)),
+          labels: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "AssetsExportJob" });
   }
 }
 function __c35(j: number): any {
@@ -6397,6 +6662,31 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          serviceAccount: S.optional(S.String),
+          name: S.optional(S.String),
+          signalsEndpoint: S.optional(S.String),
+          errors: S.optional(__S(64, __c2, 0)),
+          recommendedVersions: S.optional(__S(33, __c1, 1)),
+          displayName: S.optional(S.String),
+          source: S.optional(S.String),
+          labels: S.optional(__S(2272, __c71, 0)),
+          createTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          state: S.optional(S.String),
+          heartbeatTime: S.optional(S.String),
+          version: S.optional(S.String),
+          description: S.optional(S.String),
+          ttl: S.optional(S.String),
+          updateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiscoveryClient" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -6408,7 +6698,22 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsGroupsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "Group" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6425,7 +6730,28 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsImportJobsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          validationReport: S.optional(__S(169, __c5, 9)),
+          executionReport: S.optional(__S(170, __c5, 10)),
+          completeTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          gcsPayload: S.optional(__S(171, __c5, 11)),
+          labels: S.optional(__S(2272, __c71, 0)),
+          inlinePayload: S.optional(__S(174, __c5, 14)),
+          assetSource: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportJob" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6441,7 +6767,22 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsImportJobsImportDataFilesRequest" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          uploadFileInfo: S.optional(__S(224, __c7, 0)),
+          name: S.optional(S.String),
+          format: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportDataFile" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6457,7 +6798,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsOperationsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6473,21 +6814,15 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsPreferenceSetsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          group: S.String.pipe(T.Label()),
           allowExisting: S.optional(S.Boolean),
           requestId: S.optional(S.String),
-          assets: S.optional(__S(1376, __c43, 0)),
-        }),
-      ).annotate({ identifier: "AddAssetsToGroupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          group: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          assets: S.optional(__S(1504, __c47, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6498,57 +6833,57 @@ function __c41(j: number): any {
       ).annotate({ identifier: "AddAssetsProjectsLocationsGroupsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          assetIds: S.optional(__S(1344, __c42, 0)),
+          assetIds: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "AssetList" });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1536, __c48, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(1440, __c45, 0)),
+          details: S.optional(__S(1568, __c49, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(1408, __c44, 0)),
-          error: S.optional(__S(1441, __c45, 1)),
-          response: S.optional(__S(1408, __c44, 0)),
+          metadata: S.optional(__S(1536, __c48, 0)),
+          error: S.optional(__S(1569, __c49, 1)),
+          response: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6564,7 +6899,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRelationsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6578,7 +6913,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "Relation" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6594,7 +6929,22 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsReportConfigsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          groupPreferencesetAssignments: S.optional(__S(353, __c11, 1)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportConfig" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6611,7 +6961,24 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsReportConfigsReportsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          summary: S.optional(__S(473, __c14, 25)),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Report" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6627,7 +6994,19 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsReportConfigsReportsReportExportJobsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recentExecutions: S.optional(__S(514, __c16, 2)),
+          signedUriDestination: S.optional(__S(3464, __c108, 8)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportExportJob" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6643,7 +7022,27 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSourcesRequest" });
   }
 }
-function __c53(j: number): any {
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errorFrameCount: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          priority: S.optional(S.Number),
+          pendingFrameCount: S.optional(S.Number),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          isManaged: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Source" });
+  }
+}
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6660,7 +7059,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSourcesErrorFramesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6670,19 +7069,19 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "FrameViolationEntry" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          violations: S.optional(__S(1729, __c54, 1)),
-          originalFrame: S.optional(__S(1765, __c55, 5)),
+          violations: S.optional(__S(1985, __c62, 1)),
+          originalFrame: S.optional(__S(2021, __c63, 5)),
           name: S.optional(S.String),
           ingestionTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorFrame" });
   }
 }
-function __c55(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6708,64 +7107,64 @@ function __c55(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          network: S.optional(__S(1760, __c55, 0)),
-          cpu: S.optional(__S(1761, __c55, 1)),
-          disk: S.optional(__S(1762, __c55, 2)),
-          memory: S.optional(__S(1761, __c55, 1)),
+          network: S.optional(__S(2016, __c63, 0)),
+          cpu: S.optional(__S(2017, __c63, 1)),
+          disk: S.optional(__S(2018, __c63, 2)),
+          memory: S.optional(__S(2017, __c63, 1)),
           sampleTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PerformanceSample" });
     case 4:
-      return S.Array(__S(1763, __c55, 3));
+      return S.Array(__S(2019, __c63, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(2048, __c64, 0)),
-          awsLambdaFunctionDetails: S.optional(__S(1984, __c62, 0)),
-          attributes: S.optional(__S(2048, __c64, 0)),
-          awsEmrClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsAutoscalingGroupDetails: S.optional(__S(1984, __c62, 0)),
+          labels: S.optional(__S(2272, __c71, 0)),
+          awsLambdaFunctionDetails: S.optional(__S(2208, __c69, 0)),
+          attributes: S.optional(__S(2272, __c71, 0)),
+          awsEmrClusterDetails: S.optional(__S(2208, __c69, 0)),
+          awsAutoscalingGroupDetails: S.optional(__S(2208, __c69, 0)),
           traceToken: S.optional(S.String),
-          structuredAttributes: S.optional(__S(1408, __c44, 0)),
-          awsKinesisStreamDetails: S.optional(__S(1984, __c62, 0)),
-          awsElasticacheClusterDetails: S.optional(__S(1984, __c62, 0)),
+          structuredAttributes: S.optional(__S(1536, __c48, 0)),
+          awsKinesisStreamDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticacheClusterDetails: S.optional(__S(2208, __c69, 0)),
           reportTime: S.optional(S.String),
-          awsCloudFrontDistributionDetails: S.optional(__S(1984, __c62, 0)),
-          awsVpcDetails: S.optional(__S(1984, __c62, 0)),
-          performanceSamples: S.optional(__S(1764, __c55, 4)),
-          awsApplicationLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          awsDynamodbTableDetails: S.optional(__S(1984, __c62, 0)),
-          awsAppSyncGraphqlApiDetails: S.optional(__S(1984, __c62, 0)),
-          databaseDetails: S.optional(__S(2796, __c87, 12)),
-          awsApiGatewayRestApiDetails: S.optional(__S(1984, __c62, 0)),
-          awsSnsTopicDetails: S.optional(__S(1984, __c62, 0)),
-          awsInternetGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          awsEfsFileSystemDetails: S.optional(__S(1984, __c62, 0)),
-          awsElasticIpAddressDetails: S.optional(__S(1984, __c62, 0)),
-          awsFirehoseDetails: S.optional(__S(1984, __c62, 0)),
+          awsCloudFrontDistributionDetails: S.optional(__S(2208, __c69, 0)),
+          awsVpcDetails: S.optional(__S(2208, __c69, 0)),
+          performanceSamples: S.optional(__S(2020, __c63, 4)),
+          awsApplicationLoadBalancerDetails: S.optional(__S(2208, __c69, 0)),
+          awsDynamodbTableDetails: S.optional(__S(2208, __c69, 0)),
+          awsAppSyncGraphqlApiDetails: S.optional(__S(2208, __c69, 0)),
+          databaseDetails: S.optional(__S(3020, __c94, 12)),
+          awsApiGatewayRestApiDetails: S.optional(__S(2208, __c69, 0)),
+          awsSnsTopicDetails: S.optional(__S(2208, __c69, 0)),
+          awsInternetGatewayDetails: S.optional(__S(2208, __c69, 0)),
+          awsEfsFileSystemDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticIpAddressDetails: S.optional(__S(2208, __c69, 0)),
+          awsFirehoseDetails: S.optional(__S(2208, __c69, 0)),
           collectionType: S.optional(S.String),
-          awsEksClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsBatchComputeEnvironmentDetails: S.optional(__S(1984, __c62, 0)),
-          awsElbLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          awsRoute53HostedZoneDetails: S.optional(__S(1984, __c62, 0)),
-          databaseDeploymentDetails: S.optional(__S(2827, __c88, 11)),
-          awsS3BucketDetails: S.optional(__S(2801, __c87, 17)),
-          awsEcrRepositoryDetails: S.optional(__S(1984, __c62, 0)),
-          hostingProviderDetails: S.optional(__S(2830, __c88, 14)),
-          awsEbsVolumeDetails: S.optional(__S(1984, __c62, 0)),
-          awsNatGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          awsElasticNetworkInterfaceDetails: S.optional(__S(1984, __c62, 0)),
-          awsRedshiftDetails: S.optional(__S(1984, __c62, 0)),
-          virtualMachineDetails: S.optional(__S(2888, __c90, 8)),
-          awsEcsClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsGlueJobDetails: S.optional(__S(1984, __c62, 0)),
-          machineDetails: S.optional(__S(2884, __c90, 4)),
-          awsAthenaWorkGroupDetails: S.optional(__S(1984, __c62, 0)),
+          awsEksClusterDetails: S.optional(__S(2208, __c69, 0)),
+          awsBatchComputeEnvironmentDetails: S.optional(__S(2208, __c69, 0)),
+          awsElbLoadBalancerDetails: S.optional(__S(2208, __c69, 0)),
+          awsRoute53HostedZoneDetails: S.optional(__S(2208, __c69, 0)),
+          databaseDeploymentDetails: S.optional(__S(3051, __c95, 11)),
+          awsS3BucketDetails: S.optional(__S(3025, __c94, 17)),
+          awsEcrRepositoryDetails: S.optional(__S(2208, __c69, 0)),
+          hostingProviderDetails: S.optional(__S(3054, __c95, 14)),
+          awsEbsVolumeDetails: S.optional(__S(2208, __c69, 0)),
+          awsNatGatewayDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticNetworkInterfaceDetails: S.optional(__S(2208, __c69, 0)),
+          awsRedshiftDetails: S.optional(__S(2208, __c69, 0)),
+          virtualMachineDetails: S.optional(__S(3112, __c97, 8)),
+          awsEcsClusterDetails: S.optional(__S(2208, __c69, 0)),
+          awsGlueJobDetails: S.optional(__S(2208, __c69, 0)),
+          machineDetails: S.optional(__S(3108, __c97, 4)),
+          awsAthenaWorkGroupDetails: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "AssetFrame" });
   }
 }
-function __c56(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6779,11 +7178,7 @@ function __c56(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetSettingsProjectsLocationsRequest" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -6794,13 +7189,13 @@ function __c57(j: number): any {
       ).annotate({ identifier: "Settings" });
   }
 }
-function __c58(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(1344, __c42, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(1472, __c46, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
@@ -6813,17 +7208,17 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(992, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          locations: S.optional(__S(1857, __c58, 1)),
+          locations: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6847,13 +7242,13 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          assets: S.optional(__S(2944, __c92, 0)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
+          assets: S.optional(__S(3168, __c99, 0)),
         }),
       ).annotate({ identifier: "ListAssetsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6870,51 +7265,45 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsAssetsExportJobsRequest" });
     case 1:
-      return S.Array(__S(3301, __c103, 5));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assetsExportJobs: S.optional(__S(1921, __c60, 1)),
+          assetsExportJobs: S.optional(__S(2145, __c67, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAssetsExportJobsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lowerBounds: S.optional(__S(1952, __c61, 0)),
+          lowerBounds: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "AggregationHistogram" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(__S(1984, __c62, 0)),
-          sum: S.optional(__S(1984, __c62, 0)),
-          frequency: S.optional(__S(1984, __c62, 0)),
+          count: S.optional(__S(2208, __c69, 0)),
+          sum: S.optional(__S(2208, __c69, 0)),
+          frequency: S.optional(__S(2208, __c69, 0)),
           field: S.optional(S.String),
-          histogram: S.optional(__S(1953, __c61, 1)),
+          histogram: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "Aggregation" });
     case 3:
-      return S.Array(__S(1954, __c61, 2));
+      return S.Array(__S(2178, __c68, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           showHidden: S.optional(S.Boolean),
           filter: S.optional(S.String),
-          aggregations: S.optional(__S(1955, __c61, 3)),
-        }),
-      ).annotate({ identifier: "AggregateAssetsValuesRequest" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1956, __c61, 4).pipe(T.HttpBody())),
+          aggregations: S.optional(__S(2179, __c68, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6923,7 +7312,7 @@ function __c61(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AggregateValuesProjectsLocationsAssetsRequest" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.String),
@@ -6931,53 +7320,53 @@ function __c61(j: number): any {
           upperBound: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AggregationResultHistogramBucket" });
+    case 6:
+      return S.Array(__S(2181, __c68, 5));
     case 7:
-      return S.Array(__S(1958, __c61, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          buckets: S.optional(__S(1959, __c61, 7)),
+          buckets: S.optional(__S(2182, __c68, 6)),
         }),
       ).annotate({ identifier: "AggregationResultHistogram" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregationResultCount" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "AggregationResultFrequency" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "AggregationResultFrequency" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          histogram: S.optional(__S(1960, __c61, 8)),
-          count: S.optional(__S(1961, __c61, 9)),
-          frequency: S.optional(__S(1962, __c61, 10)),
-          sum: S.optional(__S(2016, __c63, 0)),
+          histogram: S.optional(__S(2183, __c68, 7)),
+          count: S.optional(__S(2184, __c68, 8)),
+          frequency: S.optional(__S(2185, __c68, 9)),
+          sum: S.optional(__S(2240, __c70, 0)),
           field: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregationResult" });
+    case 11:
+      return S.Array(__S(2186, __c68, 10));
     case 12:
-      return S.Array(__S(1963, __c61, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(1964, __c61, 12)),
+          results: S.optional(__S(2187, __c68, 11)),
         }),
       ).annotate({ identifier: "AggregateAssetsValuesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AggregationCount" });
   }
 }
-function __c63(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6987,13 +7376,13 @@ function __c63(j: number): any {
       ).annotate({ identifier: "AggregationResultSum" });
   }
 }
-function __c64(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c65(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7012,18 +7401,18 @@ function __c65(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDiscoveryClientsRequest" });
     case 1:
-      return S.Array(__S(34, __c1, 2));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          discoveryClients: S.optional(__S(2081, __c65, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
+          discoveryClients: S.optional(__S(2305, __c72, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDiscoveryClientsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7042,18 +7431,18 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsGroupsRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          groups: S.optional(__S(2113, __c66, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
+          groups: S.optional(__S(2337, __c73, 1)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7073,18 +7462,18 @@ function __c67(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsImportJobsRequest" });
     case 1:
-      return S.Array(__S(207, __c6, 15));
+      return S.Array(__S(1280, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          importJobs: S.optional(__S(2145, __c67, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
+          importJobs: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "ListImportJobsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7103,18 +7492,18 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsImportJobsImportDataFilesRequest" });
     case 1:
-      return S.Array(__S(257, __c8, 1));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          importDataFiles: S.optional(__S(2177, __c68, 1)),
+          importDataFiles: S.optional(__S(2401, __c75, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1344, __c42, 0)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "ListImportDataFilesResponse" });
   }
 }
-function __c69(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7133,18 +7522,18 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          operations: S.optional(__S(2209, __c69, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
+          operations: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7162,18 +7551,18 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsPreferenceSetsRequest" });
     case 1:
-      return S.Array(__S(341, __c10, 21));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          preferenceSets: S.optional(__S(2241, __c70, 1)),
-          unreachable: S.optional(__S(1344, __c42, 0)),
+          preferenceSets: S.optional(__S(2465, __c77, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPreferenceSetsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7192,17 +7581,17 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRelationsRequest" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          relations: S.optional(__S(2273, __c71, 1)),
+          relations: S.optional(__S(2497, __c78, 1)),
         }),
       ).annotate({ identifier: "ListRelationsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7221,18 +7610,18 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsReportConfigsRequest" });
     case 1:
-      return S.Array(__S(386, __c12, 2));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reportConfigs: S.optional(__S(2305, __c72, 1)),
-          unreachable: S.optional(__S(1344, __c42, 0)),
+          reportConfigs: S.optional(__S(2529, __c79, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReportConfigsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7252,18 +7641,18 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsReportConfigsReportsRequest" });
     case 1:
-      return S.Array(__S(474, __c14, 26));
+      return S.Array(__S(1792, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          reports: S.optional(__S(2337, __c73, 1)),
-          unreachable: S.optional(__S(1344, __c42, 0)),
+          reports: S.optional(__S(2561, __c80, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "ListReportsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7282,39 +7671,33 @@ function __c74(j: number): any {
         identifier: "ListProjectsLocationsReportConfigsReportsReportExportJobsRequest",
       });
     case 1:
-      return S.Array(__S(515, __c16, 3));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reportExportJobs: S.optional(__S(2369, __c74, 1)),
+          reportExportJobs: S.optional(__S(2593, __c81, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReportExportJobsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cascadeLogicalDbs: S.optional(__S(1984, __c62, 0)),
+          cascadeLogicalDbs: S.optional(__S(2208, __c69, 0)),
         }),
       ).annotate({ identifier: "CascadingRule" });
     case 1:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(2624, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowMissing: S.optional(S.Boolean),
-          cascadingRules: S.optional(__S(2401, __c75, 1)),
-          names: S.optional(__S(1344, __c42, 0)),
-        }),
-      ).annotate({ identifier: "BatchDeleteAssetsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2402, __c75, 2).pipe(T.HttpBody())),
+          allowMissing: S.optional(S.Boolean),
+          cascadingRules: S.optional(__S(2625, __c82, 1)),
+          names: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7325,7 +7708,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "BatchDeleteProjectsLocationsAssetsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7344,18 +7727,18 @@ function __c76(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSourcesRequest" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1344, __c42, 0)),
-          sources: S.optional(__S(2433, __c76, 1)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
+          sources: S.optional(__S(2657, __c83, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSourcesResponse" });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7373,18 +7756,18 @@ function __c77(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsSourcesErrorFramesRequest" });
     case 1:
-      return S.Array(__S(1730, __c54, 2));
+      return S.Array(__S(1986, __c62, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1344, __c42, 0)),
+          unreachable: S.optional(__S(1472, __c46, 0)),
           nextPageToken: S.optional(S.String),
-          errorFrames: S.optional(__S(2465, __c77, 1)),
+          errorFrames: S.optional(__S(2689, __c84, 1)),
         }),
       ).annotate({ identifier: "ListErrorFramesResponse" });
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7392,7 +7775,53 @@ function __c78(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2938, __c91, 26).pipe(T.HttpBody())),
+          databaseDetails: S.optional(__S(3020, __c94, 12)),
+          awsAthenaWorkGroupDetails: S.optional(__S(2208, __c69, 0)),
+          awsVpcDetails: S.optional(__S(2208, __c69, 0)),
+          awsRoute53HostedZoneDetails: S.optional(__S(2208, __c69, 0)),
+          awsEcrRepositoryDetails: S.optional(__S(2208, __c69, 0)),
+          awsFirehoseDetails: S.optional(__S(2208, __c69, 0)),
+          labels: S.optional(__S(2272, __c71, 0)),
+          awsEbsVolumeDetails: S.optional(__S(2208, __c69, 0)),
+          awsS3BucketDetails: S.optional(__S(3025, __c94, 17)),
+          hidden: S.optional(S.Boolean),
+          awsEmrClusterDetails: S.optional(__S(2208, __c69, 0)),
+          performanceData: S.optional(__S(3142, __c98, 6)),
+          awsEfsFileSystemDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticNetworkInterfaceDetails: S.optional(__S(2208, __c69, 0)),
+          awsBatchComputeEnvironmentDetails: S.optional(__S(2208, __c69, 0)),
+          databaseDeploymentDetails: S.optional(__S(3051, __c95, 11)),
+          createTime: S.optional(S.String),
+          awsLambdaFunctionDetails: S.optional(__S(2208, __c69, 0)),
+          hostingProviderDetails: S.optional(__S(3054, __c95, 14)),
+          awsElasticIpAddressDetails: S.optional(__S(2208, __c69, 0)),
+          awsRedshiftDetails: S.optional(__S(2208, __c69, 0)),
+          structuredAttributes: S.optional(__S(1536, __c48, 0)),
+          awsElbLoadBalancerDetails: S.optional(__S(2208, __c69, 0)),
+          awsGlueJobDetails: S.optional(__S(2208, __c69, 0)),
+          title: S.optional(S.String),
+          awsInternetGatewayDetails: S.optional(__S(2208, __c69, 0)),
+          awsCloudFrontDistributionDetails: S.optional(__S(2208, __c69, 0)),
+          awsApplicationLoadBalancerDetails: S.optional(__S(2208, __c69, 0)),
+          hideReason: S.optional(S.String),
+          machineDetails: S.optional(__S(3108, __c97, 4)),
+          hideTime: S.optional(S.String),
+          attributes: S.optional(__S(2272, __c71, 0)),
+          assignedGroups: S.optional(__S(1472, __c46, 0)),
+          awsEksClusterDetails: S.optional(__S(2208, __c69, 0)),
+          insightList: S.optional(__S(3161, __c98, 25)),
+          awsNatGatewayDetails: S.optional(__S(2208, __c69, 0)),
+          awsDynamodbTableDetails: S.optional(__S(2208, __c69, 0)),
+          awsAppSyncGraphqlApiDetails: S.optional(__S(2208, __c69, 0)),
+          virtualMachineDetails: S.optional(__S(3112, __c97, 8)),
+          awsApiGatewayRestApiDetails: S.optional(__S(2208, __c69, 0)),
+          awsAutoscalingGroupDetails: S.optional(__S(2208, __c69, 0)),
+          awsKinesisStreamDetails: S.optional(__S(2208, __c69, 0)),
+          updateTime: S.optional(S.String),
+          awsEcsClusterDetails: S.optional(__S(2208, __c69, 0)),
+          awsSnsTopicDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticacheClusterDetails: S.optional(__S(2208, __c69, 0)),
+          sources: S.optional(__S(1472, __c46, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7403,7 +7832,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsAssetsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7411,7 +7840,21 @@ function __c79(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(34, __c1, 2).pipe(T.HttpBody())),
+          serviceAccount: S.optional(S.String),
+          signalsEndpoint: S.optional(S.String),
+          errors: S.optional(__S(64, __c2, 0)),
+          recommendedVersions: S.optional(__S(33, __c1, 1)),
+          displayName: S.optional(S.String),
+          source: S.optional(S.String),
+          labels: S.optional(__S(2272, __c71, 0)),
+          createTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          state: S.optional(S.String),
+          heartbeatTime: S.optional(S.String),
+          version: S.optional(S.String),
+          description: S.optional(S.String),
+          ttl: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7422,7 +7865,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDiscoveryClientsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7430,7 +7873,11 @@ function __c80(j: number): any {
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          labels: S.optional(__S(2272, __c71, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7441,7 +7888,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsGroupsRequest" });
   }
 }
-function __c81(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7449,7 +7896,17 @@ function __c81(j: number): any {
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(207, __c6, 15).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          validationReport: S.optional(__S(169, __c5, 9)),
+          executionReport: S.optional(__S(170, __c5, 10)),
+          completeTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          gcsPayload: S.optional(__S(171, __c5, 11)),
+          labels: S.optional(__S(2272, __c71, 0)),
+          inlinePayload: S.optional(__S(174, __c5, 14)),
+          assetSource: S.optional(S.String),
+          displayName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7460,7 +7917,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsImportJobsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7468,7 +7925,13 @@ function __c82(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(341, __c10, 21).pipe(T.HttpBody())),
+          databasePreferences: S.optional(__S(292, __c9, 4)),
+          description: S.optional(S.String),
+          virtualMachinePreferences: S.optional(__S(308, __c9, 20)),
+          createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          regionPreferences: S.optional(__S(301, __c9, 13)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7479,7 +7942,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsPreferenceSetsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7487,7 +7950,16 @@ function __c83(j: number): any {
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(576, __c18, 0).pipe(T.HttpBody())),
+          errorFrameCount: S.optional(S.Number),
+          description: S.optional(S.String),
+          priority: S.optional(S.Number),
+          pendingFrameCount: S.optional(S.Number),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
+          state: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          isManaged: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7498,21 +7970,15 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsSourcesRequest" });
   }
 }
-function __c84(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowMissing: S.optional(S.Boolean),
-          assets: S.optional(__S(1376, __c43, 0)),
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RemoveAssetsFromGroupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           group: S.String.pipe(T.Label()),
-          body: S.optional(__S(2688, __c84, 0).pipe(T.HttpBody())),
+          allowMissing: S.optional(S.Boolean),
+          assets: S.optional(__S(1504, __c47, 0)),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7523,22 +7989,16 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RemoveAssetsProjectsLocationsGroupsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1765, __c55, 5));
+      return S.Array(__S(2021, __c63, 5));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          framesData: S.optional(__S(2720, __c85, 0)),
-        }),
-      ).annotate({ identifier: "Frames" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           source: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2721, __c85, 1).pipe(T.HttpBody())),
+          framesData: S.optional(__S(2944, __c92, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7549,29 +8009,23 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ReportAssetFramesProjectsLocationsAssetsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
-          asset: S.optional(__S(2938, __c91, 26)),
+          asset: S.optional(__S(3162, __c98, 26)),
           updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateAssetRequest" });
     case 1:
-      return S.Array(__S(2752, __c86, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(2753, __c86, 1)),
-        }),
-      ).annotate({ identifier: "BatchUpdateAssetsRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2754, __c86, 2).pipe(T.HttpBody())),
+          requests: S.optional(__S(2977, __c93, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7580,15 +8034,15 @@ function __c86(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateProjectsLocationsAssetsRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(2944, __c92, 0)),
+          assets: S.optional(__S(3168, __c99, 0)),
         }),
       ).annotate({ identifier: "BatchUpdateAssetsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7605,11 +8059,11 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "PostgreSqlExtension" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(3009, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          postgresqlExtensions: S.optional(__S(2786, __c87, 2)),
+          postgresqlExtensions: S.optional(__S(3010, __c94, 2)),
           foreignTablesCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PostgreSqlSchemaDetails" });
@@ -7628,11 +8082,11 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "MySqlStorageEngineDetails" });
     case 6:
-      return S.Array(__S(2789, __c87, 5));
+      return S.Array(__S(3013, __c94, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          storageEngines: S.optional(__S(2790, __c87, 6)),
+          storageEngines: S.optional(__S(3014, __c94, 6)),
         }),
       ).annotate({ identifier: "MySqlSchemaDetails" });
     case 8:
@@ -7643,27 +8097,27 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseObjects" });
     case 9:
-      return S.Array(__S(2792, __c87, 8));
+      return S.Array(__S(3016, __c94, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           schemaName: S.optional(S.String),
-          postgresql: S.optional(__S(2787, __c87, 3)),
-          sqlServer: S.optional(__S(2788, __c87, 4)),
-          mysql: S.optional(__S(2791, __c87, 7)),
-          objects: S.optional(__S(2793, __c87, 9)),
+          postgresql: S.optional(__S(3011, __c94, 3)),
+          sqlServer: S.optional(__S(3012, __c94, 4)),
+          mysql: S.optional(__S(3015, __c94, 7)),
+          objects: S.optional(__S(3017, __c94, 9)),
           tablesSizeBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseSchema" });
     case 11:
-      return S.Array(__S(2794, __c87, 10));
+      return S.Array(__S(3018, __c94, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          parentDatabaseDeployment: S.optional(__S(2784, __c87, 0)),
+          parentDatabaseDeployment: S.optional(__S(3008, __c94, 0)),
           allocatedStorageBytes: S.optional(S.String),
           databaseName: S.optional(S.String),
-          schemas: S.optional(__S(2795, __c87, 11)),
+          schemas: S.optional(__S(3019, __c94, 11)),
         }),
       ).annotate({ identifier: "DatabaseDetails" });
     case 13:
@@ -7674,11 +8128,11 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "AwsS3BucketDetailsStorageClass" });
     case 14:
-      return S.Array(__S(2797, __c87, 13));
+      return S.Array(__S(3021, __c94, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          totalObjects: S.optional(__S(2016, __c63, 0)),
+          totalObjects: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "AwsS3BucketDetailsObjectsMetadata" });
     case 16:
@@ -7690,9 +8144,9 @@ function __c87(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          storageClasses: S.optional(__S(2798, __c87, 14)),
-          objectsMetadata: S.optional(__S(2799, __c87, 15)),
-          versioning: S.optional(__S(2800, __c87, 16)),
+          storageClasses: S.optional(__S(3022, __c94, 14)),
+          objectsMetadata: S.optional(__S(3023, __c94, 15)),
+          versioning: S.optional(__S(3024, __c94, 16)),
         }),
       ).annotate({ identifier: "AwsS3BucketDetails" });
     case 18:
@@ -7711,7 +8165,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "SqlServerTraceFlag" });
     case 20:
-      return S.Array(__S(2803, __c87, 19));
+      return S.Array(__S(3027, __c94, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -7720,7 +8174,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "SqlServerFeature" });
     case 22:
-      return S.Array(__S(2805, __c87, 21));
+      return S.Array(__S(3029, __c94, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -7730,13 +8184,13 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "SqlServerServerFlag" });
     case 24:
-      return S.Array(__S(2807, __c87, 23));
+      return S.Array(__S(3031, __c94, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          traceFlags: S.optional(__S(2804, __c87, 20)),
-          features: S.optional(__S(2806, __c87, 22)),
-          serverFlags: S.optional(__S(2808, __c87, 24)),
+          traceFlags: S.optional(__S(3028, __c94, 20)),
+          features: S.optional(__S(3030, __c94, 22)),
+          serverFlags: S.optional(__S(3032, __c94, 24)),
         }),
       ).annotate({ identifier: "SqlServerDatabaseDeployment" });
     case 26:
@@ -7752,7 +8206,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "PostgreSqlSetting" });
     case 27:
-      return S.Array(__S(2810, __c87, 26));
+      return S.Array(__S(3034, __c94, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -7762,36 +8216,36 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "PostgreSqlProperty" });
     case 29:
-      return S.Array(__S(2812, __c87, 28));
+      return S.Array(__S(3036, __c94, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(2811, __c87, 27)),
-          properties: S.optional(__S(2813, __c87, 29)),
+          settings: S.optional(__S(3035, __c94, 27)),
+          properties: S.optional(__S(3037, __c94, 29)),
         }),
       ).annotate({ identifier: "PostgreSqlDatabaseDeployment" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          hostNames: S.optional(__S(1344, __c42, 0)),
-          ipAddresses: S.optional(__S(1344, __c42, 0)),
+          hostNames: S.optional(__S(1472, __c46, 0)),
+          ipAddresses: S.optional(__S(1472, __c46, 0)),
           primaryMacAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseInstanceNetwork" });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           instanceName: S.optional(S.String),
-          network: S.optional(__S(2815, __c87, 31)),
+          network: S.optional(__S(3039, __c94, 31)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseInstance" });
     case 1:
-      return S.Array(__S(2816, __c88, 0));
+      return S.Array(__S(3040, __c95, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7799,7 +8253,7 @@ function __c88(j: number): any {
           diskUsedBytes: S.optional(S.String),
           physicalCoreCount: S.optional(S.Number),
           coreCount: S.optional(S.Number),
-          instances: S.optional(__S(2817, __c88, 1)),
+          instances: S.optional(__S(3041, __c95, 1)),
           diskAllocatedBytes: S.optional(S.String),
           memoryBytes: S.optional(S.String),
           coreLimit: S.optional(S.Number),
@@ -7821,7 +8275,7 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "MySqlProperty" });
     case 5:
-      return S.Array(__S(2820, __c88, 4));
+      return S.Array(__S(3044, __c95, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -7831,7 +8285,7 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "MySqlVariable" });
     case 7:
-      return S.Array(__S(2822, __c88, 6));
+      return S.Array(__S(3046, __c95, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -7841,28 +8295,28 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "MySqlPlugin" });
     case 9:
-      return S.Array(__S(2824, __c88, 8));
+      return S.Array(__S(3048, __c95, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           resourceGroupsCount: S.optional(S.Number),
-          properties: S.optional(__S(2821, __c88, 5)),
-          variables: S.optional(__S(2823, __c88, 7)),
-          plugins: S.optional(__S(2825, __c88, 9)),
+          properties: S.optional(__S(3045, __c95, 5)),
+          variables: S.optional(__S(3047, __c95, 7)),
+          plugins: S.optional(__S(3049, __c95, 9)),
         }),
       ).annotate({ identifier: "MysqlDatabaseDeployment" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           edition: S.optional(S.String),
-          sqlServer: S.optional(__S(2809, __c87, 25)),
-          postgresql: S.optional(__S(2814, __c87, 30)),
-          topology: S.optional(__S(2818, __c88, 2)),
-          aggregatedStats: S.optional(__S(2819, __c88, 3)),
-          mysql: S.optional(__S(2826, __c88, 10)),
+          sqlServer: S.optional(__S(3033, __c94, 25)),
+          postgresql: S.optional(__S(3038, __c94, 30)),
+          topology: S.optional(__S(3042, __c95, 2)),
+          aggregatedStats: S.optional(__S(3043, __c95, 3)),
+          mysql: S.optional(__S(3050, __c95, 10)),
           generatedId: S.optional(S.String),
           manualUniqueId: S.optional(S.String),
-          awsRds: S.optional(__S(1984, __c62, 0)),
+          awsRds: S.optional(__S(2208, __c69, 0)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseDeploymentDetails" });
@@ -7882,8 +8336,8 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          aws: S.optional(__S(2828, __c88, 12)),
-          location: S.optional(__S(2829, __c88, 13)),
+          aws: S.optional(__S(3052, __c95, 12)),
+          location: S.optional(__S(3053, __c95, 13)),
           createTime: S.optional(S.String),
           originalId: S.optional(S.String),
         }),
@@ -7927,11 +8381,11 @@ function __c88(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          physicalDetails: S.optional(__S(2831, __c88, 15)),
-          vmwareDetails: S.optional(__S(2832, __c88, 16)),
-          awsEc2Details: S.optional(__S(2833, __c88, 17)),
-          genericDetails: S.optional(__S(2831, __c88, 15)),
-          azureVmDetails: S.optional(__S(2834, __c88, 18)),
+          physicalDetails: S.optional(__S(3055, __c95, 15)),
+          vmwareDetails: S.optional(__S(3056, __c95, 16)),
+          awsEc2Details: S.optional(__S(3057, __c95, 17)),
+          genericDetails: S.optional(__S(3055, __c95, 15)),
+          azureVmDetails: S.optional(__S(3058, __c95, 18)),
         }),
       ).annotate({ identifier: "PlatformDetails" });
     case 20:
@@ -7943,15 +8397,15 @@ function __c88(j: number): any {
           mountPoint: S.optional(S.String),
           uuid: S.optional(S.String),
           capacityBytes: S.optional(S.String),
-          subPartitions: S.optional(S.suspend(() => __S(2838, __c88, 22))),
+          subPartitions: S.optional(S.suspend(() => __S(3062, __c95, 22))),
         }),
       ).annotate({ identifier: "DiskPartition" });
     case 21:
-      return S.Array(__S(2836, __c88, 20));
+      return S.Array(__S(3060, __c95, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2837, __c88, 21)),
+          entries: S.optional(__S(3061, __c95, 21)),
         }),
       ).annotate({ identifier: "DiskPartitionList" });
     case 23:
@@ -7959,7 +8413,7 @@ function __c88(j: number): any {
         S.Struct({
           totalCapacityBytes: S.optional(S.String),
           freeSpaceBytes: S.optional(S.String),
-          partitions: S.optional(__S(2838, __c88, 22)),
+          partitions: S.optional(__S(3062, __c95, 22)),
         }),
       ).annotate({ identifier: "DiskPartitionDetails" });
     case 24:
@@ -7984,7 +8438,7 @@ function __c88(j: number): any {
           hyperthreading: S.optional(S.String),
           cpuArchitecture: S.optional(S.String),
           firmwareType: S.optional(S.String),
-          bios: S.optional(__S(2840, __c88, 24)),
+          bios: S.optional(__S(3064, __c95, 24)),
           vendor: S.optional(S.String),
           cpuManufacturer: S.optional(S.String),
         }),
@@ -8000,34 +8454,34 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "NetworkAddress" });
     case 27:
-      return S.Array(__S(2842, __c88, 26));
+      return S.Array(__S(3066, __c95, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(2843, __c88, 27)),
-          entries: S.optional(__S(2843, __c88, 27)),
+          addresses: S.optional(__S(3067, __c95, 27)),
+          entries: S.optional(__S(3067, __c95, 27)),
         }),
       ).annotate({ identifier: "NetworkAddressList" });
     case 29:
       return S.suspend(() =>
         S.Struct({
           adapterType: S.optional(S.String),
-          addresses: S.optional(__S(2844, __c88, 28)),
+          addresses: S.optional(__S(3068, __c95, 28)),
           macAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkAdapterDetails" });
     case 30:
-      return S.Array(__S(2845, __c88, 29));
+      return S.Array(__S(3069, __c95, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2846, __c88, 30)),
-          networkAdapters: S.optional(__S(2846, __c88, 30)),
+          entries: S.optional(__S(3070, __c95, 30)),
+          networkAdapters: S.optional(__S(3070, __c95, 30)),
         }),
       ).annotate({ identifier: "NetworkAdapterList" });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8036,7 +8490,7 @@ function __c89(j: number): any {
           primaryMacAddress: S.optional(S.String),
           publicIpAddress: S.optional(S.String),
           defaultGateway: S.optional(S.String),
-          networkAdapters: S.optional(__S(2847, __c88, 31)),
+          networkAdapters: S.optional(__S(3071, __c95, 31)),
         }),
       ).annotate({ identifier: "MachineNetworkDetails" });
     case 1:
@@ -8048,24 +8502,24 @@ function __c89(j: number): any {
           capacityBytes: S.optional(S.String),
           totalFreeBytes: S.optional(S.String),
           hwAddress: S.optional(S.String),
-          partitions: S.optional(__S(2838, __c88, 22)),
+          partitions: S.optional(__S(3062, __c95, 22)),
           freeSpaceBytes: S.optional(S.String),
           diskLabelType: S.optional(S.String),
           diskLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiskEntry" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(3073, __c96, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2850, __c89, 2)),
+          entries: S.optional(__S(3074, __c96, 2)),
         }),
       ).annotate({ identifier: "DiskEntryList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(2851, __c89, 3)),
+          disks: S.optional(__S(3075, __c96, 3)),
           rawScanResult: S.optional(S.String),
           totalCapacityBytes: S.optional(S.String),
           totalFreeBytes: S.optional(S.String),
@@ -8090,52 +8544,52 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "FstabEntry" });
     case 7:
-      return S.Array(__S(2854, __c89, 6));
+      return S.Array(__S(3078, __c96, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2855, __c89, 7)),
+          entries: S.optional(__S(3079, __c96, 7)),
         }),
       ).annotate({ identifier: "FstabEntryList" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          hostNames: S.optional(__S(1344, __c42, 0)),
+          hostNames: S.optional(__S(1472, __c46, 0)),
           ip: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostsEntry" });
     case 10:
-      return S.Array(__S(2857, __c89, 9));
+      return S.Array(__S(3081, __c96, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2858, __c89, 10)),
+          entries: S.optional(__S(3082, __c96, 10)),
         }),
       ).annotate({ identifier: "HostsEntryList" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          hosts: S.optional(__S(1344, __c42, 0)),
+          hosts: S.optional(__S(1472, __c46, 0)),
           exportDirectory: S.optional(S.String),
         }),
       ).annotate({ identifier: "NfsExport" });
     case 13:
-      return S.Array(__S(2860, __c89, 12));
+      return S.Array(__S(3084, __c96, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2861, __c89, 13)),
+          entries: S.optional(__S(3085, __c96, 13)),
         }),
       ).annotate({ identifier: "NfsExportList" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          selinux: S.optional(__S(2853, __c89, 5)),
+          selinux: S.optional(__S(3077, __c96, 5)),
           selinuxMode: S.optional(S.String),
           issue: S.optional(S.String),
-          fstab: S.optional(__S(2856, __c89, 8)),
-          hosts: S.optional(__S(2859, __c89, 11)),
-          nfsExports: S.optional(__S(2862, __c89, 14)),
+          fstab: S.optional(__S(3080, __c96, 8)),
+          hosts: S.optional(__S(3083, __c96, 11)),
+          nfsExports: S.optional(__S(3086, __c96, 14)),
         }),
       ).annotate({ identifier: "GuestConfigDetails" });
     case 16:
@@ -8148,11 +8602,11 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "OpenFileDetails" });
     case 17:
-      return S.Array(__S(2864, __c89, 16));
+      return S.Array(__S(3088, __c96, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2865, __c89, 17)),
+          entries: S.optional(__S(3089, __c96, 17)),
         }),
       ).annotate({ identifier: "OpenFileList" });
     case 19:
@@ -8160,7 +8614,7 @@ function __c89(j: number): any {
         S.Struct({
           installTime: S.optional(S.String),
           time: S.optional(S.String),
-          licenses: S.optional(__S(1344, __c42, 0)),
+          licenses: S.optional(__S(1472, __c46, 0)),
           applicationName: S.optional(S.String),
           vendor: S.optional(S.String),
           name: S.optional(S.String),
@@ -8169,11 +8623,11 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "GuestInstalledApplication" });
     case 20:
-      return S.Array(__S(2867, __c89, 19));
+      return S.Array(__S(3091, __c96, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2868, __c89, 20)),
+          entries: S.optional(__S(3092, __c96, 20)),
         }),
       ).annotate({ identifier: "GuestInstalledApplicationList" });
     case 22:
@@ -8190,11 +8644,11 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "NetworkConnection" });
     case 23:
-      return S.Array(__S(2870, __c89, 22));
+      return S.Array(__S(3094, __c96, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2871, __c89, 23)),
+          entries: S.optional(__S(3095, __c96, 23)),
         }),
       ).annotate({ identifier: "NetworkConnectionList" });
     case 25:
@@ -8209,7 +8663,7 @@ function __c89(j: number): any {
         S.Struct({
           hours: S.optional(S.Number),
           utcOffset: S.optional(S.String),
-          timeZone: S.optional(__S(2873, __c89, 25)),
+          timeZone: S.optional(__S(3097, __c96, 25)),
           seconds: S.optional(S.Number),
           day: S.optional(S.Number),
           year: S.optional(S.Number),
@@ -8223,8 +8677,8 @@ function __c89(j: number): any {
         S.Struct({
           netstat: S.optional(S.String),
           rawScanResult: S.optional(S.String),
-          connections: S.optional(__S(2872, __c89, 24)),
-          netstatTime: S.optional(__S(2874, __c89, 26)),
+          connections: S.optional(__S(3096, __c96, 24)),
+          netstatTime: S.optional(__S(3098, __c96, 26)),
           scanTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuntimeNetworkInfo" });
@@ -8242,19 +8696,19 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "RunningService" });
     case 29:
-      return S.Array(__S(2876, __c89, 28));
+      return S.Array(__S(3100, __c96, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2877, __c89, 29)),
-          services: S.optional(__S(2877, __c89, 29)),
+          entries: S.optional(__S(3101, __c96, 29)),
+          services: S.optional(__S(3101, __c96, 29)),
         }),
       ).annotate({ identifier: "RunningServiceList" });
     case 31:
       return S.suspend(() =>
         S.Struct({
           pid: S.optional(S.String),
-          attributes: S.optional(__S(2048, __c64, 0)),
+          attributes: S.optional(__S(2272, __c71, 0)),
           exePath: S.optional(S.String),
           cmdline: S.optional(S.String),
           user: S.optional(S.String),
@@ -8262,27 +8716,27 @@ function __c89(j: number): any {
       ).annotate({ identifier: "RunningProcess" });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2879, __c89, 31));
+      return S.Array(__S(3103, __c96, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(2880, __c90, 0)),
-          processes: S.optional(__S(2880, __c90, 0)),
+          entries: S.optional(__S(3104, __c97, 0)),
+          processes: S.optional(__S(3104, __c97, 0)),
         }),
       ).annotate({ identifier: "RunningProcessList" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          openFileList: S.optional(__S(2866, __c89, 18)),
-          installedApps: S.optional(__S(2869, __c89, 21)),
-          networkInfo: S.optional(__S(2875, __c89, 27)),
+          openFileList: S.optional(__S(3090, __c96, 18)),
+          installedApps: S.optional(__S(3093, __c96, 21)),
+          networkInfo: S.optional(__S(3099, __c96, 27)),
           domain: S.optional(S.String),
-          services: S.optional(__S(2878, __c89, 30)),
-          processes: S.optional(__S(2881, __c90, 1)),
-          lastUptime: S.optional(__S(2802, __c87, 18)),
+          services: S.optional(__S(3102, __c96, 30)),
+          processes: S.optional(__S(3105, __c97, 1)),
+          lastUptime: S.optional(__S(3026, __c94, 18)),
           lastBootTime: S.optional(S.String),
           machineName: S.optional(S.String),
         }),
@@ -8290,27 +8744,27 @@ function __c90(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(2863, __c89, 15)),
+          config: S.optional(__S(3087, __c96, 15)),
           family: S.optional(S.String),
           osName: S.optional(S.String),
           version: S.optional(S.String),
-          runtime: S.optional(__S(2882, __c90, 2)),
+          runtime: S.optional(__S(3106, __c97, 2)),
         }),
       ).annotate({ identifier: "GuestOsDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           createTime: S.optional(S.String),
-          platform: S.optional(__S(2835, __c88, 19)),
-          diskPartitions: S.optional(__S(2839, __c88, 23)),
-          architecture: S.optional(__S(2841, __c88, 25)),
-          network: S.optional(__S(2848, __c89, 0)),
+          platform: S.optional(__S(3059, __c95, 19)),
+          diskPartitions: S.optional(__S(3063, __c95, 23)),
+          architecture: S.optional(__S(3065, __c95, 25)),
+          network: S.optional(__S(3072, __c96, 0)),
           powerState: S.optional(S.String),
           uuid: S.optional(S.String),
           machineName: S.optional(S.String),
           memoryMb: S.optional(S.Number),
-          disks: S.optional(__S(2852, __c89, 4)),
-          guestOs: S.optional(__S(2883, __c90, 3)),
+          disks: S.optional(__S(3076, __c96, 4)),
+          guestOs: S.optional(__S(3107, __c97, 3)),
           coreCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MachineDetails" });
@@ -8320,7 +8774,7 @@ function __c90(j: number): any {
           vendor: S.optional(S.String),
           firmware: S.optional(S.String),
           cpuSocketCount: S.optional(S.Number),
-          bios: S.optional(__S(2840, __c88, 24)),
+          bios: S.optional(__S(3064, __c95, 24)),
           cpuArchitecture: S.optional(S.String),
           cpuName: S.optional(S.String),
           cpuManufacturer: S.optional(S.String),
@@ -8332,7 +8786,7 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           defaultGw: S.optional(S.String),
-          networkAdapters: S.optional(__S(2847, __c88, 31)),
+          networkAdapters: S.optional(__S(3071, __c95, 31)),
           publicIpAddress: S.optional(S.String),
           primaryMacAddress: S.optional(S.String),
           primaryIpAddress: S.optional(S.String),
@@ -8341,7 +8795,7 @@ function __c90(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(2851, __c89, 3)),
+          disks: S.optional(__S(3075, __c96, 3)),
           hddTotalCapacityBytes: S.optional(S.String),
           hddTotalFreeBytes: S.optional(S.String),
           lsblkJson: S.optional(S.String),
@@ -8354,25 +8808,25 @@ function __c90(j: number): any {
           vcenterVmId: S.optional(S.String),
           memoryMb: S.optional(S.Number),
           vmName: S.optional(S.String),
-          platform: S.optional(__S(2835, __c88, 19)),
+          platform: S.optional(__S(3059, __c95, 19)),
           osName: S.optional(S.String),
           coreCount: S.optional(S.Number),
           osVersion: S.optional(S.String),
-          guestOs: S.optional(__S(2883, __c90, 3)),
-          diskPartitions: S.optional(__S(2839, __c88, 23)),
-          vmArchitecture: S.optional(__S(2885, __c90, 5)),
+          guestOs: S.optional(__S(3107, __c97, 3)),
+          diskPartitions: S.optional(__S(3063, __c95, 23)),
+          vmArchitecture: S.optional(__S(3109, __c97, 5)),
           vmUuid: S.optional(S.String),
           powerState: S.optional(S.String),
           vcenterFolder: S.optional(S.String),
-          vmNetwork: S.optional(__S(2886, __c90, 6)),
-          vmDisks: S.optional(__S(2887, __c90, 7)),
+          vmNetwork: S.optional(__S(3110, __c97, 6)),
+          vmDisks: S.optional(__S(3111, __c97, 7)),
           osFamily: S.optional(S.String),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineDetails" });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8386,40 +8840,40 @@ function __c91(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          utilizationPercentage: S.optional(__S(2912, __c91, 0)),
+          utilizationPercentage: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregationCPU" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          readIops: S.optional(__S(2912, __c91, 0)),
-          iops: S.optional(__S(2912, __c91, 0)),
-          writeIops: S.optional(__S(2912, __c91, 0)),
+          readIops: S.optional(__S(3136, __c98, 0)),
+          iops: S.optional(__S(3136, __c98, 0)),
+          writeIops: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregationDisk" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          egressBps: S.optional(__S(2912, __c91, 0)),
-          ingressBps: S.optional(__S(2912, __c91, 0)),
+          egressBps: S.optional(__S(3136, __c98, 0)),
+          ingressBps: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregationNetwork" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cpu: S.optional(__S(2913, __c91, 1)),
-          disk: S.optional(__S(2914, __c91, 2)),
-          date: S.optional(__S(2802, __c87, 18)),
-          network: S.optional(__S(2915, __c91, 3)),
-          memory: S.optional(__S(2913, __c91, 1)),
+          cpu: S.optional(__S(3137, __c98, 1)),
+          disk: S.optional(__S(3138, __c98, 2)),
+          date: S.optional(__S(3026, __c94, 18)),
+          network: S.optional(__S(3139, __c98, 3)),
+          memory: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "DailyResourceUsageAggregation" });
     case 5:
-      return S.Array(__S(2916, __c91, 4));
+      return S.Array(__S(3140, __c98, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dailyResourceUsageAggregations: S.optional(__S(2917, __c91, 5)),
+          dailyResourceUsageAggregations: S.optional(__S(3141, __c98, 5)),
         }),
       ).annotate({ identifier: "AssetPerformanceData" });
     case 7:
@@ -8427,7 +8881,7 @@ function __c91(j: number): any {
         S.Struct({
           messageId: S.optional(S.String),
           defaultMessage: S.optional(S.String),
-          additionalInformation: S.optional(__S(1344, __c42, 0)),
+          additionalInformation: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "GenericInsight" });
     case 8:
@@ -8440,7 +8894,7 @@ function __c91(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          detectedSoftware: S.optional(__S(2920, __c91, 8)),
+          detectedSoftware: S.optional(__S(3144, __c98, 8)),
         }),
       ).annotate({ identifier: "SoftwareInsight" });
     case 10:
@@ -8451,11 +8905,11 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "ComputeStorageDescriptor" });
     case 11:
-      return S.Array(__S(2922, __c91, 10));
+      return S.Array(__S(3146, __c98, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(2923, __c91, 11)),
+          storage: S.optional(__S(3147, __c98, 11)),
           smtEnabled: S.optional(S.Boolean),
           memoryMb: S.optional(S.Number),
           series: S.optional(S.String),
@@ -8467,7 +8921,7 @@ function __c91(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          shape: S.optional(__S(2924, __c91, 12)),
+          shape: S.optional(__S(3148, __c98, 12)),
         }),
       ).annotate({ identifier: "ComputeEngineMigrationTarget" });
     case 14:
@@ -8482,7 +8936,7 @@ function __c91(j: number): any {
           edition: S.optional(S.String),
           memoryMb: S.optional(S.Number),
           zoneAvailability: S.optional(S.String),
-          storage: S.optional(__S(2922, __c91, 10)),
+          storage: S.optional(__S(3146, __c98, 10)),
           backupStorageGb: S.optional(S.Number),
           version: S.optional(S.String),
           logicalCoreCount: S.optional(S.Number),
@@ -8492,7 +8946,7 @@ function __c91(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(2922, __c91, 10)),
+          storage: S.optional(__S(3146, __c98, 10)),
           backupStorageGb: S.optional(S.Number),
           zoneAvailability: S.optional(S.String),
           version: S.optional(S.String),
@@ -8506,7 +8960,7 @@ function __c91(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(2922, __c91, 10)),
+          storage: S.optional(__S(3146, __c98, 10)),
           zoneAvailability: S.optional(S.String),
           backupStorageGb: S.optional(S.Number),
           edition: S.optional(S.String),
@@ -8519,9 +8973,9 @@ function __c91(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          cloudSqlForMysqlShape: S.optional(__S(2927, __c91, 15)),
-          cloudSqlShape: S.optional(__S(2928, __c91, 16)),
-          cloudSqlForPostgresqlShape: S.optional(__S(2929, __c91, 17)),
+          cloudSqlForMysqlShape: S.optional(__S(3151, __c98, 15)),
+          cloudSqlShape: S.optional(__S(3152, __c98, 16)),
+          cloudSqlForPostgresqlShape: S.optional(__S(3153, __c98, 17)),
         }),
       ).annotate({ identifier: "CloudDatabaseMigrationTarget" });
     case 19:
@@ -8537,109 +8991,109 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           issueCode: S.optional(S.String),
-          compatibilityIssue: S.optional(__S(2931, __c91, 19)),
+          compatibilityIssue: S.optional(__S(3155, __c98, 19)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Issue" });
     case 21:
-      return S.Array(__S(2932, __c91, 20));
+      return S.Array(__S(3156, __c98, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          computeEngineTarget: S.optional(__S(2925, __c91, 13)),
-          computeEngineSoleTenantTarget: S.optional(__S(1984, __c62, 0)),
-          vmwareEngineTarget: S.optional(__S(1984, __c62, 0)),
-          gkeTarget: S.optional(__S(1984, __c62, 0)),
-          fit: S.optional(__S(2926, __c91, 14)),
-          cloudDatabaseTarget: S.optional(__S(2930, __c91, 18)),
-          issues: S.optional(__S(2933, __c91, 21)),
+          computeEngineTarget: S.optional(__S(3149, __c98, 13)),
+          computeEngineSoleTenantTarget: S.optional(__S(2208, __c69, 0)),
+          vmwareEngineTarget: S.optional(__S(2208, __c69, 0)),
+          gkeTarget: S.optional(__S(2208, __c69, 0)),
+          fit: S.optional(__S(3150, __c98, 14)),
+          cloudDatabaseTarget: S.optional(__S(3154, __c98, 18)),
+          issues: S.optional(__S(3157, __c98, 21)),
         }),
       ).annotate({ identifier: "MigrationInsight" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          genericInsight: S.optional(__S(2919, __c91, 7)),
-          softwareInsight: S.optional(__S(2921, __c91, 9)),
-          migrationInsight: S.optional(__S(2934, __c91, 22)),
+          genericInsight: S.optional(__S(3143, __c98, 7)),
+          softwareInsight: S.optional(__S(3145, __c98, 9)),
+          migrationInsight: S.optional(__S(3158, __c98, 22)),
         }),
       ).annotate({ identifier: "Insight" });
     case 24:
-      return S.Array(__S(2935, __c91, 23));
+      return S.Array(__S(3159, __c98, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
           updateTime: S.optional(S.String),
-          insights: S.optional(__S(2936, __c91, 24)),
+          insights: S.optional(__S(3160, __c98, 24)),
         }),
       ).annotate({ identifier: "InsightList" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          databaseDetails: S.optional(__S(2796, __c87, 12)),
-          awsAthenaWorkGroupDetails: S.optional(__S(1984, __c62, 0)),
-          awsVpcDetails: S.optional(__S(1984, __c62, 0)),
-          awsRoute53HostedZoneDetails: S.optional(__S(1984, __c62, 0)),
-          awsEcrRepositoryDetails: S.optional(__S(1984, __c62, 0)),
-          awsFirehoseDetails: S.optional(__S(1984, __c62, 0)),
-          labels: S.optional(__S(2048, __c64, 0)),
-          awsEbsVolumeDetails: S.optional(__S(1984, __c62, 0)),
-          awsS3BucketDetails: S.optional(__S(2801, __c87, 17)),
+          databaseDetails: S.optional(__S(3020, __c94, 12)),
+          awsAthenaWorkGroupDetails: S.optional(__S(2208, __c69, 0)),
+          awsVpcDetails: S.optional(__S(2208, __c69, 0)),
+          awsRoute53HostedZoneDetails: S.optional(__S(2208, __c69, 0)),
+          awsEcrRepositoryDetails: S.optional(__S(2208, __c69, 0)),
+          awsFirehoseDetails: S.optional(__S(2208, __c69, 0)),
+          labels: S.optional(__S(2272, __c71, 0)),
+          awsEbsVolumeDetails: S.optional(__S(2208, __c69, 0)),
+          awsS3BucketDetails: S.optional(__S(3025, __c94, 17)),
           hidden: S.optional(S.Boolean),
-          awsEmrClusterDetails: S.optional(__S(1984, __c62, 0)),
-          performanceData: S.optional(__S(2918, __c91, 6)),
-          awsEfsFileSystemDetails: S.optional(__S(1984, __c62, 0)),
-          awsElasticNetworkInterfaceDetails: S.optional(__S(1984, __c62, 0)),
-          awsBatchComputeEnvironmentDetails: S.optional(__S(1984, __c62, 0)),
-          databaseDeploymentDetails: S.optional(__S(2827, __c88, 11)),
+          awsEmrClusterDetails: S.optional(__S(2208, __c69, 0)),
+          performanceData: S.optional(__S(3142, __c98, 6)),
+          awsEfsFileSystemDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticNetworkInterfaceDetails: S.optional(__S(2208, __c69, 0)),
+          awsBatchComputeEnvironmentDetails: S.optional(__S(2208, __c69, 0)),
+          databaseDeploymentDetails: S.optional(__S(3051, __c95, 11)),
           createTime: S.optional(S.String),
-          awsLambdaFunctionDetails: S.optional(__S(1984, __c62, 0)),
-          hostingProviderDetails: S.optional(__S(2830, __c88, 14)),
-          awsElasticIpAddressDetails: S.optional(__S(1984, __c62, 0)),
-          awsRedshiftDetails: S.optional(__S(1984, __c62, 0)),
-          structuredAttributes: S.optional(__S(1408, __c44, 0)),
-          awsElbLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
-          awsGlueJobDetails: S.optional(__S(1984, __c62, 0)),
+          awsLambdaFunctionDetails: S.optional(__S(2208, __c69, 0)),
+          hostingProviderDetails: S.optional(__S(3054, __c95, 14)),
+          awsElasticIpAddressDetails: S.optional(__S(2208, __c69, 0)),
+          awsRedshiftDetails: S.optional(__S(2208, __c69, 0)),
+          structuredAttributes: S.optional(__S(1536, __c48, 0)),
+          awsElbLoadBalancerDetails: S.optional(__S(2208, __c69, 0)),
+          awsGlueJobDetails: S.optional(__S(2208, __c69, 0)),
           title: S.optional(S.String),
-          awsInternetGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          awsCloudFrontDistributionDetails: S.optional(__S(1984, __c62, 0)),
-          awsApplicationLoadBalancerDetails: S.optional(__S(1984, __c62, 0)),
+          awsInternetGatewayDetails: S.optional(__S(2208, __c69, 0)),
+          awsCloudFrontDistributionDetails: S.optional(__S(2208, __c69, 0)),
+          awsApplicationLoadBalancerDetails: S.optional(__S(2208, __c69, 0)),
           hideReason: S.optional(S.String),
           name: S.optional(S.String),
-          machineDetails: S.optional(__S(2884, __c90, 4)),
+          machineDetails: S.optional(__S(3108, __c97, 4)),
           hideTime: S.optional(S.String),
-          attributes: S.optional(__S(2048, __c64, 0)),
-          assignedGroups: S.optional(__S(1344, __c42, 0)),
-          awsEksClusterDetails: S.optional(__S(1984, __c62, 0)),
-          insightList: S.optional(__S(2937, __c91, 25)),
-          awsNatGatewayDetails: S.optional(__S(1984, __c62, 0)),
-          awsDynamodbTableDetails: S.optional(__S(1984, __c62, 0)),
-          awsAppSyncGraphqlApiDetails: S.optional(__S(1984, __c62, 0)),
-          virtualMachineDetails: S.optional(__S(2888, __c90, 8)),
-          awsApiGatewayRestApiDetails: S.optional(__S(1984, __c62, 0)),
-          awsAutoscalingGroupDetails: S.optional(__S(1984, __c62, 0)),
-          awsKinesisStreamDetails: S.optional(__S(1984, __c62, 0)),
+          attributes: S.optional(__S(2272, __c71, 0)),
+          assignedGroups: S.optional(__S(1472, __c46, 0)),
+          awsEksClusterDetails: S.optional(__S(2208, __c69, 0)),
+          insightList: S.optional(__S(3161, __c98, 25)),
+          awsNatGatewayDetails: S.optional(__S(2208, __c69, 0)),
+          awsDynamodbTableDetails: S.optional(__S(2208, __c69, 0)),
+          awsAppSyncGraphqlApiDetails: S.optional(__S(2208, __c69, 0)),
+          virtualMachineDetails: S.optional(__S(3112, __c97, 8)),
+          awsApiGatewayRestApiDetails: S.optional(__S(2208, __c69, 0)),
+          awsAutoscalingGroupDetails: S.optional(__S(2208, __c69, 0)),
+          awsKinesisStreamDetails: S.optional(__S(2208, __c69, 0)),
           updateTime: S.optional(S.String),
-          awsEcsClusterDetails: S.optional(__S(1984, __c62, 0)),
-          awsSnsTopicDetails: S.optional(__S(1984, __c62, 0)),
-          awsElasticacheClusterDetails: S.optional(__S(1984, __c62, 0)),
-          sources: S.optional(__S(1344, __c42, 0)),
+          awsEcsClusterDetails: S.optional(__S(2208, __c69, 0)),
+          awsSnsTopicDetails: S.optional(__S(2208, __c69, 0)),
+          awsElasticacheClusterDetails: S.optional(__S(2208, __c69, 0)),
+          sources: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "Asset" });
   }
 }
-function __c92(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2938, __c91, 26));
+      return S.Array(__S(3162, __c98, 26));
   }
 }
-function __c93(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8650,23 +9104,13 @@ function __c93(j: number): any {
       ).annotate({ identifier: "RunProjectsLocationsAssetsExportJobsRequest" });
   }
 }
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RunAssetsExportJobRequest" });
-  }
-}
-function __c95(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8677,13 +9121,13 @@ function __c95(j: number): any {
       ).annotate({ identifier: "RunProjectsLocationsImportJobsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8694,20 +9138,14 @@ function __c96(j: number): any {
       ).annotate({ identifier: "RunProjectsLocationsReportConfigsReportsReportExportJobsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           errors: S.optional(__S(64, __c2, 0)),
           version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SendDiscoveryClientHeartbeatRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3104, __c97, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8718,7 +9156,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "SendHeartbeatProjectsLocationsDiscoveryClientsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8726,7 +9164,9 @@ function __c98(j: number): any {
           updateMask: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
+          customerConsentForGoogleSalesToAccessMigrationCenter: S.optional(S.Boolean),
+          disableCloudLogging: S.optional(S.Boolean),
+          preferenceSet: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8737,13 +9177,13 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateSettingsProjectsLocationsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3008, __c94, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8754,13 +9194,13 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ValidateProjectsLocationsImportJobsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2208, __c69, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8771,7 +9211,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8779,7 +9219,17 @@ function __c101(j: number): any {
           parent: S.String.pipe(T.Label()),
           assetsExportJobId: S.optional(S.String.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3301, __c103, 5).pipe(T.HttpBody())),
+          updateTime: S.optional(S.String),
+          inventory: S.optional(__S(2208, __c69, 0)),
+          name: S.optional(S.String),
+          showHidden: S.optional(S.Boolean),
+          networkDependencies: S.optional(__S(2208, __c69, 0)),
+          performanceData: S.optional(__S(3488, __c109, 0)),
+          recentExecutions: S.optional(__S(3491, __c109, 3)),
+          createTime: S.optional(S.String),
+          condition: S.optional(__S(3492, __c109, 4)),
+          signedUriDestination: S.optional(__S(3464, __c108, 8)),
+          labels: S.optional(__S(2272, __c71, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8790,7 +9240,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsAssetsExportJobsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8800,24 +9250,24 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "SignedUri" });
     case 1:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3456, __c108, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          signedUris: S.optional(__S(3265, __c102, 1)),
+          signedUris: S.optional(__S(3457, __c108, 1)),
         }),
       ).annotate({ identifier: "SignedUris" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          signedUri: S.optional(__S(3264, __c102, 0)),
+          signedUri: S.optional(__S(3456, __c108, 0)),
         }),
       ).annotate({ identifier: "XlsxOutputFile" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           columnsCount: S.optional(S.Number),
-          signedUri: S.optional(__S(3264, __c102, 0)),
+          signedUri: S.optional(__S(3456, __c108, 0)),
           rowCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CsvOutputFile" });
@@ -8825,16 +9275,16 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fileSizeBytes: S.optional(S.String),
-          xlsxOutputFile: S.optional(__S(3267, __c102, 3)),
-          csvOutputFile: S.optional(__S(3268, __c102, 4)),
+          xlsxOutputFile: S.optional(__S(3459, __c108, 3)),
+          csvOutputFile: S.optional(__S(3460, __c108, 4)),
         }),
       ).annotate({ identifier: "OutputFile" });
     case 6:
-      return S.Array(__S(3269, __c102, 5));
+      return S.Array(__S(3461, __c108, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(3270, __c102, 6)),
+          entries: S.optional(__S(3462, __c108, 6)),
         }),
       ).annotate({ identifier: "OutputFileList" });
     case 8:
@@ -8845,7 +9295,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "SignedUriDestination" });
   }
 }
-function __c103(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8856,15 +9306,15 @@ function __c103(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(1441, __c45, 1)),
-          signedUris: S.optional(__S(3266, __c102, 2)),
-          outputFiles: S.optional(__S(3271, __c102, 7)),
+          error: S.optional(__S(1569, __c49, 1)),
+          signedUris: S.optional(__S(3458, __c108, 2)),
+          outputFiles: S.optional(__S(3463, __c108, 7)),
         }),
       ).annotate({ identifier: "AssetsExportJobExecutionResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3297, __c103, 1)),
+          result: S.optional(__S(3489, __c109, 1)),
           requestedAssetCount: S.optional(S.Number),
           executionId: S.optional(S.String),
           startTime: S.optional(S.String),
@@ -8873,29 +9323,13 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "AssetsExportJobExecution" });
     case 3:
-      return S.Array(__S(3298, __c103, 2));
+      return S.Array(__S(3490, __c109, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetsExportJobExportCondition" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          inventory: S.optional(__S(1984, __c62, 0)),
-          name: S.optional(S.String),
-          showHidden: S.optional(S.Boolean),
-          networkDependencies: S.optional(__S(1984, __c62, 0)),
-          performanceData: S.optional(__S(3296, __c103, 0)),
-          recentExecutions: S.optional(__S(3299, __c103, 3)),
-          createTime: S.optional(S.String),
-          condition: S.optional(__S(3300, __c103, 4)),
-          signedUriDestination: S.optional(__S(3272, __c102, 8)),
-          labels: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "AssetsExportJob" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

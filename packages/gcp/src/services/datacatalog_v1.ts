@@ -115,6 +115,26 @@ export interface GoogleCloudDatacatalogV1SystemTimestamps {
   /** Timestamp of the last modification of the resource or its metadata within a given system. Note: Depending on the source system, not every modification updates this timestamp. For example, BigQuery timestamps every metadata modification but not data or permission changes. */
   updateTime?: string | undefined;
 }
+export interface CreateProjectsLocationsTaxonomiesRequest {
+  /** Required. Resource name of the project that the taxonomy will belong to. */
+  parent: string;
+  /** Optional. A list of policy types that are activated for this taxonomy. If not set, defaults to an empty list. */
+  activatedPolicyTypes?:
+    | GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnumList
+    | undefined;
+  /** Optional. Description of this taxonomy. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns, and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
+  description?: string | undefined;
+  /** Output only. Identity of the service which owns the Taxonomy. This field is only populated when the taxonomy is created by a Google Cloud service. Currently only 'DATAPLEX' is supported. */
+  service?: GoogleCloudDatacatalogV1TaxonomyService | undefined;
+  /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
+  name?: string | undefined;
+  /** Required. User-defined name of this taxonomy. The name can't start or end with spaces, must contain only Unicode letters, numbers, underscores, dashes, and spaces, and be at most 200 bytes long when encoded in UTF-8. The taxonomy display name must be unique within an organization. */
+  displayName?: string | undefined;
+  /** Output only. Number of policy tags in this taxonomy. */
+  policyTagCount?: number | undefined;
+  /** Output only. Creation and modification timestamps of this taxonomy. */
+  taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
+}
 /** A taxonomy is a collection of hierarchical policy tags that classify data along a common axis. For example, a "data sensitivity" taxonomy might contain the following policy tags: ``` + PII + Account number + Age + SSN + Zipcode + Financials + Revenue ``` A "data origin" taxonomy might contain the following policy tags: ``` + User data + Employee data + Partner data + Public data ``` */
 export interface GoogleCloudDatacatalogV1Taxonomy {
   /** Optional. A list of policy types that are activated for this taxonomy. If not set, defaults to an empty list. */
@@ -134,13 +154,21 @@ export interface GoogleCloudDatacatalogV1Taxonomy {
   /** Output only. Creation and modification timestamps of this taxonomy. */
   taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
 }
-export interface CreateProjectsLocationsTaxonomiesRequest {
-  /** Required. Resource name of the project that the taxonomy will belong to. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1Taxonomy | undefined;
-}
 export type StringList = Array<string>;
+export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest {
+  /** Required. Resource name of the taxonomy that the policy tag will belong to. */
+  parent: string;
+  /** Output only. Resource names of child policy tags of this policy tag. */
+  childPolicyTags?: StringList | undefined;
+  /** Required. User-defined name of this policy tag. The name can't start or end with spaces and must be unique within the parent taxonomy, contain only Unicode letters, numbers, underscores, dashes and spaces, and be at most 200 bytes long when encoded in UTF-8. */
+  displayName?: string | undefined;
+  /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
+  name?: string | undefined;
+  /** Description of this policy tag. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
+  description?: string | undefined;
+  /** Resource name of this policy tag's parent policy tag. If empty, this is a top level tag. If not set, defaults to an empty string. For example, for the "LatLong" policy tag in the example above, this field contains the resource name of the "Geolocation" policy tag, and, for "Geolocation", this field is empty. */
+  parentPolicyTag?: string | undefined;
+}
 /** Denotes one policy tag in a taxonomy, for example, SSN. Policy tags can be defined in a hierarchy. For example: ``` + Geolocation + LatLong + City + ZipCode ``` Where the "Geolocation" policy tag contains three children. */
 export interface GoogleCloudDatacatalogV1PolicyTag {
   /** Output only. Resource names of child policy tags of this policy tag. */
@@ -153,12 +181,6 @@ export interface GoogleCloudDatacatalogV1PolicyTag {
   description?: string | undefined;
   /** Resource name of this policy tag's parent policy tag. If empty, this is a top level tag. If not set, defaults to an empty string. For example, for the "LatLong" policy tag in the example above, this field contains the resource name of the "Geolocation" policy tag, and, for "Geolocation", this field is empty. */
   parentPolicyTag?: string | undefined;
-}
-export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest {
-  /** Required. Resource name of the taxonomy that the policy tag will belong to. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1PolicyTag | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -263,16 +285,11 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -307,8 +324,8 @@ export interface Policy {
 export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -356,18 +373,13 @@ export interface GoogleCloudDatacatalogV1InlineSource {
   /** Required. Taxonomies to import. */
   taxonomies?: GoogleCloudDatacatalogV1SerializedTaxonomyList | undefined;
 }
-/** Request message for ImportTaxonomies. */
-export interface GoogleCloudDatacatalogV1ImportTaxonomiesRequest {
+export interface ImportProjectsLocationsTaxonomiesRequest {
+  /** Required. Resource name of project that the imported taxonomies will belong to. */
+  parent: string;
   /** Cross-regional source taxonomy to import. */
   crossRegionalSource?: GoogleCloudDatacatalogV1CrossRegionalSource | undefined;
   /** Inline source taxonomy to import. */
   inlineSource?: GoogleCloudDatacatalogV1InlineSource | undefined;
-}
-export interface ImportProjectsLocationsTaxonomiesRequest {
-  /** Required. Resource name of project that the imported taxonomies will belong to. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1ImportTaxonomiesRequest | undefined;
 }
 export type GoogleCloudDatacatalogV1TaxonomyList = Array<GoogleCloudDatacatalogV1Taxonomy>;
 /** Response message for ImportTaxonomies. */
@@ -435,27 +447,40 @@ export interface PatchProjectsLocationsTaxonomiesRequest {
   name: string;
   /** Specifies fields to update. If not set, defaults to all fields you can update. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1Taxonomy | undefined;
+  /** Optional. A list of policy types that are activated for this taxonomy. If not set, defaults to an empty list. */
+  activatedPolicyTypes?:
+    | GoogleCloudDatacatalogV1TaxonomyActivatedPolicyTypesItemEnumList
+    | undefined;
+  /** Optional. Description of this taxonomy. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns, and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
+  description?: string | undefined;
+  /** Output only. Identity of the service which owns the Taxonomy. This field is only populated when the taxonomy is created by a Google Cloud service. Currently only 'DATAPLEX' is supported. */
+  service?: GoogleCloudDatacatalogV1TaxonomyService | undefined;
+  /** Required. User-defined name of this taxonomy. The name can't start or end with spaces, must contain only Unicode letters, numbers, underscores, dashes, and spaces, and be at most 200 bytes long when encoded in UTF-8. The taxonomy display name must be unique within an organization. */
+  displayName?: string | undefined;
+  /** Output only. Number of policy tags in this taxonomy. */
+  policyTagCount?: number | undefined;
+  /** Output only. Creation and modification timestamps of this taxonomy. */
+  taxonomyTimestamps?: GoogleCloudDatacatalogV1SystemTimestamps | undefined;
 }
 export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
   name: string;
   /** Specifies the fields to update. You can update only display name, description, and parent policy tag. If not set, defaults to all updatable fields. For more information, see [FieldMask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask). */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1PolicyTag | undefined;
-}
-/** Request message for ReplaceTaxonomy. */
-export interface GoogleCloudDatacatalogV1ReplaceTaxonomyRequest {
-  /** Required. Taxonomy to update along with its child policy tags. */
-  serializedTaxonomy?: GoogleCloudDatacatalogV1SerializedTaxonomy | undefined;
+  /** Output only. Resource names of child policy tags of this policy tag. */
+  childPolicyTags?: StringList | undefined;
+  /** Required. User-defined name of this policy tag. The name can't start or end with spaces and must be unique within the parent taxonomy, contain only Unicode letters, numbers, underscores, dashes and spaces, and be at most 200 bytes long when encoded in UTF-8. */
+  displayName?: string | undefined;
+  /** Description of this policy tag. If not set, defaults to empty. The description must contain only Unicode characters, tabs, newlines, carriage returns and page breaks, and be at most 2000 bytes long when encoded in UTF-8. */
+  description?: string | undefined;
+  /** Resource name of this policy tag's parent policy tag. If empty, this is a top level tag. If not set, defaults to an empty string. For example, for the "LatLong" policy tag in the example above, this field contains the resource name of the "Geolocation" policy tag, and, for "Geolocation", this field is empty. */
+  parentPolicyTag?: string | undefined;
 }
 export interface ReplaceProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to update. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1ReplaceTaxonomyRequest | undefined;
+  /** Required. Taxonomy to update along with its child policy tags. */
+  serializedTaxonomy?: GoogleCloudDatacatalogV1SerializedTaxonomy | undefined;
 }
 /** The criteria that select the subspace used for query matching. */
 export interface GoogleCloudDatacatalogV1SearchCatalogRequestScope {
@@ -472,8 +497,7 @@ export interface GoogleCloudDatacatalogV1SearchCatalogRequestScope {
   /** Optional. If `true`, search only among starred entries. By default, all results are returned, starred or not. */
   starredOnly?: boolean | undefined;
 }
-/** Request message for SearchCatalog. */
-export interface GoogleCloudDatacatalogV1SearchCatalogRequest {
+export interface SearchCatalogRequest {
   /** Required. The scope of this search request. The `scope` is invalid if `include_org_ids`, `include_project_ids` are empty AND `include_gcp_public_datasets` is set to `false`. In this case, the request returns an error. */
   scope?: GoogleCloudDatacatalogV1SearchCatalogRequestScope | undefined;
   /** Specifies the order of results. Currently supported case-sensitive values are: * `relevance` that can only be descending * `last_modified_timestamp [asc|desc]` with descending (`desc`) as default * `default` that can only be descending Search queries don't guarantee full recall. Results that match your query might not be returned, even in subsequent result pages. Additionally, returned (and not returned) results can vary if you repeat search queries. If you are experiencing recall issues and you don't have to fetch the results in any specific order, consider setting this parameter to `default`. If this parameter is omitted, it defaults to the descending `relevance`. */
@@ -486,10 +510,6 @@ export interface GoogleCloudDatacatalogV1SearchCatalogRequest {
   pageToken?: string | undefined;
   /** Optional. The query string with a minimum of 3 characters and specific syntax. For more information, see [Data Catalog search syntax](https://cloud.google.com/data-catalog/docs/how-to/search-reference). An empty query string returns all data assets (in the specified scope) that you have access to. A query string can be a simple `xyz` or qualified by predicates: * `name:x` * `column:y` * `description:z` */
   query?: string | undefined;
-}
-export interface SearchCatalogRequest {
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1SearchCatalogRequest | undefined;
 }
 export type GoogleCloudDatacatalogV1SearchCatalogResultIntegratedSystemEnum =
   | "INTEGRATED_SYSTEM_UNSPECIFIED"
@@ -551,8 +571,9 @@ export type GoogleCloudDatacatalogV1SetConfigRequestTagTemplateMigrationEnum =
   | "TAG_TEMPLATE_MIGRATION_UNSPECIFIED"
   | "TAG_TEMPLATE_MIGRATION_ENABLED"
   | "TAG_TEMPLATE_MIGRATION_DISABLED";
-/** Request message for SetConfig. */
-export interface GoogleCloudDatacatalogV1SetConfigRequest {
+export interface SetConfigOrganizationsLocationsRequest {
+  /** Required. The organization or project whose config is being specified. */
+  name: string;
   /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
   catalogUiExperience?:
     | GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum
@@ -564,45 +585,37 @@ export interface GoogleCloudDatacatalogV1SetConfigRequest {
     | (string & {})
     | undefined;
 }
-export interface SetConfigOrganizationsLocationsRequest {
-  /** Required. The organization or project whose config is being specified. */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1SetConfigRequest | undefined;
-}
 export interface SetConfigProjectsLocationsRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudDatacatalogV1SetConfigRequest | undefined;
-}
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
+  /** Opt-in status for the UI switch to Dataplex Universal Catalog. */
+  catalogUiExperience?:
+    | GoogleCloudDatacatalogV1SetConfigRequestCatalogUiExperienceEnum
+    | (string & {})
+    | undefined;
+  /** Opt-in status for the migration of Tag Templates to Dataplex Universal Catalog. */
+  tagTemplateMigration?:
+    | GoogleCloudDatacatalogV1SetConfigRequestTagTemplateMigrationEnum
+    | (string & {})
+    | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -612,8 +625,8 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -628,8 +641,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(248, __c31, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -650,8 +663,8 @@ export const createProjectsLocationsTaxonomies: API.OperationMethod<
   CreateProjectsLocationsTaxonomiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<CreateProjectsLocationsTaxonomiesRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateProjectsLocationsTaxonomiesRequest>,
+  output: __S(282, __c35, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -672,8 +685,8 @@ export const createProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   CreateProjectsLocationsTaxonomiesPolicyTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<CreateProjectsLocationsTaxonomiesPolicyTagsRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GoogleCloudDatacatalogV1PolicyTag>,
+  input: __S(288, __c36, 0) as any as S.Schema<CreateProjectsLocationsTaxonomiesPolicyTagsRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<GoogleCloudDatacatalogV1PolicyTag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -694,8 +707,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -716,8 +729,8 @@ export const deleteProjectsLocationsTaxonomies: API.OperationMethod<
   DeleteProjectsLocationsTaxonomiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<DeleteProjectsLocationsTaxonomiesRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteProjectsLocationsTaxonomiesRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -738,8 +751,8 @@ export const deleteProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   DeleteProjectsLocationsTaxonomiesPolicyTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DeleteProjectsLocationsTaxonomiesPolicyTagsRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<Empty>,
+  input: __S(328, __c41, 0) as any as S.Schema<DeleteProjectsLocationsTaxonomiesPolicyTagsRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -889,7 +902,7 @@ export const getProjectsLocationsTaxonomies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetProjectsLocationsTaxonomiesRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
+  output: __S(282, __c35, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -906,7 +919,7 @@ export const getProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetProjectsLocationsTaxonomiesPolicyTagsRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GoogleCloudDatacatalogV1PolicyTag>,
+  output: __S(304, __c38, 0) as any as S.Schema<GoogleCloudDatacatalogV1PolicyTag>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -927,8 +940,8 @@ export const importProjectsLocationsTaxonomies: API.OperationMethod<
   ImportProjectsLocationsTaxonomiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(122, __c15, 2) as any as S.Schema<ImportProjectsLocationsTaxonomiesRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<GoogleCloudDatacatalogV1ImportTaxonomiesResponse>,
+  input: __S(121, __c15, 1) as any as S.Schema<ImportProjectsLocationsTaxonomiesRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<GoogleCloudDatacatalogV1ImportTaxonomiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1007,7 +1020,7 @@ export const patchProjectsLocationsTaxonomies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<PatchProjectsLocationsTaxonomiesRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
+  output: __S(282, __c35, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1029,7 +1042,7 @@ export const patchProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<PatchProjectsLocationsTaxonomiesPolicyTagsRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<GoogleCloudDatacatalogV1PolicyTag>,
+  output: __S(304, __c38, 0) as any as S.Schema<GoogleCloudDatacatalogV1PolicyTag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1050,8 +1063,8 @@ export const replaceProjectsLocationsTaxonomies: API.OperationMethod<
   ReplaceProjectsLocationsTaxonomiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c22, 1) as any as S.Schema<ReplaceProjectsLocationsTaxonomiesRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
+  input: __S(176, __c22, 0) as any as S.Schema<ReplaceProjectsLocationsTaxonomiesRequest>,
+  output: __S(282, __c35, 2) as any as S.Schema<GoogleCloudDatacatalogV1Taxonomy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1067,8 +1080,8 @@ export const searchCatalog: API.OperationMethod<
   SearchCatalogError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(186, __c23, 2) as any as S.Schema<SearchCatalogRequest>,
-  output: __S(189, __c23, 5) as any as S.Schema<GoogleCloudDatacatalogV1SearchCatalogResponse>,
+  input: __S(185, __c23, 1) as any as S.Schema<SearchCatalogRequest>,
+  output: __S(188, __c23, 4) as any as S.Schema<GoogleCloudDatacatalogV1SearchCatalogResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1111,7 +1124,7 @@ export const setConfigProjectsLocations: API.OperationMethod<
   SetConfigProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<SetConfigProjectsLocationsRequest>,
+  input: __S(200, __c25, 0) as any as S.Schema<SetConfigProjectsLocationsRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<GoogleCloudDatacatalogV1MigrationConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1133,7 +1146,7 @@ export const setIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<
   SetIamPolicyProjectsLocationsTaxonomiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTaxonomiesRequest>,
+  input: __S(208, __c26, 0) as any as S.Schema<SetIamPolicyProjectsLocationsTaxonomiesRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1156,8 +1169,8 @@ export const setIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    232,
-    __c29,
+    216,
+    __c27,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<Policy>,
@@ -1182,11 +1195,11 @@ export const testIamPermissionsProjectsLocationsTaxonomies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    240,
-    __c30,
+    224,
+    __c28,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsTaxonomiesRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(232, __c29, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1208,11 +1221,11 @@ export const testIamPermissionsProjectsLocationsTaxonomiesPolicyTags: API.Operat
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    256,
-    __c32,
+    240,
+    __c30,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(232, __c29, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1228,7 +1241,7 @@ function __c0(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           serializedTaxonomies: S.optional(S.Boolean.pipe(T.Query())),
-          taxonomies: S.optional(__S(312, __c39, 0).pipe(T.Query())),
+          taxonomies: S.optional(__S(296, __c37, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1268,7 +1281,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          activatedPolicyTypes: S.optional(__S(288, __c36, 0)),
+          activatedPolicyTypes: S.optional(__S(272, __c34, 0)),
           description: S.optional(S.String),
           policyTags: S.optional(__S(17, __c2, 1)),
         }),
@@ -1349,7 +1362,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(64, __c8, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1368,12 +1381,6 @@ function __c8(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          options: S.optional(__S(64, __c8, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
 function __c9(j: number): any {
@@ -1392,7 +1399,7 @@ function __c9(j: number): any {
         S.Struct({
           condition: S.optional(__S(72, __c9, 0)),
           role: S.optional(S.String),
-          members: S.optional(__S(312, __c39, 0)),
+          members: S.optional(__S(296, __c37, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
@@ -1413,7 +1420,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(64, __c8, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1509,15 +1516,9 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           crossRegionalSource: S.optional(__S(120, __c15, 0)),
           inlineSource: S.optional(__S(9, __c1, 1)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogV1ImportTaxonomiesRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(121, __c15, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1526,7 +1527,7 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ImportProjectsLocationsTaxonomiesRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           taxonomies: S.optional(__S(128, __c16, 0)),
@@ -1537,7 +1538,7 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(298, __c37, 2));
+      return S.Array(__S(282, __c35, 2));
   }
 }
 function __c17(j: number): any {
@@ -1565,7 +1566,7 @@ function __c17(j: number): any {
         S.Struct({
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(137, __c17, 1)),
-          unreachable: S.optional(__S(312, __c39, 0)),
+          unreachable: S.optional(__S(296, __c37, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1613,7 +1614,7 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsTaxonomiesPolicyTagsRequest" });
     case 1:
-      return S.Array(__S(320, __c40, 0));
+      return S.Array(__S(304, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1630,7 +1631,12 @@ function __c20(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
+          activatedPolicyTypes: S.optional(__S(272, __c34, 0)),
+          description: S.optional(S.String),
+          service: S.optional(__S(280, __c35, 0)),
+          displayName: S.optional(S.String),
+          policyTagCount: S.optional(S.Number),
+          taxonomyTimestamps: S.optional(__S(281, __c35, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1648,7 +1654,10 @@ function __c21(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
+          childPolicyTags: S.optional(__S(296, __c37, 0)),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          parentPolicyTag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1664,14 +1673,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serializedTaxonomy: S.optional(__S(18, __c2, 2)),
-        }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogV1ReplaceTaxonomyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(176, __c22, 0).pipe(T.HttpBody())),
+          serializedTaxonomy: S.optional(__S(18, __c2, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1688,9 +1691,9 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           includePublicTagTemplates: S.optional(S.Boolean),
-          includeOrgIds: S.optional(__S(312, __c39, 0)),
-          restrictedLocations: S.optional(__S(312, __c39, 0)),
-          includeProjectIds: S.optional(__S(312, __c39, 0)),
+          includeOrgIds: S.optional(__S(296, __c37, 0)),
+          restrictedLocations: S.optional(__S(296, __c37, 0)),
+          includeProjectIds: S.optional(__S(296, __c37, 0)),
           includeGcpPublicDatasets: S.optional(S.Boolean),
           starredOnly: S.optional(S.Boolean),
         }),
@@ -1704,12 +1707,6 @@ function __c23(j: number): any {
           adminSearch: S.optional(S.Boolean),
           pageToken: S.optional(S.String),
           query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(185, __c23, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1718,7 +1715,7 @@ function __c23(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchCatalogRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
@@ -1733,14 +1730,14 @@ function __c23(j: number): any {
           modifyTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogResult" });
+    case 3:
+      return S.Array(__S(186, __c23, 2));
     case 4:
-      return S.Array(__S(187, __c23, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(188, __c23, 4)),
+          results: S.optional(__S(187, __c23, 3)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(312, __c39, 0)),
+          unreachable: S.optional(__S(296, __c37, 0)),
           totalSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1SearchCatalogResponse" });
@@ -1752,7 +1749,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
+          catalogUiExperience: S.optional(S.String),
+          tagTemplateMigration: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1768,19 +1766,9 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           catalogUiExperience: S.optional(S.String),
           tagTemplateMigration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleCloudDatacatalogV1SetConfigRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(200, __c25, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1791,13 +1779,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "SetConfigProjectsLocationsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(75, __c9, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1808,23 +1796,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsTaxonomiesRequest" });
   }
 }
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(75, __c9, 3)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(224, __c28, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(75, __c9, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1835,13 +1813,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(296, __c37, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1852,23 +1830,23 @@ function __c30(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsTaxonomiesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(312, __c39, 0)),
+          permissions: S.optional(__S(296, __c37, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(248, __c31, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(296, __c37, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1879,7 +1857,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1895,19 +1873,25 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c35(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c37, 2).pipe(T.HttpBody())),
+          activatedPolicyTypes: S.optional(__S(272, __c34, 0)),
+          description: S.optional(S.String),
+          service: S.optional(__S(280, __c35, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          policyTagCount: S.optional(S.Number),
+          taxonomyTimestamps: S.optional(__S(281, __c35, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1918,13 +1902,13 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTaxonomiesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c37(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1944,24 +1928,28 @@ function __c37(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          activatedPolicyTypes: S.optional(__S(288, __c36, 0)),
+          activatedPolicyTypes: S.optional(__S(272, __c34, 0)),
           description: S.optional(S.String),
-          service: S.optional(__S(296, __c37, 0)),
+          service: S.optional(__S(280, __c35, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
           policyTagCount: S.optional(S.Number),
-          taxonomyTimestamps: S.optional(__S(297, __c37, 1)),
+          taxonomyTimestamps: S.optional(__S(281, __c35, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudDatacatalogV1Taxonomy" });
   }
 }
-function __c38(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c40, 0).pipe(T.HttpBody())),
+          childPolicyTags: S.optional(__S(296, __c37, 0)),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          parentPolicyTag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1972,18 +1960,18 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTaxonomiesPolicyTagsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c40(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          childPolicyTags: S.optional(__S(312, __c39, 0)),
+          childPolicyTags: S.optional(__S(296, __c37, 0)),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
@@ -1992,7 +1980,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GoogleCloudDatacatalogV1PolicyTag" });
   }
 }
-function __c41(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2008,7 +1996,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2024,7 +2012,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsTaxonomiesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

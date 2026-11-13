@@ -138,9 +138,9 @@ describe("request encoding", () => {
     expect(people.calls[0].url.searchParams.get("requestMask.includeField")).toBe("person.names");
   });
 
-  test("the HttpBody member is the whole JSON body; GET sends none", async () => {
+  test("request body fields are the JSON body; GET sends none", async () => {
     const insert = fakeGoogle();
-    await run(insertTasklists({ body: { title: "Groceries" } }), insert.layer);
+    await run(insertTasklists({ title: "Groceries" }), insert.layer);
     expect(insert.calls[0].method).toBe("POST");
     expect(insert.calls[0].url.href).toBe("https://tasks.googleapis.com/tasks/v1/users/@me/lists");
     expect(insert.calls[0].headers["content-type"]).toBe("application/json");

@@ -189,8 +189,15 @@ export interface ScheduleOptionsV2 {
   /** Time based transfer schedule options. This is the default schedule option. */
   timeBasedSchedule?: TimeBasedSchedule | undefined;
 }
-/** Represents a data transfer configuration. A transfer configuration contains all metadata needed to perform a data transfer. For example, `destination_dataset_id` specifies where data should be stored. When a new transfer configuration is created, the specified `destination_dataset_id` is created when needed and shared with the appropriate data source service account. */
-export interface TransferConfig {
+export interface CreateProjectsLocationsTransferConfigsRequest {
+  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  authorizationCode?: string | undefined;
+  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
+  parent: string;
+  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
+  versionInfo?: string | undefined;
+  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
+  serviceAccountName?: string | undefined;
   /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
   ownerInfo?: UserInfo | undefined;
   /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
@@ -238,17 +245,54 @@ export interface TransferConfig {
   /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
   scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
 }
-export interface CreateProjectsLocationsTransferConfigsRequest {
-  /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  authorizationCode?: string | undefined;
-  /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
-  parent: string;
-  /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
-  versionInfo?: string | undefined;
-  /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
-  serviceAccountName?: string | undefined;
-  /** Request body */
-  body?: TransferConfig | undefined;
+/** Represents a data transfer configuration. A transfer configuration contains all metadata needed to perform a data transfer. For example, `destination_dataset_id` specifies where data should be stored. When a new transfer configuration is created, the specified `destination_dataset_id` is created when needed and shared with the appropriate data source service account. */
+export interface TransferConfig {
+  /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
+  ownerInfo?: UserInfo | undefined;
+  /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
+  emailPreferences?: EmailPreferences | undefined;
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name?: string | undefined;
+  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string | undefined;
+  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
+  disabled?: boolean | undefined;
+  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Options customizing the data transfer schedule. */
+  scheduleOptions?: ScheduleOptions | undefined;
+  /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
+  dataSourceId?: string | undefined;
+  /** Optional. The config for values in `params`. */
+  paramConfig?: ParameterConfig | undefined;
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string | undefined;
+  /** Output only. Error code with detailed information about reason of the latest config failure. */
+  error?: Status | undefined;
+  /** The metadata destination of the transfer config. */
+  metadataDestination?: MetadataDestination | undefined;
+  /** Output only. Region in which BigQuery dataset is located. */
+  datasetRegion?: string | undefined;
+  /** Output only. Next time when data transfer will run. */
+  nextRunTime?: string | undefined;
+  /** Output only. State of the most recently updated transfer run. */
+  state?: TransferConfigStateEnum | undefined;
+  /** User specified display name for the data transfer. */
+  displayName?: string | undefined;
+  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: DocumentMap | undefined;
+  /** Output only. Data transfer modification time. Ignored by server on input. */
+  updateTime?: string | undefined;
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string | undefined;
+  /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
+  dataRefreshWindowDays?: number | undefined;
+  /** The classification of the destination table. */
+  managedTableType?: TransferConfigManagedTableTypeEnum | undefined;
+  /** The BigQuery target dataset id. */
+  destinationDatasetId?: string | undefined;
+  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+  scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
 }
 export interface CreateProjectsTransferConfigsRequest {
   /** Required. The BigQuery project id where the transfer configuration should be created. Must be in the format projects/{project_id}/locations/{location_id} or projects/{project_id}. If specified location and location of the destination bigquery dataset do not match - the request will fail. */
@@ -259,8 +303,52 @@ export interface CreateProjectsTransferConfigsRequest {
   authorizationCode?: string | undefined;
   /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
   serviceAccountName?: string | undefined;
-  /** Request body */
-  body?: TransferConfig | undefined;
+  /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
+  ownerInfo?: UserInfo | undefined;
+  /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
+  emailPreferences?: EmailPreferences | undefined;
+  /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  name?: string | undefined;
+  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string | undefined;
+  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
+  disabled?: boolean | undefined;
+  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Options customizing the data transfer schedule. */
+  scheduleOptions?: ScheduleOptions | undefined;
+  /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
+  dataSourceId?: string | undefined;
+  /** Optional. The config for values in `params`. */
+  paramConfig?: ParameterConfig | undefined;
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string | undefined;
+  /** Output only. Error code with detailed information about reason of the latest config failure. */
+  error?: Status | undefined;
+  /** The metadata destination of the transfer config. */
+  metadataDestination?: MetadataDestination | undefined;
+  /** Output only. Region in which BigQuery dataset is located. */
+  datasetRegion?: string | undefined;
+  /** Output only. Next time when data transfer will run. */
+  nextRunTime?: string | undefined;
+  /** Output only. State of the most recently updated transfer run. */
+  state?: TransferConfigStateEnum | (string & {}) | undefined;
+  /** User specified display name for the data transfer. */
+  displayName?: string | undefined;
+  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: DocumentMap | undefined;
+  /** Output only. Data transfer modification time. Ignored by server on input. */
+  updateTime?: string | undefined;
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string | undefined;
+  /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
+  dataRefreshWindowDays?: number | undefined;
+  /** The classification of the destination table. */
+  managedTableType?: TransferConfigManagedTableTypeEnum | (string & {}) | undefined;
+  /** The BigQuery target dataset id. */
+  destinationDatasetId?: string | undefined;
+  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+  scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
 }
 export interface DeleteProjectsLocationsTransferConfigsRequest {
   /** Required. The name of the resource to delete. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
@@ -280,22 +368,17 @@ export interface DeleteProjectsTransferConfigsRunsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   name: string;
 }
-/** A request to enroll a set of data sources so they are visible in the BigQuery UI's `Transfer` tab. */
-export interface EnrollDataSourcesRequest {
-  /** Data sources that are enrolled. It is required to provide at least one data source id. */
-  dataSourceIds?: StringList | undefined;
-}
 export interface EnrollDataSourcesProjectsRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: EnrollDataSourcesRequest | undefined;
+  /** Data sources that are enrolled. It is required to provide at least one data source id. */
+  dataSourceIds?: StringList | undefined;
 }
 export interface EnrollDataSourcesProjectsLocationsRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: EnrollDataSourcesRequest | undefined;
+  /** Data sources that are enrolled. It is required to provide at least one data source id. */
+  dataSourceIds?: StringList | undefined;
 }
 export interface GetProjectsDataSourcesRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
@@ -815,8 +898,50 @@ export interface PatchProjectsLocationsTransferConfigsRequest {
   authorizationCode?: string | undefined;
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name: string;
-  /** Request body */
-  body?: TransferConfig | undefined;
+  /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
+  ownerInfo?: UserInfo | undefined;
+  /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
+  emailPreferences?: EmailPreferences | undefined;
+  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string | undefined;
+  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
+  disabled?: boolean | undefined;
+  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Options customizing the data transfer schedule. */
+  scheduleOptions?: ScheduleOptions | undefined;
+  /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
+  dataSourceId?: string | undefined;
+  /** Optional. The config for values in `params`. */
+  paramConfig?: ParameterConfig | undefined;
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string | undefined;
+  /** Output only. Error code with detailed information about reason of the latest config failure. */
+  error?: Status | undefined;
+  /** The metadata destination of the transfer config. */
+  metadataDestination?: MetadataDestination | undefined;
+  /** Output only. Region in which BigQuery dataset is located. */
+  datasetRegion?: string | undefined;
+  /** Output only. Next time when data transfer will run. */
+  nextRunTime?: string | undefined;
+  /** Output only. State of the most recently updated transfer run. */
+  state?: TransferConfigStateEnum | (string & {}) | undefined;
+  /** User specified display name for the data transfer. */
+  displayName?: string | undefined;
+  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: DocumentMap | undefined;
+  /** Output only. Data transfer modification time. Ignored by server on input. */
+  updateTime?: string | undefined;
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string | undefined;
+  /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
+  dataRefreshWindowDays?: number | undefined;
+  /** The classification of the destination table. */
+  managedTableType?: TransferConfigManagedTableTypeEnum | (string & {}) | undefined;
+  /** The BigQuery target dataset id. */
+  destinationDatasetId?: string | undefined;
+  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+  scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
 }
 export interface PatchProjectsTransferConfigsRequest {
   /** Deprecated: Authorization code was required when `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used in any data sources. Use `version_info` instead. Optional OAuth2 authorization code to use with this transfer configuration. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' and new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain authorization_code, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=authorization_code&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
@@ -829,21 +954,58 @@ export interface PatchProjectsTransferConfigsRequest {
   serviceAccountName?: string | undefined;
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name: string;
-  /** Request body */
-  body?: TransferConfig | undefined;
-}
-/** A request to schedule transfer runs for a time range. */
-export interface ScheduleTransferRunsRequest {
-  /** Required. End time of the range of transfer runs. For example, `"2017-05-30T00:00:00+00:00"`. */
-  endTime?: string | undefined;
-  /** Required. Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. */
-  startTime?: string | undefined;
+  /** Output only. Information about the user whose credentials are used to transfer data. Populated only for `transferConfigs.get` requests. In case the user information is not available, this field will not be populated. */
+  ownerInfo?: UserInfo | undefined;
+  /** Email notifications will be sent according to these preferences to the email address of the user who owns this transfer config. */
+  emailPreferences?: EmailPreferences | undefined;
+  /** Pub/Sub topic where notifications will be sent after transfer runs associated with this transfer config finish. The format for specifying a pubsub topic is: `projects/{project_id}/topics/{topic_id}` */
+  notificationPubsubTopic?: string | undefined;
+  /** Is this config disabled. When set to true, no runs will be scheduled for this transfer config. */
+  disabled?: boolean | undefined;
+  /** The encryption configuration part. Currently, it is only used for the optional KMS key name. The BigQuery service account of your project must be granted permissions to use the key. Read methods will return the key name applied in effect. Write methods will apply the key if it is present, or otherwise try to apply project default keys if it is absent. */
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  /** Options customizing the data transfer schedule. */
+  scheduleOptions?: ScheduleOptions | undefined;
+  /** Data source ID. This cannot be changed once data transfer is created. The full list of available data source IDs can be returned through an API call: https://cloud.google.com/bigquery-transfer/docs/reference/datatransfer/rest/v1/projects.locations.dataSources/list */
+  dataSourceId?: string | undefined;
+  /** Optional. The config for values in `params`. */
+  paramConfig?: ParameterConfig | undefined;
+  /** Deprecated. Unique ID of the user on whose behalf transfer is done. */
+  userId?: string | undefined;
+  /** Output only. Error code with detailed information about reason of the latest config failure. */
+  error?: Status | undefined;
+  /** The metadata destination of the transfer config. */
+  metadataDestination?: MetadataDestination | undefined;
+  /** Output only. Region in which BigQuery dataset is located. */
+  datasetRegion?: string | undefined;
+  /** Output only. Next time when data transfer will run. */
+  nextRunTime?: string | undefined;
+  /** Output only. State of the most recently updated transfer run. */
+  state?: TransferConfigStateEnum | (string & {}) | undefined;
+  /** User specified display name for the data transfer. */
+  displayName?: string | undefined;
+  /** Parameters specific to each data source. For more information see the bq tab in the 'Setting up a data transfer' section for each data source. For example the parameters for Cloud Storage transfers are listed here: https://cloud.google.com/bigquery-transfer/docs/cloud-storage-transfer#bq */
+  params?: DocumentMap | undefined;
+  /** Output only. Data transfer modification time. Ignored by server on input. */
+  updateTime?: string | undefined;
+  /** Data transfer schedule. If the data source does not support a custom schedule, this should be empty. If it is empty, the default value for the data source will be used. The specified times are in UTC. Examples of valid format: `1st,3rd monday of month 15:30`, `every wed,fri of jan,jun 13:15`, and `first sunday of quarter 00:00`. See more explanation about the format here: https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml#the_schedule_format NOTE: The minimum interval time between recurring transfers depends on the data source; refer to the documentation for your data source. */
+  schedule?: string | undefined;
+  /** The number of days to look back to automatically refresh the data. For example, if `data_refresh_window_days = 10`, then every day BigQuery reingests data for [today-10, today-1], rather than ingesting data for just [today-1]. Only valid if the data source supports the feature. Set the value to 0 to use the default value. */
+  dataRefreshWindowDays?: number | undefined;
+  /** The classification of the destination table. */
+  managedTableType?: TransferConfigManagedTableTypeEnum | (string & {}) | undefined;
+  /** The BigQuery target dataset id. */
+  destinationDatasetId?: string | undefined;
+  /** Options customizing different types of data transfer schedule. This field replaces "schedule" and "schedule_options" fields. ScheduleOptionsV2 cannot be used together with ScheduleOptions/Schedule. */
+  scheduleOptionsV2?: ScheduleOptionsV2 | undefined;
 }
 export interface ScheduleRunsProjectsLocationsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: ScheduleTransferRunsRequest | undefined;
+  /** Required. End time of the range of transfer runs. For example, `"2017-05-30T00:00:00+00:00"`. */
+  endTime?: string | undefined;
+  /** Required. Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. */
+  startTime?: string | undefined;
 }
 /** A response to schedule transfer runs for a time range. */
 export interface ScheduleTransferRunsResponse {
@@ -853,8 +1015,10 @@ export interface ScheduleTransferRunsResponse {
 export interface ScheduleRunsProjectsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: ScheduleTransferRunsRequest | undefined;
+  /** Required. End time of the range of transfer runs. For example, `"2017-05-30T00:00:00+00:00"`. */
+  endTime?: string | undefined;
+  /** Required. Start time of the range of transfer runs. For example, `"2017-05-25T00:00:00+00:00"`. */
+  startTime?: string | undefined;
 }
 /** A specification for a time range, this will request transfer runs with run_time between start_time (inclusive) and end_time (exclusive). */
 export interface TimeRange {
@@ -863,18 +1027,13 @@ export interface TimeRange {
   /** End time of the range of transfer runs. For example, `"2017-05-30T00:00:00+00:00"`. The end_time must not be in the future. Creates transfer runs where run_time is in the range between start_time (inclusive) and end_time (exclusive). */
   endTime?: string | undefined;
 }
-/** A request to start manual transfer runs. */
-export interface StartManualTransferRunsRequest {
+export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
+  /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
+  parent: string;
   /** A run_time timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_run_time must be a past time and cannot include future time values. */
   requestedRunTime?: string | undefined;
   /** A time_range start and end timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_time_range must be a past time and cannot include future time values. */
   requestedTimeRange?: TimeRange | undefined;
-}
-export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
-  /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
-  parent: string;
-  /** Request body */
-  body?: StartManualTransferRunsRequest | undefined;
 }
 /** A response to start manual transfer runs. */
 export interface StartManualTransferRunsResponse {
@@ -884,19 +1043,16 @@ export interface StartManualTransferRunsResponse {
 export interface StartManualRunsProjectsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
-  /** Request body */
-  body?: StartManualTransferRunsRequest | undefined;
-}
-/** A request to unenroll a set of data sources so they are no longer visible in the BigQuery UI's `Transfer` tab. */
-export interface UnenrollDataSourcesRequest {
-  /** Data sources that are unenrolled. It is required to provide at least one data source id. */
-  dataSourceIds?: StringList | undefined;
+  /** A run_time timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_run_time must be a past time and cannot include future time values. */
+  requestedRunTime?: string | undefined;
+  /** A time_range start and end timestamp for historical data files or reports that are scheduled to be transferred by the scheduled transfer run. requested_time_range must be a past time and cannot include future time values. */
+  requestedTimeRange?: TimeRange | undefined;
 }
 export interface UnenrollDataSourcesProjectsLocationsRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
-  /** Request body */
-  body?: UnenrollDataSourcesRequest | undefined;
+  /** Data sources that are unenrolled. It is required to provide at least one data source id. */
+  dataSourceIds?: StringList | undefined;
 }
 export type CheckValidCredsProjectsDataSourcesError =
   | NotFound
@@ -911,8 +1067,8 @@ export const checkValidCredsProjectsDataSources: API.OperationMethod<
   CheckValidCredsProjectsDataSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CheckValidCredsProjectsDataSourcesRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<CheckValidCredsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<CheckValidCredsProjectsDataSourcesRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<CheckValidCredsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -933,8 +1089,8 @@ export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<
   CheckValidCredsProjectsLocationsDataSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CheckValidCredsProjectsLocationsDataSourcesRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<CheckValidCredsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<CheckValidCredsProjectsLocationsDataSourcesRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<CheckValidCredsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -955,8 +1111,8 @@ export const createProjectsLocationsTransferConfigs: API.OperationMethod<
   CreateProjectsLocationsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CreateProjectsLocationsTransferConfigsRequest>,
-  output: __S(888, __c55, 8) as any as S.Schema<TransferConfig>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateProjectsLocationsTransferConfigsRequest>,
+  output: __S(856, __c53, 8) as any as S.Schema<TransferConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -977,8 +1133,8 @@ export const createProjectsTransferConfigs: API.OperationMethod<
   CreateProjectsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateProjectsTransferConfigsRequest>,
-  output: __S(888, __c55, 8) as any as S.Schema<TransferConfig>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreateProjectsTransferConfigsRequest>,
+  output: __S(856, __c53, 8) as any as S.Schema<TransferConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -999,8 +1155,8 @@ export const deleteProjectsLocationsTransferConfigs: API.OperationMethod<
   DeleteProjectsLocationsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<DeleteProjectsLocationsTransferConfigsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  input: __S(880, __c55, 0) as any as S.Schema<DeleteProjectsLocationsTransferConfigsRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1021,8 +1177,8 @@ export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   DeleteProjectsLocationsTransferConfigsRunsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<DeleteProjectsLocationsTransferConfigsRunsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  input: __S(896, __c56, 0) as any as S.Schema<DeleteProjectsLocationsTransferConfigsRunsRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1044,7 +1200,7 @@ export const deleteProjectsTransferConfigs: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsTransferConfigsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1066,7 +1222,7 @@ export const deleteProjectsTransferConfigsRuns: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteProjectsTransferConfigsRunsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1088,7 +1244,7 @@ export const enrollDataSourcesProjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<EnrollDataSourcesProjectsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1109,8 +1265,8 @@ export const enrollDataSourcesProjectsLocations: API.OperationMethod<
   EnrollDataSourcesProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<EnrollDataSourcesProjectsLocationsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  input: __S(48, __c3, 0) as any as S.Schema<EnrollDataSourcesProjectsLocationsRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1126,8 +1282,8 @@ export const getProjectsDataSources: API.OperationMethod<
   GetProjectsDataSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetProjectsDataSourcesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<DataSource>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetProjectsDataSourcesRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<DataSource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1143,8 +1299,8 @@ export const getProjectsLocations: API.OperationMethod<
   GetProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetProjectsLocationsRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<Location>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetProjectsLocationsRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<Location>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1160,8 +1316,8 @@ export const getProjectsLocationsDataSources: API.OperationMethod<
   GetProjectsLocationsDataSourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsDataSourcesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<DataSource>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetProjectsLocationsDataSourcesRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<DataSource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1177,8 +1333,8 @@ export const getProjectsLocationsTransferConfigs: API.OperationMethod<
   GetProjectsLocationsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsTransferConfigsRequest>,
-  output: __S(888, __c55, 8) as any as S.Schema<TransferConfig>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetProjectsLocationsTransferConfigsRequest>,
+  output: __S(856, __c53, 8) as any as S.Schema<TransferConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1194,8 +1350,8 @@ export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   GetProjectsLocationsTransferConfigsRunsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetProjectsLocationsTransferConfigsRunsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TransferRun>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetProjectsLocationsTransferConfigsRunsRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<TransferRun>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1215,11 +1371,11 @@ export const getProjectsLocationsTransferConfigsTransferResources: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c13,
+    192,
+    __c12,
     0,
   ) as any as S.Schema<GetProjectsLocationsTransferConfigsTransferResourcesRequest>,
-  output: __S(232, __c14, 8) as any as S.Schema<TransferResource>,
+  output: __S(216, __c13, 8) as any as S.Schema<TransferResource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1235,8 +1391,8 @@ export const getProjectsTransferConfigs: API.OperationMethod<
   GetProjectsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsTransferConfigsRequest>,
-  output: __S(888, __c55, 8) as any as S.Schema<TransferConfig>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetProjectsTransferConfigsRequest>,
+  output: __S(856, __c53, 8) as any as S.Schema<TransferConfig>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1252,8 +1408,8 @@ export const getProjectsTransferConfigsRuns: API.OperationMethod<
   GetProjectsTransferConfigsRunsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetProjectsTransferConfigsRunsRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<TransferRun>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetProjectsTransferConfigsRunsRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<TransferRun>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1269,8 +1425,8 @@ export const getProjectsTransferConfigsTransferResources: API.OperationMethod<
   GetProjectsTransferConfigsTransferResourcesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetProjectsTransferConfigsTransferResourcesRequest>,
-  output: __S(232, __c14, 8) as any as S.Schema<TransferResource>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetProjectsTransferConfigsTransferResourcesRequest>,
+  output: __S(216, __c13, 8) as any as S.Schema<TransferResource>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1287,8 +1443,8 @@ export const listProjectsDataSources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDataSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListProjectsDataSourcesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ListDataSourcesResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListProjectsDataSourcesRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<ListDataSourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1306,8 +1462,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ListLocationsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1325,8 +1481,8 @@ export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDataSourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsDataSourcesRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ListDataSourcesResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListProjectsLocationsDataSourcesRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<ListDataSourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1344,8 +1500,8 @@ export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTransferConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListProjectsLocationsTransferConfigsRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<ListTransferConfigsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListProjectsLocationsTransferConfigsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<ListTransferConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1363,8 +1519,8 @@ export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMet
   GcpOpContext,
   ListTransferRunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListProjectsLocationsTransferConfigsRunsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<ListTransferRunsResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListProjectsLocationsTransferConfigsRunsRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<ListTransferRunsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1386,11 +1542,11 @@ export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.Paginated
   ListTransferLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    448,
-    __c28,
+    432,
+    __c27,
     0,
   ) as any as S.Schema<ListProjectsLocationsTransferConfigsRunsTransferLogsRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<ListTransferLogsResponse>,
+  output: __S(450, __c28, 2) as any as S.Schema<ListTransferLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1412,11 +1568,11 @@ export const listProjectsLocationsTransferConfigsTransferResources: API.Paginate
   ListTransferResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    480,
-    __c30,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<ListProjectsLocationsTransferConfigsTransferResourcesRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<ListTransferResourcesResponse>,
+  output: __S(481, __c30, 1) as any as S.Schema<ListTransferResourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1434,8 +1590,8 @@ export const listProjectsTransferConfigs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTransferConfigsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListProjectsTransferConfigsRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<ListTransferConfigsResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListProjectsTransferConfigsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<ListTransferConfigsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1453,8 +1609,8 @@ export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTransferRunsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListProjectsTransferConfigsRunsRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<ListTransferRunsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListProjectsTransferConfigsRunsRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<ListTransferRunsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1472,8 +1628,8 @@ export const listProjectsTransferConfigsRunsTransferLogs: API.PaginatedOperation
   GcpOpContext,
   ListTransferLogsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListProjectsTransferConfigsRunsTransferLogsRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<ListTransferLogsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListProjectsTransferConfigsRunsTransferLogsRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ListTransferLogsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1491,8 +1647,8 @@ export const listProjectsTransferConfigsTransferResources: API.PaginatedOperatio
   GcpOpContext,
   ListTransferResourcesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListProjectsTransferConfigsTransferResourcesRequest>,
-  output: __S(497, __c31, 1) as any as S.Schema<ListTransferResourcesResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListProjectsTransferConfigsTransferResourcesRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<ListTransferResourcesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1514,8 +1670,8 @@ export const patchProjectsLocationsTransferConfigs: API.OperationMethod<
   PatchProjectsLocationsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<PatchProjectsLocationsTransferConfigsRequest>,
-  output: __S(888, __c55, 8) as any as S.Schema<TransferConfig>,
+  input: __S(560, __c35, 0) as any as S.Schema<PatchProjectsLocationsTransferConfigsRequest>,
+  output: __S(856, __c53, 8) as any as S.Schema<TransferConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1536,8 +1692,8 @@ export const patchProjectsTransferConfigs: API.OperationMethod<
   PatchProjectsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<PatchProjectsTransferConfigsRequest>,
-  output: __S(888, __c55, 8) as any as S.Schema<TransferConfig>,
+  input: __S(576, __c36, 0) as any as S.Schema<PatchProjectsTransferConfigsRequest>,
+  output: __S(856, __c53, 8) as any as S.Schema<TransferConfig>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1558,8 +1714,8 @@ export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<
   ScheduleRunsProjectsLocationsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ScheduleRunsProjectsLocationsTransferConfigsRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<ScheduleTransferRunsResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ScheduleRunsProjectsLocationsTransferConfigsRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<ScheduleTransferRunsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1580,8 +1736,8 @@ export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<
   ScheduleRunsProjectsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ScheduleRunsProjectsTransferConfigsRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<ScheduleTransferRunsResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ScheduleRunsProjectsTransferConfigsRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<ScheduleTransferRunsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1603,11 +1759,11 @@ export const startManualRunsProjectsLocationsTransferConfigs: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c42,
+    640,
+    __c40,
     0,
   ) as any as S.Schema<StartManualRunsProjectsLocationsTransferConfigsRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<StartManualTransferRunsResponse>,
+  output: __S(608, __c38, 0) as any as S.Schema<StartManualTransferRunsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1628,8 +1784,8 @@ export const startManualRunsProjectsTransferConfigs: API.OperationMethod<
   StartManualRunsProjectsTransferConfigsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<StartManualRunsProjectsTransferConfigsRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<StartManualTransferRunsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<StartManualRunsProjectsTransferConfigsRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<StartManualTransferRunsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1650,8 +1806,8 @@ export const unenrollDataSourcesProjectsLocations: API.OperationMethod<
   UnenrollDataSourcesProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<UnenrollDataSourcesProjectsLocationsRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<Empty>,
+  input: __S(736, __c46, 0) as any as S.Schema<UnenrollDataSourcesProjectsLocationsRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1698,7 +1854,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
+          dataSourceIds: S.optional(__S(784, __c49, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1714,18 +1870,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSourceIds: S.optional(__S(816, __c51, 0)),
-        }),
-      ).annotate({ identifier: "EnrollDataSourcesRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
+          dataSourceIds: S.optional(__S(784, __c49, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1736,7 +1882,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "EnrollDataSourcesProjectsLocationsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1752,7 +1898,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetProjectsDataSourcesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1767,8 +1913,8 @@ function __c6(j: number): any {
           secretManagerAllowed: S.optional(S.Boolean),
           validationRegex: S.optional(S.String),
           validationHelpUrl: S.optional(S.String),
-          allowedValues: S.optional(__S(816, __c51, 0)),
-          fields: S.optional(S.suspend(() => __S(97, __c6, 1))),
+          allowedValues: S.optional(__S(784, __c49, 0)),
+          fields: S.optional(S.suspend(() => __S(81, __c5, 1))),
           repeated: S.optional(S.Boolean),
           immutable: S.optional(S.Boolean),
           description: S.optional(S.String),
@@ -1778,11 +1924,11 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceParameter" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(816, __c51, 0)),
+          scopes: S.optional(__S(784, __c49, 0)),
           supportsMultipleTransfers: S.optional(S.Boolean),
           defaultSchedule: S.optional(S.String),
           updateDeadlineSeconds: S.optional(S.Number),
@@ -1790,7 +1936,7 @@ function __c6(j: number): any {
           dataRefreshType: S.optional(S.String),
           transferType: S.optional(S.String),
           helpUrl: S.optional(S.String),
-          parameters: S.optional(__S(97, __c6, 1)),
+          parameters: S.optional(__S(81, __c5, 1)),
           description: S.optional(S.String),
           authorizationType: S.optional(S.String),
           supportsCustomSchedule: S.optional(S.Boolean),
@@ -1804,7 +1950,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DataSource" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1820,7 +1966,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1829,14 +1975,14 @@ function __c8(j: number): any {
         S.Struct({
           locationId: S.optional(S.String),
           name: S.optional(S.String),
-          metadata: S.optional(__S(832, __c52, 0)),
-          labels: S.optional(__S(128, __c8, 0)),
+          metadata: S.optional(__S(800, __c50, 0)),
+          labels: S.optional(__S(112, __c7, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1852,7 +1998,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsDataSourcesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1868,7 +2014,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTransferConfigsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1884,7 +2030,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTransferConfigsRunsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1892,15 +2038,15 @@ function __c12(j: number): any {
           dataSourceId: S.optional(S.String),
           state: S.optional(S.String),
           startTime: S.optional(S.String),
-          emailPreferences: S.optional(__S(864, __c54, 0)),
-          params: S.optional(__S(832, __c52, 0)),
+          emailPreferences: S.optional(__S(832, __c52, 0)),
+          params: S.optional(__S(800, __c50, 0)),
           destinationDatasetId: S.optional(S.String),
-          errorStatus: S.optional(__S(849, __c53, 1)),
+          errorStatus: S.optional(__S(817, __c51, 1)),
           scheduleTime: S.optional(S.String),
           schedule: S.optional(S.String),
           endTime: S.optional(S.String),
           notificationPubsubTopic: S.optional(S.String),
-          parameterConfig: S.optional(__S(865, __c54, 1)),
+          parameterConfig: S.optional(__S(833, __c52, 1)),
           userId: S.optional(S.String),
           name: S.optional(S.String),
           runTime: S.optional(S.String),
@@ -1909,7 +2055,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "TransferRun" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1925,7 +2071,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTransferConfigsTransferResourcesRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1942,8 +2088,8 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          partitionDetail: S.optional(__S(224, __c14, 0)),
-          tableDetail: S.optional(__S(225, __c14, 1)),
+          partitionDetail: S.optional(__S(208, __c13, 0)),
+          tableDetail: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "HierarchyDetail" });
     case 3:
@@ -1964,19 +2110,19 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "TransferStatusMetric" });
     case 5:
-      return S.Array(__S(228, __c14, 4));
+      return S.Array(__S(212, __c13, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(229, __c14, 5)),
+          metrics: S.optional(__S(213, __c13, 5)),
           progressUnit: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferStatusSummary" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          summary: S.optional(__S(230, __c14, 6)),
-          error: S.optional(__S(849, __c53, 1)),
+          summary: S.optional(__S(214, __c13, 6)),
+          error: S.optional(__S(817, __c51, 1)),
           completedPercentage: S.optional(S.Number),
           state: S.optional(S.String),
         }),
@@ -1985,18 +2131,18 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           destination: S.optional(S.String),
-          hierarchyDetail: S.optional(__S(226, __c14, 2)),
-          lastSuccessfulRun: S.optional(__S(227, __c14, 3)),
+          hierarchyDetail: S.optional(__S(210, __c13, 2)),
+          lastSuccessfulRun: S.optional(__S(211, __c13, 3)),
           type: S.optional(S.String),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
-          latestRun: S.optional(__S(227, __c14, 3)),
-          latestStatusDetail: S.optional(__S(231, __c14, 7)),
+          latestRun: S.optional(__S(211, __c13, 3)),
+          latestStatusDetail: S.optional(__S(215, __c13, 7)),
         }),
       ).annotate({ identifier: "TransferResource" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2012,7 +2158,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetProjectsTransferConfigsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2028,7 +2174,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetProjectsTransferConfigsRunsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2044,7 +2190,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetProjectsTransferConfigsTransferResourcesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2062,26 +2208,26 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListProjectsDataSourcesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(98, __c6, 2));
+      return S.Array(__S(82, __c5, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          dataSources: S.optional(__S(304, __c19, 0)),
+          dataSources: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "ListDataSourcesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(816, __c51, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(784, __c49, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
@@ -2094,17 +2240,17 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRequest" });
     case 1:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(113, __c7, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(321, __c20, 1)),
+          locations: S.optional(__S(305, __c19, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2122,12 +2268,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataSourcesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSourceIds: S.optional(__S(816, __c51, 0).pipe(T.Query())),
+          dataSourceIds: S.optional(__S(784, __c49, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
@@ -2141,26 +2287,26 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsTransferConfigsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(888, __c55, 8));
+      return S.Array(__S(856, __c53, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transferConfigs: S.optional(__S(368, __c23, 0)),
+          transferConfigs: S.optional(__S(352, __c22, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTransferConfigsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          states: S.optional(__S(400, __c25, 0).pipe(T.Query())),
+          states: S.optional(__S(384, __c24, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           runAttempt: S.optional(S.String.pipe(T.Query())),
@@ -2174,36 +2320,36 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsTransferConfigsRunsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          transferRuns: S.optional(__S(432, __c27, 0)),
+          transferRuns: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "ListTransferRunsResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(176, __c11, 0));
   }
 }
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(192, __c12, 0));
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          messageTypes: S.optional(__S(400, __c25, 0).pipe(T.Query())),
+          messageTypes: S.optional(__S(384, __c24, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -2216,7 +2362,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsTransferConfigsRunsTransferLogsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2227,17 +2373,17 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "TransferMessage" });
     case 1:
-      return S.Array(__S(464, __c29, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transferMessages: S.optional(__S(465, __c29, 1)),
+          transferMessages: S.optional(__S(449, __c28, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTransferLogsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2256,25 +2402,25 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsTransferConfigsTransferResourcesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(232, __c14, 8));
+      return S.Array(__S(216, __c13, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          transferResources: S.optional(__S(496, __c31, 0)),
+          transferResources: S.optional(__S(480, __c30, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTransferResourcesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSourceIds: S.optional(__S(816, __c51, 0).pipe(T.Query())),
+          dataSourceIds: S.optional(__S(784, __c49, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -2288,7 +2434,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListProjectsTransferConfigsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2297,7 +2443,7 @@ function __c33(j: number): any {
           runAttempt: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          states: S.optional(__S(400, __c25, 0).pipe(T.Query())),
+          states: S.optional(__S(384, __c24, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2308,14 +2454,14 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListProjectsTransferConfigsRunsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          messageTypes: S.optional(__S(400, __c25, 0).pipe(T.Query())),
+          messageTypes: S.optional(__S(384, __c24, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2327,7 +2473,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ListProjectsTransferConfigsRunsTransferLogsRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2346,7 +2492,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ListProjectsTransferConfigsTransferResourcesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2356,7 +2502,28 @@ function __c36(j: number): any {
           versionInfo: S.optional(S.String.pipe(T.Query())),
           authorizationCode: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
+          ownerInfo: S.optional(__S(848, __c53, 0)),
+          emailPreferences: S.optional(__S(832, __c52, 0)),
+          notificationPubsubTopic: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          encryptionConfiguration: S.optional(__S(849, __c53, 1)),
+          scheduleOptions: S.optional(__S(850, __c53, 2)),
+          dataSourceId: S.optional(S.String),
+          paramConfig: S.optional(__S(833, __c52, 1)),
+          userId: S.optional(S.String),
+          error: S.optional(__S(817, __c51, 1)),
+          metadataDestination: S.optional(__S(852, __c53, 4)),
+          datasetRegion: S.optional(S.String),
+          nextRunTime: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          params: S.optional(__S(800, __c50, 0)),
+          updateTime: S.optional(S.String),
+          schedule: S.optional(S.String),
+          dataRefreshWindowDays: S.optional(S.Number),
+          managedTableType: S.optional(S.String),
+          destinationDatasetId: S.optional(S.String),
+          scheduleOptionsV2: S.optional(__S(855, __c53, 7)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2367,7 +2534,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsTransferConfigsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2377,7 +2544,28 @@ function __c37(j: number): any {
           versionInfo: S.optional(S.String.pipe(T.Query())),
           serviceAccountName: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
+          ownerInfo: S.optional(__S(848, __c53, 0)),
+          emailPreferences: S.optional(__S(832, __c52, 0)),
+          notificationPubsubTopic: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          encryptionConfiguration: S.optional(__S(849, __c53, 1)),
+          scheduleOptions: S.optional(__S(850, __c53, 2)),
+          dataSourceId: S.optional(S.String),
+          paramConfig: S.optional(__S(833, __c52, 1)),
+          userId: S.optional(S.String),
+          error: S.optional(__S(817, __c51, 1)),
+          metadataDestination: S.optional(__S(852, __c53, 4)),
+          datasetRegion: S.optional(S.String),
+          nextRunTime: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          params: S.optional(__S(800, __c50, 0)),
+          updateTime: S.optional(S.String),
+          schedule: S.optional(S.String),
+          dataRefreshWindowDays: S.optional(S.Number),
+          managedTableType: S.optional(S.String),
+          destinationDatasetId: S.optional(S.String),
+          scheduleOptionsV2: S.optional(__S(855, __c53, 7)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2388,13 +2576,14 @@ function __c37(j: number): any {
       ).annotate({ identifier: "PatchProjectsTransferConfigsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2405,34 +2594,24 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ScheduleRunsProjectsLocationsTransferConfigsRequest" });
   }
 }
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          runs: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "ScheduleTransferRunsResponse" });
+  }
+}
 function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           endTime: S.optional(S.String),
           startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ScheduleTransferRunsRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          runs: S.optional(__S(432, __c27, 0)),
-        }),
-      ).annotate({ identifier: "ScheduleTransferRunsResponse" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(624, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2443,13 +2622,14 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ScheduleRunsProjectsTransferConfigsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(689, __c43, 1).pipe(T.HttpBody())),
+          requestedRunTime: S.optional(S.String),
+          requestedTimeRange: S.optional(__S(656, __c41, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2460,7 +2640,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "StartManualRunsProjectsLocationsTransferConfigsRequest" });
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2469,22 +2649,16 @@ function __c43(j: number): any {
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeRange" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          requestedRunTime: S.optional(S.String),
-          requestedTimeRange: S.optional(__S(688, __c43, 0)),
-        }),
-      ).annotate({ identifier: "StartManualTransferRunsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(689, __c43, 1).pipe(T.HttpBody())),
+          requestedRunTime: S.optional(S.String),
+          requestedTimeRange: S.optional(__S(656, __c41, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2495,13 +2669,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "StartManualRunsProjectsTransferConfigsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(752, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2512,7 +2686,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CheckValidCredsProjectsDataSourcesRequest" });
   }
 }
-function __c46(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2522,19 +2696,19 @@ function __c46(j: number): any {
       ).annotate({ identifier: "CheckValidCredsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CheckValidCredsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
+          dataSourceIds: S.optional(__S(784, __c49, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2545,13 +2719,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UnenrollDataSourcesProjectsLocationsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(752, __c47, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2562,7 +2736,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CheckValidCredsProjectsLocationsDataSourcesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2571,7 +2745,29 @@ function __c50(j: number): any {
           parent: S.String.pipe(T.Label()),
           versionInfo: S.optional(S.String.pipe(T.Query())),
           serviceAccountName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
+          ownerInfo: S.optional(__S(848, __c53, 0)),
+          emailPreferences: S.optional(__S(832, __c52, 0)),
+          name: S.optional(S.String),
+          notificationPubsubTopic: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          encryptionConfiguration: S.optional(__S(849, __c53, 1)),
+          scheduleOptions: S.optional(__S(850, __c53, 2)),
+          dataSourceId: S.optional(S.String),
+          paramConfig: S.optional(__S(833, __c52, 1)),
+          userId: S.optional(S.String),
+          error: S.optional(__S(817, __c51, 1)),
+          metadataDestination: S.optional(__S(852, __c53, 4)),
+          datasetRegion: S.optional(S.String),
+          nextRunTime: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          params: S.optional(__S(800, __c50, 0)),
+          updateTime: S.optional(S.String),
+          schedule: S.optional(S.String),
+          dataRefreshWindowDays: S.optional(S.Number),
+          managedTableType: S.optional(S.String),
+          destinationDatasetId: S.optional(S.String),
+          scheduleOptionsV2: S.optional(__S(855, __c53, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2582,33 +2778,33 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsTransferConfigsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c52(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c53(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(832, __c52, 0));
+      return S.Array(__S(800, __c50, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(848, __c53, 0)),
+          details: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c54(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2619,12 +2815,12 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secretManagerManagedParams: S.optional(__S(816, __c51, 0)),
+          secretManagerManagedParams: S.optional(__S(784, __c49, 0)),
         }),
       ).annotate({ identifier: "ParameterConfig" });
   }
 }
-function __c55(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2655,7 +2851,7 @@ function __c55(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dataplexConfiguration: S.optional(__S(883, __c55, 3)),
+          dataplexConfiguration: S.optional(__S(851, __c53, 3)),
         }),
       ).annotate({ identifier: "MetadataDestination" });
     case 5:
@@ -2675,42 +2871,42 @@ function __c55(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          manualSchedule: S.optional(__S(752, __c47, 0)),
-          eventDrivenSchedule: S.optional(__S(885, __c55, 5)),
-          timeBasedSchedule: S.optional(__S(886, __c55, 6)),
+          manualSchedule: S.optional(__S(720, __c45, 0)),
+          eventDrivenSchedule: S.optional(__S(853, __c53, 5)),
+          timeBasedSchedule: S.optional(__S(854, __c53, 6)),
         }),
       ).annotate({ identifier: "ScheduleOptionsV2" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          ownerInfo: S.optional(__S(880, __c55, 0)),
-          emailPreferences: S.optional(__S(864, __c54, 0)),
+          ownerInfo: S.optional(__S(848, __c53, 0)),
+          emailPreferences: S.optional(__S(832, __c52, 0)),
           name: S.optional(S.String),
           notificationPubsubTopic: S.optional(S.String),
           disabled: S.optional(S.Boolean),
-          encryptionConfiguration: S.optional(__S(881, __c55, 1)),
-          scheduleOptions: S.optional(__S(882, __c55, 2)),
+          encryptionConfiguration: S.optional(__S(849, __c53, 1)),
+          scheduleOptions: S.optional(__S(850, __c53, 2)),
           dataSourceId: S.optional(S.String),
-          paramConfig: S.optional(__S(865, __c54, 1)),
+          paramConfig: S.optional(__S(833, __c52, 1)),
           userId: S.optional(S.String),
-          error: S.optional(__S(849, __c53, 1)),
-          metadataDestination: S.optional(__S(884, __c55, 4)),
+          error: S.optional(__S(817, __c51, 1)),
+          metadataDestination: S.optional(__S(852, __c53, 4)),
           datasetRegion: S.optional(S.String),
           nextRunTime: S.optional(S.String),
           state: S.optional(S.String),
           displayName: S.optional(S.String),
-          params: S.optional(__S(832, __c52, 0)),
+          params: S.optional(__S(800, __c50, 0)),
           updateTime: S.optional(S.String),
           schedule: S.optional(S.String),
           dataRefreshWindowDays: S.optional(S.Number),
           managedTableType: S.optional(S.String),
           destinationDatasetId: S.optional(S.String),
-          scheduleOptionsV2: S.optional(__S(887, __c55, 7)),
+          scheduleOptionsV2: S.optional(__S(855, __c53, 7)),
         }),
       ).annotate({ identifier: "TransferConfig" });
   }
 }
-function __c56(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2719,7 +2915,29 @@ function __c56(j: number): any {
           versionInfo: S.optional(S.String.pipe(T.Query())),
           authorizationCode: S.optional(S.String.pipe(T.Query())),
           serviceAccountName: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(888, __c55, 8).pipe(T.HttpBody())),
+          ownerInfo: S.optional(__S(848, __c53, 0)),
+          emailPreferences: S.optional(__S(832, __c52, 0)),
+          name: S.optional(S.String),
+          notificationPubsubTopic: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          encryptionConfiguration: S.optional(__S(849, __c53, 1)),
+          scheduleOptions: S.optional(__S(850, __c53, 2)),
+          dataSourceId: S.optional(S.String),
+          paramConfig: S.optional(__S(833, __c52, 1)),
+          userId: S.optional(S.String),
+          error: S.optional(__S(817, __c51, 1)),
+          metadataDestination: S.optional(__S(852, __c53, 4)),
+          datasetRegion: S.optional(S.String),
+          nextRunTime: S.optional(S.String),
+          state: S.optional(S.String),
+          displayName: S.optional(S.String),
+          params: S.optional(__S(800, __c50, 0)),
+          updateTime: S.optional(S.String),
+          schedule: S.optional(S.String),
+          dataRefreshWindowDays: S.optional(S.Number),
+          managedTableType: S.optional(S.String),
+          destinationDatasetId: S.optional(S.String),
+          scheduleOptionsV2: S.optional(__S(855, __c53, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2730,7 +2948,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateProjectsTransferConfigsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2746,7 +2964,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsTransferConfigsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

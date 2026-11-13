@@ -137,18 +137,13 @@ export interface LicenseAssignment {
   /** Link to this page. */
   selfLink?: string | undefined;
 }
-/** Representation of a license assignment. */
-export interface LicenseAssignmentInsert {
-  /** Email id of the user */
-  userId?: string | undefined;
-}
 export interface InsertLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
   skuId: string;
-  /** Request body */
-  body?: LicenseAssignmentInsert | undefined;
+  /** Email id of the user */
+  userId?: string | undefined;
 }
 export interface ListForProductAndSkuLicenseAssignmentsRequest {
   /** A product SKU's unique identifier. For more information about available SKUs in this version of the API, see Products and SKUs. */
@@ -190,8 +185,16 @@ export interface PatchLicenseAssignmentsRequest {
   skuId: string;
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
-  /** Request body */
-  body?: LicenseAssignment | undefined;
+  /** ETag of the resource. */
+  etags?: string | undefined;
+  /** Display Name of the product. */
+  productName?: string | undefined;
+  /** Display Name of the sku of the product. */
+  skuName?: string | undefined;
+  /** Identifies the resource as a LicenseAssignment, which is `licensing#licenseAssignment`. */
+  kind?: string | undefined;
+  /** Link to this page. */
+  selfLink?: string | undefined;
 }
 export interface UpdateLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
@@ -200,8 +203,16 @@ export interface UpdateLicenseAssignmentsRequest {
   skuId: string;
   /** The user's current primary email address. If the user's email address changes, use the new email address in your API requests. Since a `userId` is subject to change, do not use a `userId` value as a key for persistent data. This key could break if the current user's email address changes. If the `userId` is suspended, the license status changes. */
   userId: string;
-  /** Request body */
-  body?: LicenseAssignment | undefined;
+  /** ETag of the resource. */
+  etags?: string | undefined;
+  /** Display Name of the product. */
+  productName?: string | undefined;
+  /** Display Name of the sku of the product. */
+  skuName?: string | undefined;
+  /** Identifies the resource as a LicenseAssignment, which is `licensing#licenseAssignment`. */
+  kind?: string | undefined;
+  /** Link to this page. */
+  selfLink?: string | undefined;
 }
 export type DeleteLicenseAssignmentsError =
   | NotFound
@@ -268,7 +279,7 @@ export const insertLicenseAssignments: API.OperationMethod<
   InsertLicenseAssignmentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11, __c5, 1) as any as S.Schema<InsertLicenseAssignmentsRequest>,
+  input: __S(10, __c5, 0) as any as S.Schema<InsertLicenseAssignmentsRequest>,
   output: __S(8, __c4, 0) as any as S.Schema<LicenseAssignment>,
   errors: [
     NotFound,
@@ -399,7 +410,11 @@ function __c0(j: number): any {
           userId: S.String.pipe(T.Label()),
           skuId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c4, 0).pipe(T.HttpBody())),
+          etags: S.optional(S.String),
+          productName: S.optional(S.String),
+          skuName: S.optional(S.String),
+          kind: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -418,7 +433,11 @@ function __c1(j: number): any {
           productId: S.String.pipe(T.Label()),
           skuId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          body: S.optional(__S(8, __c4, 0).pipe(T.HttpBody())),
+          etags: S.optional(S.String),
+          productName: S.optional(S.String),
+          skuName: S.optional(S.String),
+          kind: S.optional(S.String),
+          selfLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -489,15 +508,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LicenseAssignmentInsert" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           productId: S.String.pipe(T.Label()),
           skuId: S.String.pipe(T.Label()),
-          body: S.optional(__S(10, __c5, 0).pipe(T.HttpBody())),
+          userId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

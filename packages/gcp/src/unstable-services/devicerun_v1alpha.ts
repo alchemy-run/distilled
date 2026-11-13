@@ -575,8 +575,14 @@ export interface CreateProjectsLocationsSessionsRequest {
   sessionId?: string | undefined;
   /** Required. The parent resource where this session will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Request body */
-  body?: Session | undefined;
+  /** Identifier. The resource name of the session. Format: `projects/{project}/locations/{location}/sessions/{session}`. */
+  name?: string | undefined;
+  /** Output only. The runtime information and result report of the session. */
+  sessionReport?: SessionReport | undefined;
+  /** Required. Configuration used to create the session. */
+  sessionConfig?: SessionConfig | undefined;
+  /** Output only. The time when the session was created. */
+  createTime?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -942,8 +948,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(704, __c22, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -964,8 +970,8 @@ export const cancelProjectsLocationsSessions: API.OperationMethod<
   CancelProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CancelProjectsLocationsSessionsRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<CancelSessionResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<CancelProjectsLocationsSessionsRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<CancelSessionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -986,8 +992,8 @@ export const createProjectsLocationsSessions: API.OperationMethod<
   CreateProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<CreateProjectsLocationsSessionsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateProjectsLocationsSessionsRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1008,8 +1014,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   DeleteProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(512, __c16, 0) as any as S.Schema<Empty>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1030,8 +1036,8 @@ export const deleteProjectsLocationsSessions: API.OperationMethod<
   DeleteProjectsLocationsSessionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteProjectsLocationsSessionsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteProjectsLocationsSessionsRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1082,7 +1088,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetProjectsLocationsOperationsRequest>,
-  output: __S(802, __c25, 2) as any as S.Schema<GoogleLongrunningOperation>,
+  output: __S(834, __c26, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1099,7 +1105,7 @@ export const getProjectsLocationsSessions: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetProjectsLocationsSessionsRequest>,
-  output: __S(663, __c20, 23) as any as S.Schema<Session>,
+  output: __S(480, __c15, 0) as any as S.Schema<Session>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1241,10 +1247,10 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(768, __c24, 0)),
+          metadata: S.optional(__S(800, __c25, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(544, __c17, 0)),
+          labels: S.optional(__S(576, __c18, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -1298,7 +1304,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          supportedAbis: S.optional(__S(576, __c18, 0)),
+          supportedAbis: S.optional(__S(608, __c19, 0)),
           buildType: S.optional(S.String),
         }),
       ).annotate({ identifier: "CatalogAndroidDeviceDetails" });
@@ -1328,7 +1334,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deviceStreaming: S.optional(__S(133, __c4, 5)),
-          automation: S.optional(__S(512, __c16, 0)),
+          automation: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "CatalogSupportedProduct" });
     case 7:
@@ -1347,10 +1353,10 @@ function __c4(j: number): any {
           platform: S.optional(S.String),
           androidDetails: S.optional(__S(129, __c4, 1)),
           availability: S.optional(__S(130, __c4, 2)),
-          iosDetails: S.optional(__S(512, __c16, 0)),
+          iosDetails: S.optional(__S(544, __c17, 0)),
           labInfo: S.optional(__S(131, __c4, 3)),
           accessDeniedReasons: S.optional(__S(132, __c4, 4)),
-          labels: S.optional(__S(544, __c17, 0)),
+          labels: S.optional(__S(576, __c18, 0)),
           hardwareType: S.optional(S.String),
           supportedProducts: S.optional(__S(135, __c4, 7)),
         }),
@@ -1411,7 +1417,7 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          supportedIosVersions: S.optional(__S(576, __c18, 0)),
+          supportedIosVersions: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "CatalogXcodeDetails" });
     case 1:
@@ -1421,7 +1427,7 @@ function __c8(j: number): any {
           displayName: S.optional(S.String),
           lifecycle: S.optional(__S(97, __c3, 1)),
           name: S.optional(S.String),
-          androidxTestOrchestratorDetails: S.optional(__S(512, __c16, 0)),
+          androidxTestOrchestratorDetails: S.optional(__S(544, __c17, 0)),
           softwareType: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
           xcodeDetails: S.optional(__S(256, __c8, 0)),
@@ -1435,7 +1441,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(576, __c18, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(608, __c19, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
@@ -1505,12 +1511,12 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsOperationsRequest" });
     case 1:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(834, __c26, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           operations: S.optional(__S(353, __c11, 1)),
-          unreachable: S.optional(__S(576, __c18, 0)),
+          unreachable: S.optional(__S(608, __c19, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
@@ -1539,8 +1545,8 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(576, __c18, 0)),
-          sessions: S.optional(__S(480, __c15, 0)),
+          unreachable: S.optional(__S(608, __c19, 0)),
+          sessions: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "ListSessionsResponse" });
   }
@@ -1578,7 +1584,7 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(576, __c18, 0).pipe(T.Query())),
+          names: S.optional(__S(608, __c19, 0).pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1591,7 +1597,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(__S(480, __c15, 0)),
+          sessions: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "BatchGetSessionsResponse" });
   }
@@ -1599,10 +1605,23 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(663, __c20, 23));
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          sessionReport: S.optional(__S(652, __c20, 12)),
+          sessionConfig: S.optional(__S(694, __c21, 22)),
+          createTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Session" });
   }
 }
 function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(480, __c15, 0));
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1610,51 +1629,51 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           type: S.optional(S.String),
-          metadata: S.optional(__S(544, __c17, 0)),
+          metadata: S.optional(__S(576, __c18, 0)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          summary: S.optional(__S(608, __c19, 0)),
+          summary: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "ResultCause" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           resultType: S.optional(S.String),
-          cause: S.optional(__S(609, __c19, 1)),
+          cause: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "Result" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           statusType: S.optional(S.String),
-          progressMessages: S.optional(__S(576, __c18, 0)),
+          progressMessages: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 4:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(641, __c20, 1));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1664,49 +1683,49 @@ function __c19(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          gcsOutputFile: S.optional(__S(613, __c19, 5)),
+          gcsOutputFile: S.optional(__S(645, __c20, 5)),
         }),
       ).annotate({ identifier: "OutputFile" });
     case 7:
-      return S.Array(__S(614, __c19, 6));
+      return S.Array(__S(646, __c20, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          warnings: S.optional(__S(612, __c19, 4)),
-          outputFiles: S.optional(__S(615, __c19, 7)),
+          warnings: S.optional(__S(644, __c20, 4)),
+          outputFiles: S.optional(__S(647, __c20, 7)),
           startTime: S.optional(S.String),
-          result: S.optional(__S(610, __c19, 2)),
+          result: S.optional(__S(642, __c20, 2)),
           displayName: S.optional(S.String),
           endTime: S.optional(S.String),
-          status: S.optional(__S(611, __c19, 3)),
+          status: S.optional(__S(643, __c20, 3)),
         }),
       ).annotate({ identifier: "ExecutionReport" });
     case 9:
-      return S.Array(__S(616, __c19, 8));
+      return S.Array(__S(648, __c20, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(611, __c19, 3)),
-          warnings: S.optional(__S(612, __c19, 4)),
-          outputFiles: S.optional(__S(615, __c19, 7)),
-          executionReports: S.optional(__S(617, __c19, 9)),
+          status: S.optional(__S(643, __c20, 3)),
+          warnings: S.optional(__S(644, __c20, 4)),
+          outputFiles: S.optional(__S(647, __c20, 7)),
+          executionReports: S.optional(__S(649, __c20, 9)),
           id: S.optional(S.String),
           endTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          result: S.optional(__S(610, __c19, 2)),
+          result: S.optional(__S(642, __c20, 2)),
           startTime: S.optional(S.String),
-          labels: S.optional(__S(544, __c17, 0)),
+          labels: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "JobReport" });
     case 11:
-      return S.Array(__S(618, __c19, 10));
+      return S.Array(__S(650, __c20, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(610, __c19, 2)),
-          jobReports: S.optional(__S(619, __c19, 11)),
-          status: S.optional(__S(611, __c19, 3)),
+          result: S.optional(__S(642, __c20, 2)),
+          jobReports: S.optional(__S(651, __c20, 11)),
+          status: S.optional(__S(643, __c20, 3)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           id: S.optional(S.String),
@@ -1715,22 +1734,22 @@ function __c19(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          gcsInputFile: S.optional(__S(613, __c19, 5)),
+          gcsInputFile: S.optional(__S(645, __c20, 5)),
         }),
       ).annotate({ identifier: "InputFile" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          envVars: S.optional(__S(544, __c17, 0)),
-          androidNativeBinary: S.optional(__S(621, __c19, 13)),
-          args: S.optional(__S(576, __c18, 0)),
+          envVars: S.optional(__S(576, __c18, 0)),
+          androidNativeBinary: S.optional(__S(653, __c20, 13)),
+          args: S.optional(__S(608, __c19, 0)),
           executionTimeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "AndroidNativeBinary" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          timingRecord: S.optional(__S(621, __c19, 13)),
+          timingRecord: S.optional(__S(653, __c20, 13)),
           maxShardCount: S.optional(S.Number),
           targetedShardDuration: S.optional(S.String),
         }),
@@ -1744,32 +1763,32 @@ function __c19(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          testsZip: S.optional(__S(621, __c19, 13)),
-          smartSharding: S.optional(__S(623, __c19, 15)),
+          testsZip: S.optional(__S(653, __c20, 13)),
+          smartSharding: S.optional(__S(655, __c20, 15)),
           xcodeVersion: S.optional(S.String),
-          uniformSharding: S.optional(__S(624, __c19, 16)),
-          xctestrun: S.optional(__S(621, __c19, 13)),
+          uniformSharding: S.optional(__S(656, __c20, 16)),
+          xctestrun: S.optional(__S(653, __c20, 13)),
           xcTestTimeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "IosXcTest" });
     case 18:
-      return S.Array(__S(621, __c19, 13));
+      return S.Array(__S(653, __c20, 13));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(626, __c19, 18)),
+          files: S.optional(__S(658, __c20, 18)),
         }),
       ).annotate({ identifier: "AndroidInstallable" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          testInstallable: S.optional(__S(627, __c19, 19)),
-          testTargets: S.optional(__S(576, __c18, 0)),
-          uniformSharding: S.optional(__S(624, __c19, 16)),
+          testInstallable: S.optional(__S(659, __c20, 19)),
+          testTargets: S.optional(__S(608, __c19, 0)),
+          uniformSharding: S.optional(__S(656, __c20, 16)),
           orchestratorVersion: S.optional(S.String),
-          additionalTestOptions: S.optional(__S(544, __c17, 0)),
+          additionalTestOptions: S.optional(__S(576, __c18, 0)),
           instrumentationTimeout: S.optional(S.String),
-          smartSharding: S.optional(__S(623, __c19, 15)),
+          smartSharding: S.optional(__S(655, __c20, 15)),
           enableCodeCoverage: S.optional(S.Boolean),
           testRunnerClass: S.optional(S.String),
         }),
@@ -1777,9 +1796,9 @@ function __c19(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          androidNativeBinary: S.optional(__S(622, __c19, 14)),
-          iosXcTest: S.optional(__S(625, __c19, 17)),
-          androidInstrumentationTest: S.optional(__S(628, __c19, 20)),
+          androidNativeBinary: S.optional(__S(654, __c20, 14)),
+          iosXcTest: S.optional(__S(657, __c20, 17)),
+          androidInstrumentationTest: S.optional(__S(660, __c20, 20)),
         }),
       ).annotate({ identifier: "JobAction" });
     case 22:
@@ -1792,15 +1811,15 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           destinationPath: S.optional(S.String),
-          sourceFile: S.optional(__S(621, __c19, 13)),
+          sourceFile: S.optional(__S(653, __c20, 13)),
         }),
       ).annotate({ identifier: "AndroidPushFilesDeviceActionFileConfig" });
     case 24:
-      return S.Array(__S(631, __c19, 23));
+      return S.Array(__S(663, __c20, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          fileConfigs: S.optional(__S(632, __c19, 24)),
+          fileConfigs: S.optional(__S(664, __c20, 24)),
         }),
       ).annotate({ identifier: "AndroidPushFilesDeviceAction" });
     case 26:
@@ -1817,32 +1836,32 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "IosPullFilesDeviceActionPathConfig" });
     case 28:
-      return S.Array(__S(635, __c19, 27));
+      return S.Array(__S(667, __c20, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          paths: S.optional(__S(636, __c19, 28)),
+          paths: S.optional(__S(668, __c20, 28)),
         }),
       ).annotate({ identifier: "IosPullFilesDeviceAction" });
     case 30:
-      return S.Array(__S(627, __c19, 19));
+      return S.Array(__S(659, __c20, 19));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          postTargetAppInstallables: S.optional(__S(638, __c19, 30)),
-          installables: S.optional(__S(638, __c19, 30)),
-          preTargetAppInstallables: S.optional(__S(638, __c19, 30)),
-          targetApp: S.optional(__S(627, __c19, 19)),
+          postTargetAppInstallables: S.optional(__S(670, __c20, 30)),
+          installables: S.optional(__S(670, __c20, 30)),
+          preTargetAppInstallables: S.optional(__S(670, __c20, 30)),
+          targetApp: S.optional(__S(659, __c20, 19)),
         }),
       ).annotate({ identifier: "AndroidInstallPackagesDeviceAction" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ipas: S.optional(__S(626, __c19, 18)),
+          ipas: S.optional(__S(658, __c20, 18)),
         }),
       ).annotate({ identifier: "IosInstallPackagesDeviceAction" });
     case 1:
@@ -1855,7 +1874,7 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(641, __c20, 1)),
+          location: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "AndroidMockLocationDeviceAction" });
     case 3:
@@ -1869,15 +1888,15 @@ function __c20(j: number): any {
         S.Struct({
           bundleId: S.optional(S.String),
           destinationPath: S.optional(S.String),
-          sourceFile: S.optional(__S(621, __c19, 13)),
+          sourceFile: S.optional(__S(653, __c20, 13)),
         }),
       ).annotate({ identifier: "IosPushFilesDeviceActionFileConfig" });
     case 5:
-      return S.Array(__S(644, __c20, 4));
+      return S.Array(__S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fileConfigs: S.optional(__S(645, __c20, 5)),
+          fileConfigs: S.optional(__S(677, __c21, 5)),
         }),
       ).annotate({ identifier: "IosPushFilesDeviceAction" });
     case 7:
@@ -1889,32 +1908,32 @@ function __c20(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          paths: S.optional(__S(576, __c18, 0)),
+          paths: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "AndroidPullFilesDeviceAction" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          androidSwitchLocale: S.optional(__S(630, __c19, 22)),
-          androidPushFiles: S.optional(__S(633, __c19, 25)),
-          iosAppPrivacyReport: S.optional(__S(512, __c16, 0)),
-          androidRecordVideo: S.optional(__S(634, __c19, 26)),
-          iosPullFiles: S.optional(__S(637, __c19, 29)),
-          androidInstallPackages: S.optional(__S(639, __c19, 31)),
-          iosInstallPackages: S.optional(__S(640, __c20, 0)),
-          androidMockLocation: S.optional(__S(642, __c20, 2)),
-          androidOrientation: S.optional(__S(643, __c20, 3)),
-          iosSwitchLocale: S.optional(__S(630, __c19, 22)),
-          iosPushFiles: S.optional(__S(646, __c20, 6)),
-          iosRecordVideo: S.optional(__S(634, __c19, 26)),
-          androidBugreport: S.optional(__S(647, __c20, 7)),
-          androidDumpsys: S.optional(__S(647, __c20, 7)),
-          androidPullFiles: S.optional(__S(648, __c20, 8)),
-          androidLogcat: S.optional(__S(512, __c16, 0)),
+          androidSwitchLocale: S.optional(__S(662, __c20, 22)),
+          androidPushFiles: S.optional(__S(665, __c20, 25)),
+          iosAppPrivacyReport: S.optional(__S(544, __c17, 0)),
+          androidRecordVideo: S.optional(__S(666, __c20, 26)),
+          iosPullFiles: S.optional(__S(669, __c20, 29)),
+          androidInstallPackages: S.optional(__S(671, __c20, 31)),
+          iosInstallPackages: S.optional(__S(672, __c21, 0)),
+          androidMockLocation: S.optional(__S(674, __c21, 2)),
+          androidOrientation: S.optional(__S(675, __c21, 3)),
+          iosSwitchLocale: S.optional(__S(662, __c20, 22)),
+          iosPushFiles: S.optional(__S(678, __c21, 6)),
+          iosRecordVideo: S.optional(__S(666, __c20, 26)),
+          androidBugreport: S.optional(__S(679, __c21, 7)),
+          androidDumpsys: S.optional(__S(679, __c21, 7)),
+          androidPullFiles: S.optional(__S(680, __c21, 8)),
+          androidLogcat: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "DeviceAction" });
     case 10:
-      return S.Array(__S(649, __c20, 9));
+      return S.Array(__S(681, __c21, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1924,16 +1943,16 @@ function __c20(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(650, __c20, 10)),
-          requirement: S.optional(__S(651, __c20, 11)),
+          actions: S.optional(__S(682, __c21, 10)),
+          requirement: S.optional(__S(683, __c21, 11)),
         }),
       ).annotate({ identifier: "DeviceConfig" });
     case 13:
-      return S.Array(__S(652, __c20, 12));
+      return S.Array(__S(684, __c21, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          deviceConfigs: S.optional(__S(653, __c20, 13)),
+          deviceConfigs: S.optional(__S(685, __c21, 13)),
         }),
       ).annotate({ identifier: "AllocationConfig" });
     case 15:
@@ -1947,67 +1966,58 @@ function __c20(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          flakyTestRetryStrategy: S.optional(__S(655, __c20, 15)),
+          flakyTestRetryStrategy: S.optional(__S(687, __c21, 15)),
         }),
       ).annotate({ identifier: "RetrySettings" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          retrySettings: S.optional(__S(656, __c20, 16)),
+          retrySettings: S.optional(__S(688, __c21, 16)),
         }),
       ).annotate({ identifier: "JobSettings" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(629, __c19, 21)),
-          allocationConfig: S.optional(__S(654, __c20, 14)),
-          settings: S.optional(__S(657, __c20, 17)),
+          action: S.optional(__S(661, __c20, 21)),
+          allocationConfig: S.optional(__S(686, __c21, 14)),
+          settings: S.optional(__S(689, __c21, 17)),
           displayName: S.optional(S.String),
-          labels: S.optional(__S(544, __c17, 0)),
+          labels: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "JobConfig" });
     case 19:
-      return S.Array(__S(658, __c20, 18));
+      return S.Array(__S(690, __c21, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          pubsubTopic: S.optional(__S(576, __c18, 0)),
+          pubsubTopic: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "SessionConfigSessionNotificationConfig" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          gcsOutputDirectory: S.optional(__S(613, __c19, 5)),
+          gcsOutputDirectory: S.optional(__S(645, __c20, 5)),
           flatDirectoryStructure: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SessionConfigSessionOutputFileDirectoryConfig" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          jobConfigs: S.optional(__S(659, __c20, 19)),
-          notificationConfig: S.optional(__S(660, __c20, 20)),
-          outputDirectoryConfig: S.optional(__S(661, __c20, 21)),
+          jobConfigs: S.optional(__S(691, __c21, 19)),
+          notificationConfig: S.optional(__S(692, __c21, 20)),
+          outputDirectoryConfig: S.optional(__S(693, __c21, 21)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionConfig" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          sessionReport: S.optional(__S(620, __c19, 12)),
-          sessionConfig: S.optional(__S(662, __c20, 22)),
-          createTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Session" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2018,13 +2028,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(544, __c17, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2041,7 +2051,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CancelSessionResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2049,7 +2059,10 @@ function __c23(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           sessionId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(663, __c20, 23).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          sessionReport: S.optional(__S(652, __c20, 12)),
+          sessionConfig: S.optional(__S(694, __c21, 22)),
+          createTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2060,20 +2073,20 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsSessionsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(800, __c25, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(800, __c25, 0)),
+          details: S.optional(__S(832, __c26, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
@@ -2081,16 +2094,16 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(768, __c24, 0)),
-          error: S.optional(__S(801, __c25, 1)),
-          metadata: S.optional(__S(768, __c24, 0)),
+          response: S.optional(__S(800, __c25, 0)),
+          error: S.optional(__S(833, __c26, 1)),
+          metadata: S.optional(__S(800, __c25, 0)),
           done: S.optional(S.Boolean),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2106,7 +2119,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsOperationsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

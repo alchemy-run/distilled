@@ -1164,8 +1164,9 @@ export interface GoogleCloudAiplatformV1beta1GenerationConfig {
     | GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemEnumList
     | undefined;
 }
-/** Request message for PredictionService.CountTokens. */
-export interface GoogleCloudAiplatformV1beta1CountTokensRequest {
+export interface CountTokensProjectsLocationsPublishersModelsRequest {
+  /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
+  endpoint: string;
   /** Optional. Input content. */
   contents?: GoogleCloudAiplatformV1beta1ContentList | undefined;
   /** Optional. The name of the publisher model requested to serve the prediction. Format: `projects/{project}/locations/{location}/publishers/*\/models/*` */
@@ -1178,12 +1179,6 @@ export interface GoogleCloudAiplatformV1beta1CountTokensRequest {
   generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig | undefined;
   /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
   systemInstruction?: GoogleCloudAiplatformV1beta1Content | undefined;
-}
-export interface CountTokensProjectsLocationsPublishersModelsRequest {
-  /** Required. The name of the Endpoint requested to perform token counting. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
-  endpoint: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1CountTokensRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1ModalityTokenCountModalityEnum =
   | "MODALITY_UNSPECIFIED"
@@ -1293,8 +1288,9 @@ export interface GoogleCloudAiplatformV1beta1ModelArmorConfig {
   /** Optional. The resource name of the Model Armor template to use for prompt screening. A Model Armor template is a set of customized filters and thresholds that define how Model Armor screens content. If specified, Model Armor will use this template to check the user's prompt for safety and security risks before it is sent to the model. The name must be in the format `projects/{project}/locations/{location}/templates/{template}`. */
   promptTemplateName?: string | undefined;
 }
-/** Request message for [PredictionService.GenerateContent]. */
-export interface GoogleCloudAiplatformV1beta1GenerateContentRequest {
+export interface GenerateContentProjectsLocationsPublishersModelsRequest {
+  /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
+  model: string;
   /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
   systemInstruction?: GoogleCloudAiplatformV1beta1Content | undefined;
   /** Optional. An opaque continuation token used to resume generation from a previous `GenerateContent` or `StreamGenerateContent` response that stopped with `finish_reason` set to `CONTINUATION`. */
@@ -1317,12 +1313,6 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentRequest {
   modelArmorConfig?: GoogleCloudAiplatformV1beta1ModelArmorConfig | undefined;
   /** Optional. Generation config. */
   generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig | undefined;
-}
-export interface GenerateContentProjectsLocationsPublishersModelsRequest {
-  /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
-  model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
 }
 export type GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadataTrafficTypeEnum =
   | "TRAFFIC_TYPE_UNSPECIFIED"
@@ -1745,8 +1735,28 @@ export interface GoogleCloudAiplatformV1beta1GenerateContentResponse {
 export interface StreamGenerateContentProjectsLocationsPublishersModelsRequest {
   /** Required. The fully qualified name of the publisher model or tuned model endpoint to use. Publisher model format: `projects/{project}/locations/{location}/publishers/*\/models/*` Tuned model endpoint format: `projects/{project}/locations/{location}/endpoints/{endpoint}` */
   model: string;
-  /** Request body */
-  body?: GoogleCloudAiplatformV1beta1GenerateContentRequest | undefined;
+  /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
+  systemInstruction?: GoogleCloudAiplatformV1beta1Content | undefined;
+  /** Optional. An opaque continuation token used to resume generation from a previous `GenerateContent` or `StreamGenerateContent` response that stopped with `finish_reason` set to `CONTINUATION`. */
+  continuationToken?: string | undefined;
+  /** Optional. Configuration for persisting output assets to external storage. */
+  outputConfig?: GoogleCloudAiplatformV1beta1GenerateContentRequestOutputConfig | undefined;
+  /** Required. The content of the current conversation with the model. For single-turn queries, this is a single instance. For multi-turn queries, this is a repeated field that contains conversation history + latest request. */
+  contents?: GoogleCloudAiplatformV1beta1ContentList | undefined;
+  /** Optional. A list of `Tools` the model may use to generate the next response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model. */
+  tools?: GoogleCloudAiplatformV1beta1ToolList | undefined;
+  /** Optional. Per request settings for blocking unsafe content. Enforced on GenerateContentResponse.candidates. */
+  safetySettings?: GoogleCloudAiplatformV1beta1SafetySettingList | undefined;
+  /** Optional. The name of the cached content used as context to serve the prediction. Note: only used in explicit caching, where users can have control over caching (e.g. what content to cache) and enjoy guaranteed cost savings. Format: `projects/{project}/locations/{location}/cachedContents/{cachedContent}` */
+  cachedContent?: string | undefined;
+  /** Optional. Tool config. This config is shared for all tools provided in the request. */
+  toolConfig?: GoogleCloudAiplatformV1beta1ToolConfig | undefined;
+  /** Optional. The labels with user-defined metadata for the request. It is used for billing and reporting only. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
+  labels?: StringMap | undefined;
+  /** Optional. Settings for prompt and response sanitization using the Model Armor service. If supplied, safety_settings must not be supplied. */
+  modelArmorConfig?: GoogleCloudAiplatformV1beta1ModelArmorConfig | undefined;
+  /** Optional. Generation config. */
+  generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig | undefined;
 }
 export type CountTokensProjectsLocationsPublishersModelsError =
   | NotFound
@@ -1761,8 +1771,8 @@ export const countTokensProjectsLocationsPublishersModels: API.OperationMethod<
   CountTokensProjectsLocationsPublishersModelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CountTokensProjectsLocationsPublishersModelsRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<GoogleCloudAiplatformV1beta1CountTokensResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<CountTokensProjectsLocationsPublishersModelsRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<GoogleCloudAiplatformV1beta1CountTokensResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1789,9 +1799,9 @@ export const generateContentProjectsLocationsPublishersModels: API.OperationMeth
     0,
   ) as any as S.Schema<GenerateContentProjectsLocationsPublishersModelsRequest>,
   output: __S(
-    209,
+    208,
     __c6,
-    17,
+    16,
   ) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerateContentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1819,9 +1829,9 @@ export const streamGenerateContentProjectsLocationsPublishersModels: API.Operati
     0,
   ) as any as S.Schema<StreamGenerateContentProjectsLocationsPublishersModelsRequest>,
   output: __S(
-    209,
+    208,
     __c6,
-    17,
+    16,
   ) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerateContentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1838,19 +1848,13 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          endpoint: S.String.pipe(T.Label()),
           contents: S.optional(__S(53, __c1, 21)),
           model: S.optional(S.String),
           instances: S.optional(__S(0, __c0, 0)),
           tools: S.optional(__S(95, __c2, 31)),
           generationConfig: S.optional(__S(118, __c3, 22)),
           systemInstruction: S.optional(__S(52, __c1, 20)),
-        }),
-      ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CountTokensRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1859,7 +1863,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CountTokensProjectsLocationsPublishersModelsRequest" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           totalBillableCharacters: S.optional(S.Number),
@@ -2561,7 +2565,17 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.String.pipe(T.Label()),
-          body: S.optional(__S(169, __c5, 9).pipe(T.HttpBody())),
+          systemInstruction: S.optional(__S(52, __c1, 20)),
+          continuationToken: S.optional(S.String),
+          outputConfig: S.optional(__S(160, __c5, 0)),
+          contents: S.optional(__S(53, __c1, 21)),
+          tools: S.optional(__S(95, __c2, 31)),
+          safetySettings: S.optional(__S(162, __c5, 2)),
+          cachedContent: S.optional(S.String),
+          toolConfig: S.optional(__S(166, __c5, 6)),
+          labels: S.optional(__S(167, __c5, 7)),
+          modelArmorConfig: S.optional(__S(168, __c5, 8)),
+          generationConfig: S.optional(__S(118, __c3, 22)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2631,22 +2645,6 @@ function __c5(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          systemInstruction: S.optional(__S(52, __c1, 20)),
-          continuationToken: S.optional(S.String),
-          outputConfig: S.optional(__S(160, __c5, 0)),
-          contents: S.optional(__S(53, __c1, 21)),
-          tools: S.optional(__S(95, __c2, 31)),
-          safetySettings: S.optional(__S(162, __c5, 2)),
-          cachedContent: S.optional(S.String),
-          toolConfig: S.optional(__S(166, __c5, 6)),
-          labels: S.optional(__S(167, __c5, 7)),
-          modelArmorConfig: S.optional(__S(168, __c5, 8)),
-          generationConfig: S.optional(__S(118, __c3, 22)),
-        }),
-      ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GenerateContentRequest" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
           toolUsePromptTokensDetails: S.optional(__S(120, __c3, 24)),
           toolUsePromptTokenCount: S.optional(S.Number),
           candidatesTokensDetails: S.optional(__S(120, __c3, 24)),
@@ -2662,7 +2660,7 @@ function __c5(j: number): any {
       ).annotate({
         identifier: "GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata",
       });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           month: S.optional(S.Number),
@@ -2670,26 +2668,26 @@ function __c5(j: number): any {
           day: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Firebaseml_Date" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           startIndex: S.optional(S.Number),
           title: S.optional(S.String),
           endIndex: S.optional(S.Number),
-          publicationDate: S.optional(__S(171, __c5, 11)),
+          publicationDate: S.optional(__S(170, __c5, 10)),
           uri: S.optional(S.String),
           license: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1Citation" });
+    case 12:
+      return S.Array(__S(171, __c5, 11));
     case 13:
-      return S.Array(__S(172, __c5, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
-          citations: S.optional(__S(173, __c5, 13)),
+          citations: S.optional(__S(172, __c5, 12)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1CitationMetadata" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           probabilityScore: S.optional(S.Number),
@@ -2701,9 +2699,9 @@ function __c5(j: number): any {
           severity: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SafetyRating" });
+    case 15:
+      return S.Array(__S(174, __c5, 14));
     case 16:
-      return S.Array(__S(175, __c5, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
@@ -2713,17 +2711,17 @@ function __c5(j: number): any {
       ).annotate({
         identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSourcesReviewSnippet",
       });
+    case 17:
+      return S.Array(__S(176, __c5, 16));
     case 18:
-      return S.Array(__S(177, __c5, 17));
-    case 19:
       return S.suspend(() =>
         S.Struct({
-          reviewSnippets: S.optional(__S(178, __c5, 18)),
+          reviewSnippets: S.optional(__S(177, __c5, 17)),
         }),
       ).annotate({
         identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources",
       });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           duration: S.optional(S.String),
@@ -2731,18 +2729,18 @@ function __c5(j: number): any {
           encodedPolyline: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          placeAnswerSources: S.optional(__S(179, __c5, 19)),
-          route: S.optional(__S(180, __c5, 20)),
+          placeAnswerSources: S.optional(__S(178, __c5, 18)),
+          route: S.optional(__S(179, __c5, 19)),
           uri: S.optional(S.String),
           title: S.optional(S.String),
           text: S.optional(S.String),
           placeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMaps" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
@@ -2751,7 +2749,7 @@ function __c5(j: number): any {
           sourceUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingChunkImage" });
-    case 23:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           domain: S.optional(S.String),
@@ -2759,46 +2757,46 @@ function __c5(j: number): any {
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingChunkWeb" });
-    case 24:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           lastPage: S.optional(S.Number),
           firstPage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RagChunkPageSpan" });
-    case 25:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           chunkId: S.optional(S.String),
-          pageSpan: S.optional(__S(184, __c5, 24)),
+          pageSpan: S.optional(__S(183, __c5, 23)),
           fileId: S.optional(S.String),
           text: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RagChunk" });
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          ragChunk: S.optional(__S(185, __c5, 25)),
+          ragChunk: S.optional(__S(184, __c5, 24)),
           documentName: S.optional(S.String),
           text: S.optional(S.String),
           uri: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext" });
-    case 27:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          maps: S.optional(__S(181, __c5, 21)),
-          image: S.optional(__S(182, __c5, 22)),
-          web: S.optional(__S(183, __c5, 23)),
-          retrievedContext: S.optional(__S(186, __c5, 26)),
+          maps: S.optional(__S(180, __c5, 20)),
+          image: S.optional(__S(181, __c5, 21)),
+          web: S.optional(__S(182, __c5, 22)),
+          retrievedContext: S.optional(__S(185, __c5, 25)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingChunk" });
+    case 27:
+      return S.Array(__S(186, __c5, 26));
     case 28:
-      return S.Array(__S(187, __c5, 27));
-    case 29:
       return S.Array(S.Number);
-    case 30:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           startIndex: S.optional(S.Number),
@@ -2807,58 +2805,58 @@ function __c5(j: number): any {
           text: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1Segment" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          confidenceScores: S.optional(__S(189, __c5, 29)),
-          groundingChunkIndices: S.optional(__S(189, __c5, 29)),
-          segment: S.optional(__S(190, __c5, 30)),
-          renderedParts: S.optional(__S(189, __c5, 29)),
+          confidenceScores: S.optional(__S(188, __c5, 28)),
+          groundingChunkIndices: S.optional(__S(188, __c5, 28)),
+          segment: S.optional(__S(189, __c5, 29)),
+          renderedParts: S.optional(__S(188, __c5, 28)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingSupport" });
+    case 31:
+      return S.Array(__S(190, __c5, 30));
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(191, __c5, 31));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           renderedContent: S.optional(S.String),
           sdkBlob: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1SearchEntryPoint" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           googleSearchDynamicRetrievalScore: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1RetrievalMetadata" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           sourceId: S.optional(S.String),
           flagContentUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri" });
+    case 3:
+      return S.Array(__S(194, __c6, 2));
     case 4:
-      return S.Array(__S(195, __c6, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          groundingChunks: S.optional(__S(188, __c5, 28)),
+          groundingChunks: S.optional(__S(187, __c5, 27)),
           imageSearchQueries: S.optional(__S(56, __c1, 24)),
-          groundingSupports: S.optional(__S(192, __c6, 0)),
+          groundingSupports: S.optional(__S(191, __c5, 31)),
           googleMapsWidgetContextToken: S.optional(S.String),
-          searchEntryPoint: S.optional(__S(193, __c6, 1)),
+          searchEntryPoint: S.optional(__S(192, __c6, 0)),
           retrievalQueries: S.optional(__S(56, __c1, 24)),
-          retrievalMetadata: S.optional(__S(194, __c6, 2)),
-          sourceFlaggingUris: S.optional(__S(196, __c6, 4)),
+          retrievalMetadata: S.optional(__S(193, __c6, 1)),
+          sourceFlaggingUris: S.optional(__S(195, __c6, 3)),
           webSearchQueries: S.optional(__S(56, __c1, 24)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GroundingMetadata" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           token: S.optional(S.String),
@@ -2866,47 +2864,47 @@ function __c6(j: number): any {
           tokenId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1LogprobsResultCandidate" });
+    case 6:
+      return S.Array(__S(197, __c6, 5));
     case 7:
-      return S.Array(__S(198, __c6, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          candidates: S.optional(__S(199, __c6, 7)),
+          candidates: S.optional(__S(198, __c6, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1LogprobsResultTopCandidates" });
+    case 8:
+      return S.Array(__S(199, __c6, 7));
     case 9:
-      return S.Array(__S(200, __c6, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          chosenCandidates: S.optional(__S(199, __c6, 7)),
-          topCandidates: S.optional(__S(201, __c6, 9)),
+          chosenCandidates: S.optional(__S(198, __c6, 6)),
+          topCandidates: S.optional(__S(200, __c6, 8)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1LogprobsResult" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           urlRetrievalStatus: S.optional(S.String),
           retrievedUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UrlMetadata" });
+    case 11:
+      return S.Array(__S(202, __c6, 10));
     case 12:
-      return S.Array(__S(203, __c6, 11));
+      return S.suspend(() =>
+        S.Struct({
+          urlMetadata: S.optional(__S(203, __c6, 11)),
+        }),
+      ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UrlContextMetadata" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          urlMetadata: S.optional(__S(204, __c6, 12)),
-        }),
-      ).annotate({ identifier: "GoogleCloudAiplatformV1beta1UrlContextMetadata" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          citationMetadata: S.optional(__S(174, __c5, 14)),
+          citationMetadata: S.optional(__S(173, __c5, 13)),
           content: S.optional(__S(52, __c1, 20)),
-          safetyRatings: S.optional(__S(176, __c5, 16)),
-          groundingMetadata: S.optional(__S(197, __c6, 5)),
-          logprobsResult: S.optional(__S(202, __c6, 10)),
-          urlContextMetadata: S.optional(__S(205, __c6, 13)),
+          safetyRatings: S.optional(__S(175, __c5, 15)),
+          groundingMetadata: S.optional(__S(196, __c6, 4)),
+          logprobsResult: S.optional(__S(201, __c6, 9)),
+          urlContextMetadata: S.optional(__S(204, __c6, 12)),
           index: S.optional(S.Number),
           finishReason: S.optional(S.String),
           finishMessage: S.optional(S.String),
@@ -2914,27 +2912,27 @@ function __c6(j: number): any {
           continuationToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1Candidate" });
+    case 14:
+      return S.Array(__S(205, __c6, 13));
     case 15:
-      return S.Array(__S(206, __c6, 14));
-    case 16:
       return S.suspend(() =>
         S.Struct({
           blockReason: S.optional(S.String),
           blockReasonMessage: S.optional(S.String),
-          safetyRatings: S.optional(__S(176, __c5, 16)),
+          safetyRatings: S.optional(__S(175, __c5, 15)),
         }),
       ).annotate({
         identifier: "GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback",
       });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           responseId: S.optional(S.String),
-          usageMetadata: S.optional(__S(170, __c5, 10)),
+          usageMetadata: S.optional(__S(169, __c5, 9)),
           modelVersion: S.optional(S.String),
           createTime: S.optional(S.String),
-          candidates: S.optional(__S(207, __c6, 15)),
-          promptFeedback: S.optional(__S(208, __c6, 16)),
+          candidates: S.optional(__S(206, __c6, 14)),
+          promptFeedback: S.optional(__S(207, __c6, 15)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1beta1GenerateContentResponse" });
   }
@@ -2945,7 +2943,17 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           model: S.String.pipe(T.Label()),
-          body: S.optional(__S(169, __c5, 9).pipe(T.HttpBody())),
+          systemInstruction: S.optional(__S(52, __c1, 20)),
+          continuationToken: S.optional(S.String),
+          outputConfig: S.optional(__S(160, __c5, 0)),
+          contents: S.optional(__S(53, __c1, 21)),
+          tools: S.optional(__S(95, __c2, 31)),
+          safetySettings: S.optional(__S(162, __c5, 2)),
+          cachedContent: S.optional(S.String),
+          toolConfig: S.optional(__S(166, __c5, 6)),
+          labels: S.optional(__S(167, __c5, 7)),
+          modelArmorConfig: S.optional(__S(168, __c5, 8)),
+          generationConfig: S.optional(__S(118, __c3, 22)),
         }).pipe(
           T.Http({
             method: "POST",

@@ -89,8 +89,9 @@ export type FolderLifecycleStateEnum =
   | "ACTIVE"
   | "DELETE_REQUESTED";
 export type StringMap = { [key: string]: string | undefined };
-/** A Folder in an Organization's resource hierarchy, used to organize that Organization's resources. */
-export interface Folder {
+export interface CreateFoldersRequest {
+  /** Required. The resource name of the new Folder's parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
+  parent?: string | undefined;
   /** Output only. Optional capabilities configured for this folder (via UpdateCapability API). Example: `folders/123/capabilities/app-management`. */
   configuredCapabilities?: StringList | undefined;
   /** Output only. The resource name of the Folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
@@ -101,18 +102,10 @@ export interface Folder {
   createTime?: string | undefined;
   /** Output only. The lifecycle state of the folder. Updates to the lifecycle_state must be performed via DeleteFolder and UndeleteFolder. */
   lifecycleState?: FolderLifecycleStateEnum | (string & {}) | undefined;
-  /** Required. The Folder's parent's resource name. Updates to the folder's parent must be performed via MoveFolder. */
-  parent?: string | undefined;
   /** The folder's display name. A folder's display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: `[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?`. */
   displayName?: string | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
   tags?: StringMap | undefined;
-}
-export interface CreateFoldersRequest {
-  /** Required. The resource name of the new Folder's parent. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
-  parent?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -142,6 +135,25 @@ export interface DeleteFoldersRequest {
   /** Required. the resource name of the Folder to be deleted. Must be of the form `folders/{folder_id}`. */
   name: string;
 }
+/** A Folder in an Organization's resource hierarchy, used to organize that Organization's resources. */
+export interface Folder {
+  /** Output only. Optional capabilities configured for this folder (via UpdateCapability API). Example: `folders/123/capabilities/app-management`. */
+  configuredCapabilities?: StringList | undefined;
+  /** Output only. The resource name of the Folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
+  name?: string | undefined;
+  /** Output only. Management Project associated with this folder (if app-management capability is enabled). Example: `projects/google-mp-123` OUTPUT ONLY. */
+  managementProject?: string | undefined;
+  /** Output only. Timestamp when the Folder was created. Assigned by the server. */
+  createTime?: string | undefined;
+  /** Output only. The lifecycle state of the folder. Updates to the lifecycle_state must be performed via DeleteFolder and UndeleteFolder. */
+  lifecycleState?: FolderLifecycleStateEnum | undefined;
+  /** Required. The Folder's parent's resource name. Updates to the folder's parent must be performed via MoveFolder. */
+  parent?: string | undefined;
+  /** The folder's display name. A folder's display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: `[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?`. */
+  displayName?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap | undefined;
+}
 export interface GetFoldersRequest {
   /** Required. The resource name of the Folder to retrieve. Must be of the form `folders/{folder_id}`. */
   name: string;
@@ -151,16 +163,11 @@ export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyFoldersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -237,37 +244,39 @@ export interface ListFoldersResponse {
   /** A pagination token returned from a previous call to `ListFolders` that indicates from where listing should continue. */
   nextPageToken?: string | undefined;
 }
-/** The MoveFolder request message. */
-export interface MoveFolderRequest {
-  /** Required. The resource name of the Folder or Organization to reparent the folder under. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
-  destinationParent?: string | undefined;
-}
 export interface MoveFoldersRequest {
   /** Required. The resource name of the Folder to move. Must be of the form folders/{folder_id} */
   name: string;
-  /** Request body */
-  body?: MoveFolderRequest | undefined;
+  /** Required. The resource name of the Folder or Organization to reparent the folder under. Must be of the form `folders/{folder_id}` or `organizations/{org_id}`. */
+  destinationParent?: string | undefined;
 }
 export interface PatchFoldersRequest {
   /** Output only. The resource name of the Folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
   /** Required. Fields to be updated. Only the `display_name` can be updated. */
   updateMask?: string | undefined;
-  /** Request body */
-  body?: Folder | undefined;
+  /** Output only. Optional capabilities configured for this folder (via UpdateCapability API). Example: `folders/123/capabilities/app-management`. */
+  configuredCapabilities?: StringList | undefined;
+  /** Output only. Management Project associated with this folder (if app-management capability is enabled). Example: `projects/google-mp-123` OUTPUT ONLY. */
+  managementProject?: string | undefined;
+  /** Output only. Timestamp when the Folder was created. Assigned by the server. */
+  createTime?: string | undefined;
+  /** Output only. The lifecycle state of the folder. Updates to the lifecycle_state must be performed via DeleteFolder and UndeleteFolder. */
+  lifecycleState?: FolderLifecycleStateEnum | (string & {}) | undefined;
+  /** Required. The Folder's parent's resource name. Updates to the folder's parent must be performed via MoveFolder. */
+  parent?: string | undefined;
+  /** The folder's display name. A folder's display name must be unique amongst its siblings, e.g. no two folders with the same parent can share the same display name. The display name must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be no longer than 30 characters. This is captured by the regular expression: `[\p{L}\p{N}]([\p{L}\p{N}_- ]{0,28}[\p{L}\p{N}])?`. */
+  displayName?: string | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this folder. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap | undefined;
 }
-/** The request message for searching folders. */
-export interface SearchFoldersRequest {
+export interface SearchFoldersRequest_ {
   /** Optional. A pagination token returned from a previous call to `SearchFolders` that indicates from where search should continue. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
   /** Search criteria used to select the Folders to return. If no search criteria is specified then all accessible folders will be returned. Query expressions can be used to restrict results based upon displayName, lifecycleState and parent, where the operators `=`, `NOT`, `AND` and `OR` can be used along with the suffix wildcard symbol `*`. The displayName field in a query expression should use escaped quotes for values that include whitespace to prevent unexpected behavior. Some example queries are: * Query `displayName=Test*` returns Folder resources whose display name starts with "Test". * Query `lifecycleState=ACTIVE` returns Folder resources with `lifecycleState` set to `ACTIVE`. * Query `parent=folders/123` returns Folder resources that have `folders/123` as a parent resource. * Query `parent=folders/123 AND lifecycleState=ACTIVE` returns active Folder resources that have `folders/123` as a parent resource. * Query `displayName=\\"Test String\\"` returns Folder resources with display names that include both "Test" and "String". */
   query?: string | undefined;
-}
-export interface SearchFoldersRequest_ {
-  /** Request body */
-  body?: SearchFoldersRequest | undefined;
 }
 /** The response message for searching folders. */
 export interface SearchFoldersResponse {
@@ -276,29 +285,19 @@ export interface SearchFoldersResponse {
   /** A pagination token returned from a previous call to `SearchFolders` that indicates from where searching should continue. */
   nextPageToken?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyFoldersRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
 }
-export interface SetIamPolicyFoldersRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
-}
 export interface TestIamPermissionsFoldersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -339,7 +338,7 @@ export const deleteFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DeleteFoldersRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Folder>,
+  output: __S(88, __c11, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -355,8 +354,8 @@ export const getFolders: API.OperationMethod<
   GetFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetFoldersRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Folder>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetFoldersRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -372,8 +371,8 @@ export const getIamPolicyFolders: API.OperationMethod<
   GetIamPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(98, __c12, 2) as any as S.Schema<GetIamPolicyFoldersRequest>,
-  output: __S(111, __c13, 7) as any as S.Schema<Policy>,
+  input: __S(105, __c13, 1) as any as S.Schema<GetIamPolicyFoldersRequest>,
+  output: __S(119, __c14, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -389,7 +388,7 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetOperationsRequest>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetOperationsRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -407,8 +406,8 @@ export const listFolders: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFoldersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListFoldersRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<ListFoldersResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListFoldersRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<ListFoldersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -425,7 +424,7 @@ export const moveFolders: API.OperationMethod<
   MoveFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<MoveFoldersRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<MoveFoldersRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -443,7 +442,7 @@ export const patchFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<PatchFoldersRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Folder>,
+  output: __S(88, __c11, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -459,8 +458,8 @@ export const searchFolders: API.OperationMethod<
   SearchFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<SearchFoldersRequest_>,
-  output: __S(129, __c16, 1) as any as S.Schema<SearchFoldersResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<SearchFoldersRequest_>,
+  output: __S(137, __c17, 1) as any as S.Schema<SearchFoldersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -476,8 +475,8 @@ export const setIamPolicyFolders: API.OperationMethod<
   SetIamPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<SetIamPolicyFoldersRequest>,
-  output: __S(111, __c13, 7) as any as S.Schema<Policy>,
+  input: __S(24, __c3, 0) as any as S.Schema<SetIamPolicyFoldersRequest>,
+  output: __S(119, __c14, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -498,8 +497,8 @@ export const testIamPermissionsFolders: API.OperationMethod<
   TestIamPermissionsFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<TestIamPermissionsFoldersRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<TestIamPermissionsFoldersRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -516,7 +515,7 @@ export const undeleteFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c5, 1) as any as S.Schema<UndeleteFoldersRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Folder>,
+  output: __S(88, __c11, 0) as any as S.Schema<Folder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -530,14 +529,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationParent: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MoveFolderRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(0, __c0, 0).pipe(T.HttpBody())),
+          destinationParent: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -555,7 +548,13 @@ function __c1(j: number): any {
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          configuredCapabilities: S.optional(__S(56, __c7, 0)),
+          managementProject: S.optional(S.String),
+          createTime: S.optional(S.String),
+          lifecycleState: S.optional(S.String),
+          parent: S.optional(S.String),
+          displayName: S.optional(S.String),
+          tags: S.optional(__S(64, __c8, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -574,12 +573,6 @@ function __c2(j: number): any {
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
           query: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchFoldersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(16, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -595,15 +588,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
-          policy: S.optional(__S(111, __c13, 7)),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String),
+          policy: S.optional(__S(119, __c14, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -619,14 +606,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(56, __c7, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c4, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(56, __c7, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -635,6 +616,12 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TestIamPermissionsFoldersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(56, __c7, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
 function __c5(j: number): any {
@@ -662,7 +649,13 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          configuredCapabilities: S.optional(__S(56, __c7, 0)),
+          name: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          createTime: S.optional(S.String),
+          lifecycleState: S.optional(S.String),
+          displayName: S.optional(S.String),
+          tags: S.optional(__S(64, __c8, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -683,19 +676,6 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          configuredCapabilities: S.optional(__S(56, __c7, 0)),
-          name: S.optional(S.String),
-          managementProject: S.optional(S.String),
-          createTime: S.optional(S.String),
-          lifecycleState: S.optional(S.String),
-          parent: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tags: S.optional(__S(64, __c8, 0)),
-        }),
-      ).annotate({ identifier: "Folder" });
   }
 }
 function __c9(j: number): any {
@@ -745,6 +725,23 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          configuredCapabilities: S.optional(__S(56, __c7, 0)),
+          name: S.optional(S.String),
+          managementProject: S.optional(S.String),
+          createTime: S.optional(S.String),
+          lifecycleState: S.optional(S.String),
+          parent: S.optional(S.String),
+          displayName: S.optional(S.String),
+          tags: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "Folder" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -756,7 +753,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetFoldersRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -767,14 +764,8 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(96, __c12, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c12, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(104, __c13, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -785,7 +776,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetIamPolicyFoldersRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -795,16 +786,16 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(112, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(105, __c13, 1)),
+          auditLogConfigs: S.optional(__S(113, __c14, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(106, __c13, 2));
+      return S.Array(__S(114, __c14, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -818,24 +809,24 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          condition: S.optional(__S(108, __c13, 4)),
+          condition: S.optional(__S(116, __c14, 4)),
           members: S.optional(__S(56, __c7, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(109, __c13, 5));
+      return S.Array(__S(117, __c14, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          auditConfigs: S.optional(__S(107, __c13, 3)),
+          auditConfigs: S.optional(__S(115, __c14, 3)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(110, __c13, 6)),
+          bindings: S.optional(__S(118, __c14, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -851,7 +842,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -870,14 +861,14 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListFoldersRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(88, __c11, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          folders: S.optional(__S(128, __c16, 0)),
+          folders: S.optional(__S(136, __c17, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFoldersResponse" });

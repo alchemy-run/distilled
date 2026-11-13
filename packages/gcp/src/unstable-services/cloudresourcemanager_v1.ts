@@ -83,34 +83,47 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** The request sent to the ClearOrgPolicy method. */
-export interface ClearOrgPolicyRequest {
+export interface ClearOrgPolicyFoldersRequest {
+  /** Name of the resource for the `Policy` to clear. */
+  resource: string;
   /** Name of the `Constraint` of the `Policy` to clear. */
   constraint?: string | undefined;
   /** The current version, for concurrency control. Not sending an `etag` will cause the `Policy` to be cleared blindly. */
   etag?: string | undefined;
-}
-export interface ClearOrgPolicyFoldersRequest {
-  /** Name of the resource for the `Policy` to clear. */
-  resource: string;
-  /** Request body */
-  body?: ClearOrgPolicyRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface ClearOrgPolicyOrganizationsRequest {
   /** Name of the resource for the `Policy` to clear. */
   resource: string;
-  /** Request body */
-  body?: ClearOrgPolicyRequest | undefined;
+  /** Name of the `Constraint` of the `Policy` to clear. */
+  constraint?: string | undefined;
+  /** The current version, for concurrency control. Not sending an `etag` will cause the `Policy` to be cleared blindly. */
+  etag?: string | undefined;
 }
 export interface ClearOrgPolicyProjectsRequest {
   /** Name of the resource for the `Policy` to clear. */
   resource: string;
-  /** Request body */
-  body?: ClearOrgPolicyRequest | undefined;
+  /** Name of the `Constraint` of the `Policy` to clear. */
+  constraint?: string | undefined;
+  /** The current version, for concurrency control. Not sending an `etag` will cause the `Policy` to be cleared blindly. */
+  etag?: string | undefined;
 }
 export type StringList = Array<string>;
+export interface CreateLiensRequest {
+  /** A system-generated unique identifier for this Lien. Example: `liens/1234abcd` */
+  name?: string | undefined;
+  /** A reference to the resource this Lien is attached to. The server will validate the parent against those for which Liens are supported. Example: `projects/1234` */
+  parent?: string | undefined;
+  /** Concise user-visible strings indicating why an action cannot be performed on a resource. Maximum length of 200 characters. Example: 'Holds production API key' */
+  reason?: string | undefined;
+  /** The types of operations which should be blocked as a result of this Lien. Each value should correspond to an IAM permission. The server will validate the permissions against those for which Liens are supported. An empty list is meaningless and will be rejected. Example: ['resourcemanager.projects.delete'] */
+  restrictions?: StringList | undefined;
+  /** The creation time of this Lien. */
+  createTime?: string | undefined;
+  /** A stable, user-visible/meaningful string identifying the origin of the Lien, intended to be inspected programmatically. Maximum length of 200 characters. Example: 'compute.googleapis.com' */
+  origin?: string | undefined;
+}
 /** A Lien represents an encumbrance on the actions that can be performed on a resource. */
 export interface Lien {
   /** A system-generated unique identifier for this Lien. Example: `liens/1234abcd` */
@@ -126,10 +139,6 @@ export interface Lien {
   /** A stable, user-visible/meaningful string identifying the origin of the Lien, intended to be inspected programmatically. Maximum length of 200 characters. Example: 'compute.googleapis.com' */
   origin?: string | undefined;
 }
-export interface CreateLiensRequest {
-  /** Request body */
-  body?: Lien | undefined;
-}
 export type StringMap = { [key: string]: string | undefined };
 export type ProjectLifecycleStateEnum =
   | "LIFECYCLE_STATE_UNSPECIFIED"
@@ -144,8 +153,7 @@ export interface ResourceId {
   type?: string | undefined;
 }
 export type ProjectManagementTypeEnum = "MANAGEMENT_TYPE_UNSPECIFIED" | "SELF_MANAGED" | "HUB";
-/** A Project is a high-level Google Cloud Platform entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
-export interface Project {
+export interface CreateProjectsRequest {
   /** The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
   projectId?: string | undefined;
   /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
@@ -168,10 +176,6 @@ export interface Project {
   parent?: ResourceId | undefined;
   /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
   managementType?: ProjectManagementTypeEnum | (string & {}) | undefined;
-}
-export interface CreateProjectsRequest {
-  /** Request body */
-  body?: Project | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -224,16 +228,11 @@ export interface GetAncestryResponse {
   /** Ancestors are ordered from bottom to top of the resource hierarchy. The first ancestor is the project itself, followed by the project's parent, etc.. */
   ancestor?: AncestorList | undefined;
 }
-/** The request sent to the GetEffectiveOrgPolicy method. */
-export interface GetEffectiveOrgPolicyRequest {
-  /** The name of the `Constraint` to compute the effective `Policy`. */
-  constraint?: string | undefined;
-}
 export interface GetEffectiveOrgPolicyFoldersRequest {
   /** The name of the resource to start computing the effective `Policy`. */
   resource: string;
-  /** Request body */
-  body?: GetEffectiveOrgPolicyRequest | undefined;
+  /** The name of the `Constraint` to compute the effective `Policy`. */
+  constraint?: string | undefined;
 }
 export type ListPolicyAllValuesEnum = "ALL_VALUES_UNSPECIFIED" | "ALLOW" | "DENY";
 /** Used in `policy_type` to specify how `list_policy` behaves at this resource. `ListPolicy` can define specific values and subtrees of Cloud Resource Manager resource hierarchy (`Organizations`, `Folders`, `Projects`) that are allowed or denied by setting the `allowed_values` and `denied_values` fields. This is achieved by using the `under:` and optional `is:` prefixes. The `under:` prefix is used to denote resource subtree values. The `is:` prefix is used to denote specific values, and is required only if the value contains a ":". Values prefixed with "is:" are treated the same as values with no prefix. Ancestry subtrees must be in one of the following formats: - "projects/", e.g. "projects/tokyo-rain-123" - "folders/", e.g. "folders/1234" - "organizations/", e.g. "organizations/1234" The `supports_under` field of the associated `Constraint` defines whether ancestry prefixes can be used. You can set `allowed_values` and `denied_values` in the same `Policy` if `all_values` is `ALL_VALUES_UNSPECIFIED`. `ALLOW` or `DENY` are used to allow or deny all values. If `all_values` is set to either `ALLOW` or `DENY`, `allowed_values` and `denied_values` must be unset. */
@@ -276,30 +275,25 @@ export interface OrgPolicy {
 export interface GetEffectiveOrgPolicyOrganizationsRequest {
   /** The name of the resource to start computing the effective `Policy`. */
   resource: string;
-  /** Request body */
-  body?: GetEffectiveOrgPolicyRequest | undefined;
+  /** The name of the `Constraint` to compute the effective `Policy`. */
+  constraint?: string | undefined;
 }
 export interface GetEffectiveOrgPolicyProjectsRequest {
   /** The name of the resource to start computing the effective `Policy`. */
   resource: string;
-  /** Request body */
-  body?: GetEffectiveOrgPolicyRequest | undefined;
+  /** The name of the `Constraint` to compute the effective `Policy`. */
+  constraint?: string | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   requestedPolicyVersion?: number | undefined;
 }
-/** Request message for `GetIamPolicy` method. */
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions | undefined;
-}
 export interface GetIamPolicyOrganizationsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
@@ -357,8 +351,8 @@ export interface Policy {
 export interface GetIamPolicyProjectsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest | undefined;
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetLiensRequest {
   /** Required. The name/identifier of the Lien. */
@@ -394,45 +388,60 @@ export interface Organization {
   /** A human-readable string that refers to the Organization in the Google Cloud console. This string is set by the server and cannot be changed. The string will be set to the primary domain (for example, "google.com") of the G Suite customer that owns the organization. */
   displayName?: string | undefined;
 }
-/** The request sent to the GetOrgPolicy method. */
-export interface GetOrgPolicyRequest {
-  /** Name of the `Constraint` to get the `Policy`. */
-  constraint?: string | undefined;
-}
 export interface GetOrgPolicyFoldersRequest {
   /** Name of the resource the `Policy` is set on. */
   resource: string;
-  /** Request body */
-  body?: GetOrgPolicyRequest | undefined;
+  /** Name of the `Constraint` to get the `Policy`. */
+  constraint?: string | undefined;
 }
 export interface GetOrgPolicyOrganizationsRequest {
   /** Name of the resource the `Policy` is set on. */
   resource: string;
-  /** Request body */
-  body?: GetOrgPolicyRequest | undefined;
+  /** Name of the `Constraint` to get the `Policy`. */
+  constraint?: string | undefined;
 }
 export interface GetOrgPolicyProjectsRequest {
   /** Name of the resource the `Policy` is set on. */
   resource: string;
-  /** Request body */
-  body?: GetOrgPolicyRequest | undefined;
+  /** Name of the `Constraint` to get the `Policy`. */
+  constraint?: string | undefined;
 }
 export interface GetProjectsRequest {
   /** Required. The Project ID (for example, `my-project-123`). */
   projectId: string;
 }
-/** The request sent to the `ListAvailableOrgPolicyConstraints` method on the project, folder, or organization. */
-export interface ListAvailableOrgPolicyConstraintsRequest {
-  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
-  pageToken?: string | undefined;
-  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
-  pageSize?: number | undefined;
+/** A Project is a high-level Google Cloud Platform entity. It is a container for ACLs, APIs, App Engine Apps, VMs, and other Google Cloud Platform resources. */
+export interface Project {
+  /** The unique, user-assigned ID of the Project. It must be 6 to 30 lowercase letters, digits, or hyphens. It must start with a letter. Trailing hyphens are prohibited. Example: `tokyo-rain-123` Read-only after creation. */
+  projectId?: string | undefined;
+  /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
+  isManagementProject?: boolean | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap | undefined;
+  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
+  configuredCapabilities?: StringList | undefined;
+  /** The Project lifecycle state. Read-only. */
+  lifecycleState?: ProjectLifecycleStateEnum | undefined;
+  /** Creation time. Read-only. */
+  createTime?: string | undefined;
+  /** The number uniquely identifying the project. Example: `415104041262` Read-only. */
+  projectNumber?: string | undefined;
+  /** The optional user-assigned display name of the Project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` Read-write. */
+  name?: string | undefined;
+  /** The labels associated with this Project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: a-z{0,62}. Label values must be between 0 and 63 characters long and must conform to the regular expression [a-z0-9_-]{0,63}. A label value can be empty. No more than 256 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: "environment" : "dev" Read-write. */
+  labels?: StringMap | undefined;
+  /** An optional reference to a parent Resource. Supported parent types include "organization" and "folder". Once set, the parent cannot be cleared. The `parent` can be set on creation or using the `UpdateProject` method; the end user must have the `resourcemanager.projects.create` permission on the parent. */
+  parent?: ResourceId | undefined;
+  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
+  managementType?: ProjectManagementTypeEnum | undefined;
 }
 export interface ListAvailableOrgPolicyConstraintsFoldersRequest {
   /** Name of the resource to list `Constraints` for. */
   resource: string;
-  /** Request body */
-  body?: ListAvailableOrgPolicyConstraintsRequest | undefined;
+  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
+  pageToken?: string | undefined;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number | undefined;
 }
 export type ConstraintConstraintDefaultEnum = "CONSTRAINT_DEFAULT_UNSPECIFIED" | "ALLOW" | "DENY";
 /** A `Constraint` that allows or disallows a list of string values, which are configured by an Organization's policy administrator with a `Policy`. */
@@ -472,14 +481,18 @@ export interface ListAvailableOrgPolicyConstraintsResponse {
 export interface ListAvailableOrgPolicyConstraintsOrganizationsRequest {
   /** Name of the resource to list `Constraints` for. */
   resource: string;
-  /** Request body */
-  body?: ListAvailableOrgPolicyConstraintsRequest | undefined;
+  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
+  pageToken?: string | undefined;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number | undefined;
 }
 export interface ListAvailableOrgPolicyConstraintsProjectsRequest {
   /** Name of the resource to list `Constraints` for. */
   resource: string;
-  /** Request body */
-  body?: ListAvailableOrgPolicyConstraintsRequest | undefined;
+  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
+  pageToken?: string | undefined;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number | undefined;
 }
 export interface ListLiensRequest {
   /** The `next_page_token` value returned from a previous List request, if any. */
@@ -497,13 +510,13 @@ export interface ListLiensResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
-/** The request sent to the ListOrgPolicies method. */
-export type ListOrgPoliciesRequest = ListAvailableOrgPolicyConstraintsRequest;
 export interface ListOrgPoliciesFoldersRequest {
   /** Name of the resource to list Policies for. */
   resource: string;
-  /** Request body */
-  body?: ListAvailableOrgPolicyConstraintsRequest | undefined;
+  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
+  pageToken?: string | undefined;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number | undefined;
 }
 export type OrgPolicyList = Array<OrgPolicy>;
 /** The response returned from the `ListOrgPolicies` method. It will be empty if no `Policies` are set on the resource. */
@@ -516,14 +529,18 @@ export interface ListOrgPoliciesResponse {
 export interface ListOrgPoliciesOrganizationsRequest {
   /** Name of the resource to list Policies for. */
   resource: string;
-  /** Request body */
-  body?: ListAvailableOrgPolicyConstraintsRequest | undefined;
+  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
+  pageToken?: string | undefined;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number | undefined;
 }
 export interface ListOrgPoliciesProjectsRequest {
   /** Name of the resource to list Policies for. */
   resource: string;
-  /** Request body */
-  body?: ListAvailableOrgPolicyConstraintsRequest | undefined;
+  /** Page token used to retrieve the next page. This is currently unsupported and will be ignored. The server may at any point start using this field. */
+  pageToken?: string | undefined;
+  /** Size of the pages to be returned. This is currently unsupported and will be ignored. The server may at any point start using this field to limit page size. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsRequest {
   /** Optional. The maximum number of Projects to return in the response. The server can return fewer Projects than requested. If unspecified, server picks an appropriate default. */
@@ -541,18 +558,13 @@ export interface ListProjectsResponse {
   /** Pagination token. If the result set is too large to fit in a single response, this token is returned. It encodes the position of the current result cursor. Feeding this value into a new list request with the `page_token` parameter gives the next page of the results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. Pagination tokens have a limited lifetime. */
   nextPageToken?: string | undefined;
 }
-/** The request sent to the `SearchOrganizations` method. */
-export interface SearchOrganizationsRequest {
+export interface SearchOrganizationsRequest_ {
   /** An optional query string used to filter the Organizations to return in the response. Filter rules are case-insensitive. Organizations may be filtered by `owner.directoryCustomerId` or by `domain`, where the domain is a verified G Suite domain, for example: * Filter `owner.directorycustomerid:123456789` returns Organization resources with `owner.directory_customer_id` equal to `123456789`. * Filter `domain:google.com` returns Organization resources corresponding to the domain `google.com`. This field is optional. */
   filter?: string | undefined;
   /** The maximum number of Organizations to return in the response. The server can return fewer organizations than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number | undefined;
   /** A pagination token returned from a previous call to `SearchOrganizations` that indicates from where listing should continue. This field is optional. */
   pageToken?: string | undefined;
-}
-export interface SearchOrganizationsRequest_ {
-  /** Request body */
-  body?: SearchOrganizationsRequest | undefined;
 }
 export type OrganizationList = Array<Organization>;
 /** The response returned from the `SearchOrganizations` method. */
@@ -562,58 +574,45 @@ export interface SearchOrganizationsResponse {
   /** A pagination token to be used to retrieve the next page of results. If the result is too large to fit within the page size specified in the request, this field will be set with a token that can be used to fetch the next page of results. If this field is empty, it indicates that this response contains the last page of results. */
   nextPageToken?: string | undefined;
 }
-/** Request message for `SetIamPolicy` method. */
-export interface SetIamPolicyRequest {
+export interface SetIamPolicyOrganizationsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
 }
-export interface SetIamPolicyOrganizationsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
 export interface SetIamPolicyProjectsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest | undefined;
-}
-/** The request sent to the SetOrgPolicyRequest method. */
-export interface SetOrgPolicyRequest {
-  /** `Policy` to set on the resource. */
-  policy?: OrgPolicy | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetOrgPolicyFoldersRequest {
   /** Resource name of the resource to attach the `Policy`. */
   resource: string;
-  /** Request body */
-  body?: SetOrgPolicyRequest | undefined;
+  /** `Policy` to set on the resource. */
+  policy?: OrgPolicy | undefined;
 }
 export interface SetOrgPolicyOrganizationsRequest {
   /** Resource name of the resource to attach the `Policy`. */
   resource: string;
-  /** Request body */
-  body?: SetOrgPolicyRequest | undefined;
+  /** `Policy` to set on the resource. */
+  policy?: OrgPolicy | undefined;
 }
 export interface SetOrgPolicyProjectsRequest {
   /** Resource name of the resource to attach the `Policy`. */
   resource: string;
-  /** Request body */
-  body?: SetOrgPolicyRequest | undefined;
-}
-/** Request message for `TestIamPermissions` method. */
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList | undefined;
+  /** `Policy` to set on the resource. */
+  policy?: OrgPolicy | undefined;
 }
 export interface TestIamPermissionsOrganizationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
@@ -623,8 +622,8 @@ export interface TestIamPermissionsResponse {
 export interface TestIamPermissionsProjectsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest | undefined;
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: StringList | undefined;
 }
 /** The request sent to the UndeleteProject method. */
 export type UndeleteProjectRequest = GetAncestryRequest;
@@ -637,8 +636,26 @@ export interface UndeleteProjectsRequest {
 export interface UpdateProjectsRequest {
   /** The project ID (for example, `my-project-123`). Required. */
   projectId: string;
-  /** Request body */
-  body?: Project | undefined;
+  /** Output only. If `true`, this project is a Management Project. A Management Project manages dedicated project groups for specific purposes (e.g., agent management or app management). */
+  isManagementProject?: boolean | undefined;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this project. Each item in the map must be expressed as " : ". For example: "123/environment" : "production", "123/costCenter" : "marketing" Note: Currently this field is in Preview. */
+  tags?: StringMap | undefined;
+  /** Output only. If this project is a Management Project, list of capabilities configured on the parent folder. Note, presence of any capability implies that this is a Management Project. Example: `folders/123/capabilities/app-management`. OUTPUT ONLY. */
+  configuredCapabilities?: StringList | undefined;
+  /** The Project lifecycle state. Read-only. */
+  lifecycleState?: ProjectLifecycleStateEnum | (string & {}) | undefined;
+  /** Creation time. Read-only. */
+  createTime?: string | undefined;
+  /** The number uniquely identifying the project. Example: `415104041262` Read-only. */
+  projectNumber?: string | undefined;
+  /** The optional user-assigned display name of the Project. When present it must be between 4 to 30 characters. Allowed characters are: lowercase and uppercase letters, numbers, hyphen, single-quote, double-quote, space, and exclamation point. Example: `My Project` Read-write. */
+  name?: string | undefined;
+  /** The labels associated with this Project. Label keys must be between 1 and 63 characters long and must conform to the following regular expression: a-z{0,62}. Label values must be between 0 and 63 characters long and must conform to the regular expression [a-z0-9_-]{0,63}. A label value can be empty. No more than 256 labels can be associated with a given resource. Clients should store labels in a representation such as JSON that does not depend on specific characters being disallowed. Example: "environment" : "dev" Read-write. */
+  labels?: StringMap | undefined;
+  /** An optional reference to a parent Resource. Supported parent types include "organization" and "folder". Once set, the parent cannot be cleared. The `parent` can be set on creation or using the `UpdateProject` method; the end user must have the `resourcemanager.projects.create` permission on the parent. */
+  parent?: ResourceId | undefined;
+  /** Output only. The type of Management Project. This field is only populated if `is_management_project` is `true`. */
+  managementType?: ProjectManagementTypeEnum | (string & {}) | undefined;
 }
 export type ClearOrgPolicyFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Clears a `Policy` from a resource. */
@@ -648,8 +665,8 @@ export const clearOrgPolicyFolders: API.OperationMethod<
   ClearOrgPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ClearOrgPolicyFoldersRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
+  input: __S(304, __c38, 0) as any as S.Schema<ClearOrgPolicyFoldersRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -670,8 +687,8 @@ export const clearOrgPolicyOrganizations: API.OperationMethod<
   ClearOrgPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ClearOrgPolicyOrganizationsRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
+  input: __S(336, __c42, 0) as any as S.Schema<ClearOrgPolicyOrganizationsRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -687,8 +704,8 @@ export const clearOrgPolicyProjects: API.OperationMethod<
   ClearOrgPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ClearOrgPolicyProjectsRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
+  input: __S(344, __c43, 0) as any as S.Schema<ClearOrgPolicyProjectsRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -704,8 +721,8 @@ export const createLiens: API.OperationMethod<
   CreateLiensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<CreateLiensRequest>,
-  output: __S(392, __c49, 0) as any as S.Schema<Lien>,
+  input: __S(352, __c44, 0) as any as S.Schema<CreateLiensRequest>,
+  output: __S(360, __c45, 0) as any as S.Schema<Lien>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -721,8 +738,8 @@ export const createProjects: API.OperationMethod<
   CreateProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<CreateProjectsRequest>,
-  output: __S(427, __c53, 3) as any as S.Schema<Operation>,
+  input: __S(376, __c47, 0) as any as S.Schema<CreateProjectsRequest>,
+  output: __S(395, __c49, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -738,8 +755,8 @@ export const deleteLiens: API.OperationMethod<
   DeleteLiensError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<DeleteLiensRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
+  input: __S(408, __c51, 0) as any as S.Schema<DeleteLiensRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -756,7 +773,7 @@ export const deleteProjects: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
+  output: __S(312, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -795,7 +812,7 @@ export const getEffectiveOrgPolicyFolders: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetEffectiveOrgPolicyFoldersRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -816,8 +833,8 @@ export const getEffectiveOrgPolicyOrganizations: API.OperationMethod<
   GetEffectiveOrgPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetEffectiveOrgPolicyOrganizationsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetEffectiveOrgPolicyOrganizationsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -838,8 +855,8 @@ export const getEffectiveOrgPolicyProjects: API.OperationMethod<
   GetEffectiveOrgPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetEffectiveOrgPolicyProjectsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetEffectiveOrgPolicyProjectsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -860,8 +877,8 @@ export const getIamPolicyOrganizations: API.OperationMethod<
   GetIamPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetIamPolicyOrganizationsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<Policy>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetIamPolicyOrganizationsRequest>,
+  output: __S(71, __c8, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -877,8 +894,8 @@ export const getIamPolicyProjects: API.OperationMethod<
   GetIamPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetIamPolicyProjectsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<Policy>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetIamPolicyProjectsRequest>,
+  output: __S(71, __c8, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -890,8 +907,8 @@ export type GetLiensError = NotFound | Forbidden | GcpOpError;
 /** Retrieve a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
 export const getLiens: API.OperationMethod<GetLiensRequest, Lien, GetLiensError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(88, __c11, 0) as any as S.Schema<GetLiensRequest>,
-    output: __S(392, __c49, 0) as any as S.Schema<Lien>,
+    input: __S(80, __c10, 0) as any as S.Schema<GetLiensRequest>,
+    output: __S(360, __c45, 0) as any as S.Schema<Lien>,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
@@ -907,8 +924,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(427, __c53, 3) as any as S.Schema<Operation>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(395, __c49, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -924,8 +941,8 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetOrganizationsRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<Organization>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetOrganizationsRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<Organization>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -941,8 +958,8 @@ export const getOrgPolicyFolders: API.OperationMethod<
   GetOrgPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetOrgPolicyFoldersRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetOrgPolicyFoldersRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -963,8 +980,8 @@ export const getOrgPolicyOrganizations: API.OperationMethod<
   GetOrgPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetOrgPolicyOrganizationsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetOrgPolicyOrganizationsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -980,8 +997,8 @@ export const getOrgPolicyProjects: API.OperationMethod<
   GetOrgPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetOrgPolicyProjectsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetOrgPolicyProjectsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -997,8 +1014,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(433, __c54, 1) as any as S.Schema<Project>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1042,8 +1059,8 @@ export const listAvailableOrgPolicyConstraintsOrganizations: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    176,
-    __c22,
+    168,
+    __c21,
     0,
   ) as any as S.Schema<ListAvailableOrgPolicyConstraintsOrganizationsRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<ListAvailableOrgPolicyConstraintsResponse>,
@@ -1067,7 +1084,7 @@ export const listAvailableOrgPolicyConstraintsProjects: API.OperationMethod<
   ListAvailableOrgPolicyConstraintsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListAvailableOrgPolicyConstraintsProjectsRequest>,
+  input: __S(176, __c22, 0) as any as S.Schema<ListAvailableOrgPolicyConstraintsProjectsRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<ListAvailableOrgPolicyConstraintsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1085,8 +1102,8 @@ export const listLiens: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLiensResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListLiensRequest>,
-  output: __S(194, __c24, 2) as any as S.Schema<ListLiensResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListLiensRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<ListLiensResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1103,8 +1120,8 @@ export const listOrgPoliciesFolders: API.OperationMethod<
   ListOrgPoliciesFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ListOrgPoliciesFoldersRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<ListOrgPoliciesResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ListOrgPoliciesFoldersRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<ListOrgPoliciesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1125,8 +1142,8 @@ export const listOrgPoliciesOrganizations: API.OperationMethod<
   ListOrgPoliciesOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListOrgPoliciesOrganizationsRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<ListOrgPoliciesResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<ListOrgPoliciesOrganizationsRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<ListOrgPoliciesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1147,8 +1164,8 @@ export const listOrgPoliciesProjects: API.OperationMethod<
   ListOrgPoliciesProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListOrgPoliciesProjectsRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<ListOrgPoliciesResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<ListOrgPoliciesProjectsRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<ListOrgPoliciesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1165,8 +1182,8 @@ export const listProjects: API.PaginatedOperationMethod<
   GcpOpContext,
   ListProjectsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(234, __c29, 2) as any as S.Schema<ListProjectsResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ListProjectsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1183,8 +1200,8 @@ export const searchOrganizations: API.OperationMethod<
   SearchOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c30, 1) as any as S.Schema<SearchOrganizationsRequest_>,
-  output: __S(243, __c30, 3) as any as S.Schema<SearchOrganizationsResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<SearchOrganizationsRequest_>,
+  output: __S(234, __c29, 2) as any as S.Schema<SearchOrganizationsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1205,8 +1222,8 @@ export const setIamPolicyOrganizations: API.OperationMethod<
   SetIamPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<SetIamPolicyOrganizationsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<Policy>,
+  input: __S(240, __c30, 0) as any as S.Schema<SetIamPolicyOrganizationsRequest>,
+  output: __S(71, __c8, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1222,8 +1239,8 @@ export const setIamPolicyProjects: API.OperationMethod<
   SetIamPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<SetIamPolicyProjectsRequest>,
-  output: __S(79, __c9, 7) as any as S.Schema<Policy>,
+  input: __S(248, __c31, 0) as any as S.Schema<SetIamPolicyProjectsRequest>,
+  output: __S(71, __c8, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1239,8 +1256,8 @@ export const setOrgPolicyFolders: API.OperationMethod<
   SetOrgPolicyFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<SetOrgPolicyFoldersRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(256, __c32, 0) as any as S.Schema<SetOrgPolicyFoldersRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1261,8 +1278,8 @@ export const setOrgPolicyOrganizations: API.OperationMethod<
   SetOrgPolicyOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<SetOrgPolicyOrganizationsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(264, __c33, 0) as any as S.Schema<SetOrgPolicyOrganizationsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1278,8 +1295,8 @@ export const setOrgPolicyProjects: API.OperationMethod<
   SetOrgPolicyProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<SetOrgPolicyProjectsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<OrgPolicy>,
+  input: __S(272, __c34, 0) as any as S.Schema<SetOrgPolicyProjectsRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<OrgPolicy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1300,8 +1317,8 @@ export const testIamPermissionsOrganizations: API.OperationMethod<
   TestIamPermissionsOrganizationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<TestIamPermissionsOrganizationsRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<TestIamPermissionsOrganizationsRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1322,8 +1339,8 @@ export const testIamPermissionsProjects: API.OperationMethod<
   TestIamPermissionsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<TestIamPermissionsProjectsRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<TestIamPermissionsProjectsRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1339,8 +1356,8 @@ export const undeleteProjects: API.OperationMethod<
   UndeleteProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<UndeleteProjectsRequest>,
-  output: __S(344, __c43, 0) as any as S.Schema<Empty>,
+  input: __S(320, __c40, 0) as any as S.Schema<UndeleteProjectsRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1356,8 +1373,8 @@ export const updateProjects: API.OperationMethod<
   UpdateProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<UpdateProjectsRequest>,
-  output: __S(433, __c54, 1) as any as S.Schema<Project>,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateProjectsRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<Project>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1388,7 +1405,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(312, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1400,7 +1417,7 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourceId: S.optional(__S(416, __c52, 0)),
+          resourceId: S.optional(__S(384, __c48, 0)),
         }),
       ).annotate({ identifier: "Ancestor" });
     case 2:
@@ -1419,7 +1436,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1435,18 +1452,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          constraint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetEffectiveOrgPolicyRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowedValues: S.optional(__S(400, __c50, 0)),
-          deniedValues: S.optional(__S(400, __c50, 0)),
+          allowedValues: S.optional(__S(368, __c46, 0)),
+          deniedValues: S.optional(__S(368, __c46, 0)),
           allValues: S.optional(S.String),
           suggestedValue: S.optional(S.String),
           inheritFromParent: S.optional(S.Boolean),
@@ -1464,21 +1471,21 @@ function __c4(j: number): any {
           constraint: S.optional(S.String),
           updateTime: S.optional(S.String),
           version: S.optional(S.Number),
-          listPolicy: S.optional(__S(32, __c4, 0)),
-          booleanPolicy: S.optional(__S(33, __c4, 1)),
-          restoreDefault: S.optional(__S(344, __c43, 0)),
+          listPolicy: S.optional(__S(24, __c3, 0)),
+          booleanPolicy: S.optional(__S(25, __c3, 1)),
+          restoreDefault: S.optional(__S(312, __c39, 0)),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgPolicy" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1489,13 +1496,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetEffectiveOrgPolicyOrganizationsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1506,13 +1513,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetEffectiveOrgPolicyProjectsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(56, __c7, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1523,7 +1530,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetIamPolicyOrganizationsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1531,15 +1538,9 @@ function __c8(j: number): any {
           requestedPolicyVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetPolicyOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          options: S.optional(__S(64, __c8, 0)),
-        }),
-      ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1553,49 +1554,49 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(72, __c9, 0)),
-          members: S.optional(__S(400, __c50, 0)),
+          condition: S.optional(__S(64, __c8, 0)),
+          members: S.optional(__S(368, __c46, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(400, __c50, 0)),
+          exemptedMembers: S.optional(__S(368, __c46, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(75, __c9, 3));
+      return S.Array(__S(67, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(76, __c9, 4)),
+          auditLogConfigs: S.optional(__S(68, __c8, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(77, __c9, 5));
+      return S.Array(__S(69, __c8, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(74, __c9, 2)),
+          bindings: S.optional(__S(66, __c8, 2)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(78, __c9, 6)),
+          auditConfigs: S.optional(__S(70, __c8, 6)),
           version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          options: S.optional(__S(56, __c7, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1606,7 +1607,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1622,7 +1623,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetLiensRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1638,7 +1639,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1654,7 +1655,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetOrganizationsRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1668,19 +1669,19 @@ function __c14(j: number): any {
           creationTime: S.optional(S.String),
           name: S.optional(S.String),
           lifecycleState: S.optional(S.String),
-          owner: S.optional(__S(112, __c14, 0)),
+          owner: S.optional(__S(104, __c13, 0)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1691,13 +1692,13 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetOrgPolicyFoldersRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1708,13 +1709,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetOrgPolicyOrganizationsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(24, __c3, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1725,7 +1726,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetOrgPolicyProjectsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1741,13 +1742,34 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetProjectsRequest" });
   }
 }
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.optional(S.String),
+          isManagementProject: S.optional(S.Boolean),
+          tags: S.optional(__S(400, __c50, 0)),
+          configuredCapabilities: S.optional(__S(368, __c46, 0)),
+          lifecycleState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(400, __c50, 0)),
+          parent: S.optional(__S(384, __c48, 0)),
+          managementType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Project" });
+  }
+}
 function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1776,7 +1798,7 @@ function __c20(j: number): any {
           description: S.optional(S.String),
           listConstraint: S.optional(__S(160, __c20, 0)),
           name: S.optional(S.String),
-          booleanConstraint: S.optional(__S(344, __c43, 0)),
+          booleanConstraint: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "Constraint" });
     case 2:
@@ -1795,19 +1817,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resource: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ListAvailableOrgPolicyConstraintsRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1818,13 +1830,14 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListAvailableOrgPolicyConstraintsOrganizationsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1835,7 +1848,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListAvailableOrgPolicyConstraintsProjectsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1852,23 +1865,24 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "ListLiensRequest" });
     case 1:
-      return S.Array(__S(392, __c49, 0));
+      return S.Array(__S(360, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          liens: S.optional(__S(193, __c24, 1)),
+          liens: S.optional(__S(185, __c23, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLiensResponse" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1879,26 +1893,27 @@ function __c25(j: number): any {
       ).annotate({ identifier: "ListOrgPoliciesFoldersRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(34, __c4, 2));
+      return S.Array(__S(26, __c3, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          policies: S.optional(__S(208, __c26, 0)),
+          policies: S.optional(__S(200, __c25, 0)),
         }),
       ).annotate({ identifier: "ListOrgPoliciesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1909,13 +1924,14 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ListOrgPoliciesOrganizationsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(168, __c21, 0).pipe(T.HttpBody())),
+          pageToken: S.optional(S.String),
+          pageSize: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1926,7 +1942,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ListOrgPoliciesProjectsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1943,17 +1959,17 @@ function __c29(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(433, __c54, 1));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: S.optional(__S(233, __c29, 1)),
+          projects: S.optional(__S(225, __c28, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1961,12 +1977,6 @@ function __c30(j: number): any {
           filter: S.optional(S.String),
           pageSize: S.optional(S.Number),
           pageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchOrganizationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(240, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1975,24 +1985,25 @@ function __c30(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchOrganizationsRequest_" });
+    case 1:
+      return S.Array(__S(105, __c13, 1));
     case 2:
-      return S.Array(__S(113, __c14, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          organizations: S.optional(__S(242, __c30, 2)),
+          organizations: S.optional(__S(233, __c29, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchOrganizationsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(71, __c8, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2003,24 +2014,14 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SetIamPolicyOrganizationsRequest" });
   }
 }
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(79, __c9, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c33(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c32, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(71, __c8, 7)),
+          updateMask: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2031,13 +2032,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(280, __c35, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(26, __c3, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2048,23 +2049,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SetOrgPolicyFoldersRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(34, __c4, 2)),
-        }),
-      ).annotate({ identifier: "SetOrgPolicyRequest" });
-  }
-}
-function __c36(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(280, __c35, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(26, __c3, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2075,13 +2066,13 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SetOrgPolicyOrganizationsRequest" });
   }
 }
-function __c37(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(280, __c35, 0).pipe(T.HttpBody())),
+          policy: S.optional(__S(26, __c3, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2092,13 +2083,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "SetOrgPolicyProjectsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(312, __c39, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(368, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2109,23 +2100,23 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsOrganizationsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(400, __c50, 0)),
+          permissions: S.optional(__S(368, __c46, 0)),
         }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
+      ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(312, __c39, 0).pipe(T.HttpBody())),
+          permissions: S.optional(__S(368, __c46, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2136,13 +2127,14 @@ function __c40(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c42, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2153,30 +2145,19 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ClearOrgPolicyFoldersRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          constraint: S.optional(S.String),
-          etag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClearOrgPolicyRequest" });
-  }
-}
-function __c43(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c44(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(344, __c43, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(312, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2187,13 +2168,22 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UndeleteProjectsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(433, __c54, 1).pipe(T.HttpBody())),
+          isManagementProject: S.optional(S.Boolean),
+          tags: S.optional(__S(400, __c50, 0)),
+          configuredCapabilities: S.optional(__S(368, __c46, 0)),
+          lifecycleState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(400, __c50, 0)),
+          parent: S.optional(__S(384, __c48, 0)),
+          managementType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2204,13 +2194,14 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateProjectsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c42, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2221,13 +2212,14 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ClearOrgPolicyOrganizationsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(336, __c42, 0).pipe(T.HttpBody())),
+          constraint: S.optional(S.String),
+          etag: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2238,12 +2230,17 @@ function __c47(j: number): any {
       ).annotate({ identifier: "ClearOrgPolicyProjectsRequest" });
   }
 }
-function __c48(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(392, __c49, 0).pipe(T.HttpBody())),
+          name: S.optional(S.String),
+          parent: S.optional(S.String),
+          reason: S.optional(S.String),
+          restrictions: S.optional(__S(368, __c46, 0)),
+          createTime: S.optional(S.String),
+          origin: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2254,7 +2251,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateLiensRequest" });
   }
 }
-function __c49(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2262,25 +2259,35 @@ function __c49(j: number): any {
           name: S.optional(S.String),
           parent: S.optional(S.String),
           reason: S.optional(S.String),
-          restrictions: S.optional(__S(400, __c50, 0)),
+          restrictions: S.optional(__S(368, __c46, 0)),
           createTime: S.optional(S.String),
           origin: S.optional(S.String),
         }),
       ).annotate({ identifier: "Lien" });
   }
 }
-function __c50(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c51(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(433, __c54, 1).pipe(T.HttpBody())),
+          projectId: S.optional(S.String),
+          isManagementProject: S.optional(S.Boolean),
+          tags: S.optional(__S(400, __c50, 0)),
+          configuredCapabilities: S.optional(__S(368, __c46, 0)),
+          lifecycleState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(400, __c50, 0)),
+          parent: S.optional(__S(384, __c48, 0)),
+          managementType: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2291,7 +2298,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateProjectsRequest" });
   }
 }
-function __c52(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2302,55 +2309,39 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ResourceId" });
   }
 }
-function __c53(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(424, __c53, 0));
+      return S.Array(__S(392, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           code: S.optional(S.Number),
-          details: S.optional(__S(425, __c53, 1)),
+          details: S.optional(__S(393, __c49, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(426, __c53, 2)),
-          metadata: S.optional(__S(424, __c53, 0)),
+          error: S.optional(__S(394, __c49, 2)),
+          metadata: S.optional(__S(392, __c49, 0)),
           name: S.optional(S.String),
-          response: S.optional(__S(424, __c53, 0)),
+          response: S.optional(__S(392, __c49, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c54(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.optional(S.String),
-          isManagementProject: S.optional(S.Boolean),
-          tags: S.optional(__S(432, __c54, 0)),
-          configuredCapabilities: S.optional(__S(400, __c50, 0)),
-          lifecycleState: S.optional(S.String),
-          createTime: S.optional(S.String),
-          projectNumber: S.optional(S.String),
-          name: S.optional(S.String),
-          labels: S.optional(__S(432, __c54, 0)),
-          parent: S.optional(__S(416, __c52, 0)),
-          managementType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Project" });
   }
 }
-function __c55(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

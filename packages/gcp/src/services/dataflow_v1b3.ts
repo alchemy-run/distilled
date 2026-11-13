@@ -739,6 +739,125 @@ export interface Job {
   /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
   labels?: StringMap | undefined;
   /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
+  currentState?: JobCurrentStateEnum | undefined;
+  /** Optional. The type of Dataflow job. */
+  type?: JobTypeEnum | undefined;
+  /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempFiles?: StringList_ | undefined;
+  /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
+  startTime?: string | undefined;
+  /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzs?: boolean | undefined;
+  /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
+  stageStates?: ExecutionStageStateList | undefined;
+  /** Output only. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. Indicates whether the job can be paused. */
+  pausable?: boolean | undefined;
+  /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
+  replacedByJobId?: string | undefined;
+  /** The timestamp associated with the current state. */
+  currentStateTime?: string | undefined;
+  /** Optional. The environment for the job. */
+  environment?: Environment | undefined;
+  /** Output only. Resources used by the Dataflow Service to run the job. */
+  serviceResources?: ServiceResources | undefined;
+  /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
+  id?: string | undefined;
+  /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
+  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
+  /** Deprecated. */
+  executionInfo?: JobExecutionInfo | undefined;
+  /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
+  createTime?: string | undefined;
+  /** The job's requested state. Applies to `UpdateJob` requests. Set `requested_state` with `UpdateJob` requests to switch between the states `JOB_STATE_STOPPED` and `JOB_STATE_RUNNING`. You can also use `UpdateJob` requests to change a job's state from `JOB_STATE_RUNNING` to `JOB_STATE_CANCELLED`, `JOB_STATE_DONE`, or `JOB_STATE_DRAINED`. These states irrevocably terminate the job if it hasn't already reached a terminal state. This field has no effect on `CreateJob` requests. */
+  requestedState?: JobRequestedStateEnum | undefined;
+  /** The Cloud Storage location where the steps are stored. */
+  stepsLocation?: string | undefined;
+  /** If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
+  replaceJobId?: string | undefined;
+}
+export type JobList = Array<Job>;
+/** Indicates which [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) failed to respond to a request for data. */
+export interface FailedLocation {
+  /** The name of the [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
+  name?: string | undefined;
+}
+export type FailedLocationList = Array<FailedLocation>;
+/** Response to a request to list Cloud Dataflow jobs in a project. This might be a partial response, depending on the page size in the ListJobsRequest. However, if the project does not have any jobs, an instance of ListJobsResponse is not returned and the requests's response body is empty {}. */
+export interface ListJobsResponse {
+  /** A subset of the requested job information. */
+  jobs?: JobList | undefined;
+  /** Set if there may be more results than fit in this response. */
+  nextPageToken?: string | undefined;
+  /** Zero or more messages describing the [regional endpoints] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
+  failedLocation?: FailedLocationList | undefined;
+}
+/** Represents a dynamically typed value. */
+export interface ConfigStoreSettingValue {
+  /** Represents a string value. */
+  stringValue?: string | undefined;
+  /** Represents a boolean value. */
+  boolValue?: boolean | undefined;
+}
+export interface CreateFoldersLocationsConfigStoreSettingsRequest {
+  /** Required. The parent resource where this setting will be created. */
+  parent: string;
+  /** Required. The ID to use for the setting. */
+  configStoreSettingId?: string | undefined;
+  /** Required. The dynamic value of the setting. */
+  value?: ConfigStoreSettingValue | undefined;
+  /** Identifier. The resource name of the setting. */
+  name?: string | undefined;
+}
+/** A ConfigStoreSetting resource. */
+export interface ConfigStoreSetting {
+  /** Required. The dynamic value of the setting. */
+  value?: ConfigStoreSettingValue | undefined;
+  /** Identifier. The resource name of the setting. */
+  name?: string | undefined;
+}
+export interface CreateOrganizationsLocationsConfigStoreSettingsRequest {
+  /** Required. The ID to use for the setting. */
+  configStoreSettingId?: string | undefined;
+  /** Required. The parent resource where this setting will be created. */
+  parent: string;
+  /** Required. The dynamic value of the setting. */
+  value?: ConfigStoreSettingValue | undefined;
+  /** Identifier. The resource name of the setting. */
+  name?: string | undefined;
+}
+export type CreateProjectsJobsViewEnum =
+  | "JOB_VIEW_UNKNOWN"
+  | "JOB_VIEW_SUMMARY"
+  | "JOB_VIEW_ALL"
+  | "JOB_VIEW_DESCRIPTION";
+export interface CreateProjectsJobsRequest {
+  /** The level of information requested in response. */
+  view?: CreateProjectsJobsViewEnum | (string & {}) | undefined;
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
+  location?: string | undefined;
+  /** Deprecated. This field is now in the Job message. */
+  replaceJobId?: string | undefined;
+  /** The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
+  /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
+  clientRequestId?: string | undefined;
+  /** This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher. */
+  jobMetadata?: JobMetadata | undefined;
+  /** If this is specified, the job's initial state is populated from the given snapshot. */
+  createdFromSnapshotId?: string | undefined;
+  /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
+  pipelineDescription?: PipelineDescription | undefined;
+  /** Optional. The user-specified Dataflow job name. Only one active job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a job with the same name as an active job that already exists, the attempt returns the existing job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  name?: string | undefined;
+  /** Exactly one of step or steps_location should be specified. The top-level steps that constitute the entire job. Only retrieved with JOB_VIEW_ALL. */
+  steps?: StepList | undefined;
+  /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
+  labels?: StringMap | undefined;
+  /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
   currentState?: JobCurrentStateEnum | (string & {}) | undefined;
   /** Optional. The type of Dataflow job. */
   type?: JobTypeEnum | (string & {}) | undefined;
@@ -776,79 +895,16 @@ export interface Job {
   requestedState?: JobRequestedStateEnum | (string & {}) | undefined;
   /** The Cloud Storage location where the steps are stored. */
   stepsLocation?: string | undefined;
-  /** If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
-  replaceJobId?: string | undefined;
-}
-export type JobList = Array<Job>;
-/** Indicates which [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) failed to respond to a request for data. */
-export interface FailedLocation {
-  /** The name of the [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
-  name?: string | undefined;
-}
-export type FailedLocationList = Array<FailedLocation>;
-/** Response to a request to list Cloud Dataflow jobs in a project. This might be a partial response, depending on the page size in the ListJobsRequest. However, if the project does not have any jobs, an instance of ListJobsResponse is not returned and the requests's response body is empty {}. */
-export interface ListJobsResponse {
-  /** A subset of the requested job information. */
-  jobs?: JobList | undefined;
-  /** Set if there may be more results than fit in this response. */
-  nextPageToken?: string | undefined;
-  /** Zero or more messages describing the [regional endpoints] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
-  failedLocation?: FailedLocationList | undefined;
-}
-/** Represents a dynamically typed value. */
-export interface ConfigStoreSettingValue {
-  /** Represents a string value. */
-  stringValue?: string | undefined;
-  /** Represents a boolean value. */
-  boolValue?: boolean | undefined;
-}
-/** A ConfigStoreSetting resource. */
-export interface ConfigStoreSetting {
-  /** Required. The dynamic value of the setting. */
-  value?: ConfigStoreSettingValue | undefined;
-  /** Identifier. The resource name of the setting. */
-  name?: string | undefined;
-}
-export interface CreateFoldersLocationsConfigStoreSettingsRequest {
-  /** Required. The parent resource where this setting will be created. */
-  parent: string;
-  /** Required. The ID to use for the setting. */
-  configStoreSettingId?: string | undefined;
-  /** Request body */
-  body?: ConfigStoreSetting | undefined;
-}
-export interface CreateOrganizationsLocationsConfigStoreSettingsRequest {
-  /** Required. The ID to use for the setting. */
-  configStoreSettingId?: string | undefined;
-  /** Required. The parent resource where this setting will be created. */
-  parent: string;
-  /** Request body */
-  body?: ConfigStoreSetting | undefined;
-}
-export type CreateProjectsJobsViewEnum =
-  | "JOB_VIEW_UNKNOWN"
-  | "JOB_VIEW_SUMMARY"
-  | "JOB_VIEW_ALL"
-  | "JOB_VIEW_DESCRIPTION";
-export interface CreateProjectsJobsRequest {
-  /** The level of information requested in response. */
-  view?: CreateProjectsJobsViewEnum | (string & {}) | undefined;
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string | undefined;
-  /** Deprecated. This field is now in the Job message. */
-  replaceJobId?: string | undefined;
-  /** The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface CreateProjectsLocationsConfigStoreSettingsRequest {
   /** Required. The ID to use for the setting. */
   configStoreSettingId?: string | undefined;
   /** Required. The parent resource where this setting will be created. */
   parent: string;
-  /** Request body */
-  body?: ConfigStoreSetting | undefined;
+  /** Required. The dynamic value of the setting. */
+  value?: ConfigStoreSettingValue | undefined;
+  /** Identifier. The resource name of the setting. */
+  name?: string | undefined;
 }
 export type CreateProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
@@ -864,8 +920,58 @@ export interface CreateProjectsLocationsJobsRequest {
   view?: CreateProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: Job | undefined;
+  /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
+  clientRequestId?: string | undefined;
+  /** This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher. */
+  jobMetadata?: JobMetadata | undefined;
+  /** If this is specified, the job's initial state is populated from the given snapshot. */
+  createdFromSnapshotId?: string | undefined;
+  /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
+  pipelineDescription?: PipelineDescription | undefined;
+  /** Optional. The user-specified Dataflow job name. Only one active job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a job with the same name as an active job that already exists, the attempt returns the existing job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  name?: string | undefined;
+  /** Exactly one of step or steps_location should be specified. The top-level steps that constitute the entire job. Only retrieved with JOB_VIEW_ALL. */
+  steps?: StepList | undefined;
+  /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
+  labels?: StringMap | undefined;
+  /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
+  currentState?: JobCurrentStateEnum | (string & {}) | undefined;
+  /** Optional. The type of Dataflow job. */
+  type?: JobTypeEnum | (string & {}) | undefined;
+  /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempFiles?: StringList_ | undefined;
+  /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
+  startTime?: string | undefined;
+  /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzs?: boolean | undefined;
+  /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
+  stageStates?: ExecutionStageStateList | undefined;
+  /** Output only. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. Indicates whether the job can be paused. */
+  pausable?: boolean | undefined;
+  /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
+  replacedByJobId?: string | undefined;
+  /** The timestamp associated with the current state. */
+  currentStateTime?: string | undefined;
+  /** Optional. The environment for the job. */
+  environment?: Environment | undefined;
+  /** Output only. Resources used by the Dataflow Service to run the job. */
+  serviceResources?: ServiceResources | undefined;
+  /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
+  id?: string | undefined;
+  /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
+  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
+  /** Deprecated. */
+  executionInfo?: JobExecutionInfo | undefined;
+  /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
+  createTime?: string | undefined;
+  /** The job's requested state. Applies to `UpdateJob` requests. Set `requested_state` with `UpdateJob` requests to switch between the states `JOB_STATE_STOPPED` and `JOB_STATE_RUNNING`. You can also use `UpdateJob` requests to change a job's state from `JOB_STATE_RUNNING` to `JOB_STATE_CANCELLED`, `JOB_STATE_DONE`, or `JOB_STATE_DRAINED`. These states irrevocably terminate the job if it hasn't already reached a terminal state. This field has no effect on `CreateJob` requests. */
+  requestedState?: JobRequestedStateEnum | (string & {}) | undefined;
+  /** The Cloud Storage location where the steps are stored. */
+  stepsLocation?: string | undefined;
 }
 export type RuntimeEnvironmentIpConfigurationEnum =
   | "WORKER_IP_UNSPECIFIED"
@@ -916,8 +1022,23 @@ export interface RuntimeEnvironment {
   /** Optional. Name for the Cloud KMS key for the job. Key format is: projects//locations//keyRings//cryptoKeys/ */
   kmsKeyName?: string | undefined;
 }
-/** A request to create a Cloud Dataflow job from a template. */
-export interface CreateJobFromTemplateRequest {
+export interface CreateProjectsLocationsTemplatesRequest {
+  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
+  location: string;
+  /** Required. The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
+  /** Required. The job name to use for the created job. */
+  jobName?: string | undefined;
+  /** The runtime environment for the job. */
+  environment?: RuntimeEnvironment | undefined;
+  /** Required. A Cloud Storage path to the template from which to create the job. Must be a valid Cloud Storage URL, beginning with `gs://`. */
+  gcsPath?: string | undefined;
+  /** The runtime parameters to pass to the job. */
+  parameters?: StringMap | undefined;
+}
+export interface CreateProjectsTemplatesRequest {
+  /** Required. The ID of the Cloud Platform project that the job belongs to. */
+  projectId: string;
   /** Required. The job name to use for the created job. */
   jobName?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
@@ -928,20 +1049,6 @@ export interface CreateJobFromTemplateRequest {
   gcsPath?: string | undefined;
   /** The runtime parameters to pass to the job. */
   parameters?: StringMap | undefined;
-}
-export interface CreateProjectsLocationsTemplatesRequest {
-  /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location: string;
-  /** Required. The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Request body */
-  body?: CreateJobFromTemplateRequest | undefined;
-}
-export interface CreateProjectsTemplatesRequest {
-  /** Required. The ID of the Cloud Platform project that the job belongs to. */
-  projectId: string;
-  /** Request body */
-  body?: CreateJobFromTemplateRequest | undefined;
 }
 export interface DeleteFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to delete. */
@@ -975,22 +1082,17 @@ export interface DeleteSnapshotsProjectsRequest {
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
 }
-/** Request to get updated debug configuration for component. */
-export interface GetDebugConfigRequest {
+export interface GetConfigProjectsJobsDebugRequest {
+  /** The job id. */
+  jobId: string;
+  /** The project id. */
+  projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location?: string | undefined;
   /** The worker id, i.e., VM hostname. */
   workerId?: string | undefined;
   /** The internal component id for which debug configuration is requested. */
   componentId?: string | undefined;
-}
-export interface GetConfigProjectsJobsDebugRequest {
-  /** The job id. */
-  jobId: string;
-  /** The project id. */
-  projectId: string;
-  /** Request body */
-  body?: GetDebugConfigRequest | undefined;
 }
 /** Response to a get debug configuration request. */
 export interface GetDebugConfigResponse {
@@ -1004,8 +1106,10 @@ export interface GetConfigProjectsLocationsJobsDebugRequest {
   jobId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
-  /** Request body */
-  body?: GetDebugConfigRequest | undefined;
+  /** The worker id, i.e., VM hostname. */
+  workerId?: string | undefined;
+  /** The internal component id for which debug configuration is requested. */
+  componentId?: string | undefined;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsRequest {
   /** The job to get execution details for. */
@@ -1490,13 +1594,6 @@ export interface GetProjectsTemplatesRequest {
   /** The view to retrieve. Defaults to METADATA_ONLY. */
   view?: GetProjectsTemplatesViewEnum | (string & {}) | undefined;
 }
-/** Request to get worker stacktraces from debug capture. */
-export interface GetWorkerStacktracesRequest {
-  /** The end time for the stacktrace query. The returned stacktraces will be a recent stack trace at or shortly before this time. */
-  endTime?: string | undefined;
-  /** The worker for which to get stacktraces. The returned stacktraces will be for the SDK harness running on this worker. */
-  workerId?: string | undefined;
-}
 export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
@@ -1504,8 +1601,10 @@ export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest {
   jobId: string;
   /** The project id. */
   projectId: string;
-  /** Request body */
-  body?: GetWorkerStacktracesRequest | undefined;
+  /** The end time for the stacktrace query. The returned stacktraces will be a recent stack trace at or shortly before this time. */
+  endTime?: string | undefined;
+  /** The worker for which to get stacktraces. The returned stacktraces will be for the SDK harness running on this worker. */
+  workerId?: string | undefined;
 }
 /** A structuredstacktrace for a process running on the worker. */
 export interface Stack {
@@ -1644,38 +1743,20 @@ export interface LaunchFlexTemplateParameter {
   /** Set this to true if you are sending a request to update a running streaming job. When set, the job name should be the same as the running job. */
   update?: boolean | undefined;
 }
-/** A request to launch a Cloud Dataflow job from a FlexTemplate. */
-export interface LaunchFlexTemplateRequest {
-  /** Required. Parameter to launch a job form Flex Template. */
-  launchParameter?: LaunchFlexTemplateParameter | undefined;
-  /** If true, the request is validated but not actually executed. Defaults to false. */
-  validateOnly?: boolean | undefined;
-}
 export interface LaunchProjectsLocationsFlexTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Required. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. E.g., us-central1, us-west1. */
   location: string;
-  /** Request body */
-  body?: LaunchFlexTemplateRequest | undefined;
+  /** Required. Parameter to launch a job form Flex Template. */
+  launchParameter?: LaunchFlexTemplateParameter | undefined;
+  /** If true, the request is validated but not actually executed. Defaults to false. */
+  validateOnly?: boolean | undefined;
 }
 /** Response to the request to launch a job from Flex Template. */
 export interface LaunchFlexTemplateResponse {
   /** The job that was launched, if the request was not a dry run and the job was successfully launched. */
   job?: Job | undefined;
-}
-/** Parameters to provide to the template being launched. Note that the [metadata in the pipeline code] (https://cloud.google.com/dataflow/docs/guides/templates/creating-templates#metadata) determines which runtime parameters are valid. */
-export interface LaunchTemplateParameters {
-  /** The runtime parameters to pass to the job. */
-  parameters?: StringMap | undefined;
-  /** The runtime environment for the job. */
-  environment?: RuntimeEnvironment | undefined;
-  /** If set, replace the existing pipeline with the name specified by jobName with this pipeline, preserving state. */
-  update?: boolean | undefined;
-  /** Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
-  transformNameMapping?: StringMap | undefined;
-  /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
-  jobName?: string | undefined;
 }
 export interface LaunchProjectsLocationsTemplatesRequest {
   /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
@@ -1690,8 +1771,16 @@ export interface LaunchProjectsLocationsTemplatesRequest {
   projectId: string;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
   gcsPath?: string | undefined;
-  /** Request body */
-  body?: LaunchTemplateParameters | undefined;
+  /** The runtime parameters to pass to the job. */
+  parameters?: StringMap | undefined;
+  /** The runtime environment for the job. */
+  environment?: RuntimeEnvironment | undefined;
+  /** If set, replace the existing pipeline with the name specified by jobName with this pipeline, preserving state. */
+  update?: boolean | undefined;
+  /** Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  jobName?: string | undefined;
 }
 /** Response to the request to launch a template. */
 export interface LaunchTemplateResponse {
@@ -1711,11 +1800,22 @@ export interface LaunchProjectsTemplatesRequest {
   location?: string | undefined;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
-  /** Request body */
-  body?: LaunchTemplateParameters | undefined;
+  /** The runtime parameters to pass to the job. */
+  parameters?: StringMap | undefined;
+  /** The runtime environment for the job. */
+  environment?: RuntimeEnvironment | undefined;
+  /** If set, replace the existing pipeline with the name specified by jobName with this pipeline, preserving state. */
+  update?: boolean | undefined;
+  /** Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  jobName?: string | undefined;
 }
-/** Request to lease WorkItems. */
-export interface LeaseWorkItemRequest {
+export interface LeaseProjectsJobsWorkItemsRequest {
+  /** Identifies the workflow job this worker belongs to. */
+  jobId: string;
+  /** Identifies the project this worker belongs to. */
+  projectId: string;
   /** The initial lease period. */
   requestedLeaseDuration?: string | undefined;
   /** Optional. The project number of the project this worker belongs to. */
@@ -1732,14 +1832,6 @@ export interface LeaseWorkItemRequest {
   workerId?: string | undefined;
   /** The current timestamp at the worker. */
   currentWorkerTime?: string | undefined;
-}
-export interface LeaseProjectsJobsWorkItemsRequest {
-  /** Identifies the workflow job this worker belongs to. */
-  jobId: string;
-  /** Identifies the project this worker belongs to. */
-  projectId: string;
-  /** Request body */
-  body?: LeaseWorkItemRequest | undefined;
 }
 /** Metadata about a Source useful for automatically optimizing and tuning the pipeline, etc. */
 export interface SourceMetadata {
@@ -2223,8 +2315,20 @@ export interface LeaseProjectsLocationsJobsWorkItemsRequest {
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
   location: string;
-  /** Request body */
-  body?: LeaseWorkItemRequest | undefined;
+  /** The initial lease period. */
+  requestedLeaseDuration?: string | undefined;
+  /** Optional. The project number of the project this worker belongs to. */
+  projectNumber?: string | undefined;
+  /** Worker capabilities. WorkItems might be limited to workers with specific capabilities. */
+  workerCapabilities?: StringList_ | undefined;
+  /** Filter for WorkItem type. */
+  workItemTypes?: StringList_ | undefined;
+  /** Untranslated bag-of-bytes WorkRequest from UnifiedWorker. */
+  unifiedWorkerRequest?: DocumentMap | undefined;
+  /** Identifies the worker leasing work -- typically the ID of the virtual machine running the worker. */
+  workerId?: string | undefined;
+  /** The current timestamp at the worker. */
+  currentWorkerTime?: string | undefined;
 }
 export interface ListFoldersLocationsConfigStoreSettingsRequest {
   /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
@@ -2824,8 +2928,11 @@ export interface WorkItemStatus {
   workItemId?: string | undefined;
 }
 export type WorkItemStatusList = Array<WorkItemStatus>;
-/** Request to report the status of WorkItems. */
-export interface ReportWorkItemStatusRequest {
+export interface ReportStatusProjectsJobsWorkItemsRequest {
+  /** The job which the WorkItem is part of. */
+  jobId: string;
+  /** The project which owns the WorkItem's job. */
+  projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
   location?: string | undefined;
   /** The ID of the worker reporting the WorkItem status. If this does not match the ID of the worker which the Dataflow service believes currently has the lease on the WorkItem, the report will be dropped (with an error response). */
@@ -2838,14 +2945,6 @@ export interface ReportWorkItemStatusRequest {
   unifiedWorkerRequest?: DocumentMap | undefined;
   /** Optional. The project number of the project which owns the WorkItem's job. */
   projectNumber?: string | undefined;
-}
-export interface ReportStatusProjectsJobsWorkItemsRequest {
-  /** The job which the WorkItem is part of. */
-  jobId: string;
-  /** The project which owns the WorkItem's job. */
-  projectId: string;
-  /** Request body */
-  body?: ReportWorkItemStatusRequest | undefined;
 }
 /** Proto describing a hot key detected on a given WorkItem. */
 export interface HotKeyDetection {
@@ -2911,8 +3010,16 @@ export interface ReportStatusProjectsLocationsJobsWorkItemsRequest {
   projectId: string;
   /** The job which the WorkItem is part of. */
   jobId: string;
-  /** Request body */
-  body?: ReportWorkItemStatusRequest | undefined;
+  /** The ID of the worker reporting the WorkItem status. If this does not match the ID of the worker which the Dataflow service believes currently has the lease on the WorkItem, the report will be dropped (with an error response). */
+  workerId?: string | undefined;
+  /** The order is unimportant, except that the order of the WorkItemServiceState messages in the ReportWorkItemStatusResponse corresponds to the order of WorkItemStatus messages here. */
+  workItemStatuses?: WorkItemStatusList | undefined;
+  /** The current timestamp at the worker. */
+  currentWorkerTime?: string | undefined;
+  /** Untranslated bag-of-bytes WorkProgressUpdateRequest from UnifiedWorker. */
+  unifiedWorkerRequest?: DocumentMap | undefined;
+  /** Optional. The project number of the project which owns the WorkItem's job. */
+  projectNumber?: string | undefined;
 }
 /** Request message for ResolveConfigStoreSetting. */
 export interface ResolveConfigStoreSettingRequest {}
@@ -2947,8 +3054,11 @@ export type SendDebugCaptureRequestDataFormatEnum =
   | "JSON"
   | "ZLIB"
   | "BROTLI";
-/** Request to send encoded debug information. Next ID: 8 */
-export interface SendDebugCaptureRequest {
+export interface SendCaptureProjectsJobsDebugRequest {
+  /** The project id. */
+  projectId: string;
+  /** The job id. */
+  jobId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location?: string | undefined;
   /** The worker id, i.e., VM hostname. */
@@ -2960,14 +3070,6 @@ export interface SendDebugCaptureRequest {
   /** Format for the data field above (id=5). */
   dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {}) | undefined;
 }
-export interface SendCaptureProjectsJobsDebugRequest {
-  /** The project id. */
-  projectId: string;
-  /** The job id. */
-  jobId: string;
-  /** Request body */
-  body?: SendDebugCaptureRequest | undefined;
-}
 /** Response to a send capture request. nothing */
 export interface SendDebugCaptureResponse {}
 export interface SendCaptureProjectsLocationsJobsDebugRequest {
@@ -2977,11 +3079,20 @@ export interface SendCaptureProjectsLocationsJobsDebugRequest {
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
-  /** Request body */
-  body?: SendDebugCaptureRequest | undefined;
+  /** The worker id, i.e., VM hostname. */
+  workerId?: string | undefined;
+  /** The encoded debug information. */
+  data?: string | undefined;
+  /** The internal component id for which debug information is sent. */
+  componentId?: string | undefined;
+  /** Format for the data field above (id=5). */
+  dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {}) | undefined;
 }
-/** Request to create a snapshot of a job. */
-export interface SnapshotJobRequest {
+export interface SnapshotProjectsJobsRequest {
+  /** The job to be snapshotted. */
+  jobId: string;
+  /** The project which owns the job to be snapshotted. */
+  projectId: string;
   /** If true, perform snapshots for sources which support this. */
   snapshotSources?: boolean | undefined;
   /** TTL for the snapshot. */
@@ -2991,14 +3102,6 @@ export interface SnapshotJobRequest {
   /** The location that contains this job. */
   location?: string | undefined;
 }
-export interface SnapshotProjectsJobsRequest {
-  /** The job to be snapshotted. */
-  jobId: string;
-  /** The project which owns the job to be snapshotted. */
-  projectId: string;
-  /** Request body */
-  body?: SnapshotJobRequest | undefined;
-}
 export interface SnapshotProjectsLocationsJobsRequest {
   /** The job to be snapshotted. */
   jobId: string;
@@ -3006,8 +3109,12 @@ export interface SnapshotProjectsLocationsJobsRequest {
   location: string;
   /** The project which owns the job to be snapshotted. */
   projectId: string;
-  /** Request body */
-  body?: SnapshotJobRequest | undefined;
+  /** If true, perform snapshots for sources which support this. */
+  snapshotSources?: boolean | undefined;
+  /** TTL for the snapshot. */
+  ttl?: string | undefined;
+  /** User specified description of the snapshot. Maybe empty. */
+  description?: string | undefined;
 }
 export interface UpdateProjectsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
@@ -3018,8 +3125,60 @@ export interface UpdateProjectsJobsRequest {
   updateMask?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
+  /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
+  clientRequestId?: string | undefined;
+  /** This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher. */
+  jobMetadata?: JobMetadata | undefined;
+  /** If this is specified, the job's initial state is populated from the given snapshot. */
+  createdFromSnapshotId?: string | undefined;
+  /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
+  pipelineDescription?: PipelineDescription | undefined;
+  /** Optional. The user-specified Dataflow job name. Only one active job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a job with the same name as an active job that already exists, the attempt returns the existing job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  name?: string | undefined;
+  /** Exactly one of step or steps_location should be specified. The top-level steps that constitute the entire job. Only retrieved with JOB_VIEW_ALL. */
+  steps?: StepList | undefined;
+  /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
+  labels?: StringMap | undefined;
+  /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
+  currentState?: JobCurrentStateEnum | (string & {}) | undefined;
+  /** Optional. The type of Dataflow job. */
+  type?: JobTypeEnum | (string & {}) | undefined;
+  /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempFiles?: StringList_ | undefined;
+  /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
+  startTime?: string | undefined;
+  /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzs?: boolean | undefined;
+  /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
+  stageStates?: ExecutionStageStateList | undefined;
+  /** Output only. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. Indicates whether the job can be paused. */
+  pausable?: boolean | undefined;
+  /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
+  replacedByJobId?: string | undefined;
+  /** The timestamp associated with the current state. */
+  currentStateTime?: string | undefined;
+  /** Optional. The environment for the job. */
+  environment?: Environment | undefined;
+  /** Output only. Resources used by the Dataflow Service to run the job. */
+  serviceResources?: ServiceResources | undefined;
+  /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
+  id?: string | undefined;
+  /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
+  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
+  /** Deprecated. */
+  executionInfo?: JobExecutionInfo | undefined;
+  /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
+  createTime?: string | undefined;
+  /** The job's requested state. Applies to `UpdateJob` requests. Set `requested_state` with `UpdateJob` requests to switch between the states `JOB_STATE_STOPPED` and `JOB_STATE_RUNNING`. You can also use `UpdateJob` requests to change a job's state from `JOB_STATE_RUNNING` to `JOB_STATE_CANCELLED`, `JOB_STATE_DONE`, or `JOB_STATE_DRAINED`. These states irrevocably terminate the job if it hasn't already reached a terminal state. This field has no effect on `CreateJob` requests. */
+  requestedState?: JobRequestedStateEnum | (string & {}) | undefined;
+  /** The Cloud Storage location where the steps are stored. */
+  stepsLocation?: string | undefined;
+  /** If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
+  replaceJobId?: string | undefined;
 }
 export interface UpdateProjectsLocationsJobsRequest {
   /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
@@ -3030,8 +3189,60 @@ export interface UpdateProjectsLocationsJobsRequest {
   location: string;
   /** The job ID. */
   jobId: string;
-  /** Request body */
-  body?: Job | undefined;
+  /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
+  clientRequestId?: string | undefined;
+  /** This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher. */
+  jobMetadata?: JobMetadata | undefined;
+  /** If this is specified, the job's initial state is populated from the given snapshot. */
+  createdFromSnapshotId?: string | undefined;
+  /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
+  pipelineDescription?: PipelineDescription | undefined;
+  /** Optional. The user-specified Dataflow job name. Only one active job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a job with the same name as an active job that already exists, the attempt returns the existing job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
+  name?: string | undefined;
+  /** Exactly one of step or steps_location should be specified. The top-level steps that constitute the entire job. Only retrieved with JOB_VIEW_ALL. */
+  steps?: StepList | undefined;
+  /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
+  labels?: StringMap | undefined;
+  /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
+  currentState?: JobCurrentStateEnum | (string & {}) | undefined;
+  /** Optional. The type of Dataflow job. */
+  type?: JobTypeEnum | (string & {}) | undefined;
+  /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
+  tempFiles?: StringList_ | undefined;
+  /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
+  startTime?: string | undefined;
+  /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
+  transformNameMapping?: StringMap | undefined;
+  /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzs?: boolean | undefined;
+  /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
+  stageStates?: ExecutionStageStateList | undefined;
+  /** Output only. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
+  satisfiesPzi?: boolean | undefined;
+  /** Output only. Indicates whether the job can be paused. */
+  pausable?: boolean | undefined;
+  /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
+  replacedByJobId?: string | undefined;
+  /** The timestamp associated with the current state. */
+  currentStateTime?: string | undefined;
+  /** Optional. The environment for the job. */
+  environment?: Environment | undefined;
+  /** Output only. Resources used by the Dataflow Service to run the job. */
+  serviceResources?: ServiceResources | undefined;
+  /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
+  id?: string | undefined;
+  /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
+  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
+  /** Deprecated. */
+  executionInfo?: JobExecutionInfo | undefined;
+  /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
+  createTime?: string | undefined;
+  /** The job's requested state. Applies to `UpdateJob` requests. Set `requested_state` with `UpdateJob` requests to switch between the states `JOB_STATE_STOPPED` and `JOB_STATE_RUNNING`. You can also use `UpdateJob` requests to change a job's state from `JOB_STATE_RUNNING` to `JOB_STATE_CANCELLED`, `JOB_STATE_DONE`, or `JOB_STATE_DRAINED`. These states irrevocably terminate the job if it hasn't already reached a terminal state. This field has no effect on `CreateJob` requests. */
+  requestedState?: JobRequestedStateEnum | (string & {}) | undefined;
+  /** The Cloud Storage location where the steps are stored. */
+  stepsLocation?: string | undefined;
+  /** If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
+  replaceJobId?: string | undefined;
 }
 /** WorkerHealthReport contains information about the health of a worker. The VM should be identified by the labels attached to the WorkerMessage that this health ping belongs to. */
 export interface WorkerHealthReport {
@@ -3276,18 +3487,13 @@ export interface WorkerMessage {
   workerMetrics?: ResourceUtilizationReport | undefined;
 }
 export type WorkerMessageList = Array<WorkerMessage>;
-/** A request for sending worker messages to the service. */
-export interface SendWorkerMessagesRequest {
+export interface WorkerMessagesProjectsRequest {
+  /** The project to send the WorkerMessages to. */
+  projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
   location?: string | undefined;
   /** The WorkerMessages to send. */
   workerMessages?: WorkerMessageList | undefined;
-}
-export interface WorkerMessagesProjectsRequest {
-  /** The project to send the WorkerMessages to. */
-  projectId: string;
-  /** Request body */
-  body?: SendWorkerMessagesRequest | undefined;
 }
 /** WorkerHealthReportResponse contains information returned to the worker in response to a health ping. */
 export interface WorkerHealthReportResponse {
@@ -3332,8 +3538,8 @@ export interface WorkerMessagesProjectsLocationsRequest {
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
   location: string;
-  /** Request body */
-  body?: SendWorkerMessagesRequest | undefined;
+  /** The WorkerMessages to send. */
+  workerMessages?: WorkerMessageList | undefined;
 }
 export type AggregatedProjectsJobsError = NotFound | Forbidden | GcpOpError;
 /** List the jobs of a project across all regions. **Note:** This method doesn't support filtering the list of jobs by name. # IAM Permissions Requires the `dataflow.jobs.list` permission on the project. */
@@ -3344,8 +3550,8 @@ export const aggregatedProjectsJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<AggregatedProjectsJobsRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<ListJobsResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<AggregatedProjectsJobsRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ListJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3367,8 +3573,8 @@ export const createFoldersLocationsConfigStoreSettings: API.OperationMethod<
   CreateFoldersLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<CreateFoldersLocationsConfigStoreSettingsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ConfigStoreSetting>,
+  input: __S(2176, __c68, 0) as any as S.Schema<CreateFoldersLocationsConfigStoreSettingsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConfigStoreSetting>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3390,11 +3596,11 @@ export const createOrganizationsLocationsConfigStoreSettings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<CreateOrganizationsLocationsConfigStoreSettingsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ConfigStoreSetting>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConfigStoreSetting>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3410,8 +3616,8 @@ export const createProjectsJobs: API.OperationMethod<
   CreateProjectsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<CreateProjectsJobsRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(2720, __c85, 0) as any as S.Schema<CreateProjectsJobsRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3432,8 +3638,8 @@ export const createProjectsLocationsConfigStoreSettings: API.OperationMethod<
   CreateProjectsLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateProjectsLocationsConfigStoreSettingsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ConfigStoreSetting>,
+  input: __S(2752, __c86, 0) as any as S.Schema<CreateProjectsLocationsConfigStoreSettingsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConfigStoreSetting>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3454,8 +3660,8 @@ export const createProjectsLocationsJobs: API.OperationMethod<
   CreateProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CreateProjectsLocationsJobsRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(2784, __c87, 0) as any as S.Schema<CreateProjectsLocationsJobsRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3477,7 +3683,7 @@ export const createProjectsLocationsTemplates: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsLocationsTemplatesRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3498,8 +3704,8 @@ export const createProjectsTemplates: API.OperationMethod<
   CreateProjectsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<CreateProjectsTemplatesRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateProjectsTemplatesRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3520,8 +3726,8 @@ export const deleteFoldersLocationsConfigStoreSettings: API.OperationMethod<
   DeleteFoldersLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteFoldersLocationsConfigStoreSettingsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<Empty>,
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteFoldersLocationsConfigStoreSettingsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3543,11 +3749,11 @@ export const deleteOrganizationsLocationsConfigStoreSettings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c6,
+    160,
+    __c5,
     0,
   ) as any as S.Schema<DeleteOrganizationsLocationsConfigStoreSettingsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<Empty>,
+  output: __S(128, __c4, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3568,8 +3774,8 @@ export const deleteProjectsLocationsConfigStoreSettings: API.OperationMethod<
   DeleteProjectsLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteProjectsLocationsConfigStoreSettingsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<Empty>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectsLocationsConfigStoreSettingsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3590,8 +3796,8 @@ export const deleteProjectsLocationsSnapshots: API.OperationMethod<
   DeleteProjectsLocationsSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteProjectsLocationsSnapshotsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteProjectsLocationsSnapshotsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3612,8 +3818,8 @@ export const deleteSnapshotsProjects: API.OperationMethod<
   DeleteSnapshotsProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteSnapshotsProjectsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteSnapshotsProjectsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3634,8 +3840,8 @@ export const getConfigProjectsJobsDebug: API.OperationMethod<
   GetConfigProjectsJobsDebugError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetConfigProjectsJobsDebugRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<GetDebugConfigResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetConfigProjectsJobsDebugRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetDebugConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3656,8 +3862,8 @@ export const getConfigProjectsLocationsJobsDebug: API.OperationMethod<
   GetConfigProjectsLocationsJobsDebugError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetConfigProjectsLocationsJobsDebugRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<GetDebugConfigResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetConfigProjectsLocationsJobsDebugRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetDebugConfigResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3674,8 +3880,8 @@ export const getExecutionDetailsProjectsLocationsJobs: API.PaginatedOperationMet
   GcpOpContext,
   JobExecutionDetails
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetExecutionDetailsProjectsLocationsJobsRequest>,
-  output: __S(423, __c13, 7) as any as S.Schema<JobExecutionDetails>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetExecutionDetailsProjectsLocationsJobsRequest>,
+  output: __S(391, __c12, 7) as any as S.Schema<JobExecutionDetails>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3694,11 +3900,11 @@ export const getExecutionDetailsProjectsLocationsJobsStages: API.PaginatedOperat
   StageExecutionDetails
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    512,
-    __c16,
+    480,
+    __c15,
     0,
   ) as any as S.Schema<GetExecutionDetailsProjectsLocationsJobsStagesRequest>,
-  output: __S(517, __c16, 5) as any as S.Schema<StageExecutionDetails>,
+  output: __S(485, __c15, 5) as any as S.Schema<StageExecutionDetails>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3715,8 +3921,8 @@ export const getFoldersLocationsConfigStoreSettings: API.OperationMethod<
   GetFoldersLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetFoldersLocationsConfigStoreSettingsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ConfigStoreSetting>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetFoldersLocationsConfigStoreSettingsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConfigStoreSetting>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3732,8 +3938,8 @@ export const getMetricsProjectsJobs: API.OperationMethod<
   GetMetricsProjectsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetMetricsProjectsJobsRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<JobMetrics>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetMetricsProjectsJobsRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<JobMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3749,8 +3955,8 @@ export const getMetricsProjectsLocationsJobs: API.OperationMethod<
   GetMetricsProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetMetricsProjectsLocationsJobsRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<JobMetrics>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetMetricsProjectsLocationsJobsRequest>,
+  output: __S(576, __c18, 0) as any as S.Schema<JobMetrics>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3766,8 +3972,8 @@ export const getOrganizationsLocationsConfigStoreSettings: API.OperationMethod<
   GetOrganizationsLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetOrganizationsLocationsConfigStoreSettingsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ConfigStoreSetting>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetOrganizationsLocationsConfigStoreSettingsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConfigStoreSetting>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3783,8 +3989,8 @@ export const getProjectsJobs: API.OperationMethod<
   GetProjectsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetProjectsJobsRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetProjectsJobsRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3800,8 +4006,8 @@ export const getProjectsLocationsConfigStoreSettings: API.OperationMethod<
   GetProjectsLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetProjectsLocationsConfigStoreSettingsRequest>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ConfigStoreSetting>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetProjectsLocationsConfigStoreSettingsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConfigStoreSetting>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3817,8 +4023,8 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   GetProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetProjectsLocationsJobsRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetProjectsLocationsJobsRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3834,8 +4040,8 @@ export const getProjectsLocationsSnapshots: API.OperationMethod<
   GetProjectsLocationsSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetProjectsLocationsSnapshotsRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<Snapshot>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetProjectsLocationsSnapshotsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<Snapshot>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3851,8 +4057,8 @@ export const getProjectsLocationsTemplates: API.OperationMethod<
   GetProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetProjectsLocationsTemplatesRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<GetTemplateResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetProjectsLocationsTemplatesRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<GetTemplateResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3868,8 +4074,8 @@ export const getProjectsSnapshots: API.OperationMethod<
   GetProjectsSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsSnapshotsRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<Snapshot>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetProjectsSnapshotsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<Snapshot>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3885,8 +4091,8 @@ export const getProjectsTemplates: API.OperationMethod<
   GetProjectsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetProjectsTemplatesRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<GetTemplateResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetProjectsTemplatesRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<GetTemplateResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3908,11 +4114,11 @@ export const getWorkerStacktracesProjectsLocationsJobsDebug: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1089,
-    __c34,
-    1,
+    1056,
+    __c33,
+    0,
   ) as any as S.Schema<GetWorkerStacktracesProjectsLocationsJobsDebugRequest>,
-  output: __S(1094, __c34, 6) as any as S.Schema<GetWorkerStacktracesResponse>,
+  output: __S(1061, __c33, 5) as any as S.Schema<GetWorkerStacktracesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3933,8 +4139,8 @@ export const launchProjectsLocationsFlexTemplates: API.OperationMethod<
   LaunchProjectsLocationsFlexTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1124, __c35, 4) as any as S.Schema<LaunchProjectsLocationsFlexTemplatesRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<LaunchFlexTemplateResponse>,
+  input: __S(1091, __c34, 3) as any as S.Schema<LaunchProjectsLocationsFlexTemplatesRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<LaunchFlexTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3955,8 +4161,8 @@ export const launchProjectsLocationsTemplates: API.OperationMethod<
   LaunchProjectsLocationsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<LaunchProjectsLocationsTemplatesRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<LaunchTemplateResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<LaunchProjectsLocationsTemplatesRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<LaunchTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3977,8 +4183,8 @@ export const launchProjectsTemplates: API.OperationMethod<
   LaunchProjectsTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<LaunchProjectsTemplatesRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<LaunchTemplateResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<LaunchProjectsTemplatesRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<LaunchTemplateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3999,8 +4205,8 @@ export const leaseProjectsJobsWorkItems: API.OperationMethod<
   LeaseProjectsJobsWorkItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<LeaseProjectsJobsWorkItemsRequest>,
-  output: __S(1368, __c42, 24) as any as S.Schema<LeaseWorkItemResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<LeaseProjectsJobsWorkItemsRequest>,
+  output: __S(1303, __c40, 23) as any as S.Schema<LeaseWorkItemResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4021,8 +4227,8 @@ export const leaseProjectsLocationsJobsWorkItems: API.OperationMethod<
   LeaseProjectsLocationsJobsWorkItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<LeaseProjectsLocationsJobsWorkItemsRequest>,
-  output: __S(1368, __c42, 24) as any as S.Schema<LeaseWorkItemResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<LeaseProjectsLocationsJobsWorkItemsRequest>,
+  output: __S(1303, __c40, 23) as any as S.Schema<LeaseWorkItemResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4039,8 +4245,8 @@ export const listFoldersLocationsConfigStoreSettings: API.PaginatedOperationMeth
   GcpOpContext,
   ListConfigStoreSettingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListFoldersLocationsConfigStoreSettingsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<ListConfigStoreSettingsResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListFoldersLocationsConfigStoreSettingsRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<ListConfigStoreSettingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4059,11 +4265,11 @@ export const listOrganizationsLocationsConfigStoreSettings: API.PaginatedOperati
   ListConfigStoreSettingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1536,
-    __c48,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<ListOrganizationsLocationsConfigStoreSettingsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<ListConfigStoreSettingsResponse>,
+  output: __S(1408, __c44, 0) as any as S.Schema<ListConfigStoreSettingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4081,8 +4287,8 @@ export const listProjectsJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsJobsRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<ListJobsResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListProjectsJobsRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ListJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4100,8 +4306,8 @@ export const listProjectsJobsMessages: API.PaginatedOperationMethod<
   GcpOpContext,
   ListJobMessagesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsJobsMessagesRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<ListJobMessagesResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListProjectsJobsMessagesRequest>,
+  output: __S(1799, __c56, 7) as any as S.Schema<ListJobMessagesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4119,8 +4325,8 @@ export const listProjectsLocationsConfigStoreSettings: API.PaginatedOperationMet
   GcpOpContext,
   ListConfigStoreSettingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsConfigStoreSettingsRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<ListConfigStoreSettingsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsLocationsConfigStoreSettingsRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<ListConfigStoreSettingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4138,8 +4344,8 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   GcpOpContext,
   ListJobsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsLocationsJobsRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<ListJobsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsLocationsJobsRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ListJobsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4157,8 +4363,8 @@ export const listProjectsLocationsJobsMessages: API.PaginatedOperationMethod<
   GcpOpContext,
   ListJobMessagesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectsLocationsJobsMessagesRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<ListJobMessagesResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsJobsMessagesRequest>,
+  output: __S(1799, __c56, 7) as any as S.Schema<ListJobMessagesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4175,8 +4381,8 @@ export const listProjectsLocationsJobsSnapshots: API.OperationMethod<
   ListProjectsLocationsJobsSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsLocationsJobsSnapshotsRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsLocationsJobsSnapshotsRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<ListSnapshotsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4192,8 +4398,8 @@ export const listProjectsLocationsSnapshots: API.OperationMethod<
   ListProjectsLocationsSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListProjectsLocationsSnapshotsRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsLocationsSnapshotsRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<ListSnapshotsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4209,8 +4415,8 @@ export const listProjectsSnapshots: API.OperationMethod<
   ListProjectsSnapshotsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListProjectsSnapshotsRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<ListSnapshotsResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListProjectsSnapshotsRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<ListSnapshotsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4231,8 +4437,8 @@ export const reportStatusProjectsJobsWorkItems: API.OperationMethod<
   ReportStatusProjectsJobsWorkItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ReportStatusProjectsJobsWorkItemsRequest>,
-  output: __S(2188, __c68, 12) as any as S.Schema<ReportWorkItemStatusResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ReportStatusProjectsJobsWorkItemsRequest>,
+  output: __S(2123, __c66, 11) as any as S.Schema<ReportWorkItemStatusResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4253,8 +4459,8 @@ export const reportStatusProjectsLocationsJobsWorkItems: API.OperationMethod<
   ReportStatusProjectsLocationsJobsWorkItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ReportStatusProjectsLocationsJobsWorkItemsRequest>,
-  output: __S(2188, __c68, 12) as any as S.Schema<ReportWorkItemStatusResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ReportStatusProjectsLocationsJobsWorkItemsRequest>,
+  output: __S(2123, __c66, 11) as any as S.Schema<ReportWorkItemStatusResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4275,8 +4481,8 @@ export const resolveFoldersLocationsConfigStoreSettings: API.OperationMethod<
   ResolveFoldersLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ResolveFoldersLocationsConfigStoreSettingsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<ResolveConfigStoreSettingResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ResolveFoldersLocationsConfigStoreSettingsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<ResolveConfigStoreSettingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4298,11 +4504,11 @@ export const resolveOrganizationsLocationsConfigStoreSettings: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c74,
+    2304,
+    __c72,
     0,
   ) as any as S.Schema<ResolveOrganizationsLocationsConfigStoreSettingsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<ResolveConfigStoreSettingResponse>,
+  output: __S(2272, __c71, 0) as any as S.Schema<ResolveConfigStoreSettingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4323,8 +4529,8 @@ export const resolveProjectsLocationsConfigStoreSettings: API.OperationMethod<
   ResolveProjectsLocationsConfigStoreSettingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ResolveProjectsLocationsConfigStoreSettingsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<ResolveConfigStoreSettingResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ResolveProjectsLocationsConfigStoreSettingsRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<ResolveConfigStoreSettingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4345,8 +4551,8 @@ export const sendCaptureProjectsJobsDebug: API.OperationMethod<
   SendCaptureProjectsJobsDebugError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<SendCaptureProjectsJobsDebugRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<SendDebugCaptureResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<SendCaptureProjectsJobsDebugRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<SendDebugCaptureResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4367,8 +4573,8 @@ export const sendCaptureProjectsLocationsJobsDebug: API.OperationMethod<
   SendCaptureProjectsLocationsJobsDebugError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<SendCaptureProjectsLocationsJobsDebugRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<SendDebugCaptureResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<SendCaptureProjectsLocationsJobsDebugRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<SendDebugCaptureResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4384,8 +4590,8 @@ export const snapshotProjectsJobs: API.OperationMethod<
   SnapshotProjectsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<SnapshotProjectsJobsRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<Snapshot>,
+  input: __S(2432, __c76, 0) as any as S.Schema<SnapshotProjectsJobsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<Snapshot>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4406,8 +4612,8 @@ export const snapshotProjectsLocationsJobs: API.OperationMethod<
   SnapshotProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<SnapshotProjectsLocationsJobsRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<Snapshot>,
+  input: __S(2464, __c77, 0) as any as S.Schema<SnapshotProjectsLocationsJobsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<Snapshot>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4423,8 +4629,8 @@ export const updateProjectsJobs: API.OperationMethod<
   UpdateProjectsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateProjectsJobsRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateProjectsJobsRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4445,8 +4651,8 @@ export const updateProjectsLocationsJobs: API.OperationMethod<
   UpdateProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<UpdateProjectsLocationsJobsRequest>,
-  output: __S(1782, __c55, 22) as any as S.Schema<Job>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UpdateProjectsLocationsJobsRequest>,
+  output: __S(1718, __c53, 22) as any as S.Schema<Job>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4462,8 +4668,8 @@ export const workerMessagesProjects: API.OperationMethod<
   WorkerMessagesProjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<WorkerMessagesProjectsRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<SendWorkerMessagesResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<WorkerMessagesProjectsRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<SendWorkerMessagesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4484,8 +4690,8 @@ export const workerMessagesProjectsLocations: API.OperationMethod<
   WorkerMessagesProjectsLocationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<WorkerMessagesProjectsLocationsRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<SendWorkerMessagesResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<WorkerMessagesProjectsLocationsRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<SendWorkerMessagesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -4501,7 +4707,10 @@ function __c0(j: number): any {
         S.Struct({
           location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          jobName: S.optional(S.String),
+          environment: S.optional(__S(32, __c1, 0)),
+          gcsPath: S.optional(S.String),
+          parameters: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4517,25 +4726,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          jobName: S.optional(S.String),
-          location: S.optional(S.String),
-          environment: S.optional(__S(64, __c2, 0)),
-          gcsPath: S.optional(S.String),
-          parameters: S.optional(__S(1632, __c51, 0)),
-        }),
-      ).annotate({ identifier: "CreateJobFromTemplateRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           bypassTempDirValidation: S.optional(S.Boolean),
           diskSizeGb: S.optional(S.Number),
-          additionalPipelineOptions: S.optional(__S(1664, __c52, 0)),
+          additionalPipelineOptions: S.optional(__S(1600, __c50, 0)),
           serviceAccountEmail: S.optional(S.String),
-          additionalUserLabels: S.optional(__S(1632, __c51, 0)),
+          additionalUserLabels: S.optional(__S(1568, __c49, 0)),
           machineType: S.optional(S.String),
           enableStreamingEngine: S.optional(S.Boolean),
           zone: S.optional(S.String),
@@ -4546,7 +4741,7 @@ function __c2(j: number): any {
           maxWorkers: S.optional(S.Number),
           ipConfiguration: S.optional(S.String),
           subnetwork: S.optional(S.String),
-          additionalExperiments: S.optional(__S(1664, __c52, 0)),
+          additionalExperiments: S.optional(__S(1600, __c50, 0)),
           streamingMode: S.optional(S.String),
           numWorkers: S.optional(S.Number),
           kmsKeyName: S.optional(S.String),
@@ -4554,13 +4749,17 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RuntimeEnvironment" });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c1, 0).pipe(T.HttpBody())),
+          jobName: S.optional(S.String),
+          location: S.optional(S.String),
+          environment: S.optional(__S(32, __c1, 0)),
+          gcsPath: S.optional(S.String),
+          parameters: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4571,7 +4770,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateProjectsTemplatesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4587,13 +4786,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteFoldersLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4609,7 +4808,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4625,7 +4824,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4643,7 +4842,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteProjectsLocationsSnapshotsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4661,14 +4860,16 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotsProjectsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
+          location: S.optional(S.String),
+          workerId: S.optional(S.String),
+          componentId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4679,17 +4880,9 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetConfigProjectsJobsDebugRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          workerId: S.optional(S.String),
-          componentId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetDebugConfigRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           config: S.optional(S.String),
@@ -4697,7 +4890,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDebugConfigResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4705,7 +4898,8 @@ function __c12(j: number): any {
           projectId: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(352, __c11, 0).pipe(T.HttpBody())),
+          workerId: S.optional(S.String),
+          componentId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4716,7 +4910,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetConfigProjectsLocationsJobsDebugRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4747,44 +4941,44 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          batchStraggler: S.optional(__S(453, __c14, 5)),
-          streamingStraggler: S.optional(__S(417, __c13, 1)),
+          batchStraggler: S.optional(__S(421, __c13, 5)),
+          streamingStraggler: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "Straggler" });
     case 3:
-      return S.Array(__S(418, __c13, 2));
+      return S.Array(__S(386, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          recentStragglers: S.optional(__S(419, __c13, 3)),
+          recentStragglers: S.optional(__S(387, __c12, 3)),
           totalStragglerCount: S.optional(S.String),
-          stragglerCauseCount: S.optional(__S(1632, __c51, 0)),
+          stragglerCauseCount: S.optional(__S(1568, __c49, 0)),
         }),
       ).annotate({ identifier: "StragglerSummary" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(482, __c15, 2)),
+          metrics: S.optional(__S(450, __c14, 2)),
           startTime: S.optional(S.String),
-          stragglerSummary: S.optional(__S(420, __c13, 4)),
+          stragglerSummary: S.optional(__S(388, __c12, 4)),
           state: S.optional(S.String),
           stageId: S.optional(S.String),
-          progress: S.optional(__S(456, __c14, 8)),
+          progress: S.optional(__S(424, __c13, 8)),
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "StageSummary" });
     case 6:
-      return S.Array(__S(421, __c13, 5));
+      return S.Array(__S(389, __c12, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          stages: S.optional(__S(422, __c13, 6)),
+          stages: S.optional(__S(390, __c12, 6)),
         }),
       ).annotate({ identifier: "JobExecutionDetails" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4795,26 +4989,26 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "HotKeyInfo" });
     case 1:
-      return S.Record(S.String, __S(448, __c14, 0));
+      return S.Record(S.String, __S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          detectedHotKeys: S.optional(__S(449, __c14, 1)),
+          detectedHotKeys: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "HotKeyDebuggingInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hotKey: S.optional(__S(450, __c14, 2)),
+          hotKey: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "StragglerDebuggingInfo" });
     case 4:
-      return S.Record(S.String, __S(451, __c14, 3));
+      return S.Record(S.String, __S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
-          causes: S.optional(__S(452, __c14, 4)),
+          causes: S.optional(__S(420, __c13, 4)),
         }),
       ).annotate({ identifier: "StragglerInfo" });
     case 6:
@@ -4825,24 +5019,24 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "Point" });
     case 7:
-      return S.Array(__S(454, __c14, 6));
+      return S.Array(__S(422, __c13, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          dataPoints: S.optional(__S(455, __c14, 7)),
+          dataPoints: S.optional(__S(423, __c13, 7)),
           currentProgress: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ProgressTimeseries" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           origin: S.optional(S.String),
           name: S.optional(S.String),
-          context: S.optional(__S(1632, __c51, 0)),
+          context: S.optional(__S(1568, __c49, 0)),
         }),
       ).annotate({ identifier: "MetricStructuredName" });
     case 1:
@@ -4853,7 +5047,7 @@ function __c15(j: number): any {
           scalar: S.optional(S.Unknown),
           boundedTrie: S.optional(S.Unknown),
           updateTime: S.optional(S.String),
-          name: S.optional(__S(480, __c15, 0)),
+          name: S.optional(__S(448, __c14, 0)),
           set: S.optional(S.Unknown),
           meanCount: S.optional(S.Unknown),
           gauge: S.optional(S.Unknown),
@@ -4864,10 +5058,10 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "MetricUpdate" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(449, __c14, 1));
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4891,37 +5085,37 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(482, __c15, 2)),
+          metrics: S.optional(__S(450, __c14, 2)),
           state: S.optional(S.String),
           taskId: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          progress: S.optional(__S(456, __c14, 8)),
-          stragglerInfo: S.optional(__S(453, __c14, 5)),
+          progress: S.optional(__S(424, __c13, 8)),
+          stragglerInfo: S.optional(__S(421, __c13, 5)),
           attemptId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkItemDetails" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workItems: S.optional(__S(514, __c16, 2)),
+          workItems: S.optional(__S(482, __c15, 2)),
           workerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerDetails" });
     case 4:
-      return S.Array(__S(515, __c16, 3));
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          workers: S.optional(__S(516, __c16, 4)),
+          workers: S.optional(__S(484, __c15, 4)),
         }),
       ).annotate({ identifier: "StageExecutionDetails" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4937,7 +5131,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetFoldersLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4956,18 +5150,18 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetMetricsProjectsJobsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metricTime: S.optional(S.String),
-          metrics: S.optional(__S(482, __c15, 2)),
+          metrics: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "JobMetrics" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4986,7 +5180,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetMetricsProjectsLocationsJobsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5002,7 +5196,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetOrganizationsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5021,7 +5215,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetProjectsJobsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5037,7 +5231,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5056,7 +5250,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsJobsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5074,7 +5268,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsSnapshotsRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5085,12 +5279,12 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "PubsubSnapshotMetadata" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           sourceJobId: S.optional(S.String),
-          pubsubMetadata: S.optional(__S(833, __c26, 1)),
+          pubsubMetadata: S.optional(__S(801, __c25, 1)),
           state: S.optional(S.String),
           creationTime: S.optional(S.String),
           ttl: S.optional(S.String),
@@ -5103,7 +5297,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "Snapshot" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5122,27 +5316,27 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetProjectsLocationsTemplatesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sdkInfo: S.optional(__S(928, __c29, 0)),
-          parameters: S.optional(__S(932, __c29, 4)),
+          sdkInfo: S.optional(__S(896, __c28, 0)),
+          parameters: S.optional(__S(900, __c28, 4)),
         }),
       ).annotate({ identifier: "RuntimeMetadata" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          runtimeMetadata: S.optional(__S(896, __c28, 0)),
-          status: S.optional(__S(992, __c31, 0)),
-          metadata: S.optional(__S(933, __c29, 5)),
+          runtimeMetadata: S.optional(__S(864, __c27, 0)),
+          status: S.optional(__S(960, __c30, 0)),
+          metadata: S.optional(__S(901, __c28, 5)),
           templateType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTemplateResponse" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5160,19 +5354,19 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ParameterMetadataEnumOption" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(897, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          customMetadata: S.optional(__S(1632, __c51, 0)),
+          customMetadata: S.optional(__S(1568, __c49, 0)),
           hiddenUi: S.optional(S.Boolean),
           label: S.optional(S.String),
           defaultValue: S.optional(S.String),
-          regexes: S.optional(__S(1664, __c52, 0)),
+          regexes: S.optional(__S(1600, __c50, 0)),
           paramType: S.optional(S.String),
-          parentTriggerValues: S.optional(__S(1664, __c52, 0)),
-          enumOptions: S.optional(__S(930, __c29, 2)),
+          parentTriggerValues: S.optional(__S(1600, __c50, 0)),
+          enumOptions: S.optional(__S(898, __c28, 2)),
           isOptional: S.optional(S.Boolean),
           groupName: S.optional(S.String),
           helpText: S.optional(S.String),
@@ -5180,11 +5374,11 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ParameterMetadata" });
     case 4:
-      return S.Array(__S(931, __c29, 3));
+      return S.Array(__S(899, __c28, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(932, __c29, 4)),
+          parameters: S.optional(__S(900, __c28, 4)),
           supportsExactlyOnce: S.optional(S.Boolean),
           supportsAtLeastOnce: S.optional(S.Boolean),
           defaultStreamingMode: S.optional(S.String),
@@ -5196,25 +5390,25 @@ function __c29(j: number): any {
       ).annotate({ identifier: "TemplateMetadata" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1601, __c50, 1));
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(960, __c30, 0)),
+          details: S.optional(__S(928, __c29, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5232,7 +5426,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetProjectsSnapshotsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5251,22 +5445,16 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetProjectsTemplatesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(S.String),
-          workerId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetWorkerStacktracesRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           location: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1088, __c34, 0).pipe(T.HttpBody())),
+          endTime: S.optional(S.String),
+          workerId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5275,7 +5463,7 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetWorkerStacktracesProjectsLocationsJobsDebugRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           threadName: S.optional(S.String),
@@ -5285,33 +5473,33 @@ function __c34(j: number): any {
           timestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stack" });
+    case 2:
+      return S.Array(__S(1057, __c33, 1));
     case 3:
-      return S.Array(__S(1090, __c34, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           sdkId: S.optional(S.String),
-          stacks: S.optional(__S(1091, __c34, 3)),
+          stacks: S.optional(__S(1058, __c33, 2)),
         }),
       ).annotate({ identifier: "Sdk" });
+    case 4:
+      return S.Array(__S(1059, __c33, 3));
     case 5:
-      return S.Array(__S(1092, __c34, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          sdks: S.optional(__S(1093, __c34, 5)),
+          sdks: S.optional(__S(1060, __c33, 4)),
         }),
       ).annotate({ identifier: "GetWorkerStacktracesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           network: S.optional(S.String),
           flexrsGoal: S.optional(S.String),
-          additionalPipelineOptions: S.optional(__S(1664, __c52, 0)),
+          additionalPipelineOptions: S.optional(__S(1600, __c50, 0)),
           kmsKeyName: S.optional(S.String),
           subnetwork: S.optional(S.String),
           numWorkers: S.optional(S.Number),
@@ -5326,11 +5514,11 @@ function __c35(j: number): any {
           maxWorkers: S.optional(S.Number),
           saveHeapDumpsToGcsPath: S.optional(S.String),
           enableLauncherVmSerialPortLogging: S.optional(S.Boolean),
-          additionalExperiments: S.optional(__S(1664, __c52, 0)),
+          additionalExperiments: S.optional(__S(1600, __c50, 0)),
           serviceAccountEmail: S.optional(S.String),
           launcherMachineType: S.optional(S.String),
           machineType: S.optional(S.String),
-          additionalUserLabels: S.optional(__S(1632, __c51, 0)),
+          additionalUserLabels: S.optional(__S(1568, __c49, 0)),
           ipConfiguration: S.optional(S.String),
           tempLocation: S.optional(S.String),
           streamingMode: S.optional(S.String),
@@ -5340,41 +5528,35 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sdkInfo: S.optional(__S(928, __c29, 0)),
+          sdkInfo: S.optional(__S(896, __c28, 0)),
           image: S.optional(S.String),
           imageRepositoryPasswordSecretId: S.optional(S.String),
           imageRepositoryCertPath: S.optional(S.String),
-          defaultEnvironment: S.optional(__S(1120, __c35, 0)),
+          defaultEnvironment: S.optional(__S(1088, __c34, 0)),
           imageRepositoryUsernameSecretId: S.optional(S.String),
-          metadata: S.optional(__S(933, __c29, 5)),
+          metadata: S.optional(__S(901, __c28, 5)),
         }),
       ).annotate({ identifier: "ContainerSpec" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transformNameMappings: S.optional(__S(1632, __c51, 0)),
+          transformNameMappings: S.optional(__S(1568, __c49, 0)),
           jobName: S.optional(S.String),
           containerSpecGcsPath: S.optional(S.String),
-          launchOptions: S.optional(__S(1632, __c51, 0)),
-          parameters: S.optional(__S(1632, __c51, 0)),
-          environment: S.optional(__S(1120, __c35, 0)),
-          containerSpec: S.optional(__S(1121, __c35, 1)),
+          launchOptions: S.optional(__S(1568, __c49, 0)),
+          parameters: S.optional(__S(1568, __c49, 0)),
+          environment: S.optional(__S(1088, __c34, 0)),
+          containerSpec: S.optional(__S(1089, __c34, 1)),
           update: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LaunchFlexTemplateParameter" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          launchParameter: S.optional(__S(1122, __c35, 2)),
-          validateOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LaunchFlexTemplateRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(1123, __c35, 3).pipe(T.HttpBody())),
+          launchParameter: S.optional(__S(1090, __c34, 2)),
+          validateOnly: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5385,17 +5567,17 @@ function __c35(j: number): any {
       ).annotate({ identifier: "LaunchProjectsLocationsFlexTemplatesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          job: S.optional(__S(1782, __c55, 22)),
+          job: S.optional(__S(1718, __c53, 22)),
         }),
       ).annotate({ identifier: "LaunchFlexTemplateResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5406,7 +5588,11 @@ function __c37(j: number): any {
           "dynamicTemplate.stagingLocation": S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
           gcsPath: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          parameters: S.optional(__S(1568, __c49, 0)),
+          environment: S.optional(__S(32, __c1, 0)),
+          update: S.optional(S.Boolean),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
+          jobName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5417,21 +5603,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "LaunchProjectsLocationsTemplatesRequest" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          parameters: S.optional(__S(1632, __c51, 0)),
-          environment: S.optional(__S(64, __c2, 0)),
-          update: S.optional(S.Boolean),
-          transformNameMapping: S.optional(__S(1632, __c51, 0)),
-          jobName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LaunchTemplateParameters" });
-  }
-}
-function __c39(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5442,7 +5614,11 @@ function __c39(j: number): any {
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           location: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          parameters: S.optional(__S(1568, __c49, 0)),
+          environment: S.optional(__S(32, __c1, 0)),
+          update: S.optional(S.Boolean),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
+          jobName: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5453,14 +5629,21 @@ function __c39(j: number): any {
       ).annotate({ identifier: "LaunchProjectsTemplatesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          requestedLeaseDuration: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          workerCapabilities: S.optional(__S(1600, __c50, 0)),
+          workItemTypes: S.optional(__S(1600, __c50, 0)),
+          location: S.optional(S.String),
+          unifiedWorkerRequest: S.optional(__S(1601, __c50, 1)),
+          workerId: S.optional(S.String),
+          currentWorkerTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5471,61 +5654,48 @@ function __c40(j: number): any {
       ).annotate({ identifier: "LeaseProjectsJobsWorkItemsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestedLeaseDuration: S.optional(S.String),
-          projectNumber: S.optional(S.String),
-          workerCapabilities: S.optional(__S(1664, __c52, 0)),
-          workItemTypes: S.optional(__S(1664, __c52, 0)),
-          location: S.optional(S.String),
-          unifiedWorkerRequest: S.optional(__S(1665, __c52, 1)),
-          workerId: S.optional(S.String),
-          currentWorkerTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LeaseWorkItemRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(__S(1377, __c43, 1)),
+          source: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "SourceGetMetadataRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           desiredBundleSizeBytes: S.optional(S.String),
           desiredShardSizeBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceSplitOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          options: S.optional(__S(1249, __c39, 1)),
+          source: S.optional(__S(1313, __c41, 1)),
+        }),
+      ).annotate({ identifier: "SourceSplitRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(1314, __c41, 2)),
-          source: S.optional(__S(1377, __c43, 1)),
-        }),
-      ).annotate({ identifier: "SourceSplitRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          getMetadata: S.optional(__S(1313, __c41, 1)),
+          getMetadata: S.optional(__S(1248, __c39, 0)),
           stageName: S.optional(S.String),
-          split: S.optional(__S(1315, __c41, 3)),
+          split: S.optional(__S(1250, __c39, 2)),
           name: S.optional(S.String),
           originalName: S.optional(S.String),
           systemName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceOperationRequest" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           dataDisk: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountedDataDisk" });
+    case 5:
+      return S.Array(__S(1252, __c39, 4));
     case 6:
-      return S.Array(__S(1317, __c41, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           dataDisk: S.optional(S.String),
@@ -5533,48 +5703,48 @@ function __c41(j: number): any {
           end: S.optional(S.String),
         }),
       ).annotate({ identifier: "KeyRangeDataDiskAssignment" });
+    case 7:
+      return S.Array(__S(1254, __c39, 6));
     case 8:
-      return S.Array(__S(1319, __c41, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          rangeAssignments: S.optional(__S(1320, __c41, 8)),
+          rangeAssignments: S.optional(__S(1255, __c39, 7)),
           computationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingComputationRanges" });
+    case 9:
+      return S.Array(__S(1256, __c39, 8));
     case 10:
-      return S.Array(__S(1321, __c41, 9));
+      return S.suspend(() =>
+        S.Struct({
+          dataDisks: S.optional(__S(1253, __c39, 5)),
+          taskType: S.optional(S.String),
+          computationRanges: S.optional(__S(1257, __c39, 9)),
+        }),
+      ).annotate({ identifier: "StreamingComputationTask" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          dataDisks: S.optional(__S(1318, __c41, 6)),
-          taskType: S.optional(S.String),
-          computationRanges: S.optional(__S(1322, __c41, 10)),
-        }),
-      ).annotate({ identifier: "StreamingComputationTask" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
           vmInstance: S.optional(S.String),
-          dataDisks: S.optional(__S(1664, __c52, 0)),
+          dataDisks: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "DataDiskAssignment" });
+    case 12:
+      return S.Array(__S(1259, __c39, 11));
     case 13:
-      return S.Array(__S(1324, __c41, 12));
-    case 14:
       return S.suspend(() =>
         S.Struct({
           stateful: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CustomSourceLocation" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           tag: S.optional(S.String),
           stateFamily: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingSideInputLocation" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           timestampLabel: S.optional(S.String),
@@ -5587,24 +5757,24 @@ function __c41(j: number): any {
           subscription: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubsubLocation" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           streamId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingStageLocation" });
-    case 18:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          customSourceLocation: S.optional(__S(1326, __c41, 14)),
-          sideInputLocation: S.optional(__S(1327, __c41, 15)),
-          pubsubLocation: S.optional(__S(1328, __c41, 16)),
-          streamingStageLocation: S.optional(__S(1329, __c41, 17)),
+          customSourceLocation: S.optional(__S(1261, __c39, 13)),
+          sideInputLocation: S.optional(__S(1262, __c39, 14)),
+          pubsubLocation: S.optional(__S(1263, __c39, 15)),
+          streamingStageLocation: S.optional(__S(1264, __c39, 16)),
         }),
       ).annotate({ identifier: "StreamLocation" });
+    case 18:
+      return S.Array(__S(1265, __c39, 17));
     case 19:
-      return S.Array(__S(1330, __c41, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
           start: S.optional(S.String),
@@ -5614,101 +5784,101 @@ function __c41(j: number): any {
           deprecatedPersistentDirectory: S.optional(S.String),
         }),
       ).annotate({ identifier: "KeyRangeLocation" });
+    case 20:
+      return S.Array(__S(1267, __c39, 19));
     case 21:
-      return S.Array(__S(1332, __c41, 20));
-    case 22:
       return S.suspend(() =>
         S.Struct({
           stateFamily: S.optional(S.String),
           isRead: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StateFamilyConfig" });
+    case 22:
+      return S.Array(__S(1269, __c39, 21));
     case 23:
-      return S.Array(__S(1334, __c41, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(1331, __c41, 19)),
+          inputs: S.optional(__S(1266, __c39, 18)),
           systemStageName: S.optional(S.String),
-          keyRanges: S.optional(__S(1333, __c41, 21)),
-          stateFamilies: S.optional(__S(1335, __c41, 23)),
+          keyRanges: S.optional(__S(1268, __c39, 20)),
+          stateFamilies: S.optional(__S(1270, __c39, 22)),
           computationId: S.optional(S.String),
-          outputs: S.optional(__S(1331, __c41, 19)),
+          outputs: S.optional(__S(1266, __c39, 18)),
         }),
       ).annotate({ identifier: "ComputationTopology" });
+    case 24:
+      return S.Array(__S(1271, __c39, 23));
     case 25:
-      return S.Array(__S(1336, __c41, 24));
-    case 26:
       return S.suspend(() =>
         S.Struct({
-          userStageToComputationNameMap: S.optional(__S(1632, __c51, 0)),
-          dataDiskAssignments: S.optional(__S(1325, __c41, 13)),
-          computations: S.optional(__S(1337, __c41, 25)),
+          userStageToComputationNameMap: S.optional(__S(1568, __c49, 0)),
+          dataDiskAssignments: S.optional(__S(1260, __c39, 12)),
+          computations: S.optional(__S(1272, __c39, 24)),
           persistentStateVersion: S.optional(S.Number),
           forwardingKeyBits: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TopologyConfig" });
-    case 27:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           snapshotId: S.optional(S.String),
           importStateEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingApplianceSnapshotConfig" });
-    case 28:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           receiveWorkPort: S.optional(S.Number),
-          streamingComputationTopology: S.optional(__S(1338, __c41, 26)),
+          streamingComputationTopology: S.optional(__S(1273, __c39, 25)),
           drain: S.optional(S.Boolean),
-          snapshotConfig: S.optional(__S(1339, __c41, 27)),
+          snapshotConfig: S.optional(__S(1274, __c39, 26)),
           workerHarnessPort: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StreamingSetupTask" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          codec: S.optional(__S(1601, __c50, 1)),
+          spec: S.optional(__S(1601, __c50, 1)),
+        }),
+      ).annotate({ identifier: "Sink" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          codec: S.optional(__S(1665, __c52, 1)),
-          spec: S.optional(__S(1665, __c52, 1)),
-        }),
-      ).annotate({ identifier: "Sink" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
           tag: S.optional(S.String),
-          sink: S.optional(__S(1341, __c41, 29)),
+          sink: S.optional(__S(1276, __c39, 28)),
         }),
       ).annotate({ identifier: "SeqMapTaskOutputInfo" });
+    case 30:
+      return S.Array(__S(1277, __c39, 29));
     case 31:
-      return S.Array(__S(1342, __c41, 30));
+      return S.Array(__S(1313, __c41, 1));
   }
 }
-function __c42(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1377, __c43, 1));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(__S(1665, __c52, 1)),
+          kind: S.optional(__S(1601, __c50, 1)),
           tag: S.optional(S.String),
-          sources: S.optional(__S(1344, __c42, 0)),
+          sources: S.optional(__S(1279, __c39, 31)),
         }),
       ).annotate({ identifier: "SideInputInfo" });
+    case 1:
+      return S.Array(__S(1280, __c40, 0));
     case 2:
-      return S.Array(__S(1345, __c42, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          userFn: S.optional(__S(1665, __c52, 1)),
-          outputInfos: S.optional(__S(1343, __c41, 31)),
+          userFn: S.optional(__S(1601, __c50, 1)),
+          outputInfos: S.optional(__S(1278, __c39, 30)),
           stageName: S.optional(S.String),
-          inputs: S.optional(__S(1346, __c42, 2)),
+          inputs: S.optional(__S(1281, __c40, 1)),
           name: S.optional(S.String),
           systemName: S.optional(S.String),
         }),
       ).annotate({ identifier: "SeqMapTask" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           maxGlobalDataBytes: S.optional(S.String),
@@ -5721,162 +5891,162 @@ function __c42(j: number): any {
           maxSortedListElementBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingOperationalLimits" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           outputNum: S.optional(S.Number),
           producerInstructionIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstructionInput" });
+    case 5:
+      return S.Array(__S(1284, __c40, 4));
     case 6:
-      return S.Array(__S(1349, __c42, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(1350, __c42, 6)),
+          inputs: S.optional(__S(1285, __c40, 5)),
         }),
       ).annotate({ identifier: "FlattenInstruction" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           tag: S.optional(S.String),
         }),
       ).annotate({ identifier: "MultiOutputInfo" });
+    case 8:
+      return S.Array(__S(1287, __c40, 7));
     case 9:
-      return S.Array(__S(1352, __c42, 8));
+      return S.suspend(() =>
+        S.Struct({
+          multiOutputInfos: S.optional(__S(1288, __c40, 8)),
+          numOutputs: S.optional(S.Number),
+          input: S.optional(__S(1284, __c40, 4)),
+          userFn: S.optional(__S(1601, __c50, 1)),
+          sideInputs: S.optional(__S(1281, __c40, 1)),
+        }),
+      ).annotate({ identifier: "ParDoInstruction" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          multiOutputInfos: S.optional(__S(1353, __c42, 9)),
-          numOutputs: S.optional(S.Number),
-          input: S.optional(__S(1349, __c42, 5)),
-          userFn: S.optional(__S(1665, __c52, 1)),
-          sideInputs: S.optional(__S(1346, __c42, 2)),
+          sink: S.optional(__S(1276, __c39, 28)),
+          input: S.optional(__S(1284, __c40, 4)),
         }),
-      ).annotate({ identifier: "ParDoInstruction" });
+      ).annotate({ identifier: "WriteInstruction" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          sink: S.optional(__S(1341, __c41, 29)),
-          input: S.optional(__S(1349, __c42, 5)),
-        }),
-      ).annotate({ identifier: "WriteInstruction" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
           originalCombineValuesStepName: S.optional(S.String),
-          sideInputs: S.optional(__S(1346, __c42, 2)),
-          input: S.optional(__S(1349, __c42, 5)),
-          inputElementCodec: S.optional(__S(1665, __c52, 1)),
-          valueCombiningFn: S.optional(__S(1665, __c52, 1)),
+          sideInputs: S.optional(__S(1281, __c40, 1)),
+          input: S.optional(__S(1284, __c40, 4)),
+          inputElementCodec: S.optional(__S(1601, __c50, 1)),
+          valueCombiningFn: S.optional(__S(1601, __c50, 1)),
           originalCombineValuesInputStoreName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartialGroupByKeyInstruction" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           systemName: S.optional(S.String),
           originalName: S.optional(S.String),
-          codec: S.optional(__S(1665, __c52, 1)),
+          codec: S.optional(__S(1601, __c50, 1)),
           onlyCountKeyBytes: S.optional(S.Boolean),
           onlyCountValueBytes: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InstructionOutput" });
+    case 13:
+      return S.Array(__S(1292, __c40, 12));
     case 14:
-      return S.Array(__S(1357, __c42, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
-          flatten: S.optional(__S(1351, __c42, 7)),
+          flatten: S.optional(__S(1286, __c40, 6)),
           name: S.optional(S.String),
-          parDo: S.optional(__S(1354, __c42, 10)),
+          parDo: S.optional(__S(1289, __c40, 9)),
           systemName: S.optional(S.String),
           originalName: S.optional(S.String),
-          read: S.optional(__S(1313, __c41, 1)),
-          write: S.optional(__S(1355, __c42, 11)),
-          partialGroupByKey: S.optional(__S(1356, __c42, 12)),
-          outputs: S.optional(__S(1358, __c42, 14)),
+          read: S.optional(__S(1248, __c39, 0)),
+          write: S.optional(__S(1290, __c40, 10)),
+          partialGroupByKey: S.optional(__S(1291, __c40, 11)),
+          outputs: S.optional(__S(1293, __c40, 13)),
         }),
       ).annotate({ identifier: "ParallelInstruction" });
+    case 15:
+      return S.Array(__S(1294, __c40, 14));
     case 16:
-      return S.Array(__S(1359, __c42, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
           systemName: S.optional(S.String),
           stageName: S.optional(S.String),
-          transformUserNameToStateFamily: S.optional(__S(1632, __c51, 0)),
+          transformUserNameToStateFamily: S.optional(__S(1568, __c49, 0)),
           computationId: S.optional(S.String),
-          instructions: S.optional(__S(1360, __c42, 16)),
+          instructions: S.optional(__S(1295, __c40, 15)),
         }),
       ).annotate({ identifier: "StreamingComputationConfig" });
+    case 17:
+      return S.Array(__S(1296, __c40, 16));
     case 18:
-      return S.Array(__S(1361, __c42, 17));
-    case 19:
       return S.suspend(() =>
         S.Struct({
           streamingEngineStateTagEncodingVersion: S.optional(S.Number),
           commitStreamChunkSizeBytes: S.optional(S.String),
           maxWorkItemCommitBytes: S.optional(S.String),
-          operationalLimits: S.optional(__S(1348, __c42, 4)),
+          operationalLimits: S.optional(__S(1283, __c40, 3)),
           userWorkerRunnerV2Settings: S.optional(S.String),
-          streamingComputationConfigs: S.optional(__S(1362, __c42, 18)),
+          streamingComputationConfigs: S.optional(__S(1297, __c40, 17)),
           windmillServicePort: S.optional(S.String),
           windmillServiceEndpoint: S.optional(S.String),
-          userStepToStateFamilyNameMap: S.optional(__S(1632, __c51, 0)),
+          userStepToStateFamilyNameMap: S.optional(__S(1568, __c49, 0)),
           getDataStreamChunkSizeBytes: S.optional(S.String),
           userWorkerRunnerV1Settings: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamingConfigTask" });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           exitCode: S.optional(S.Number),
           command: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShellTask" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           counterPrefix: S.optional(S.String),
           systemName: S.optional(S.String),
-          instructions: S.optional(__S(1360, __c42, 16)),
+          instructions: S.optional(__S(1295, __c40, 15)),
           stageName: S.optional(S.String),
         }),
       ).annotate({ identifier: "MapTask" });
-    case 22:
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          sourceOperationTask: S.optional(__S(1316, __c41, 4)),
-          streamingComputationTask: S.optional(__S(1323, __c41, 11)),
+          sourceOperationTask: S.optional(__S(1251, __c39, 3)),
+          streamingComputationTask: S.optional(__S(1258, __c39, 10)),
           projectId: S.optional(S.String),
           reportStatusInterval: S.optional(S.String),
-          streamingSetupTask: S.optional(__S(1340, __c41, 28)),
-          packages: S.optional(__S(1697, __c53, 1)),
+          streamingSetupTask: S.optional(__S(1275, __c39, 27)),
+          packages: S.optional(__S(1633, __c51, 1)),
           jobId: S.optional(S.String),
-          seqMapTask: S.optional(__S(1347, __c42, 3)),
-          streamingConfigTask: S.optional(__S(1363, __c42, 19)),
-          shellTask: S.optional(__S(1364, __c42, 20)),
+          seqMapTask: S.optional(__S(1282, __c40, 2)),
+          streamingConfigTask: S.optional(__S(1298, __c40, 18)),
+          shellTask: S.optional(__S(1299, __c40, 19)),
           initialReportIndex: S.optional(S.String),
           leaseExpireTime: S.optional(S.String),
           id: S.optional(S.String),
           configuration: S.optional(S.String),
-          mapTask: S.optional(__S(1365, __c42, 21)),
+          mapTask: S.optional(__S(1300, __c40, 20)),
         }),
       ).annotate({ identifier: "WorkItem" });
+    case 22:
+      return S.Array(__S(1301, __c40, 21));
     case 23:
-      return S.Array(__S(1366, __c42, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
-          workItems: S.optional(__S(1367, __c42, 23)),
-          unifiedWorkerResponse: S.optional(__S(1665, __c52, 1)),
+          workItems: S.optional(__S(1302, __c40, 22)),
+          unifiedWorkerResponse: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "LeaseWorkItemResponse" });
   }
 }
-function __c43(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5890,15 +6060,15 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           doesNotNeedSplitting: S.optional(S.Boolean),
-          metadata: S.optional(__S(1376, __c43, 0)),
-          baseSpecs: S.optional(__S(960, __c30, 0)),
-          spec: S.optional(__S(1665, __c52, 1)),
-          codec: S.optional(__S(1665, __c52, 1)),
+          metadata: S.optional(__S(1312, __c41, 0)),
+          baseSpecs: S.optional(__S(928, __c29, 0)),
+          spec: S.optional(__S(1601, __c50, 1)),
+          codec: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "Source" });
   }
 }
-function __c44(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5906,7 +6076,13 @@ function __c44(j: number): any {
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          requestedLeaseDuration: S.optional(S.String),
+          projectNumber: S.optional(S.String),
+          workerCapabilities: S.optional(__S(1600, __c50, 0)),
+          workItemTypes: S.optional(__S(1600, __c50, 0)),
+          unifiedWorkerRequest: S.optional(__S(1601, __c50, 1)),
+          workerId: S.optional(S.String),
+          currentWorkerTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5917,7 +6093,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "LeaseProjectsLocationsJobsWorkItemsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5935,24 +6111,24 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListFoldersLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          configStoreSettings: S.optional(__S(1504, __c47, 0)),
+          configStoreSettings: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "ListConfigStoreSettingsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2209, __c69, 1));
   }
 }
-function __c48(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5970,7 +6146,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c49(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5997,10 +6173,10 @@ function __c49(j: number): any {
       ).annotate({ identifier: "AggregatedProjectsJobsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1782, __c55, 22));
+      return S.Array(__S(1718, __c53, 22));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6008,24 +6184,24 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "FailedLocation" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          jobs: S.optional(__S(1600, __c50, 0)),
+          jobs: S.optional(__S(1536, __c48, 0)),
           nextPageToken: S.optional(S.String),
-          failedLocation: S.optional(__S(1602, __c50, 2)),
+          failedLocation: S.optional(__S(1538, __c48, 2)),
         }),
       ).annotate({ identifier: "ListJobsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c52(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -6033,7 +6209,7 @@ function __c52(j: number): any {
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c53(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6044,10 +6220,10 @@ function __c53(j: number): any {
         }),
       ).annotate({ identifier: "Package" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1632, __c51, 0));
   }
 }
-function __c54(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6056,7 +6232,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "FileIODetails" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6065,7 +6241,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "PubSubIODetails" });
     case 3:
-      return S.Array(__S(1730, __c54, 2));
+      return S.Array(__S(1666, __c52, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6076,7 +6252,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "BigQueryIODetails" });
     case 5:
-      return S.Array(__S(1732, __c54, 4));
+      return S.Array(__S(1668, __c52, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6086,7 +6262,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "SpannerIODetails" });
     case 7:
-      return S.Array(__S(1734, __c54, 6));
+      return S.Array(__S(1670, __c52, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6096,7 +6272,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "BigTableIODetails" });
     case 9:
-      return S.Array(__S(1736, __c54, 8));
+      return S.Array(__S(1672, __c52, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -6106,14 +6282,14 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "SdkBug" });
     case 11:
-      return S.Array(__S(1738, __c54, 10));
+      return S.Array(__S(1674, __c52, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           versionDisplayName: S.optional(S.String),
           sdkSupportStatus: S.optional(S.String),
           version: S.optional(S.String),
-          bugs: S.optional(__S(1739, __c54, 11)),
+          bugs: S.optional(__S(1675, __c52, 11)),
         }),
       ).annotate({ identifier: "SdkVersion" });
     case 13:
@@ -6124,18 +6300,18 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "DatastoreIODetails" });
     case 14:
-      return S.Array(__S(1741, __c54, 13));
+      return S.Array(__S(1677, __c52, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          fileDetails: S.optional(__S(1729, __c54, 1)),
-          pubsubDetails: S.optional(__S(1731, __c54, 3)),
-          bigqueryDetails: S.optional(__S(1733, __c54, 5)),
-          userDisplayProperties: S.optional(__S(1632, __c51, 0)),
-          spannerDetails: S.optional(__S(1735, __c54, 7)),
-          bigTableDetails: S.optional(__S(1737, __c54, 9)),
-          sdkVersion: S.optional(__S(1740, __c54, 12)),
-          datastoreDetails: S.optional(__S(1742, __c54, 14)),
+          fileDetails: S.optional(__S(1665, __c52, 1)),
+          pubsubDetails: S.optional(__S(1667, __c52, 3)),
+          bigqueryDetails: S.optional(__S(1669, __c52, 5)),
+          userDisplayProperties: S.optional(__S(1568, __c49, 0)),
+          spannerDetails: S.optional(__S(1671, __c52, 7)),
+          bigTableDetails: S.optional(__S(1673, __c52, 9)),
+          sdkVersion: S.optional(__S(1676, __c52, 12)),
+          datastoreDetails: S.optional(__S(1678, __c52, 14)),
         }),
       ).annotate({ identifier: "JobMetadata" });
     case 16:
@@ -6156,7 +6332,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "DisplayData" });
     case 17:
-      return S.Array(__S(1744, __c54, 16));
+      return S.Array(__S(1680, __c52, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -6167,7 +6343,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "StageSource" });
     case 19:
-      return S.Array(__S(1746, __c54, 18));
+      return S.Array(__S(1682, __c52, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -6177,7 +6353,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "ComponentSource" });
     case 21:
-      return S.Array(__S(1748, __c54, 20));
+      return S.Array(__S(1684, __c52, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -6187,54 +6363,54 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "ComponentTransform" });
     case 23:
-      return S.Array(__S(1750, __c54, 22));
+      return S.Array(__S(1686, __c52, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          outputSource: S.optional(__S(1747, __c54, 19)),
-          inputSource: S.optional(__S(1747, __c54, 19)),
+          outputSource: S.optional(__S(1683, __c52, 19)),
+          inputSource: S.optional(__S(1683, __c52, 19)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           kind: S.optional(S.String),
-          componentSource: S.optional(__S(1749, __c54, 21)),
-          componentTransform: S.optional(__S(1751, __c54, 23)),
-          prerequisiteStage: S.optional(__S(1664, __c52, 0)),
+          componentSource: S.optional(__S(1685, __c52, 21)),
+          componentTransform: S.optional(__S(1687, __c52, 23)),
+          prerequisiteStage: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "ExecutionStageSummary" });
     case 25:
-      return S.Array(__S(1752, __c54, 24));
+      return S.Array(__S(1688, __c52, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          inputCollectionName: S.optional(__S(1664, __c52, 0)),
-          displayData: S.optional(__S(1745, __c54, 17)),
-          outputCollectionName: S.optional(__S(1664, __c52, 0)),
+          inputCollectionName: S.optional(__S(1600, __c50, 0)),
+          displayData: S.optional(__S(1681, __c52, 17)),
+          outputCollectionName: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "TransformSummary" });
     case 27:
-      return S.Array(__S(1754, __c54, 26));
+      return S.Array(__S(1690, __c52, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          displayData: S.optional(__S(1745, __c54, 17)),
-          executionPipelineStage: S.optional(__S(1753, __c54, 25)),
+          displayData: S.optional(__S(1681, __c52, 17)),
+          executionPipelineStage: S.optional(__S(1689, __c52, 25)),
           stepNamesHash: S.optional(S.String),
-          originalPipelineTransform: S.optional(__S(1755, __c54, 27)),
+          originalPipelineTransform: S.optional(__S(1691, __c52, 27)),
         }),
       ).annotate({ identifier: "PipelineDescription" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1665, __c52, 1)),
+          properties: S.optional(__S(1601, __c50, 1)),
           name: S.optional(S.String),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Step" });
     case 30:
-      return S.Array(__S(1757, __c54, 29));
+      return S.Array(__S(1693, __c52, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -6245,10 +6421,10 @@ function __c54(j: number): any {
       ).annotate({ identifier: "ExecutionStageState" });
   }
 }
-function __c55(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1759, __c54, 31));
+      return S.Array(__S(1695, __c52, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6272,7 +6448,7 @@ function __c55(j: number): any {
         S.Struct({
           streamingWorkerMainClass: S.optional(S.String),
           baseUrl: S.optional(S.String),
-          parallelWorkerSettings: S.optional(__S(1762, __c55, 2)),
+          parallelWorkerSettings: S.optional(__S(1698, __c53, 2)),
           logDir: S.optional(S.String),
           languageHint: S.optional(S.String),
           taskGroup: S.optional(S.String),
@@ -6286,7 +6462,7 @@ function __c55(j: number): any {
           continueOnException: S.optional(S.Boolean),
           vmId: S.optional(S.String),
           alsologtostderr: S.optional(S.Boolean),
-          oauthScopes: S.optional(__S(1664, __c52, 0)),
+          oauthScopes: S.optional(__S(1600, __c50, 0)),
           workflowFileName: S.optional(S.String),
           baseTaskDir: S.optional(S.String),
         }),
@@ -6296,12 +6472,12 @@ function __c55(j: number): any {
         S.Struct({
           environmentId: S.optional(S.String),
           useSingleCorePerContainer: S.optional(S.Boolean),
-          capabilities: S.optional(__S(1664, __c52, 0)),
+          capabilities: S.optional(__S(1600, __c50, 0)),
           containerImage: S.optional(S.String),
         }),
       ).annotate({ identifier: "SdkHarnessContainerImage" });
     case 5:
-      return S.Array(__S(1764, __c55, 4));
+      return S.Array(__S(1700, __c53, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6311,7 +6487,7 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "Disk" });
     case 7:
-      return S.Array(__S(1766, __c55, 6));
+      return S.Array(__S(1702, __c53, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -6321,72 +6497,72 @@ function __c55(j: number): any {
           workerHarnessContainerImage: S.optional(S.String),
           diskProvisionedThroughputMibps: S.optional(S.String),
           defaultPackageSet: S.optional(S.String),
-          autoscalingSettings: S.optional(__S(1761, __c55, 1)),
+          autoscalingSettings: S.optional(__S(1697, __c53, 1)),
           onHostMaintenance: S.optional(S.String),
           zone: S.optional(S.String),
           ipConfiguration: S.optional(S.String),
-          taskrunnerSettings: S.optional(__S(1763, __c55, 3)),
+          taskrunnerSettings: S.optional(__S(1699, __c53, 3)),
           teardownPolicy: S.optional(S.String),
-          sdkHarnessContainerImages: S.optional(__S(1765, __c55, 5)),
+          sdkHarnessContainerImages: S.optional(__S(1701, __c53, 5)),
           machineType: S.optional(S.String),
-          metadata: S.optional(__S(1632, __c51, 0)),
+          metadata: S.optional(__S(1568, __c49, 0)),
           diskSourceImage: S.optional(S.String),
           numWorkers: S.optional(S.Number),
           kind: S.optional(S.String),
-          packages: S.optional(__S(1697, __c53, 1)),
+          packages: S.optional(__S(1633, __c51, 1)),
           subnetwork: S.optional(S.String),
           network: S.optional(S.String),
-          poolArgs: S.optional(__S(1665, __c52, 1)),
-          dataDisks: S.optional(__S(1767, __c55, 7)),
+          poolArgs: S.optional(__S(1601, __c50, 1)),
+          dataDisks: S.optional(__S(1703, __c53, 7)),
           numThreadsPerWorker: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WorkerPool" });
     case 9:
-      return S.Array(__S(1768, __c55, 8));
+      return S.Array(__S(1704, __c53, 8));
     case 10:
       return S.Array(S.String);
     case 11:
       return S.suspend(() =>
         S.Struct({
-          behaviors: S.optional(__S(1770, __c55, 10)),
+          behaviors: S.optional(__S(1706, __c53, 10)),
         }),
       ).annotate({ identifier: "DataSamplingConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           enableHotKeyLogging: S.optional(S.Boolean),
-          dataSampling: S.optional(__S(1771, __c55, 11)),
+          dataSampling: S.optional(__S(1707, __c53, 11)),
         }),
       ).annotate({ identifier: "DebugOptions" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          experiments: S.optional(__S(1664, __c52, 0)),
-          serviceOptions: S.optional(__S(1664, __c52, 0)),
+          experiments: S.optional(__S(1600, __c50, 0)),
+          serviceOptions: S.optional(__S(1600, __c50, 0)),
           workerZone: S.optional(S.String),
           tempStoragePrefix: S.optional(S.String),
           clusterManagerApiService: S.optional(S.String),
           serviceAccountEmail: S.optional(S.String),
-          workerPools: S.optional(__S(1769, __c55, 9)),
+          workerPools: S.optional(__S(1705, __c53, 9)),
           streamingMode: S.optional(S.String),
-          sdkPipelineOptions: S.optional(__S(1665, __c52, 1)),
+          sdkPipelineOptions: S.optional(__S(1601, __c50, 1)),
           flexResourceSchedulingGoal: S.optional(S.String),
-          internalExperiments: S.optional(__S(1665, __c52, 1)),
+          internalExperiments: S.optional(__S(1601, __c50, 1)),
           useStreamingEngineResourceBasedBilling: S.optional(S.Boolean),
-          debugOptions: S.optional(__S(1772, __c55, 12)),
+          debugOptions: S.optional(__S(1708, __c53, 12)),
           dataset: S.optional(S.String),
           shuffleMode: S.optional(S.String),
           usePublicIps: S.optional(S.Boolean),
           workerRegion: S.optional(S.String),
-          version: S.optional(__S(1665, __c52, 1)),
-          userAgent: S.optional(__S(1665, __c52, 1)),
+          version: S.optional(__S(1601, __c50, 1)),
+          userAgent: S.optional(__S(1601, __c50, 1)),
           serviceKmsKeyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Environment" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          zones: S.optional(__S(1664, __c52, 0)),
+          zones: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "ServiceResources" });
     case 15:
@@ -6406,12 +6582,12 @@ function __c55(j: number): any {
           name: S.optional(S.String),
           timeZone: S.optional(S.String),
           updateTime: S.optional(S.String),
-          parameters: S.optional(__S(1775, __c55, 15)),
+          parameters: S.optional(__S(1711, __c53, 15)),
           crontab: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoscalingSchedule" });
     case 17:
-      return S.Array(__S(1776, __c55, 16));
+      return S.Array(__S(1712, __c53, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -6420,52 +6596,52 @@ function __c55(j: number): any {
           minNumWorkers: S.optional(S.Number),
           latencyTier: S.optional(S.String),
           workerUtilizationHint: S.optional(S.Number),
-          schedules: S.optional(__S(1777, __c55, 17)),
+          schedules: S.optional(__S(1713, __c53, 17)),
           autoscalingTier: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuntimeUpdatableParams" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          stepName: S.optional(__S(1664, __c52, 0)),
+          stepName: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "JobExecutionStageInfo" });
     case 20:
-      return S.Record(S.String, __S(1779, __c55, 19));
+      return S.Record(S.String, __S(1715, __c53, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          stages: S.optional(__S(1780, __c55, 20)),
+          stages: S.optional(__S(1716, __c53, 20)),
         }),
       ).annotate({ identifier: "JobExecutionInfo" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           clientRequestId: S.optional(S.String),
-          jobMetadata: S.optional(__S(1743, __c54, 15)),
+          jobMetadata: S.optional(__S(1679, __c52, 15)),
           createdFromSnapshotId: S.optional(S.String),
           location: S.optional(S.String),
-          pipelineDescription: S.optional(__S(1756, __c54, 28)),
+          pipelineDescription: S.optional(__S(1692, __c52, 28)),
           projectId: S.optional(S.String),
           name: S.optional(S.String),
-          steps: S.optional(__S(1758, __c54, 30)),
-          labels: S.optional(__S(1632, __c51, 0)),
+          steps: S.optional(__S(1694, __c52, 30)),
+          labels: S.optional(__S(1568, __c49, 0)),
           currentState: S.optional(S.String),
           type: S.optional(S.String),
-          tempFiles: S.optional(__S(1664, __c52, 0)),
+          tempFiles: S.optional(__S(1600, __c50, 0)),
           startTime: S.optional(S.String),
-          transformNameMapping: S.optional(__S(1632, __c51, 0)),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
           satisfiesPzs: S.optional(S.Boolean),
-          stageStates: S.optional(__S(1760, __c55, 0)),
+          stageStates: S.optional(__S(1696, __c53, 0)),
           satisfiesPzi: S.optional(S.Boolean),
           pausable: S.optional(S.Boolean),
           replacedByJobId: S.optional(S.String),
           currentStateTime: S.optional(S.String),
-          environment: S.optional(__S(1773, __c55, 13)),
-          serviceResources: S.optional(__S(1774, __c55, 14)),
+          environment: S.optional(__S(1709, __c53, 13)),
+          serviceResources: S.optional(__S(1710, __c53, 14)),
           id: S.optional(S.String),
-          runtimeUpdatableParams: S.optional(__S(1778, __c55, 18)),
-          executionInfo: S.optional(__S(1781, __c55, 21)),
+          runtimeUpdatableParams: S.optional(__S(1714, __c53, 18)),
+          executionInfo: S.optional(__S(1717, __c53, 21)),
           createTime: S.optional(S.String),
           requestedState: S.optional(S.String),
           stepsLocation: S.optional(S.String),
@@ -6474,7 +6650,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "Job" });
   }
 }
-function __c56(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6501,7 +6677,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ListProjectsJobsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6524,7 +6700,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListProjectsJobsMessagesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6536,7 +6712,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "JobMessage" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1792, __c56, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6545,13 +6721,13 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "Parameter" });
     case 3:
-      return S.Array(__S(1858, __c58, 2));
+      return S.Array(__S(1794, __c56, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           messageKey: S.optional(S.String),
           messageText: S.optional(S.String),
-          parameters: S.optional(__S(1859, __c58, 3)),
+          parameters: S.optional(__S(1795, __c56, 3)),
         }),
       ).annotate({ identifier: "StructuredMessage" });
     case 5:
@@ -6561,23 +6737,23 @@ function __c58(j: number): any {
           eventType: S.optional(S.String),
           workerPool: S.optional(S.String),
           targetNumWorkers: S.optional(S.String),
-          description: S.optional(__S(1860, __c58, 4)),
+          description: S.optional(__S(1796, __c56, 4)),
           time: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutoscalingEvent" });
     case 6:
-      return S.Array(__S(1861, __c58, 5));
+      return S.Array(__S(1797, __c56, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          jobMessages: S.optional(__S(1857, __c58, 1)),
-          autoscalingEvents: S.optional(__S(1862, __c58, 6)),
+          jobMessages: S.optional(__S(1793, __c56, 1)),
+          autoscalingEvents: S.optional(__S(1798, __c56, 6)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobMessagesResponse" });
   }
 }
-function __c59(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6595,7 +6771,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6622,7 +6798,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsJobsRequest" });
   }
 }
-function __c61(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6645,7 +6821,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsJobsMessagesRequest" });
   }
 }
-function __c62(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6663,19 +6839,19 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsJobsSnapshotsRequest" });
   }
 }
-function __c63(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(834, __c26, 2));
+      return S.Array(__S(802, __c25, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshots: S.optional(__S(2016, __c63, 0)),
+          snapshots: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6693,7 +6869,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsSnapshotsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6711,14 +6887,19 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ListProjectsSnapshotsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2181, __c68, 5).pipe(T.HttpBody())),
+          location: S.optional(S.String),
+          workerId: S.optional(S.String),
+          workItemStatuses: S.optional(__S(2116, __c66, 4)),
+          currentWorkerTime: S.optional(S.String),
+          unifiedWorkerRequest: S.optional(__S(1601, __c50, 1)),
+          projectNumber: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6729,13 +6910,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ReportStatusProjectsJobsWorkItemsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           index: S.optional(S.Number),
-          position: S.optional(S.suspend(() => __S(2145, __c67, 1))),
+          position: S.optional(S.suspend(() => __S(2081, __c65, 1))),
         }),
       ).annotate({ identifier: "ConcatPosition" });
     case 1:
@@ -6744,7 +6925,7 @@ function __c67(j: number): any {
           key: S.optional(S.String),
           end: S.optional(S.Boolean),
           shufflePosition: S.optional(S.String),
-          concatPosition: S.optional(__S(2144, __c67, 0)),
+          concatPosition: S.optional(__S(2080, __c65, 0)),
           recordIndex: S.optional(S.String),
           byteOffset: S.optional(S.String),
         }),
@@ -6753,39 +6934,39 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           derivationMode: S.optional(S.String),
-          source: S.optional(__S(1377, __c43, 1)),
+          source: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "SourceSplitShard" });
     case 3:
-      return S.Array(__S(2146, __c67, 2));
+      return S.Array(__S(2082, __c65, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1377, __c43, 1)),
+          source: S.optional(__S(1313, __c41, 1)),
           derivationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "DerivedSource" });
     case 5:
-      return S.Array(__S(2148, __c67, 4));
+      return S.Array(__S(2084, __c65, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          shards: S.optional(__S(2147, __c67, 3)),
+          shards: S.optional(__S(2083, __c65, 3)),
           outcome: S.optional(S.String),
-          bundles: S.optional(__S(2149, __c67, 5)),
+          bundles: S.optional(__S(2085, __c65, 5)),
         }),
       ).annotate({ identifier: "SourceSplitResponse" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(1376, __c43, 0)),
+          metadata: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "SourceGetMetadataResponse" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          split: S.optional(__S(2150, __c67, 6)),
-          getMetadata: S.optional(__S(2151, __c67, 7)),
+          split: S.optional(__S(2086, __c65, 6)),
+          getMetadata: S.optional(__S(2087, __c65, 7)),
         }),
       ).annotate({ identifier: "SourceOperationResponse" });
     case 9:
@@ -6798,34 +6979,34 @@ function __c67(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          sum: S.optional(__S(2153, __c67, 9)),
-          count: S.optional(__S(2153, __c67, 9)),
+          sum: S.optional(__S(2089, __c65, 9)),
+          count: S.optional(__S(2089, __c65, 9)),
         }),
       ).annotate({ identifier: "IntegerMean" });
     case 11:
-      return S.Array(__S(2153, __c67, 9));
+      return S.Array(__S(2089, __c65, 9));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          elements: S.optional(__S(2155, __c67, 11)),
+          elements: S.optional(__S(2091, __c65, 11)),
         }),
       ).annotate({ identifier: "IntegerList" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           firstBucketOffset: S.optional(S.Number),
-          bucketCounts: S.optional(__S(1664, __c52, 0)),
+          bucketCounts: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "Histogram" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           sumOfSquares: S.optional(S.Number),
-          histogram: S.optional(__S(2157, __c67, 13)),
-          count: S.optional(__S(2153, __c67, 9)),
-          min: S.optional(__S(2153, __c67, 9)),
-          max: S.optional(__S(2153, __c67, 9)),
-          sum: S.optional(__S(2153, __c67, 9)),
+          histogram: S.optional(__S(2093, __c65, 13)),
+          count: S.optional(__S(2089, __c65, 9)),
+          min: S.optional(__S(2089, __c65, 9)),
+          max: S.optional(__S(2089, __c65, 9)),
+          sum: S.optional(__S(2089, __c65, 9)),
         }),
       ).annotate({ identifier: "DistributionUpdate" });
     case 15:
@@ -6862,14 +7043,14 @@ function __c67(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2160, __c67, 16)),
-          name: S.optional(__S(2161, __c67, 17)),
+          metadata: S.optional(__S(2096, __c65, 16)),
+          name: S.optional(__S(2097, __c65, 17)),
         }),
       ).annotate({ identifier: "CounterStructuredNameAndMetadata" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2153, __c67, 9)),
+          value: S.optional(__S(2089, __c65, 9)),
           timestamp: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntegerGauge" });
@@ -6878,93 +7059,93 @@ function __c67(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          elements: S.optional(__S(2164, __c67, 20)),
+          elements: S.optional(__S(2100, __c65, 20)),
         }),
       ).annotate({ identifier: "FloatingPointList" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          elements: S.optional(__S(1664, __c52, 0)),
+          elements: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "StringList" });
     case 23:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(2168, __c67, 24)),
+        /*@__PURE__*/ S.suspend(() => __S(2104, __c65, 24)),
       );
     case 24:
       return S.suspend(() =>
         S.Struct({
           truncated: S.optional(S.Boolean),
-          children: S.optional(__S(2167, __c67, 23)),
+          children: S.optional(__S(2103, __c65, 23)),
         }),
       ).annotate({ identifier: "BoundedTrieNode" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          root: S.optional(__S(2168, __c67, 24)),
+          root: S.optional(__S(2104, __c65, 24)),
           bound: S.optional(S.Number),
-          singleton: S.optional(__S(1664, __c52, 0)),
+          singleton: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "BoundedTrie" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(__S(2153, __c67, 9)),
+          count: S.optional(__S(2089, __c65, 9)),
           sum: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FloatingPointMean" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          integer: S.optional(__S(2153, __c67, 9)),
+          integer: S.optional(__S(2089, __c65, 9)),
           floatingPoint: S.optional(S.Number),
-          integerMean: S.optional(__S(2154, __c67, 10)),
-          integerList: S.optional(__S(2156, __c67, 12)),
+          integerMean: S.optional(__S(2090, __c65, 10)),
+          integerList: S.optional(__S(2092, __c65, 12)),
           internal: S.optional(S.Unknown),
-          distribution: S.optional(__S(2158, __c67, 14)),
-          nameAndKind: S.optional(__S(2159, __c67, 15)),
-          structuredNameAndMetadata: S.optional(__S(2162, __c67, 18)),
-          integerGauge: S.optional(__S(2163, __c67, 19)),
-          floatingPointList: S.optional(__S(2165, __c67, 21)),
-          stringList: S.optional(__S(2166, __c67, 22)),
-          boundedTrie: S.optional(__S(2169, __c67, 25)),
-          floatingPointMean: S.optional(__S(2170, __c67, 26)),
+          distribution: S.optional(__S(2094, __c65, 14)),
+          nameAndKind: S.optional(__S(2095, __c65, 15)),
+          structuredNameAndMetadata: S.optional(__S(2098, __c65, 18)),
+          integerGauge: S.optional(__S(2099, __c65, 19)),
+          floatingPointList: S.optional(__S(2101, __c65, 21)),
+          stringList: S.optional(__S(2102, __c65, 22)),
+          boundedTrie: S.optional(__S(2105, __c65, 25)),
+          floatingPointMean: S.optional(__S(2106, __c65, 26)),
           shortId: S.optional(S.String),
           boolean: S.optional(S.Boolean),
           cumulative: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CounterUpdate" });
     case 28:
-      return S.Array(__S(2171, __c67, 27));
+      return S.Array(__S(2107, __c65, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
           remainingTime: S.optional(S.String),
           percentComplete: S.optional(S.Number),
-          position: S.optional(__S(2145, __c67, 1)),
+          position: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "ApproximateProgress" });
     case 30:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(960, __c30, 0));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          residual: S.optional(__S(2146, __c67, 2)),
-          residualSource: S.optional(__S(2148, __c67, 4)),
-          primarySource: S.optional(__S(2148, __c67, 4)),
-          primary: S.optional(__S(2146, __c67, 2)),
+          residual: S.optional(__S(2082, __c65, 2)),
+          residualSource: S.optional(__S(2084, __c65, 4)),
+          primarySource: S.optional(__S(2084, __c65, 4)),
+          primary: S.optional(__S(2082, __c65, 2)),
         }),
       ).annotate({ identifier: "SourceFork" });
   }
 }
-function __c68(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primary: S.optional(__S(2148, __c67, 4)),
-          residual: S.optional(__S(2148, __c67, 4)),
+          primary: S.optional(__S(2084, __c65, 4)),
+          residual: S.optional(__S(2084, __c65, 4)),
         }),
       ).annotate({ identifier: "DynamicSourceSplit" });
     case 1:
@@ -6977,45 +7158,34 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          position: S.optional(__S(2145, __c67, 1)),
+          position: S.optional(__S(2081, __c65, 1)),
           fractionConsumed: S.optional(S.Number),
-          remainingParallelism: S.optional(__S(2177, __c68, 1)),
-          consumedParallelism: S.optional(__S(2177, __c68, 1)),
+          remainingParallelism: S.optional(__S(2113, __c66, 1)),
+          consumedParallelism: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "ApproximateReportedProgress" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metricUpdates: S.optional(__S(482, __c15, 2)),
+          metricUpdates: S.optional(__S(450, __c14, 2)),
           reportIndex: S.optional(S.String),
-          stopPosition: S.optional(__S(2145, __c67, 1)),
-          sourceOperationResponse: S.optional(__S(2152, __c67, 8)),
+          stopPosition: S.optional(__S(2081, __c65, 1)),
+          sourceOperationResponse: S.optional(__S(2088, __c65, 8)),
           totalThrottlerWaitTimeSeconds: S.optional(S.Number),
-          counterUpdates: S.optional(__S(2172, __c67, 28)),
+          counterUpdates: S.optional(__S(2108, __c65, 28)),
           completed: S.optional(S.Boolean),
-          progress: S.optional(__S(2173, __c67, 29)),
-          errors: S.optional(__S(2174, __c67, 30)),
-          sourceFork: S.optional(__S(2175, __c67, 31)),
+          progress: S.optional(__S(2109, __c65, 29)),
+          errors: S.optional(__S(2110, __c65, 30)),
+          sourceFork: S.optional(__S(2111, __c65, 31)),
           requestedLeaseDuration: S.optional(S.String),
-          dynamicSourceSplit: S.optional(__S(2176, __c68, 0)),
-          reportedProgress: S.optional(__S(2178, __c68, 2)),
+          dynamicSourceSplit: S.optional(__S(2112, __c66, 0)),
+          reportedProgress: S.optional(__S(2114, __c66, 2)),
           workItemId: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkItemStatus" });
     case 4:
-      return S.Array(__S(2179, __c68, 3));
+      return S.Array(__S(2115, __c66, 3));
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          workerId: S.optional(S.String),
-          workItemStatuses: S.optional(__S(2180, __c68, 4)),
-          currentWorkerTime: S.optional(S.String),
-          unifiedWorkerRequest: S.optional(__S(1665, __c52, 1)),
-          projectNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReportWorkItemStatusRequest" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           userStepName: S.optional(S.String),
@@ -7023,50 +7193,50 @@ function __c68(j: number): any {
           hotKeyAge: S.optional(S.String),
         }),
       ).annotate({ identifier: "HotKeyDetection" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           fractionOfRemainder: S.optional(S.Number),
           fractionConsumed: S.optional(S.Number),
-          position: S.optional(__S(2145, __c67, 1)),
+          position: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "ApproximateSplitRequest" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           metricIndex: S.optional(S.Number),
           shortId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricShortId" });
+    case 8:
+      return S.Array(__S(2119, __c66, 7));
     case 9:
-      return S.Array(__S(2184, __c68, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          completeWorkStatus: S.optional(__S(992, __c31, 0)),
+          completeWorkStatus: S.optional(__S(960, __c30, 0)),
           nextReportIndex: S.optional(S.String),
-          hotKeyDetection: S.optional(__S(2182, __c68, 6)),
-          harnessData: S.optional(__S(1665, __c52, 1)),
-          suggestedStopPoint: S.optional(__S(2173, __c67, 29)),
+          hotKeyDetection: S.optional(__S(2117, __c66, 5)),
+          harnessData: S.optional(__S(1601, __c50, 1)),
+          suggestedStopPoint: S.optional(__S(2109, __c65, 29)),
           leaseExpireTime: S.optional(S.String),
-          suggestedStopPosition: S.optional(__S(2145, __c67, 1)),
-          splitRequest: S.optional(__S(2183, __c68, 7)),
+          suggestedStopPosition: S.optional(__S(2081, __c65, 1)),
+          splitRequest: S.optional(__S(2118, __c66, 6)),
           reportStatusInterval: S.optional(S.String),
-          metricShortId: S.optional(__S(2185, __c68, 9)),
+          metricShortId: S.optional(__S(2120, __c66, 8)),
         }),
       ).annotate({ identifier: "WorkItemServiceState" });
+    case 10:
+      return S.Array(__S(2121, __c66, 9));
     case 11:
-      return S.Array(__S(2186, __c68, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
-          workItemServiceStates: S.optional(__S(2187, __c68, 11)),
-          unifiedWorkerResponse: S.optional(__S(1665, __c52, 1)),
+          workItemServiceStates: S.optional(__S(2122, __c66, 10)),
+          unifiedWorkerResponse: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "ReportWorkItemStatusResponse" });
   }
 }
-function __c69(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7074,7 +7244,11 @@ function __c69(j: number): any {
           location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2181, __c68, 5).pipe(T.HttpBody())),
+          workerId: S.optional(S.String),
+          workItemStatuses: S.optional(__S(2116, __c66, 4)),
+          currentWorkerTime: S.optional(S.String),
+          unifiedWorkerRequest: S.optional(__S(1601, __c50, 1)),
+          projectNumber: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7085,14 +7259,15 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ReportStatusProjectsLocationsJobsWorkItemsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           configStoreSettingId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2273, __c71, 1).pipe(T.HttpBody())),
+          value: S.optional(__S(2208, __c69, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7103,7 +7278,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateFoldersLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7115,19 +7290,19 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2272, __c71, 0)),
+          value: S.optional(__S(2208, __c69, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigStoreSetting" });
   }
 }
-function __c72(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7138,24 +7313,24 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ResolveFoldersLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          choices: S.optional(__S(1504, __c47, 0)),
-          setting: S.optional(__S(2273, __c71, 1)),
+          choices: S.optional(__S(1440, __c45, 0)),
+          setting: S.optional(__S(2209, __c69, 1)),
         }),
       ).annotate({ identifier: "ResolveConfigStoreSettingResponse" });
   }
 }
-function __c74(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7166,13 +7341,13 @@ function __c74(j: number): any {
       ).annotate({ identifier: "ResolveOrganizationsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c75(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(128, __c4, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7183,14 +7358,18 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ResolveProjectsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c76(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          location: S.optional(S.String),
+          workerId: S.optional(S.String),
+          data: S.optional(S.String),
+          componentId: S.optional(S.String),
+          dataFormat: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7201,21 +7380,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SendCaptureProjectsJobsDebugRequest" });
   }
 }
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          workerId: S.optional(S.String),
-          data: S.optional(S.String),
-          componentId: S.optional(S.String),
-          dataFormat: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SendDebugCaptureRequest" });
-  }
-}
-function __c78(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7223,7 +7388,10 @@ function __c78(j: number): any {
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+          workerId: S.optional(S.String),
+          data: S.optional(S.String),
+          componentId: S.optional(S.String),
+          dataFormat: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7234,14 +7402,17 @@ function __c78(j: number): any {
       ).annotate({ identifier: "SendCaptureProjectsLocationsJobsDebugRequest" });
   }
 }
-function __c79(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           jobId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
+          snapshotSources: S.optional(S.Boolean),
+          ttl: S.optional(S.String),
+          description: S.optional(S.String),
+          location: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7252,20 +7423,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "SnapshotProjectsJobsRequest" });
   }
 }
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          snapshotSources: S.optional(S.Boolean),
-          ttl: S.optional(S.String),
-          description: S.optional(S.String),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SnapshotJobRequest" });
-  }
-}
-function __c81(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7273,7 +7431,9 @@ function __c81(j: number): any {
           jobId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2560, __c80, 0).pipe(T.HttpBody())),
+          snapshotSources: S.optional(S.Boolean),
+          ttl: S.optional(S.String),
+          description: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7284,7 +7444,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "SnapshotProjectsLocationsJobsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7293,7 +7453,33 @@ function __c82(j: number): any {
           jobId: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
           location: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
+          clientRequestId: S.optional(S.String),
+          jobMetadata: S.optional(__S(1679, __c52, 15)),
+          createdFromSnapshotId: S.optional(S.String),
+          pipelineDescription: S.optional(__S(1692, __c52, 28)),
+          name: S.optional(S.String),
+          steps: S.optional(__S(1694, __c52, 30)),
+          labels: S.optional(__S(1568, __c49, 0)),
+          currentState: S.optional(S.String),
+          type: S.optional(S.String),
+          tempFiles: S.optional(__S(1600, __c50, 0)),
+          startTime: S.optional(S.String),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          stageStates: S.optional(__S(1696, __c53, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          pausable: S.optional(S.Boolean),
+          replacedByJobId: S.optional(S.String),
+          currentStateTime: S.optional(S.String),
+          environment: S.optional(__S(1709, __c53, 13)),
+          serviceResources: S.optional(__S(1710, __c53, 14)),
+          id: S.optional(S.String),
+          runtimeUpdatableParams: S.optional(__S(1714, __c53, 18)),
+          executionInfo: S.optional(__S(1717, __c53, 21)),
+          createTime: S.optional(S.String),
+          requestedState: S.optional(S.String),
+          stepsLocation: S.optional(S.String),
+          replaceJobId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7304,7 +7490,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateProjectsJobsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7313,7 +7499,33 @@ function __c83(j: number): any {
           projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           jobId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
+          clientRequestId: S.optional(S.String),
+          jobMetadata: S.optional(__S(1679, __c52, 15)),
+          createdFromSnapshotId: S.optional(S.String),
+          pipelineDescription: S.optional(__S(1692, __c52, 28)),
+          name: S.optional(S.String),
+          steps: S.optional(__S(1694, __c52, 30)),
+          labels: S.optional(__S(1568, __c49, 0)),
+          currentState: S.optional(S.String),
+          type: S.optional(S.String),
+          tempFiles: S.optional(__S(1600, __c50, 0)),
+          startTime: S.optional(S.String),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          stageStates: S.optional(__S(1696, __c53, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          pausable: S.optional(S.Boolean),
+          replacedByJobId: S.optional(S.String),
+          currentStateTime: S.optional(S.String),
+          environment: S.optional(__S(1709, __c53, 13)),
+          serviceResources: S.optional(__S(1710, __c53, 14)),
+          id: S.optional(S.String),
+          runtimeUpdatableParams: S.optional(__S(1714, __c53, 18)),
+          executionInfo: S.optional(__S(1717, __c53, 21)),
+          createTime: S.optional(S.String),
+          requestedState: S.optional(S.String),
+          stepsLocation: S.optional(S.String),
+          replaceJobId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7324,13 +7536,14 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateProjectsLocationsJobsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(2749, __c85, 29).pipe(T.HttpBody())),
+          location: S.optional(S.String),
+          workerMessages: S.optional(__S(2620, __c81, 28)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7341,7 +7554,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "WorkerMessagesProjectsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7350,7 +7563,7 @@ function __c85(j: number): any {
           reportInterval: S.optional(S.String),
           vmIsHealthy: S.optional(S.Boolean),
           vmBrokenCode: S.optional(S.String),
-          pods: S.optional(__S(960, __c30, 0)),
+          pods: S.optional(__S(928, __c29, 0)),
           vmIsBroken: S.optional(S.Boolean),
           vmStartupTime: S.optional(S.String),
         }),
@@ -7380,8 +7593,8 @@ function __c85(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          exponential: S.optional(__S(2722, __c85, 2)),
-          linear: S.optional(__S(2723, __c85, 3)),
+          exponential: S.optional(__S(2594, __c81, 2)),
+          linear: S.optional(__S(2595, __c81, 3)),
         }),
       ).annotate({ identifier: "BucketOptions" });
     case 5:
@@ -7396,38 +7609,38 @@ function __c85(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          bucketCounts: S.optional(__S(1664, __c52, 0)),
+          bucketCounts: S.optional(__S(1600, __c50, 0)),
           count: S.optional(S.String),
-          bucketOptions: S.optional(__S(2724, __c85, 4)),
-          outlierStats: S.optional(__S(2725, __c85, 5)),
+          bucketOptions: S.optional(__S(2596, __c81, 4)),
+          outlierStats: S.optional(__S(2597, __c81, 5)),
         }),
       ).annotate({ identifier: "DataflowHistogramValue" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          valueGauge64: S.optional(__S(2721, __c85, 1)),
-          metricLabels: S.optional(__S(1632, __c51, 0)),
+          valueGauge64: S.optional(__S(2593, __c81, 1)),
+          metricLabels: S.optional(__S(1568, __c49, 0)),
           valueInt64: S.optional(S.String),
-          valueHistogram: S.optional(__S(2726, __c85, 6)),
+          valueHistogram: S.optional(__S(2598, __c81, 6)),
           metric: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricValue" });
     case 8:
-      return S.Array(__S(2727, __c85, 7));
+      return S.Array(__S(2599, __c81, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          metricValues: S.optional(__S(2728, __c85, 8)),
+          metricValues: S.optional(__S(2600, __c81, 8)),
           metricsNamespace: S.optional(S.String),
           originalStep: S.optional(S.String),
         }),
       ).annotate({ identifier: "PerStepNamespaceMetrics" });
     case 10:
-      return S.Array(__S(2729, __c85, 9));
+      return S.Array(__S(2601, __c81, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          perStepNamespaceMetrics: S.optional(__S(2730, __c85, 10)),
+          perStepNamespaceMetrics: S.optional(__S(2602, __c81, 10)),
         }),
       ).annotate({ identifier: "PerWorkerMetrics" });
     case 12:
@@ -7446,7 +7659,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          parameters: S.optional(__S(1665, __c52, 1)),
+          parameters: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "WorkerMessageCode" });
     case 15:
@@ -7467,7 +7680,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           event: S.optional(S.String),
-          metadata: S.optional(__S(1632, __c51, 0)),
+          metadata: S.optional(__S(1568, __c49, 0)),
           containerStartTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerLifecycleEvent" });
@@ -7486,7 +7699,7 @@ function __c85(j: number): any {
     case 18:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(2746, __c85, 26)),
+        /*@__PURE__*/ S.suspend(() => __S(2618, __c81, 26)),
       );
     case 19:
       return S.suspend(() =>
@@ -7497,7 +7710,7 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "CPUTime" });
     case 20:
-      return S.Array(__S(2739, __c85, 19));
+      return S.Array(__S(2611, __c81, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -7508,11 +7721,11 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           timestamp: S.optional(S.String),
-          utilization: S.optional(__S(2741, __c85, 21)),
+          utilization: S.optional(__S(2613, __c81, 21)),
         }),
       ).annotate({ identifier: "GPUUsage" });
     case 23:
-      return S.Array(__S(2742, __c85, 22));
+      return S.Array(__S(2614, __c81, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -7524,91 +7737,85 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "MemInfo" });
     case 25:
-      return S.Array(__S(2744, __c85, 24));
+      return S.Array(__S(2616, __c81, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(2738, __c85, 18)),
-          cpuTime: S.optional(__S(2740, __c85, 20)),
-          gpuUsage: S.optional(__S(2743, __c85, 23)),
-          memoryInfo: S.optional(__S(2745, __c85, 25)),
+          containers: S.optional(__S(2610, __c81, 18)),
+          cpuTime: S.optional(__S(2612, __c81, 20)),
+          gpuUsage: S.optional(__S(2615, __c81, 23)),
+          memoryInfo: S.optional(__S(2617, __c81, 25)),
         }),
       ).annotate({ identifier: "ResourceUtilizationReport" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          workerHealthReport: S.optional(__S(2720, __c85, 0)),
+          workerHealthReport: S.optional(__S(2592, __c81, 0)),
           time: S.optional(S.String),
-          perWorkerMetrics: S.optional(__S(2731, __c85, 11)),
-          workerThreadScalingReport: S.optional(__S(2732, __c85, 12)),
-          workerShutdownNotice: S.optional(__S(2733, __c85, 13)),
-          workerMessageCode: S.optional(__S(2734, __c85, 14)),
-          streamingScalingReport: S.optional(__S(2735, __c85, 15)),
-          labels: S.optional(__S(1632, __c51, 0)),
-          workerLifecycleEvent: S.optional(__S(2736, __c85, 16)),
-          dataSamplingReport: S.optional(__S(2737, __c85, 17)),
-          workerMetrics: S.optional(__S(2746, __c85, 26)),
+          perWorkerMetrics: S.optional(__S(2603, __c81, 11)),
+          workerThreadScalingReport: S.optional(__S(2604, __c81, 12)),
+          workerShutdownNotice: S.optional(__S(2605, __c81, 13)),
+          workerMessageCode: S.optional(__S(2606, __c81, 14)),
+          streamingScalingReport: S.optional(__S(2607, __c81, 15)),
+          labels: S.optional(__S(1568, __c49, 0)),
+          workerLifecycleEvent: S.optional(__S(2608, __c81, 16)),
+          dataSamplingReport: S.optional(__S(2609, __c81, 17)),
+          workerMetrics: S.optional(__S(2618, __c81, 26)),
         }),
       ).annotate({ identifier: "WorkerMessage" });
     case 28:
-      return S.Array(__S(2747, __c85, 27));
+      return S.Array(__S(2619, __c81, 27));
     case 29:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          workerMessages: S.optional(__S(2748, __c85, 28)),
-        }),
-      ).annotate({ identifier: "SendWorkerMessagesRequest" });
-    case 30:
       return S.suspend(() =>
         S.Struct({
           reportInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerHealthReportResponse" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           maximumThreadCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StreamingScalingReportResponse" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           recommendedThreadCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WorkerThreadScalingReportResponse" });
-    case 1:
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          workerHealthReportResponse: S.optional(__S(2750, __c85, 30)),
-          workerShutdownNoticeResponse: S.optional(__S(160, __c5, 0)),
-          workerMetricsResponse: S.optional(__S(160, __c5, 0)),
-          streamingScalingReportResponse: S.optional(__S(2751, __c85, 31)),
-          workerThreadScalingReportResponse: S.optional(__S(2752, __c86, 0)),
+          workerHealthReportResponse: S.optional(__S(2621, __c81, 29)),
+          workerShutdownNoticeResponse: S.optional(__S(128, __c4, 0)),
+          workerMetricsResponse: S.optional(__S(128, __c4, 0)),
+          streamingScalingReportResponse: S.optional(__S(2622, __c81, 30)),
+          workerThreadScalingReportResponse: S.optional(__S(2623, __c81, 31)),
         }),
       ).annotate({ identifier: "WorkerMessageResponse" });
+    case 1:
+      return S.Array(__S(2624, __c82, 0));
     case 2:
-      return S.Array(__S(2753, __c86, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          workerMessageResponses: S.optional(__S(2754, __c86, 2)),
+          workerMessageResponses: S.optional(__S(2625, __c82, 1)),
         }),
       ).annotate({ identifier: "SendWorkerMessagesResponse" });
   }
 }
-function __c87(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           configStoreSettingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2273, __c71, 1).pipe(T.HttpBody())),
+          value: S.optional(__S(2208, __c69, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7619,14 +7826,14 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          body: S.optional(__S(2749, __c85, 29).pipe(T.HttpBody())),
+          workerMessages: S.optional(__S(2620, __c81, 28)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7637,7 +7844,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "WorkerMessagesProjectsLocationsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7646,7 +7853,32 @@ function __c89(j: number): any {
           location: S.optional(S.String.pipe(T.Query())),
           replaceJobId: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
+          clientRequestId: S.optional(S.String),
+          jobMetadata: S.optional(__S(1679, __c52, 15)),
+          createdFromSnapshotId: S.optional(S.String),
+          pipelineDescription: S.optional(__S(1692, __c52, 28)),
+          name: S.optional(S.String),
+          steps: S.optional(__S(1694, __c52, 30)),
+          labels: S.optional(__S(1568, __c49, 0)),
+          currentState: S.optional(S.String),
+          type: S.optional(S.String),
+          tempFiles: S.optional(__S(1600, __c50, 0)),
+          startTime: S.optional(S.String),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          stageStates: S.optional(__S(1696, __c53, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          pausable: S.optional(S.Boolean),
+          replacedByJobId: S.optional(S.String),
+          currentStateTime: S.optional(S.String),
+          environment: S.optional(__S(1709, __c53, 13)),
+          serviceResources: S.optional(__S(1710, __c53, 14)),
+          id: S.optional(S.String),
+          runtimeUpdatableParams: S.optional(__S(1714, __c53, 18)),
+          executionInfo: S.optional(__S(1717, __c53, 21)),
+          createTime: S.optional(S.String),
+          requestedState: S.optional(S.String),
+          stepsLocation: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7657,14 +7889,15 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateProjectsJobsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           configStoreSettingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2273, __c71, 1).pipe(T.HttpBody())),
+          value: S.optional(__S(2208, __c69, 0)),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7675,7 +7908,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsConfigStoreSettingsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7684,7 +7917,32 @@ function __c91(j: number): any {
           location: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1782, __c55, 22).pipe(T.HttpBody())),
+          clientRequestId: S.optional(S.String),
+          jobMetadata: S.optional(__S(1679, __c52, 15)),
+          createdFromSnapshotId: S.optional(S.String),
+          pipelineDescription: S.optional(__S(1692, __c52, 28)),
+          name: S.optional(S.String),
+          steps: S.optional(__S(1694, __c52, 30)),
+          labels: S.optional(__S(1568, __c49, 0)),
+          currentState: S.optional(S.String),
+          type: S.optional(S.String),
+          tempFiles: S.optional(__S(1600, __c50, 0)),
+          startTime: S.optional(S.String),
+          transformNameMapping: S.optional(__S(1568, __c49, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          stageStates: S.optional(__S(1696, __c53, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          pausable: S.optional(S.Boolean),
+          replacedByJobId: S.optional(S.String),
+          currentStateTime: S.optional(S.String),
+          environment: S.optional(__S(1709, __c53, 13)),
+          serviceResources: S.optional(__S(1710, __c53, 14)),
+          id: S.optional(S.String),
+          runtimeUpdatableParams: S.optional(__S(1714, __c53, 18)),
+          executionInfo: S.optional(__S(1717, __c53, 21)),
+          createTime: S.optional(S.String),
+          requestedState: S.optional(S.String),
+          stepsLocation: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

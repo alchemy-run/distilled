@@ -217,8 +217,9 @@ export type GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum =
   | "OWNERSHIP_SCOPE_UNSPECIFIED"
   | "ALL_USERS"
   | "BILLING_ACCOUNT";
-/** A budget is a plan that describes what you expect to spend on Cloud projects, plus the rules to execute as spend is tracked against that plan, (for example, send an alert when 90% of the target spend is met, or pause usage of the specified service when a spend cap budget is enforced). For alerts-only budgets, the budget time period is configurable, with options such as month (default), quarter, year, or custom time period. For spend cap budgets, the budget time period is limited to month. */
-export interface GoogleCloudBillingBudgetsV1Budget {
+export interface CreateBillingAccountsBudgetsRequest {
+  /** Required. The name of the billing account to create the budget in. Values are of the form `billingAccounts/{billingAccountId}`. */
+  parent: string;
   /** Optional. Rules that trigger alerts (notifications of thresholds being crossed) when spend exceeds the specified percentages of the budget. Optional for `pubsubTopic` notifications. Required if using email notifications. Must be set when `spend_cap` is set. Spend caps must have exactly three `CURRENT_SPEND` threshold rules with `threshold_percent` values of `0.5`, `0.8`, and `1.0` (50%, 80%, and 100%). `FORECASTED_SPEND` threshold rules are not supported for spend caps. */
   thresholdRules?: GoogleCloudBillingBudgetsV1ThresholdRuleList | undefined;
   /** Optional. Rules to apply to notifications sent based on budget spend and thresholds. Must be set when `spend_cap` is set. For spend caps, `enable_project_level_recipients` must be set to `true`, `disable_default_iam_recipients` must be `false` (or unset), and `pubsub_topic` and `monitoring_notification_channels` must be empty. */
@@ -238,11 +239,26 @@ export interface GoogleCloudBillingBudgetsV1Budget {
   /** Optional. When `spend_cap` is set, must be `OWNERSHIP_SCOPE_UNSPECIFIED` or `ALL_USERS`. `BILLING_ACCOUNT` is not supported for spend caps. */
   ownershipScope?: GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum | (string & {}) | undefined;
 }
-export interface CreateBillingAccountsBudgetsRequest {
-  /** Required. The name of the billing account to create the budget in. Values are of the form `billingAccounts/{billingAccountId}`. */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudBillingBudgetsV1Budget | undefined;
+/** A budget is a plan that describes what you expect to spend on Cloud projects, plus the rules to execute as spend is tracked against that plan, (for example, send an alert when 90% of the target spend is met, or pause usage of the specified service when a spend cap budget is enforced). For alerts-only budgets, the budget time period is configurable, with options such as month (default), quarter, year, or custom time period. For spend cap budgets, the budget time period is limited to month. */
+export interface GoogleCloudBillingBudgetsV1Budget {
+  /** Optional. Rules that trigger alerts (notifications of thresholds being crossed) when spend exceeds the specified percentages of the budget. Optional for `pubsubTopic` notifications. Required if using email notifications. Must be set when `spend_cap` is set. Spend caps must have exactly three `CURRENT_SPEND` threshold rules with `threshold_percent` values of `0.5`, `0.8`, and `1.0` (50%, 80%, and 100%). `FORECASTED_SPEND` threshold rules are not supported for spend caps. */
+  thresholdRules?: GoogleCloudBillingBudgetsV1ThresholdRuleList | undefined;
+  /** Optional. Rules to apply to notifications sent based on budget spend and thresholds. Must be set when `spend_cap` is set. For spend caps, `enable_project_level_recipients` must be set to `true`, `disable_default_iam_recipients` must be `false` (or unset), and `pubsub_topic` and `monitoring_notification_channels` must be empty. */
+  notificationsRule?: GoogleCloudBillingBudgetsV1NotificationsRule | undefined;
+  /** Required. Budgeted amount. When `spend_cap` is set, `specified_amount` must be set to a non-negative amount (>= 0); `last_period_amount` is not supported. */
+  amount?: GoogleCloudBillingBudgetsV1BudgetAmount | undefined;
+  /** Optional. Etag to validate that the object is unchanged for a read-modify-write operation. An empty etag causes an update to overwrite other changes. */
+  etag?: string | undefined;
+  /** Optional. The spend cap configured for this budget. When `spend_cap` is set, strict field restrictions apply to the budget (see field-level comments on `ownership_scope`, `budget_filter`, `amount`, `threshold_rules`, and `notifications_rule`). When `spend_cap.output_state` is `ENFORCED`, only `spend_cap.input_state` can be modified in an `UpdateBudget` request (e.g., setting `input_state` to `AWAITING_NEXT_PERIOD` to lift the cap); modifying any other budget field while enforced will fail with `FAILED_PRECONDITION`. If the existing resource is a spend cap and an `update_mask` is supplied in an `UpdateBudget` request, `spend_cap` or `spend_cap.input_state` must be specified in the update mask. To convert a spend cap budget to a regular budget, specify `spend_cap` in the `update_mask` and omit `spend_cap` from the budget in the request. */
+  spendCap?: GoogleCloudBillingBudgetsV1SpendCap | undefined;
+  /** User data for display name in UI. The name must be less than or equal to 60 characters. */
+  displayName?: string | undefined;
+  /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
+  name?: string | undefined;
+  /** Optional. Filters that define which resources are used to compute the actual spend against the budget amount, such as projects, services, and the budget's time period, as well as other filters. Must be set when `spend_cap` is set. See `Filter` fields for spend cap restrictions. */
+  budgetFilter?: GoogleCloudBillingBudgetsV1Filter | undefined;
+  /** Optional. When `spend_cap` is set, must be `OWNERSHIP_SCOPE_UNSPECIFIED` or `ALL_USERS`. `BILLING_ACCOUNT` is not supported for spend caps. */
+  ownershipScope?: GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum | undefined;
 }
 export interface DeleteBillingAccountsBudgetsRequest {
   /** Required. Name of the budget to delete. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
@@ -277,8 +293,22 @@ export interface PatchBillingAccountsBudgetsRequest {
   updateMask?: string | undefined;
   /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
   name: string;
-  /** Request body */
-  body?: GoogleCloudBillingBudgetsV1Budget | undefined;
+  /** Optional. Rules that trigger alerts (notifications of thresholds being crossed) when spend exceeds the specified percentages of the budget. Optional for `pubsubTopic` notifications. Required if using email notifications. Must be set when `spend_cap` is set. Spend caps must have exactly three `CURRENT_SPEND` threshold rules with `threshold_percent` values of `0.5`, `0.8`, and `1.0` (50%, 80%, and 100%). `FORECASTED_SPEND` threshold rules are not supported for spend caps. */
+  thresholdRules?: GoogleCloudBillingBudgetsV1ThresholdRuleList | undefined;
+  /** Optional. Rules to apply to notifications sent based on budget spend and thresholds. Must be set when `spend_cap` is set. For spend caps, `enable_project_level_recipients` must be set to `true`, `disable_default_iam_recipients` must be `false` (or unset), and `pubsub_topic` and `monitoring_notification_channels` must be empty. */
+  notificationsRule?: GoogleCloudBillingBudgetsV1NotificationsRule | undefined;
+  /** Required. Budgeted amount. When `spend_cap` is set, `specified_amount` must be set to a non-negative amount (>= 0); `last_period_amount` is not supported. */
+  amount?: GoogleCloudBillingBudgetsV1BudgetAmount | undefined;
+  /** Optional. Etag to validate that the object is unchanged for a read-modify-write operation. An empty etag causes an update to overwrite other changes. */
+  etag?: string | undefined;
+  /** Optional. The spend cap configured for this budget. When `spend_cap` is set, strict field restrictions apply to the budget (see field-level comments on `ownership_scope`, `budget_filter`, `amount`, `threshold_rules`, and `notifications_rule`). When `spend_cap.output_state` is `ENFORCED`, only `spend_cap.input_state` can be modified in an `UpdateBudget` request (e.g., setting `input_state` to `AWAITING_NEXT_PERIOD` to lift the cap); modifying any other budget field while enforced will fail with `FAILED_PRECONDITION`. If the existing resource is a spend cap and an `update_mask` is supplied in an `UpdateBudget` request, `spend_cap` or `spend_cap.input_state` must be specified in the update mask. To convert a spend cap budget to a regular budget, specify `spend_cap` in the `update_mask` and omit `spend_cap` from the budget in the request. */
+  spendCap?: GoogleCloudBillingBudgetsV1SpendCap | undefined;
+  /** User data for display name in UI. The name must be less than or equal to 60 characters. */
+  displayName?: string | undefined;
+  /** Optional. Filters that define which resources are used to compute the actual spend against the budget amount, such as projects, services, and the budget's time period, as well as other filters. Must be set when `spend_cap` is set. See `Filter` fields for spend cap restrictions. */
+  budgetFilter?: GoogleCloudBillingBudgetsV1Filter | undefined;
+  /** Optional. When `spend_cap` is set, must be `OWNERSHIP_SCOPE_UNSPECIFIED` or `ALL_USERS`. `BILLING_ACCOUNT` is not supported for spend caps. */
+  ownershipScope?: GoogleCloudBillingBudgetsV1BudgetOwnershipScopeEnum | (string & {}) | undefined;
 }
 export type CreateBillingAccountsBudgetsError =
   | NotFound
@@ -391,7 +421,15 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
+          thresholdRules: S.optional(__S(33, __c2, 1)),
+          notificationsRule: S.optional(__S(35, __c2, 3)),
+          amount: S.optional(__S(37, __c2, 5)),
+          etag: S.optional(S.String),
+          spendCap: S.optional(__S(38, __c2, 6)),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          budgetFilter: S.optional(__S(43, __c2, 11)),
+          ownershipScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -572,7 +610,14 @@ function __c6(j: number): any {
         S.Struct({
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(44, __c2, 12).pipe(T.HttpBody())),
+          thresholdRules: S.optional(__S(33, __c2, 1)),
+          notificationsRule: S.optional(__S(35, __c2, 3)),
+          amount: S.optional(__S(37, __c2, 5)),
+          etag: S.optional(S.String),
+          spendCap: S.optional(__S(38, __c2, 6)),
+          displayName: S.optional(S.String),
+          budgetFilter: S.optional(__S(43, __c2, 11)),
+          ownershipScope: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "PATCH",

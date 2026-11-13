@@ -83,16 +83,11 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** CancelJob Request. */
-export interface CancelJobRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-}
 export interface CancelProjectsLocationsJobsRequest {
   /** Required. Job name. */
   name: string;
-  /** Request body */
-  body?: CancelJobRequest | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -566,6 +561,36 @@ export interface JobStatus {
   /** Aggregated task status for each TaskGroup in the Job. The map key is TaskGroup ID. */
   taskGroups?: TaskGroupStatusMap | undefined;
 }
+export interface CreateProjectsLocationsJobsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Required. The parent resource name where the Job will be created. Pattern: "projects/{project}/locations/{location}" */
+  parent: string;
+  /** ID used to uniquely identify the Job within its parent scope. This field should contain at most 63 characters and must start with lowercase characters. Only lowercase characters, numbers and '-' are accepted. The '-' character cannot be the first or the last one. A system generated ID will be used if the field is not set. The job.name field in the request will be ignored and the created resource name of the Job will be "{parent}/jobs/{job_id}". */
+  jobId?: string | undefined;
+  /** Custom labels to apply to the job and any Cloud Logging [LogEntry](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) that it generates. Use labels to group and describe the resources they are applied to. Batch automatically applies predefined labels and supports multiple `labels` fields for each job, which each let you apply custom labels to various resources. Label names that start with "goog-" or "google-" are reserved for predefined labels. For more information about labels with Batch, see [Organize resources using labels](https://cloud.google.com/batch/docs/organize-resources-using-labels). */
+  labels?: StringMap | undefined;
+  /** Output only. The last time the Job was updated. */
+  updateTime?: string | undefined;
+  /** Compute resource allocation for all TaskGroups in the Job. */
+  allocationPolicy?: AllocationPolicy | undefined;
+  /** Required. TaskGroups in the Job. Only one TaskGroup is supported now. */
+  taskGroups?: TaskGroupList | undefined;
+  /** Output only. When the Job was created. */
+  createTime?: string | undefined;
+  /** Notification configurations. */
+  notifications?: JobNotificationList | undefined;
+  /** Priority of the Job. The valid value range is [0, 100). Default value is 0. Higher value indicates higher priority. A job with higher priority value is more likely to run earlier if all other requirements are satisfied. */
+  priority?: string | undefined;
+  /** Log preservation policy for the Job. */
+  logsPolicy?: LogsPolicy | undefined;
+  /** Output only. Job name. For example: "projects/123456/locations/us-central1/jobs/job01". */
+  name?: string | undefined;
+  /** Output only. A system generated unique ID for the Job. */
+  uid?: string | undefined;
+  /** Output only. Job status. It is read only for users. */
+  status?: JobStatus | undefined;
+}
 /** The Cloud Batch Job description. */
 export interface Job {
   /** Custom labels to apply to the job and any Cloud Logging [LogEntry](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry) that it generates. Use labels to group and describe the resources they are applied to. Batch automatically applies predefined labels and supports multiple `labels` fields for each job, which each let you apply custom labels to various resources. Label names that start with "goog-" or "google-" are reserved for predefined labels. For more information about labels with Batch, see [Organize resources using labels](https://cloud.google.com/batch/docs/organize-resources-using-labels). */
@@ -590,16 +615,6 @@ export interface Job {
   uid?: string | undefined;
   /** Output only. Job status. It is read only for users. */
   status?: JobStatus | undefined;
-}
-export interface CreateProjectsLocationsJobsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource name where the Job will be created. Pattern: "projects/{project}/locations/{location}" */
-  parent: string;
-  /** ID used to uniquely identify the Job within its parent scope. This field should contain at most 63 characters and must start with lowercase characters. Only lowercase characters, numbers and '-' are accepted. The '-' character cannot be the first or the last one. A system generated ID will be used if the field is not set. The job.name field in the request will be ignored and the created resource name of the Job will be "{parent}/jobs/{job_id}". */
-  jobId?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -808,20 +823,15 @@ export interface AgentMetadata {
   /** agent binary version running on VM */
   version?: string | undefined;
 }
-/** Request to report agent's state. The Request itself implies the agent is healthy. */
-export interface ReportAgentStateRequest {
+export interface ReportProjectsLocationsStateRequest {
+  /** Required. Format: projects/{project}/locations/{location} {project} should be a project number. */
+  parent: string;
   /** Agent info. */
   agentInfo?: AgentInfo | undefined;
   /** Agent timing info. */
   agentTimingInfo?: AgentTimingInfo | undefined;
   /** Agent metadata. */
   metadata?: AgentMetadata | undefined;
-}
-export interface ReportProjectsLocationsStateRequest {
-  /** Required. Format: projects/{project}/locations/{location} {project} should be a project number. */
-  parent: string;
-  /** Request body */
-  body?: ReportAgentStateRequest | undefined;
 }
 export type AgentTaskIntendedStateEnum =
   | "INTENDED_STATE_UNSPECIFIED"
@@ -950,7 +960,7 @@ export const cancelProjectsLocationsJobs: API.OperationMethod<
   CancelProjectsLocationsJobsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c10, 1) as any as S.Schema<CancelProjectsLocationsJobsRequest>,
+  input: __S(320, __c10, 0) as any as S.Schema<CancelProjectsLocationsJobsRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -1204,8 +1214,8 @@ export const reportProjectsLocationsState: API.OperationMethod<
   ReportProjectsLocationsStateError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(294, __c9, 6) as any as S.Schema<ReportProjectsLocationsStateRequest>,
-  output: __S(306, __c9, 18) as any as S.Schema<ReportAgentStateResponse>,
+  input: __S(293, __c9, 5) as any as S.Schema<ReportProjectsLocationsStateRequest>,
+  output: __S(305, __c9, 17) as any as S.Schema<ReportAgentStateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1438,16 +1448,10 @@ function __c9(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           agentInfo: S.optional(__S(290, __c9, 2)),
           agentTimingInfo: S.optional(__S(291, __c9, 3)),
           metadata: S.optional(__S(292, __c9, 4)),
-        }),
-      ).annotate({ identifier: "ReportAgentStateRequest" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(293, __c9, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1456,14 +1460,14 @@ function __c9(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ReportProjectsLocationsStateRequest" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
           text: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentScript" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           imageUri: S.optional(S.String),
@@ -1473,59 +1477,59 @@ function __c9(j: number): any {
           options: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentContainer" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           cipherText: S.optional(S.String),
           keyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentKMSEnvMap" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           secretVariables: S.optional(__S(640, __c20, 0)),
-          encryptedVariables: S.optional(__S(297, __c9, 9)),
+          encryptedVariables: S.optional(__S(296, __c9, 8)),
           variables: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "AgentEnvironment" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           ignoreExitStatus: S.optional(S.Boolean),
-          script: S.optional(__S(295, __c9, 7)),
-          container: S.optional(__S(296, __c9, 8)),
+          script: S.optional(__S(294, __c9, 6)),
+          container: S.optional(__S(295, __c9, 7)),
           alwaysRun: S.optional(S.Boolean),
           background: S.optional(S.Boolean),
           timeout: S.optional(S.String),
-          environment: S.optional(__S(298, __c9, 10)),
+          environment: S.optional(__S(297, __c9, 9)),
         }),
       ).annotate({ identifier: "AgentTaskRunnable" });
+    case 11:
+      return S.Array(__S(298, __c9, 10));
     case 12:
-      return S.Array(__S(299, __c9, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
           gid: S.optional(S.String),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentTaskUserAccount" });
-    case 14:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "AgentTaskLoggingOption" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          runnables: S.optional(__S(300, __c9, 12)),
-          environment: S.optional(__S(298, __c9, 10)),
-          userAccount: S.optional(__S(301, __c9, 13)),
+          runnables: S.optional(__S(299, __c9, 11)),
+          environment: S.optional(__S(297, __c9, 9)),
+          userAccount: S.optional(__S(300, __c9, 12)),
           maxRunDuration: S.optional(S.String),
-          loggingOption: S.optional(__S(302, __c9, 14)),
+          loggingOption: S.optional(__S(301, __c9, 13)),
         }),
       ).annotate({ identifier: "AgentTaskSpec" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           reachedBarrier: S.optional(S.String),
@@ -1533,18 +1537,18 @@ function __c9(j: number): any {
           task: S.optional(S.String),
           intendedState: S.optional(S.String),
           taskSource: S.optional(S.String),
-          agentTaskSpec: S.optional(__S(303, __c9, 15)),
+          agentTaskSpec: S.optional(__S(302, __c9, 14)),
           status: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AgentTask" });
+    case 16:
+      return S.Array(__S(303, __c9, 15));
     case 17:
-      return S.Array(__S(304, __c9, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
           useBatchMonitoredResource: S.optional(S.Boolean),
           minReportInterval: S.optional(S.String),
-          tasks: S.optional(__S(305, __c9, 17)),
+          tasks: S.optional(__S(304, __c9, 16)),
           defaultReportInterval: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportAgentStateResponse" });
@@ -1555,14 +1559,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CancelJobRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(320, __c10, 0).pipe(T.HttpBody())),
+          requestId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1634,7 +1632,17 @@ function __c15(j: number): any {
           requestId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           jobId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(607, __c18, 31).pipe(T.HttpBody())),
+          labels: S.optional(__S(640, __c20, 0)),
+          updateTime: S.optional(S.String),
+          allocationPolicy: S.optional(__S(593, __c18, 17)),
+          taskGroups: S.optional(__S(596, __c18, 20)),
+          createTime: S.optional(S.String),
+          notifications: S.optional(__S(599, __c18, 23)),
+          priority: S.optional(S.String),
+          logsPolicy: S.optional(__S(601, __c18, 25)),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
+          status: S.optional(__S(606, __c18, 30)),
         }).pipe(
           T.Http({
             method: "POST",

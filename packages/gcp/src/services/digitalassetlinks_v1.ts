@@ -116,8 +116,7 @@ export interface StatementTemplate {
   source?: Asset | undefined;
 }
 export type StatementTemplateList = Array<StatementTemplate>;
-/** Message used to check for the existence of multiple digital asset links within a single RPC. */
-export interface BulkCheckRequest {
+export interface BulkCheckAssetlinksRequest {
   /** If specified, will be used in any given template statement that doesn't specify a source. */
   defaultSource?: Asset | undefined;
   /** If specified, will be used in any given template statement that doesn't specify a target. */
@@ -128,10 +127,6 @@ export interface BulkCheckRequest {
   returnRelationExtensions?: boolean | undefined;
   /** If specified, will be used in any given template statement that doesn't specify a relation. */
   defaultRelation?: string | undefined;
-}
-export interface BulkCheckAssetlinksRequest {
-  /** Request body */
-  body?: BulkCheckRequest | undefined;
 }
 export type BulkCheckResponseBulkErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -255,8 +250,8 @@ export const bulkCheckAssetlinks: API.OperationMethod<
   BulkCheckAssetlinksError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<BulkCheckAssetlinksRequest>,
-  output: __S(5, __c0, 5) as any as S.Schema<BulkCheckResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<BulkCheckAssetlinksRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<BulkCheckResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -319,12 +314,6 @@ function __c0(j: number): any {
           statements: S.optional(__S(1, __c0, 1)),
           returnRelationExtensions: S.optional(S.Boolean),
           defaultRelation: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BulkCheckRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -333,13 +322,13 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BulkCheckAssetlinksRequest" });
-    case 4:
+    case 3:
       return S.Array(__S(9, __c1, 1));
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           bulkErrorCode: S.optional(S.String),
-          checkResults: S.optional(__S(4, __c0, 4)),
+          checkResults: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "BulkCheckResponse" });
   }

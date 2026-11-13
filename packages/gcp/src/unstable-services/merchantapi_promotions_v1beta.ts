@@ -380,18 +380,13 @@ export interface Promotion {
   /** Required. [Redemption channel](https://support.google.com/merchants/answer/13837674?ref_topic=13773355&sjid=17642868584668136159-NC) for the promotion. At least one channel is required. */
   redemptionChannel?: PromotionRedemptionChannelItemEnumList | undefined;
 }
-/** Request message for the `InsertPromotion` method. */
-export interface InsertPromotionRequest {
+export interface InsertAccountsPromotionsRequest {
+  /** Required. The account where the promotion will be inserted. Format: accounts/{account} */
+  parent: string;
   /** Required. The promotion to insert. */
   promotion?: Promotion | undefined;
   /** Required. The data source of the [promotion](https://support.google.com/merchants/answer/6396268?sjid=5155774230887277618-NC) Format: `accounts/{account}/dataSources/{datasource}`. */
   dataSource?: string | undefined;
-}
-export interface InsertAccountsPromotionsRequest {
-  /** Required. The account where the promotion will be inserted. Format: accounts/{account} */
-  parent: string;
-  /** Request body */
-  body?: InsertPromotionRequest | undefined;
 }
 export interface ListAccountsPromotionsRequest {
   /** Required. The account to list processed promotions for. Format: `accounts/{account}` */
@@ -439,7 +434,7 @@ export const insertAccountsPromotions: API.OperationMethod<
   InsertAccountsPromotionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<InsertAccountsPromotionsRequest>,
+  input: __S(32, __c2, 0) as any as S.Schema<InsertAccountsPromotionsRequest>,
   output: __S(28, __c1, 12) as any as S.Schema<Promotion>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -616,15 +611,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           promotion: S.optional(__S(28, __c1, 12)),
           dataSource: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InsertPromotionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(32, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",

@@ -83,6 +83,22 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface CreateJobsRequest {
+  /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
+  onBehalfOfContentOwner?: string | undefined;
+  /** The date/time when this job will expire/expired. After a job expired, no new reports are generated. */
+  expireTime?: string | undefined;
+  /** The creation date/time of the job. */
+  createTime?: string | undefined;
+  /** The server-generated ID of the job (max. 40 characters). */
+  id?: string | undefined;
+  /** The type of reports this job creates. Corresponds to the ID of a ReportType. */
+  reportTypeId?: string | undefined;
+  /** True if this a system-managed job that cannot be modified by the user; otherwise false. */
+  systemManaged?: boolean | undefined;
+  /** The name of the job (max. 100 characters). */
+  name?: string | undefined;
+}
 /** A job creating reports of a specific type. */
 export interface Job {
   /** The date/time when this job will expire/expired. After a job expired, no new reports are generated. */
@@ -97,12 +113,6 @@ export interface Job {
   systemManaged?: boolean | undefined;
   /** The name of the job (max. 100 characters). */
   name?: string | undefined;
-}
-export interface CreateJobsRequest {
-  /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
-  onBehalfOfContentOwner?: string | undefined;
-  /** Request body */
-  body?: Job | undefined;
 }
 export interface DeleteJobsRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
@@ -633,7 +643,12 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(48, __c3, 0).pipe(T.HttpBody())),
+          expireTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          id: S.optional(S.String),
+          reportTypeId: S.optional(S.String),
+          systemManaged: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

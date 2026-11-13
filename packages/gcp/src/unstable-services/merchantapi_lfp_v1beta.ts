@@ -185,7 +185,7 @@ export interface LfpStore {
   /** Optional. The merchant or store name. */
   storeName?: string | undefined;
   /** Optional. Output only. The state of matching to a Google Business Profile. See matchingStateHint for further details if no match is found. */
-  matchingState?: LfpStoreMatchingStateEnum | (string & {}) | undefined;
+  matchingState?: LfpStoreMatchingStateEnum | undefined;
   /** Optional. The store phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. Example: `+15556767888` */
   phoneNumber?: string | undefined;
   /** Optional. The [Google Place Id](https://developers.google.com/maps/documentation/places/web-service/place-id#id-overview) of the store location. */
@@ -209,6 +209,38 @@ export interface Price {
   amountMicros?: string | undefined;
   /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
   currencyCode?: string | undefined;
+}
+export interface InsertAccountsLfpInventoriesRequest {
+  /** Required. The LFP provider account. Format: `accounts/{account}` */
+  parent: string;
+  /** Output only. Identifier. The name for the `LfpInventory` resource. Format: `accounts/{account}/lfpInventories/{target_merchant}~{store_code}~{offer}` */
+  name?: string | undefined;
+  /** Optional. Supported pickup method for this offer. Unless the value is "not supported", this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342). */
+  pickupMethod?: string | undefined;
+  /** Optional. Quantity of the product available at this store. Must be greater than or equal to zero. */
+  quantity?: string | undefined;
+  /** Required. The identifier of the merchant's store. Either the store code inserted through `InsertLfpStore` or the store code in the Business Profile. */
+  storeCode?: string | undefined;
+  /** Optional. Expected date that an order will be ready for pickup relative to the order date. Must be submitted together with `pickupMethod`. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342). */
+  pickupSla?: string | undefined;
+  /** Optional. The [feed label](https://developers.google.com/shopping-content/guides/products/feed-labels) for the product. If this is not set, it will default to `regionCode`. */
+  feedLabel?: string | undefined;
+  /** Required. The [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml) for the country where the product is sold. */
+  regionCode?: string | undefined;
+  /** Optional. The current price of the product. */
+  price?: Price | undefined;
+  /** Required. Availability of the product at this store. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342) */
+  availability?: string | undefined;
+  /** Optional. The Global Trade Item Number of the product. */
+  gtin?: string | undefined;
+  /** Required. Immutable. A unique identifier for the product. If both inventories and sales are submitted for a merchant, this id should match for the same product. **Note**: if the merchant sells the same product new and used, they should have different IDs. */
+  offerId?: string | undefined;
+  /** Required. The Merchant Center ID of the merchant to submit the inventory for. */
+  targetAccount?: string | undefined;
+  /** Required. The two-letter ISO 639-1 language code for the item. */
+  contentLanguage?: string | undefined;
+  /** Optional. The time when the inventory is collected. If not set, it will be set to the time when the inventory is submitted. */
+  collectionTime?: string | undefined;
 }
 /** Local Inventory for the merchant. */
 export interface LfpInventory {
@@ -241,11 +273,33 @@ export interface LfpInventory {
   /** Optional. The time when the inventory is collected. If not set, it will be set to the time when the inventory is submitted. */
   collectionTime?: string | undefined;
 }
-export interface InsertAccountsLfpInventoriesRequest {
-  /** Required. The LFP provider account. Format: `accounts/{account}` */
+export interface InsertAccountsLfpSalesRequest {
+  /** Required. The LFP provider account. Format: `accounts/{lfp_partner}` */
   parent: string;
-  /** Request body */
-  body?: LfpInventory | undefined;
+  /** Required. The Global Trade Item Number of the sold product. */
+  gtin?: string | undefined;
+  /** Required. The unit price of the product. */
+  price?: Price | undefined;
+  /** Required. The Merchant Center ID of the merchant to submit the sale for. */
+  targetAccount?: string | undefined;
+  /** Output only. System generated globally unique ID for the `LfpSale`. */
+  uid?: string | undefined;
+  /** Required. The [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml) for the country where the product is sold. */
+  regionCode?: string | undefined;
+  /** Required. The relative change of the available quantity. Negative for items returned. */
+  quantity?: string | undefined;
+  /** Optional. The [feed label](https://developers.google.com/shopping-content/guides/products/feed-labels) for the product. If this is not set, it will default to `regionCode`. */
+  feedLabel?: string | undefined;
+  /** Required. The timestamp for the sale. */
+  saleTime?: string | undefined;
+  /** Output only. Identifier. The name of the `LfpSale` resource. Format: `accounts/{account}/lfpSales/{sale}` */
+  name?: string | undefined;
+  /** Required. A unique identifier for the product. If both inventories and sales are submitted for a merchant, this id should match for the same product. **Note**: if the merchant sells the same product new and used, they should have different IDs. */
+  offerId?: string | undefined;
+  /** Required. The identifier of the merchant's store. Either a `storeCode` inserted through the API or the code of the store in the Business Profile. */
+  storeCode?: string | undefined;
+  /** Required. The two-letter ISO 639-1 language code for the item. */
+  contentLanguage?: string | undefined;
 }
 /** A sale for the merchant. */
 export interface LfpSale {
@@ -274,17 +328,31 @@ export interface LfpSale {
   /** Required. The two-letter ISO 639-1 language code for the item. */
   contentLanguage?: string | undefined;
 }
-export interface InsertAccountsLfpSalesRequest {
-  /** Required. The LFP provider account. Format: `accounts/{lfp_partner}` */
-  parent: string;
-  /** Request body */
-  body?: LfpSale | undefined;
-}
 export interface InsertAccountsLfpStoresRequest {
   /** Required. The LFP provider account Format: `accounts/{account}` */
   parent: string;
-  /** Request body */
-  body?: LfpStore | undefined;
+  /** Required. The street address of the store. Example: 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA. */
+  storeAddress?: string | undefined;
+  /** Optional. The merchant or store name. */
+  storeName?: string | undefined;
+  /** Optional. Output only. The state of matching to a Google Business Profile. See matchingStateHint for further details if no match is found. */
+  matchingState?: LfpStoreMatchingStateEnum | (string & {}) | undefined;
+  /** Optional. The store phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. Example: `+15556767888` */
+  phoneNumber?: string | undefined;
+  /** Optional. The [Google Place Id](https://developers.google.com/maps/documentation/places/web-service/place-id#id-overview) of the store location. */
+  placeId?: string | undefined;
+  /** Optional. The website URL for the store or merchant. */
+  websiteUri?: string | undefined;
+  /** Optional. Output only. The hint of why the matching has failed. This is only set when matchingState=`STORE_MATCHING_STATE_FAILED`. Possible values are: - "`linked-store-not-found`": There aren't any Google Business Profile stores available for matching. - "`store-match-not-found`": The provided `LfpStore` couldn't be matched to any of the connected Google Business Profile stores. Merchant Center account is connected correctly and stores are available on Google Business Profile, but the `LfpStore` location address does not match with Google Business Profile stores' addresses. Update the `LfpStore` address or Google Business Profile store address to match correctly. - "`store-match-unverified`": The provided `LfpStore` couldn't be matched to any of the connected Google Business Profile stores, as the matched Google Business Profile store is unverified. Go through the Google Business Profile verification process to match correctly. */
+  matchingStateHint?: string | undefined;
+  /** Optional. [Google My Business category id](https://support.google.com/business/answer/7249669). */
+  gcidCategory?: StringList | undefined;
+  /** Required. The Merchant Center id of the merchant to submit the store for. */
+  targetAccount?: string | undefined;
+  /** Output only. Identifier. The name of the `LfpStore` resource. Format: `accounts/{account}/lfpStores/{target_merchant}~{store_code}` */
+  name?: string | undefined;
+  /** Required. Immutable. A store identifier that is unique for the target merchant. */
+  storeCode?: string | undefined;
 }
 export interface ListAccountsLfpStoresRequest {
   /** Required. The Merchant Center id of the merchant to list stores for. */
@@ -373,8 +441,8 @@ export const insertAccountsLfpInventories: API.OperationMethod<
   InsertAccountsLfpInventoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<InsertAccountsLfpInventoriesRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<LfpInventory>,
+  input: __S(40, __c5, 0) as any as S.Schema<InsertAccountsLfpInventoriesRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<LfpInventory>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -390,8 +458,8 @@ export const insertAccountsLfpSales: API.OperationMethod<
   InsertAccountsLfpSalesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(57, __c7, 1) as any as S.Schema<InsertAccountsLfpSalesRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<LfpSale>,
+  input: __S(56, __c7, 0) as any as S.Schema<InsertAccountsLfpSalesRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<LfpSale>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -589,6 +657,32 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          pickupMethod: S.optional(S.String),
+          quantity: S.optional(S.String),
+          storeCode: S.optional(S.String),
+          pickupSla: S.optional(S.String),
+          feedLabel: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          price: S.optional(__S(48, __c6, 0)),
+          availability: S.optional(S.String),
+          gtin: S.optional(S.String),
+          offerId: S.optional(S.String),
+          targetAccount: S.optional(S.String),
+          contentLanguage: S.optional(S.String),
+          collectionTime: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "lfp/v1beta/{+parent}/lfpInventories:insert",
+            baseUrl: "https://merchantapi.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "InsertAccountsLfpInventoriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           pickupMethod: S.optional(S.String),
           quantity: S.optional(S.String),
@@ -605,19 +699,6 @@ function __c5(j: number): any {
           collectionTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "LfpInventory" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(40, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "lfp/v1beta/{+parent}/lfpInventories:insert",
-            baseUrl: "https://merchantapi.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "InsertAccountsLfpInventoriesRequest" });
   }
 }
 function __c6(j: number): any {
@@ -636,6 +717,30 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
+          gtin: S.optional(S.String),
+          price: S.optional(__S(48, __c6, 0)),
+          targetAccount: S.optional(S.String),
+          uid: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          quantity: S.optional(S.String),
+          feedLabel: S.optional(S.String),
+          saleTime: S.optional(S.String),
+          name: S.optional(S.String),
+          offerId: S.optional(S.String),
+          storeCode: S.optional(S.String),
+          contentLanguage: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "lfp/v1beta/{+parent}/lfpSales:insert",
+            baseUrl: "https://merchantapi.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "InsertAccountsLfpSalesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           gtin: S.optional(S.String),
           price: S.optional(__S(48, __c6, 0)),
           targetAccount: S.optional(S.String),
@@ -650,19 +755,6 @@ function __c7(j: number): any {
           contentLanguage: S.optional(S.String),
         }),
       ).annotate({ identifier: "LfpSale" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(56, __c7, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "lfp/v1beta/{+parent}/lfpSales:insert",
-            baseUrl: "https://merchantapi.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "InsertAccountsLfpSalesRequest" });
   }
 }
 function __c8(j: number): any {
@@ -671,7 +763,17 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(33, __c4, 1).pipe(T.HttpBody())),
+          storeAddress: S.optional(S.String),
+          storeName: S.optional(S.String),
+          matchingState: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
+          placeId: S.optional(S.String),
+          websiteUri: S.optional(S.String),
+          matchingStateHint: S.optional(S.String),
+          gcidCategory: S.optional(__S(32, __c4, 0)),
+          targetAccount: S.optional(S.String),
+          name: S.optional(S.String),
+          storeCode: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

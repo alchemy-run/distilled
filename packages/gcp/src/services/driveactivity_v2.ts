@@ -93,8 +93,7 @@ export interface ConsolidationStrategy {
   /** The individual activities are not consolidated. */
   none?: Legacy | undefined;
 }
-/** The request message for querying Drive activity. */
-export interface QueryDriveActivityRequest {
+export interface QueryActivityRequest {
   /** The filtering for items returned from this query request. The format of the filter string is a sequence of expressions, joined by an optional "AND", where each expression is of the form "field operator value". Supported fields: - `time`: Uses numerical operators on date values either in terms of milliseconds since Jan 1, 1970 or in RFC 3339 format. Examples: - `time > 1452409200000 AND time <= 1492812924310` - `time >= "2016-01-10T01:02:03-05:00"` - `detail.action_detail_case`: Uses the "has" operator (:) and either a singular value or a list of allowed action types enclosed in parentheses, separated by a space. To exclude a result from the response, prepend a hyphen (`-`) to the beginning of the filter string. Examples: - `detail.action_detail_case:RENAME` - `detail.action_detail_case:(CREATE RESTORE)` - `-detail.action_detail_case:MOVE` */
   filter?: string | undefined;
   /** The token identifies which page of results to return. Set this to the next_page_token value returned from a previous query to obtain the following page of results. If not set, the first page of results is returned. */
@@ -107,10 +106,6 @@ export interface QueryDriveActivityRequest {
   ancestorName?: string | undefined;
   /** Return activities for this Drive item. The format is `items/ITEM_ID`. */
   itemName?: string | undefined;
-}
-export interface QueryActivityRequest {
-  /** Request body */
-  body?: QueryDriveActivityRequest | undefined;
 }
 /** Information about time ranges. */
 export interface TimeRange {
@@ -663,8 +658,8 @@ export const queryActivity: API.OperationMethod<
   QueryActivityError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<QueryActivityRequest>,
-  output: __S(57, __c1, 25) as any as S.Schema<QueryDriveActivityResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<QueryActivityRequest>,
+  output: __S(56, __c1, 24) as any as S.Schema<QueryDriveActivityResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -693,12 +688,6 @@ function __c0(j: number): any {
           consolidationStrategy: S.optional(__S(1, __c0, 1)),
           ancestorName: S.optional(S.String),
           itemName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "QueryDriveActivityRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(__S(2, __c0, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -707,368 +696,368 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "QueryActivityRequest" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "TimeRange" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SystemEvent" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           isCurrentUser: S.optional(S.Boolean),
           personName: S.optional(S.String),
         }),
       ).annotate({ identifier: "KnownUser" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          knownUser: S.optional(__S(6, __c0, 6)),
+          knownUser: S.optional(__S(5, __c0, 5)),
           deletedUser: S.optional(__S(0, __c0, 0)),
           unknownUser: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "User" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          impersonatedUser: S.optional(__S(6, __c0, 6)),
+        }),
+      ).annotate({ identifier: "Impersonation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          impersonatedUser: S.optional(__S(7, __c0, 7)),
-        }),
-      ).annotate({ identifier: "Impersonation" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
           administrator: S.optional(__S(0, __c0, 0)),
-          system: S.optional(__S(5, __c0, 5)),
-          impersonation: S.optional(__S(8, __c0, 8)),
-          user: S.optional(__S(7, __c0, 7)),
+          system: S.optional(__S(4, __c0, 4)),
+          impersonation: S.optional(__S(7, __c0, 7)),
+          user: S.optional(__S(6, __c0, 6)),
           anonymous: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Actor" });
+    case 9:
+      return S.Array(__S(8, __c0, 8));
     case 10:
-      return S.Array(__S(9, __c0, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
           legacyId: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Domain" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "DriveReference" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TeamDriveReference" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(__S(10, __c0, 10)),
+          drive: S.optional(__S(11, __c0, 11)),
+          teamDrive: S.optional(__S(12, __c0, 12)),
+          user: S.optional(__S(6, __c0, 6)),
+        }),
+      ).annotate({ identifier: "Owner" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(__S(11, __c0, 11)),
-          drive: S.optional(__S(12, __c0, 12)),
-          teamDrive: S.optional(__S(13, __c0, 13)),
-          user: S.optional(__S(7, __c0, 7)),
-        }),
-      ).annotate({ identifier: "Owner" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          folder: S.optional(__S(5, __c0, 5)),
+          folder: S.optional(__S(4, __c0, 4)),
           driveFile: S.optional(__S(0, __c0, 0)),
           mimeType: S.optional(S.String),
           title: S.optional(S.String),
           name: S.optional(S.String),
-          driveFolder: S.optional(__S(5, __c0, 5)),
+          driveFolder: S.optional(__S(4, __c0, 4)),
           file: S.optional(__S(0, __c0, 0)),
-          owner: S.optional(__S(14, __c0, 14)),
+          owner: S.optional(__S(13, __c0, 13)),
         }),
       ).annotate({ identifier: "DriveItem" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          root: S.optional(__S(15, __c0, 15)),
+          root: S.optional(__S(14, __c0, 14)),
           name: S.optional(S.String),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Drive" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           legacyCommentId: S.optional(S.String),
-          parent: S.optional(__S(15, __c0, 15)),
+          parent: S.optional(__S(14, __c0, 14)),
           legacyDiscussionId: S.optional(S.String),
           linkToDiscussion: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileComment" });
-    case 18:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
-          root: S.optional(__S(15, __c0, 15)),
+          root: S.optional(__S(14, __c0, 14)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TeamDrive" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          drive: S.optional(__S(16, __c0, 16)),
-          fileComment: S.optional(__S(17, __c0, 17)),
-          driveItem: S.optional(__S(15, __c0, 15)),
-          teamDrive: S.optional(__S(18, __c0, 18)),
+          drive: S.optional(__S(15, __c0, 15)),
+          fileComment: S.optional(__S(16, __c0, 16)),
+          driveItem: S.optional(__S(14, __c0, 14)),
+          teamDrive: S.optional(__S(17, __c0, 17)),
         }),
       ).annotate({ identifier: "Target" });
+    case 19:
+      return S.Array(__S(18, __c0, 18));
     case 20:
-      return S.Array(__S(19, __c0, 19));
+      return S.Array(__S(6, __c0, 6));
     case 21:
-      return S.Array(__S(7, __c0, 7));
-    case 22:
       return S.suspend(() =>
         S.Struct({
           subtype: S.optional(S.String),
         }),
       ).annotate({ identifier: "Suggestion" });
-    case 23:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           subtype: S.optional(S.String),
-          assignedUser: S.optional(__S(7, __c0, 7)),
+          assignedUser: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "Assignment" });
-    case 24:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          mentionedUsers: S.optional(__S(21, __c0, 21)),
-          suggestion: S.optional(__S(22, __c0, 22)),
-          post: S.optional(__S(22, __c0, 22)),
-          assignment: S.optional(__S(23, __c0, 23)),
+          mentionedUsers: S.optional(__S(20, __c0, 20)),
+          suggestion: S.optional(__S(21, __c0, 21)),
+          post: S.optional(__S(21, __c0, 21)),
+          assignment: S.optional(__S(22, __c0, 22)),
         }),
       ).annotate({ identifier: "Comment" });
-    case 25:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           oldTitle: S.optional(S.String),
           newTitle: S.optional(S.String),
         }),
       ).annotate({ identifier: "Rename" });
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
           email: S.optional(S.String),
         }),
       ).annotate({ identifier: "Group" });
-    case 27:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(26, __c0, 26)),
-          user: S.optional(__S(7, __c0, 7)),
+          group: S.optional(__S(25, __c0, 25)),
+          user: S.optional(__S(6, __c0, 6)),
           allowDiscovery: S.optional(S.Boolean),
           anyone: S.optional(__S(0, __c0, 0)),
-          domain: S.optional(__S(11, __c0, 11)),
+          domain: S.optional(__S(10, __c0, 10)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Permission" });
+    case 27:
+      return S.Array(__S(26, __c0, 26));
     case 28:
-      return S.Array(__S(27, __c0, 27));
+      return S.suspend(() =>
+        S.Struct({
+          removedPermissions: S.optional(__S(27, __c0, 27)),
+          addedPermissions: S.optional(__S(27, __c0, 27)),
+        }),
+      ).annotate({ identifier: "PermissionChange" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          removedPermissions: S.optional(__S(28, __c0, 28)),
-          addedPermissions: S.optional(__S(28, __c0, 28)),
-        }),
-      ).annotate({ identifier: "PermissionChange" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          driveFolder: S.optional(__S(5, __c0, 5)),
+          driveFolder: S.optional(__S(4, __c0, 4)),
           file: S.optional(__S(0, __c0, 0)),
-          folder: S.optional(__S(5, __c0, 5)),
+          folder: S.optional(__S(4, __c0, 4)),
           title: S.optional(S.String),
           name: S.optional(S.String),
           driveFile: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "DriveItemReference" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          teamDrive: S.optional(__S(13, __c0, 13)),
-          driveItem: S.optional(__S(30, __c0, 30)),
-          drive: S.optional(__S(12, __c0, 12)),
+          teamDrive: S.optional(__S(12, __c0, 12)),
+          driveItem: S.optional(__S(29, __c0, 29)),
+          drive: S.optional(__S(11, __c0, 11)),
         }),
       ).annotate({ identifier: "TargetReference" });
+    case 31:
+      return S.Array(__S(30, __c0, 30));
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(31, __c0, 31));
+      return S.suspend(() =>
+        S.Struct({
+          removedParents: S.optional(__S(31, __c0, 31)),
+          addedParents: S.optional(__S(31, __c0, 31)),
+        }),
+      ).annotate({ identifier: "Move" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          removedParents: S.optional(__S(32, __c1, 0)),
-          addedParents: S.optional(__S(32, __c1, 0)),
+          originalObject: S.optional(__S(30, __c0, 30)),
         }),
-      ).annotate({ identifier: "Move" });
+      ).annotate({ identifier: "Copy" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          originalObject: S.optional(__S(31, __c0, 31)),
-        }),
-      ).annotate({ identifier: "Copy" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           upload: S.optional(__S(0, __c0, 0)),
-          copy: S.optional(__S(34, __c1, 2)),
+          copy: S.optional(__S(33, __c1, 1)),
           new: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "Create" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           feature: S.optional(S.String),
           newRestriction: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestrictionChange" });
+    case 4:
+      return S.Array(__S(35, __c1, 3));
     case 5:
-      return S.Array(__S(36, __c1, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          restrictionChanges: S.optional(__S(37, __c1, 5)),
+          restrictionChanges: S.optional(__S(36, __c1, 4)),
         }),
       ).annotate({ identifier: "SettingsChange" });
-    case 7:
+    case 6:
       return S.Array(S.String);
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Driveactivity_Date" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Selection" });
+    case 9:
+      return S.Array(__S(40, __c1, 8));
     case 10:
-      return S.Array(__S(41, __c1, 9));
-    case 11:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(42, __c1, 10)),
+          values: S.optional(__S(41, __c1, 9)),
         }),
       ).annotate({ identifier: "SelectionList" });
+    case 11:
+      return S.Array(__S(39, __c1, 7));
     case 12:
-      return S.Array(__S(40, __c1, 8));
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(43, __c1, 11)),
+        }),
+      ).annotate({ identifier: "TextList" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(44, __c1, 12)),
+          date: S.optional(__S(39, __c1, 7)),
+          selectionList: S.optional(__S(42, __c1, 10)),
+          textList: S.optional(__S(44, __c1, 12)),
+          text: S.optional(__S(39, __c1, 7)),
+          userList: S.optional(__S(44, __c1, 12)),
+          selection: S.optional(__S(40, __c1, 8)),
+          user: S.optional(__S(39, __c1, 7)),
+          integer: S.optional(__S(39, __c1, 7)),
         }),
-      ).annotate({ identifier: "TextList" });
+      ).annotate({ identifier: "FieldValue" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(40, __c1, 8)),
-          selectionList: S.optional(__S(43, __c1, 11)),
-          textList: S.optional(__S(45, __c1, 13)),
-          text: S.optional(__S(40, __c1, 8)),
-          userList: S.optional(__S(45, __c1, 13)),
-          selection: S.optional(__S(41, __c1, 9)),
-          user: S.optional(__S(40, __c1, 8)),
-          integer: S.optional(__S(40, __c1, 8)),
-        }),
-      ).annotate({ identifier: "FieldValue" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
           fieldId: S.optional(S.String),
-          oldValue: S.optional(__S(46, __c1, 14)),
-          newValue: S.optional(__S(46, __c1, 14)),
+          oldValue: S.optional(__S(45, __c1, 13)),
+          newValue: S.optional(__S(45, __c1, 13)),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "FieldValueChange" });
+    case 15:
+      return S.Array(__S(46, __c1, 14));
     case 16:
-      return S.Array(__S(47, __c1, 15));
-    case 17:
       return S.suspend(() =>
         S.Struct({
           label: S.optional(S.String),
-          types: S.optional(__S(39, __c1, 7)),
+          types: S.optional(__S(38, __c1, 6)),
           title: S.optional(S.String),
-          fieldChanges: S.optional(__S(48, __c1, 16)),
+          fieldChanges: S.optional(__S(47, __c1, 15)),
         }),
       ).annotate({ identifier: "AppliedLabelChangeDetail" });
+    case 17:
+      return S.Array(__S(48, __c1, 16));
     case 18:
-      return S.Array(__S(49, __c1, 17));
+      return S.suspend(() =>
+        S.Struct({
+          changes: S.optional(__S(49, __c1, 17)),
+        }),
+      ).annotate({ identifier: "AppliedLabelChange" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          changes: S.optional(__S(50, __c1, 18)),
+          comment: S.optional(__S(23, __c0, 23)),
+          dlpChange: S.optional(__S(4, __c0, 4)),
+          delete: S.optional(__S(4, __c0, 4)),
+          rename: S.optional(__S(24, __c0, 24)),
+          permissionChange: S.optional(__S(28, __c0, 28)),
+          restore: S.optional(__S(4, __c0, 4)),
+          move: S.optional(__S(32, __c1, 0)),
+          create: S.optional(__S(34, __c1, 2)),
+          settingsChange: S.optional(__S(37, __c1, 5)),
+          reference: S.optional(__S(4, __c0, 4)),
+          edit: S.optional(__S(0, __c0, 0)),
+          appliedLabelChange: S.optional(__S(50, __c1, 18)),
         }),
-      ).annotate({ identifier: "AppliedLabelChange" });
+      ).annotate({ identifier: "ActionDetail" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          comment: S.optional(__S(24, __c0, 24)),
-          dlpChange: S.optional(__S(5, __c0, 5)),
-          delete: S.optional(__S(5, __c0, 5)),
-          rename: S.optional(__S(25, __c0, 25)),
-          permissionChange: S.optional(__S(29, __c0, 29)),
-          restore: S.optional(__S(5, __c0, 5)),
-          move: S.optional(__S(33, __c1, 1)),
-          create: S.optional(__S(35, __c1, 3)),
-          settingsChange: S.optional(__S(38, __c1, 6)),
-          reference: S.optional(__S(5, __c0, 5)),
-          edit: S.optional(__S(0, __c0, 0)),
-          appliedLabelChange: S.optional(__S(51, __c1, 19)),
-        }),
-      ).annotate({ identifier: "ActionDetail" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          detail: S.optional(__S(52, __c1, 20)),
+          detail: S.optional(__S(51, __c1, 19)),
           timestamp: S.optional(S.String),
-          target: S.optional(__S(19, __c0, 19)),
-          actor: S.optional(__S(9, __c0, 9)),
-          timeRange: S.optional(__S(4, __c0, 4)),
+          target: S.optional(__S(18, __c0, 18)),
+          actor: S.optional(__S(8, __c0, 8)),
+          timeRange: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "Action" });
+    case 21:
+      return S.Array(__S(52, __c1, 20));
     case 22:
-      return S.Array(__S(53, __c1, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
-          timeRange: S.optional(__S(4, __c0, 4)),
-          actors: S.optional(__S(10, __c0, 10)),
-          targets: S.optional(__S(20, __c0, 20)),
+          timeRange: S.optional(__S(3, __c0, 3)),
+          actors: S.optional(__S(9, __c0, 9)),
+          targets: S.optional(__S(19, __c0, 19)),
           timestamp: S.optional(S.String),
-          actions: S.optional(__S(54, __c1, 22)),
-          primaryActionDetail: S.optional(__S(52, __c1, 20)),
+          actions: S.optional(__S(53, __c1, 21)),
+          primaryActionDetail: S.optional(__S(51, __c1, 19)),
         }),
       ).annotate({ identifier: "DriveActivity" });
+    case 23:
+      return S.Array(__S(54, __c1, 22));
     case 24:
-      return S.Array(__S(55, __c1, 23));
-    case 25:
       return S.suspend(() =>
         S.Struct({
-          activities: S.optional(__S(56, __c1, 24)),
+          activities: S.optional(__S(55, __c1, 23)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryDriveActivityResponse" });
