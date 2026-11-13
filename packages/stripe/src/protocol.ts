@@ -29,10 +29,11 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  * `@distilled.cloud/core/protocol-http`; this module supplies what is
  * Stripe's own (ported from the distilled v0 stripe client):
  *
- *   request:  credentials -> `Authorization: Bearer <apiKey>` + API base URL;
- *             per-call {@link StripeRequestOptions} (resolved from the
- *             calling fiber via {@link RequestOptions}) -> Idempotency-Key /
- *             Stripe-Account / Stripe-Context / Stripe-Version headers;
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + API base URL
+ *             + `Stripe-Context` (when `context` is set); `Stripe-Version`
+ *             from the calling fiber's {@link ApiVersion}, else the spec's
+ *             {@link API_VERSION}; an operation's `idempotencyKey` member is
+ *             its `Idempotency-Key` header;
  *             core's `buildRequest` with `queryStyle: "brackets"` builds
  *             the rest: query members as `created[gte]=1` / `expand[0]=a`,
  *             bodies as `application/x-www-form-urlencoded` with the same
@@ -61,6 +62,7 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
+import { API_VERSION, ApiVersion } from "./api-version.ts";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   ApiError,
@@ -74,64 +76,13 @@ import {
   UnknownStripeError,
 } from "./errors.ts";
 
-// =============================================================================
-// Per-call request options (v0's StripeRequestOptions, fiber-context style)
-// =============================================================================
-
-export type StripeConnectRequestOptions =
-  | {
-      readonly stripeAccount?: string | undefined;
-      readonly stripeContext?: never;
-    }
-  | {
-      readonly stripeAccount?: never;
-      readonly stripeContext?: string | undefined;
-    };
-
-export type StripeRequestOptions = {
-  readonly idempotencyKey?: string | undefined;
-  readonly apiVersion?: string | undefined;
-} & StripeConnectRequestOptions;
-
-/**
- * Per-call request options service. distilled v0 passed these as a second
- * call argument; v1 operations take only their input, so options travel on
- * the calling fiber's context instead -- see {@link withRequestOptions}.
- */
-export class RequestOptions
-  extends /*@__PURE__*/ Context.Service<RequestOptions, StripeRequestOptions>()(
-    "StripeRequestOptions",
-  ) {}
-
-/**
- * Provide {@link StripeRequestOptions} to every Stripe API call below it.
- *
- * @example
- * ```ts
- * yield* PostCharges({ amount: 2000, currency: "usd" }).pipe(
- *   Stripe.withRequestOptions({ idempotencyKey: "ch-create-1" }),
- * );
- * ```
- */
-export const withRequestOptions = (options: StripeRequestOptions) =>
-  Effect.provide(Layer.succeed(RequestOptions, options));
-
-const stripeRequestHeaders = (
-  options: StripeRequestOptions | undefined,
-): Record<string, string> => {
-  const headers: Record<string, string> = {};
-  if (options?.idempotencyKey !== undefined) {
-    headers["Idempotency-Key"] = options.idempotencyKey;
-  }
-  if (options?.stripeAccount !== undefined) {
-    headers["Stripe-Account"] = options.stripeAccount;
-  }
-  if (options?.stripeContext !== undefined) {
-    headers["Stripe-Context"] = options.stripeContext;
-  }
-  if (options?.apiVersion !== undefined) {
-    headers["Stripe-Version"] = options.apiVersion;
-  }
+const stripeHeaders = (creds: Config, apiVersion: string): Record<string, string> => {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    "Stripe-Version": apiVersion,
+    Accept: "application/json",
+  };
+  if (creds.context !== undefined) headers["Stripe-Context"] = creds.context;
   return headers;
 };
 
@@ -181,7 +132,7 @@ const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effe
 
 /**
  * Core's `buildRequest` with Stripe's wire rules: the API key as a Bearer
- * token, the per-call option headers, and bracket query style
+ * token, the context and version headers, and bracket query style
  * (`created[gte]=1`, `expand[0]=a`) -- Stripe's v2 API refuses `key[]` and
  * repeated keys. Bodies follow the operation's `T.Http` content type:
  * form-urlencoded with the same brackets (every /v1 op), multipart for
@@ -189,7 +140,7 @@ const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effe
  */
 const requestFor = (
   creds: Config,
-  options: StripeRequestOptions | undefined,
+  context: Context.Context<any>,
   input: unknown,
   inputAst: AST.AST,
 ): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> =>
@@ -197,18 +148,14 @@ const requestFor = (
     input: unwrapRedactedDeep(input),
     inputAst,
     baseUrl: creds.apiBaseUrl,
-    headers: {
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      ...stripeRequestHeaders(options),
-      Accept: "application/json",
-    },
+    headers: stripeHeaders(creds, Context.getOrUndefined(context, ApiVersion) ?? API_VERSION),
     queryStyle: "brackets",
   });
 
 /**
  * The calling fiber's credentials, then `f` on them. The protocol layer is
- * memoized per process by `API.make`, so credentials (and the per-call
- * RequestOptions) are resolved from the calling fiber's context on every
+ * memoized per process by `API.make`, so credentials (and the
+ * {@link ApiVersion} override) are resolved from the calling fiber's context on every
  * request. The requirement is erased at this boundary and reintroduced for
  * callers by the generated `StripeOpContext` annotations.
  */
@@ -221,9 +168,7 @@ const withCredentials = <B>(
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
-    return withCredentials(context, (creds) =>
-      requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, inputAst),
-    );
+    return withCredentials(context, (creds) => requestFor(creds, context, input, inputAst));
   });
 
 // =============================================================================
@@ -417,12 +362,10 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) => {
       const client = Context.get(context, HttpClient.HttpClient);
-      return Effect.flatMap(
-        requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, op.inputAst),
-        (request) =>
-          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
-            decodeResponse(context, response, op.outputAst, op.errors),
-          ),
+      return Effect.flatMap(requestFor(creds, context, input, op.inputAst), (request) =>
+        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+          decodeResponse(context, response, op.outputAst, op.errors),
+        ),
       );
     });
   }) as Effect.Effect<unknown>;

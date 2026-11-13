@@ -8,6 +8,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
+import * as ApiVersion from "../src/api-version.ts";
 import { credentials } from "../src/credentials.ts";
 import {
   ApiError,
@@ -22,7 +23,7 @@ import {
   TooManyRequests,
   UnknownStripeError,
 } from "../src/errors.ts";
-import { type StripeOpContext, withRequestOptions } from "../src/protocol.ts";
+import type { StripeOpContext } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import {
   CreateBillingMeterEvent2,
@@ -280,53 +281,55 @@ describe("JSON (/v2) and multipart bodies", () => {
 });
 
 describe("Request headers", () => {
-  test("Authorization is the bearer API key and Accept is JSON", async () => {
+  test("Authorization is the bearer API key, Accept is JSON, Stripe-Version is the spec's", async () => {
     const { result, requests } = run(GetCustomer({ customer: "cus_1" }));
     await result;
     expect(requests[0]!.headers["authorization"]).toBe(`Bearer ${API_KEY}`);
     expect(requests[0]!.headers["accept"]).toBe("application/json");
+    expect(requests[0]!.headers["stripe-version"]).toBe(ApiVersion.API_VERSION);
     expect(requests[0]!.headers["idempotency-key"]).toBeUndefined();
-    expect(requests[0]!.headers["stripe-version"]).toBeUndefined();
+    expect(requests[0]!.headers["stripe-context"]).toBeUndefined();
     expect(requests[0]!.headers["stripe-account"]).toBeUndefined();
   });
 
-  test("withRequestOptions sets Idempotency-Key, Stripe-Version and Stripe-Account", async () => {
+  test("the idempotencyKey member is the Idempotency-Key header, multipart included", async () => {
     const { result, requests } = run(
-      CreateCustomer({ name: "x" }).pipe(
-        withRequestOptions({
-          idempotencyKey: "idem-1",
-          apiVersion: "2025-01-27.acacia",
-          stripeAccount: "acct_123",
+      Effect.all([
+        CreateCustomer({ name: "x", idempotencyKey: "idem-1" }),
+        CreateFile({
+          file: new File(["x"], "x.txt") as unknown as string,
+          purpose: "dispute_evidence",
+          idempotencyKey: "idem-file",
         }),
+      ]),
+    );
+    await result;
+    expect(requests.map((r) => r.headers["idempotency-key"])).toEqual(["idem-1", "idem-file"]);
+  });
+
+  test("credentials' context is the Stripe-Context header", async () => {
+    const { result, requests } = run(
+      GetCustomer({ customer: "cus_1" }).pipe(
+        Effect.provide(
+          credentials({
+            apiKey: Redacted.make(API_KEY),
+            apiBaseUrl: BASE_URL,
+            context: "acct_1/acct_2",
+          }),
+        ),
       ),
     );
     await result;
-    expect(requests[0]!.headers).toMatchObject({
-      "idempotency-key": "idem-1",
-      "stripe-version": "2025-01-27.acacia",
-      "stripe-account": "acct_123",
-    });
-    expect(requests[0]!.headers["stripe-context"]).toBeUndefined();
-  });
-
-  test("withRequestOptions sets Stripe-Context", async () => {
-    const { result, requests } = run(
-      GetCustomer({ customer: "cus_1" }).pipe(withRequestOptions({ stripeContext: "ctx_1" })),
-    );
-    await result;
-    expect(requests[0]!.headers["stripe-context"]).toBe("ctx_1");
+    expect(requests[0]!.headers["stripe-context"]).toBe("acct_1/acct_2");
     expect(requests[0]!.headers["stripe-account"]).toBeUndefined();
   });
 
-  test("multipart requests carry the request options too", async () => {
+  test("an ApiVersion layer overrides Stripe-Version", async () => {
     const { result, requests } = run(
-      CreateFile({
-        file: new File(["x"], "x.txt") as unknown as string,
-        purpose: "dispute_evidence",
-      }).pipe(withRequestOptions({ idempotencyKey: "idem-file" })),
+      GetCustomer({ customer: "cus_1" }).pipe(Effect.provide(ApiVersion.of("2025-01-27.acacia"))),
     );
     await result;
-    expect(requests[0]!.headers["idempotency-key"]).toBe("idem-file");
+    expect(requests[0]!.headers["stripe-version"]).toBe("2025-01-27.acacia");
   });
 });
 
