@@ -8,11 +8,12 @@
  *   (`spacesAccessKeyId` + `spacesSecretAccessKey`, or the
  *   `SPACES_ACCESS_KEY_ID` / `SPACES_SECRET_ACCESS_KEY` variables that
  *   `CredentialsFromEnv` reads). Otherwise a Personal Access Token cannot
- *   sign S3 requests, so the layer creates a full-access Spaces key through
- *   the API on the first S3 call and deletes it when the layer's scope
- *   closes. The key is named `distilled-spaces-<time>` so a process that
- *   dies before closing the scope leaves a key you can recognize.
- * - The endpoint: `layerS3({ region })` adds
+ *   sign S3 requests, so the layer creates a Spaces key for `bucket` alone
+ *   (`readwrite` by default, or `read`) through the API on the first S3 call
+ *   and deletes it when the layer's scope closes. The key is named
+ *   `distilled-spaces-<bucket>-<time>` so a process that dies before closing
+ *   the scope leaves a key you can recognize.
+ * - The endpoint: `layerS3({ bucket, region })` adds
  *   `https://<region>.digitaloceanspaces.com`; with `layerS3Keys` each call
  *   provides its own `Endpoint`.
  *
@@ -22,7 +23,7 @@
  * import * as Spaces from "@distilled.cloud/digitalocean/Spaces";
  *
  * const keys = S3.listObjectsV2({ Bucket: "my-space" }).pipe(
- *   Effect.provide(Spaces.layerS3({ region: "nyc3" })),
+ *   Effect.provide(Spaces.layerS3({ bucket: "my-space", region: "nyc3" })),
  * );
  * ```
  */
@@ -57,12 +58,21 @@ export const endpointFor = (region: string) => `https://${region}.digitaloceansp
 // Spaces accepts any region in the signature; the endpoint picks the region.
 const SIGNING_REGION = "us-east-1";
 
+export interface LayerS3KeysOptions {
+  /** The bucket the created key may access. */
+  readonly bucket: string;
+  /** The access the created key grants. Default: `"readwrite"`. */
+  readonly permission?: "read" | "readwrite";
+}
+
 /**
- * `@distilled.cloud/s3`'s `Credentials` for the Spaces buckets of the team
+ * `@distilled.cloud/s3`'s `Credentials` for one Spaces bucket of the team
  * the DigitalOcean `Credentials` act on. Provide each call's `Endpoint`
  * (`endpointFor(region)`) yourself, or use `layerS3`.
  */
-export const layerS3Keys = (): Layer.Layer<S3Keys, never, Credentials | HttpClient.HttpClient> =>
+export const layerS3Keys = (
+  options: LayerS3KeysOptions,
+): Layer.Layer<S3Keys, never, Credentials | HttpClient.HttpClient> =>
   Layer.effect(
     S3Keys,
     Effect.gen(function* () {
@@ -70,8 +80,8 @@ export const layerS3Keys = (): Layer.Layer<S3Keys, never, Credentials | HttpClie
 
       const mint = Effect.gen(function* () {
         const { key } = yield* createSpacesKey({
-          name: `distilled-spaces-${Date.now()}`,
-          grants: [{ bucket: "", permission: "fullaccess" }],
+          name: `distilled-spaces-${options.bucket}-${Date.now()}`,
+          grants: [{ bucket: options.bucket, permission: options.permission ?? "readwrite" }],
         });
         yield* Effect.addFinalizer(() =>
           deleteSpacesKey({ access_key: key.access_key }).pipe(Effect.ignore),
@@ -103,7 +113,7 @@ export const layerS3Keys = (): Layer.Layer<S3Keys, never, Credentials | HttpClie
         Effect.mapError(
           (cause) =>
             new SpacesCredentialsError({
-              message: "Could not create a Spaces access key with the DigitalOcean token.",
+              message: `Could not create a Spaces access key for bucket ${options.bucket} with the DigitalOcean token.`,
               cause,
             }),
         ),
@@ -118,8 +128,11 @@ export const layerS3Keys = (): Layer.Layer<S3Keys, never, Credentials | HttpClie
     }),
   );
 
-/** `layerS3Keys` plus the `Endpoint` of one Spaces region. */
-export const layerS3 = (options: {
-  readonly region: string;
-}): Layer.Layer<S3Keys | Endpoint, never, Credentials | HttpClient.HttpClient> =>
-  Layer.merge(layerS3Keys(), Layer.succeed(Endpoint, Effect.succeed(endpointFor(options.region))));
+/** `layerS3Keys` plus the `Endpoint` of the bucket's Spaces region. */
+export const layerS3 = (
+  options: LayerS3KeysOptions & { readonly region: string },
+): Layer.Layer<S3Keys | Endpoint, never, Credentials | HttpClient.HttpClient> =>
+  Layer.merge(
+    layerS3Keys(options),
+    Layer.succeed(Endpoint, Effect.succeed(endpointFor(options.region))),
+  );
