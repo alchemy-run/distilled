@@ -445,7 +445,8 @@ const httpRequestOf = (
   const contentType = signedHeaders["content-type"];
 
   // Build HttpBody based on body type
-  // We must pass the content type to avoid HttpBody overriding the signed Content-Type header
+  // We must pass the content type to avoid HttpBody overriding the signed Content-Type header,
+  // and a stream's content length, or setBody removes Content-Length and the body goes out chunked
   let httpBody: HttpBody.HttpBody;
   if (isStreamingBody) {
     // Convert ReadableStream to Effect Stream for HttpClient
@@ -454,7 +455,12 @@ const httpRequestOf = (
       onError: (error) =>
         error instanceof Error ? error : new Error(String(error), { cause: error }),
     });
-    httpBody = HttpBody.stream(effectStream, contentType);
+    const contentLength = signedHeaders["content-length"];
+    httpBody = HttpBody.stream(
+      effectStream,
+      contentType,
+      contentLength === undefined ? undefined : Number(contentLength),
+    );
   } else if (body === undefined) {
     httpBody = HttpBody.empty;
   } else if (typeof body === "string") {
