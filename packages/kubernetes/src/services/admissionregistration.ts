@@ -2229,6 +2229,12 @@ export interface IoK8sApiAdmissionregistrationV1ValidatingWebhookConfigurationLi
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
 }
+/** How the server applies a PATCH body. */
+export type PatchType =
+  | "application/json-patch+json"
+  | "application/merge-patch+json"
+  | "application/strategic-merge-patch+json"
+  | "application/apply-patch+yaml";
 export interface PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequest {
   /** name of the MutatingAdmissionPolicy */
   name: string;
@@ -2242,6 +2248,10 @@ export interface PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyReques
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest {
   /** name of the MutatingAdmissionPolicyBinding */
@@ -2256,6 +2266,10 @@ export interface PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindin
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyRequest {
   /** name of the MutatingAdmissionPolicy */
@@ -2270,6 +2284,10 @@ export interface PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyRequest
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest {
   /** name of the MutatingAdmissionPolicyBinding */
@@ -2284,6 +2302,10 @@ export interface PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1MutatingAdmissionPolicyRequest {
   /** name of the MutatingAdmissionPolicy */
@@ -2298,6 +2320,10 @@ export interface PatchAdmissionregistrationV1MutatingAdmissionPolicyRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1MutatingAdmissionPolicyBindingRequest {
   /** name of the MutatingAdmissionPolicyBinding */
@@ -2312,6 +2338,10 @@ export interface PatchAdmissionregistrationV1MutatingAdmissionPolicyBindingReque
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1MutatingWebhookConfigurationRequest {
   /** name of the MutatingWebhookConfiguration */
@@ -2326,6 +2356,10 @@ export interface PatchAdmissionregistrationV1MutatingWebhookConfigurationRequest
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1ValidatingAdmissionPolicyRequest {
   /** name of the ValidatingAdmissionPolicy */
@@ -2340,6 +2374,10 @@ export interface PatchAdmissionregistrationV1ValidatingAdmissionPolicyRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest {
   /** name of the ValidatingAdmissionPolicyBinding */
@@ -2354,6 +2392,10 @@ export interface PatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingReq
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest {
   /** name of the ValidatingAdmissionPolicy */
@@ -2368,6 +2410,10 @@ export interface PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequ
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAdmissionregistrationV1ValidatingWebhookConfigurationRequest {
   /** name of the ValidatingWebhookConfiguration */
@@ -2382,6 +2428,10 @@ export interface PatchAdmissionregistrationV1ValidatingWebhookConfigurationReque
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequest {
   /** name of the MutatingAdmissionPolicy */
@@ -7280,6 +7330,8 @@ function __c54(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7303,6 +7355,8 @@ function __c55(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7326,6 +7380,8 @@ function __c56(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7372,6 +7428,8 @@ function __c58(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7395,6 +7453,8 @@ function __c59(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7416,6 +7476,8 @@ function __c60(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7439,6 +7501,8 @@ function __c61(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7460,6 +7524,8 @@ function __c62(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7481,6 +7547,8 @@ function __c63(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7504,6 +7572,8 @@ function __c64(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7527,6 +7597,8 @@ function __c65(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",

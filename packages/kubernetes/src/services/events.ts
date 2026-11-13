@@ -535,6 +535,12 @@ export interface ListEventsV1NamespacedEventRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean | undefined;
 }
+/** How the server applies a PATCH body. */
+export type PatchType =
+  | "application/json-patch+json"
+  | "application/merge-patch+json"
+  | "application/strategic-merge-patch+json"
+  | "application/apply-patch+yaml";
 export interface PatchEventsV1NamespacedEventRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -550,6 +556,10 @@ export interface PatchEventsV1NamespacedEventRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface ReadEventsV1NamespacedEventRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -939,6 +949,8 @@ function __c0(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",

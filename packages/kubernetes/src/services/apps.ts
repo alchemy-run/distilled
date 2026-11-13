@@ -3032,6 +3032,12 @@ export interface ListAppsV1StatefulSetForAllNamespacesRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean | undefined;
 }
+/** How the server applies a PATCH body. */
+export type PatchType =
+  | "application/json-patch+json"
+  | "application/merge-patch+json"
+  | "application/strategic-merge-patch+json"
+  | "application/apply-patch+yaml";
 export interface PatchAppsV1NamespacedControllerRevisionRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -3047,6 +3053,10 @@ export interface PatchAppsV1NamespacedControllerRevisionRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedDaemonSetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3063,6 +3073,10 @@ export interface PatchAppsV1NamespacedDaemonSetRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedDaemonSetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3079,6 +3093,10 @@ export interface PatchAppsV1NamespacedDaemonSetStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedDeploymentRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3095,6 +3113,10 @@ export interface PatchAppsV1NamespacedDeploymentRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedDeploymentScaleRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3111,6 +3133,10 @@ export interface PatchAppsV1NamespacedDeploymentScaleRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 /** ScaleSpec describes the attributes of a scale subresource. */
 export interface IoK8sApiAutoscalingV1ScaleSpec {
@@ -3152,6 +3178,10 @@ export interface PatchAppsV1NamespacedDeploymentStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedReplicaSetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3168,6 +3198,10 @@ export interface PatchAppsV1NamespacedReplicaSetRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedReplicaSetScaleRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3184,6 +3218,10 @@ export interface PatchAppsV1NamespacedReplicaSetScaleRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedReplicaSetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3200,6 +3238,10 @@ export interface PatchAppsV1NamespacedReplicaSetStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedStatefulSetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3216,6 +3258,10 @@ export interface PatchAppsV1NamespacedStatefulSetRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedStatefulSetScaleRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3232,6 +3278,10 @@ export interface PatchAppsV1NamespacedStatefulSetScaleRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchAppsV1NamespacedStatefulSetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -3248,6 +3298,10 @@ export interface PatchAppsV1NamespacedStatefulSetStatusRequest {
   fieldValidation?: string | undefined;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean | undefined;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface ReadAppsV1NamespacedControllerRevisionRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -6238,6 +6292,8 @@ function __c29(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6260,6 +6316,8 @@ function __c30(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6282,6 +6340,8 @@ function __c31(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6304,6 +6364,8 @@ function __c32(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6326,6 +6388,8 @@ function __c33(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6375,6 +6439,8 @@ function __c35(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6397,6 +6463,8 @@ function __c36(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6419,6 +6487,8 @@ function __c37(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6441,6 +6511,8 @@ function __c38(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6463,6 +6535,8 @@ function __c39(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7664,6 +7738,8 @@ function __c49(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7686,6 +7762,8 @@ function __c50(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
