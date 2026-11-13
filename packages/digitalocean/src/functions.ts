@@ -11,7 +11,7 @@
  * import * as Functions from "@distilled.cloud/digitalocean/Functions";
  *
  * const result = yield* Functions.invokeAction({
- *   namespace: "fn-…",
+ *   namespace: "fn-...",
  *   action_name: "hello",
  *   blocking: true,
  *   result: true,
