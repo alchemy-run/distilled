@@ -553,3 +553,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-namespacelabs.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/starburst-galaxy/specs/spec-mirror-starburst-galaxy"]
+	path = packages/starburst-galaxy/specs/spec-mirror-starburst-galaxy
+	url = https://github.com/distilled-mirror/spec-mirror-starburst-galaxy.git
+	ignore = dirty
+	shallow = true
