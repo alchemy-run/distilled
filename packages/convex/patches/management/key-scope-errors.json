@@ -1,0 +1,43 @@
+{
+  "description": "Type what a deploy key or a preview deploy key gets when it calls an operation outside its scope. Observed on the live Management API, 2026-11-13: a preview deploy key calling create_deploy_key on a preview deployment of its own project answers 403 NotAllowed (\"Preview deploy keys do not have permission to perform this action (CreateDeploymentAccessToken)\"); a deploy key of one deployment (prod:<name>|...) calling GET /deployments/{name} answers 400 UnexpectedAuthHeaderFormat, because the Management API does not take deployment keys at all. The same preview key may list, create and delete preview deployments, and set their variables through the deployment API.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PreviewDeployKeyNotAllowed",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [{ "body": { "/code": "NotAllowed" } }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeployKeyNotAccepted",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            { "body": { "/code": "UnexpectedAuthHeaderFormat" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateDeployKey/errors/-",
+      "value": { "target": "com.convex.api#PreviewDeployKeyNotAllowed" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PlatformGetDeployment/errors/-",
+      "value": { "target": "com.convex.api#DeployKeyNotAccepted" }
+    }
+  ]
+}

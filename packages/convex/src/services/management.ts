@@ -34,6 +34,14 @@ export class AccessTokenInvalid
     [{ body: { "/code": "AccessTokenInvalid" } }],
   ) {}
 
+export class DeployKeyNotAccepted
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DeployKeyNotAccepted>()("DeployKeyNotAccepted", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ body: { "/code": "UnexpectedAuthHeaderFormat" } }],
+  ) {}
+
 export class DeployKeyNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeployKeyNotFound>()("DeployKeyNotFound", {
@@ -91,6 +99,14 @@ export class OperationNotPermitted
       message: S.String,
     }).pipe(C.withAuthError),
     [{ body: { "/code": "OperationNotPermitted" } }],
+  ) {}
+
+export class PreviewDeployKeyNotAllowed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PreviewDeployKeyNotAllowed>()("PreviewDeployKeyNotAllowed", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ body: { "/code": "NotAllowed" } }],
   ) {}
 
 export class PreviewDeployKeyNotFound
@@ -1326,6 +1342,7 @@ export type CreateDeployKeyError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | PreviewDeployKeyNotAllowed
   | ConvexOpError;
 /** Create deploy key Create a deploy key like "dev:happy-animal-123|ey..." which can be used with the Convex CLI to develop against or deploy code. When access to the deployment is granted through an OAuth token this deploy key will use the same OAuth-granted token. When access to the deployment is granted any other way a new token will be created which grants access only to this deployment. */
 export const createDeployKey: API.OperationMethod<
@@ -1336,7 +1353,12 @@ export const createDeployKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<CreateDeployKeyRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<PlatformCreateDeployKeyResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [
+    DeploymentNotFound,
+    AccessTokenInvalid,
+    OperationNotPermitted,
+    PreviewDeployKeyNotAllowed,
+  ],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1635,6 +1657,7 @@ export type GetDeploymentError =
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
+  | DeployKeyNotAccepted
   | ConvexOpError;
 /** Get deployment Get details about a cloud deployment. */
 export const getDeployment: API.OperationMethod<
@@ -1645,7 +1668,7 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(32, __c8, 0) as any as S.Schema<GetDeploymentResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted, DeployKeyNotAccepted],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
