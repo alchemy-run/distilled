@@ -171,13 +171,15 @@ export interface RestProtocolOptions<C> {
    * API base URL from the resolved credentials. Receives the operation's
    * route so APIs with more than one endpoint (e.g. S2's account vs
    * per-basin hosts, chosen by path) can route per request; single-endpoint
-   * providers ignore the argument. A THROWN error (e.g. a required scope
-   * missing from the credentials) is caught and surfaced on the calling
-   * effect's error channel rather than dying as a defect.
+   * providers ignore the argument. `server` is the operation's host name
+   * (`T.Http({ server })`) for APIs that serve some operations from another
+   * host; map it to a base URL from the credentials. A THROWN error (e.g. a
+   * required scope missing from the credentials) is caught and surfaced on
+   * the calling effect's error channel rather than dying as a defect.
    */
   readonly baseUrl: (
     credentials: C,
-    target: { readonly uri: string; readonly method: string },
+    target: { readonly uri: string; readonly method: string; readonly server?: string | undefined },
   ) => string;
   /** Auth (and any fixed) headers from the resolved credentials. */
   readonly headers: (credentials: C) => Record<string, string>;
@@ -392,6 +394,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       baseUrl = options.baseUrl(creds, {
         uri: http?.uri ?? "",
         method: http?.method ?? "",
+        server: http?.server,
       });
     } catch (e) {
       // A baseUrl that refuses the route (missing scope in the
