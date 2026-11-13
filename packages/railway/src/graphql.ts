@@ -11,6 +11,7 @@ import {
   rootList,
   scalarField,
   type ErrorSpec,
+  type FieldWithArgs,
   type Query,
   type TypeMeta,
 } from "@distilled.cloud/core/graphql";
@@ -3209,7 +3210,11 @@ export interface Environment {
   readonly clearancePropagatedAt: string | null;
   readonly clearancePropagationError: string | null;
   readonly clearanceServiceCounts: EnvironmentClearanceServiceCounts;
-  readonly config: unknown;
+  readonly config: FieldWithArgs<
+    unknown,
+    { readonly decryptVariables?: boolean | null | undefined },
+    false
+  >;
   readonly configEtag: string;
   readonly createdAt: string;
   readonly deletedAt: string | null;
@@ -3280,7 +3285,11 @@ export interface EnvironmentPatch {
   readonly id: string;
   readonly lastAppliedError: string | null;
   readonly message: string | null;
-  readonly patch: unknown;
+  readonly patch: FieldWithArgs<
+    unknown,
+    { readonly decryptVariables?: boolean | null | undefined },
+    false
+  >;
   readonly status: "APPLYING" | "COMMITTED" | "FAILED" | "STAGED";
   readonly updatedAt: string;
 }
@@ -5814,7 +5823,11 @@ export interface Workspace {
   readonly partnerProfile: PartnerProfile | null;
   readonly plan: "FREE" | "HOBBY" | "PRO";
   readonly preferredRegion: string | null;
-  readonly projectCount: number;
+  readonly projectCount: FieldWithArgs<
+    number,
+    { readonly includeDeleted?: boolean | null | undefined },
+    false
+  >;
   readonly projects: ReadonlyArray<Project>;
   readonly redactedDueTo2FAPending: boolean;
   readonly referredUsers: ReadonlyArray<ReferralUser>;
@@ -9203,7 +9216,7 @@ const EnvironmentFields: TypeMeta["fields"] = {
   clearancePropagatedAt: scalarField("clearancePropagatedAt"),
   clearancePropagationError: scalarField("clearancePropagationError"),
   clearanceServiceCounts: objectField("clearanceServiceCounts", EnvironmentClearanceServiceCounts),
-  config: scalarField("config"),
+  config: scalarField("config", { argTypes: { decryptVariables: "Boolean" } }),
   configEtag: scalarField("configEtag"),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
@@ -9299,7 +9312,7 @@ const EnvironmentPatchFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   lastAppliedError: scalarField("lastAppliedError"),
   message: scalarField("message"),
-  patch: scalarField("patch"),
+  patch: scalarField("patch", { argTypes: { decryptVariables: "Boolean" } }),
   status: scalarField("status"),
   updatedAt: scalarField("updatedAt"),
 };
@@ -11598,7 +11611,7 @@ const WorkspaceFields: TypeMeta["fields"] = {
   partnerProfile: objectField("partnerProfile", PartnerProfile),
   plan: scalarField("plan"),
   preferredRegion: scalarField("preferredRegion"),
-  projectCount: scalarField("projectCount"),
+  projectCount: scalarField("projectCount", { argTypes: { includeDeleted: "Boolean" } }),
   projects: connectionField("projects", Project, {
     after: "String",
     before: "String",

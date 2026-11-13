@@ -11,6 +11,7 @@ import {
   rootList,
   scalarField,
   type ErrorSpec,
+  type FieldWithArgs,
   type Query,
   type TypeMeta,
 } from "@distilled.cloud/core/graphql";
@@ -6368,7 +6369,7 @@ export interface AccessUserNamespaceRepositoryPayload {
 
 /** Represents an object which can take actions on GitHub. Typically a User or Bot. */
 export interface Actor {
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly login: string;
   readonly resourcePath: string;
   readonly url: string;
@@ -6617,7 +6618,7 @@ export interface App {
   readonly id: string;
   readonly ipAllowListEntries: ReadonlyArray<IpAllowListEntry>;
   readonly logoBackgroundColor: string;
-  readonly logoUrl: string;
+  readonly logoUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly name: string;
   readonly slug: string;
   readonly updatedAt: string;
@@ -6879,7 +6880,7 @@ export interface BlockingRemovedEvent {
 
 /** A special type of user which takes actions on behalf of GitHub Apps. */
 export interface Bot {
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly createdAt: string;
   readonly databaseId: number | null;
   readonly id: string;
@@ -7125,7 +7126,14 @@ export interface CheckRun {
   readonly detailsUrl: string | null;
   readonly externalId: string | null;
   readonly id: string;
-  readonly isRequired: boolean;
+  readonly isRequired: FieldWithArgs<
+    boolean,
+    {
+      readonly pullRequestId?: string | null | undefined;
+      readonly pullRequestNumber?: number | null | undefined;
+    },
+    false
+  >;
   readonly name: string;
   readonly pendingDeploymentRequest: DeploymentRequest | null;
   readonly permalink: string;
@@ -7405,7 +7413,7 @@ export interface Commit {
   readonly authoredByCommitter: boolean;
   readonly authoredDate: string;
   readonly authors: ReadonlyArray<GitActor>;
-  readonly blame: Blame;
+  readonly blame: FieldWithArgs<Blame, { readonly path: string }>;
   readonly changedFiles: number;
   readonly changedFilesIfAvailable: number | null;
   readonly checkSuites: ReadonlyArray<CheckSuite> | null;
@@ -7417,7 +7425,7 @@ export interface Commit {
   readonly commitUrl: string;
   readonly deletions: number;
   readonly deployments: ReadonlyArray<Deployment> | null;
-  readonly file: TreeEntry | null;
+  readonly file: FieldWithArgs<TreeEntry | null, { readonly path: string }>;
   readonly history: ReadonlyArray<Commit>;
   readonly id: string;
   readonly message: string;
@@ -7706,14 +7714,46 @@ export interface ContributionsCollection {
   readonly restrictedContributionsCount: number;
   readonly startedAt: string;
   readonly totalCommitContributions: number;
-  readonly totalIssueContributions: number;
-  readonly totalPullRequestContributions: number;
+  readonly totalIssueContributions: FieldWithArgs<
+    number,
+    {
+      readonly excludeFirst?: boolean | null | undefined;
+      readonly excludePopular?: boolean | null | undefined;
+    },
+    false
+  >;
+  readonly totalPullRequestContributions: FieldWithArgs<
+    number,
+    {
+      readonly excludeFirst?: boolean | null | undefined;
+      readonly excludePopular?: boolean | null | undefined;
+    },
+    false
+  >;
   readonly totalPullRequestReviewContributions: number;
   readonly totalRepositoriesWithContributedCommits: number;
-  readonly totalRepositoriesWithContributedIssues: number;
+  readonly totalRepositoriesWithContributedIssues: FieldWithArgs<
+    number,
+    {
+      readonly excludeFirst?: boolean | null | undefined;
+      readonly excludePopular?: boolean | null | undefined;
+    },
+    false
+  >;
   readonly totalRepositoriesWithContributedPullRequestReviews: number;
-  readonly totalRepositoriesWithContributedPullRequests: number;
-  readonly totalRepositoryContributions: number;
+  readonly totalRepositoriesWithContributedPullRequests: FieldWithArgs<
+    number,
+    {
+      readonly excludeFirst?: boolean | null | undefined;
+      readonly excludePopular?: boolean | null | undefined;
+    },
+    false
+  >;
+  readonly totalRepositoryContributions: FieldWithArgs<
+    number,
+    { readonly excludeFirst?: boolean | null | undefined },
+    false
+  >;
   readonly user: User;
 }
 
@@ -8946,14 +8986,14 @@ export interface EnqueuePullRequestPayload {
 /** An account to manage multiple organizations with consolidated policy and billing. */
 export interface Enterprise {
   readonly announcementBanner: AnnouncementBanner | null;
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly billingEmail: string | null;
   readonly billingInfo: EnterpriseBillingInfo | null;
   readonly createdAt: string;
   readonly databaseId: number | null;
   readonly description: string | null;
   readonly descriptionHTML: string;
-  readonly enterpriseTeam: EnterpriseTeam | null;
+  readonly enterpriseTeam: FieldWithArgs<EnterpriseTeam | null, { readonly slug: string }>;
   readonly enterpriseTeams: ReadonlyArray<EnterpriseTeam>;
   readonly id: string;
   readonly innersourceVulnerabilities: ReadonlyArray<SecurityVulnerability>;
@@ -8965,9 +9005,12 @@ export interface Enterprise {
   readonly readme: string | null;
   readonly readmeHTML: string;
   readonly repositoryCustomProperties: ReadonlyArray<RepositoryCustomProperty> | null;
-  readonly repositoryCustomProperty: RepositoryCustomProperty | null;
+  readonly repositoryCustomProperty: FieldWithArgs<
+    RepositoryCustomProperty | null,
+    { readonly propertyName: string }
+  >;
   readonly resourcePath: string;
-  readonly ruleset: RepositoryRuleset | null;
+  readonly ruleset: FieldWithArgs<RepositoryRuleset | null, { readonly databaseId: number }>;
   readonly rulesets: ReadonlyArray<RepositoryRuleset> | null;
   readonly securityContactEmail: string | null;
   readonly slug: string;
@@ -9443,7 +9486,7 @@ export interface EnterpriseTeamMemberEdge {
 
 /** An account for a user who is an admin of an enterprise or a member of an enterprise through one or more organizations. */
 export interface EnterpriseUserAccount {
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly createdAt: string;
   readonly enterprise: Enterprise;
   readonly enterpriseInstallations: ReadonlyArray<EnterpriseServerInstallation>;
@@ -9707,12 +9750,16 @@ export interface GistFile {
   readonly language: Language | null;
   readonly name: string | null;
   readonly size: number | null;
-  readonly text: string | null;
+  readonly text: FieldWithArgs<
+    string | null,
+    { readonly truncate?: number | null | undefined },
+    false
+  >;
 }
 
 /** Represents an actor in a Git commit (ie. an author or committer). */
 export interface GitActor {
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly date: string | null;
   readonly email: string | null;
   readonly name: string | null;
@@ -9940,7 +9987,11 @@ export interface Issue {
   readonly duplicateOf: Issue | null;
   readonly editor: Actor | null;
   readonly fullDatabaseId: string | null;
-  readonly hovercard: Hovercard;
+  readonly hovercard: FieldWithArgs<
+    Hovercard,
+    { readonly includeNotificationContexts?: boolean | null | undefined },
+    false
+  >;
   readonly id: string;
   readonly includesCreatedEdit: boolean;
   readonly isPinned: boolean | null;
@@ -9973,7 +10024,7 @@ export interface Issue {
   readonly projectCards: ReadonlyArray<ProjectCard>;
   readonly projectItems: ReadonlyArray<ProjectV2Item> | null;
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
   readonly publishedAt: string | null;
   readonly reactionGroups: ReadonlyArray<ReactionGroup> | null;
   readonly reactions: ReadonlyArray<Reaction>;
@@ -9981,7 +10032,11 @@ export interface Issue {
   readonly repository: Repository;
   readonly resourcePath: string;
   readonly state: "CLOSED" | "OPEN";
-  readonly stateReason: "COMPLETED" | "DUPLICATE" | "NOT_PLANNED" | "REOPENED" | null;
+  readonly stateReason: FieldWithArgs<
+    "COMPLETED" | "DUPLICATE" | "NOT_PLANNED" | "REOPENED" | null,
+    { readonly enableDuplicate?: boolean | null | undefined },
+    false
+  >;
   readonly subIssues: ReadonlyArray<Issue>;
   readonly subIssuesSummary: SubIssuesSummary;
   readonly suggestedActors: ReadonlyArray<Bot | Mannequin | Organization | User>;
@@ -10063,7 +10118,11 @@ export interface Issue {
   readonly titleHTML: string;
   readonly trackedInIssues: ReadonlyArray<Issue>;
   readonly trackedIssues: ReadonlyArray<Issue>;
-  readonly trackedIssuesCount: number;
+  readonly trackedIssuesCount: FieldWithArgs<
+    number,
+    { readonly states?: ReadonlyArray<"CLOSED" | "OPEN" | null> | null | undefined },
+    false
+  >;
   readonly updatedAt: string;
   readonly url: string;
   readonly userContentEdits: ReadonlyArray<UserContentEdit> | null;
@@ -10917,7 +10976,7 @@ export interface LockedEvent {
 
 /** A placeholder user for attribution of imported data on GitHub. */
 export interface Mannequin {
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly claimant: User | null;
   readonly createdAt: string;
   readonly databaseId: number | null;
@@ -11021,7 +11080,11 @@ export interface MarketplaceListing {
   readonly isVerificationPendingFromUnverified: boolean;
   readonly isVerified: boolean;
   readonly logoBackgroundColor: string;
-  readonly logoUrl: string | null;
+  readonly logoUrl: FieldWithArgs<
+    string | null,
+    { readonly size?: number | null | undefined },
+    false
+  >;
   readonly name: string;
   readonly normalizedShortDescription: string;
   readonly pricingUrl: string | null;
@@ -12428,7 +12491,23 @@ export interface OrgUpdateMemberRepositoryInvitationPermissionAuditEntry {
 /** An account on GitHub, with one or more owners, that has repositories, members and teams. */
 export interface Organization {
   readonly announcementBanner: AnnouncementBanner | null;
-  readonly anyPinnableItems: boolean;
+  readonly anyPinnableItems: FieldWithArgs<
+    boolean,
+    {
+      readonly type?:
+        | "GIST"
+        | "ISSUE"
+        | "ORGANIZATION"
+        | "PROJECT"
+        | "PULL_REQUEST"
+        | "REPOSITORY"
+        | "TEAM"
+        | "USER"
+        | null
+        | undefined;
+    },
+    false
+  >;
   readonly archivedAt: string | null;
   readonly auditLog: ReadonlyArray<
     | MembersCanDeleteReposClearAuditEntry
@@ -12492,7 +12571,7 @@ export interface Organization {
     | TeamRemoveMemberAuditEntry
     | TeamRemoveRepositoryAuditEntry
   >;
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly createdAt: string;
   readonly databaseId: number | null;
   readonly description: string | null;
@@ -12508,7 +12587,7 @@ export interface Organization {
   readonly ipAllowListEnabledSetting: "DISABLED" | "ENABLED";
   readonly ipAllowListEntries: ReadonlyArray<IpAllowListEntry>;
   readonly ipAllowListForInstalledAppsEnabledSetting: "DISABLED" | "ENABLED";
-  readonly isSponsoredBy: boolean;
+  readonly isSponsoredBy: FieldWithArgs<boolean, { readonly accountLogin: string }>;
   readonly isSponsoringViewer: boolean;
   readonly issueFields: ReadonlyArray<
     | IssueFieldDate
@@ -12545,39 +12624,64 @@ export interface Organization {
   > | null;
   readonly pinnedItems: ReadonlyArray<Gist | Repository>;
   readonly pinnedItemsRemaining: number;
-  readonly project: Project | null;
+  readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
   readonly projectsResourcePath: string;
   readonly projectsUrl: string;
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
   readonly recentProjects: ReadonlyArray<ProjectV2>;
   readonly repositories: ReadonlyArray<Repository>;
-  readonly repository: Repository | null;
+  readonly repository: FieldWithArgs<
+    Repository | null,
+    { readonly name: string; readonly followRenames?: boolean | null | undefined }
+  >;
   readonly repositoryCustomProperties: ReadonlyArray<RepositoryCustomProperty> | null;
-  readonly repositoryCustomProperty: RepositoryCustomProperty | null;
+  readonly repositoryCustomProperty: FieldWithArgs<
+    RepositoryCustomProperty | null,
+    { readonly propertyName: string }
+  >;
   readonly repositoryDiscussionComments: ReadonlyArray<DiscussionComment>;
   readonly repositoryDiscussions: ReadonlyArray<Discussion>;
   readonly repositoryMigrations: ReadonlyArray<RepositoryMigration>;
   readonly requiresTwoFactorAuthentication: boolean | null;
   readonly resourcePath: string;
-  readonly ruleset: RepositoryRuleset | null;
+  readonly ruleset: FieldWithArgs<
+    RepositoryRuleset | null,
+    { readonly databaseId: number; readonly includeParents?: boolean | null | undefined }
+  >;
   readonly rulesets: ReadonlyArray<RepositoryRuleset> | null;
   readonly samlIdentityProvider: OrganizationIdentityProvider | null;
   readonly sponsoring: ReadonlyArray<Organization | User>;
   readonly sponsors: ReadonlyArray<Organization | User>;
   readonly sponsorsActivities: ReadonlyArray<SponsorsActivity>;
-  readonly sponsorshipForViewerAsSponsor: Sponsorship | null;
-  readonly sponsorshipForViewerAsSponsorable: Sponsorship | null;
+  readonly sponsorshipForViewerAsSponsor: FieldWithArgs<
+    Sponsorship | null,
+    { readonly activeOnly?: boolean | null | undefined },
+    false
+  >;
+  readonly sponsorshipForViewerAsSponsorable: FieldWithArgs<
+    Sponsorship | null,
+    { readonly activeOnly?: boolean | null | undefined },
+    false
+  >;
   readonly sponsorshipNewsletters: ReadonlyArray<SponsorshipNewsletter>;
   readonly sponsorshipsAsMaintainer: ReadonlyArray<Sponsorship>;
   readonly sponsorshipsAsSponsor: ReadonlyArray<Sponsorship>;
   readonly sponsorsListing: SponsorsListing | null;
-  readonly team: Team | null;
+  readonly team: FieldWithArgs<Team | null, { readonly slug: string }>;
   readonly teams: ReadonlyArray<Team>;
   readonly teamsResourcePath: string;
   readonly teamsUrl: string;
-  readonly totalSponsorshipAmountAsSponsorInCents: number | null;
+  readonly totalSponsorshipAmountAsSponsorInCents: FieldWithArgs<
+    number | null,
+    {
+      readonly since?: string | null | undefined;
+      readonly sponsorableLogins?: ReadonlyArray<string> | null | undefined;
+      readonly until?: string | null | undefined;
+    },
+    false
+  >;
   readonly twitterUsername: string | null;
   readonly updatedAt: string;
   readonly url: string;
@@ -12889,7 +12993,7 @@ export interface Package {
   readonly packageType: "DEBIAN" | "DOCKER" | "MAVEN" | "NPM" | "NUGET" | "PYPI" | "RUBYGEMS";
   readonly repository: Repository | null;
   readonly statistics: PackageStatistics | null;
-  readonly version: PackageVersion | null;
+  readonly version: FieldWithArgs<PackageVersion | null, { readonly version: string }>;
   readonly versions: ReadonlyArray<PackageVersion>;
 }
 
@@ -13301,7 +13405,23 @@ export interface ProfileItemShowcase {
 
 /** Represents any entity on GitHub that has a profile page. */
 export interface ProfileOwner {
-  readonly anyPinnableItems: boolean;
+  readonly anyPinnableItems: FieldWithArgs<
+    boolean,
+    {
+      readonly type?:
+        | "GIST"
+        | "ISSUE"
+        | "ORGANIZATION"
+        | "PROJECT"
+        | "PULL_REQUEST"
+        | "REPOSITORY"
+        | "TEAM"
+        | "USER"
+        | null
+        | undefined;
+    },
+    false
+  >;
   readonly email: string | null;
   readonly id: string;
   readonly itemShowcase: ProfileItemShowcase;
@@ -13416,7 +13536,7 @@ export interface ProjectEdge {
 /** Represents an owner of a Project. */
 export interface ProjectOwner {
   readonly id: string;
-  readonly project: Project | null;
+  readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
   readonly projectsResourcePath: string;
   readonly projectsUrl: string;
@@ -13441,12 +13561,14 @@ export interface ProjectV2 {
   readonly createdAt: string;
   readonly creator: Actor | null;
   readonly databaseId: number | null;
-  readonly field:
+  readonly field: FieldWithArgs<
     | ProjectV2Field
     | ProjectV2IterationField
     | ProjectV2MultiSelectField
     | ProjectV2SingleSelectField
-    | null;
+    | null,
+    { readonly name: string }
+  >;
   readonly fields: ReadonlyArray<
     | ProjectV2Field
     | ProjectV2IterationField
@@ -13469,12 +13591,12 @@ export interface ProjectV2 {
   readonly title: string;
   readonly updatedAt: string;
   readonly url: string;
-  readonly view: ProjectV2View | null;
+  readonly view: FieldWithArgs<ProjectV2View | null, { readonly number: number }>;
   readonly viewerCanClose: boolean;
   readonly viewerCanReopen: boolean;
   readonly viewerCanUpdate: boolean;
   readonly views: ReadonlyArray<ProjectV2View>;
-  readonly workflow: ProjectV2Workflow | null;
+  readonly workflow: FieldWithArgs<ProjectV2Workflow | null, { readonly number: number }>;
   readonly workflows: ReadonlyArray<ProjectV2Workflow>;
 }
 
@@ -13630,7 +13752,7 @@ export interface ProjectV2Item {
   readonly createdAt: string;
   readonly creator: Actor | null;
   readonly databaseId: number | null;
-  readonly fieldValueByName:
+  readonly fieldValueByName: FieldWithArgs<
     | ProjectV2ItemFieldDateValue
     | ProjectV2ItemFieldIterationValue
     | ProjectV2ItemFieldLabelValue
@@ -13644,7 +13766,9 @@ export interface ProjectV2Item {
     | ProjectV2ItemFieldTextValue
     | ProjectV2ItemFieldUserValue
     | ProjectV2ItemIssueFieldValue
-    | null;
+    | null,
+    { readonly name: string }
+  >;
   readonly fieldValues: ReadonlyArray<
     | ProjectV2ItemFieldDateValue
     | ProjectV2ItemFieldIterationValue
@@ -14039,7 +14163,7 @@ export interface ProjectV2MultiSelectFieldOption {
 export interface ProjectV2Owner {
   readonly id: string;
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
 }
 
 /** Recent projects for the owner. */
@@ -14350,7 +14474,11 @@ export interface PullRequest {
   readonly headRefOid: string;
   readonly headRepository: Repository | null;
   readonly headRepositoryOwner: RepositoryOwner | null;
-  readonly hovercard: Hovercard;
+  readonly hovercard: FieldWithArgs<
+    Hovercard,
+    { readonly includeNotificationContexts?: boolean | null | undefined },
+    false
+  >;
   readonly id: string;
   readonly includesCreatedEdit: boolean;
   readonly isCrossRepository: boolean;
@@ -14388,7 +14516,7 @@ export interface PullRequest {
   readonly projectCards: ReadonlyArray<ProjectCard>;
   readonly projectItems: ReadonlyArray<ProjectV2Item> | null;
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
   readonly publishedAt: string | null;
   readonly reactionGroups: ReadonlyArray<ReactionGroup> | null;
   readonly reactions: ReadonlyArray<Reaction>;
@@ -14556,8 +14684,16 @@ export interface PullRequest {
   readonly viewerDidAuthor: boolean;
   readonly viewerLatestReview: PullRequestReview | null;
   readonly viewerLatestReviewRequest: ReviewRequest | null;
-  readonly viewerMergeBodyText: string;
-  readonly viewerMergeHeadlineText: string;
+  readonly viewerMergeBodyText: FieldWithArgs<
+    string,
+    { readonly mergeType?: "MERGE" | "REBASE" | "SQUASH" | null | undefined },
+    false
+  >;
+  readonly viewerMergeHeadlineText: FieldWithArgs<
+    string,
+    { readonly mergeType?: "MERGE" | "REBASE" | "SQUASH" | null | undefined },
+    false
+  >;
   readonly viewerSubscription: "IGNORED" | "SUBSCRIBED" | "UNSUBSCRIBED" | null;
 }
 
@@ -15325,7 +15461,7 @@ export interface ReadyForReviewEvent {
 export interface Ref {
   readonly associatedPullRequests: ReadonlyArray<PullRequest>;
   readonly branchProtectionRule: BranchProtectionRule | null;
-  readonly compare: Comparison | null;
+  readonly compare: FieldWithArgs<Comparison | null, { readonly headRef: string }>;
   readonly id: string;
   readonly name: string;
   readonly prefix: string;
@@ -15427,7 +15563,11 @@ export interface Release {
   readonly releaseAssets: ReadonlyArray<ReleaseAsset>;
   readonly repository: Repository;
   readonly resourcePath: string;
-  readonly shortDescriptionHTML: string | null;
+  readonly shortDescriptionHTML: FieldWithArgs<
+    string | null,
+    { readonly limit?: number | null | undefined },
+    false
+  >;
   readonly tag: Ref | null;
   readonly tagCommit: Commit | null;
   readonly tagName: string;
@@ -16346,7 +16486,11 @@ export interface Repository {
   readonly autoMergeAllowed: boolean;
   readonly branchProtectionRules: ReadonlyArray<BranchProtectionRule>;
   readonly codeOfConduct: CodeOfConduct | null;
-  readonly codeowners: RepositoryCodeowners | null;
+  readonly codeowners: FieldWithArgs<
+    RepositoryCodeowners | null,
+    { readonly refName?: string | null | undefined },
+    false
+  >;
   readonly collaborators: ReadonlyArray<User> | null;
   readonly commitComments: ReadonlyArray<CommitComment>;
   readonly contactLinks: ReadonlyArray<RepositoryContactLink> | null;
@@ -16360,12 +16504,12 @@ export interface Repository {
   readonly deployments: ReadonlyArray<Deployment>;
   readonly description: string | null;
   readonly descriptionHTML: string;
-  readonly discussion: Discussion | null;
+  readonly discussion: FieldWithArgs<Discussion | null, { readonly number: number }>;
   readonly discussionCategories: ReadonlyArray<DiscussionCategory>;
-  readonly discussionCategory: DiscussionCategory | null;
+  readonly discussionCategory: FieldWithArgs<DiscussionCategory | null, { readonly slug: string }>;
   readonly discussions: ReadonlyArray<Discussion>;
   readonly diskUsage: number | null;
-  readonly environment: Environment | null;
+  readonly environment: FieldWithArgs<Environment | null, { readonly name: string }>;
   readonly environments: ReadonlyArray<Environment>;
   readonly forkCount: number;
   readonly forkingAllowed: boolean;
@@ -16392,7 +16536,7 @@ export interface Repository {
   readonly isMirror: boolean;
   readonly isPrivate: boolean;
   readonly isSecurityPolicyEnabled: boolean | null;
-  readonly issue: Issue | null;
+  readonly issue: FieldWithArgs<Issue | null, { readonly number: number }>;
   readonly issueCreationPolicy: "ALL" | "COLLABORATORS_ONLY" | null;
   readonly issueFields: ReadonlyArray<
     | IssueFieldDate
@@ -16401,14 +16545,17 @@ export interface Repository {
     | IssueFieldSingleSelect
     | IssueFieldText
   > | null;
-  readonly issueOrPullRequest: Issue | PullRequest | null;
+  readonly issueOrPullRequest: FieldWithArgs<
+    Issue | PullRequest | null,
+    { readonly number: number }
+  >;
   readonly issues: ReadonlyArray<Issue>;
   readonly issueTemplates: ReadonlyArray<IssueTemplate> | null;
-  readonly issueType: IssueType | null;
+  readonly issueType: FieldWithArgs<IssueType | null, { readonly name: string }>;
   readonly issueTypes: ReadonlyArray<IssueType> | null;
   readonly isTemplate: boolean;
   readonly isUserConfigurationRepository: boolean;
-  readonly label: Label | null;
+  readonly label: FieldWithArgs<Label | null, { readonly name: string }>;
   readonly labels: ReadonlyArray<Label> | null;
   readonly languages: ReadonlyArray<Language> | null;
   readonly latestRelease: Release | null;
@@ -16425,13 +16572,21 @@ export interface Repository {
   readonly mergeCommitAllowed: boolean;
   readonly mergeCommitMessage: "BLANK" | "PR_BODY" | "PR_TITLE";
   readonly mergeCommitTitle: "MERGE_MESSAGE" | "PR_TITLE";
-  readonly mergeQueue: MergeQueue | null;
-  readonly milestone: Milestone | null;
+  readonly mergeQueue: FieldWithArgs<
+    MergeQueue | null,
+    { readonly branch?: string | null | undefined },
+    false
+  >;
+  readonly milestone: FieldWithArgs<Milestone | null, { readonly number: number }>;
   readonly milestones: ReadonlyArray<Milestone> | null;
   readonly mirrorUrl: string | null;
   readonly name: string;
   readonly nameWithOwner: string;
-  readonly object: GitObject | null;
+  readonly object: FieldWithArgs<
+    GitObject | null,
+    { readonly expression?: string | null | undefined; readonly oid?: string | null | undefined },
+    false
+  >;
   readonly openGraphImageUrl: string;
   readonly owner: RepositoryOwner;
   readonly packages: ReadonlyArray<Package>;
@@ -16441,13 +16596,13 @@ export interface Repository {
   readonly pinnedIssues: ReadonlyArray<PinnedIssue> | null;
   readonly planFeatures: RepositoryPlanFeatures;
   readonly primaryLanguage: Language | null;
-  readonly project: Project | null;
+  readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
   readonly projectsResourcePath: string;
   readonly projectsUrl: string;
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
-  readonly pullRequest: PullRequest | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
+  readonly pullRequest: FieldWithArgs<PullRequest | null, { readonly number: number }>;
   readonly pullRequestCreationCapConfig: PullRequestCreationCapConfig | null;
   readonly pullRequestCreationPolicy: "ALL" | "COLLABORATORS_ONLY" | null;
   readonly pullRequests: ReadonlyArray<PullRequest>;
@@ -16455,18 +16610,28 @@ export interface Repository {
   readonly pushedAt: string | null;
   readonly rebaseMergeAllowed: boolean;
   readonly recentProjects: ReadonlyArray<ProjectV2>;
-  readonly ref: Ref | null;
+  readonly ref: FieldWithArgs<Ref | null, { readonly qualifiedName: string }>;
   readonly refs: ReadonlyArray<Ref> | null;
-  readonly release: Release | null;
+  readonly release: FieldWithArgs<Release | null, { readonly tagName: string }>;
   readonly releases: ReadonlyArray<Release>;
-  readonly repositoryCustomPropertyValue: RepositoryCustomPropertyValue | null;
+  readonly repositoryCustomPropertyValue: FieldWithArgs<
+    RepositoryCustomPropertyValue | null,
+    { readonly propertyName: string }
+  >;
   readonly repositoryCustomPropertyValues: ReadonlyArray<RepositoryCustomPropertyValue> | null;
   readonly repositoryTopics: ReadonlyArray<RepositoryTopic>;
   readonly resourcePath: string;
-  readonly ruleset: RepositoryRuleset | null;
+  readonly ruleset: FieldWithArgs<
+    RepositoryRuleset | null,
+    { readonly databaseId: number; readonly includeParents?: boolean | null | undefined }
+  >;
   readonly rulesets: ReadonlyArray<RepositoryRuleset> | null;
   readonly securityPolicyUrl: string | null;
-  readonly shortDescriptionHTML: string;
+  readonly shortDescriptionHTML: FieldWithArgs<
+    string,
+    { readonly limit?: number | null | undefined },
+    false
+  >;
   readonly squashMergeAllowed: boolean;
   readonly squashMergeCommitMessage: "BLANK" | "COMMIT_MESSAGES" | "PR_BODY";
   readonly squashMergeCommitTitle: "COMMIT_OR_PR_TITLE" | "PR_TITLE";
@@ -16502,7 +16667,10 @@ export interface Repository {
   readonly viewerPossibleCommitEmails: ReadonlyArray<string> | null;
   readonly viewerSubscription: "IGNORED" | "SUBSCRIBED" | "UNSUBSCRIBED" | null;
   readonly visibility: "INTERNAL" | "PRIVATE" | "PUBLIC";
-  readonly vulnerabilityAlert: RepositoryVulnerabilityAlert | null;
+  readonly vulnerabilityAlert: FieldWithArgs<
+    RepositoryVulnerabilityAlert | null,
+    { readonly number: number }
+  >;
   readonly vulnerabilityAlerts: ReadonlyArray<RepositoryVulnerabilityAlert> | null;
   readonly watchers: ReadonlyArray<User>;
   readonly webCommitSignoffRequired: boolean;
@@ -16673,7 +16841,11 @@ export interface RepositoryInfo {
   readonly pullRequestCreationPolicy: "ALL" | "COLLABORATORS_ONLY" | null;
   readonly pushedAt: string | null;
   readonly resourcePath: string;
-  readonly shortDescriptionHTML: string;
+  readonly shortDescriptionHTML: FieldWithArgs<
+    string,
+    { readonly limit?: number | null | undefined },
+    false
+  >;
   readonly updatedAt: string;
   readonly url: string;
   readonly usesCustomOpenGraphImage: boolean;
@@ -16762,11 +16934,14 @@ export interface RepositoryNode {
 
 /** Represents an owner of a Repository. */
 export interface RepositoryOwner {
-  readonly avatarUrl: string;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly id: string;
   readonly login: string;
   readonly repositories: ReadonlyArray<Repository>;
-  readonly repository: Repository | null;
+  readonly repository: FieldWithArgs<
+    Repository | null,
+    { readonly name: string; readonly followRenames?: boolean | null | undefined }
+  >;
   readonly resourcePath: string;
   readonly url: string;
 }
@@ -17092,7 +17267,14 @@ export interface RequestedReviewerEdge {
 
 /** Represents a type that can be required by a pull request for merging. */
 export interface RequirableByPullRequest {
-  readonly isRequired: boolean;
+  readonly isRequired: FieldWithArgs<
+    boolean,
+    {
+      readonly pullRequestId?: string | null | undefined;
+      readonly pullRequestNumber?: number | null | undefined;
+    },
+    false
+  >;
 }
 
 /** Choose which environments must be successfully deployed to before refs can be pushed into a ref that matches this rule. */
@@ -17589,20 +17771,36 @@ export interface SponsorEdge {
 export interface Sponsorable {
   readonly estimatedNextSponsorsPayoutInCents: number;
   readonly hasSponsorsListing: boolean;
-  readonly isSponsoredBy: boolean;
+  readonly isSponsoredBy: FieldWithArgs<boolean, { readonly accountLogin: string }>;
   readonly isSponsoringViewer: boolean;
   readonly lifetimeReceivedSponsorshipValues: ReadonlyArray<SponsorAndLifetimeValue>;
   readonly monthlyEstimatedSponsorsIncomeInCents: number;
   readonly sponsoring: ReadonlyArray<Organization | User>;
   readonly sponsors: ReadonlyArray<Organization | User>;
   readonly sponsorsActivities: ReadonlyArray<SponsorsActivity>;
-  readonly sponsorshipForViewerAsSponsor: Sponsorship | null;
-  readonly sponsorshipForViewerAsSponsorable: Sponsorship | null;
+  readonly sponsorshipForViewerAsSponsor: FieldWithArgs<
+    Sponsorship | null,
+    { readonly activeOnly?: boolean | null | undefined },
+    false
+  >;
+  readonly sponsorshipForViewerAsSponsorable: FieldWithArgs<
+    Sponsorship | null,
+    { readonly activeOnly?: boolean | null | undefined },
+    false
+  >;
   readonly sponsorshipNewsletters: ReadonlyArray<SponsorshipNewsletter>;
   readonly sponsorshipsAsMaintainer: ReadonlyArray<Sponsorship>;
   readonly sponsorshipsAsSponsor: ReadonlyArray<Sponsorship>;
   readonly sponsorsListing: SponsorsListing | null;
-  readonly totalSponsorshipAmountAsSponsorInCents: number | null;
+  readonly totalSponsorshipAmountAsSponsorInCents: FieldWithArgs<
+    number | null,
+    {
+      readonly since?: string | null | undefined;
+      readonly sponsorableLogins?: ReadonlyArray<string> | null | undefined;
+      readonly until?: string | null | undefined;
+    },
+    false
+  >;
   readonly viewerCanSponsor: boolean;
   readonly viewerIsSponsoring: boolean;
 }
@@ -17884,7 +18082,7 @@ export interface StartRepositoryMigrationPayload {
 export interface Status {
   readonly combinedContexts: ReadonlyArray<CheckRun | StatusContext>;
   readonly commit: Commit | null;
-  readonly context: StatusContext | null;
+  readonly context: FieldWithArgs<StatusContext | null, { readonly name: string }>;
   readonly contexts: ReadonlyArray<StatusContext>;
   readonly id: string;
   readonly state: "ERROR" | "EXPECTED" | "FAILURE" | "PENDING" | "SUCCESS";
@@ -17924,14 +18122,25 @@ export interface StatusCheckRollupContextEdge {
 
 /** Represents an individual commit status context */
 export interface StatusContext {
-  readonly avatarUrl: string | null;
+  readonly avatarUrl: FieldWithArgs<
+    string | null,
+    { readonly size?: number | null | undefined },
+    false
+  >;
   readonly commit: Commit | null;
   readonly context: string;
   readonly createdAt: string;
   readonly creator: Actor | null;
   readonly description: string | null;
   readonly id: string;
-  readonly isRequired: boolean;
+  readonly isRequired: FieldWithArgs<
+    boolean,
+    {
+      readonly pullRequestId?: string | null | undefined;
+      readonly pullRequestNumber?: number | null | undefined;
+    },
+    false
+  >;
   readonly state: "ERROR" | "EXPECTED" | "FAILURE" | "PENDING" | "SUCCESS";
   readonly targetUrl: string | null;
   readonly updatedAt: string;
@@ -18092,7 +18301,11 @@ export interface TagNamePatternParameters {
 /** A team of users in an organization. */
 export interface Team {
   readonly ancestors: ReadonlyArray<Team>;
-  readonly avatarUrl: string | null;
+  readonly avatarUrl: FieldWithArgs<
+    string | null,
+    { readonly size?: number | null | undefined },
+    false
+  >;
   readonly childTeams: ReadonlyArray<Team>;
   readonly combinedSlug: string;
   readonly createdAt: string;
@@ -18114,7 +18327,7 @@ export interface Team {
   readonly parentTeam: Team | null;
   readonly privacy: "SECRET" | "VISIBLE";
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
   readonly repositories: ReadonlyArray<Repository>;
   readonly repositoriesResourcePath: string;
   readonly repositoriesUrl: string;
@@ -19129,15 +19342,42 @@ export interface UpdateUserListsForItemPayload {
 
 /** A user is an individual's account on GitHub that owns repositories and can make new content. */
 export interface User {
-  readonly anyPinnableItems: boolean;
-  readonly avatarUrl: string;
+  readonly anyPinnableItems: FieldWithArgs<
+    boolean,
+    {
+      readonly type?:
+        | "GIST"
+        | "ISSUE"
+        | "ORGANIZATION"
+        | "PROJECT"
+        | "PULL_REQUEST"
+        | "REPOSITORY"
+        | "TEAM"
+        | "USER"
+        | null
+        | undefined;
+    },
+    false
+  >;
+  readonly avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
   readonly bio: string | null;
   readonly bioHTML: string;
-  readonly canReceiveOrganizationEmailsWhenNotificationsRestricted: boolean;
+  readonly canReceiveOrganizationEmailsWhenNotificationsRestricted: FieldWithArgs<
+    boolean,
+    { readonly login: string }
+  >;
   readonly commitComments: ReadonlyArray<CommitComment>;
   readonly company: string | null;
   readonly companyHTML: string;
-  readonly contributionsCollection: ContributionsCollection;
+  readonly contributionsCollection: FieldWithArgs<
+    ContributionsCollection,
+    {
+      readonly from?: string | null | undefined;
+      readonly organizationID?: string | null | undefined;
+      readonly to?: string | null | undefined;
+    },
+    false
+  >;
   readonly copilotEndpoints: CopilotEndpoints | null;
   readonly createdAt: string;
   readonly databaseId: number | null;
@@ -19146,11 +19386,15 @@ export interface User {
   readonly estimatedNextSponsorsPayoutInCents: number;
   readonly followers: ReadonlyArray<User>;
   readonly following: ReadonlyArray<User>;
-  readonly gist: Gist | null;
+  readonly gist: FieldWithArgs<Gist | null, { readonly name: string }>;
   readonly gistComments: ReadonlyArray<GistComment>;
   readonly gists: ReadonlyArray<Gist>;
   readonly hasSponsorsListing: boolean;
-  readonly hovercard: Hovercard;
+  readonly hovercard: FieldWithArgs<
+    Hovercard,
+    { readonly primarySubjectId?: string | null | undefined },
+    false
+  >;
   readonly id: string;
   readonly interactionAbility: RepositoryInteractionAbility | null;
   readonly isBountyHunter: boolean;
@@ -19161,7 +19405,7 @@ export interface User {
   readonly isGitHubStar: boolean;
   readonly isHireable: boolean;
   readonly isSiteAdmin: boolean;
-  readonly isSponsoredBy: boolean;
+  readonly isSponsoredBy: FieldWithArgs<boolean, { readonly accountLogin: string }>;
   readonly isSponsoringViewer: boolean;
   readonly issueComments: ReadonlyArray<IssueComment>;
   readonly issues: ReadonlyArray<Issue>;
@@ -19173,26 +19417,29 @@ export interface User {
   readonly login: string;
   readonly monthlyEstimatedSponsorsIncomeInCents: number;
   readonly name: string | null;
-  readonly organization: Organization | null;
+  readonly organization: FieldWithArgs<Organization | null, { readonly login: string }>;
   readonly organizations: ReadonlyArray<Organization>;
   readonly organizationVerifiedDomainEmails: ReadonlyArray<string>;
   readonly packages: ReadonlyArray<Package>;
   readonly pinnableItems: ReadonlyArray<Gist | Repository>;
   readonly pinnedItems: ReadonlyArray<Gist | Repository>;
   readonly pinnedItemsRemaining: number;
-  readonly project: Project | null;
+  readonly project: FieldWithArgs<Project | null, { readonly number: number }>;
   readonly projects: ReadonlyArray<Project>;
   readonly projectsResourcePath: string;
   readonly projectsUrl: string;
   readonly projectsV2: ReadonlyArray<ProjectV2>;
-  readonly projectV2: ProjectV2 | null;
+  readonly projectV2: FieldWithArgs<ProjectV2 | null, { readonly number: number }>;
   readonly pronouns: string | null;
   readonly publicKeys: ReadonlyArray<PublicKey>;
   readonly pullRequests: ReadonlyArray<PullRequest>;
   readonly recentProjects: ReadonlyArray<ProjectV2>;
   readonly repositories: ReadonlyArray<Repository>;
   readonly repositoriesContributedTo: ReadonlyArray<Repository>;
-  readonly repository: Repository | null;
+  readonly repository: FieldWithArgs<
+    Repository | null,
+    { readonly name: string; readonly followRenames?: boolean | null | undefined }
+  >;
   readonly repositoryDiscussionComments: ReadonlyArray<DiscussionComment>;
   readonly repositoryDiscussions: ReadonlyArray<Discussion>;
   readonly resourcePath: string;
@@ -19201,8 +19448,16 @@ export interface User {
   readonly sponsoring: ReadonlyArray<Organization | User>;
   readonly sponsors: ReadonlyArray<Organization | User>;
   readonly sponsorsActivities: ReadonlyArray<SponsorsActivity>;
-  readonly sponsorshipForViewerAsSponsor: Sponsorship | null;
-  readonly sponsorshipForViewerAsSponsorable: Sponsorship | null;
+  readonly sponsorshipForViewerAsSponsor: FieldWithArgs<
+    Sponsorship | null,
+    { readonly activeOnly?: boolean | null | undefined },
+    false
+  >;
+  readonly sponsorshipForViewerAsSponsorable: FieldWithArgs<
+    Sponsorship | null,
+    { readonly activeOnly?: boolean | null | undefined },
+    false
+  >;
   readonly sponsorshipNewsletters: ReadonlyArray<SponsorshipNewsletter>;
   readonly sponsorshipsAsMaintainer: ReadonlyArray<Sponsorship>;
   readonly sponsorshipsAsSponsor: ReadonlyArray<Sponsorship>;
@@ -19211,7 +19466,15 @@ export interface User {
   readonly status: UserStatus | null;
   readonly suggestedListNames: ReadonlyArray<UserListSuggestion>;
   readonly topRepositories: ReadonlyArray<Repository>;
-  readonly totalSponsorshipAmountAsSponsorInCents: number | null;
+  readonly totalSponsorshipAmountAsSponsorInCents: FieldWithArgs<
+    number | null,
+    {
+      readonly since?: string | null | undefined;
+      readonly sponsorableLogins?: ReadonlyArray<string> | null | undefined;
+      readonly until?: string | null | undefined;
+    },
+    false
+  >;
   readonly twitterUsername: string | null;
   readonly updatedAt: string;
   readonly url: string;
@@ -26222,7 +26485,7 @@ const AccessUserNamespaceRepositoryPayloadFields: TypeMeta["fields"] = {
 };
 
 const ActorFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   login: scalarField("login"),
   resourcePath: scalarField("resourcePath"),
   url: scalarField("url"),
@@ -26443,7 +26706,7 @@ const AppFields: TypeMeta["fields"] = {
     orderBy: "IpAllowListEntryOrder",
   }),
   logoBackgroundColor: scalarField("logoBackgroundColor"),
-  logoUrl: scalarField("logoUrl"),
+  logoUrl: scalarField("logoUrl", { argTypes: { size: "Int" } }),
   name: scalarField("name"),
   slug: scalarField("slug"),
   updatedAt: scalarField("updatedAt"),
@@ -26684,7 +26947,7 @@ const BlockingRemovedEventFields: TypeMeta["fields"] = {
 };
 
 const BotFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
   id: scalarField("id"),
@@ -26928,7 +27191,9 @@ const CheckRunFields: TypeMeta["fields"] = {
   detailsUrl: scalarField("detailsUrl"),
   externalId: scalarField("externalId"),
   id: scalarField("id"),
-  isRequired: scalarField("isRequired"),
+  isRequired: scalarField("isRequired", {
+    argTypes: { pullRequestId: "ID", pullRequestNumber: "Int" },
+  }),
   name: scalarField("name"),
   pendingDeploymentRequest: objectField("pendingDeploymentRequest", DeploymentRequest),
   permalink: scalarField("permalink"),
@@ -27171,7 +27436,7 @@ const CommitFields: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
-  blame: objectField("blame", Blame),
+  blame: objectField("blame", Blame, { path: "String!" }),
   changedFiles: scalarField("changedFiles"),
   changedFilesIfAvailable: scalarField("changedFilesIfAvailable"),
   checkSuites: connectionField("checkSuites", CheckSuite, {
@@ -27201,7 +27466,7 @@ const CommitFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "DeploymentOrder",
   }),
-  file: objectField("file", TreeEntry),
+  file: objectField("file", TreeEntry, { path: "String!" }),
   history: connectionField("history", Commit, {
     after: "String",
     author: "CommitAuthor",
@@ -27556,18 +27821,27 @@ const ContributionsCollectionFields: TypeMeta["fields"] = {
   restrictedContributionsCount: scalarField("restrictedContributionsCount"),
   startedAt: scalarField("startedAt"),
   totalCommitContributions: scalarField("totalCommitContributions"),
-  totalIssueContributions: scalarField("totalIssueContributions"),
-  totalPullRequestContributions: scalarField("totalPullRequestContributions"),
+  totalIssueContributions: scalarField("totalIssueContributions", {
+    argTypes: { excludeFirst: "Boolean", excludePopular: "Boolean" },
+  }),
+  totalPullRequestContributions: scalarField("totalPullRequestContributions", {
+    argTypes: { excludeFirst: "Boolean", excludePopular: "Boolean" },
+  }),
   totalPullRequestReviewContributions: scalarField("totalPullRequestReviewContributions"),
   totalRepositoriesWithContributedCommits: scalarField("totalRepositoriesWithContributedCommits"),
-  totalRepositoriesWithContributedIssues: scalarField("totalRepositoriesWithContributedIssues"),
+  totalRepositoriesWithContributedIssues: scalarField("totalRepositoriesWithContributedIssues", {
+    argTypes: { excludeFirst: "Boolean", excludePopular: "Boolean" },
+  }),
   totalRepositoriesWithContributedPullRequestReviews: scalarField(
     "totalRepositoriesWithContributedPullRequestReviews",
   ),
   totalRepositoriesWithContributedPullRequests: scalarField(
     "totalRepositoriesWithContributedPullRequests",
+    { argTypes: { excludeFirst: "Boolean", excludePopular: "Boolean" } },
   ),
-  totalRepositoryContributions: scalarField("totalRepositoryContributions"),
+  totalRepositoryContributions: scalarField("totalRepositoryContributions", {
+    argTypes: { excludeFirst: "Boolean" },
+  }),
   user: objectField("user", User),
 };
 
@@ -28663,14 +28937,14 @@ const EnqueuePullRequestPayloadFields: TypeMeta["fields"] = {
 
 const EnterpriseFields: TypeMeta["fields"] = {
   announcementBanner: objectField("announcementBanner", AnnouncementBanner),
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   billingEmail: scalarField("billingEmail"),
   billingInfo: objectField("billingInfo", EnterpriseBillingInfo),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
   description: scalarField("description"),
   descriptionHTML: scalarField("descriptionHTML"),
-  enterpriseTeam: objectField("enterpriseTeam", EnterpriseTeam),
+  enterpriseTeam: objectField("enterpriseTeam", EnterpriseTeam, { slug: "String!" }),
   enterpriseTeams: connectionField("enterpriseTeams", EnterpriseTeam, {
     after: "String",
     before: "String",
@@ -28723,9 +28997,11 @@ const EnterpriseFields: TypeMeta["fields"] = {
     RepositoryCustomProperty,
     { after: "String", before: "String", first: "Int", last: "Int" },
   ),
-  repositoryCustomProperty: objectField("repositoryCustomProperty", RepositoryCustomProperty),
+  repositoryCustomProperty: objectField("repositoryCustomProperty", RepositoryCustomProperty, {
+    propertyName: "String!",
+  }),
   resourcePath: scalarField("resourcePath"),
-  ruleset: objectField("ruleset", RepositoryRuleset),
+  ruleset: objectField("ruleset", RepositoryRuleset, { databaseId: "Int!" }),
   rulesets: connectionField("rulesets", RepositoryRuleset, {
     after: "String",
     before: "String",
@@ -29477,7 +29753,7 @@ const EnterpriseTeamMemberEdgeFields: TypeMeta["fields"] = {
 };
 
 const EnterpriseUserAccountFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   createdAt: scalarField("createdAt"),
   enterprise: objectField("enterprise", Enterprise),
   enterpriseInstallations: connectionField(
@@ -29728,11 +30004,11 @@ const GistFileFields: TypeMeta["fields"] = {
   language: objectField("language", Language),
   name: scalarField("name"),
   size: scalarField("size"),
-  text: scalarField("text"),
+  text: scalarField("text", { argTypes: { truncate: "Int" } }),
 };
 
 const GitActorFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   date: scalarField("date"),
   email: scalarField("email"),
   name: scalarField("name"),
@@ -29940,7 +30216,7 @@ const IssueFields_: TypeMeta["fields"] = {
   duplicateOf: objectField("duplicateOf", Issue),
   editor: objectField("editor", Actor),
   fullDatabaseId: scalarField("fullDatabaseId"),
-  hovercard: objectField("hovercard", Hovercard),
+  hovercard: objectField("hovercard", Hovercard, { includeNotificationContexts: "Boolean" }),
   id: scalarField("id"),
   includesCreatedEdit: scalarField("includesCreatedEdit"),
   isPinned: scalarField("isPinned"),
@@ -30002,7 +30278,7 @@ const IssueFields_: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
   publishedAt: scalarField("publishedAt"),
   reactionGroups: listField("reactionGroups", ReactionGroup),
   reactions: connectionField("reactions", Reaction, {
@@ -30023,7 +30299,7 @@ const IssueFields_: TypeMeta["fields"] = {
   repository: objectField("repository", Repository),
   resourcePath: scalarField("resourcePath"),
   state: scalarField("state"),
-  stateReason: scalarField("stateReason"),
+  stateReason: scalarField("stateReason", { argTypes: { enableDuplicate: "Boolean" } }),
   subIssues: connectionField("subIssues", Issue, {
     after: "String",
     before: "String",
@@ -30068,7 +30344,9 @@ const IssueFields_: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
-  trackedIssuesCount: scalarField("trackedIssuesCount"),
+  trackedIssuesCount: scalarField("trackedIssuesCount", {
+    argTypes: { states: "[TrackedIssueStates]" },
+  }),
   updatedAt: scalarField("updatedAt"),
   url: scalarField("url"),
   userContentEdits: connectionField("userContentEdits", UserContentEdit, {
@@ -30662,7 +30940,7 @@ const LockedEventFields: TypeMeta["fields"] = {
 };
 
 const MannequinFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   claimant: objectField("claimant", User),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
@@ -30757,7 +31035,7 @@ const MarketplaceListingFields: TypeMeta["fields"] = {
   isVerificationPendingFromUnverified: scalarField("isVerificationPendingFromUnverified"),
   isVerified: scalarField("isVerified"),
   logoBackgroundColor: scalarField("logoBackgroundColor"),
-  logoUrl: scalarField("logoUrl"),
+  logoUrl: scalarField("logoUrl", { argTypes: { size: "Int" } }),
   name: scalarField("name"),
   normalizedShortDescription: scalarField("normalizedShortDescription"),
   pricingUrl: scalarField("pricingUrl"),
@@ -31832,7 +32110,7 @@ const OrgUpdateMemberRepositoryInvitationPermissionAuditEntryFields: TypeMeta["f
 
 const OrganizationFields: TypeMeta["fields"] = {
   announcementBanner: objectField("announcementBanner", AnnouncementBanner),
-  anyPinnableItems: scalarField("anyPinnableItems"),
+  anyPinnableItems: scalarField("anyPinnableItems", { argTypes: { type: "PinnableItemType" } }),
   archivedAt: scalarField("archivedAt"),
   auditLog: connectionField("auditLog", OrganizationAuditEntry, {
     after: "String",
@@ -31842,7 +32120,7 @@ const OrganizationFields: TypeMeta["fields"] = {
     orderBy: "AuditLogOrder",
     query: "String",
   }),
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
   description: scalarField("description"),
@@ -31891,7 +32169,7 @@ const OrganizationFields: TypeMeta["fields"] = {
   ipAllowListForInstalledAppsEnabledSetting: scalarField(
     "ipAllowListForInstalledAppsEnabledSetting",
   ),
-  isSponsoredBy: scalarField("isSponsoredBy"),
+  isSponsoredBy: scalarField("isSponsoredBy", { argTypes: { accountLogin: "String!" } }),
   isSponsoringViewer: scalarField("isSponsoringViewer"),
   issueFields: connectionField("issueFields", IssueFields, {
     after: "String",
@@ -31989,7 +32267,7 @@ const OrganizationFields: TypeMeta["fields"] = {
     types: "[PinnableItemType!]",
   }),
   pinnedItemsRemaining: scalarField("pinnedItemsRemaining"),
-  project: objectField("project", Project),
+  project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
     after: "String",
     before: "String",
@@ -32010,7 +32288,7 @@ const OrganizationFields: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
   recentProjects: connectionField("recentProjects", ProjectV2, {
     after: "String",
     before: "String",
@@ -32032,13 +32310,15 @@ const OrganizationFields: TypeMeta["fields"] = {
     privacy: "RepositoryPrivacy",
     visibility: "RepositoryVisibility",
   }),
-  repository: objectField("repository", Repository),
+  repository: objectField("repository", Repository, { followRenames: "Boolean", name: "String!" }),
   repositoryCustomProperties: connectionField(
     "repositoryCustomProperties",
     RepositoryCustomProperty,
     { after: "String", before: "String", first: "Int", last: "Int" },
   ),
-  repositoryCustomProperty: objectField("repositoryCustomProperty", RepositoryCustomProperty),
+  repositoryCustomProperty: objectField("repositoryCustomProperty", RepositoryCustomProperty, {
+    propertyName: "String!",
+  }),
   repositoryDiscussionComments: connectionField("repositoryDiscussionComments", DiscussionComment, {
     after: "String",
     before: "String",
@@ -32068,7 +32348,10 @@ const OrganizationFields: TypeMeta["fields"] = {
   }),
   requiresTwoFactorAuthentication: scalarField("requiresTwoFactorAuthentication"),
   resourcePath: scalarField("resourcePath"),
-  ruleset: objectField("ruleset", RepositoryRuleset),
+  ruleset: objectField("ruleset", RepositoryRuleset, {
+    databaseId: "Int!",
+    includeParents: "Boolean",
+  }),
   rulesets: connectionField("rulesets", RepositoryRuleset, {
     after: "String",
     before: "String",
@@ -32106,8 +32389,12 @@ const OrganizationFields: TypeMeta["fields"] = {
     since: "DateTime",
     until: "DateTime",
   }),
-  sponsorshipForViewerAsSponsor: objectField("sponsorshipForViewerAsSponsor", Sponsorship),
-  sponsorshipForViewerAsSponsorable: objectField("sponsorshipForViewerAsSponsorable", Sponsorship),
+  sponsorshipForViewerAsSponsor: objectField("sponsorshipForViewerAsSponsor", Sponsorship, {
+    activeOnly: "Boolean",
+  }),
+  sponsorshipForViewerAsSponsorable: objectField("sponsorshipForViewerAsSponsorable", Sponsorship, {
+    activeOnly: "Boolean",
+  }),
   sponsorshipNewsletters: connectionField("sponsorshipNewsletters", SponsorshipNewsletter, {
     after: "String",
     before: "String",
@@ -32134,7 +32421,7 @@ const OrganizationFields: TypeMeta["fields"] = {
     orderBy: "SponsorshipOrder",
   }),
   sponsorsListing: objectField("sponsorsListing", SponsorsListing),
-  team: objectField("team", Team),
+  team: objectField("team", Team, { slug: "String!" }),
   teams: connectionField("teams", Team, {
     after: "String",
     before: "String",
@@ -32151,7 +32438,9 @@ const OrganizationFields: TypeMeta["fields"] = {
   }),
   teamsResourcePath: scalarField("teamsResourcePath"),
   teamsUrl: scalarField("teamsUrl"),
-  totalSponsorshipAmountAsSponsorInCents: scalarField("totalSponsorshipAmountAsSponsorInCents"),
+  totalSponsorshipAmountAsSponsorInCents: scalarField("totalSponsorshipAmountAsSponsorInCents", {
+    argTypes: { since: "DateTime", sponsorableLogins: "[String!]", until: "DateTime" },
+  }),
   twitterUsername: scalarField("twitterUsername"),
   updatedAt: scalarField("updatedAt"),
   url: scalarField("url"),
@@ -32327,7 +32616,7 @@ const PackageFields: TypeMeta["fields"] = {
   packageType: scalarField("packageType"),
   repository: objectField("repository", Repository),
   statistics: objectField("statistics", PackageStatistics),
-  version: objectField("version", PackageVersion),
+  version: objectField("version", PackageVersion, { version: "String!" }),
   versions: connectionField("versions", PackageVersion, {
     after: "String",
     before: "String",
@@ -32694,7 +32983,7 @@ const ProfileItemShowcaseFields: TypeMeta["fields"] = {
 };
 
 const ProfileOwnerFields: TypeMeta["fields"] = {
-  anyPinnableItems: scalarField("anyPinnableItems"),
+  anyPinnableItems: scalarField("anyPinnableItems", { argTypes: { type: "PinnableItemType" } }),
   email: scalarField("email"),
   id: scalarField("id"),
   itemShowcase: objectField("itemShowcase", ProfileItemShowcase),
@@ -32828,7 +33117,7 @@ const ProjectEdgeFields: TypeMeta["fields"] = {
 
 const ProjectOwnerFields: TypeMeta["fields"] = {
   id: scalarField("id"),
-  project: objectField("project", Project),
+  project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
     after: "String",
     before: "String",
@@ -32859,7 +33148,7 @@ const ProjectV2Fields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", Actor),
   databaseId: scalarField("databaseId"),
-  field: objectField("field", ProjectV2FieldConfiguration),
+  field: objectField("field", ProjectV2FieldConfiguration, { name: "String!" }),
   fields: connectionField("fields", ProjectV2FieldConfiguration, {
     after: "String",
     before: "String",
@@ -32909,7 +33198,7 @@ const ProjectV2Fields: TypeMeta["fields"] = {
   title: scalarField("title"),
   updatedAt: scalarField("updatedAt"),
   url: scalarField("url"),
-  view: objectField("view", ProjectV2View),
+  view: objectField("view", ProjectV2View, { number: "Int!" }),
   viewerCanClose: scalarField("viewerCanClose"),
   viewerCanReopen: scalarField("viewerCanReopen"),
   viewerCanUpdate: scalarField("viewerCanUpdate"),
@@ -32920,7 +33209,7 @@ const ProjectV2Fields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "ProjectV2ViewOrder",
   }),
-  workflow: objectField("workflow", ProjectV2Workflow),
+  workflow: objectField("workflow", ProjectV2Workflow, { number: "Int!" }),
   workflows: connectionField("workflows", ProjectV2Workflow, {
     after: "String",
     before: "String",
@@ -33011,7 +33300,7 @@ const ProjectV2ItemFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", Actor),
   databaseId: scalarField("databaseId"),
-  fieldValueByName: objectField("fieldValueByName", ProjectV2ItemFieldValue),
+  fieldValueByName: objectField("fieldValueByName", ProjectV2ItemFieldValue, { name: "String!" }),
   fieldValues: connectionField("fieldValues", ProjectV2ItemFieldValue, {
     after: "String",
     before: "String",
@@ -33265,7 +33554,7 @@ const ProjectV2OwnerFields: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
 };
 
 const ProjectV2RecentFields: TypeMeta["fields"] = {
@@ -33581,7 +33870,7 @@ const PullRequestFields: TypeMeta["fields"] = {
   headRefOid: scalarField("headRefOid"),
   headRepository: objectField("headRepository", Repository),
   headRepositoryOwner: objectField("headRepositoryOwner", RepositoryOwner),
-  hovercard: objectField("hovercard", Hovercard),
+  hovercard: objectField("hovercard", Hovercard, { includeNotificationContexts: "Boolean" }),
   id: scalarField("id"),
   includesCreatedEdit: scalarField("includesCreatedEdit"),
   isCrossRepository: scalarField("isCrossRepository"),
@@ -33653,7 +33942,7 @@ const PullRequestFields: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
   publishedAt: scalarField("publishedAt"),
   reactionGroups: listField("reactionGroups", ReactionGroup),
   reactions: connectionField("reactions", Reaction, {
@@ -33753,8 +34042,12 @@ const PullRequestFields: TypeMeta["fields"] = {
   viewerDidAuthor: scalarField("viewerDidAuthor"),
   viewerLatestReview: objectField("viewerLatestReview", PullRequestReview),
   viewerLatestReviewRequest: objectField("viewerLatestReviewRequest", ReviewRequest),
-  viewerMergeBodyText: scalarField("viewerMergeBodyText"),
-  viewerMergeHeadlineText: scalarField("viewerMergeHeadlineText"),
+  viewerMergeBodyText: scalarField("viewerMergeBodyText", {
+    argTypes: { mergeType: "PullRequestMergeMethod" },
+  }),
+  viewerMergeHeadlineText: scalarField("viewerMergeHeadlineText", {
+    argTypes: { mergeType: "PullRequestMergeMethod" },
+  }),
   viewerSubscription: scalarField("viewerSubscription"),
 };
 
@@ -34295,7 +34588,7 @@ const RefFields: TypeMeta["fields"] = {
     states: "[PullRequestState!]",
   }),
   branchProtectionRule: objectField("branchProtectionRule", BranchProtectionRule),
-  compare: objectField("compare", Comparison),
+  compare: objectField("compare", Comparison, { headRef: "String!" }),
   id: scalarField("id"),
   name: scalarField("name"),
   prefix: scalarField("prefix"),
@@ -34411,7 +34704,7 @@ const ReleaseFields: TypeMeta["fields"] = {
   }),
   repository: objectField("repository", Repository),
   resourcePath: scalarField("resourcePath"),
-  shortDescriptionHTML: scalarField("shortDescriptionHTML"),
+  shortDescriptionHTML: scalarField("shortDescriptionHTML", { argTypes: { limit: "Int" } }),
   tag: objectField("tag", Ref),
   tagCommit: objectField("tagCommit", Commit),
   tagName: scalarField("tagName"),
@@ -35137,7 +35430,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   codeOfConduct: objectField("codeOfConduct", CodeOfConduct),
-  codeowners: objectField("codeowners", RepositoryCodeowners),
+  codeowners: objectField("codeowners", RepositoryCodeowners, { refName: "String" }),
   collaborators: connectionField("collaborators", User, {
     affiliation: "CollaboratorAffiliation",
     after: "String",
@@ -35184,7 +35477,7 @@ const RepositoryFields: TypeMeta["fields"] = {
   }),
   description: scalarField("description"),
   descriptionHTML: scalarField("descriptionHTML"),
-  discussion: objectField("discussion", Discussion),
+  discussion: objectField("discussion", Discussion, { number: "Int!" }),
   discussionCategories: connectionField("discussionCategories", DiscussionCategory, {
     after: "String",
     before: "String",
@@ -35192,7 +35485,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
-  discussionCategory: objectField("discussionCategory", DiscussionCategory),
+  discussionCategory: objectField("discussionCategory", DiscussionCategory, { slug: "String!" }),
   discussions: connectionField("discussions", Discussion, {
     after: "String",
     answered: "Boolean",
@@ -35204,7 +35497,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     states: "[DiscussionState!]",
   }),
   diskUsage: scalarField("diskUsage"),
-  environment: objectField("environment", Environment),
+  environment: objectField("environment", Environment, { name: "String!" }),
   environments: connectionField("environments", Environment, {
     after: "String",
     before: "String",
@@ -35251,7 +35544,7 @@ const RepositoryFields: TypeMeta["fields"] = {
   isMirror: scalarField("isMirror"),
   isPrivate: scalarField("isPrivate"),
   isSecurityPolicyEnabled: scalarField("isSecurityPolicyEnabled"),
-  issue: objectField("issue", Issue),
+  issue: objectField("issue", Issue, { number: "Int!" }),
   issueCreationPolicy: scalarField("issueCreationPolicy"),
   issueFields: connectionField("issueFields", IssueFields, {
     after: "String",
@@ -35260,7 +35553,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "IssueFieldOrder",
   }),
-  issueOrPullRequest: objectField("issueOrPullRequest", IssueOrPullRequest),
+  issueOrPullRequest: objectField("issueOrPullRequest", IssueOrPullRequest, { number: "Int!" }),
   issues: connectionField("issues", Issue, {
     after: "String",
     before: "String",
@@ -35272,7 +35565,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     states: "[IssueState!]",
   }),
   issueTemplates: listField("issueTemplates", IssueTemplate),
-  issueType: objectField("issueType", IssueType),
+  issueType: objectField("issueType", IssueType, { name: "String!" }),
   issueTypes: connectionField("issueTypes", IssueType, {
     after: "String",
     before: "String",
@@ -35282,7 +35575,7 @@ const RepositoryFields: TypeMeta["fields"] = {
   }),
   isTemplate: scalarField("isTemplate"),
   isUserConfigurationRepository: scalarField("isUserConfigurationRepository"),
-  label: objectField("label", Label),
+  label: objectField("label", Label, { name: "String!" }),
   labels: connectionField("labels", Label, {
     after: "String",
     before: "String",
@@ -35311,8 +35604,8 @@ const RepositoryFields: TypeMeta["fields"] = {
   mergeCommitAllowed: scalarField("mergeCommitAllowed"),
   mergeCommitMessage: scalarField("mergeCommitMessage"),
   mergeCommitTitle: scalarField("mergeCommitTitle"),
-  mergeQueue: objectField("mergeQueue", MergeQueue),
-  milestone: objectField("milestone", Milestone),
+  mergeQueue: objectField("mergeQueue", MergeQueue, { branch: "String" }),
+  milestone: objectField("milestone", Milestone, { number: "Int!" }),
   milestones: connectionField("milestones", Milestone, {
     after: "String",
     before: "String",
@@ -35325,7 +35618,7 @@ const RepositoryFields: TypeMeta["fields"] = {
   mirrorUrl: scalarField("mirrorUrl"),
   name: scalarField("name"),
   nameWithOwner: scalarField("nameWithOwner"),
-  object: objectField("object", GitObject),
+  object: objectField("object", GitObject, { expression: "String", oid: "GitObjectID" }),
   openGraphImageUrl: scalarField("openGraphImageUrl"),
   owner: objectField("owner", RepositoryOwner),
   packages: connectionField("packages", Package, {
@@ -35360,7 +35653,7 @@ const RepositoryFields: TypeMeta["fields"] = {
   }),
   planFeatures: objectField("planFeatures", RepositoryPlanFeatures),
   primaryLanguage: objectField("primaryLanguage", Language),
-  project: objectField("project", Project),
+  project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
     after: "String",
     before: "String",
@@ -35381,8 +35674,8 @@ const RepositoryFields: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
-  pullRequest: objectField("pullRequest", PullRequest),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
+  pullRequest: objectField("pullRequest", PullRequest, { number: "Int!" }),
   pullRequestCreationCapConfig: objectField(
     "pullRequestCreationCapConfig",
     PullRequestCreationCapConfig,
@@ -35408,7 +35701,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
-  ref: objectField("ref", Ref),
+  ref: objectField("ref", Ref, { qualifiedName: "String!" }),
   refs: connectionField("refs", Ref, {
     after: "String",
     before: "String",
@@ -35419,7 +35712,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     query: "String",
     refPrefix: "String!",
   }),
-  release: objectField("release", Release),
+  release: objectField("release", Release, { tagName: "String!" }),
   releases: connectionField("releases", Release, {
     after: "String",
     before: "String",
@@ -35430,6 +35723,7 @@ const RepositoryFields: TypeMeta["fields"] = {
   repositoryCustomPropertyValue: objectField(
     "repositoryCustomPropertyValue",
     RepositoryCustomPropertyValue,
+    { propertyName: "String!" },
   ),
   repositoryCustomPropertyValues: connectionField(
     "repositoryCustomPropertyValues",
@@ -35443,7 +35737,10 @@ const RepositoryFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   resourcePath: scalarField("resourcePath"),
-  ruleset: objectField("ruleset", RepositoryRuleset),
+  ruleset: objectField("ruleset", RepositoryRuleset, {
+    databaseId: "Int!",
+    includeParents: "Boolean",
+  }),
   rulesets: connectionField("rulesets", RepositoryRuleset, {
     after: "String",
     before: "String",
@@ -35453,7 +35750,7 @@ const RepositoryFields: TypeMeta["fields"] = {
     targets: "[RepositoryRulesetTarget!]",
   }),
   securityPolicyUrl: scalarField("securityPolicyUrl"),
-  shortDescriptionHTML: scalarField("shortDescriptionHTML"),
+  shortDescriptionHTML: scalarField("shortDescriptionHTML", { argTypes: { limit: "Int" } }),
   squashMergeAllowed: scalarField("squashMergeAllowed"),
   squashMergeCommitMessage: scalarField("squashMergeCommitMessage"),
   squashMergeCommitTitle: scalarField("squashMergeCommitTitle"),
@@ -35501,7 +35798,9 @@ const RepositoryFields: TypeMeta["fields"] = {
   viewerPossibleCommitEmails: scalarField("viewerPossibleCommitEmails"),
   viewerSubscription: scalarField("viewerSubscription"),
   visibility: scalarField("visibility"),
-  vulnerabilityAlert: objectField("vulnerabilityAlert", RepositoryVulnerabilityAlert),
+  vulnerabilityAlert: objectField("vulnerabilityAlert", RepositoryVulnerabilityAlert, {
+    number: "Int!",
+  }),
   vulnerabilityAlerts: connectionField("vulnerabilityAlerts", RepositoryVulnerabilityAlert, {
     after: "String",
     before: "String",
@@ -35676,7 +35975,7 @@ const RepositoryInfoFields: TypeMeta["fields"] = {
   pullRequestCreationPolicy: scalarField("pullRequestCreationPolicy"),
   pushedAt: scalarField("pushedAt"),
   resourcePath: scalarField("resourcePath"),
-  shortDescriptionHTML: scalarField("shortDescriptionHTML"),
+  shortDescriptionHTML: scalarField("shortDescriptionHTML", { argTypes: { limit: "Int" } }),
   updatedAt: scalarField("updatedAt"),
   url: scalarField("url"),
   usesCustomOpenGraphImage: scalarField("usesCustomOpenGraphImage"),
@@ -35748,7 +36047,7 @@ const RepositoryNodeFields: TypeMeta["fields"] = {
 };
 
 const RepositoryOwnerFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   id: scalarField("id"),
   login: scalarField("login"),
   repositories: connectionField("repositories", Repository, {
@@ -35766,7 +36065,7 @@ const RepositoryOwnerFields: TypeMeta["fields"] = {
     privacy: "RepositoryPrivacy",
     visibility: "RepositoryVisibility",
   }),
-  repository: objectField("repository", Repository),
+  repository: objectField("repository", Repository, { followRenames: "Boolean", name: "String!" }),
   resourcePath: scalarField("resourcePath"),
   url: scalarField("url"),
 };
@@ -36007,7 +36306,9 @@ const RequestedReviewerEdgeFields: TypeMeta["fields"] = {
 };
 
 const RequirableByPullRequestFields: TypeMeta["fields"] = {
-  isRequired: scalarField("isRequired"),
+  isRequired: scalarField("isRequired", {
+    argTypes: { pullRequestId: "ID", pullRequestNumber: "Int" },
+  }),
 };
 
 const RequiredDeploymentsParametersFields: TypeMeta["fields"] = {
@@ -36386,7 +36687,7 @@ const SponsorEdgeFields: TypeMeta["fields"] = {
 const SponsorableFields: TypeMeta["fields"] = {
   estimatedNextSponsorsPayoutInCents: scalarField("estimatedNextSponsorsPayoutInCents"),
   hasSponsorsListing: scalarField("hasSponsorsListing"),
-  isSponsoredBy: scalarField("isSponsoredBy"),
+  isSponsoredBy: scalarField("isSponsoredBy", { argTypes: { accountLogin: "String!" } }),
   isSponsoringViewer: scalarField("isSponsoringViewer"),
   lifetimeReceivedSponsorshipValues: connectionField(
     "lifetimeReceivedSponsorshipValues",
@@ -36428,8 +36729,12 @@ const SponsorableFields: TypeMeta["fields"] = {
     since: "DateTime",
     until: "DateTime",
   }),
-  sponsorshipForViewerAsSponsor: objectField("sponsorshipForViewerAsSponsor", Sponsorship),
-  sponsorshipForViewerAsSponsorable: objectField("sponsorshipForViewerAsSponsorable", Sponsorship),
+  sponsorshipForViewerAsSponsor: objectField("sponsorshipForViewerAsSponsor", Sponsorship, {
+    activeOnly: "Boolean",
+  }),
+  sponsorshipForViewerAsSponsorable: objectField("sponsorshipForViewerAsSponsorable", Sponsorship, {
+    activeOnly: "Boolean",
+  }),
   sponsorshipNewsletters: connectionField("sponsorshipNewsletters", SponsorshipNewsletter, {
     after: "String",
     before: "String",
@@ -36456,7 +36761,9 @@ const SponsorableFields: TypeMeta["fields"] = {
     orderBy: "SponsorshipOrder",
   }),
   sponsorsListing: objectField("sponsorsListing", SponsorsListing),
-  totalSponsorshipAmountAsSponsorInCents: scalarField("totalSponsorshipAmountAsSponsorInCents"),
+  totalSponsorshipAmountAsSponsorInCents: scalarField("totalSponsorshipAmountAsSponsorInCents", {
+    argTypes: { since: "DateTime", sponsorableLogins: "[String!]", until: "DateTime" },
+  }),
   viewerCanSponsor: scalarField("viewerCanSponsor"),
   viewerIsSponsoring: scalarField("viewerIsSponsoring"),
 };
@@ -36715,7 +37022,7 @@ const StatusFields: TypeMeta["fields"] = {
     last: "Int",
   }),
   commit: objectField("commit", Commit),
-  context: objectField("context", StatusContext),
+  context: objectField("context", StatusContext, { name: "String!" }),
   contexts: listField("contexts", StatusContext),
   id: scalarField("id"),
   state: scalarField("state"),
@@ -36755,14 +37062,16 @@ const StatusCheckRollupContextEdgeFields: TypeMeta["fields"] = {
 };
 
 const StatusContextFields: TypeMeta["fields"] = {
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   commit: objectField("commit", Commit),
   context: scalarField("context"),
   createdAt: scalarField("createdAt"),
   creator: objectField("creator", Actor),
   description: scalarField("description"),
   id: scalarField("id"),
-  isRequired: scalarField("isRequired"),
+  isRequired: scalarField("isRequired", {
+    argTypes: { pullRequestId: "ID", pullRequestNumber: "Int" },
+  }),
   state: scalarField("state"),
   targetUrl: scalarField("targetUrl"),
   updatedAt: scalarField("updatedAt"),
@@ -36899,7 +37208,7 @@ const TeamFields: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
-  avatarUrl: scalarField("avatarUrl"),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   childTeams: connectionField("childTeams", Team, {
     after: "String",
     before: "String",
@@ -36958,7 +37267,7 @@ const TeamFields: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
   repositories: connectionField("repositories", Repository, {
     after: "String",
     before: "String",
@@ -37811,12 +38120,13 @@ const UpdateUserListsForItemPayloadFields: TypeMeta["fields"] = {
 };
 
 const UserFields: TypeMeta["fields"] = {
-  anyPinnableItems: scalarField("anyPinnableItems"),
-  avatarUrl: scalarField("avatarUrl"),
+  anyPinnableItems: scalarField("anyPinnableItems", { argTypes: { type: "PinnableItemType" } }),
+  avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
   bio: scalarField("bio"),
   bioHTML: scalarField("bioHTML"),
   canReceiveOrganizationEmailsWhenNotificationsRestricted: scalarField(
     "canReceiveOrganizationEmailsWhenNotificationsRestricted",
+    { argTypes: { login: "String!" } },
   ),
   commitComments: connectionField("commitComments", CommitComment, {
     after: "String",
@@ -37826,7 +38136,11 @@ const UserFields: TypeMeta["fields"] = {
   }),
   company: scalarField("company"),
   companyHTML: scalarField("companyHTML"),
-  contributionsCollection: objectField("contributionsCollection", ContributionsCollection),
+  contributionsCollection: objectField("contributionsCollection", ContributionsCollection, {
+    from: "DateTime",
+    organizationID: "ID",
+    to: "DateTime",
+  }),
   copilotEndpoints: objectField("copilotEndpoints", CopilotEndpoints),
   createdAt: scalarField("createdAt"),
   databaseId: scalarField("databaseId"),
@@ -37852,7 +38166,7 @@ const UserFields: TypeMeta["fields"] = {
     first: "Int",
     last: "Int",
   }),
-  gist: objectField("gist", Gist),
+  gist: objectField("gist", Gist, { name: "String!" }),
   gistComments: connectionField("gistComments", GistComment, {
     after: "String",
     before: "String",
@@ -37868,7 +38182,7 @@ const UserFields: TypeMeta["fields"] = {
     privacy: "GistPrivacy",
   }),
   hasSponsorsListing: scalarField("hasSponsorsListing"),
-  hovercard: objectField("hovercard", Hovercard),
+  hovercard: objectField("hovercard", Hovercard, { primarySubjectId: "ID" }),
   id: scalarField("id"),
   interactionAbility: objectField("interactionAbility", RepositoryInteractionAbility),
   isBountyHunter: scalarField("isBountyHunter"),
@@ -37879,7 +38193,7 @@ const UserFields: TypeMeta["fields"] = {
   isGitHubStar: scalarField("isGitHubStar"),
   isHireable: scalarField("isHireable"),
   isSiteAdmin: scalarField("isSiteAdmin"),
-  isSponsoredBy: scalarField("isSponsoredBy"),
+  isSponsoredBy: scalarField("isSponsoredBy", { argTypes: { accountLogin: "String!" } }),
   isSponsoringViewer: scalarField("isSponsoringViewer"),
   issueComments: connectionField("issueComments", IssueComment, {
     after: "String",
@@ -37921,7 +38235,7 @@ const UserFields: TypeMeta["fields"] = {
   login: scalarField("login"),
   monthlyEstimatedSponsorsIncomeInCents: scalarField("monthlyEstimatedSponsorsIncomeInCents"),
   name: scalarField("name"),
-  organization: objectField("organization", Organization),
+  organization: objectField("organization", Organization, { login: "String!" }),
   organizations: connectionField("organizations", Organization, {
     after: "String",
     before: "String",
@@ -37929,7 +38243,9 @@ const UserFields: TypeMeta["fields"] = {
     last: "Int",
     orderBy: "OrganizationOrder",
   }),
-  organizationVerifiedDomainEmails: scalarField("organizationVerifiedDomainEmails"),
+  organizationVerifiedDomainEmails: scalarField("organizationVerifiedDomainEmails", {
+    argTypes: { login: "String!" },
+  }),
   packages: connectionField("packages", Package, {
     after: "String",
     before: "String",
@@ -37955,7 +38271,7 @@ const UserFields: TypeMeta["fields"] = {
     types: "[PinnableItemType!]",
   }),
   pinnedItemsRemaining: scalarField("pinnedItemsRemaining"),
-  project: objectField("project", Project),
+  project: objectField("project", Project, { number: "Int!" }),
   projects: connectionField("projects", Project, {
     after: "String",
     before: "String",
@@ -37976,7 +38292,7 @@ const UserFields: TypeMeta["fields"] = {
     orderBy: "ProjectV2Order",
     query: "String",
   }),
-  projectV2: objectField("projectV2", ProjectV2),
+  projectV2: objectField("projectV2", ProjectV2, { number: "Int!" }),
   pronouns: scalarField("pronouns"),
   publicKeys: connectionField("publicKeys", PublicKey, {
     after: "String",
@@ -38028,7 +38344,7 @@ const UserFields: TypeMeta["fields"] = {
     orderBy: "RepositoryOrder",
     privacy: "RepositoryPrivacy",
   }),
-  repository: objectField("repository", Repository),
+  repository: objectField("repository", Repository, { followRenames: "Boolean", name: "String!" }),
   repositoryDiscussionComments: connectionField("repositoryDiscussionComments", DiscussionComment, {
     after: "String",
     before: "String",
@@ -38089,8 +38405,12 @@ const UserFields: TypeMeta["fields"] = {
     since: "DateTime",
     until: "DateTime",
   }),
-  sponsorshipForViewerAsSponsor: objectField("sponsorshipForViewerAsSponsor", Sponsorship),
-  sponsorshipForViewerAsSponsorable: objectField("sponsorshipForViewerAsSponsorable", Sponsorship),
+  sponsorshipForViewerAsSponsor: objectField("sponsorshipForViewerAsSponsor", Sponsorship, {
+    activeOnly: "Boolean",
+  }),
+  sponsorshipForViewerAsSponsorable: objectField("sponsorshipForViewerAsSponsorable", Sponsorship, {
+    activeOnly: "Boolean",
+  }),
   sponsorshipNewsletters: connectionField("sponsorshipNewsletters", SponsorshipNewsletter, {
     after: "String",
     before: "String",
@@ -38135,7 +38455,9 @@ const UserFields: TypeMeta["fields"] = {
     orderBy: "RepositoryOrder!",
     since: "DateTime",
   }),
-  totalSponsorshipAmountAsSponsorInCents: scalarField("totalSponsorshipAmountAsSponsorInCents"),
+  totalSponsorshipAmountAsSponsorInCents: scalarField("totalSponsorshipAmountAsSponsorInCents", {
+    argTypes: { since: "DateTime", sponsorableLogins: "[String!]", until: "DateTime" },
+  }),
   twitterUsername: scalarField("twitterUsername"),
   updatedAt: scalarField("updatedAt"),
   url: scalarField("url"),

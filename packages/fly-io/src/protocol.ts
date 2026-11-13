@@ -21,13 +21,12 @@ import {
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * Fly.io protocols -- Machines REST, UI-EX REST (MPG), GraphQL add-ons, and
- * Sprites REST.
+ * Fly.io protocols -- Machines REST, UI-EX REST (MPG), and Sprites REST. The
+ * GraphQL API is a Query SDK (`./GraphQL`, src/graphql-transport.ts).
  *
  * Machines (`FlyIoProtocol`) is a plain bearer-token JSON API at
  * `api.machines.dev` (routes carry the `/v1` prefix). MPG (`FlyApiProtocol`) is the same token against
- * `https://api.fly.io`. GraphQL add-ons (`FlyGraphqlProtocol`) POST
- * `{ query, operationName, variables }` to `https://api.fly.io/graphql`.
+ * `https://api.fly.io`.
  *
  * Sprites (`SpritesProtocol`) also resolve `FLY_API_TOKEN` (same
  * {@link Credentials} as Machines). Sprite CRUD rejects a Fly macaroon as
@@ -52,7 +51,6 @@ import * as Layer from "effect/Layer";
 import * as MutableHashMap from "effect/MutableHashMap";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import {
   Credentials,
@@ -63,18 +61,11 @@ import {
 import {
   ConfigError as FlyConfigError,
   FlyIoParseError,
-  CreateExtensionTosAgreementNotAuthorized,
   SpritesNotEnabled,
   UnknownFlyIoError,
   type DefaultErrors,
 } from "./errors.ts";
-import {
-  graphqlOpSymbol,
-  type GraphQLOpTrait,
-  httpSymbol,
-  type HttpTrait,
-  responsePathSymbol,
-} from "./traits.ts";
+import { httpSymbol, type HttpTrait } from "./traits.ts";
 
 /**
  * Error channel shared by every generated Fly.io operation. Generated
@@ -85,12 +76,11 @@ import {
 export type FlyIoOpError =
   | DefaultErrors
   | ConfigError
-  | CreateExtensionTosAgreementNotAuthorized
   | HttpClientError.HttpClientError
   | InvalidInput
   | SdkError;
 
-/** Context (requirements) shared by Machines / MPG / GraphQL operations. */
+/** Context (requirements) shared by Machines / MPG operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
 
 /**
@@ -592,191 +582,5 @@ export const SpritesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
     encode: (args) =>
       encodeSpritesRequest(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decodeSpritesResponse(args) as Effect.Effect<unknown>,
-  }),
-);
-
-// =============================================================================
-// GraphQL add-ons (Tigris, Redis) -- POST https://api.fly.io/graphql
-// =============================================================================
-
-const GraphQLError = /*@__PURE__*/ Schema.Struct({
-  message: Schema.String,
-  path: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Array(Schema.Unknown)),
-  extensions: /*@__PURE__*/ Schema.optional(
-    /*@__PURE__*/ Schema.Struct({
-      code: /*@__PURE__*/ Schema.optional(Schema.String),
-    }),
-  ),
-});
-
-const GraphQLEnvelope = /*@__PURE__*/ Schema.Struct({
-  data: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.NullOr(Schema.Unknown)),
-  errors: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Array(GraphQLError)),
-});
-
-const decodeEnvelope = /*@__PURE__*/ Schema.decodeUnknownOption(GraphQLEnvelope);
-
-const matchGraphqlError = (
-  status: number,
-  errorBody: unknown,
-  headers: Record<string, string | undefined> | undefined,
-  errorClasses: ReadonlyArray<unknown>,
-): Effect.Effect<never> => {
-  const envelope = decodeEnvelope(errorBody);
-  if (envelope._tag === "Some" && envelope.value.errors?.length) {
-    const first = envelope.value.errors[0]!;
-    const message = first.message;
-    const typed = matchTypedError(errorClasses, status, [{ message }], {
-      body: errorBody,
-      headers,
-    });
-    if (typed !== undefined) return fail(typed);
-    if (/not authorized to access this createextensiontosagreement/i.test(message)) {
-      return fail(new CreateExtensionTosAgreementNotAuthorized({ message }));
-    }
-    const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-      | (new (args: {
-          message: string;
-          retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-        }) => unknown)
-      | undefined;
-    if (StatusClass && status >= 400) {
-      return fail(
-        new StatusClass({
-          message,
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        }),
-      );
-    }
-    return fail(
-      unknownError({ status, code: first.extensions?.code, message, body: errorBody }, headers),
-    );
-  }
-
-  const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-    | (new (args: {
-        message: string;
-        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-      }) => unknown)
-    | undefined;
-  if (StatusClass && status >= 400) {
-    return fail(
-      new StatusClass({
-        message: `HTTP ${status}`,
-        retryAfter: parseRetryAfterForStatus(status, headers),
-      }),
-    );
-  }
-  return fail(unknownError({ status, body: errorBody }, headers));
-};
-
-const graphqlEncode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
-  Effect.gen(function* () {
-    const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    const op = getAnn(inputAst, graphqlOpSymbol) as GraphQLOpTrait | undefined;
-    if (!op) {
-      return yield* fail(
-        new SdkError({ message: "operation input is missing the GraphQLOp() trait" }),
-      );
-    }
-    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    const variables: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries((input ?? {}) as Record<string, unknown>)) {
-      if (v !== undefined) variables[k] = v;
-    }
-    const url = `${DEFAULT_FLY_API_BASE_URL}${http?.uri ?? "/graphql"}`;
-    return HttpClientRequest.make("POST")(url).pipe(
-      HttpClientRequest.setHeaders({
-        Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-        Accept: "application/json",
-      }),
-      HttpClientRequest.bodyJsonUnsafe({
-        query: op.query,
-        operationName: op.operationName,
-        variables,
-      }),
-    );
-  });
-
-const graphqlDecode = ({
-  response,
-  outputAst,
-  errors,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
-  Effect.gen(function* () {
-    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    const status = response.status;
-    const headers = response.headers as Record<string, string | undefined>;
-
-    let json: unknown;
-    let parsed = false;
-    if (text.trim().length > 0) {
-      try {
-        json = JSON.parse(text);
-        parsed = true;
-      } catch {
-        parsed = false;
-      }
-    }
-
-    if (!parsed) {
-      if (status >= 400) {
-        return yield* matchGraphqlError(status, text, headers, errors);
-      }
-      // Lenient mode returns the body as read, except for an output that can
-      // hold a secret (core `validateSuccess`).
-      return yield* validateSuccess(
-        outputAst,
-        { value: text, body: text, nonJson: true },
-        (info) => new FlyIoParseError(info),
-      ).pipe(Effect.catch(fail));
-    }
-
-    const envelope = json as { data?: unknown; errors?: unknown[] } | null;
-    const hasGraphQLErrors =
-      envelope !== null &&
-      typeof envelope === "object" &&
-      Array.isArray(envelope.errors) &&
-      envelope.errors.length > 0;
-    if (hasGraphQLErrors || status >= 400) {
-      return yield* matchGraphqlError(status, json, headers, errors);
-    }
-
-    const path = getAnn(outputAst, responsePathSymbol) as string | undefined;
-    let payload: unknown =
-      envelope !== null && typeof envelope === "object" ? envelope.data : undefined;
-    if (path !== undefined) {
-      for (const seg of path.split(".")) {
-        payload =
-          payload !== null && typeof payload === "object"
-            ? (payload as Record<string, unknown>)[seg]
-            : undefined;
-      }
-    }
-    // Strict mode checks the payload at the response path against the
-    // output schema.
-    return yield* validateSuccess(
-      outputAst,
-      { value: payload === undefined ? null : payload, body: json, nonJson: false },
-      (info) => new FlyIoParseError(info),
-    ).pipe(Effect.catch(fail));
-  });
-
-export const FlyGraphqlProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) => graphqlEncode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: graphqlDecode,
   }),
 );

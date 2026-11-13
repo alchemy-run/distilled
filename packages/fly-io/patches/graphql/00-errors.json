@@ -1,0 +1,106 @@
+{
+  "description": "Graph-wide Fly error contracts. api.fly.io sets extensions.code on its GraphQL errors; these are the codes Fly's own Go client classifies (github.com/superfly/graphql: IsNotFoundError, IsUnauthorizedError, IsInvalidError, IsInvalidArgumentsError, IsUnprocessableError, IsMaintenanceError, IsServerError, IsInternalServerError, IsServiceUnavailableError). Maintenance and server errors are retryable; core/graphql retries queries only.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/FlyNotFound",
+      "value": {
+        "description": "The id, name or slug did not resolve to a resource the token can see.",
+        "category": "notFound",
+        "matchers": [
+          {
+            "code": "NOT_FOUND"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/FlyUnauthorized",
+      "value": {
+        "description": "The token is missing, invalid, or may not perform the operation.",
+        "category": "auth",
+        "matchers": [
+          {
+            "code": "UNAUTHORIZED"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/FlyInvalidInput",
+      "value": {
+        "description": "An argument or input field was rejected.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "INVALID"
+          },
+          {
+            "code": "INVALID_ARGUMENTS"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/FlyUnprocessable",
+      "value": {
+        "description": "The request is well formed but cannot be carried out in the resource's current state.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "UNPROCESSABLE"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/FlyMaintenance",
+      "value": {
+        "description": "The Fly API is in maintenance.",
+        "category": "server",
+        "matchers": [
+          {
+            "code": "MAINTENANCE"
+          }
+        ],
+        "retryable": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/FlyServerError",
+      "value": {
+        "description": "The Fly API failed or is unavailable.",
+        "category": "server",
+        "matchers": [
+          {
+            "code": "SERVER_ERROR"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR"
+          },
+          {
+            "code": "SERVICE_UNAVAILABLE"
+          }
+        ],
+        "retryable": true
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/globalErrors",
+      "value": [
+        "FlyNotFound",
+        "FlyUnauthorized",
+        "FlyInvalidInput",
+        "FlyUnprocessable",
+        "FlyMaintenance",
+        "FlyServerError"
+      ]
+    }
+  ]
+}

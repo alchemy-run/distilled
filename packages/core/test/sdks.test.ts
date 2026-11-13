@@ -19,6 +19,7 @@ const sdks = readdirSync(PACKAGES)
 /** Packages without a `<Sdk>OpError` union over a REST/RPC protocol, and why. */
 const NO_OP_ERROR: Record<string, string> = {
   aws: "re-exports @distilled.cloud/s3's errors, whose CommonErrors include ParseError",
+  "expo-eas": "GraphQL Query SDK; errors are typed per root by core/graphql",
   linear: "GraphQL Query SDK; errors are typed per root by core/graphql",
   s3: "hand-written protocols; ParseError is part of CommonErrors in src/errors.ts",
   railway: "GraphQL Query SDK; errors are typed per root by core/graphql",
