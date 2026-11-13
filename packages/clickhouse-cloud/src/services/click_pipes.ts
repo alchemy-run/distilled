@@ -798,35 +798,35 @@ export interface ClickPipeScaling {
   /** Memory in GB for each replica. Only for streaming pipes. */
   replicaMemoryGb?: number | undefined;
 }
-export interface ClickPipeSettings {
+export interface ClickPipeSettingsPutRequest {
   /** Streaming max insert wait time. Configures the max wait period before inserting data into the ClickHouse. */
-  streaming_max_insert_wait_ms?: number | null | undefined;
+  streaming_max_insert_wait_ms?: number | undefined;
   /** Object storage concurrency. Number of concurrent file processing threads */
-  object_storage_concurrency?: number | null | undefined;
+  object_storage_concurrency?: number | undefined;
   /** Object storage polling interval. Configures the refresh interval for querying continuous ingest for new object storage data */
-  object_storage_polling_interval_ms?: number | null | undefined;
+  object_storage_polling_interval_ms?: number | undefined;
   /** Max insert bytes. Number of bytes to process in a single insert batch */
-  object_storage_max_insert_bytes?: number | null | undefined;
+  object_storage_max_insert_bytes?: number | undefined;
   /** Max file count. Maximum number of files to process in a single insert batch */
-  object_storage_max_file_count?: number | null | undefined;
+  object_storage_max_file_count?: number | undefined;
   /** Max file size. Files larger than this are skipped and not retried. Can only lower the limit. Private preview. Contact support to enable it for your organization. */
   object_storage_max_file_size?: number | undefined;
   /** Max threads. Maximum number of concurrent threads for file processing */
-  clickhouse_max_threads?: number | null | undefined;
+  clickhouse_max_threads?: number | undefined;
   /** Max insert threads. Maximum number of concurrent insert threads */
-  clickhouse_max_insert_threads?: number | null | undefined;
+  clickhouse_max_insert_threads?: number | undefined;
   /** Min insert block size bytes. Minimum size of data block for insert (in bytes) */
-  clickhouse_min_insert_block_size_bytes?: number | null | undefined;
+  clickhouse_min_insert_block_size_bytes?: number | undefined;
   /** Max download threads. Maximum number of concurrent download threads */
-  clickhouse_max_download_threads?: number | null | undefined;
+  clickhouse_max_download_threads?: number | undefined;
   /** Parallel distributed insert select. Only applies when object_storage_use_cluster_function is enabled. When disabled, this setting is ignored and the effective value is 0. */
-  clickhouse_parallel_distributed_insert_select?: number | null | undefined;
+  clickhouse_parallel_distributed_insert_select?: number | undefined;
   /** Kafka Read Committed. Whether Kafka consumers read only committed messages */
   kafka_read_committed?: boolean | undefined;
   /** use cluster function. Whether to use ClickHouse cluster function for distributed processing */
-  object_storage_use_cluster_function?: boolean | null | undefined;
+  object_storage_use_cluster_function?: boolean | undefined;
   /** parallel view processing. Whether to enable pushing to attached views concurrently instead of sequentially */
-  clickhouse_parallel_view_processing?: boolean | null | undefined;
+  clickhouse_parallel_view_processing?: boolean | undefined;
 }
 export interface CreateClickPipeRequest {
   /** ID of the organization that owns the service. */
@@ -840,7 +840,7 @@ export interface CreateClickPipeRequest {
   /** Field mappings of the ClickPipe. Note that all destination columns must be included in the mappings. */
   fieldMappings?: CreateClickPipeRequestFieldMappingsList | undefined;
   scaling?: ClickPipeScaling | undefined;
-  settings?: ClickPipeSettings | undefined;
+  settings?: ClickPipeSettingsPutRequest | undefined;
   /** Create the ClickPipe in the Stopped state instead of starting ingestion immediately. Start it later with the state endpoint. Not supported for database ClickPipes. */
   startPaused?: boolean | undefined;
 }
@@ -1222,6 +1222,36 @@ export interface ClickPipeDestination {
 }
 /** Field mappings of the ClickPipe. Note that all destination columns must be included in the mappings. */
 export type ClickPipeFieldMappingsList = Array<ClickPipeFieldMapping>;
+export interface ClickPipeSettings {
+  /** Streaming max insert wait time. Configures the max wait period before inserting data into the ClickHouse. */
+  streaming_max_insert_wait_ms?: number | null | undefined;
+  /** Object storage concurrency. Number of concurrent file processing threads */
+  object_storage_concurrency?: number | null | undefined;
+  /** Object storage polling interval. Configures the refresh interval for querying continuous ingest for new object storage data */
+  object_storage_polling_interval_ms?: number | null | undefined;
+  /** Max insert bytes. Number of bytes to process in a single insert batch */
+  object_storage_max_insert_bytes?: number | null | undefined;
+  /** Max file count. Maximum number of files to process in a single insert batch */
+  object_storage_max_file_count?: number | null | undefined;
+  /** Max file size. Files larger than this are skipped and not retried. Can only lower the limit. Private preview. Contact support to enable it for your organization. */
+  object_storage_max_file_size?: number | undefined;
+  /** Max threads. Maximum number of concurrent threads for file processing */
+  clickhouse_max_threads?: number | null | undefined;
+  /** Max insert threads. Maximum number of concurrent insert threads */
+  clickhouse_max_insert_threads?: number | null | undefined;
+  /** Min insert block size bytes. Minimum size of data block for insert (in bytes) */
+  clickhouse_min_insert_block_size_bytes?: number | null | undefined;
+  /** Max download threads. Maximum number of concurrent download threads */
+  clickhouse_max_download_threads?: number | null | undefined;
+  /** Parallel distributed insert select. Only applies when object_storage_use_cluster_function is enabled. When disabled, this setting is ignored and the effective value is 0. */
+  clickhouse_parallel_distributed_insert_select?: number | null | undefined;
+  /** Kafka Read Committed. Whether Kafka consumers read only committed messages */
+  kafka_read_committed?: boolean | undefined;
+  /** use cluster function. Whether to use ClickHouse cluster function for distributed processing */
+  object_storage_use_cluster_function?: boolean | null | undefined;
+  /** parallel view processing. Whether to enable pushing to attached views concurrently instead of sequentially */
+  clickhouse_parallel_view_processing?: boolean | null | undefined;
+}
 export interface ClickPipe {
   /** Unique ClickPipe ID. */
   id?: string | undefined;
@@ -1806,7 +1836,7 @@ export interface UpdateClickPipeRequest {
   destination?: ClickPipePatchDestination | undefined;
   /** Field mappings of the ClickPipe. This will not update the table schema, only the ClickPipe configuration. */
   fieldMappings?: UpdateClickPipeRequestFieldMappingsList | undefined;
-  settings?: ClickPipeSettings | undefined;
+  settings?: ClickPipeSettingsPutRequest | undefined;
 }
 export interface UpdateClickPipeCdcScalingRequest {
   /** ID of the organization that owns the service. */
@@ -1906,7 +1936,7 @@ export const createClickPipe: API.OperationMethod<
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c0, 8) as any as S.Schema<CreateClickPipeRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<ClickPipe>,
+  output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1922,8 +1952,8 @@ export const createClickPipeReversePrivateEndpoint: API.OperationMethod<
   CreateClickPipeReversePrivateEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateClickPipeReversePrivateEndpointRequest>,
-  output: __S(294, __c9, 6) as any as S.Schema<ReversePrivateEndpoint>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateClickPipeReversePrivateEndpointRequest>,
+  output: __S(326, __c10, 6) as any as S.Schema<ReversePrivateEndpoint>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1939,8 +1969,8 @@ export const deleteClickPipe: API.OperationMethod<
   DeleteClickPipeError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteClickPipeRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<DeleteClickPipeResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteClickPipeRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DeleteClickPipeResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1956,8 +1986,8 @@ export const deleteClickPipeReversePrivateEndpoint: API.OperationMethod<
   DeleteClickPipeReversePrivateEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteClickPipeReversePrivateEndpointRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<DeleteClickPipeReversePrivateEndpointResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteClickPipeReversePrivateEndpointRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<DeleteClickPipeReversePrivateEndpointResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1973,8 +2003,8 @@ export const discoverClickPipeSchema: API.OperationMethod<
   DiscoverClickPipeSchemaError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c21, 1) as any as S.Schema<DiscoverClickPipeSchemaRequest>,
-  output: __S(677, __c21, 5) as any as S.Schema<ClickPipeSchemaDiscoveryResponse>,
+  input: __S(705, __c22, 1) as any as S.Schema<DiscoverClickPipeSchemaRequest>,
+  output: __S(709, __c22, 5) as any as S.Schema<ClickPipeSchemaDiscoveryResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1990,8 +2020,8 @@ export const getClickPipe: API.OperationMethod<
   GetClickPipeError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetClickPipeRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<ClickPipe>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetClickPipeRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2007,8 +2037,8 @@ export const getClickPipeCdcScaling: API.OperationMethod<
   GetClickPipeCdcScalingError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetClickPipeCdcScalingRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<ClickPipesCdcScaling>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetClickPipeCdcScalingRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<ClickPipesCdcScaling>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2024,8 +2054,8 @@ export const getClickPipeReversePrivateEndpoint: API.OperationMethod<
   GetClickPipeReversePrivateEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetClickPipeReversePrivateEndpointRequest>,
-  output: __S(294, __c9, 6) as any as S.Schema<ReversePrivateEndpoint>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetClickPipeReversePrivateEndpointRequest>,
+  output: __S(326, __c10, 6) as any as S.Schema<ReversePrivateEndpoint>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2041,8 +2071,8 @@ export const getClickPipeSettings: API.OperationMethod<
   GetClickPipeSettingsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetClickPipeSettingsRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<ClickPipeSettings>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetClickPipeSettingsRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<ClickPipeSettings>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2058,8 +2088,8 @@ export const getClickPipesServiceContext: API.OperationMethod<
   GetClickPipesServiceContextError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetClickPipesServiceContextRequest>,
-  output: __S(866, __c27, 2) as any as S.Schema<ClickPipesServiceContext>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetClickPipesServiceContextRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<ClickPipesServiceContext>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2075,8 +2105,8 @@ export const listClickPipeReversePrivateEndpoints: API.OperationMethod<
   ListClickPipeReversePrivateEndpointsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListClickPipeReversePrivateEndpointsRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<ListClickPipeReversePrivateEndpointsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListClickPipeReversePrivateEndpointsRequest>,
+  output: __S(354, __c11, 2) as any as S.Schema<ListClickPipeReversePrivateEndpointsResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2094,8 +2124,8 @@ export const listClickPipes: API.PaginatedOperationMethod<
   ClickPipe
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(352, __c11, 0) as any as S.Schema<ListClickPipesRequest>,
-    output: __S(354, __c11, 2) as any as S.Schema<ListClickPipesResponse>,
+    input: __S(384, __c12, 0) as any as S.Schema<ListClickPipesRequest>,
+    output: __S(386, __c12, 2) as any as S.Schema<ListClickPipesResponse>,
     errors: [UnknownClickHouseCloudError],
     protocol: ClickHouseCloudPaginatedProtocol,
     retry: Retry.Retry,
@@ -2120,8 +2150,8 @@ export const updateClickPipe: API.OperationMethod<
   UpdateClickPipeError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(401, __c12, 17) as any as S.Schema<UpdateClickPipeRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<ClickPipe>,
+  input: __S(433, __c13, 17) as any as S.Schema<UpdateClickPipeRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2137,8 +2167,8 @@ export const updateClickPipeCdcScaling: API.OperationMethod<
   UpdateClickPipeCdcScalingError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<UpdateClickPipeCdcScalingRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<ClickPipesCdcScaling>,
+  input: __S(448, __c14, 0) as any as S.Schema<UpdateClickPipeCdcScalingRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<ClickPipesCdcScaling>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2154,8 +2184,8 @@ export const updateClickPipeReversePrivateEndpoint: API.OperationMethod<
   UpdateClickPipeReversePrivateEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<UpdateClickPipeReversePrivateEndpointRequest>,
-  output: __S(294, __c9, 6) as any as S.Schema<ReversePrivateEndpoint>,
+  input: __S(480, __c15, 0) as any as S.Schema<UpdateClickPipeReversePrivateEndpointRequest>,
+  output: __S(326, __c10, 6) as any as S.Schema<ReversePrivateEndpoint>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2171,8 +2201,8 @@ export const updateClickPipeScaling: API.OperationMethod<
   UpdateClickPipeScalingError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<UpdateClickPipeScalingRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<ClickPipe>,
+  input: __S(512, __c16, 0) as any as S.Schema<UpdateClickPipeScalingRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2181,15 +2211,15 @@ export const updateClickPipeScaling: API.OperationMethod<
 }));
 
 export type UpdateClickPipeSettingsError = ClickHouseCloudOpError;
-/** Update ClickPipe settings Update the advanced settings for the specified ClickPipe. Send key-value pairs where values can be strings, numbers, or booleans. */
+/** Update ClickPipe settings Update the advanced settings for the specified ClickPipe. Send key-value pairs where values can be strings, numbers, or booleans. Omitted keys keep their current value. `null` is not accepted; to reset a setting, send its default value. */
 export const updateClickPipeSettings: API.OperationMethod<
   UpdateClickPipeSettingsRequest,
   ClickPipeSettings,
   UpdateClickPipeSettingsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<UpdateClickPipeSettingsRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<ClickPipeSettings>,
+  input: __S(544, __c17, 0) as any as S.Schema<UpdateClickPipeSettingsRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<ClickPipeSettings>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2205,8 +2235,8 @@ export const updateClickPipeState: API.OperationMethod<
   UpdateClickPipeStateError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<UpdateClickPipeStateRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<ClickPipe>,
+  input: __S(576, __c18, 0) as any as S.Schema<UpdateClickPipeStateRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -2221,28 +2251,28 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          credentials: S.optional(__S(96, __c3, 0)),
+          credentials: S.optional(__S(128, __c4, 0)),
           host: S.optional(S.String),
           port: S.optional(S.Number),
           database: S.optional(S.String),
-          settings: S.optional(__S(160, __c5, 0)),
+          settings: S.optional(__S(192, __c6, 0)),
           authentication: S.optional(S.String),
           iamRole: S.optional(S.String),
           tlsHost: S.optional(S.String),
           caCertificate: S.optional(S.String),
           disableTls: S.optional(S.Boolean),
           skipCertVerification: S.optional(S.Boolean),
-          tableMappings: S.optional(__S(162, __c5, 2)),
+          tableMappings: S.optional(__S(194, __c6, 2)),
         }),
       ).annotate({ identifier: "ClickPipeMutatePostgresSource" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          credentials: S.optional(__S(96, __c3, 0)),
+          credentials: S.optional(__S(128, __c4, 0)),
           host: S.String,
           port: S.Number,
-          settings: __S(163, __c5, 3),
+          settings: __S(195, __c6, 3),
           authentication: S.optional(S.String),
           iamRole: S.optional(S.String),
           tlsHost: S.optional(S.String),
@@ -2250,26 +2280,26 @@ function __c0(j: number): any {
           disableTls: S.optional(S.Boolean),
           skipCertVerification: S.optional(S.Boolean),
           serverId: S.optional(S.Number),
-          tableMappings: __S(165, __c5, 5),
+          tableMappings: __S(197, __c6, 5),
         }),
       ).annotate({ identifier: "ClickPipeMutateMySQLSource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           snapshotStagingPath: S.String,
-          settings: __S(166, __c5, 6),
-          tableMappings: __S(168, __c5, 8),
+          settings: __S(198, __c6, 6),
+          tableMappings: __S(200, __c6, 8),
           authentication: S.optional(S.String),
           projectId: S.optional(S.String),
-          credentials: __S(101, __c3, 5),
+          credentials: __S(133, __c4, 5),
         }),
       ).annotate({ identifier: "ClickPipePostBigQueryServiceAccountSource" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           snapshotStagingPath: S.String,
-          settings: __S(166, __c5, 6),
-          tableMappings: __S(168, __c5, 8),
+          settings: __S(198, __c6, 6),
+          tableMappings: __S(200, __c6, 8),
           authentication: S.String,
           projectId: S.String,
         }),
@@ -2279,24 +2309,24 @@ function __c0(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(96, __c3, 0)),
+          credentials: S.optional(__S(128, __c4, 0)),
           uri: S.String,
           readPreference: S.String,
           tlsHost: S.optional(S.String),
           disableTls: S.optional(S.Boolean),
           skipCertVerification: S.optional(S.Boolean),
           caCertificate: S.optional(S.String),
-          settings: __S(169, __c5, 9),
-          tableMappings: __S(175, __c5, 15),
+          settings: __S(201, __c6, 9),
+          tableMappings: __S(207, __c6, 15),
         }),
       ).annotate({ identifier: "ClickPipeMutateMongoDBSource" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(__S(66, __c2, 2)),
-          objectStorage: S.optional(__S(67, __c2, 3)),
-          kinesis: S.optional(__S(68, __c2, 4)),
-          pubsub: S.optional(__S(70, __c2, 6)),
+          kafka: S.optional(__S(98, __c3, 2)),
+          objectStorage: S.optional(__S(99, __c3, 3)),
+          kinesis: S.optional(__S(100, __c3, 4)),
+          pubsub: S.optional(__S(102, __c3, 6)),
           postgres: S.optional(__S(0, __c0, 0)),
           mysql: S.optional(__S(1, __c0, 1)),
           bigquery: S.optional(__S(4, __c0, 4)),
@@ -2310,8 +2340,8 @@ function __c0(j: number): any {
           database: S.String,
           table: S.optional(S.String),
           managedTable: S.optional(S.Boolean),
-          tableDefinition: S.optional(__S(177, __c5, 17)),
-          columns: S.optional(__S(179, __c5, 19)),
+          tableDefinition: S.optional(__S(209, __c6, 17)),
+          columns: S.optional(__S(211, __c6, 19)),
           roles: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ClickPipeMutateDestination" });
@@ -2323,9 +2353,9 @@ function __c0(j: number): any {
           name: S.String,
           source: __S(6, __c0, 6),
           destination: __S(7, __c0, 7),
-          fieldMappings: S.optional(__S(181, __c5, 21)),
-          scaling: S.optional(__S(182, __c5, 22)),
-          settings: S.optional(__S(224, __c7, 0)),
+          fieldMappings: S.optional(__S(213, __c6, 21)),
+          scaling: S.optional(__S(214, __c6, 22)),
+          settings: S.optional(__S(64, __c2, 0)),
           startPaused: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2348,15 +2378,38 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          streaming_max_insert_wait_ms: S.optional(S.Number),
+          object_storage_concurrency: S.optional(S.Number),
+          object_storage_polling_interval_ms: S.optional(S.Number),
+          object_storage_max_insert_bytes: S.optional(S.Number),
+          object_storage_max_file_count: S.optional(S.Number),
+          object_storage_max_file_size: S.optional(S.Number),
+          clickhouse_max_threads: S.optional(S.Number),
+          clickhouse_max_insert_threads: S.optional(S.Number),
+          clickhouse_min_insert_block_size_bytes: S.optional(S.Number),
+          clickhouse_max_download_threads: S.optional(S.Number),
+          clickhouse_parallel_distributed_insert_select: S.optional(S.Number),
+          kafka_read_committed: S.optional(S.Boolean),
+          object_storage_use_cluster_function: S.optional(S.Boolean),
+          clickhouse_parallel_view_processing: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ClickPipeSettingsPutRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
           url: S.String,
           authentication: S.String,
           caCertificate: S.optional(S.NullOr(S.String)),
-          credentials: __S(96, __c3, 0),
+          credentials: __S(128, __c4, 0),
         }),
       ).annotate({ identifier: "ClickPipeMutateKafkaConfluentSchemaRegistry" });
     case 1:
-      return S.Union([__S(64, __c2, 0), __S(129, __c4, 1)]);
+      return S.Union([__S(96, __c3, 0), __S(161, __c5, 1)]);
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2367,13 +2420,13 @@ function __c2(j: number): any {
           consumerGroup: S.optional(S.NullOr(S.String)),
           authentication: S.String,
           iamRole: S.optional(S.NullOr(S.String)),
-          offset: S.optional(S.NullOr(__S(128, __c4, 0))),
-          schemaRegistry: S.optional(S.NullOr(__S(65, __c2, 1))),
+          offset: S.optional(S.NullOr(__S(160, __c5, 0))),
+          schemaRegistry: S.optional(S.NullOr(__S(97, __c3, 1))),
           caCertificate: S.optional(S.NullOr(S.String)),
           reversePrivateEndpointIds: S.optional(__S(32, __c1, 0)),
           exactlyOnce: S.optional(S.NullOr(S.Boolean)),
           tombstoneMode: S.optional(S.NullOr(S.String)),
-          credentials: S.optional(__S(100, __c3, 4)),
+          credentials: S.optional(__S(132, __c4, 4)),
           protobufSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipePostKafkaSource" });
@@ -2395,7 +2448,7 @@ function __c2(j: number): any {
           connectionString: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           path: S.optional(S.NullOr(S.String)),
           azureContainerName: S.optional(S.NullOr(S.String)),
-          accessKey: S.optional(S.NullOr(__S(97, __c3, 1))),
+          accessKey: S.optional(S.NullOr(__S(129, __c4, 1))),
           serviceAccountKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ClickPipePostObjectStorageSource" });
@@ -2410,8 +2463,8 @@ function __c2(j: number): any {
           timestamp: S.optional(S.NullOr(S.Number)),
           authentication: S.optional(S.String),
           iamRole: S.optional(S.NullOr(S.String)),
-          schemaRegistry: S.optional(S.NullOr(__S(130, __c4, 2))),
-          accessKey: S.optional(S.NullOr(__S(97, __c3, 1))),
+          schemaRegistry: S.optional(S.NullOr(__S(162, __c5, 2))),
+          accessKey: S.optional(S.NullOr(__S(129, __c4, 1))),
           protobufSchema: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipePostKinesisSource" });
@@ -2427,14 +2480,14 @@ function __c2(j: number): any {
           filter: S.optional(S.NullOr(S.String)),
           enableOrdering: S.optional(S.NullOr(S.Boolean)),
           ackDeadline: S.optional(S.NullOr(S.Number)),
-          serviceAccountKey: __S(101, __c3, 5),
+          serviceAccountKey: __S(133, __c4, 5),
         }),
       ).annotate({ identifier: "ClickPipePostPubSubServiceAccountSource" });
     case 6:
-      return S.Union([__S(69, __c2, 5), __S(131, __c4, 3)]);
+      return S.Union([__S(101, __c3, 5), __S(163, __c5, 3)]);
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2464,7 +2517,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "MutualTLS" });
     case 4:
-      return S.Union([__S(96, __c3, 0), __S(97, __c3, 1), __S(98, __c3, 2), __S(99, __c3, 3)]);
+      return S.Union([__S(128, __c4, 0), __S(129, __c4, 1), __S(130, __c4, 2), __S(131, __c4, 3)]);
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2473,7 +2526,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ServiceAccount" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2516,7 +2569,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ClickPipePostPubSubWorkloadIdentitySource" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2549,7 +2602,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipePostgresPipeTableMapping" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2580,7 +2633,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeMySQLPipeTableMapping" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(196, __c6, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2612,7 +2665,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeBigQueryPipeTableMapping" });
     case 8:
-      return S.Array(__S(167, __c5, 7));
+      return S.Array(__S(199, __c6, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -2634,13 +2687,13 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeMongoDBPipeColumn" });
     case 11:
-      return S.Array(__S(170, __c5, 10));
+      return S.Array(__S(202, __c6, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           dropUnexpectedValues: S.optional(S.Boolean),
-          columns: S.optional(__S(171, __c5, 11)),
+          columns: S.optional(__S(203, __c6, 11)),
           excludedColumns: S.optional(__S(32, __c1, 0)),
           sortingKeys: S.optional(__S(32, __c1, 0)),
           partitionByExpr: S.optional(S.String),
@@ -2659,12 +2712,12 @@ function __c5(j: number): any {
           sourceCollection: S.String,
           targetTable: S.String,
           tableEngine: S.optional(S.String),
-          structuredIngestion: S.optional(__S(172, __c5, 12)),
-          mongoConfig: S.optional(__S(173, __c5, 13)),
+          structuredIngestion: S.optional(__S(204, __c6, 12)),
+          mongoConfig: S.optional(__S(205, __c6, 13)),
         }),
       ).annotate({ identifier: "ClickPipeMongoDBPipeTableMapping" });
     case 15:
-      return S.Array(__S(174, __c5, 14));
+      return S.Array(__S(206, __c6, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -2676,7 +2729,7 @@ function __c5(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          engine: S.optional(__S(176, __c5, 16)),
+          engine: S.optional(__S(208, __c6, 16)),
           sortingKey: S.optional(__S(32, __c1, 0)),
           partitionBy: S.optional(S.String),
           primaryKey: S.optional(S.String),
@@ -2691,7 +2744,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeDestinationColumn" });
     case 19:
-      return S.Array(__S(178, __c5, 18));
+      return S.Array(__S(210, __c6, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -2700,7 +2753,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeFieldMapping" });
     case 21:
-      return S.Array(__S(180, __c5, 20));
+      return S.Array(__S(212, __c6, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -2720,7 +2773,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeKafkaConfluentSchemaRegistry" });
     case 24:
-      return S.Union([__S(183, __c5, 23), __S(129, __c4, 1)]);
+      return S.Union([__S(215, __c6, 23), __S(161, __c5, 1)]);
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -2731,8 +2784,8 @@ function __c5(j: number): any {
           consumerGroup: S.optional(S.NullOr(S.String)),
           authentication: S.optional(S.String),
           iamRole: S.optional(S.NullOr(S.String)),
-          offset: S.optional(S.NullOr(__S(128, __c4, 0))),
-          schemaRegistry: S.optional(S.NullOr(__S(184, __c5, 24))),
+          offset: S.optional(S.NullOr(__S(160, __c5, 0))),
+          schemaRegistry: S.optional(S.NullOr(__S(216, __c6, 24))),
           caCertificate: S.optional(S.NullOr(S.String)),
           reversePrivateEndpointIds: S.optional(__S(32, __c1, 0)),
           exactlyOnce: S.optional(S.NullOr(S.Boolean)),
@@ -2770,7 +2823,7 @@ function __c5(j: number): any {
           timestamp: S.optional(S.NullOr(S.Number)),
           authentication: S.optional(S.String),
           iamRole: S.optional(S.NullOr(S.String)),
-          schemaRegistry: S.optional(S.NullOr(__S(130, __c4, 2))),
+          schemaRegistry: S.optional(S.NullOr(__S(162, __c5, 2))),
         }),
       ).annotate({ identifier: "ClickPipeKinesisSource" });
     case 28:
@@ -2786,8 +2839,8 @@ function __c5(j: number): any {
           caCertificate: S.optional(S.String),
           disableTls: S.optional(S.Boolean),
           skipCertVerification: S.optional(S.Boolean),
-          settings: S.optional(__S(160, __c5, 0)),
-          tableMappings: S.optional(__S(162, __c5, 2)),
+          settings: S.optional(__S(192, __c6, 0)),
+          tableMappings: S.optional(__S(194, __c6, 2)),
         }),
       ).annotate({ identifier: "ClickPipePostgresSource" });
     case 29:
@@ -2803,25 +2856,25 @@ function __c5(j: number): any {
           disableTls: S.optional(S.Boolean),
           skipCertVerification: S.optional(S.Boolean),
           serverId: S.optional(S.Number),
-          settings: __S(163, __c5, 3),
-          tableMappings: __S(165, __c5, 5),
+          settings: __S(195, __c6, 3),
+          tableMappings: __S(197, __c6, 5),
         }),
       ).annotate({ identifier: "ClickPipeMySQLSource" });
     case 30:
       return S.suspend(() =>
         S.Struct({
           snapshotStagingPath: S.String,
-          settings: __S(166, __c5, 6),
-          tableMappings: __S(168, __c5, 8),
+          settings: __S(198, __c6, 6),
+          tableMappings: __S(200, __c6, 8),
           authentication: S.String,
           projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipeBigQueryServiceAccountSource" });
     case 31:
-      return S.Union([__S(190, __c5, 30), __S(190, __c5, 30)]);
+      return S.Union([__S(222, __c6, 30), __S(222, __c6, 30)]);
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2832,21 +2885,21 @@ function __c6(j: number): any {
           disableTls: S.optional(S.Boolean),
           skipCertVerification: S.optional(S.Boolean),
           caCertificate: S.optional(S.String),
-          settings: S.optional(__S(169, __c5, 9)),
-          tableMappings: S.optional(__S(175, __c5, 15)),
+          settings: S.optional(__S(201, __c6, 9)),
+          tableMappings: S.optional(__S(207, __c6, 15)),
         }),
       ).annotate({ identifier: "ClickPipeMongoDBSource" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(S.NullOr(__S(185, __c5, 25))),
-          objectStorage: S.optional(S.NullOr(__S(186, __c5, 26))),
-          kinesis: S.optional(S.NullOr(__S(187, __c5, 27))),
-          pubsub: S.optional(S.NullOr(__S(131, __c4, 3))),
-          postgres: S.optional(S.NullOr(__S(188, __c5, 28))),
-          mysql: S.optional(S.NullOr(__S(189, __c5, 29))),
-          bigquery: S.optional(S.NullOr(__S(191, __c5, 31))),
-          mongodb: S.optional(S.NullOr(__S(192, __c6, 0))),
+          kafka: S.optional(S.NullOr(__S(217, __c6, 25))),
+          objectStorage: S.optional(S.NullOr(__S(218, __c6, 26))),
+          kinesis: S.optional(S.NullOr(__S(219, __c6, 27))),
+          pubsub: S.optional(S.NullOr(__S(163, __c5, 3))),
+          postgres: S.optional(S.NullOr(__S(220, __c6, 28))),
+          mysql: S.optional(S.NullOr(__S(221, __c6, 29))),
+          bigquery: S.optional(S.NullOr(__S(223, __c6, 31))),
+          mongodb: S.optional(S.NullOr(__S(224, __c7, 0))),
         }),
       ).annotate({ identifier: "ClickPipeSource" });
     case 2:
@@ -2855,8 +2908,8 @@ function __c6(j: number): any {
           database: S.optional(S.String),
           table: S.optional(S.String),
           managedTable: S.optional(S.Boolean),
-          tableDefinition: S.optional(__S(177, __c5, 17)),
-          columns: S.optional(__S(179, __c5, 19)),
+          tableDefinition: S.optional(__S(209, __c6, 17)),
+          columns: S.optional(__S(211, __c6, 19)),
         }),
       ).annotate({ identifier: "ClickPipeDestination" });
     case 3:
@@ -2866,18 +2919,18 @@ function __c6(j: number): any {
           serviceId: S.optional(S.String),
           name: S.optional(S.String),
           state: S.optional(S.String),
-          scaling: S.optional(__S(182, __c5, 22)),
-          source: S.optional(__S(193, __c6, 1)),
-          destination: S.optional(__S(194, __c6, 2)),
-          fieldMappings: S.optional(__S(181, __c5, 21)),
-          settings: S.optional(__S(224, __c7, 0)),
+          scaling: S.optional(__S(214, __c6, 22)),
+          source: S.optional(__S(225, __c7, 1)),
+          destination: S.optional(__S(226, __c7, 2)),
+          fieldMappings: S.optional(__S(213, __c6, 21)),
+          settings: S.optional(__S(256, __c8, 0)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickPipe" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2900,7 +2953,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ClickPipeSettings" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2915,7 +2968,7 @@ function __c8(j: number): any {
           mskClusterArn: S.optional(S.String),
           mskAuthentication: S.optional(S.String),
           gcpServiceAttachment: S.optional(S.String),
-          customPrivateDnsMappings: S.optional(__S(289, __c9, 1)),
+          customPrivateDnsMappings: S.optional(__S(321, __c10, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2926,7 +2979,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateClickPipeReversePrivateEndpointRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2936,7 +2989,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "CustomPrivateDnsMapping" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2945,7 +2998,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ReversePrivateEndpointPrivateDnsMapping" });
     case 3:
-      return S.Array(__S(290, __c9, 2));
+      return S.Array(__S(322, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2955,7 +3008,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ReversePrivateEndpointDnsTarget" });
     case 5:
-      return S.Array(__S(292, __c9, 4));
+      return S.Array(__S(324, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2967,20 +3020,20 @@ function __c9(j: number): any {
           mskClusterArn: S.optional(S.NullOr(S.String)),
           mskAuthentication: S.optional(S.NullOr(S.String)),
           gcpServiceAttachment: S.optional(S.NullOr(S.String)),
-          customPrivateDnsMappings: S.optional(__S(289, __c9, 1)),
+          customPrivateDnsMappings: S.optional(__S(321, __c10, 1)),
           id: S.optional(S.String),
           serviceId: S.optional(S.String),
           endpointId: S.optional(S.String),
           dnsNames: S.optional(__S(32, __c1, 0)),
           privateDnsNames: S.optional(__S(32, __c1, 0)),
-          privateDnsMappings: S.optional(__S(291, __c9, 3)),
-          dnsTargets: S.optional(__S(293, __c9, 5)),
+          privateDnsMappings: S.optional(__S(323, __c10, 3)),
+          dnsTargets: S.optional(__S(325, __c10, 5)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReversePrivateEndpoint" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2996,14 +3049,14 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListClickPipeReversePrivateEndpointsRequest" });
     case 1:
-      return S.Array(__S(294, __c9, 6));
+      return S.Array(__S(326, __c10, 6));
     case 2:
-      return S.suspend(() => __S(321, __c10, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(353, __c11, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListClickPipeReversePrivateEndpointsResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3021,13 +3074,13 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListClickPipesRequest" });
     case 1:
-      return S.Array(__S(195, __c6, 3));
+      return S.Array(__S(227, __c7, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.Number),
           requestId: S.optional(S.String),
-          result: __S(353, __c11, 1),
+          result: __S(385, __c12, 1),
           limit: S.optional(S.Number),
           totalCount: S.optional(S.NullOr(S.Number)),
           nextCursor: S.optional(S.NullOr(S.String)),
@@ -3035,7 +3088,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ListClickPipesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3044,7 +3097,7 @@ function __c12(j: number): any {
           iamRole: S.optional(S.NullOr(S.String)),
           caCertificate: S.optional(S.NullOr(S.String)),
           reversePrivateEndpointIds: S.optional(__S(32, __c1, 0)),
-          credentials: S.optional(__S(100, __c3, 4)),
+          credentials: S.optional(__S(132, __c4, 4)),
         }),
       ).annotate({ identifier: "ClickPipePatchKafkaSource" });
     case 1:
@@ -3057,7 +3110,7 @@ function __c12(j: number): any {
           connectionString: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           path: S.optional(S.NullOr(S.String)),
           azureContainerName: S.optional(S.NullOr(S.String)),
-          accessKey: S.optional(S.NullOr(__S(97, __c3, 1))),
+          accessKey: S.optional(S.NullOr(__S(129, __c4, 1))),
           serviceAccountKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ClickPipePatchObjectStorageSource" });
@@ -3066,7 +3119,7 @@ function __c12(j: number): any {
         S.Struct({
           authentication: S.optional(S.NullOr(S.String)),
           iamRole: S.optional(S.NullOr(S.String)),
-          accessKey: S.optional(S.NullOr(__S(97, __c3, 1))),
+          accessKey: S.optional(S.NullOr(__S(129, __c4, 1))),
         }),
       ).annotate({ identifier: "ClickPipePatchKinesisSource" });
     case 3:
@@ -3074,7 +3127,7 @@ function __c12(j: number): any {
         S.Struct({
           authentication: S.NullOr(S.String),
           ackDeadline: S.optional(S.NullOr(S.Number)),
-          serviceAccountKey: S.optional(S.NullOr(__S(101, __c3, 5))),
+          serviceAccountKey: S.optional(S.NullOr(__S(133, __c4, 5))),
         }),
       ).annotate({ identifier: "ClickPipePatchPubSubSource" });
     case 4:
@@ -3096,11 +3149,11 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipePatchPostgresPipeRemoveTableMapping" });
     case 6:
-      return S.Array(__S(389, __c12, 5));
+      return S.Array(__S(421, __c13, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(96, __c3, 0)),
+          credentials: S.optional(__S(128, __c4, 0)),
           host: S.optional(S.NullOr(S.String)),
           port: S.optional(S.NullOr(S.Number)),
           database: S.optional(S.NullOr(S.String)),
@@ -3108,9 +3161,9 @@ function __c12(j: number): any {
           caCertificate: S.optional(S.NullOr(S.String)),
           disableTls: S.optional(S.NullOr(S.Boolean)),
           skipCertVerification: S.optional(S.NullOr(S.Boolean)),
-          settings: S.optional(__S(388, __c12, 4)),
-          tableMappingsToAdd: S.optional(__S(162, __c5, 2)),
-          tableMappingsToRemove: S.optional(__S(390, __c12, 6)),
+          settings: S.optional(__S(420, __c13, 4)),
+          tableMappingsToAdd: S.optional(__S(194, __c6, 2)),
+          tableMappingsToRemove: S.optional(__S(422, __c13, 6)),
         }),
       ).annotate({ identifier: "ClickPipePatchPostgresSource" });
     case 8:
@@ -3133,11 +3186,11 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipePatchMySQLPipeRemoveTableMapping" });
     case 10:
-      return S.Array(__S(393, __c12, 9));
+      return S.Array(__S(425, __c13, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(96, __c3, 0)),
+          credentials: S.optional(__S(128, __c4, 0)),
           host: S.NullOr(S.String),
           port: S.NullOr(S.Number),
           authentication: S.optional(S.NullOr(S.String)),
@@ -3147,9 +3200,9 @@ function __c12(j: number): any {
           disableTls: S.optional(S.NullOr(S.Boolean)),
           skipCertVerification: S.optional(S.NullOr(S.Boolean)),
           serverId: S.optional(S.NullOr(S.Number)),
-          settings: S.optional(__S(392, __c12, 8)),
-          tableMappingsToAdd: S.optional(__S(165, __c5, 5)),
-          tableMappingsToRemove: S.optional(__S(394, __c12, 10)),
+          settings: S.optional(__S(424, __c13, 8)),
+          tableMappingsToAdd: S.optional(__S(197, __c6, 5)),
+          tableMappingsToRemove: S.optional(__S(426, __c13, 10)),
         }),
       ).annotate({ identifier: "ClickPipePatchMySQLSource" });
     case 12:
@@ -3162,39 +3215,39 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipePatchMongoDBPipeRemoveTableMapping" });
     case 13:
-      return S.Array(__S(396, __c12, 12));
+      return S.Array(__S(428, __c13, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(96, __c3, 0)),
+          credentials: S.optional(__S(128, __c4, 0)),
           uri: S.NullOr(S.String),
           readPreference: S.NullOr(S.String),
           tlsHost: S.optional(S.NullOr(S.String)),
           disableTls: S.optional(S.NullOr(S.Boolean)),
           skipCertVerification: S.optional(S.NullOr(S.Boolean)),
           caCertificate: S.optional(S.NullOr(S.String)),
-          settings: S.optional(__S(388, __c12, 4)),
-          tableMappingsToAdd: S.optional(__S(175, __c5, 15)),
-          tableMappingsToRemove: S.optional(__S(397, __c12, 13)),
+          settings: S.optional(__S(420, __c13, 4)),
+          tableMappingsToAdd: S.optional(__S(207, __c6, 15)),
+          tableMappingsToRemove: S.optional(__S(429, __c13, 13)),
         }),
       ).annotate({ identifier: "ClickPipePatchMongoDBSource" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(__S(384, __c12, 0)),
-          objectStorage: S.optional(__S(385, __c12, 1)),
-          kinesis: S.optional(__S(386, __c12, 2)),
-          pubsub: S.optional(__S(387, __c12, 3)),
-          postgres: S.optional(__S(391, __c12, 7)),
-          mysql: S.optional(__S(395, __c12, 11)),
-          mongodb: S.optional(__S(398, __c12, 14)),
+          kafka: S.optional(__S(416, __c13, 0)),
+          objectStorage: S.optional(__S(417, __c13, 1)),
+          kinesis: S.optional(__S(418, __c13, 2)),
+          pubsub: S.optional(__S(419, __c13, 3)),
+          postgres: S.optional(__S(423, __c13, 7)),
+          mysql: S.optional(__S(427, __c13, 11)),
+          mongodb: S.optional(__S(430, __c13, 14)),
           validateSamples: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ClickPipePatchSource" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(179, __c5, 19)),
+          columns: S.optional(__S(211, __c6, 19)),
         }),
       ).annotate({ identifier: "ClickPipePatchDestination" });
     case 17:
@@ -3204,10 +3257,10 @@ function __c12(j: number): any {
           serviceId: S.String.pipe(T.Label()),
           clickPipeId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          source: S.optional(__S(399, __c12, 15)),
-          destination: S.optional(__S(400, __c12, 16)),
-          fieldMappings: S.optional(__S(181, __c5, 21)),
-          settings: S.optional(__S(224, __c7, 0)),
+          source: S.optional(__S(431, __c13, 15)),
+          destination: S.optional(__S(432, __c13, 16)),
+          fieldMappings: S.optional(__S(213, __c6, 21)),
+          settings: S.optional(__S(64, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3218,7 +3271,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateClickPipeRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3237,7 +3290,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdateClickPipeCdcScalingRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3245,7 +3298,7 @@ function __c14(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           reversePrivateEndpointId: S.String.pipe(T.Label()),
-          customPrivateDnsMappings: S.optional(__S(289, __c9, 1)),
+          customPrivateDnsMappings: S.optional(__S(321, __c10, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3256,7 +3309,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateClickPipeReversePrivateEndpointRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3278,7 +3331,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateClickPipeScalingRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3310,7 +3363,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateClickPipeSettingsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3329,7 +3382,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateClickPipeStateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3347,7 +3400,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteClickPipeRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3358,7 +3411,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteClickPipeResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3376,15 +3429,15 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteClickPipeReversePrivateEndpointRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(__S(66, __c2, 2)),
-          kinesis: S.optional(__S(68, __c2, 4)),
-          pubsub: S.optional(__S(70, __c2, 6)),
-          objectStorage: S.optional(__S(67, __c2, 3)),
+          kafka: S.optional(__S(98, __c3, 2)),
+          kinesis: S.optional(__S(100, __c3, 4)),
+          pubsub: S.optional(__S(102, __c3, 6)),
+          objectStorage: S.optional(__S(99, __c3, 3)),
         }),
       ).annotate({ identifier: "ClickPipeSchemaDiscoverySource" });
     case 1:
@@ -3392,7 +3445,7 @@ function __c21(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          source: __S(672, __c21, 0),
+          source: __S(704, __c22, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3412,19 +3465,19 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ClickPipeSchemaDiscoveryField" });
     case 3:
-      return S.Array(__S(674, __c21, 2));
+      return S.Array(__S(706, __c22, 2));
     case 4:
       return S.Record(S.String, S.String);
     case 5:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(__S(675, __c21, 3)),
-          meta: S.optional(S.NullOr(__S(676, __c21, 4))),
+          fields: S.optional(__S(707, __c22, 3)),
+          meta: S.optional(S.NullOr(__S(708, __c22, 4))),
         }),
       ).annotate({ identifier: "ClickPipeSchemaDiscoveryResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3442,7 +3495,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetClickPipeRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3459,7 +3512,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetClickPipeCdcScalingRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3470,7 +3523,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ClickPipesCdcScaling" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3488,7 +3541,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetClickPipeReversePrivateEndpointRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3506,7 +3559,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetClickPipeSettingsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3532,7 +3585,7 @@ function __c27(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gcpWorkloadIdentity: S.optional(__S(865, __c27, 1)),
+          gcpWorkloadIdentity: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "ClickPipesServiceContext" });
   }

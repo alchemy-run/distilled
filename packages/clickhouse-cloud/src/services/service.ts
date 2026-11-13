@@ -233,7 +233,7 @@ export interface CreateServiceRequest {
   tags?: CreateServiceRequestTagsList | undefined;
   /** Enables the underlying infra for collecting core dumps. Default is enabled. */
   enableCoreDumps?: boolean | undefined;
-  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Default is false. Setting it to true requires the `control-plane:service:delete` permission granted for all services in the organization (not service by service), in addition to `control-plane:organization:create-service`, and deletion protection to be enabled for the organization. */
+  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Default is false. Setting it to true requires the `control-plane:service:delete` permission granted for all services in the organization (not service by service), in addition to `control-plane:organization:create-service`. */
   deletionProtection?: boolean | undefined;
 }
 /** Cloud provider */
@@ -477,7 +477,7 @@ export interface Service {
   tags?: ServiceTagsList | undefined;
   /** True if the service's underline infra is enabled for collecting core dumps. This is an experimental feature */
   enableCoreDumps?: boolean | undefined;
-  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Present when deletion protection is enabled for the organization or the service is protected. */
+  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. */
   deletionProtection?: boolean | undefined;
   scalingSchedule?: ScalingSchedule | undefined;
   currentScaling: CurrentScaling;
@@ -865,7 +865,7 @@ export interface UpdateServiceRequest {
   tags?: InstanceTagsPatch | undefined;
   /** If true, the underlying infra is enabled for collecting core dumps. */
   enableCoreDumps?: boolean | undefined;
-  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Changing it in either direction requires the `control-plane:service:delete` permission on the service, in addition to `control-plane:service:manage`; sending the current value changes nothing and needs no extra permission. Turning it on also requires deletion protection to be enabled for the organization; turning it off does not. ClickStack services can't be updated through the API; manage their deletion protection in the console. */
+  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Changing it in either direction requires the `control-plane:service:delete` permission on the service, in addition to `control-plane:service:manage`; sending the current value changes nothing and needs no extra permission. ClickStack services can't be updated through the API; manage their deletion protection in the console. */
   deletionProtection?: boolean | undefined;
 }
 /** Nonempty object mapping configurable setting names to their values. Use DELETE to reset a setting. */
@@ -1085,7 +1085,7 @@ export interface ServiceScalingPatchResponse {
   tags?: ServiceScalingPatchResponseTagsList | undefined;
   /** True if the service's underline infra is enabled for collecting core dumps. This is an experimental feature */
   enableCoreDumps?: boolean | undefined;
-  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Present when deletion protection is enabled for the organization or the service is protected. */
+  /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. */
   deletionProtection?: boolean | undefined;
   scalingSchedule?: ScalingSchedule | undefined;
   currentScaling: CurrentScaling;
