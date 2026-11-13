@@ -1288,10 +1288,14 @@ export const frame = (payload: Uint8Array): Uint8Array => {
  * Reads gRPC message frames from a body that arrives in chunks: `push` each
  * chunk and get back the messages it completed. `rest` is the number of
  * bytes held for an incomplete frame (`0` once a body ends cleanly).
- * Compressed frames are rejected; gRPC-Web trailer frames are skipped.
+ * Compressed frames are rejected. A gRPC-Web trailer frame (flag `0x80`) is
+ * not a message: its `name: value` lines are collected in `trailers`.
  */
 export class FrameReader {
   private buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
+
+  /** The trailers of the gRPC-Web trailer frames read so far, names lowercase. */
+  readonly trailers: Record<string, string> = {};
 
   get rest(): number {
     return this.buf.length;
@@ -1315,13 +1319,24 @@ export class FrameReader {
       if (flag & 1 && !(flag & 0x80)) {
         throw new ProtobufDecodeError("compressed gRPC frames are not supported");
       }
-      if (!(flag & 0x80)) out.push(this.buf.slice(pos + 5, pos + 5 + len));
+      if (flag & 0x80) this.readTrailers(this.buf.subarray(pos + 5, pos + 5 + len));
+      else out.push(this.buf.slice(pos + 5, pos + 5 + len));
       pos += 5 + len;
     }
     this.buf = this.buf.subarray(pos);
     return out;
   }
+
+  private readTrailers(payload: Uint8Array): void {
+    for (const line of trailerDecoder.decode(payload).split("\r\n")) {
+      const colon = line.indexOf(":");
+      if (colon > 0)
+        this.trailers[line.slice(0, colon).trim().toLowerCase()] = line.slice(colon + 1).trim();
+    }
+  }
 }
+
+const trailerDecoder = /*@__PURE__*/ new TextDecoder();
 
 /** Split a whole gRPC body into message payloads. */
 export const unframe = (body: Uint8Array): Uint8Array[] => {
