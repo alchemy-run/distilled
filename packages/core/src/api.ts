@@ -466,6 +466,31 @@ const stateOf = (op: unknown): OperationState => (op as Record<symbol, Operation
 export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
   infoOf(prepare(stateOf(op)));
 
+/**
+ * The HTTP request a call to `op` with `input` would send, built by the
+ * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
+ * no response. It fails as the call would before sending (bad input,
+ * credentials, endpoint), or with {@link SdkError} when the operation can't
+ * be loaded; the Protocol seam does not type those failures, so the error is
+ * `unknown`. Presigning builds on it.
+ */
+export const encodeRequest = <I, O, E, R>(
+  op: OperationMethod<I, O, E, R>,
+  input: I,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, unknown, R> =>
+  Effect.suspend(() => {
+    const state = stateOf(op) as OperationState | undefined;
+    if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
+    const encode = (service: ProtocolShape) =>
+      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+    if (prepared.service !== undefined) return encode(prepared.service);
+    return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
+      encode((prepared.service = Context.get(protocolCtx, Protocol))),
+    );
+  });
+
 const defineState = (op: unknown, state: OperationState): OperationState => {
   Object.defineProperty(op, stateKey, { value: state });
   return state;
