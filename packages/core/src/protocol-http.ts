@@ -436,6 +436,18 @@ export interface BuildRequestOptions {
    * and refuse a bodyless one with 415.
    */
   readonly emptyJsonBody?: boolean;
+  /**
+   * How a query member spells a nested object or an array.
+   *
+   * - `"dotted"` (default): `created.gte=1`; an array repeats the key
+   *   (`expand=a&expand=b`).
+   * - `"brackets"`: `created[gte]=1`; an array indexes the key
+   *   (`expand[0]=a&expand[1]=b`), the same rule as form-urlencoded bodies.
+   *   Stripe needs this: its v2 API refuses `key[]` and repeated keys.
+   *
+   * `T.CommaDelimited` and `T.DeepQuery` members keep their own spelling.
+   */
+  readonly queryStyle?: "dotted" | "brackets";
 }
 
 /**
@@ -653,6 +665,7 @@ const requestOrInvalid = ({
   mapMemberHeader,
   unknownKeyToWire,
   emptyJsonBody,
+  queryStyle,
 }: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput | SdkError => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
@@ -702,6 +715,9 @@ const requestOrInvalid = ({
       case "query":
         if (m.commaDelimited && Array.isArray(value)) {
           (query ??= new URLSearchParams()).append(m.name, value.map(String).join(","));
+        } else if (queryStyle === "brackets") {
+          query ??= new URLSearchParams();
+          for (const [k, v] of flattenToFormPairs({ [m.name]: value })) query.append(k, v);
         } else {
           appendQuery((query ??= new URLSearchParams()), m.name, value);
         }
