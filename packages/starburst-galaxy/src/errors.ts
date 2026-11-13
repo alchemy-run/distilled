@@ -5,7 +5,7 @@
  * documents that core's shared map has no entry for (412), plus the
  * unknown-error and parse-error wrappers.
  *
- * Galaxy failures carry `{ message, … }` bodies. Operations that declare a
+ * Galaxy failures carry `{ message, ... }` bodies. Operations that declare a
  * status get the generated per-status class for it, which keeps `message`
  * and the whole `body` (where `BadRequest`'s `fields` and
  * `FailedPrecondition`'s `detail` are read). Every other failure is

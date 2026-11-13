@@ -27,7 +27,7 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); a 429 is read by {@link rateLimited}; other
- *             non-2xx `{ message, … }` bodies map to the operation's typed
+ *             non-2xx `{ message, ... }` bodies map to the operation's typed
  *             error classes by status, then the shared HTTP-status classes
  *             plus 412 -> {@link PreconditionFailed}, then
  *             {@link UnknownStarburstGalaxyError}.
@@ -101,7 +101,7 @@ export const StarburstGalaxyProtocol: Layer.Layer<API.Protocol> =
     // quality operations.
     statusMap: { ...HTTP_STATUS_MAP, 412: PreconditionFailed },
     classifyError: rateLimited,
-    // Galaxy's error body is `{ message, … }` -- the factory's default
+    // Galaxy's error body is `{ message, ... }` -- the factory's default
     // lenient `{ code?, message? }` envelope reads it.
     unknownError: (info) => new UnknownStarburstGalaxyError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new StarburstGalaxyParseError({ body, cause }),
