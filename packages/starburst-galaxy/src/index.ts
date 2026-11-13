@@ -7,7 +7,7 @@
  * this folder is hand-written.
  *
  * One module per Galaxy API service: `cluster`, `catalog`, `role`,
- * `privilege`, `serviceAccount`, `dataProduct`, `tag`, ….
+ * `privilege`, `serviceAccount`, `dataProduct`, `tag`, ....
  *
  * @example
  * ```ts

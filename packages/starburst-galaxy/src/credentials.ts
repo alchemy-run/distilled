@@ -61,7 +61,7 @@ export interface ClientCredentials {
 const LOOPBACK = new Set(["127.0.0.1", "localhost", "[::1]"]);
 
 /**
- * `yourco.galaxy.starburst.io` or `https://yourco.galaxy.starburst.io/` →
+ * `yourco.galaxy.starburst.io` or `https://yourco.galaxy.starburst.io/` ->
  * `https://yourco.galaxy.starburst.io`. The client secret and every token
  * travel to this origin, so it must be HTTPS with no path, query or user
  * info; plain HTTP is accepted on the loopback interface only, for local
