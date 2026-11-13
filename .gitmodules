@@ -418,6 +418,11 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/boxd/specs/spec-mirror-boxd"]
+	path = packages/boxd/specs/spec-mirror-boxd
+	url = https://github.com/distilled-mirror/spec-mirror-boxd.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/tailscale/specs/spec-mirror-tailscale"]
 	path = packages/tailscale/specs/spec-mirror-tailscale
 	url = https://github.com/distilled-mirror/spec-mirror-tailscale.git
