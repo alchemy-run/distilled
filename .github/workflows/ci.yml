@@ -18,6 +18,10 @@ on:
   pull_request:
     # `labeled` so adding the `force-ci` label re-triggers the run.
     types: [opened, synchronize, reopened, labeled]
+  # Every job here is a required check of main's merge queue
+  # (stacks/distilled-monorepo), so each one must also report on the queue's
+  # merge commit, or the queue waits for it until the check timeout.
+  merge_group:
   workflow_dispatch:
 
 concurrency:

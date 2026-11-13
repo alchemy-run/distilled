@@ -1,6 +1,7 @@
 import * as Cloudflare from "@alchemy.run/cloudflare";
 import * as GitHub from "@alchemy.run/github";
 import * as Alchemy from "alchemy";
+import { adopt } from "alchemy/AdoptPolicy";
 import * as RemovalPolicy from "alchemy/RemovalPolicy";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
@@ -84,6 +85,29 @@ const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
  * `actions/create-github-app-token` reads it next to the private key.
  */
 const BotAppId = Config.String("ALCHEMY_VERSION_BOT_ID").pipe(Config.withDefault("3107227"));
+
+/** The GitHub Actions app, the only app allowed to report a required check. */
+const GITHUB_ACTIONS_APP_ID = 15368;
+
+/**
+ * The checks a pull request must pass before it can enter main's merge
+ * queue, and again on the queue's merge commit before it lands: every job of
+ * `ci.yml`, plus the benchmark. Preview packages (`pkg.yml`) and the website
+ * preview deploy are not required. Each name is a job's `name:` in its
+ * workflow; rename a job there and here together, or the queue waits for a
+ * check that never reports.
+ */
+const REQUIRED_CHECKS = [
+  "Typecheck (all packages, generated code included)",
+  "Test",
+  "Bundlers",
+  "Lint",
+  "Conformance (gRPC and protobuf)",
+  "Typecheck (deployment stacks)",
+  "Website (typecheck & static build)",
+  "Check formatting",
+  "Benchmarks (PR vs main)",
+] as const;
 
 /**
  * The credentials no API can mint for us. Each is read as an option: a value
@@ -171,6 +195,44 @@ export default Alchemy.Stack(
       // No `autoInit`: it only applies at create time, and this repository
       // has ten thousand commits of history.
     });
+
+    // main's merge queue. Adopted: the ruleset was created in the GitHub UI,
+    // and every value except `requiredStatusChecks` mirrors it as it was.
+    // Without required checks the queue merged a PR about a minute after it
+    // was queued, whatever its CI said: on 2026-11-13 it merged #1167 while
+    // its Test job still ran, and Test then failed on main.
+    yield* GitHub.Ruleset("merge-queue", {
+      owner: OWNER,
+      repository: NAME,
+      name: "Merge Queue",
+      target: "branch",
+      enforcement: "active",
+      conditions: { include: ["~DEFAULT_BRANCH"], exclude: [] },
+      bypassActors: [
+        { actorType: "OrganizationAdmin", bypassMode: "always" },
+        { actorType: "RepositoryRole", actorId: 5, bypassMode: "always" }, // admin
+        { actorType: "Integration", actorId: Number(yield* BotAppId), bypassMode: "always" },
+      ],
+      deletion: true,
+      nonFastForward: true,
+      mergeQueue: {
+        mergeMethod: "SQUASH",
+        groupingStrategy: "ALLGREEN",
+        maxEntriesToBuild: 1,
+        minEntriesToMerge: 1,
+        maxEntriesToMerge: 8,
+        minEntriesToMergeWaitMinutes: 5,
+        checkResponseTimeoutMinutes: 119,
+      },
+      requiredStatusChecks: {
+        checks: REQUIRED_CHECKS.map((context) => ({
+          context,
+          integrationId: GITHUB_ACTIONS_APP_ID,
+        })),
+        // The queue tests each PR on top of main already.
+        strictRequiredStatusChecksPolicy: false,
+      },
+    }).pipe(adopt(true));
 
     const { accountId } = yield* yield* Cloudflare.CloudflareEnvironment;
 
