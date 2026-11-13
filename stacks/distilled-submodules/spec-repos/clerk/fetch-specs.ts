@@ -19,11 +19,13 @@
 
 import { mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "clerk/openapi-specs";
-/** Branch (or tag/commit) to mirror. */
+/** Upstream branch to mirror. */
 const REF = "main";
 /** Official descriptions and their stable mirror filenames. */
 const SPECS = [
@@ -59,16 +61,20 @@ async function get(url: string, accept: string): Promise<Response> {
 }
 
 async function main() {
-  const head = (await (
-    await get(`https://api.github.com/repos/${REPO}/commits/${REF}`, "application/vnd.github+json")
-  ).json()) as { sha: string };
-  if (typeof head?.sha !== "string" || !/^[a-f0-9]{40}$/.test(head.sha)) {
+  // Resolve the branch without consuming GitHub's unauthenticated API quota.
+  const { stdout } = await promisify(execFile)(
+    "git",
+    ["ls-remote", `https://github.com/${REPO}.git`, `refs/heads/${REF}`],
+    { timeout: 30_000 },
+  );
+  const sha = stdout.trim().split("\t")[0];
+  if (sha === undefined || !/^[a-f0-9]{40}$/.test(sha)) {
     throw new Error(`Failed to resolve ${REPO}@${REF} to a commit`);
   }
-  console.log(`${REPO} @ ${head.sha}`);
+  console.log(`${REPO} @ ${sha}`);
 
   for (const { path, output } of SPECS) {
-    const url = rawUrl(path, head.sha);
+    const url = rawUrl(path, sha);
     console.log(`Fetching ${url}...`);
     const response = await get(url, "application/yaml, text/yaml, application/json, text/plain");
     const spec = YAML.parse(await response.text()) as Record<string, unknown>;
