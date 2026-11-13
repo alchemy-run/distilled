@@ -850,8 +850,16 @@ export interface PatchCoordinationV1alpha2NamespacedLeaseCandidateRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the specification of the Lease. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiCoordinationV1alpha2LeaseCandidateSpec> | undefined;
 }
 export interface PatchCoordinationV1beta1NamespacedLeaseCandidateRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -870,8 +878,16 @@ export interface PatchCoordinationV1beta1NamespacedLeaseCandidateRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the specification of the Lease. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiCoordinationV1beta1LeaseCandidateSpec> | undefined;
 }
 export interface PatchCoordinationV1NamespacedLeaseRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -890,8 +906,16 @@ export interface PatchCoordinationV1NamespacedLeaseRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec contains the specification of the Lease. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  spec?: T.MergePatch<IoK8sApiCoordinationV1LeaseSpec> | undefined;
 }
 export interface ReadCoordinationV1alpha2NamespacedLeaseCandidateRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -2357,7 +2381,11 @@ function __c15(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(192, __c24, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2381,7 +2409,11 @@ function __c16(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(192, __c24, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2405,7 +2437,11 @@ function __c17(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(213, __c26, 5)),
+          spec: S.optional(__S(320, __c40, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",

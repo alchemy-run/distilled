@@ -555,8 +555,18 @@ export interface PatchPolicyV1NamespacedPodDisruptionBudgetRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec is the specification of the desired behavior of the PodDisruptionBudget. */
+  spec?: T.MergePatch<IoK8sApiPolicyV1PodDisruptionBudgetSpec> | undefined;
+  /** status is the most recently observed status of the PodDisruptionBudget. */
+  status?: T.MergePatch<IoK8sApiPolicyV1PodDisruptionBudgetStatus> | undefined;
 }
 export interface PatchPolicyV1NamespacedPodDisruptionBudgetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -575,8 +585,18 @@ export interface PatchPolicyV1NamespacedPodDisruptionBudgetStatusRequest {
   force?: boolean | undefined;
   /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
   contentType: PatchType | (string & {});
-  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
-  body: unknown;
+  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
+  patch?: unknown | undefined;
+  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
+  apiVersion?: string | undefined;
+  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  kind?: string | undefined;
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
+  /** spec is the specification of the desired behavior of the PodDisruptionBudget. */
+  spec?: T.MergePatch<IoK8sApiPolicyV1PodDisruptionBudgetSpec> | undefined;
+  /** status is the most recently observed status of the PodDisruptionBudget. */
+  status?: T.MergePatch<IoK8sApiPolicyV1PodDisruptionBudgetStatus> | undefined;
 }
 export interface ReadPolicyV1NamespacedPodDisruptionBudgetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1068,7 +1088,12 @@ function __c0(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(197, __c12, 5)),
+          spec: S.optional(__S(201, __c12, 9)),
+          status: S.optional(__S(204, __c12, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1092,7 +1117,12 @@ function __c1(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
           contentType: S.String.pipe(T.Header("Content-Type")),
-          body: S.Unknown.pipe(T.HttpBody()),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(197, __c12, 5)),
+          spec: S.optional(__S(201, __c12, 9)),
+          status: S.optional(__S(204, __c12, 12)),
         }).pipe(
           T.Http({
             method: "PATCH",

@@ -419,6 +419,31 @@ describe("makeRestProtocol raw request bodies", () => {
     const plain = await send(patch({ body: { spec: { replicas: 3 } } }));
     expect(plain.headers.get("content-type")).toBe("application/json");
   });
+
+  test("body fields go out under the Content-Type member; a set payload wins", async () => {
+    // Shaped like a flattened Kubernetes patch: resource fields for a merge
+    // patch, the `patch` payload for a JSON patch array.
+    const patch = op(
+      S.Struct({
+        contentType: S.String.pipe(T.Header("Content-Type")),
+        spec: S.optional(S.Unknown),
+        patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+      }).pipe(T.Http({ method: "PATCH", uri: "/things" })),
+    );
+    const merge = await send(
+      patch({ contentType: "application/merge-patch+json", spec: { replicas: 3 } }),
+    );
+    expect(merge.headers.get("content-type")).toBe("application/merge-patch+json");
+    expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
+    const json = await send(
+      patch({
+        contentType: "application/json-patch+json",
+        patch: [{ op: "replace", path: "/spec/replicas", value: 3 }],
+      }),
+    );
+    expect(json.headers.get("content-type")).toBe("application/json-patch+json");
+    expect(await json.text()).toBe('[{"op":"replace","path":"/spec/replicas","value":3}]');
+  });
 });
 
 // =============================================================================
