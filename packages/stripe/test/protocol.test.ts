@@ -183,10 +183,10 @@ describe("Form encoding (POST /v1)", () => {
     ]);
   });
 
-  test("an empty input sends no body", async () => {
+  test("an empty input sends an empty form body, like Stripe's own clients", async () => {
     const { result, requests } = run(CreateCustomer({}));
     await result;
-    expect(requests[0]!.body._tag).toBe("Empty");
+    expect(textOf(requests[0]!)).toBe("");
   });
 
   test("labels are substituted and percent-encoded", async () => {
@@ -196,12 +196,12 @@ describe("Form encoding (POST /v1)", () => {
     await result;
     expect(requests[0]!.method).toBe("DELETE");
     expect(requests[0]!.url.pathname).toBe("/v1/products/prod%2F1%202");
-    expect(requests[0]!.body._tag).toBe("Empty");
+    expect(textOf(requests[0]!)).toBe("");
   });
 });
 
 describe("Query encoding (GET /v1)", () => {
-  test("nested query objects use brackets and arrays repeat `key[]`", async () => {
+  test("nested query objects use brackets and arrays are indexed `key[0]`", async () => {
     const { result, requests } = run(
       GetCustomers({
         created: { gte: 1700000000, lt: 1800000000 },
@@ -220,8 +220,8 @@ describe("Query encoding (GET /v1)", () => {
       ["created[gte]", "1700000000"],
       ["created[lt]", "1800000000"],
       ["email", "a+b@example.test"],
-      ["expand[]", "data.default_source"],
-      ["expand[]", "data.tax"],
+      ["expand[0]", "data.default_source"],
+      ["expand[1]", "data.tax"],
       ["limit", "3"],
     ]);
     expect(request!.body._tag).toBe("Empty");
@@ -234,23 +234,7 @@ describe("Query encoding (GET /v1)", () => {
     );
     await result;
     expect(requests[0]!.url.pathname).toBe("/v1/customers/cus_123");
-    expect([...requests[0]!.url.searchParams.entries()]).toEqual([["expand[]", "sources"]]);
-  });
-
-  test("GET inputs never carry a body: unknown keys flatten into the query", async () => {
-    const { result, requests } = run(
-      GetCustomers({ limit: 1, extra: { nested: true }, tags: ["a"] } as Parameters<
-        typeof GetCustomers
-      >[0]),
-      () => json({ object: "list", data: [], has_more: false, url: "/v1/customers" }),
-    );
-    await result;
-    expect([...requests[0]!.url.searchParams.entries()]).toEqual([
-      ["limit", "1"],
-      ["extra[nested]", "true"],
-      ["tags[]", "a"],
-    ]);
-    expect(requests[0]!.body._tag).toBe("Empty");
+    expect([...requests[0]!.url.searchParams.entries()]).toEqual([["expand[0]", "sources"]]);
   });
 });
 

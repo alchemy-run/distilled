@@ -14,15 +14,9 @@ import {
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
-  getAnn,
-  getProps,
-  hasPropAnn,
-  invalidLabel,
-  makeRequest,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
-  nameOf,
 } from "@distilled.cloud/core/protocol-http";
 import { checkSuccess, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
@@ -39,14 +33,13 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  *             per-call {@link StripeRequestOptions} (resolved from the
  *             calling fiber via {@link RequestOptions}) -> Idempotency-Key /
  *             Stripe-Account / Stripe-Context / Stripe-Version headers;
- *             GET inputs flatten body-bound members into the query string
- *             with Stripe bracket notation (`created[gte]`, `expand[]`);
- *             non-GET bodies encode as `application/x-www-form-urlencoded`
- *             with Stripe deepObject bracket expansion (`shipping[address]
- *             [city]=SF`, `expand[0]=data`) when the operation's `T.Http`
- *             trait says `contentType: "form-urlencoded"` (every /v1 op),
- *             as JSON otherwise (the /v2 ops), and as multipart form-data
- *             for `contentType: "multipart"` (POST /v1/files)
+ *             core's `buildRequest` with `queryStyle: "brackets"` builds
+ *             the rest: query members as `created[gte]=1` / `expand[0]=a`,
+ *             bodies as `application/x-www-form-urlencoded` with the same
+ *             brackets (`shipping[address][city]=SF`) when the operation's
+ *             `T.Http` trait says `contentType: "form-urlencoded"` (every
+ *             /v1 op), as JSON otherwise (the /v2 ops), and as multipart
+ *             form-data for `contentType: "multipart"` (POST /v1/files)
  *
  *   response: 2xx JSON is the payload (no envelope) -> wire->TS key mapping ->
  *             Redacted wrapping of sensitive members; failures parse the
@@ -61,7 +54,6 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -81,14 +73,6 @@ import {
   StripeParseError,
   UnknownStripeError,
 } from "./errors.ts";
-import {
-  bodySymbol,
-  headerSymbol,
-  httpSymbol,
-  labelSymbol,
-  querySymbol,
-  type HttpTrait,
-} from "./traits.ts";
 
 // =============================================================================
 // Per-call request options (v0's StripeRequestOptions, fiber-context style)
@@ -192,251 +176,34 @@ export type StripeOpContext = Credentials | HttpClient.HttpClient;
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // =============================================================================
-// Stripe query / form encoding (ported from distilled v0)
-// =============================================================================
-
-const BODYLESS = /*@__PURE__*/ new Set(["GET", "HEAD"]);
-
-const appendQueryValue = (query: URLSearchParams, key: string, value: unknown): void => {
-  if (value === undefined || value === null) return;
-  query.append(key, typeof value === "boolean" ? (value ? "true" : "false") : String(value));
-};
-
-/**
- * Stripe GET-query bracket expansion (v0's `appendStripeQuery`): arrays as
- * repeated `key[]` entries, nested objects as `key[nested]`, recursively.
- */
-const appendStripeQuery = (query: URLSearchParams, key: string, value: unknown): void => {
-  if (value === undefined || value === null) return;
-  if (Array.isArray(value)) {
-    for (const item of value) appendQueryValue(query, `${key}[]`, item);
-    return;
-  }
-  if (typeof value === "object" && !(value instanceof Date)) {
-    for (const [nestedKey, nestedValue] of Object.entries(value as Record<string, unknown>)) {
-      appendStripeQuery(query, `${key}[${nestedKey}]`, nestedValue);
-    }
-    return;
-  }
-  appendQueryValue(query, key, value);
-};
-
-/**
- * Recursively flatten a nested object into Stripe-style bracket notation
- * for application/x-www-form-urlencoded encoding (v0's `flattenToFormPairs`).
- *
- * Examples:
- *   { amount: 2000 } -> "amount=2000"
- *   { shipping: { address: { city: "SF" } } } -> "shipping[address][city]=SF"
- *   { expand: ["data"] } -> "expand[0]=data"
- *   { metadata: { key: "val" } } -> "metadata[key]=val"
- */
-const flattenToFormPairs = (
-  obj: Record<string, unknown>,
-  prefix: string = "",
-): Array<[string, string]> => {
-  const pairs: Array<[string, string]> = [];
-
-  for (const [key, value] of Object.entries(obj)) {
-    if (value === undefined || value === null) continue;
-
-    const fullKey = prefix ? `${prefix}[${key}]` : key;
-
-    if (Array.isArray(value)) {
-      for (let i = 0; i < value.length; i++) {
-        const item = value[i];
-        if (
-          item !== null &&
-          item !== undefined &&
-          typeof item === "object" &&
-          !Array.isArray(item)
-        ) {
-          pairs.push(...flattenToFormPairs(item as Record<string, unknown>, `${fullKey}[${i}]`));
-        } else if (item !== undefined && item !== null) {
-          pairs.push([`${fullKey}[${i}]`, String(item)]);
-        }
-      }
-    } else if (typeof value === "object") {
-      pairs.push(...flattenToFormPairs(value as Record<string, unknown>, fullKey));
-    } else if (typeof value === "boolean") {
-      pairs.push([fullKey, value ? "true" : "false"]);
-    } else {
-      pairs.push([fullKey, String(value)]);
-    }
-  }
-
-  return pairs;
-};
-
-/** Build the urlencoded body from a nested object (Stripe deepObject style). */
-const buildFormUrlEncoded = (body: Record<string, unknown>): string => {
-  const params = new URLSearchParams();
-  for (const [key, value] of flattenToFormPairs(body)) {
-    params.append(key, value);
-  }
-  return params.toString();
-};
-
-// =============================================================================
 // Request building
 // =============================================================================
 
-/** One input member, with its binding read from the schema once. */
-interface MemberPlan {
-  readonly key: string;
-  readonly bind: "label" | "header" | "query" | "body";
-  /** Label token, lower-cased header name, query name or body wire name. */
-  readonly name: string;
-  readonly type: AST.AST;
-  /** `mapKeys(type, value, "encode")` returns the value unchanged. */
-  readonly verbatim: boolean;
-}
-
-interface RequestPlan {
-  readonly http: HttpTrait;
-  readonly members: ReadonlyArray<MemberPlan>;
-  readonly known: ReadonlySet<string>;
-}
-
-const requestPlans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
-const requestPlanFor = (inputAst: AST.AST): RequestPlan | SdkError => {
-  let plan = requestPlans.get(inputAst);
-  if (plan !== undefined) return plan;
-  const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-  if (!http) {
-    return new SdkError({ message: "operation input is missing the Http() trait" });
-  }
-  const members = getProps(inputAst).map((prop): MemberPlan => {
-    const key = String(prop.name);
-    if (hasPropAnn(prop, labelSymbol)) {
-      return {
-        key,
-        bind: "label",
-        name: nameOf(prop, labelSymbol),
-        type: prop.type,
-        verbatim: true,
-      };
-    }
-    if (hasPropAnn(prop, headerSymbol)) {
-      const name = nameOf(prop, headerSymbol).toLowerCase();
-      return { key, bind: "header", name, type: prop.type, verbatim: true };
-    }
-    if (hasPropAnn(prop, querySymbol)) {
-      return {
-        key,
-        bind: "query",
-        name: nameOf(prop, querySymbol),
-        type: prop.type,
-        verbatim: true,
-      };
-    }
-    return {
-      key,
-      bind: "body",
-      name: nameOf(prop, bodySymbol),
-      type: prop.type,
-      verbatim: mapsVerbatim(prop.type, "encode"),
-    };
-  });
-  plan = { http, members, known: new Set(members.map((m) => m.key)) };
-  requestPlans.set(inputAst, plan);
-  return plan;
-};
-
+/**
+ * Core's `buildRequest` with Stripe's wire rules: the API key as a Bearer
+ * token, the per-call option headers, and bracket query style
+ * (`created[gte]=1`, `expand[0]=a`) -- Stripe's v2 API refuses `key[]` and
+ * repeated keys. Bodies follow the operation's `T.Http` content type:
+ * form-urlencoded with the same brackets (every /v1 op), multipart for
+ * POST /v1/files, JSON for the /v2 ops.
+ */
 const requestFor = (
   creds: Config,
   options: StripeRequestOptions | undefined,
   input: unknown,
   inputAst: AST.AST,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
-  const plan = requestPlanFor(inputAst);
-  if (plan instanceof SdkError) return Effect.fail(plan);
-  const { http, members, known } = plan;
-
-  const baseHeaders: Record<string, string> = {
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    ...stripeRequestHeaders(options),
-    Accept: "application/json",
-  };
-
-  // Multipart (POST /v1/files): core's buildRequest speaks multipart
-  // form-data (file parts + JSON-encoded object parts) -- same behavior as
-  // v0's buildFormData.
-  if (http.contentType === "multipart") {
-    return buildRequest({
-      input: unwrapRedactedDeep(input),
-      inputAst,
-      baseUrl: creds.apiBaseUrl,
-      headers: baseHeaders,
-    });
-  }
-
-  const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<string, unknown>;
-  const headers = baseHeaders;
-  const body: Record<string, unknown> = {};
-  let bodyKeys = 0;
-  let query: URLSearchParams | undefined;
-  let uri = http.uri;
-
-  for (let i = 0; i < members.length; i++) {
-    const m = members[i]!;
-    const value = inputObj[m.key];
-    if (value === undefined) continue;
-    switch (m.bind) {
-      case "label": {
-        const invalid = invalidLabel(m.key, value);
-        if (invalid) return Effect.fail(invalid);
-        uri = uri.replace(`{${m.name}}`, encodeURIComponent(String(value)));
-        break;
-      }
-      case "header":
-        headers[m.name] = String(value);
-        break;
-      case "query":
-        // Stripe bracket expansion, not dotted params (`created[gte]=1`).
-        appendStripeQuery((query ??= new URLSearchParams()), m.name, value);
-        break;
-      default:
-        body[m.name] = m.verbatim ? value : mapKeys(m.type, value, "encode");
-        bodyKeys++;
-    }
-  }
-
-  // Input keys the schema doesn't know pass through as body fields -- the
-  // generated schemas can lag the real API, and silently dropping them
-  // would break working callers.
-  for (const key in inputObj) {
-    if (known.has(key) || !Object.hasOwn(inputObj, key)) continue;
-    const value = inputObj[key];
-    if (value === undefined) continue;
-    body[key] = value;
-    bodyKeys++;
-  }
-
-  // v0's normalizeStripeGetQuery: GET inputs carry no body -- flatten the
-  // body-bound members into the query string with bracket notation.
-  const bodyless = BODYLESS.has(http.method);
-  if (bodyless && bodyKeys > 0) {
-    for (const [key, value] of Object.entries(body)) {
-      appendStripeQuery((query ??= new URLSearchParams()), key, value);
-    }
-  }
-
-  const qs = query === undefined ? "" : query.toString();
-  const url = qs ? `${creds.apiBaseUrl}${uri}?${qs}` : `${creds.apiBaseUrl}${uri}`;
-
-  const request = makeRequest(http.method, url, headers);
-  if (bodyless || bodyKeys === 0) return Effect.succeed(request);
-  return Effect.succeed(
-    HttpClientRequest.setBody(
-      request,
-      http.contentType === "form-urlencoded"
-        ? HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded")
-        : // The /v2/* operations are plain JSON.
-          HttpBody.jsonUnsafe(body),
-    ),
-  );
-};
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> =>
+  buildRequest({
+    input: unwrapRedactedDeep(input),
+    inputAst,
+    baseUrl: creds.apiBaseUrl,
+    headers: {
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      ...stripeRequestHeaders(options),
+      Accept: "application/json",
+    },
+    queryStyle: "brackets",
+  });
 
 /**
  * The calling fiber's credentials, then `f` on them. The protocol layer is
