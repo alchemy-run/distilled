@@ -1508,6 +1508,10 @@ export interface Settings {
   deletionProtectionEnabled?: boolean | undefined;
   /** Optional. By default, Cloud SQL instances have schema extraction disabled for Dataplex. When this parameter is set to true, schema extraction for Dataplex on Cloud SQL instances is activated. */
   enableDataplexIntegration?: boolean | undefined;
+  /** Whether Cloud SQL recreates the instance's read replicas after the primary crashes. Returned by Cloud SQL Admin but not listed in the discovery document. */
+  recreateReplicasOnPrimaryCrash?: boolean | undefined;
+  /** Whether assistive troubleshooting is enabled for the instance. Returned by Cloud SQL Admin but not listed in the discovery document. */
+  assistiveTroubleshootingEnabled?: boolean | undefined;
 }
 export type DatabaseInstanceBackendTypeEnum =
   | "SQL_BACKEND_TYPE_UNSPECIFIED"
@@ -5929,6 +5933,8 @@ function __c12(j: number): any {
           dataDiskSizeGb: S.optional(S.String),
           deletionProtectionEnabled: S.optional(S.Boolean),
           enableDataplexIntegration: S.optional(S.Boolean),
+          recreateReplicasOnPrimaryCrash: S.optional(S.Boolean),
+          assistiveTroubleshootingEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Settings" });
     case 1:
