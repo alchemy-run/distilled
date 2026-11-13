@@ -118,7 +118,7 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
-  // manual-specs/functions.openapi.json is served by each Functions
+  // The OpenWhisk API (specs/openwhisk.json) is served by each Functions
   // namespace's own host, signed with the namespace key.
   spec: (model) =>
     Object.keys((model as { shapes?: object }).shapes ?? {}).some((id) =>
@@ -131,7 +131,7 @@ runGeneratorCli({
             contextType: "FunctionsOpContext",
             protocol: "FunctionsProtocol",
           },
-          sourceNote: ".generated-specs (manual-specs/functions.openapi.json)",
+          sourceNote: ".generated-specs (specs/spec-mirror-digitalocean/specs/openwhisk.json)",
         }
       : digitaloceanSpec,
 });

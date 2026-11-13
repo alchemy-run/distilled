@@ -1,7 +1,7 @@
 /**
  * DigitalOcean Functions (OpenWhisk) -- the API each Functions namespace
- * serves at its own `api_host`, generated from
- * `manual-specs/functions.openapi.json`.
+ * serves at its own `api_host`, generated from Apache OpenWhisk's
+ * `apiv1swagger.json` (`specs/openwhisk.json` in the DigitalOcean mirror).
  *
  * Provide `fromFunctionsKey({ apiHost, user, secret })` with a namespace
  * access key (`createFunctionsAccessKey`) or the namespace's `uuid` + `key`.
@@ -12,9 +12,9 @@
  *
  * const result = yield* Functions.invokeAction({
  *   namespace: "fn-...",
- *   action_name: "hello",
+ *   actionName: "hello",
  *   blocking: true,
- *   result: true,
+ *   params: { name: "World" },
  * }).pipe(Effect.provide(Functions.fromFunctionsKey({ apiHost, user, secret })));
  * ```
  */

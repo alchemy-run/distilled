@@ -53,14 +53,29 @@ await runOpenApiConvert({
   },
 });
 
-// DigitalOcean Functions run on OpenWhisk: each namespace serves the
-// OpenWhisk REST API at its own `api_host`, which no published spec covers.
-// manual-specs/functions.openapi.json models the part a runtime and a
-// deploy need (actions and activations); it has no patches.
+// DigitalOcean Functions run on Apache OpenWhisk: each namespace serves the
+// OpenWhisk REST API at its own `api_host`. The mirror carries Apache's spec
+// (core/controller/src/main/resources/apiv1swagger.json).
 await runOpenApiConvert({
   root,
-  specs: [{ name: "functions", specPath: "manual-specs/functions.openapi.json" }],
-  patchesDir: false,
+  specs: [
+    {
+      name: "functions",
+      specPath: "specs/spec-mirror-digitalocean/specs/openwhisk.json",
+      // Swagger 2.0 keeps the `/api/v1` prefix in `basePath`, which the
+      // converter does not read; fold it into each route.
+      preprocess: (spec) => {
+        const basePath = String(spec.basePath ?? "").replace(/\/+$/, "");
+        if (basePath === "") return;
+        spec.paths = Object.fromEntries(
+          Object.entries(spec.paths).map(([route, item]) => [`${basePath}${route}`, item]),
+        );
+        delete spec.basePath;
+      },
+    },
+  ],
+  // patches/functions/*.patch.json (the main spec reads the flat patches/).
+  patchesDir: "patches",
   options: {
     namespace: "com.digitalocean.functions",
     serviceName: "DigitalOceanFunctions",

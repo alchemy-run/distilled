@@ -17,6 +17,7 @@ export {
   FormDataFile,
   KeyDictionary,
   UnionCases,
+  StringEncoded,
   applyErrorMatchers,
   getErrorMatchers,
   type HttpTrait,
