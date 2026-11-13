@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/s3",
-  "version": "1.0.0-rc.19",
+  "version": "1.0.0-rc.20",
   "description": "Effect-native Amazon S3 client for AWS and every S3-compatible store (Cloudflare R2, Tigris, MinIO, ...), with the restXml, SigV4 and endpoint-rules runtime it needs and nothing else. The base of @distilled.cloud/aws.",
   "license": "Apache-2.0",
   "repository": {

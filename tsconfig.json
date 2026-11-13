@@ -562,6 +562,12 @@
       "path": "./packages/modrinth/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/namespacelabs/tsconfig.json"
+    },
+    {
+      "path": "./packages/namespacelabs/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/spacetimedb/tsconfig.json"
     },
     {
@@ -673,6 +679,8 @@
     },
     {
       "path": "./packages/entire/tsconfig.scripts.json"
-    }
+    },
+    { "path": "./packages/starburst-galaxy/tsconfig.json" },
+    { "path": "./packages/starburst-galaxy/tsconfig.scripts.json" }
   ]
 }

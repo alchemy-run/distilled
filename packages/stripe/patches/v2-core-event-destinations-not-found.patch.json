@@ -1,0 +1,78 @@
+{
+  "description": "Type the v2 event destination not-found error. v2 error bodies carry no `type`, so a missing destination surfaced as UnknownStripeError: GET/DELETE /v2/core/event_destinations/ed_test_doesnotexist\u2026 returns HTTP 404 `{\"error\":{\"code\":\"not_found\",\"message\":\"No such event_destination: '\u2026'\"}}`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#EventDestinationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The event destination does not exist (v2 `not_found`, HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#GetV2CoreEventDestinationsId/errors",
+      "value": [
+        {
+          "target": "com.stripe.api#EventDestinationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsId/errors",
+      "value": [
+        {
+          "target": "com.stripe.api#EventDestinationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#DeleteV2CoreEventDestinationsId/errors",
+      "value": [
+        {
+          "target": "com.stripe.api#EventDestinationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsIdDisable/errors",
+      "value": [
+        {
+          "target": "com.stripe.api#EventDestinationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsIdEnable/errors",
+      "value": [
+        {
+          "target": "com.stripe.api#EventDestinationNotFound"
+        }
+      ]
+    }
+  ]
+}

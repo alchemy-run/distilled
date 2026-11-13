@@ -4,7 +4,7 @@ The structure of the Technitium DNS Server HTTP API, read by the
 [`@distilled.cloud/technitium`](https://github.com/alchemy-run/distilled) generator.
 
 Technitium publishes no machine-readable description of its API. The fetch script reads two files
-of the [DnsServer](https://github.com/TechnitiumSoftware/DnsServer) repository at a pinned release:
+of the [DnsServer](https://github.com/TechnitiumSoftware/DnsServer) repository at its latest release:
 `APIDOCS.md`, which documents every call, its parameters and an example response, and the
 server's route table and request handlers, which show how each parameter is parsed.
 

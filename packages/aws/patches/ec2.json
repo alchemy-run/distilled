@@ -1133,7 +1133,8 @@
         "UnauthorizedOperation",
         "DryRunOperation",
         "IncorrectInstanceState",
-        "UnsupportedHibernationConfiguration"
+        "UnsupportedHibernationConfiguration",
+        "UnsupportedOperation"
       ]
     },
     "rebootInstances": {
