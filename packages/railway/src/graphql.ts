@@ -144,6 +144,7 @@ const RailwayRateLimitedSpec: ErrorSpec<RailwayRateLimited> = errorSpec(
       code: "INTERNAL_SERVER_ERROR",
       messageIncludes: "one environment can be created per user every 30s",
     },
+    { code: "BAD_USER_INPUT", messageIncludes: "creating environments too quickly" },
   ],
   { retryable: true, global: true },
 );
