@@ -27,6 +27,12 @@
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./ApiVersion": {
+      "types": "./lib/api-version.d.ts",
+      "bun": "./src/api-version.ts",
+      "worker": "./src/api-version.ts",
+      "default": "./lib/api-version.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
